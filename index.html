@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign In / Make Profile</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </head>
 <body>
 
@@ -39,15 +40,24 @@
   <button id="backToLoginBtn" style="margin-top: 10px;">Do you have a profile already?</button>
 </div>
 
+<!-- Hidden Verification Code Section -->
+<div id="verifyCodeSection" style="display:none;">
+  <h3>Enter Verification Code</h3>
+  <input type="text" id="verificationCode" placeholder="Enter code" />
+  <button id="verifyCodeBtn">Verify</button>
+</div>
+
 <p id="statusMsg"></p>
 
 <script>
-
 const supabaseUrl = 'https://pqrgvelzxmtdqrofxujx.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBxcmd2ZWx6eG10ZHFyb2Z4dWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxMTc0ODAsImV4cCI6MjA3MTY5MzQ4MH0.s8JZLDdzIS1wBLln0Zs3LK_9BHelUcbRhyAC_0-5sos';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 const statusMsg = document.getElementById("statusMsg");
+
+// Initialize EmailJS
+emailjs.init("_BvHMRNPejeC7Wsha"); // replace with your EmailJS user ID
 
 // Helper to set status
 function setStatus(msg, color = "red") {
@@ -93,37 +103,120 @@ document.getElementById("signInBtn").addEventListener("click", async () => {
   window.location.href = "mainpage.html";
 });
 
-// Create profile with Supabase magic link
+// Generate 6-digit code
+function generateCode(length = 6) {
+  let code = '';
+  for (let i = 0; i < length; i++) code += Math.floor(Math.random() * 10);
+  return code;
+}
+
+// Send verification code via EmailJS
+async function sendVerificationCode(email) {
+  const code = generateCode();
+  const expires = new Date();
+  expires.setMinutes(expires.getMinutes() + 10);
+  const expiresISO = expires.toISOString(); // UTC
+
+  try {
+    await supabase
+      .from('email_verifications')
+      .insert([{ email, code, expires_at: expires.toISOString(), verified: false }]);
+
+    // Send via EmailJS
+    await emailjs.send("service_50i8a3q", "template_0g6ty24", {
+      user_email: email,
+      verification_code: code
+    });
+
+    console.log("Verification code for " + email + ":", code);
+
+    // Show verification section
+    document.getElementById("verifyCodeSection").style.display = "block";
+
+  } catch (err) {
+    console.error("Error sending verification code", err);
+    setStatus("Failed to send verification code");
+  }
+}
+
+// Create profile button
 document.getElementById("newProfileBtn").addEventListener("click", async () => {
   setStatus("");
   const email = document.getElementById("profileEmail").value.trim();
   const password = document.getElementById("profilePassword1").value.trim();
   const password2 = document.getElementById("profilePassword2").value.trim();
+  document.getElementById("verifyCodeSection").style.display = "block";
+  document.getElementById("newProfileStep1").style.display = "none";
 
   if (!email || !password || !password2) return setStatus("Please fill in all fields");
   if (password !== password2) return setStatus("Passwords don't match");
   if (password.length < 6) return setStatus("Password must be at least 6 characters long");
 
   try {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: window.location.origin + '/survey.html'
-      }
-    });
-
+    const { data, error } = await supabase.auth.signUp({ email, password });
     if (error) {
       if (error.message.includes("already registered")) return setStatus("Account already exists with this email");
-      else if (error.message.includes("password")) return setStatus("Password should be at least 6 characters long");
       else return setStatus(error.message);
     }
 
-    setStatus("We have sent a verification email. Please check your inbox and click the link to proceed.", "green");
+    await sendVerificationCode(email);
+    setStatus("We have sent a verification code to your email. Please enter it to proceed.", "green");
 
   } catch (err) {
     console.error(err);
     setStatus("Failed to create account. Try again");
+  }
+});
+
+// Verify code button (improved)
+document.getElementById('verifyCodeBtn').addEventListener('click', async () => {
+  setStatus("");
+  const email = document.getElementById('profileEmail').value.trim();
+  const inputCode = document.getElementById('verificationCode').value.trim();
+
+  if (!inputCode) return setStatus("Please enter the verification code");
+
+  try {
+    const { data, error } = await supabase
+      .from("email_verifications")
+      .select("*")
+      .eq("email", email)
+      .eq("verified", false)
+      .order("expires_at", { ascending: false })
+      .limit(1)
+      .single();  
+
+    if (error) {
+      console.error("Fetch error:", error.message);
+      return setStatus("No code found for this email");
+    }
+
+    if (!data) return setStatus("No code found for this email");
+
+    if (Date.parse(data.expires_at) < Date.now()) {
+  return setStatus("Code expired. Please request a new one");
+}
+
+    if (data.code !== inputCode) {
+      return setStatus("Incorrect code");
+    }
+
+    const { error: updateError } = await supabase
+      .from("email_verifications")
+      .update({ verified: true })
+      .eq("id", data.id);
+
+    if (updateError) {
+      console.error("Update error:", updateError.message);
+      return setStatus("Verification failed. Try again");
+    }
+
+    setStatus("Verified! Redirecting...", "green");
+    window.location.href = "survey.html";
+
+  } catch (err) {
+    console.error("Unexpected error:", err);
+    setStatus("Something went wrong during verification.");
   }
 });
 
@@ -133,22 +226,18 @@ document.getElementById("forgotPasswordLink").addEventListener("click", async (e
   setStatus(""); // clear previous message
 
   const email = document.getElementById("signEmail").value.trim();
-
   if (!email) return setStatus("Please enter your email above first");
 
   try {
     const redirectUrl = window.location.origin + '/index.html';
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: redirectUrl });
-
     if (error) throw error;
     setStatus("Password reset email sent!", "green");
-
   } catch (err) {
     console.error(err);
     setStatus("Error sending reset email");
   }
 });
-
 </script>
 
 <style>
