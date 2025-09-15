@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>your profile</title>
+  <link rel="stylesheet" href="ypstyle.css" />
+</head>
+<body>
+
+
+  <div class="top-bar">
+    <div class="top-bar-row">
+    <div class="backtomainpage" id="backBtn">⬅️</div>
+</div>
+</div> 
+
+<div class ="page">
+<div class="container">
+    <h1>My Profile</h1>
+
+    <div class="profile-section">
+        <img id="profilePhoto" class="profile-photo" src="blankphoto.jpg" alt="Profile Photo">
+        <div class="profile-info">
+            <div class="info-item"><strong>Name:</strong> <br><span id="profileName">-</span></div>
+            <div class="info-item"><strong>Date of Birth:</strong><br> <span id="dob">-</span></div>
+        </div>
+    </div>
+
+<div class="profile-counters">
+  <span class="counter">🌍 <span id="currentLevel">0</span></span>
+  <span class="counter">🔥 <span id="streak-counter">0</span></span>
+  <span class="counter">🏅 <span id="honor-points>">0</span></span>
+</div>
+
+    <div class="section-title">Goals</div>
+<ul id="goalsList" class="details-list"></ul>
+
+<div class="section-title">Health Issues</div>
+<ul id="healthIssuesList" class="details-list"></ul>
+
+<div class="section-title">Digestion Details</div>
+<ul id="digestionDetailsList" class="details-list"></ul>
+
+<div class="section-title">Allergies / Dislikes</div>
+<ul id="allergiesList" class="details-list"></ul>
+
+    <div class="profile-section">
+        <img id="petPhoto" class="pet-photo" src="defaultPet.jpg" alt="Pet Photo">
+        <div class="profile-info">
+            <div class="info-item"><strong>Pet Name:</strong> <br><span id="petName">-</span></div>
+            <a href="profileEdit.html" class="editprofile"> <button>Edit profile</button></a>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+  
+  <script src="impactDisplay.js"></script>
+  <script src="ypscript.js"></script>
+</body>
+</html>

@@ -1,0 +1,489 @@
+/* Basics */ 
+html, body { 
+  height: auto; 
+  margin: 0; 
+  overflow: auto; /* allow scrolling */ 
+  font-size: clamp(1rem, 2vw + 1rem, 2rem); 
+  position: relative; /* establish root stacking context */ 
+  z-index: auto; 
+} 
+
+body { 
+ font-family: sans-serif; 
+ text-align: center; 
+ max-width: 80%; /* Background color and setups */ 
+ margin: 10%; 
+ margin-top: 5%;
+ padding: 2rem; 
+ min-height: 100vh; /* ensure full viewport height */ 
+ background-color: #cceff0; 
+ justify-content: space-between; 
+ padding-top: env(safe-area-inset-top); 
+ padding-bottom: env(safe-area-inset-bottom); 
+ padding-left: env(safe-area-inset-left); 
+ padding-right: env(safe-area-inset-right); 
+} 
+
+/* Survey */ 
+
+h1 { 
+  color: #333; /* Welcome title */ 
+  font-size:1rem; 
+  margin-bottom: 1rem; 
+} 
+
+h3 { 
+  color: #333; /* Welcome title */ 
+  font-size:1rem; 
+  margin-bottom: 1rem; 
+} 
+
+/* === Profile Question Container === */ 
+.question { 
+  display: none; 
+  max-width: 90%; 
+  margin-left: 3%; 
+  margin: auto;
+  padding: 5%; 
+  padding-top: 3%;
+  background: linear-gradient(145deg, #ffffff, #f5fdf5); 
+  border-radius: 16px; 
+  box-shadow: 0 4px 14px rgba(20, 13, 13, 0.08); 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  color: #333; 
+  text-align: left;
+      } 
+.question.active{ 
+        display: block; 
+      } 
+
+/* === Labels === */ 
+ .bigLabel{ 
+    display:block;
+    font-weight: 500; 
+    font-size: 1rem; 
+    margin-top: 2%;
+    margin-left: 2%; 
+    margin-bottom: 0;
+    line-height: 1.1;
+  }  
+  .smallLabel
+   { 
+    font-weight: 500; 
+    font-size: 0.9rem; 
+    margin-left: 4%; 
+    margin-bottom: 0;
+  } 
+  .checkbox-label { 
+       display: flex; 
+       flex-direction: row; 
+       align-items: center; 
+       font-size: 0.9rem;
+       gap: 0.2rem; /* space between checkbox and text */ 
+       line-height: 1; 
+       margin-top: 6%;
+       margin-bottom: 6%;
+      } 
+      .checkbox-label input[type="checkbox"] { 
+        width: 0.5rem; /* Optional: control checkbox size */ 
+        height: 0.5rem; 
+        vertical-align: middle; 
+        margin-top: 0; 
+      } 
+      .checkbox-label input[type="radio"] { 
+        width: 0.5rem; /* Optional: control checkbox size */ 
+        height: 0.5rem; 
+        vertical-align: middle; 
+        margin-top: 0; 
+      } 
+
+  /* === Inputs === */ 
+    /* === Q1 === */
+
+    #passwordSection input[type="password"] {
+  width: 90%;   /* Change this to your preferred width */
+  height: auto;   /* Change this to your preferred height */
+  margin-left: 0.5rem;
+  padding: 8px;   /* Space inside the box */
+  font-size: 16px; /* Makes text inside bigger */
+  border-radius: 8px; /* Optional: rounded corners */
+  border: 1px solid #ccc;
+}
+
+    .dob-container { 
+      display: flex; 
+      max-width: 94%; 
+      margin-top: -2%;
+    } 
+    
+    .dob-container input { 
+      flex: 1; /* equal width */ 
+      padding: 0.3rem; 
+      font-size: 0.9rem; 
+      border-radius: 10px; 
+      border: 1px solid #ccc; 
+      text-align: center; /* center the placeholder text */ 
+      background-color: #fff; 
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05); 
+      transition: border-color 0.2s ease, box-shadow 0.2s ease; 
+    } 
+    .dob-container input:focus { 
+      outline: none; 
+      border-color: #4CAF50; 
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15); 
+    } 
+    /* === Year Input === */ 
+    #year { 
+      flex: 1; /* wider input */ 
+      font-size: 0.9rem; 
+      border-radius: 10px; 
+      border: 1px solid #ccc; 
+      text-align: center; 
+      background-color: #fff; 
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05); 
+      transition: border-color 0.2s ease, box-shadow 0.2s ease; 
+    } 
+    
+    /* === Month and Day Inputs === */ 
+    #month, #day { 
+      flex: 0.8; /* smaller inputs */ 
+      font-size: 0.9rem; 
+      border-radius: 10px; 
+      border: 1px solid #ccc; 
+      text-align: center; 
+      background-color: #fff; 
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05); 
+      transition: border-color 0.2s ease, box-shadow 0.2s ease; 
+    } 
+    
+  #profilePhoto { 
+      display: none; /* hide original button */ 
+    } 
+  .file-btn { 
+      display: inline-block; 
+      margin-left: 4%; 
+      width: 78%; 
+      padding: 0.4rem 0.8rem; 
+      margin-top: 0.5rem;
+      margin-bottom: 0; 
+      font-size: 0.9rem; 
+      font-weight: 500; 
+      text-align: center; 
+      color: white; 
+      background-color: #4CAF50; 
+      border-radius: 8px; 
+      cursor: pointer; 
+      transition: background-color 0.3s ease, transform 0.2s ease; 
+    } 
+    .file-btn:hover { 
+      background-color: #4CAF50; 
+      transform: scale(1.05); 
+    } 
+      .file-btn:active { 
+        transform: scale(0.98);
+       } 
+       
+/* === Inputs === */ 
+    #q1 input[type="text"], 
+    #q1 input[type="date"], 
+    #q1 input[type="file"] { 
+      width: 90%; 
+      margin-left: 4%; 
+      font-size: 0.9rem; 
+      border-radius: 10px; 
+      border: 1px solid #ccc; 
+      background-color: #fff; 
+      transition: border-color 0.2s ease, box-shadow 0.2s ease; 
+      margin-bottom: 1%; 
+    } 
+    
+    #q1 input[type="file"] { 
+      margin-bottom: 0; 
+    } 
+    
+    #q1 input[type="text"]:focus, 
+    #q1 input[type="date"]:focus, 
+    #q1 input[type="file"]:focus { 
+      outline: none; 
+      border-color: #4CAF50; 
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15); 
+    } 
+    
+      /* === Profile Preview Image === */ 
+      #profilePreview { 
+        display: none; 
+        width: 5rem; 
+        height: 5rem; 
+        border-radius: 50%; 
+        margin:auto; 
+        object-fit: cover; 
+        border: 2px solid #4CAF50; 
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1); 
+        transition: transform 0.2s ease; 
+      }  
+      #profilePreview:hover { 
+        transform: scale(1.05); 
+      } 
+      button { 
+        padding: 3% 6%; 
+        margin-top: 4%; 
+        font-size: 1rem; 
+        border: none; 
+        background-color: #4CAF50; 
+        color: white; 
+        border-radius: 8px; 
+        cursor: pointer; 
+      } 
+      button:hover { 
+        background-color: #45a049; 
+      } 
+      input, textarea, select { 
+        width: 100%; 
+        padding: 3%; 
+        margin-top: 3%; 
+        font-size: 0.7rem; 
+        box-sizing: border-box; 
+        border-radius: 5px; 
+        border: 1px solid #ccc; 
+      } 
+
+       
+
+       /* === Small Texts === */ 
+       #q1 small { 
+        display: block; 
+        font-size: 0.65rem; 
+        color: #555; 
+        max-width: 90%; 
+        margin-top: 2%; 
+        margin-left: 3%;
+        line-height: 1;
+      } 
+       #q2 small { 
+        display: block; 
+        font-size: 0.65rem; 
+        color: #555; 
+        max-width: 90%; 
+        margin-top: 2%; 
+        margin-left: 3%;
+        line-height: 1;
+      } 
+      #q2b small { 
+        display: block; 
+        font-size: 0.65rem; 
+        color: #555; 
+        max-width: 90%; 
+        margin-top: 2%; 
+        margin-left: 3%;
+        line-height: 1;
+      } 
+      #q2c small { 
+        display: block; 
+        font-size: 0.65rem; 
+        color: #555; 
+        max-width: 90%; 
+        margin-top: 2%; 
+        margin-left: 3%;
+        line-height: 1;
+      } 
+      #q3 small { 
+        display: block; 
+        font-size: 0.65rem; 
+        color: #555; 
+        max-width: 90%; 
+        margin-top: 2%; 
+        margin-left: 3%;
+        line-height: 1;
+      }
+      #q5 small { 
+        display: block; 
+        font-size: 0.65rem; 
+        color: #555; 
+        max-width: 90%; 
+        margin-top: 1%; 
+        margin-left: 3%;
+        line-height: 1;
+        margin-bottom: 0.1rem;
+      }
+
+
+      /* === Q5 === */ 
+#q5 .bigLabel
+   { 
+    margin-bottom: 0.3rem;
+  } 
+      /* === DOB Container === */ 
+    .dob-containerpet { 
+      display: flex; 
+      max-width: 94%; 
+      margin-top: -1.5%;
+      margin-left: 3%;
+    } 
+    .dob-containerpet input { 
+      flex: 1; /* equal width */ 
+      padding: 0.3rem; 
+      font-size: 0.9rem; 
+      border-radius: 10px; 
+      border: 1px solid #ccc; 
+      text-align: center; /* center the placeholder text */ 
+      background-color: #fff; 
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05); 
+      transition: border-color 0.2s ease, box-shadow 0.2s ease; 
+    } 
+    .dob-containerpet input:focus { 
+      outline: none; 
+      border-color: #4CAF50; 
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15); 
+    } 
+
+#petname {
+  width: 94%;
+  padding: 0.3rem;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#petname:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+}
+
+/* === File Button === */
+ #petPhotoUpload { 
+      display: none; /* hide original button */ 
+    } 
+#q5 .file-btn {
+  display: inline-block;
+  margin-left: 3%;
+  width: 78%;
+  padding: 0.4rem 0.8rem;
+  margin-top: 1rem;
+  margin-bottom: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  color: white;
+  background-color: #4CAF50;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#q5 .file-btn:hover {
+  background-color: #4CAF50;
+  transform: scale(1.05);
+}
+
+#q5 .file-btn:active {
+  transform: scale(0.98);
+}
+
+/* === Pet Preview Image === */
+#petPhotoPreview {
+  display: none;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  margin: auto;
+  object-fit: cover;
+  border: 2px solid #4CAF50;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+#petPhotoPreview:hover {
+  transform: scale(1.05);
+}
+      
+
+      /* --- Buddy Intro Screen --- */ 
+        h2 { 
+          color: #333; /* Welcome title */ 
+          font-size: 1rem; 
+          margin-left: 4%; 
+          margin-top: 2%;
+        } 
+        #buddyIntro { 
+          padding: 0.6rem; 
+          display: flex; 
+          flex-direction: column; 
+        } 
+        .buddy-container { 
+          flex-grow: 1; 
+          margin-bottom: 0.3rem; 
+        } 
+        .buddy { 
+          display: flex; 
+          flex-direction: column; 
+          align-items: center; 
+          max-width: auto; 
+          text-align: center; 
+          margin-bottom: 5%; 
+        } 
+        .portrait { 
+          width: 40%; 
+          max-width: 45%; 
+          height: auto; 
+          border-radius: 50%; 
+          margin-bottom: 5%; 
+          opacity: 0; 
+          transform: translateY(20px); 
+          transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
+        } 
+        .portrait.visible { 
+          opacity: 1; 
+          transform: translateY(0); 
+        } 
+        .typing-text { 
+          font-size: 0.7rem; 
+          color: #333; 
+          background-color: #f9f9f9; 
+          padding: 5%; 
+          border-radius: 10px; 
+          width: 90%; 
+          max-width: auto; 
+          text-align: left; 
+          margin-top: 2%; 
+          white-space: pre-wrap; 
+          box-sizing: border-box; 
+          line-height: 1.4; 
+          border-left: 2px solid #4CAF50; 
+          opacity: 0; 
+          transition: opacity 0.6s ease-out; 
+        } 
+        .typing-text.visible { 
+          opacity: 1; 
+        } 
+        
+        #startButton { 
+          padding: 3% 6%; 
+          font-size: 1rem; 
+          border: none; 
+          border-radius: 8px; 
+          background-color: #4CAF50; 
+          color: white; 
+          cursor: pointer; 
+          transition: background-color 0.3s; 
+        } 
+        #startButton:hover { 
+          background-color: #45a049; 
+        } 
+        .hidden { 
+          display: none; 
+        } 
+        .button-container { 
+          display: flex; 
+          justify-content: center; 
+          align-items: center; 
+        }
+
+
+
+        

@@ -1,0 +1,10 @@
+{
+  "appId": "com.example.elunify",
+  "appName": "Elunify",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false
+    }
+  }
+}

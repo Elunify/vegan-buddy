@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>MainPage</title>
+  <link rel="stylesheet" href="mainpagestyle.css" />
+</head>
+<body>
+ <div id="main-container">
+
+  <div class="top-bar">
+    <div class="top-bar-row">
+      <!-- Avatar display with pet overlay -->
+    <a href="yourprofile.html" class="profile-wrapper">
+      <img id="profilePhoto" src="" alt="Profile Photo" class="profile-photo" />
+      <div id="petDisplay" class="pet-overlay">
+        <!-- Pet emoji or image will appear here via JS -->
+      </div>
+    </a>
+
+    <div class="center-counters">
+      <span class="counter">🌍 <span id="currentLevel">0</span></span>
+      <span class="counter">🔥 <span id="streak-counter">0</span></span>
+    </div>
+
+
+    <div id="menuButton" class="menu-button">☰</div>
+
+      <div id="sideMenu" class="side-menu hidden">
+  <button class="menu-item" id="topListsBtn">Leaderboards</button>
+  <button class="menu-item" id="helpusgrowBtn">Help Us Grow</button>
+  <button class="menu-item" id="aboutUsBtn">About Us</button>
+  <button class="menu-item" id="sourcesBtn">Sources</button>
+  <button class="menu-item reset" id="resetBtn">Reset</button>
+  <button class="menu-item resetimpactstreak" id="resetimpactBtn">ResetImpact</button>
+  <button class="menu-item add" id="addBtn">Add</button>
+</div>
+</div>
+      <div class="level-bar" id="levelBar">0%</div>
+
+</div><!-- end of top-bar -->
+
+
+<div class="page">
+  <div class="main-content">
+    <!-- First row -->
+    <div class="top-row">
+      <div class="feature-container">
+        <div class="feature-tab" id= "daily-checkin-tab" onclick="window.location.href='dailycheckin.html'" style="padding: 0.5rem;">🌱 Daily Check-in</div>
+        <div class="feature-tab"><div class ="feature locked" id="meal-plans" data-unlock = "🔓 S2 / L2" onclick="window.location.href='mealplans.html'">📃 Meal Plans</div></div>
+        <div class="feature-tab"><div class ="feature locked" id="Scan & Info" data-unlock = "🔓 S10 / L5" onclick="window.location.href='scanandinfo.html'">🔍 Scan & Info</div></div>
+        <div class="feature-tab"><div class ="feature locked" id="Community" data-unlock = "🔓 View S15 / L6" onclick="window.location.href='community.html'">🌐 Community</div></div>
+        <div class="feature-tab"><div class ="feature locked" id="Playground" data-unlock = "🔓 S20 / L7" onclick="window.location.href='playground.html'">🧸 Playground</div></div>
+      </div>
+
+      <a href="yourimpact.html" class="impact-link">
+  <div class="impact">
+    <div class="impact-column">
+      <span class="impact-item">🐾 <span id="savedAnimals">0</span></span> 
+      <span class="impact-item">🌲 <span id="savedForest">0</span> m²</span> 
+      <span class="impact-item">💧 <span id="savedWater">0</span> L</span> 
+      <span class="impact-item">🌬️ <span id="savedCO2">0</span> kg</span> 
+      <span class="impact-item">🤝 <span id="savedDonated">0</span> €</span> 
+    </div>
+  </div>
+</a>
+    </div>
+
+    <!-- Second row -->
+    <div class="bottom-row">
+  <a href="extrastudy.html" class="message-section">
+    <div class="buddy-message">
+      <img src="characters/eluna.png" alt="Eluna" class="buddy-portrait" />
+      <div class="buddy-text">
+        <strong>Eluna asks:</strong><br />
+        💡 “Want to learn more?
+      </div>
+    </div>
+  </a>
+  <div class = "mindfulness">
+  <div class ="feature locked" id="Mindful vegan" data-unlock = "🔓 View Streak 30 / Lvl 10">
+      <a href="mindfulvegan.html" class="mindful-section">
+        <div class="mindful-text">
+          Mindful vegan
+        </div>
+      </a></div></div>
+    </div>
+  </div>
+
+
+<!-- Meal-Art Winners Section -->
+<div class="meal-art-winners">
+   <div class ="feature locked" id="meal-art" data-unlock = "🔓 Streak 5 / Lvl 3">
+  <h3 class="meal-art-title">🍽️ Meal-Art winners this week:</h3>
+  
+  <div class="meal-art-categories">
+    <!-- Amatour / Hobby category -->
+    <div class="meal-art-card">
+      <h4> 🥕 Individual </h4>
+      <p class="winner-name" id="amateurName"> Jane Doe</p>
+      <img id="amateurImage" src="meals/amateur.jpg" alt="Amateur winning dish" class="meal-art-image">
+      <div class="meal-art-recipe" id="amateurRecipe">
+  <a href="amateurRecipe.html">Recipe available</a>
+</div>
+    </div>
+
+    <!-- Professional / Restaurant category -->
+    <div class="meal-art-card">
+      <h4>🍴 Restaurant </h4>
+      <p class="winner-name" id="proName">Green Leaf Bistro</p>
+      <img id="proImage" src="meals/professional.jpg" alt="Professional winning dish" class="meal-art-image">
+      <div class="meal-art-recipe" id="professionalRecipe">
+  <span class="no-recipe">Recipe unavailable</span>
+</div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+  
+
+
+  <div id="avatarDisplayPet" class="profile-wrapperPet"><div id="petMessage">
+    <div id="petAvatar" class="pet-avatar">
+    <!-- Pet emoji or photo will be injected here via JS -->
+  </div>
+  <!-- Toggle icon to show/hide bubble -->
+  <div id="thoughtToggle" class="thought-toggle">💭</div>
+  </div>
+</div>
+
+  <div class="impact-bottom-wrapper">
+    <h3 class="impact-bottom-title">Our community's impact:</h3>
+    <div class="impact-row">
+      <div class="impact-item">🐾 <span id="animalsSavedBottom">0</span></div>
+      <div class="impact-item">🌲 <span id="forestSavedBottom">0</span> m²</div>
+      <div class="impact-item">💧 <span id="waterSavedBottom">0</span> L</div>
+      <div class="impact-item">🌬️ <span id="co2SavedBottom">0</span> kg</div>
+      <div class="impact-item">🤝 <span id="donatedBottom">0</span> €</div>
+    </div>
+  </div>
+ <!-- end of mainPage -->
+
+
+<!-- Hidden by default, shown when toggled -->
+  <div class="pet-bubble hidden" id="petThought">
+    <span id="petName">Pet</span> is thinking... <br />
+    <div id="dailyTip" class="lesson-box">
+  <!-- Lesson of the day will appear here -->
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<!-- Onboarding overlay -->
+<div id="intro-overlay">
+<div id="introwindow">
+<img id="petPhotoDisplay" class="pet-img" />
+  <div id="introbubble" class="step-1">
+    <!-- Step 1 -->
+    <div class="intro-step step-1 active" data-target="#avatarDisplayPet">
+      
+      <p>Hey! I'll be here giving you tips every day! Let me guide you now!</p>
+      <button onclick="nextStep()">Next</button>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="intro-step step-2" data-target="#main-container .top-bar">
+      <p>Here you can track your level, your streak, and you can see your experience bar.</p>
+      <button onclick="nextStep()">Next</button>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="intro-step step-3" data-target=".impact">
+      <p>Here we calculate your impact.</p>
+      <button onclick="nextStep()">Next</button>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="intro-step step-4" data-target=".buddy-message">
+      <p>You can read a new lesson here every day.</p>
+      <button onclick="nextStep()">Next</button>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="intro-step step-5" data-target="#daily-checkin-tab">
+      <p>Here you can do your daily lesson, and extend your streak!</p>
+      <button onclick="finishIntro()">Finish</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<script>
+  // Run when intro overlay is shown
+  const answers = JSON.parse(localStorage.getItem("veganBuddyAnswers") || "{}");
+  const petImg = document.getElementById("petPhotoDisplay");
+
+  if (answers.petPhoto) {
+    petImg.src = answers.petPhoto; // uploaded photo
+  } else if (answers.pet) {
+    petImg.src = `path/to/pets/${answers.pet}.png`; // default pet
+  } else {
+    petImg.src = "defaultPet.jpg"; // fallback
+  }
+</script>
+
+  <script src="impactxpfunctions.js"></script>
+  <script src="mainpagescript.js"></script>
+</body>
+</html>

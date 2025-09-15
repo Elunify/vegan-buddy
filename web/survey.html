@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Startup Survey</title>
+  <link rel="stylesheet" href="surveystyle.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div id="app"></div>
+  
+  <h1 id="welcomeTitle">Create a profile!</h1>
+  <h3 id="welcomeTitleSecond" style="display:none;">Tell us a little about yourself!</h3>
+
+  <!-- Step 1 – Email + Password -->
+  <div class="question active" id="q1">
+
+    <label class="smallLabel">Email:</label>
+    <input type="text" id="profileEmail" placeholder="Your email">
+    
+
+    <div id="passwordSection">
+    <label class="smallLabel">Create a password</label>
+    <input type="password" id="profilePassword1" placeholder="Enter password">
+    <input type="password" id="profilePassword2" placeholder="Confirm password">
+  </div>
+  </div>
+<div id="emailStatus" style="color: green; min-height: 20px;"></div>
+  <!-- Step 2 – Profile Info -->
+  <div class="question" id="q2">
+    <label class="bigLabel">Profile Information</label>
+
+    <label class="smallLabel">Name:</label><br>
+    <div class="dob-container">
+      <input type="text" id="profileName" placeholder="Your name">
+    </div>
+
+    <label class="smallLabel">Date of Birth:</label><br>
+    <div class="dob-container">
+      <input type="text" id="year" maxlength="4" placeholder="YYYY">
+      <input type="text" id="month" maxlength="2" placeholder="MM">
+      <input type="text" id="day" maxlength="2" placeholder="DD">
+    </div>
+
+    <label for="profilePhoto" class="file-btn">Upload Profile Photo</label>
+    <input type="file" id="profilePhoto" accept="image/*" />
+    <small>If you skip this, we'll use a default picture.</small>
+    <img id="profilePreview" alt="Profile preview" />
+  </div>
+
+
+  <!-- Step 3 – Goals + Health Issues -->
+  <div class="question" id="q3">
+    <label class="bigLabel">What are your goals?</label>
+    <small>Knowing your goals helps us suggest tips and challenges that fit your lifestyle.</small>
+    <label class="checkbox-label">
+      <input type="checkbox" class="checkbox" name="goal" value="Protecting animals & animal welfare">
+      Protecting animals & animal welfare
+    </label>
+    <label class="checkbox-label">
+      <input type="checkbox" class="checkbox" name="goal" value="Caring for the environment & fighting climate change">
+      Caring for the environment & fighting climate change
+    </label>
+    <label class="checkbox-label">
+      <input type="checkbox" class="checkbox" name="goal" value="Healthy living & wellness">
+      Healthy living & wellness
+    </label>
+    <label class="checkbox-label">
+      <input type="checkbox" class="checkbox" name="goal" value="Solving health issues">
+      Solving health issues
+    </label>
+    <label class="checkbox-label">
+      <input type="checkbox" class="checkbox" name="goal" value="Boosting my performance as an athlete">
+      Boosting my performance as an athlete
+    </label>
+  </div>
+
+  <div class="question" id="q3b">
+    <label class="bigLabel">Are you experiencing any of these health concerns?</label>
+    <small>This helps us offer tips and recipes that support your health in a gentle, personalized way.</small>
+    <label class="checkbox-label">
+      <input type="checkbox" class="checkbox" name="healthIssue" value="Low energy or fatigue">
+      Low energy or fatigue
+    </label>
+    <label class="checkbox-label">
+      <input type="checkbox" class="checkbox" name="healthIssue" value="Nutrition imbalances">
+      Nutrition imbalances
+    </label>
+    <label class="checkbox-label">
+      <input type="checkbox" class="checkbox" name="healthIssue" value="High cholesterol or heart issues">
+      High cholesterol or heart issues
+    </label>
+    <label class="checkbox-label">
+      <input type="checkbox" class="checkbox" name="healthIssue" value="Diabetes or blood sugar issues">
+      Diabetes or blood sugar issues
+    </label>
+    <label class="checkbox-label">
+      <input type="checkbox" class="checkbox" name="healthIssue" value="Muscle or joint discomfort">
+      Muscle or joint discomfort
+    </label>
+    <label class="checkbox-label">
+      <input type="checkbox" class="checkbox" name="healthIssue" value="Digestive issues">
+      Digestive issues
+    </label>
+    <label class="checkbox-label">
+      <input type="checkbox" class="checkbox" name="healthIssue" value="Inflammation or swelling">
+      Inflammation or swelling
+    </label>
+    <label class="checkbox-label">
+      <input type="checkbox" class="checkbox" name="healthIssue" value="Kidney stress">
+      Kidney stress
+    </label>
+    <label class="checkbox-label">
+      <input type="checkbox" class="checkbox" name="healthIssue" value="Cancer risk">
+      Concerned about cancer risk
+    </label>
+  </div>
+
+  <!-- Step 4 – Pet -->
+  <div class="question" id="q4">
+    <label class="bigLabel">Pick a pet!</label>
+    <label class="smallLabel">Name your pet:</label>
+    <input type="text" id="petname" placeholder="Pet's name">
+
+    <label for="petPhotoUpload" class="file-btn">Upload a pet photo</label>
+    <input type="file" id="petPhotoUpload" accept="image/*" />
+    <small>If you skip this, we'll use a default pet.</small>
+
+    <img id="petPhotoPreview" alt="Pet preview" />
+  </div>
+
+  <!-- Step 5 – Buddy Intro -->
+  <div class="question" id="q5">
+    <div id="buddyIntro" class="hidden">
+      <h2>Meet your Vegan Buddies!</h2>
+      <div class="buddy-container">
+        <div class="buddy">
+          <img src="characters/eluna.png" alt="Eluna" class="portrait" id="elunaPortrait">
+          <div class="typing-text" id="elunaText"></div>
+        </div>
+        <div class="buddy">
+          <img src="characters/elune.png" alt="Elune" class="portrait" id="elunePortrait">
+          <div class="typing-text" id="eluneText"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="button-container">
+    <button id="nextBtn">Next</button>
+    <button id="startButton" class="hidden">Let's Start!</button>
+  </div>
+
+  <script src="surveyscript.js"></script>
+</body>
+</html>

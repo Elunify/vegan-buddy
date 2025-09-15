@@ -1,0 +1,8 @@
+{
+  "appId": "com.example.elunify",
+  "appName": "Elunify",
+  "webDir": "web",
+  "server": {
+    "androidScheme": "https"
+  }
+}

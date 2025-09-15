@@ -1,0 +1,165 @@
+/* Basics */
+
+html, body {
+  height: auto;
+  margin: 0;
+  padding: 0;
+  overflow: auto; /* allow scrolling */
+  font-size: clamp(1rem, 2vw + 1rem, 2rem);
+  position: relative; /* establish root stacking context */
+  z-index: auto;
+}
+
+body {
+  font-family: sans-serif;
+  padding: 5%;
+  max-width: auto;         /* Background color and setups */
+  margin: auto;
+  background-color: #cceff0;
+  justify-content: space-between;
+}
+
+    /* Top */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: #cceff0;
+  padding: 0rem;
+}
+
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 0.5rem;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+}
+
+.top-bar-row {
+  width: 90%;
+  margin-top: 5%;
+  margin-left: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* pushes ends apart */
+}
+
+.backtomainpage {
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.center-counters {
+  display: flex;
+  gap: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+
+
+/* TOP BAR END */
+/* TOP BAR END */
+/* TOP BAR END */
+/* TOP BAR END */
+/* TOP BAR END */
+/* TOP BAR END */
+
+/* Main container: */
+
+.page {
+  margin-top: 38%;
+  margin-bottom: 3%;
+}
+
+/* Explanation Section */
+.explanation {
+  flex: 0 0 59%;
+  width: 92%;
+  margin: 4%;
+  font-size: 0.7rem;
+  font-style: black;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  color: inherit; /* inherit text color from parent or body */
+  text-decoration: none; /* remove underline */
+}
+
+.buddy-message {
+  flex: 0 0 59%;
+  min-width: 0;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: row;  /* change here */
+  gap: 0.2rem;
+  background-color: #ffffff;
+  align-items: center; /* vertically center */
+}
+
+.buddy-portrait {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+}
+
+/* Options Container */
+.options {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Individual Option Card */
+.option {
+  flex: 1 1 calc(50% - 1rem);
+  width: 92%;
+  margin: 4%;
+  font-size: 0.7rem;
+  background-color: #fcfcfc;
+  padding: 0.7rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.option h3 {
+  margin-top: 0;
+  color: #1e4020;
+  width: 92%;
+  font-size: 0.7rem;
+}
+
+.option:hover {
+  transform: translateY(-2px);
+  background-color: #f2fdf2;
+}
+
+/* Specific Styling */
+.donate {
+  border-top: 4px solid #4caf50;
+}
+
+.support {
+  border-top: 4px solid #81c784;
+}
+
+/* Mobile Friendly */
+@media (max-width: 600px) {
+  .option {
+    flex: 1 1 100%;
+  }
+}

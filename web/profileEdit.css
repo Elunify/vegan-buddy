@@ -1,0 +1,335 @@
+/* Basics */
+
+html, body {
+  margin: 0;
+  overflow: auto; /* allow scrolling */
+  font-size: clamp(1rem, 2vw + 1rem, 2rem);
+  position: relative; /* establish root stacking context */
+  z-index: auto;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 0;
+  min-height: 100vh; /* ensure full viewport height */
+  background-color: #cceff0;
+  justify-content: space-between;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+
+/* Top */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 0.5rem;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Layout Row ===== */
+.top-bar-row::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: env(safe-area-inset-top);
+  background-color: rgba(0,0,0,0.3); /* translucent overlay */
+}
+
+.top-bar-row {
+  width: 90%;
+  margin-left: 5%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: env(safe-area-inset-top);
+  margin-top: -1%;
+}
+
+
+/* TOP BAR END */
+/* TOP BAR END */
+/* TOP BAR END */
+/* TOP BAR END */
+/* TOP BAR END */
+/* TOP BAR END */
+
+/* Main container: */
+.page {
+  margin-top: 1%;
+  height: auto; /* Let content determine height */
+  padding-top: 3.4rem; /* height of fixed top-bar (adjust as needed) */
+  padding-bottom: 1rem; /* height of fixed bottom bar */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  padding: 1rem;
+}
+
+/* Headings */
+h1 {
+  text-align: center;
+  color: #4CAF50;
+  margin-bottom: 0.9rem;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.section-title {
+  font-size: 0.9rem;
+  color: #4CAF50;
+  border-bottom: 1px solid #4CAF50;
+  padding-bottom: 5px;
+  margin-top: 1rem;
+}
+
+/* Profile section */
+.profile-section {
+  display: flex;
+  gap: 2%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  font-size: 0.7rem;
+}
+
+.profile-section-pet {
+  display: flex;
+  gap: 2%;
+  margin-top: 1rem;
+  margin-bottom: 2%;
+  font-size: 0.7rem;
+}
+
+.profile-photo, .pet-photo {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #4CAF50;
+  background: #ddd;
+}
+
+.profile-info {
+  flex: 1;
+  min-width: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-left: 4%;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  align-items: flex-start; /* align left */
+  gap: 5%;
+}
+.info-item strong {
+  color: #555;
+}
+.dob-row {
+  display: flex;
+  flex-direction: row;
+  gap: 0.2rem;
+}
+
+#profileNameInput
+ {
+  width: 100%;  /* just enough for 2 digits */
+}
+#petNameInput
+ {
+  width: 100%;  /* just enough for 2 digits */
+}
+
+#dobDay, #dobMonth, #dobYear {
+  flex: unset;   /* stop flex:1 from overriding */
+}
+#dobDay, #dobMonth {
+  width: 30%;  /* just enough for 2 digits */
+}
+#dobYear {
+  width: 60%; /* enough for 4 digits */
+}
+
+.changebtn{
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  align-items:center; /* align left */
+}
+
+/* Editable inputs */
+input[type="text"], input[type="number"], textarea {
+  flex: 1;
+  padding: 0.1rem 0.1rem;
+  border-radius: 8px;
+  border: 1px solid #4CAF50;
+  font-size: 0.9rem;
+  outline: none;
+  text-align: center;   /* center the text inside */
+}
+
+input[type="text-hidden"]{
+  display: none;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 3rem;
+}
+
+/* Lists of items with add/remove */
+
+.question {
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.details-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-left: 10%;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.details-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.details-list li input {
+  flex: 1;
+}
+
+.remove-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.1rem 0.3rem;
+  font-size: 0.75rem;
+  transition: background-color 0.2s ease;
+}
+
+.remove-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Add new item button */
+.add-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-left: 10%;
+  margin-top: 0.3rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.add-btn:hover {
+  background-color: #45a049;
+}
+
+/* Save button */
+/* Save button design */
+#saveBtn {
+  background: linear-gradient(135deg, #6ccf7b, #3ba55d);
+  color: white;
+  border: none;
+  padding: 0.4rem 1rem;
+  margin: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+#saveBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+  background: linear-gradient(135deg, #73d388, #43b867);
+}
+
+#saveBtn:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.profile-photo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem;
+  gap: 0.5rem;
+}
+
+.photo {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+}
+
+.change-photo-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.2rem 0.4rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.2s ease;
+}
+
+.change-photo-btn:hover {
+  background-color: #45a049;
+}
+
+/* Initially hide the conditional sections */
+#q2b,
+#q2c,
+#q3b {
+  display: none;
+}
+#q3b {
+  margin-left: 8%;
+}
+
+small{
+  font-size:0.7rem;
+}
