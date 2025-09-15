@@ -15,39 +15,52 @@
   <button id="signInBtn">Sign In</button>
 
   <!-- Forgot Password -->
-    <div id="forgotPassword" style="margin-top: 10px;">
+  <div id="forgotPassword" style="margin-top: 10px;">
       <a href="#" id="forgotPasswordLink">Forgot your password?</a>
       <div id="forgotMsg" style="color: green; margin-top: 5px;"></div>
-    </div>
   </div>
 
+  <button id="showProfileBtn">Create Profile</button>
+
   <!-- New Profile -->
-  <button id="newProfileBtn">Make a New Profile</button>
+  <div id="newProfileStep1" style="display:none;">
+    <h2>Create a Profile</h2>
+    <label class="smallLabel">Email:</label><br>
+    <input type="text" id="profileEmail" placeholder="Your email" />
+    <div id="passwordSection">
+      <label class="smallLabel">Create a password</label>
+      <input type="password" id="profilePassword1" placeholder="Enter password">
+      <input type="password" id="profilePassword2" placeholder="Confirm password">
+    </div>
+    <div id="emailStatus" style="color: green; min-height: 20px;"></div>
+    <button id="newProfileBtn">Next</button>
+  </div>
 
   <p id="statusMsg"></p>
 
-  <script>
-  // 1. Initialize Supabase
+<script>
   const supabaseUrl = 'https://pqrgvelzxmtdqrofxujx.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBxcmd2ZWx6eG10ZHFyb2Z4dWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxMTc0ODAsImV4cCI6MjA3MTY5MzQ4MH0.s8JZLDdzIS1wBLln0Zs3LK_9BHelUcbRhyAC_0-5sos';
-  const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBxcmd2ZWx6eG10ZHFyb2Z4dWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxMTc0ODAsImV4cCI6MjA3MTY5MzQ4MH0.s8JZLDdzIS1wBLln0Zs3LK_9BHelUcbRhyAC_0-5sos';
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
   const statusMsg = document.getElementById("statusMsg");
+  const emailStatus = document.getElementById("emailStatus");
 
-  // 2. Check if user is already logged in
+  // Show profile section when user clicks
+  document.getElementById("showProfileBtn").addEventListener("click", () => {
+    document.getElementById("newProfileStep1").style.display = "block";
+    document.getElementById("showProfileBtn").style.display = "none"; // hide the "Create Profile" button
+  });
+
+  // Check if user is already logged in
   (async () => {
     const { data: { user } } = await supabaseClient.auth.getUser();
     if (user) {
-      // Already authenticated → redirect
       window.location.href = "mainpage.html";
-    } else {
-      // Not logged in → show login & new profile buttons
-      document.getElementById("loginSection").style.display = "block";
-      document.getElementById("newProfileBtn").style.display = "inline-block";
     }
   })();
 
-  // 3. Login button
+  // Login
   document.getElementById("signInBtn").addEventListener("click", async () => {
     const email = document.getElementById("signEmail").value.trim();
     const password = document.getElementById("signPassword").value.trim();
@@ -64,119 +77,83 @@
       statusMsg.textContent = "Invalid login. Try again.";
     } else {
       statusMsg.textContent = "Login successful!";
-      // Redirect to main page
       window.location.href = "mainpage.html";
     }
   });
 
-  // 4. New profile button
-  document.getElementById("newProfileBtn").addEventListener("click", () => {
-    window.location.href = "survey.html";
+  // New Profile Step 1
+  document.getElementById("newProfileBtn").addEventListener("click", async () => {
+    const email = document.getElementById("profileEmail").value.trim();
+    const password = document.getElementById("profilePassword1").value.trim();
+    const password2 = document.getElementById("profilePassword2").value.trim();
+
+    if (!email || !password || !password2) {
+      return alert("Please fill in all fields.");
+    }
+    if (password !== password2) {
+      return alert("Passwords do not match.");
+    }
+
+    try {
+      const { data, error } = await supabaseClient.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: window.location.origin + '/survey.html'
+        }
+      });
+      if (error) throw error;
+
+      emailStatus.innerText = "Verification email sent! Please check your inbox.";
+    } catch (err) {
+      console.error(err);
+      alert("Failed to create account. Try again.");
+    }
   });
 
   document.getElementById("forgotPasswordLink").addEventListener("click", async (e) => {
     e.preventDefault();
-
     const email = document.getElementById("signEmail").value.trim();
     const forgotMsg = document.getElementById("forgotMsg");
 
     if (!email) {
-        forgotMsg.style.color = "red";
-        forgotMsg.textContent = "Please enter your email above first.";
-        return;
+      forgotMsg.style.color = "red";
+      forgotMsg.textContent = "Please enter your email above first.";
+      return;
     }
 
     try {
-        const redirectUrl = window.location.origin + '/index.html'; // after reset, user returns here
-        const { data, error } = await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo: redirectUrl });
+      const redirectUrl = window.location.origin + '/index.html';
+      const { data, error } = await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo: redirectUrl });
 
-        if (error) throw error;
-
-        forgotMsg.style.color = "green";
-        forgotMsg.textContent = "Password reset email sent! Check your inbox (or spam).";
+      if (error) throw error;
+      forgotMsg.style.color = "green";
+      forgotMsg.textContent = "Password reset email sent!";
     } catch (err) {
-        console.error(err);
-        forgotMsg.style.color = "red";
-        forgotMsg.textContent = "Error sending reset email. Check console.";
+      console.error(err);
+      forgotMsg.style.color = "red";
+      forgotMsg.textContent = "Error sending reset email.";
     }
-});
-
-
+  });
 </script>
 
-  <style>
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #cceff0;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: top;
-        align-items: center;
-        min-height: 100vh;
-        text-align: center;
-        width: 80%;
-        margin-left: 5%;
-    }
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #cceff0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 2rem;
+  }
 
-    h1 {
-        font-size: clamp(1.2rem, 2vw + 1rem, 2rem);
-        color: #333;
-        margin-bottom: 2rem;
-        margin-top: 5rem;
-    }
+  h1, h2 { color: #333; }
+  input { width: 80%; margin: 0.5rem 0; padding: 0.8rem; border-radius: 10px; border: 1px solid #ccc; }
+  button { padding: 0.8rem 2rem; border-radius: 8px; background-color: #4CAF50; color: white; border: none; cursor: pointer; margin: 0.5rem 0; }
+  button:hover { background-color: #45a049; }
+</style>
 
-    input[type="email"], input[type="password"] {
-        width: 80%;
-        padding: 0.8rem;
-        font-size: 1rem;
-        border-radius: 10px;
-        border: 1px solid #ccc;
-        margin-bottom: 1rem;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    input[type="email"]:focus, input[type="password"]:focus {
-        outline: none;
-        border-color: #4CAF50;
-        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
-    }
-
-    button {
-        padding: 0.8rem 2rem;
-        font-size: 1rem;
-        border: none;
-        border-radius: 8px;
-        background-color: #4CAF50;
-        color: white;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s ease;
-        margin: 0.5rem 0;
-    }
-
-    button:hover {
-        background-color: #45a049;
-        transform: scale(1.05);
-    }
-
-    button:active {
-        transform: scale(0.98);
-    }
-
-    #statusMsg {
-        margin-top: 1rem;
-        font-size: 0.9rem;
-        color: #555;
-        max-width: 400px;
-        word-wrap: break-word;
-    }
-
-    @media (max-width: 480px) {
-        body { padding: 1rem; }
-        h1 { font-size: 1.2rem; }
-        input[type="email"], input[type="password"], button { width: 100%; }
-    }
-  </style>
 </body>
 </html>
