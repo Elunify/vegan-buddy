@@ -10,24 +10,10 @@
 <body>
   <div id="app"></div>
   
-  <h1 id="welcomeTitleSecond">Tell us a little about yourself!</h1>
+  <h1 id="welcomeTitle" style.display="none">Tell us a little about yourself!</h1>
 
-  <!-- Step 1 – Email + Password -->
+  <!-- Step 1 – Profile Info -->
   <div class="question active" id="q1">
-
-    <label class="smallLabel">Email:</label>
-    <input type="text" id="profileEmail" placeholder="Your email">
-    
-
-    <div id="passwordSection">
-    <label class="smallLabel">Create a password</label>
-    <input type="password" id="profilePassword1" placeholder="Enter password">
-    <input type="password" id="profilePassword2" placeholder="Confirm password">
-  </div>
-  </div>
-<div id="emailStatus" style="color: green; min-height: 20px;"></div>
-  <!-- Step 2 – Profile Info -->
-  <div class="question" id="q2">
     <label class="bigLabel">Profile Information</label>
 
     <label class="smallLabel">Name:</label><br>
@@ -49,8 +35,8 @@
   </div>
 
 
-  <!-- Step 3 – Goals + Health Issues -->
-  <div class="question" id="q3">
+  <!-- Step 2 – Goals + Health Issues -->
+  <div class="question" id="q2">
     <label class="bigLabel">What are your goals?</label>
     <small>Knowing your goals helps us suggest tips and challenges that fit your lifestyle.</small>
     <label class="checkbox-label">
@@ -75,7 +61,7 @@
     </label>
   </div>
 
-  <div class="question" id="q3b">
+  <div class="question" id="q2b">
     <label class="bigLabel">Are you experiencing any of these health concerns?</label>
     <small>This helps us offer tips and recipes that support your health in a gentle, personalized way.</small>
     <label class="checkbox-label">
@@ -116,8 +102,8 @@
     </label>
   </div>
 
-  <!-- Step 4 – Pet -->
-  <div class="question" id="q4">
+  <!-- Step 3 – Pet -->
+  <div class="question" id="q3">
     <label class="bigLabel">Pick a pet!</label>
     <label class="smallLabel">Name your pet:</label>
     <input type="text" id="petname" placeholder="Pet's name">
@@ -129,8 +115,8 @@
     <img id="petPhotoPreview" alt="Pet preview" />
   </div>
 
-  <!-- Step 5 – Buddy Intro -->
-  <div class="question" id="q5">
+  <!-- Step 4 – Buddy Intro -->
+  <div class="question" id="q4">
     <div id="buddyIntro" class="hidden">
       <h2>Meet your Vegan Buddies!</h2>
       <div class="buddy-container">

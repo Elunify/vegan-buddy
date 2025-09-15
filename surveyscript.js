@@ -6,11 +6,17 @@ const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 const nextBtn = document.getElementById("nextBtn");
 nextBtn.addEventListener("click", nextQuestion);
 
-let answers = JSON.parse(localStorage.getItem("veganBuddyAnswers")) || {};
-let currentStep = 1;
-
-// --- Step 1: Email + password (signup) ---
-const emailStatus = document.getElementById("emailStatus");
+let answers = JSON.parse(localStorage.getItem("veganBuddyAnswers")) || {
+  profileName: "",
+  year: "",
+  month: "",
+  day: "",
+  profilePhoto: null,
+  goals: [],
+  healthIssues: [],
+  petName: "",
+  petPhoto: null
+};
 
 // --- Next Question Function ---
 async function nextQuestion() {
@@ -22,46 +28,7 @@ async function nextQuestion() {
     }
 
     if (currentStep === 1) {
-        // Step 1: Email + password
-        const email = document.getElementById("profileEmail").value.trim();
-        const password = document.getElementById("profilePassword1").value.trim();
-        const password2 = document.getElementById("profilePassword2").value.trim();
-
-        if (!email || !password || !password2) {
-            return alert("Please fill in all fields.");
-        }
-        if (password !== password2) {
-            return alert("Passwords do not match.");
-        }
-
-        try {
-            const { data, error } = await supabase.auth.signUp({
-                email,
-                password,
-                options: {
-                    emailRedirectTo: window.location.origin + '/survey.html'
-                }
-            });
-
-            if (error) throw error;
-
-            answers.email = email;
-            answers.password = password;
-            saveAnswers();
-
-            emailStatus.innerText = "We have sent a verification e-mail, please confirm it.";
-            emailStatus.className = "sending";
-
-            // Do NOT switch step yet — wait for verification
-        } catch (err) {
-            console.error("Signup error:", err);
-            alert("Failed to create account. Try again.");
-        }
-        return;
-    }
-
-    if (currentStep === 2) {
-        // Step 2: Profile info
+        // Step 1: Profile info
         const name = document.getElementById("profileName").value.trim();
         const year = document.getElementById("year").value;
         const month = document.getElementById("month").value;
@@ -92,35 +59,37 @@ async function nextQuestion() {
 
         document.getElementById("welcomeTitle").style.display = "none";
 
+        switchStep(currentEl, "q2");
+        currentStep = 2;
+        return;
+    }
+
+    if (currentStep === 2) {
+        answers.goals = [...document.querySelectorAll('input[name="goal"]:checked')].map(cb => cb.value);
+        saveAnswers();
+
+        if (answers.goals.includes("Solving health issues")) {
+            switchStep(currentEl, "q2b");
+            currentStep = 2.5;
+            return;
+        } else {
+            switchStep(currentEl, "q3");
+            currentStep = 3;
+            return;
+        }
+    }
+
+    if (currentStep === 2.5) {
+        answers.healthIssues = [...document.querySelectorAll('input[name="healthIssue"]:checked')].map(cb => cb.value);
+        saveAnswers();
+
+        const currentEl = document.querySelector('.active'); // get whatever is active right now
         switchStep(currentEl, "q3");
         currentStep = 3;
         return;
     }
 
     if (currentStep === 3) {
-        answers.goals = [...document.querySelectorAll('input[name="goal"]:checked')].map(cb => cb.value);
-        saveAnswers();
-
-        if (answers.goals.includes("Solving health issues")) {
-            switchStep(currentEl, "q3b");
-            currentStep = 3.5;
-            return;
-        } else {
-            switchStep(currentEl, "q4");
-            currentStep = 4;
-            return;
-        }
-    }
-
-    if (currentStep === 3.5) {
-        answers.healthIssues = [...document.querySelectorAll('input[name="healthIssue"]:checked')].map(cb => cb.value);
-        saveAnswers();
-        switchStep(currentEl, "q4");
-        currentStep = 4;
-        return;
-    }
-
-    if (currentStep === 4) {
         const petNameInput = document.getElementById("petname").value.trim();
         const petPhotoFile = document.getElementById("petPhotoUpload").files[0];
 
@@ -138,8 +107,8 @@ async function nextQuestion() {
             saveAnswers();
         }
 
-        switchStep(currentEl, "q5");
-        currentStep = 5;
+        switchStep(currentEl, "q4");
+        currentStep = 4;
         nextBtn.style.display = "none";
         showBuddyIntro();
         return;
@@ -150,22 +119,15 @@ async function nextQuestion() {
 function validateStep(step) {
     switch(step) {
         case 1:
-            const email = document.getElementById("profileEmail").value.trim();
-            const password = document.getElementById("profilePassword1").value.trim();
-            const password2 = document.getElementById("profilePassword2").value.trim();
-            return email !== "" && password !== "" && password2 !== "";
-        case 2:
             return document.getElementById("profileName").value.trim() !== "" &&
                    document.getElementById("year").value.trim() !== "" &&
                    document.getElementById("month").value.trim() !== "" &&
                    document.getElementById("day").value.trim() !== "";
-        case 3:
+        case 2:
             return document.querySelectorAll('input[name="goal"]:checked').length > 0;
-        case 3.5:
-            return true;
+        case 2.5:
+        case 3:
         case 4:
-            return true;
-        default:
             return true;
     }
 }
@@ -175,40 +137,8 @@ function switchStep(currentEl, nextId) {
     const nextEl = document.getElementById(nextId);
     if (nextEl) nextEl.classList.add("active");
 
-    // --- Title control ---
     if (nextId === "q1") {
         document.getElementById("welcomeTitle").style.display = "block";
-        document.getElementById("welcomeTitleSecond").style.display = "none";
-    } else if (nextId === "q2") {
-        document.getElementById("welcomeTitle").style.display = "none";
-        document.getElementById("welcomeTitleSecond").style.display = "block";
-    } else {
-        document.getElementById("welcomeTitle").style.display = "none";
-        document.getElementById("welcomeTitleSecond").style.display = "none";
-    }
-}
-
-
-async function saveAnswers() {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-
-    const { data, error } = await supabase.from('profiles').upsert({
-        id: user.id,
-        email: user.email,
-        name: answers.profileName,
-        birth_date: `${answers.year}-${answers.month}-${answers.day}`,
-        profile_photo: answers.profilePhoto,
-        goals: answers.goals || [],
-        health_issues: answers.healthIssues || [],
-        pet_name: answers.petName || null,
-        pet_photo: answers.petPhoto || null
-    });
-
-    if (error) {
-        console.error("Error saving profile:", error);
-    } else {
-        console.log("Saved to Supabase:", data);
     }
 }
 
@@ -226,7 +156,7 @@ I'm more interested in climate change, doing sports, living healthy and nutritio
 My goal is to live my life the most conscious, rational and logical way. 
 With my sister I'll be here for you and we'll give you useful tips, and we'll guide you through your adventure!`;
 
-    document.getElementById("q5").classList.add("active");
+    document.getElementById("q4").classList.add("active");
 
     setTimeout(() => {
         document.getElementById("elunaPortrait").classList.add("visible");
@@ -293,40 +223,33 @@ document.getElementById('petPhotoUpload').addEventListener('change', e => {
 document.getElementById('year').addEventListener('input', e => { if(e.target.value.length===4) document.getElementById('month').focus(); });
 document.getElementById('month').addEventListener('input', e => { if(e.target.value.length===2) document.getElementById('day').focus(); });
 
-// --- Save profile to Supabase ---
-async function saveProfile() {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return alert("You must verify your email first.");
-
-    const { data, error } = await supabase.from('profiles').upsert({
-        id: user.id,
-        email: user.email,
-        name: answers.profileName,
-        birth_date: `${answers.year}-${answers.month}-${answers.day}`,
-        profile_photo: answers.profilePhoto,
-        goals: answers.goals,
-        health_issues: answers.healthIssues,
-        pet_name: answers.petName,
-        pet_photo: answers.petPhoto
-    });
-
-    if (error) console.error(error);
-    else console.log("Profile saved:", data);
+// --- Save Answers Function ---
+async function saveAnswers() {
+    localStorage.setItem("veganBuddyAnswers", JSON.stringify(answers));
 }
 
-// --- Auto jump to Step 2 if verified ---
-window.addEventListener('load', async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session && session.user && session.user.email_confirmed_at) {
-        emailStatus.innerText = "Email already verified! ✅";
-        emailStatus.className = "verified";
-        answers.email = session.user.email;
-        saveAnswers();
+// --- Save Profile Function ---
+async function saveProfile() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return console.error("No logged in user. Cannot save profile.");
 
-        // jump to Step 2
-        document.getElementById("q1").classList.remove("active");
-        document.getElementById("q2").classList.add("active");
-        document.getElementById("welcomeTitle").style.display = "none";
-        currentStep = 2;
+    try {
+        const { data, error } = await supabase.from('profiles').upsert({
+            id: user.id,
+            email: user.email,
+            name: answers.profileName,
+            birth_date: `${answers.year}-${answers.month}-${answers.day}`,
+            profile_photo: answers.profilePhoto,
+            goals: answers.goals || [],
+            health_issues: answers.healthIssues || [],
+            pet_name: answers.petName || null,
+            pet_photo: answers.petPhoto || null
+        }, { onConflict: ['id'] });
+
+        if (error) console.error("Error saving profile:", error);
+        else console.log("Profile saved:", data);
+
+    } catch (err) {
+        console.error("Unexpected error:", err);
     }
-});
+}

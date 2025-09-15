@@ -32,11 +32,6 @@ h1 {
   margin-bottom: 1rem; 
 } 
 
-h3 { 
-  color: #333; /* Welcome title */ 
-  font-size:1rem; 
-  margin-bottom: 1rem; 
-} 
 
 /* === Profile Question Container === */ 
 .question { 
@@ -99,16 +94,6 @@ h3 {
 
   /* === Inputs === */ 
     /* === Q1 === */
-
-    #passwordSection input[type="password"] {
-  width: 90%;   /* Change this to your preferred width */
-  height: auto;   /* Change this to your preferred height */
-  margin-left: 0.5rem;
-  padding: 8px;   /* Space inside the box */
-  font-size: 16px; /* Makes text inside bigger */
-  border-radius: 8px; /* Optional: rounded corners */
-  border: 1px solid #ccc;
-}
 
     .dob-container { 
       display: flex; 
@@ -277,15 +262,6 @@ h3 {
         margin-left: 3%;
         line-height: 1;
       } 
-      #q2c small { 
-        display: block; 
-        font-size: 0.65rem; 
-        color: #555; 
-        max-width: 90%; 
-        margin-top: 2%; 
-        margin-left: 3%;
-        line-height: 1;
-      } 
       #q3 small { 
         display: block; 
         font-size: 0.65rem; 
@@ -295,23 +271,7 @@ h3 {
         margin-left: 3%;
         line-height: 1;
       }
-      #q5 small { 
-        display: block; 
-        font-size: 0.65rem; 
-        color: #555; 
-        max-width: 90%; 
-        margin-top: 1%; 
-        margin-left: 3%;
-        line-height: 1;
-        margin-bottom: 0.1rem;
-      }
 
-
-      /* === Q5 === */ 
-#q5 .bigLabel
-   { 
-    margin-bottom: 0.3rem;
-  } 
       /* === DOB Container === */ 
     .dob-containerpet { 
       display: flex; 
@@ -359,31 +319,7 @@ h3 {
  #petPhotoUpload { 
       display: none; /* hide original button */ 
     } 
-#q5 .file-btn {
-  display: inline-block;
-  margin-left: 3%;
-  width: 78%;
-  padding: 0.4rem 0.8rem;
-  margin-top: 1rem;
-  margin-bottom: 0;
-  font-size: 0.9rem;
-  font-weight: 500;
-  text-align: center;
-  color: white;
-  background-color: #4CAF50;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
 
-#q5 .file-btn:hover {
-  background-color: #4CAF50;
-  transform: scale(1.05);
-}
-
-#q5 .file-btn:active {
-  transform: scale(0.98);
-}
 
 /* === Pet Preview Image === */
 #petPhotoPreview {
