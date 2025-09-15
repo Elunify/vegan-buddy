@@ -7,138 +7,152 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-  <h1>Welcome! Sign in or create a profile</h1>
 
-  <!-- Login -->
+  <!-- Login Section -->
+<div id="loginSection">
+  <h1>Welcome! Sign in or create a profile</h1>
   <input type="email" id="signEmail" placeholder="Enter your email" />
   <input type="password" id="signPassword" placeholder="Enter your password" />
   <button id="signInBtn">Sign In</button>
 
   <!-- Forgot Password -->
-  <div id="forgotPassword" style="margin-top: 10px;">
+  <div id="forgotPassword" style="margin-bottom: 0.5rem;">
       <a href="#" id="forgotPasswordLink">Forgot your password?</a>
       <div id="forgotMsg" style="color: green; margin-top: 5px;"></div>
   </div>
 
   <button id="showProfileBtn">Create Profile</button>
+</div>
 
-  <!-- New Profile -->
-  <div id="newProfileStep1" style="display:none;">
-    <h2>Create a Profile</h2>
-    <label class="smallLabel">Email:</label><br>
-    <input type="text" id="profileEmail" placeholder="Your email" />
-    <div id="passwordSection">
-      <label class="smallLabel">Create a password</label>
-      <input type="password" id="profilePassword1" placeholder="Enter password">
-      <input type="password" id="profilePassword2" placeholder="Confirm password">
-    </div>
-    <div id="emailStatus" style="color: green; min-height: 20px;"></div>
-    <button id="newProfileBtn">Next</button>
+<!-- New Profile Section -->
+<div id="newProfileStep1" style="display:none;">
+  <h2>Create a Profile</h2>
+  <label class="smallLabel">Email:</label><br>
+  <input type="text" id="profileEmail" placeholder="Your email" />
+  <div id="passwordSection">
+    <label class="smallLabel">Create a password</label>
+    <input type="password" id="profilePassword1" placeholder="Enter password">
+    <input type="password" id="profilePassword2" placeholder="Confirm password">
   </div>
+  <div id="emailStatus" style="color: green; min-height: 20px;"></div>
+  <button id="newProfileBtn">Create an account</button>
+  <button id="backToLoginBtn" style="margin-top: 10px;">Do you have a profile already?</button>
+</div>
 
-  <p id="statusMsg"></p>
+<p id="statusMsg"></p>
 
 <script>
-  const supabaseUrl = 'https://pqrgvelzxmtdqrofxujx.supabase.co';
+
+const supabaseUrl = 'https://pqrgvelzxmtdqrofxujx.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBxcmd2ZWx6eG10ZHFyb2Z4dWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxMTc0ODAsImV4cCI6MjA3MTY5MzQ4MH0.s8JZLDdzIS1wBLln0Zs3LK_9BHelUcbRhyAC_0-5sos';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-  const statusMsg = document.getElementById("statusMsg");
-  const emailStatus = document.getElementById("emailStatus");
+const statusMsg = document.getElementById("statusMsg");
 
-  // Show profile section when user clicks
-  document.getElementById("showProfileBtn").addEventListener("click", () => {
-    document.getElementById("newProfileStep1").style.display = "block";
-    document.getElementById("showProfileBtn").style.display = "none"; // hide the "Create Profile" button
-  });
+// Helper to set status
+function setStatus(msg, color = "red") {
+  statusMsg.style.color = color;
+  statusMsg.textContent = msg || "";
+}
 
-  // Check if user is already logged in
-  (async () => {
-    const { data: { user } } = await supabaseClient.auth.getUser();
-    if (user) {
-      window.location.href = "mainpage.html";
-    }
-  })();
+// Show profile section and hide login
+document.getElementById("showProfileBtn").addEventListener("click", () => {
+  document.getElementById("loginSection").style.display = "none";
+  document.getElementById("newProfileStep1").style.display = "block";
+  setStatus("");
+});
 
-  // Login
-  document.getElementById("signInBtn").addEventListener("click", async () => {
-    const email = document.getElementById("signEmail").value.trim();
-    const password = document.getElementById("signPassword").value.trim();
+// Go back to login from profile creation
+document.getElementById("backToLoginBtn").addEventListener("click", () => {
+  document.getElementById("newProfileStep1").style.display = "none";
+  document.getElementById("loginSection").style.display = "block";
+  setStatus("");
+});
 
-    if (!email || !password) {
-      statusMsg.textContent = "Please enter both email and password.";
-      return;
-    }
+// Check if user is already logged in
+(async () => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user) window.location.href = "mainpage.html";
+})();
 
-    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+// Login
+document.getElementById("signInBtn").addEventListener("click", async () => {
+  setStatus("");
+  const email = document.getElementById("signEmail").value.trim();
+  const password = document.getElementById("signPassword").value.trim();
+
+  if (!email || !password) return setStatus("Please enter both email and password");
+
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) {
+    console.error(error);
+    return setStatus("Invalid password or email");
+  }
+
+  setStatus("Login successful!", "green");
+  window.location.href = "mainpage.html";
+});
+
+// Create profile with Supabase magic link
+document.getElementById("newProfileBtn").addEventListener("click", async () => {
+  setStatus("");
+  const email = document.getElementById("profileEmail").value.trim();
+  const password = document.getElementById("profilePassword1").value.trim();
+  const password2 = document.getElementById("profilePassword2").value.trim();
+
+  if (!email || !password || !password2) return setStatus("Please fill in all fields");
+  if (password !== password2) return setStatus("Passwords don't match");
+  if (password.length < 6) return setStatus("Password must be at least 6 characters long");
+
+  try {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: window.location.origin + '/survey.html'
+      }
+    });
 
     if (error) {
-      console.error(error);
-      statusMsg.textContent = "Invalid login. Try again.";
-    } else {
-      statusMsg.textContent = "Login successful!";
-      window.location.href = "mainpage.html";
-    }
-  });
-
-  // New Profile Step 1
-  document.getElementById("newProfileBtn").addEventListener("click", async () => {
-    const email = document.getElementById("profileEmail").value.trim();
-    const password = document.getElementById("profilePassword1").value.trim();
-    const password2 = document.getElementById("profilePassword2").value.trim();
-
-    if (!email || !password || !password2) {
-      return alert("Please fill in all fields.");
-    }
-    if (password !== password2) {
-      return alert("Passwords do not match.");
+      if (error.message.includes("already registered")) return setStatus("Account already exists with this email");
+      else if (error.message.includes("password")) return setStatus("Password should be at least 6 characters long");
+      else return setStatus(error.message);
     }
 
-    try {
-      const { data, error } = await supabaseClient.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: window.location.origin + '/survey.html'
-        }
-      });
-      if (error) throw error;
+    setStatus("We have sent a verification email. Please check your inbox and click the link to proceed.", "green");
 
-      emailStatus.innerText = "Verification email sent! Please check your inbox.";
-    } catch (err) {
-      console.error(err);
-      alert("Failed to create account. Try again.");
-    }
-  });
+  } catch (err) {
+    console.error(err);
+    setStatus("Failed to create account. Try again");
+  }
+});
 
-  document.getElementById("forgotPasswordLink").addEventListener("click", async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("signEmail").value.trim();
-    const forgotMsg = document.getElementById("forgotMsg");
+// Forgot Password
+document.getElementById("forgotPasswordLink").addEventListener("click", async (e) => {
+  e.preventDefault();
+  setStatus(""); // clear previous message
 
-    if (!email) {
-      forgotMsg.style.color = "red";
-      forgotMsg.textContent = "Please enter your email above first.";
-      return;
-    }
+  const email = document.getElementById("signEmail").value.trim();
 
-    try {
-      const redirectUrl = window.location.origin + '/index.html';
-      const { data, error } = await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo: redirectUrl });
+  if (!email) return setStatus("Please enter your email above first");
 
-      if (error) throw error;
-      forgotMsg.style.color = "green";
-      forgotMsg.textContent = "Password reset email sent!";
-    } catch (err) {
-      console.error(err);
-      forgotMsg.style.color = "red";
-      forgotMsg.textContent = "Error sending reset email.";
-    }
-  });
+  try {
+    const redirectUrl = window.location.origin + '/index.html';
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: redirectUrl });
+
+    if (error) throw error;
+    setStatus("Password reset email sent!", "green");
+
+  } catch (err) {
+    console.error(err);
+    setStatus("Error sending reset email");
+  }
+});
+
 </script>
 
 <style>
-  body {
+body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #cceff0;
     display: flex;
@@ -147,12 +161,11 @@ const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
     min-height: 100vh;
     text-align: center;
     padding: 2rem;
-  }
-
-  h1, h2 { color: #333; }
-  input { width: 80%; margin: 0.5rem 0; padding: 0.8rem; border-radius: 10px; border: 1px solid #ccc; }
-  button { padding: 0.8rem 2rem; border-radius: 8px; background-color: #4CAF50; color: white; border: none; cursor: pointer; margin: 0.5rem 0; }
-  button:hover { background-color: #45a049; }
+}
+h1, h2 { color: #333; }
+input { width: 80%; margin: 0.5rem 0; padding: 0.8rem; border-radius: 10px; border: 1px solid #ccc; }
+button { padding: 0.8rem 2rem; border-radius: 8px; background-color: #4CAF50; color: white; border: none; cursor: pointer; margin: 0.5rem 0; }
+button:hover { background-color: #45a049; }
 </style>
 
 </body>
