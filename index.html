@@ -261,26 +261,18 @@ document.getElementById("forgotPasswordLink").addEventListener("click", async (e
   if (!email) return setStatus("Please enter your email");
 
   try {
-    // Step 1: Request Supabase to generate a secure reset link
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'https://vegan-buddy.vercel.app/reset-password.html' // your custom reset page
+    // Request Supabase to send a reset email
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: 'https://vegan-buddy.vercel.app/reset-password.html'
     });
 
     if (error) {
       console.error("Supabase resetPasswordForEmail error:", error);
-      return setStatus("Failed to send reset link. Try again later.");
+      return setStatus("Failed to send reset email. Try again later.");
     }
 
-    const resetLink = data?.action_link;
-    if (!resetLink) return setStatus("Could not generate reset link. Try again later.");
-
-    // Step 2: Send the reset link 
-    await supabase.auth.resetPasswordForEmail(email, {
-  redirectTo: 'https://vegan-buddy.vercel.app/reset-password.html'
-});
-setStatus("Password reset email sent! Check your inbox.", "green");
-
-    setStatus("A password reset link has been sent to your email!", "green");
+    // Success message
+    setStatus("Password reset email sent! Check your inbox.", "green");
 
   } catch (err) {
     console.error("Forgot password error:", err);
