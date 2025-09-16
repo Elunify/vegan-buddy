@@ -6,6 +6,8 @@ const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 const nextBtn = document.getElementById("nextBtn");
 nextBtn.addEventListener("click", nextQuestion);
 
+let currentStep = 1; // start at step 1 (profile info)
+
 let answers = JSON.parse(localStorage.getItem("veganBuddyAnswers")) || {
   profileName: "",
   year: "",

@@ -1,4 +1,8 @@
+
 document.addEventListener("DOMContentLoaded", () => {
+
+
+
 
   // ======= Profile Photo Setup =======
   function setupProfilePhoto() {
@@ -74,53 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
     resetBtn.addEventListener('click', resetImpactAndStreakAndLevel);
   }
 
-  // ======= Setup menu buttons =======
-  function setupMenuButtons() {
-    const menuBtn = document.getElementById("menuButton");
-    const menu = document.getElementById("sideMenu");
-    const resetBtn = document.querySelector(".menu-item.reset");
-    const addBtn = document.querySelector(".menu-item.add");
-
-    // Toggle side menu visibility
-    if (menuBtn && menu) {
-      menuBtn.addEventListener("click", () => {
-        menu.classList.toggle("hidden");
-      });
-    }
-
-    // Reset button clears localStorage and redirects
-    if (resetBtn) {
-      resetBtn.addEventListener("click", () => {
-        localStorage.clear();
-        alert("Data has been cleared.");
-        location.href = "survey.html";
-      });
-    }
-
-    // Add button increases impact
-    if (addBtn) {
-      addBtn.addEventListener("click", addImpact);
-    }
-
-    // Side menu button redirects
-    const pageMap = {
-      topListsBtn: "leaderboards.html",
-      aboutUsBtn: "aboutus.html",
-      helpusgrowBtn: "helpusgrow.html",
-      sourcesBtn: "sources.html"
-    };
-
-    Object.entries(pageMap).forEach(([id, url]) => {
-      const btn = document.getElementById(id);
-      if (btn) {
-        btn.addEventListener("click", () => {
-          window.location.href = url;
-        });
-      } else {
-        console.warn(`Button with ID ${id} not found`);
-      }
-    });
-  }
+  
 
   // ======= Avatar click redirects to profile =======
   function setupAvatarClick() {
@@ -398,3 +356,8 @@ function setupThoughtBubbleToggle() {
     petAvatar.addEventListener("click", toggleBubble);
   }
 }
+
+
+
+
+

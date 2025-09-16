@@ -21,14 +21,6 @@
       <div id="forgotMsg" style="color: green; margin-top: 5px;"></div>
   </div>
 
-  <div id="resetPasswordSection" style="display:none;">
-    <h3>Reset Your Password</h3>
-    <input type="text" id="resetCode" placeholder="Enter reset code" />
-    <input type="password" id="newPassword1" placeholder="New password" />
-    <input type="password" id="newPassword2" placeholder="Confirm new password" />
-    <button id="resetPasswordBtn">Change Password</button>
-  </div>
-
   <button id="showProfileBtn">Create Profile</button>
 </div>
 
@@ -84,10 +76,10 @@ document.getElementById("backToLoginBtn").addEventListener("click", () => {
 });
 
 // Check if logged in
-(async () => {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (user) window.location.href = "mainpage.html";
-})();
+// (async () => {
+//  const { data: { user } } = await supabase.auth.getUser();
+//  if (user) window.location.href = "mainpage.html";
+//})();
 
 // ------------------ Login ------------------
 document.getElementById("signInBtn").addEventListener("click", async () => {
@@ -96,10 +88,21 @@ document.getElementById("signInBtn").addEventListener("click", async () => {
   const password = document.getElementById("signPassword").value.trim();
   if (!email || !password) return setStatus("Please enter both email and password");
 
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) return setStatus("Invalid password or email");
-  setStatus("Login successful!", "green");
-  window.location.href = "mainpage.html";
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      // Always return generic error for security
+      return setStatus("Invalid email or password");
+    }
+
+    setStatus("Login successful!", "green");
+    window.location.href = "mainpage.html";
+
+  } catch (err) {
+    console.error("Login error:", err);
+    setStatus("Something went wrong. Try again later.");
+  }
 });
 
 // ------------------ Generate 6-digit code ------------------
@@ -112,18 +115,30 @@ function generateCode(length = 6) {
 // ------------------ Send verification code ------------------
 async function sendVerificationCode(email) {
   const code = generateCode();
-  const expires = new Date();
-  expires.setMinutes(expires.getMinutes() + 10);
+  const nowIso = new Date().toISOString();
 
-  await supabase.from('email_verifications')
-    .insert([{ email, code, expires_at: expires.toISOString(), verified: false }]);
+  // upsert so there's only one row per email (requires unique index on email)
+  const { error: dbError } = await supabase
+    .from('email_verifications')
+    .upsert([{ email, code, created_at: nowIso, verified: false }], { onConflict: 'email' });
 
-  await emailjs.send("service_50i8a3q", "template_0g6ty24", {
-    user_email: email,
-    verification_code: code
-  });
+  if (dbError) {
+    console.error("DB save error:", dbError);
+    return setStatus("Failed to save verification code. Try again later.");
+  }
 
-  document.getElementById("verifyCodeSection").style.display = "block";
+  try {
+    await emailjs.send("service_50i8a3q", "template_0g6ty24", {
+      user_email: email,
+      verification_code: code
+    });
+    document.getElementById("verifyCodeSection").style.display = "block";
+  } catch (err) {
+    console.error("EmailJS send error:", err);
+    // If email send fails, we might want to remove the saved code so users can retry
+    await supabase.from('email_verifications').delete().eq('email', email);
+    setStatus("Failed to send verification email. Try again later.");
+  }
 }
 
 // ------------------ Temp storage ------------------
@@ -144,6 +159,16 @@ document.getElementById("newProfileBtn").addEventListener("click", async () => {
 
   tempEmail = email;
   tempPassword = password;
+
+  const { data: existingProfile } = await supabase
+  .from('profiles')
+  .select('id')
+  .eq('email', tempEmail)
+  .single();
+
+if (existingProfile) {
+  return setStatus("A profile with this email already exists");
+}
 
   // Rate limit: 1 code per 2 minutes
   const lastSent = codeSentEmails[email] || 0;
@@ -173,50 +198,48 @@ document.getElementById('verifyCodeBtn').addEventListener('click', async () => {
   if (!inputCode) return setStatus("Please enter the verification code");
 
   try {
-    // Get latest unverified code
+    // Get the latest unverified code for this email
     const { data: codeData, error: codeError } = await supabase
       .from("email_verifications")
       .select("*")
       .eq("email", tempEmail)
       .eq("verified", false)
-      .order("expires_at", { ascending: false })
+      .order("created_at", { ascending: false })
       .limit(1)
       .single();
 
     if (codeError || !codeData) return setStatus("No code found for this email");
-    if (new Date(codeData.expires_at) < new Date()) return setStatus("Code expired");
+
+    // ✅ Expiration check using created_at (10 minutes)
+    const createdAt = new Date(codeData.created_at);
+    const now = new Date();
+    if ((now - createdAt) > 10 * 60 * 1000) {
+      return setStatus("Code expired");
+    }
+
+    // ✅ Code correctness check
     if (codeData.code !== inputCode) return setStatus("Incorrect code");
 
-    // Mark code as verified
+    // Mark the code as verified
     await supabase.from("email_verifications")
       .update({ verified: true })
       .eq("id", codeData.id);
 
-    // ------------------ Create Supabase user ------------------
+    // ------------------ Create Supabase user (no confirmation email) ------------------
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email: tempEmail,
-      password: tempPassword,
-      options: { emailRedirectTo: window.location.origin }
+      password: tempPassword
     });
     if (signUpError) return setStatus(signUpError.message);
 
     // ------------------ Sign in immediately ------------------
-    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+    const { error: signInError } = await supabase.auth.signInWithPassword({
       email: tempEmail,
       password: tempPassword
     });
     if (signInError) return setStatus(signInError.message);
 
-    // ------------------ Upsert profile ------------------
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .upsert([{
-        id: signInData.user.id,
-        email: tempEmail
-      }], { onConflict: 'id' });
-    if (profileError) return setStatus("Failed to create profile record");
-
-    // ------------------ Clear temp storage ------------------
+    // ------------------ Clear temporary storage ------------------
     tempEmail = "";
     tempPassword = "";
 
@@ -228,6 +251,43 @@ document.getElementById('verifyCodeBtn').addEventListener('click', async () => {
     setStatus("Something went wrong during verification.");
   }
 });
+
+document.getElementById("forgotPasswordLink").addEventListener("click", async (e) => {
+  e.preventDefault();
+  setStatus(""); // clear previous status
+
+  const email = document.getElementById("signEmail").value.trim();
+  if (!email) return setStatus("Please enter your email");
+
+  try {
+    // Step 1: Request Supabase to generate a secure reset link
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: 'https://vegan-buddy.vercel.app/reset-password.html' // your custom reset page
+    });
+
+    if (error) {
+      console.error("Supabase resetPasswordForEmail error:", error);
+      return setStatus("Failed to send reset link. Try again later.");
+    }
+
+    const resetLink = data?.action_link;
+    if (!resetLink) return setStatus("Could not generate reset link. Try again later.");
+
+    // Step 2: Send the reset link via EmailJS
+    await emailjs.send("service_50i8a3q", "template_0qmhcvi", {
+      user_email: email,
+      reset_link: resetLink
+    });
+
+    setStatus("A password reset link has been sent to your email!", "green");
+
+  } catch (err) {
+    console.error("Forgot password error:", err);
+    setStatus("Something went wrong. Try again later.");
+  }
+});
+
+
 </script>
 
 
