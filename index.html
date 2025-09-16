@@ -252,6 +252,7 @@ document.getElementById('verifyCodeBtn').addEventListener('click', async () => {
   }
 });
 
+// ------------------ forgot password ------------------
 document.getElementById("forgotPasswordLink").addEventListener("click", async (e) => {
   e.preventDefault();
   setStatus(""); // clear previous status
@@ -273,11 +274,11 @@ document.getElementById("forgotPasswordLink").addEventListener("click", async (e
     const resetLink = data?.action_link;
     if (!resetLink) return setStatus("Could not generate reset link. Try again later.");
 
-    // Step 2: Send the reset link via EmailJS
-    await emailjs.send("service_50i8a3q", "template_0qmhcvi", {
-      user_email: email,
-      reset_link: resetLink
-    });
+    // Step 2: Send the reset link 
+    await supabase.auth.resetPasswordForEmail(email, {
+  redirectTo: 'https://vegan-buddy.vercel.app/reset-password.html'
+});
+setStatus("Password reset email sent! Check your inbox.", "green");
 
     setStatus("A password reset link has been sent to your email!", "green");
 
