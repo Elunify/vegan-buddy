@@ -76,10 +76,10 @@ document.getElementById("backToLoginBtn").addEventListener("click", () => {
 });
 
 // Check if logged in
-// (async () => {
-//  const { data: { user } } = await supabase.auth.getUser();
-//  if (user) window.location.href = "mainpage.html";
-//})();
+ (async () => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user) window.location.href = "mainpage.html";
+})();
 
 // ------------------ Login ------------------
 document.getElementById("signInBtn").addEventListener("click", async () => {

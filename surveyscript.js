@@ -156,7 +156,7 @@ With my sister I'll be here for you and we'll give you useful tips, and we'll gu
                         btn.classList.remove("hidden");
                         btn.addEventListener("click", async () => {
                             await saveProfile();
-                            //window.location.href = "mainpage.html";
+                            window.location.href = "mainpage.html";
                         });
                     });
                 }, 1000);
