@@ -277,26 +277,20 @@ async function saveProfile() {
   const defaultProfileUrl = "https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/profile_photos/default.jpg";
   const defaultPetUrl     = "https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/pet_photos/default.jpg";
 
-  // Make sure answers exist
-  const profileData = {
-    name: answers.profileName || "",
-    birth_date: answers.year && answers.month && answers.day 
-                ? `${answers.year}-${answers.month}-${answers.day}` 
-                : null,
-    profile_photo: answers.profilePhoto || defaultProfileUrl,
-    goals: answers.goals || [],
-    health_issues: answers.healthIssues || [],
-    pet_name: answers.petName || null,
-    pet_photo: answers.petPhoto || defaultPetUrl
-  };
-
-  console.log("Profile data to update:", profileData);
-
   try {
     const { data, error } = await supabase
       .from('profiles')
-      .update(profileData)
-      .eq('id', user.id);
+      .update({
+        name: answers.profileName || "",
+        birth_date: `${answers.year}-${answers.month}-${answers.day}`,
+        profile_photo: answers.profilePhoto || defaultProfileUrl,
+        goals: answers.goals || [],
+        health_issues: answers.healthIssues || [],
+        pet_name: answers.petName || null,
+        pet_photo: answers.petPhoto || defaultPetUrl
+      })
+      .eq('id', user.id)           // ensure only their own row is updated
+      .select();                   // return the updated row
 
     if (error) {
       console.error("Error updating profile:", error);
