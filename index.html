@@ -164,7 +164,7 @@ document.getElementById("newProfileBtn").addEventListener("click", async () => {
   .from('profiles')
   .select('id')
   .eq('email', tempEmail)
-  .single();
+  .maybeSingle();
 
 if (existingProfile) {
   return setStatus("A profile with this email already exists");

@@ -265,11 +265,6 @@ async function saveProfile() {
     // Get current logged-in user
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (userError) {
-    console.error("Error fetching user:", userError);
-    return;
-  }
-
   if (!user) {
     console.warn("No logged-in user. Cannot save profile.");
     return;
@@ -285,7 +280,7 @@ async function saveProfile() {
   try { 
 
     console.log("Answers ready to save:", answers); 
-    
+
     const { data, error } = await supabase.from('profiles').upsert({
       id: user.id,
       email: user.email,
