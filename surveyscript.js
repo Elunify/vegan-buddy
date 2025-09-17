@@ -260,9 +260,9 @@ async function saveAnswers() {
     localStorage.setItem("veganBuddyAnswers", JSON.stringify(answers));
 }
 
-// --- Save Profile Function ---
+// --- Save Profile Function (Update Only) ---
 async function saveProfile() {
-    // Get current logged-in user
+  // Get current logged-in user
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
@@ -270,64 +270,42 @@ async function saveProfile() {
     return;
   }
 
-  // Default URLs (use the real public links from Supabase dashboard)
+  console.log("Logged-in user ID:", user.id);
+  console.log("Logged-in user email:", user.email);
+
+  // Default URLs
   const defaultProfileUrl = "https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/profile_photos/default.jpg";
   const defaultPetUrl     = "https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/pet_photos/default.jpg";
 
-  try { 
+  // Make sure answers exist
+  const profileData = {
+    name: answers.profileName || "",
+    birth_date: answers.year && answers.month && answers.day 
+                ? `${answers.year}-${answers.month}-${answers.day}` 
+                : null,
+    profile_photo: answers.profilePhoto || defaultProfileUrl,
+    goals: answers.goals || [],
+    health_issues: answers.healthIssues || [],
+    pet_name: answers.petName || null,
+    pet_photo: answers.petPhoto || defaultPetUrl
+  };
 
-    // 1️⃣ Check if profile exists
-    const { data: existingProfile, error: fetchError } = await supabase
+  console.log("Profile data to update:", profileData);
+
+  try {
+    const { data, error } = await supabase
       .from('profiles')
-      .select('id')
-      .eq('id', user.id)
-      .single();
+      .update(profileData)
+      .eq('id', user.id);
 
-    if (fetchError && fetchError.code !== 'PGRST116') { // Not Found
-      console.error("Error fetching existing profile:", fetchError);
-      return;
-    }
-
-    if (existingProfile) {
-      // 2️⃣ Update existing profile
-      const { data, error } = await supabase
-        .from('profiles')
-        .update({
-          name: answers.profileName,
-          birth_date: `${answers.year}-${answers.month}-${answers.day}`,
-          profile_photo: answers.profilePhoto || defaultProfileUrl,
-          goals: answers.goals || [],
-          health_issues: answers.healthIssues || [],
-          pet_name: answers.petName || null,
-          pet_photo: answers.petPhoto || defaultPetUrl
-        })
-        .eq('id', user.id);
-
-      if (error) console.error("Error updating profile:", error);
-      else console.log("Profile updated:", data);
-
+    if (error) {
+      console.error("Error updating profile:", error);
     } else {
-      // 3️⃣ Insert new profile
-      const { data, error } = await supabase
-        .from('profiles')
-        .insert({
-          id: user.id,
-          email: user.email,
-          name: answers.profileName,
-          birth_date: `${answers.year}-${answers.month}-${answers.day}`,
-          profile_photo: answers.profilePhoto || defaultProfileUrl,
-          goals: answers.goals || [],
-          health_issues: answers.healthIssues || [],
-          pet_name: answers.petName || null,
-          pet_photo: answers.petPhoto || defaultPetUrl
-        });
-
-      if (error) console.error("Error inserting profile:", error);
-      else console.log("Profile created:", data);
+      console.log("Profile successfully updated:", data);
     }
 
   } catch (err) {
-    console.error("Unexpected error saving profile:", err);
+    console.error("Unexpected error:", err);
   }
 }
 
