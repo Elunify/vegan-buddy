@@ -262,14 +262,30 @@ async function saveAnswers() {
 
 // --- Save Profile Function ---
 async function saveProfile() {
+    // Get current logged-in user
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return console.error("No logged in user. Cannot save profile.");
+
+  if (userError) {
+    console.error("Error fetching user:", userError);
+    return;
+  }
+
+  if (!user) {
+    console.warn("No logged-in user. Cannot save profile.");
+    return;
+  }
+
+  console.log("Logged-in user ID:", user.id);
+  console.log("Logged-in user email:", user.email);
 
   // Default URLs (use the real public links from Supabase dashboard)
   const defaultProfileUrl = "https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/profile_photos/default.jpg";
   const defaultPetUrl     = "https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/pet_photos/default.jpg";
 
-  try {
+  try { 
+
+    console.log("Answers ready to save:", answers); 
+    
     const { data, error } = await supabase.from('profiles').upsert({
       id: user.id,
       email: user.email,
