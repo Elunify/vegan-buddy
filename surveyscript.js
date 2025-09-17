@@ -278,11 +278,14 @@ async function saveProfile() {
   const defaultPetUrl     = "https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/pet_photos/default.jpg";
 
   try {
+
+    const birthDate = `${answers.year}-${answers.month.padStart(2,'0')}-${answers.day.padStart(2,'0')}`;
+
     const { data, error } = await supabase
       .from('profiles')
       .update({
         name: answers.profileName || "",
-        birth_date: `${answers.year}-${answers.month}-${answers.day}`,
+        birth_date: birthDate,
         profile_photo: answers.profilePhoto || defaultProfileUrl,
         goals: answers.goals || [],
         health_issues: answers.healthIssues || [],
