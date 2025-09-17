@@ -293,7 +293,16 @@ async function saveProfile() {
         pet_photo: answers.petPhoto || defaultPetUrl
       })
       .eq('id', user.id)           // ensure only their own row is updated
-      .select();                   // return the updated row
+
+      console.log({
+        name: answers.profileName || "",
+        birth_date: birthDate,
+        profile_photo: answers.profilePhoto || defaultProfileUrl,
+        goals: answers.goals || [],
+        health_issues: answers.healthIssues || [],
+        pet_name: answers.petName || null,
+        pet_photo: answers.petPhoto || defaultPetUrl
+      })
 
     if (error) {
       console.error("Error updating profile:", error);
