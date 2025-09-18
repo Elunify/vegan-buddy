@@ -73,6 +73,13 @@ body {
   border: 2px solid #ccc;
 }
 
+.pet-photo {
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .pet-overlay {
   width: 1rem;
   height: 1rem;
@@ -544,6 +551,29 @@ body {
   }
 
 }
+
+.slide-up-old {
+  animation: slideUp 0.5s forwards;
+}
+
+.slide-down-new {
+  animation: slideDown 0.5s forwards;
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-100%); opacity: 0; }
+}
+
+@keyframes slideDown {
+  0% { transform: translateY(-100%); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+
+
+
+
 
 .feature {
   position: relative;   /* important! keeps overlay inside */

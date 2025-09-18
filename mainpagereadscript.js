@@ -1,9 +1,3 @@
-// --- Initialize Supabase ---
-const supabaseUrl = 'https://pqrgvelzxmtdqrofxujx.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBxcmd2ZWx6eG10ZHFyb2Z4dWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxMTc0ODAsImV4cCI6MjA3MTY5MzQ4MH0.s8JZLDdzIS1wBLln0Zs3LK_9BHelUcbRhyAC_0-5sos';
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-
 async function loadProfile() {
   const { data: { user }, error: userError } = await supabase.auth.getUser();
   if (userError || !user) {
@@ -29,17 +23,57 @@ async function loadProfile() {
   }
 
   // Set pet overlay (image or emoji)
-  const petDiv = document.getElementById("petDisplay");
+const petDisplay = document.getElementById("petDisplay");
+const petAvatar = document.getElementById("petAvatar");
+
+// Helper function to render pet into a container
+function renderPet(container) {
+  if (!container) return; // skip if not on this page
+  container.innerHTML = ""; // clear old content
+
   if (profile.pet_photo) {
     const petImg = document.createElement("img");
     petImg.src = profile.pet_photo;
     petImg.alt = profile.pet_name || "Pet";
     petImg.classList.add("pet-photo");
-    petDiv.appendChild(petImg);
+    container.appendChild(petImg);
   } else if (profile.pet_name) {
-    petDiv.textContent = profile.pet_name;
+    container.textContent = profile.pet_name;
   }
+}
+
+// Render into both if they exist
+renderPet(petDisplay);
+renderPet(petAvatar);
 }
 
 // Run when page loads
 loadProfile();
+
+
+
+
+
+
+
+
+
+async function loadGlobalImpact() {
+  const { data, error } = await supabase
+    .from('global_impact')
+    .select('*')
+    .eq('id', 'global')
+    .single();
+
+  if (error) {
+    console.error('Error loading global impact:', error);
+    return null;
+  }
+
+  // Update the community impact section
+  document.getElementById('animalsSavedBottom').textContent = data.animals_saved;
+  document.getElementById('forestSavedBottom').textContent = data.forest_saved;
+  document.getElementById('waterSavedBottom').textContent = data.water_saved;
+  document.getElementById('co2SavedBottom').textContent = data.co2_reduced;
+  document.getElementById('donatedBottom').textContent = data.donated;
+}

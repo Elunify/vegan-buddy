@@ -1,7 +1,3 @@
-// --- Initialize Supabase ---
-const supabaseUrl = 'https://pqrgvelzxmtdqrofxujx.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBxcmd2ZWx6eG10ZHFyb2Z4dWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxMTc0ODAsImV4cCI6MjA3MTY5MzQ4MH0.s8JZLDdzIS1wBLln0Zs3LK_9BHelUcbRhyAC_0-5sos';
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // ======= Avatar click redirects to profile =======
   function setupAvatarClick() {
@@ -14,97 +10,297 @@ const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
     }
   }
 
-function setupMenuButtons() {
-  const menuBtn = document.getElementById("menuButton");
-  const menu = document.getElementById("sideMenu");
-  const resetBtn = document.querySelector(".menu-item.reset");
-  const addBtn = document.querySelector(".menu-item.add");
-
-  // Toggle side menu
-  if (menuBtn && menu) {
-    menuBtn.addEventListener("click", () => {
-      menu.classList.toggle("hidden");
-    });
-  }
-
-  // Reset button: keep using localStorage
-  if (resetBtn) {
-    resetBtn.addEventListener("click", () => {
-      localStorage.clear();
-      alert("Data has been cleared.");
-      location.href = "survey.html";
-    });
-  }
-
-  // Add button: keep using localStorage
-  if (addBtn) {
-    addBtn.addEventListener("click", addImpact);
-  }
-
-  // Side menu navigation
-  const pageMap = {
-    topListsBtn: "leaderboards.html",
-    aboutUsBtn: "aboutus.html",
-    helpusgrowBtn: "helpusgrow.html",
-    sourcesBtn: "sources.html"
-  };
-
-  Object.entries(pageMap).forEach(([id, url]) => {
-    const btn = document.getElementById(id);
-    if (btn) {
-      btn.addEventListener("click", () => {
-        window.location.href = url;
-      });
-    }
-  });
-
+  // ======= Thought Bubble Toggle =======
   document.addEventListener("DOMContentLoaded", () => {
-  const logoutBtn = document.getElementById("logoutBtn");
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", async () => {
-      try {
-        const { error } = await supabase.auth.signOut();
-        if (error) throw error;
-        localStorage.clear();
-        window.location.href = "index.html";
-      } catch (err) {
-        console.error("Logout error:", err);
-        alert("Something went wrong while logging out.");
-      }
+  const container = document.getElementById("avatarDisplayPet");
+  const bubble = document.getElementById("petThought");
+
+  if (container && bubble) {
+    container.addEventListener("click", (event) => {
+      // Optional: prevent clicks inside the bubble from closing it immediately
+      if (event.target === bubble || bubble.contains(event.target)) return;
+
+      bubble.classList.toggle("hidden");
     });
   }
 });
+
+  // Open sidemenu
+document.addEventListener("DOMContentLoaded", () => {
+  const menuButton = document.getElementById("menuButton");
+  const sideMenu = document.getElementById("sideMenu");
+
+  if (menuButton && sideMenu) {
+    menuButton.addEventListener("click", () => {
+      sideMenu.classList.toggle("hidden");
+    });
+  }
+
+  // Navigation buttons
+  const topListsBtn = document.getElementById("topListsBtn");
+  const helpusgrowBtn = document.getElementById("helpusgrowBtn");
+  const aboutUsBtn = document.getElementById("aboutUsBtn");
+  const sourcesBtn = document.getElementById("sourcesBtn");
+
+  if (topListsBtn) {
+    topListsBtn.addEventListener("click", () => {
+      window.location.href = "leaderboards.html";
+    });
+  }
+
+  if (helpusgrowBtn) {
+    helpusgrowBtn.addEventListener("click", () => {
+      window.location.href = "helpusgrow.html";
+    });
+  }
+
+  if (aboutUsBtn) {
+    aboutUsBtn.addEventListener("click", () => {
+      window.location.href = "aboutus.html";
+    });
+  }
+
+  if (sourcesBtn) {
+    sourcesBtn.addEventListener("click", () => {
+      window.location.href = "sources.html";
+    });
+  }
+});
+
+// =========================================================== TEMPORAL ==========================================================
+// =========================================================== TEMPORAL ==========================================================
+// =========================================================== TEMPORAL ==========================================================
+// =========================================================== TEMPORAL ==========================================================
+// =========================================================== TEMPORAL ==========================================================
+
+
+// ===== UI Elements =====
+const countersElements = {
+  animalsSavedEl: document.getElementById('savedAnimals'),
+  forestSavedEl: document.getElementById('savedForest'),
+  waterSavedEl: document.getElementById('savedWater'),
+  co2ReducedEl: document.getElementById('savedCO2'),
+  donatedEl: document.getElementById('savedDonated'),
+  levelBar: document.getElementById('levelBar'),
+  indexNumber: document.getElementById('indexnumber'),
+  currentLevelEl: document.getElementById("currentLevel"),
+  streakEl: document.getElementById('streak-counter')
+};
+
+// ===== Helper: Calculate level from XP =====
+function getLevelFromXP(totalXP) {
+  let level = 1;
+  let xpNeededForNext = 100;
+  let xpLeft = totalXP;
+
+  while (xpLeft >= xpNeededForNext && level < 100) {
+    xpLeft -= xpNeededForNext;
+    level++;
+    xpNeededForNext = Math.floor(xpNeededForNext * 1.05);
+  }
+
+  return { level, xpTowardsNextLevel: xpLeft, xpNeededForNextLevel: xpNeededForNext };
 }
 
-// ======= Thought Bubble Toggle =======
-  function setupThoughtBubbleToggle() {
-    const toggle = document.getElementById("thoughtToggle");
-    const bubble = document.getElementById("petThought");
-    const petAvatar = document.getElementById("petAvatar");
+// ===== Update UI with profile data =====
+function updateUI(profile) {
+  if (!profile) return;
 
-    if (toggle && bubble && petAvatar) {
-      function toggleBubble() {
-        bubble.classList.toggle("hidden");
-      }
+  if (countersElements.animalsSavedEl) countersElements.animalsSavedEl.textContent = profile.animals_saved;
+  if (countersElements.forestSavedEl) countersElements.forestSavedEl.textContent = profile.forest_saved;
+  if (countersElements.waterSavedEl) countersElements.waterSavedEl.textContent = profile.water_saved;
+  if (countersElements.co2ReducedEl) countersElements.co2ReducedEl.textContent = profile.co2_saved;
+  if (countersElements.donatedEl) countersElements.donatedEl.textContent = profile.donated;
+  if (countersElements.streakEl) countersElements.streakEl.textContent = profile.streak;
 
-      toggle.addEventListener("click", toggleBubble);
-      petAvatar.addEventListener("click", toggleBubble);
+  const { level, xpTowardsNextLevel, xpNeededForNextLevel } = getLevelFromXP(profile.total_xp);
+  if (countersElements.currentLevelEl) countersElements.currentLevelEl.textContent = level;
+
+  if (countersElements.indexNumber) countersElements.indexNumber.textContent = profile.total_xp;
+
+  if (countersElements.levelBar) {
+    if (level >= 100) {
+      countersElements.levelBar.style.display = "none";
+    } else {
+      countersElements.levelBar.style.display = "block";
+      const progressPercent = (xpTowardsNextLevel / xpNeededForNextLevel) * 100;
+      countersElements.levelBar.style.width = progressPercent + '%';
+      countersElements.levelBar.textContent = progressPercent.toFixed(0) + '%';
     }
   }
 
-  // ======= Meal Art Winners =======
-  const winnersData = {
-    amateur: {
-      name: "Jane Doe",
-      image: "assets/meals/amateur.jpg",
-      recipeURL: "amateurRecipe.html" // leave "" or null if no recipe
-    },
-    professional: {
-      name: "Green Leaf Bistro",
-      image: "assets/meals/professional.jpg",
-      recipeURL: "" // no recipe available
+  unlockFeatures(profile);
+}
+
+// ===== Unlock features based on streak/level =====
+function unlockFeatures(profile) {
+  const streak = profile.streak;
+  const level = profile.current_level;
+
+  const checkUnlock = (elId, minStreak, minLevel) => {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    if (streak >= minStreak || level >= minLevel) {
+      el.classList.remove("locked");
+      el.removeAttribute("data-unlock");
+    } else {
+      el.classList.add("locked");
+      el.setAttribute("data-unlock", `🔓 S${minStreak} / L${minLevel}`);
     }
   };
+
+  checkUnlock("meal-plans", 2, 2);
+  checkUnlock("meal-art", 5, 3);
+  checkUnlock("Scan & Info", 10, 5);
+  checkUnlock("Community", 15, 6);
+  checkUnlock("Playground", 20, 7);
+  checkUnlock("Mindful vegan", 30, 10);
+}
+
+// ===== Reset Stats =====
+async function resetStats(userId) {
+  const startingValues = {
+    streak: 1,
+    animals_saved: 0,
+    forest_saved: 0,
+    water_saved: 0,
+    co2_saved: 0,
+    donated: 0,
+    total_xp: 10,
+    current_level: 1,
+    badge: 0
+  };
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .update(startingValues)
+    .eq('id', userId);
+
+  if (error) {
+    console.error('Error resetting stats:', error);
+    return;
+  }
+
+  // Update UI
+  updateUI({ ...startingValues });
+}
+
+// ===== Add Impact =====
+async function addImpact(userId) {
+  // Load current stats
+  const { data: profile, error: fetchError } = await supabase
+    .from('profiles')
+    .select('streak, animals_saved, forest_saved, water_saved, co2_saved, donated, total_xp, current_level, badge')
+    .eq('id', userId)
+    .single();
+
+  if (fetchError) {
+    console.error('Error loading profile:', fetchError);
+    return;
+  }
+
+  // Update stats
+  const newImpact = {
+    animals_saved: (profile.animals_saved || 0) + 1,
+    forest_saved: (profile.forest_saved || 0) + 0.5,
+    water_saved: (profile.water_saved || 0) + 660,
+    co2_saved: (profile.co2_saved || 0) + 4,
+    donated: (profile.donated || 0) + 0,
+    streak: (profile.streak || 0) + 1,
+    total_xp: (profile.total_xp || 0) + 30
+  };
+
+  const { level } = getLevelFromXP(newImpact.total_xp);
+  newImpact.current_level = level;
+
+  // Save to Supabase
+  const { error: updateError } = await supabase
+    .from('profiles')
+    .update(newImpact)
+    .eq('id', userId);
+
+  if (updateError) {
+    console.error('Error updating stats:', updateError);
+    return;
+  }
+
+  // Update UI
+  updateUI(newImpact);
+}
+
+// ===== Button listeners =====
+document.getElementById('resetBtn')?.addEventListener('click', async () => {
+  const userId = supabase.auth.getUser()?.data.user?.id;
+  if (userId) await resetStats(userId);
+});
+
+document.getElementById('addBtn')?.addEventListener('click', async () => {
+  const userId = supabase.auth.getUser()?.data.user?.id;
+  if (userId) await addImpact(userId); 
+
+  // Update global stats
+  await addToGlobalImpact(profileImpact);
+});
+
+
+// =========================================================== TEMPORAL END ==========================================================
+// =========================================================== TEMPORAL END ==========================================================
+// =========================================================== TEMPORAL END ==========================================================
+// =========================================================== TEMPORAL END ==========================================================
+// =========================================================== TEMPORAL END ==========================================================
+
+
+const logoutBtn = document.getElementById('logoutBtn');
+
+logoutBtn?.addEventListener('click', async () => {
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.error('Error signing out:', error.message);
+    return;
+  }
+
+  // Redirect to login/index page
+  window.location.href = 'index.html';
+});
+
+async function addToGlobalImpact(profileImpact) {
+  const { data, error } = await supabase.rpc('add_global_impact', {
+    add_animals: profileImpact.animals_saved || 0,
+    add_forest: profileImpact.forest_saved || 0,
+    add_water: profileImpact.water_saved || 0,
+    add_co2: profileImpact.co2_saved || 0,
+    add_donated: profileImpact.donated || 0
+  });
+
+  if (error) console.error('Error updating global impact:', error);
+  else console.log('Global impact updated!', data);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -235,21 +431,40 @@ const tips = {
 
 
 
-function prepareHourlyTip() {
-  // 1️⃣ Get last tip index
+async function prepareHourlyTip() {
+  // 1️⃣ Get last tip index from localStorage
   let lastTipIndex = parseInt(localStorage.getItem("lastTipIndex")) || 0;
 
-  // 2️⃣ Build tip pool only from user's goals
-  const answers = JSON.parse(localStorage.getItem("veganBuddyAnswers")) || {};
+  // 2️⃣ Get current user
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError || !user) {
+    console.error("Not logged in:", userError);
+    return;
+  }
+
+  // 3️⃣ Fetch user's goals from Supabase
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("goals")
+    .eq("id", user.id)
+    .single();
+
+  if (profileError || !profile) {
+    console.error("Error fetching profile goals:", profileError);
+    return;
+  }
+
+  const userGoals = Array.isArray(profile.goals) ? profile.goals : [];
+
+  // 4️⃣ Build tip pool based on user's goals
   let goalTips = [];
-  const userGoals = Array.isArray(answers.goals) ? answers.goals : [];
   userGoals.forEach(goal => {
     if (tips.goals[goal]) {
       goalTips = goalTips.concat(tips.goals[goal]);
     }
   });
 
-  // 3️⃣ Pick the tip
+  // 5️⃣ Pick tip
   let hourlyTip = "";
   if (goalTips.length > 0) {
     hourlyTip = goalTips[lastTipIndex % goalTips.length];
@@ -260,22 +475,12 @@ function prepareHourlyTip() {
       : "Set your goals to start getting tips!";
   }
 
-  // 4️⃣ Update index
+  // 6️⃣ Update last tip index
   localStorage.setItem("lastTipIndex", lastTipIndex + 1);
 
-  // 5️⃣ Update tip text ONLY, do NOT show bubble yet
+  // 7️⃣ Update tip in the DOM
   const tipContainer = document.getElementById("dailyTip");
   if (tipContainer) {
     tipContainer.textContent = hourlyTip;
   }
 }
-
-// Schedule hourly update for next tips
-setInterval(() => {
-  prepareHourlyTip();
-  // Optional: only show bubble if user has it open
-   const petBubble = document.getElementById("petThought");
-   if (!petBubble.classList.contains("hidden")) {
-     petBubble.classList.remove("hidden");
-   }
-}, 60 * 60 * 1000);

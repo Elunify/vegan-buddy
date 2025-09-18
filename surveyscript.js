@@ -1,7 +1,3 @@
-// --- Initialize Supabase ---
-const supabaseUrl = 'https://pqrgvelzxmtdqrofxujx.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBxcmd2ZWx6eG10ZHFyb2Z4dWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxMTc0ODAsImV4cCI6MjA3MTY5MzQ4MH0.s8JZLDdzIS1wBLln0Zs3LK_9BHelUcbRhyAC_0-5sos';
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 const nextBtn = document.getElementById("nextBtn");
 nextBtn.addEventListener("click", nextQuestion);
@@ -290,7 +286,18 @@ async function saveProfile() {
         goals: answers.goals || [],
         health_issues: answers.healthIssues || [],
         pet_name: answers.petName || null,
-        pet_photo: answers.petPhoto || defaultPetUrl
+        pet_photo: answers.petPhoto || defaultPetUrl,
+
+        // --- Starting values for your app stats ---
+    streak: 1,
+    animals_saved: 0,
+    forest_saved: 0,
+    water_saved: 0,
+    co2_saved: 0,
+    donated: 0,
+    total_xp: 10,
+    current_level: 1,
+    badge: 0
       })
       .eq('id', user.id)           // ensure only their own row is updated
       .select();                   // return the updated row

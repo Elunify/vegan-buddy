@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>MainPage</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
   <link rel="stylesheet" href="mainpagestyle.css" />
 </head>
 <body>
@@ -33,9 +34,8 @@
   <button class="menu-item" id="helpusgrowBtn">Help Us Grow</button>
   <button class="menu-item" id="aboutUsBtn">About Us</button>
   <button class="menu-item" id="sourcesBtn">Sources</button>
-  <button class="menu-item reset" id="resetBtn">Reset</button>
-  <button class="menu-item resetimpactstreak" id="resetimpactBtn">ResetImpact</button>
-  <button class="menu-item add" id="addBtn">Add</button>
+  <button class="menu-item reset" id="resetBtn">Reset Impact</button>
+  <button class="menu-item add" id="addBtn">Add Impact</button>
   <button class="menu-item" id="logoutBtn">Log out</button>
 </div>
 </div>
@@ -124,15 +124,23 @@
 
 
   <div id="avatarDisplayPet" class="profile-wrapperPet"><div id="petMessage">
-    <div id="petAvatar" class="pet-avatar">
+  <div id="petAvatar" class="pet-avatar">
     <!-- Pet emoji or photo will be injected here via JS -->
   </div>
-  <!-- Toggle icon to show/hide bubble -->
   <div id="thoughtToggle" class="thought-toggle">💭</div>
+</div>
+  <!-- Hidden bubble -->
+  <div id="petThought" class="pet-bubble hidden">
+    <span id="petName">Pet</span> is thinking...
+    <div id="dailyTip" class="lesson-box">
+      <!-- Lesson of the day will appear here -->
+    </div>
   </div>
 </div>
 
-  <div class="impact-bottom-wrapper">
+
+
+<div class="impact-bottom-wrapper">
     <h3 class="impact-bottom-title">Our community's impact:</h3>
     <div class="impact-row">
       <div class="impact-item">🐾 <span id="animalsSavedBottom">0</span></div>
@@ -143,16 +151,6 @@
     </div>
   </div>
  <!-- end of mainPage -->
-
-
-<!-- Hidden by default, shown when toggled -->
-  <div class="pet-bubble hidden" id="petThought">
-    <span id="petName">Pet</span> is thinking... <br />
-    <div id="dailyTip" class="lesson-box">
-  <!-- Lesson of the day will appear here -->
-    </div>
-  </div>
-
 </div>
 
 
@@ -215,6 +213,7 @@
   }
 </script>
 
+  <script src="mainpagefunctionsscript.js"></script>
   <script src="impactxpfunctions.js"></script>
   <script src="impactDisplay.js"></script>
   <script type="module" src="mainpagereadscript.js"></script>
