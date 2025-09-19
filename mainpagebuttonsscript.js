@@ -21,6 +21,11 @@
       if (event.target === bubble || bubble.contains(event.target)) return;
 
       bubble.classList.toggle("hidden");
+
+      // Only update tip when showing
+      if (!bubble.classList.contains("hidden")) {
+        prepareHourlyTip();  // <-- fill the tip
+      }
     });
   }
 });
@@ -79,7 +84,7 @@ const countersElements = {
   animalsSavedEl: document.getElementById('savedAnimals'),
   forestSavedEl: document.getElementById('savedForest'),
   waterSavedEl: document.getElementById('savedWater'),
-  co2ReducedEl: document.getElementById('savedCO2'),
+  co2SavedEl: document.getElementById('savedCO2'),
   donatedEl: document.getElementById('savedDonated'),
   levelBar: document.getElementById('levelBar'),
   indexNumber: document.getElementById('indexnumber'),
@@ -103,21 +108,24 @@ function getLevelFromXP(totalXP) {
 }
 
 // ===== Update UI with profile data =====
-function updateUI(profile) {
+window.updateUI = function(profile) {
   if (!profile) return;
 
-  if (countersElements.animalsSavedEl) countersElements.animalsSavedEl.textContent = profile.animals_saved;
-  if (countersElements.forestSavedEl) countersElements.forestSavedEl.textContent = profile.forest_saved;
-  if (countersElements.waterSavedEl) countersElements.waterSavedEl.textContent = profile.water_saved;
-  if (countersElements.co2ReducedEl) countersElements.co2ReducedEl.textContent = profile.co2_saved;
-  if (countersElements.donatedEl) countersElements.donatedEl.textContent = profile.donated;
-  if (countersElements.streakEl) countersElements.streakEl.textContent = profile.streak;
+  // ===== Basic counters (formatted) =====
+  if (countersElements.animalsSavedEl) countersElements.animalsSavedEl.textContent = formatNumber(Math.round(profile.animals_saved || 0));
+  if (countersElements.forestSavedEl) countersElements.forestSavedEl.textContent = formatNumber(Math.round(profile.forest_saved || 0));
+  if (countersElements.waterSavedEl) countersElements.waterSavedEl.textContent = formatNumber(Math.round(profile.water_saved || 0));
+  if (countersElements.co2SavedEl) countersElements.co2SavedEl.textContent = formatNumber(Math.round(profile.co2_saved || 0));
+  if (countersElements.donatedEl) countersElements.donatedEl.textContent = formatNumber(Math.round(profile.donated || 0));
+  if (countersElements.streakEl) countersElements.streakEl.textContent = profile.streak || 0;
+  if (countersElements.indexNumber) countersElements.indexNumber.textContent = profile.total_xp || 0;
 
-  const { level, xpTowardsNextLevel, xpNeededForNextLevel } = getLevelFromXP(profile.total_xp);
+  // ===== Calculate level & XP progress =====
+  const { level, xpTowardsNextLevel, xpNeededForNextLevel } = getLevelFromXP(profile.total_xp || 0);
+
   if (countersElements.currentLevelEl) countersElements.currentLevelEl.textContent = level;
 
-  if (countersElements.indexNumber) countersElements.indexNumber.textContent = profile.total_xp;
-
+  // Fill level bar
   if (countersElements.levelBar) {
     if (level >= 100) {
       countersElements.levelBar.style.display = "none";
@@ -129,8 +137,10 @@ function updateUI(profile) {
     }
   }
 
+  // ===== Unlock features based on streak/level =====
   unlockFeatures(profile);
 }
+
 
 // ===== Unlock features based on streak/level =====
 function unlockFeatures(profile) {
@@ -160,7 +170,7 @@ function unlockFeatures(profile) {
 // ===== Reset Stats =====
 async function resetStats(userId) {
   const startingValues = {
-    streak: 1,
+    streak: 0,
     animals_saved: 0,
     forest_saved: 0,
     water_saved: 0,
@@ -186,7 +196,7 @@ async function resetStats(userId) {
 }
 
 // ===== Add Impact =====
-async function addImpact(userId) {
+async function addImpact(userId, impactIncrement) {
   // Load current stats
   const { data: profile, error: fetchError } = await supabase
     .from('profiles')
@@ -196,16 +206,16 @@ async function addImpact(userId) {
 
   if (fetchError) {
     console.error('Error loading profile:', fetchError);
-    return;
+    return null;
   }
 
-  // Update stats
+  // Update stats with the increment
   const newImpact = {
-    animals_saved: (profile.animals_saved || 0) + 1,
-    forest_saved: (profile.forest_saved || 0) + 0.5,
-    water_saved: (profile.water_saved || 0) + 660,
-    co2_saved: (profile.co2_saved || 0) + 4,
-    donated: (profile.donated || 0) + 0,
+    animals_saved: (profile.animals_saved || 0) + impactIncrement.animals_saved,
+    forest_saved: (profile.forest_saved || 0) + impactIncrement.forest_saved,
+    water_saved: (profile.water_saved || 0) + impactIncrement.water_saved,
+    co2_saved: (profile.co2_saved || 0) + impactIncrement.co2_saved,
+    donated: (profile.donated || 0) + impactIncrement.donated,
     streak: (profile.streak || 0) + 1,
     total_xp: (profile.total_xp || 0) + 30
   };
@@ -221,26 +231,59 @@ async function addImpact(userId) {
 
   if (updateError) {
     console.error('Error updating stats:', updateError);
-    return;
+    return null;
   }
 
   // Update UI
   updateUI(newImpact);
+
+  // Round values for display + format large numbers
+document.getElementById('savedAnimals').textContent = formatNumber(Math.round(newImpact.animals_saved));
+document.getElementById('savedForest').textContent  = formatNumber(Math.round(newImpact.forest_saved));
+document.getElementById('savedWater').textContent   = formatNumber(Math.round(newImpact.water_saved));
+document.getElementById('savedCO2').textContent     = formatNumber(Math.round(newImpact.co2_saved));
+document.getElementById('savedDonated').textContent = formatNumber(Math.round(newImpact.donated));
+
+  // Return the increment so we can pass it to global impact
+  return impactIncrement;
 }
 
 // ===== Button listeners =====
 document.getElementById('resetBtn')?.addEventListener('click', async () => {
-  const userId = supabase.auth.getUser()?.data.user?.id;
-  if (userId) await resetStats(userId);
+  const { data: { user }, error } = await supabase.auth.getUser();
+  if (error || !user) {
+    console.error("Not logged in:", error);
+    return;
+  }
+
+  await resetStats(user.id);
 });
 
 document.getElementById('addBtn')?.addEventListener('click', async () => {
-  const userId = supabase.auth.getUser()?.data.user?.id;
-  if (userId) await addImpact(userId); 
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError || !user) {
+    console.error("Not logged in:", userError);
+    return;
+  }
 
-  // Update global stats
-  await addToGlobalImpact(profileImpact);
+  // 1️⃣ Define the incremental impact
+  const impactIncrement = {
+    animals_saved: 0.7,
+    forest_saved: 0.5,
+    water_saved: 660,
+    co2_saved: 4,
+    donated: 0
+  };
+
+  // 2️⃣ Update personal impact and get the increment back
+  const increment = await addImpact(user.id, impactIncrement);
+
+  // 3️⃣ Update global impact by the same increment
+  if (increment) {
+    await addToGlobalImpact(increment);
+  }
 });
+
 
 
 // =========================================================== TEMPORAL END ==========================================================
@@ -263,17 +306,18 @@ logoutBtn?.addEventListener('click', async () => {
   window.location.href = 'index.html';
 });
 
-async function addToGlobalImpact(profileImpact) {
-  const { data, error } = await supabase.rpc('add_global_impact', {
-    add_animals: profileImpact.animals_saved || 0,
-    add_forest: profileImpact.forest_saved || 0,
-    add_water: profileImpact.water_saved || 0,
-    add_co2: profileImpact.co2_saved || 0,
-    add_donated: profileImpact.donated || 0
+async function addToGlobalImpact(change) {
+  const { error } = await supabase.rpc('add_global_impact', {
+    add_animals: change.animals_saved || 0,
+    add_forest: change.forest_saved || 0,
+    add_water: change.water_saved || 0,
+    add_co2: change.co2_saved || 0,
+    add_donated: change.donated || 0
   });
 
-  if (error) console.error('Error updating global impact:', error);
-  else console.log('Global impact updated!', data);
+  if (error) {
+    console.error("Error updating global impact:", error);
+  } 
 }
 
 
@@ -348,16 +392,16 @@ function showStep(index) {
   }
 }
 
-function nextStep() {
+window.nextStep = function() {
   currentStep++;
   if (currentStep >= steps.length) {
     finishIntro();
     return;
   }
   showStep(currentStep);
-}
+};
 
-function finishIntro() {
+window.finishIntro = function() {
   // Remove highlights
   document.querySelectorAll(".highlighted").forEach(el =>
     el.classList.remove("highlighted")
@@ -386,10 +430,6 @@ document.addEventListener("DOMContentLoaded", () => {
     introOverlay.style.display = "none";
     enableScroll(); // ensure page is scrollable
   }
-
-  // Initialize other page features
-  initXP();
-  updateProfileCounters();
 });
 
 
@@ -432,17 +472,25 @@ const tips = {
 
 
 async function prepareHourlyTip() {
-  // 1️⃣ Get last tip index from localStorage
-  let lastTipIndex = parseInt(localStorage.getItem("lastTipIndex")) || 0;
+  const now = Date.now();
 
-  // 2️⃣ Get current user
+  // 1️⃣ Check if we have a cached tip and its timestamp
+  const cachedTip = localStorage.getItem("hourlyTip");
+  const cachedTime = parseInt(localStorage.getItem("hourlyTipTime")) || 0;
+
+  // 2️⃣ If cached tip is less than 1 hour old, return it
+  if (cachedTip && now - cachedTime < 3600 * 1000) {
+    document.getElementById("dailyTip").textContent = cachedTip;
+    return;
+  }
+
+  // 3️⃣ Otherwise, generate a new tip
   const { data: { user }, error: userError } = await supabase.auth.getUser();
   if (userError || !user) {
     console.error("Not logged in:", userError);
     return;
   }
 
-  // 3️⃣ Fetch user's goals from Supabase
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("goals")
@@ -456,18 +504,17 @@ async function prepareHourlyTip() {
 
   const userGoals = Array.isArray(profile.goals) ? profile.goals : [];
 
-  // 4️⃣ Build tip pool based on user's goals
+  // Build tip pool
   let goalTips = [];
   userGoals.forEach(goal => {
-    if (tips.goals[goal]) {
-      goalTips = goalTips.concat(tips.goals[goal]);
-    }
+    if (tips.goals[goal]) goalTips = goalTips.concat(tips.goals[goal]);
   });
 
-  // 5️⃣ Pick tip
   let hourlyTip = "";
   if (goalTips.length > 0) {
+    const lastTipIndex = parseInt(localStorage.getItem("lastTipIndex")) || 0;
     hourlyTip = goalTips[lastTipIndex % goalTips.length];
+    localStorage.setItem("lastTipIndex", lastTipIndex + 1);
   } else {
     const allGoalTips = Object.values(tips.goals).flat();
     hourlyTip = allGoalTips.length > 0
@@ -475,12 +522,10 @@ async function prepareHourlyTip() {
       : "Set your goals to start getting tips!";
   }
 
-  // 6️⃣ Update last tip index
-  localStorage.setItem("lastTipIndex", lastTipIndex + 1);
+  // 4️⃣ Cache the tip with current timestamp
+  localStorage.setItem("hourlyTip", hourlyTip);
+  localStorage.setItem("hourlyTipTime", now);
 
-  // 7️⃣ Update tip in the DOM
-  const tipContainer = document.getElementById("dailyTip");
-  if (tipContainer) {
-    tipContainer.textContent = hourlyTip;
-  }
+  // 5️⃣ Update the DOM
+  document.getElementById("dailyTip").textContent = hourlyTip;
 }

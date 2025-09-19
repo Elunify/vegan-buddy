@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>your profile</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
   <link rel="stylesheet" href="ypstyle.css" />
 </head>
 <body>
@@ -30,7 +32,7 @@
 <div class="profile-counters">
   <span class="counter">🌍 <span id="currentLevel">0</span></span>
   <span class="counter">🔥 <span id="streak-counter">0</span></span>
-  <span class="counter">🏅 <span id="honor-points>">0</span></span>
+  <span class="counter">🏅 <span id="badge">0</span></span>
 </div>
 
     <div class="section-title">Goals</div>
@@ -38,12 +40,6 @@
 
 <div class="section-title">Health Issues</div>
 <ul id="healthIssuesList" class="details-list"></ul>
-
-<div class="section-title">Digestion Details</div>
-<ul id="digestionDetailsList" class="details-list"></ul>
-
-<div class="section-title">Allergies / Dislikes</div>
-<ul id="allergiesList" class="details-list"></ul>
 
     <div class="profile-section">
         <img id="petPhoto" class="pet-photo" src="defaultPet.jpg" alt="Pet Photo">
@@ -55,10 +51,6 @@
 </div>
 </div>
 
-
-
-  
-  <script src="impactDisplay.js"></script>
   <script src="ypscript.js"></script>
 </body>
 </html>

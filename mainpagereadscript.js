@@ -58,22 +58,3 @@ loadProfile();
 
 
 
-async function loadGlobalImpact() {
-  const { data, error } = await supabase
-    .from('global_impact')
-    .select('*')
-    .eq('id', 'global')
-    .single();
-
-  if (error) {
-    console.error('Error loading global impact:', error);
-    return null;
-  }
-
-  // Update the community impact section
-  document.getElementById('animalsSavedBottom').textContent = data.animals_saved;
-  document.getElementById('forestSavedBottom').textContent = data.forest_saved;
-  document.getElementById('waterSavedBottom').textContent = data.water_saved;
-  document.getElementById('co2SavedBottom').textContent = data.co2_reduced;
-  document.getElementById('donatedBottom').textContent = data.donated;
-}

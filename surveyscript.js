@@ -4,6 +4,9 @@ nextBtn.addEventListener("click", nextQuestion);
 
 let currentStep = 1; // start at step 1 (profile info)
 
+// --- Clear previous answers on init ---
+localStorage.removeItem("veganBuddyAnswers");
+
 let answers = JSON.parse(localStorage.getItem("veganBuddyAnswers")) || {
   profileName: "",
   year: "",
@@ -297,7 +300,7 @@ async function saveProfile() {
     donated: 0,
     total_xp: 10,
     current_level: 1,
-    badge: 0
+    badge: 1
       })
       .eq('id', user.id)           // ensure only their own row is updated
       .select();                   // return the updated row

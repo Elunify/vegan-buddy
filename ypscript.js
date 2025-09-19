@@ -2,98 +2,105 @@ document.getElementById('backBtn').addEventListener('click', () => {
       window.location.href = 'mainpage.html'; // Or wherever you want the back button to lead
     });
 
-    // Constants for comparisons
-    const sheetsPerTree = 8000;
-    const forestAreaPerTree = 10;
-    const showerWaterUse = 65;
-    const co2PerCarHour = 10;
+     async function loadProfile() {
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError || !user) {
+    console.error("Not logged in:", userError);
+    return;
+  }
 
-    // Load saved impact from localStorage or fallback default
-    const savedImpact = JSON.parse(localStorage.getItem('savedImpact')) || {
-      animals: 0,
-      forest: 0,
-      water: 0,
-      co2: 0,
-      donated: 0,
-    };
+  // Fetch profile record with all needed fields
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select(`
+      profile_photo,
+      name,
+      birth_date,
+      goals,
+      health_issues,
+      pet_photo,
+      pet_name,
+      streak,
+      current_level,
+      badge
+    `)
+    .eq("id", user.id)
+    .single();
 
-    // Helper function for comparison text
-    function generateComparisonText(animals, forest, water, co2) {
-      const treesSaved = forest / forestAreaPerTree;
-      const paperEquivalent = Math.round(treesSaved * sheetsPerTree);
-      const showerEquivalent = Math.round(water / showerWaterUse);
-      const carTimeEquivalent = (co2 / co2PerCarHour).toFixed(1);
+  if (profileError) {
+    console.error("Error fetching profile:", profileError);
+    return;
+  }
 
-      return `
-        That's equivalent to:<br>
-        • Not using ${paperEquivalent} sheets of paper<br>
-        • Saving ${showerEquivalent} showers worth of water<br>
-        • Avoiding ${carTimeEquivalent} hours spent in a car
-      `;
-    }
+  // Profile photo
+  if (profile.profile_photo) {
+    document.getElementById("profilePhoto").src = profile.profile_photo;
+  }
 
-     const answers = JSON.parse(localStorage.getItem("veganBuddyAnswers")) || {};
+  // Name + birth date
+  document.getElementById("profileName").textContent = profile.name || "-";
+  document.getElementById("dob").textContent = profile.birth_date || "-";
 
-    document.getElementById("profileName").textContent = answers.profileName || "-";
-    if (answers.year && answers.month && answers.day) {
-        document.getElementById("dob").textContent = `${answers.day}/${answers.month}/${answers.year}`;
-    }
-    
-    // Goals
-    const goalsList = document.getElementById("goalsList");
-    if (answers.goals && answers.goals.length > 0) {
-        answers.goals.forEach(goal => {
-            const li = document.createElement("li");
-            li.textContent = goal;
-            goalsList.appendChild(li);
-        });
-    }
+  // Streak + level + badge
+  document.getElementById("streak-counter").textContent = profile.streak || 0;
+  document.getElementById("currentLevel").textContent = profile.current_level || 0;
+  document.getElementById("badge").textContent = profile.badge || 0;
 
-    // Health issues
-    const healthList = document.getElementById("healthIssuesList");
-    if (answers.healthIssues && answers.healthIssues.length > 0) {
-        answers.healthIssues.forEach(h => {
-            const li = document.createElement("li");
-            li.textContent = h;
-            healthList.appendChild(li);
-        });
-    }
+  // Goals
+const goalsList = document.getElementById("goalsList");
+goalsList.innerHTML = "";
+if (profile.goals) {
+  let goals = profile.goals;
 
-    // Digestion details
-    const digestionList = document.getElementById("digestionDetailsList");
-    if (answers.digestionDetails && answers.digestionDetails.length > 0) {
-        answers.digestionDetails.forEach(d => {
-            const li = document.createElement("li");
-            li.textContent = d;
-            digestionList.appendChild(li);
-        });
-    }
+  // If it's an object, convert to array of values
+  if (!Array.isArray(goals)) {
+    goals = Object.values(goals);
+  }
 
-    // Allergies / Dislikes
-    const allergyList = document.getElementById("allergiesList");
-    if (answers.dislikes && answers.dislikes.length > 0) {
-        answers.dislikes.forEach(a => {
-            const li = document.createElement("li");
-            li.textContent = a;
-            allergyList.appendChild(li);
-        });
-    }
+  goals.forEach(goal => {
+    const li = document.createElement("li");
+    li.textContent = goal;
+    goalsList.appendChild(li);
+  });
+}
 
-    // Profile photo
-    const profilePhoto = document.getElementById("profilePhoto");
-    if (answers.profilePhoto) profilePhoto.src = answers.profilePhoto;
+// Health Issues
+const healthList = document.getElementById("healthIssuesList");
+healthList.innerHTML = "";
+if (profile.health_issues) {
+  let issues = profile.health_issues;
 
-    // Pet details
-    document.getElementById("petName").textContent = answers.petName || "-";
-    const petPhoto = document.getElementById("petPhoto");
-    if (answers.petPhoto) petPhoto.src = answers.petPhoto;
-  
-    document.querySelectorAll(".details-list").forEach(list => {
-  if (!list.hasChildNodes() || list.children.length === 0) {
-    // hide the title and the list together
-    list.previousElementSibling.style.display = "none"; // hide the <div class="section-title">
-    list.style.display = "none"; // hide the empty <ul>
+  if (!Array.isArray(issues)) {
+    issues = Object.values(issues);
+  }
+
+  issues.forEach(issue => {
+    const li = document.createElement("li");
+    li.textContent = issue;
+    healthList.appendChild(li);
+  });
+}
+
+  // Pet
+  if (profile.pet_photo) {
+    document.getElementById("petPhoto").src = profile.pet_photo;
+  }
+  document.getElementById("petName").textContent = profile.pet_name || "-";
+
+  document.querySelectorAll(".details-list").forEach(list => {
+  // Only count <li> elements, ignore whitespace/text nodes
+  if (list.querySelectorAll("li").length === 0) {
+    list.previousElementSibling.style.display = "none"; // hide the section title
+    list.style.display = "none"; // hide the list itself
   }
 });
+
+
+}
+
+// Run when page loads
+loadProfile();
+  
+  
 
 

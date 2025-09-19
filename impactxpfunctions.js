@@ -85,7 +85,7 @@ const countersElements = {
   animalsSavedEl: document.getElementById('savedAnimals'),
   forestSavedEl: document.getElementById('savedForest'),
   waterSavedEl: document.getElementById('savedWater'),
-  co2ReducedEl: document.getElementById('savedCO2'),
+  co2SavedEl: document.getElementById('savedCO2'),
   donatedEl: document.getElementById('savedDonated'),
   levelBar: document.getElementById('levelBar'),
   indexNumber: document.getElementById('indexnumber')
@@ -97,7 +97,7 @@ function updateImpactUI() {
   if (countersElements.animalsSavedEl) countersElements.animalsSavedEl.textContent = savedImpact.animals || 0;
   if (countersElements.forestSavedEl) countersElements.forestSavedEl.textContent = savedImpact.forest || 0;
   if (countersElements.waterSavedEl) countersElements.waterSavedEl.textContent = savedImpact.water || 0;
-  if (countersElements.co2ReducedEl) countersElements.co2ReducedEl.textContent = savedImpact.co2 || 0;
+  if (countersElements.co2SavedEl) countersElements.co2SavedEl.textContent = savedImpact.co2 || 0;
   if (countersElements.donatedEl) countersElements.donatedEl.textContent = savedImpact.donated || 0;
 
   const totalXP = parseInt(localStorage.getItem('totalXP')) || 0;
