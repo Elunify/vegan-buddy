@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>your profile</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
   <link rel="stylesheet" href="yourimpact.css" />
 </head>
 <body>
@@ -23,11 +25,11 @@
       <div class="impact-column">
         <p class="text">
           Since you are using Elunify, you have saved <br>
-          <span class="impact-item">🐾 <span id="savedAnimals">0</span></span> animals, <br>
-          <span class="impact-item">🌲 <span id="savedForest">0</span> m²</span> forest, <br>
-          <span class="impact-item">💧 <span id="savedWater">0</span> L</span> water, reduced <br>
-          <span class="impact-item">🌬️ <span id="savedCO2">0</span> kg</span> CO₂ and donated <br>
-          <span class="impact-item">🤝 <span id="savedDonated">0</span> €</span> to our organisation. <br>
+          <span class="impact-item">🐾 <span id="animals_saved">0</span></span> animals, <br>
+          <span class="impact-item">🌲 <span id="forest_saved">0</span> m²</span> forest, <br>
+          <span class="impact-item">💧 <span id="water_saved">0</span> L</span> water, reduced <br>
+          <span class="impact-item">🌬️ <span id="co2_saved">0</span> kg</span> CO₂ and donated <br>
+          <span class="impact-item">🤝 <span id="donated">0</span> €</span> to our organisation. <br>
         </p>
       </div>
       <div id="savedComparisonText" class="comparison-text"></div>

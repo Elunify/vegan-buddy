@@ -3,11 +3,6 @@ document.getElementById('backBtn').addEventListener('click', () => {
     });
 
 
-document.addEventListener("DOMContentLoaded", () => {
-
-  const pathButtons = document.querySelectorAll(".path-btn");
-  const courses = document.querySelectorAll(".course");
-
   const lessonsData = {
   animals: [
     { title: "Why animals?", content: "Animals matter because they feel pain and deserve compassion.", question: { text: "Why do animals matter?", options: ["They feel pain and deserve compassion", "They cannot move", "They are objects"], correctIndex: 0 } },
@@ -79,11 +74,24 @@ document.addEventListener("DOMContentLoaded", () => {
   ]
 };
 
+// Helper: get current user (modern supabase API)
+async function getCurrentUser() {
+  const { data, error } = await supabase.auth.getUser();
+  if (error) {
+    console.error("supabase.auth.getUser error:", error);
+    return null;
+  }
+  return data?.user || null;
+}
 
+// ---------- render / UI helpers ----------
 function renderLessons() {
   Object.keys(lessonsData).forEach(courseKey => {
     const course = document.getElementById(courseKey);
+    if (!course) return;
     const lessonList = course.querySelector(".lesson-list");
+    if (!lessonList) return;
+
     lessonList.innerHTML = ""; // clear existing
 
     lessonsData[courseKey].forEach((lesson, index) => {
@@ -93,148 +101,166 @@ function renderLessons() {
 
       li.innerHTML = `
         <div class="lesson-title">
-    <span class="lesson-icon">${index === 0 ? "🟢" : "🔒"}</span>
-    ${lesson.title}
-  </div>
-  <div class="lesson-content"></div>
+          <span class="lesson-icon">${index === 0 ? "🟢" : "🔒"}</span>
+          ${lesson.title}
+        </div>
+        <div class="lesson-content"></div>
       `;
-
       lessonList.appendChild(li);
     });
   });
 }
 
-// Call this once on page load
-renderLessons();
+function updateLessonIcon(lesson) {
+  const icon = lesson.querySelector(".lesson-icon");
+  if (!icon) return;
+  if (lesson.classList.contains("locked")) icon.textContent = "🔒";
+  else if (lesson.classList.contains("unlocked")) icon.textContent = "🟢";
+  else if (lesson.classList.contains("completed")) icon.textContent = "✅";
+}
 
-  // ===== Show selected course =====
-  pathButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const path = btn.dataset.path;
-      courses.forEach(c => c.classList.add("hidden"));
-      const selectedCourse = document.getElementById(path);
-      if (selectedCourse) selectedCourse.classList.remove("hidden");
+// ---------- Supabase persistence ----------
+async function saveProgress() {
+  const user = await getCurrentUser();
+  if (!user) return;
+
+  const progress = {};
+  document.querySelectorAll(".course").forEach(course => {
+    const courseId = course.id;
+    progress[courseId] = [];
+    course.querySelectorAll(".lesson").forEach((lesson, idx) => {
+      if (lesson.classList.contains("completed")) progress[courseId].push(idx + 1);
     });
   });
 
-  // ===== Update lesson icon based on state =====
-  function updateLessonIcon(lesson) {
-    const icon = lesson.querySelector(".lesson-icon");
-    if (!icon) return;
+  const { error } = await supabase
+    .from("profiles")
+    .update({ learning_progress: progress })
+    .eq("id", user.id);
 
-    if (lesson.classList.contains("locked")) icon.textContent = "🔒";
-    else if (lesson.classList.contains("unlocked")) icon.textContent = "🟢";
-    else if (lesson.classList.contains("completed")) icon.textContent = "✅";
+  if (error) {
+    console.error("Error saving progress:", error.message);
+  } 
+}
+
+async function loadProgress() {
+  const user = await getCurrentUser();
+  if (!user) return;
+
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("learning_progress")
+    .eq("id", user.id)
+    .single();
+
+  if (error) {
+    console.error("Error loading progress:", error.message);
+    return;
   }
 
-  // ===== Save progress =====
-  function saveProgress() {
-    const progress = {};
-    document.querySelectorAll(".course").forEach(course => {
-      const courseId = course.id;
-      progress[courseId] = [];
-      course.querySelectorAll(".lesson").forEach((lesson, idx) => {
-        if (lesson.classList.contains("completed")) progress[courseId].push(idx + 1);
-      });
-    });
-    localStorage.setItem("learningProgress", JSON.stringify(progress));
-  }
+  const progress = data?.learning_progress || {};
 
-  // ===== Load progress =====
-  function loadProgress() {
-    const progress = JSON.parse(localStorage.getItem("learningProgress")) || {};
-    for (const courseId in progress) {
-      const completedLessons = progress[courseId];
-      const course = document.getElementById(courseId);
-      if (!course) continue;
-
-      const lessons = course.querySelectorAll(".lesson");
-      lessons.forEach((lesson, idx) => {
-        if (completedLessons.includes(idx + 1)) {
-          lesson.classList.add("completed");
-          lesson.classList.remove("locked", "unlocked");
-        } else if (idx === completedLessons.length) {
-          lesson.classList.remove("locked");
-          lesson.classList.add("unlocked");
-        }
-        updateLessonIcon(lesson);
-      });
-    }
-  }
-
-  // ===== Setup lessons click =====
-  function setupLessonClick(courseId) {
+  // Apply progress to DOM
+  ["animals", "earth", "health"].forEach(courseId => {
     const course = document.getElementById(courseId);
+    if (!course) return;
     const lessons = course.querySelectorAll(".lesson");
+    const completedLessons = progress[courseId] || [];
 
     lessons.forEach((lesson, idx) => {
-      const contentContainer = lesson.querySelector(".lesson-content");
+      // mark completed if included
+      if (completedLessons.includes(idx + 1)) {
+        lesson.classList.add("completed");
+        lesson.classList.remove("locked", "unlocked");
+      } else {
+        // unlocked if first or previous completed
+        if (idx === 0 || completedLessons.includes(idx)) {
+          lesson.classList.remove("locked");
+          lesson.classList.add("unlocked");
+        } else {
+          lesson.classList.remove("unlocked", "completed");
+          lesson.classList.add("locked");
+        }
+      }
+      updateLessonIcon(lesson);
+    });
+  });
+}
 
-      lesson.addEventListener("click", () => {
-        if (!lesson.classList.contains("unlocked")) return;
+// ---------- lesson click setup ----------
+function setupLessonClick(courseId) {
+  const course = document.getElementById(courseId);
+  if (!course) return;
+  const lessons = course.querySelectorAll(".lesson");
 
-        // Close other contents in this course
-        lessons.forEach(l => {
-          if (l !== lesson) {
-            const otherContent = l.querySelector(".lesson-content");
-            if (otherContent) otherContent.classList.remove("active");
-          }
-        });
+  lessons.forEach((lesson, idx) => {
+    const contentContainer = lesson.querySelector(".lesson-content");
+    const title = lesson.querySelector(".lesson-title");
+    if (!title) return;
 
-        // Toggle current content
-        contentContainer.classList.toggle("active");
+    title.addEventListener("click", () => {
+      if (lesson.classList.contains("locked")) return;
 
-        // Fill content if empty
-        if (contentContainer.innerHTML.trim() === "") {
-          const lessonObj = lessonsData[courseId][idx];
+      // Close other contents in this course
+      lessons.forEach(l => {
+        if (l !== lesson) {
+          const otherContent = l.querySelector(".lesson-content");
+          if (otherContent) otherContent.classList.remove("active");
+        }
+      });
 
-          let optionsHtml = lessonObj.question.options.map((opt, i) => 
-            `<label style="display:block; margin-bottom:0.3rem;">
-               <input type="radio" name="lesson-${courseId}-${idx}" value="${i}"> ${opt}
-             </label>`
-          ).join("");
+      // Toggle current one
+      contentContainer.classList.toggle("active");
 
-          contentContainer.innerHTML = `
-            <p><strong>${lessonObj.question.text}</strong></p>
-            ${optionsHtml}
+      // Fill content if empty (or if not present)
+      if (contentContainer.innerHTML.trim() === "") {
+        const lessonObj = lessonsData[courseId][idx];
+
+        let optionsHtml = lessonObj.question.options.map((opt, i) =>
+          `<label style="display:block; margin-bottom:0.3rem;">
+             <input type="radio" name="lesson-${courseId}-${idx}" value="${i}"> ${opt}
+           </label>`
+        ).join("");
+
+        contentContainer.innerHTML = `
+          <p><strong>${lessonObj.question.text}</strong></p>
+          ${optionsHtml}
           <button class="submit-answer">Submit Answer</button>
           <div class="feedback" style="margin:0.5rem 0; color:red;"></div>
           <div class="lesson-text" style="display:none; margin-top:0.5rem;">
             <p>${lessonObj.content}</p>
             <button class="complete-btn">I have read it ✅</button>
           </div>
-          `;
+        `;
 
-          // Make radios clickable (don’t trigger lesson toggle)
-          const radios = contentContainer.querySelectorAll("input[type=radio]");
-          radios.forEach(r => r.addEventListener("click", e => e.stopPropagation()));
+        // Make radios clickable (don’t trigger lesson toggle)
+        const radios = contentContainer.querySelectorAll("input[type=radio]");
+        radios.forEach(r => r.addEventListener("click", e => e.stopPropagation()));
 
-          const feedback = contentContainer.querySelector(".feedback");
+        const feedback = contentContainer.querySelector(".feedback");
         const lessonText = contentContainer.querySelector(".lesson-text");
         const submitBtn = contentContainer.querySelector(".submit-answer");
+        const completeBtn = contentContainer.querySelector(".complete-btn");
 
         submitBtn.addEventListener("click", (e) => {
           e.stopPropagation();
           const selected = contentContainer.querySelector(`input[name="lesson-${courseId}-${idx}"]:checked`);
-
           if (!selected) {
             feedback.textContent = "Please select an answer!";
             return;
           }
-
           if (parseInt(selected.value) !== lessonObj.question.correctIndex) {
             feedback.textContent = "Wrong answer, try again!";
             return;
           }
-
           // Correct → show lesson content
           feedback.textContent = "";
           lessonText.style.display = "block";
           submitBtn.style.display = "none";
         });
 
-        const completeBtn = contentContainer.querySelector(".complete-btn");
-        completeBtn.addEventListener("click", (e) => {
+        // completeBtn should save progress to supabase
+        completeBtn.addEventListener("click", async (e) => {
           e.stopPropagation();
 
           lesson.classList.remove("unlocked");
@@ -253,31 +279,56 @@ renderLessons();
           contentContainer.classList.remove("active");
           contentContainer.innerHTML = "";
 
-          saveProgress();
+          // Save to Supabase
+          await saveProgress();
         });
       }
     });
   });
 }
 
-  // Initialize courses
+// ---------- DOM ready ----------
+// make the DOM handler async so we can await loadProgress
+document.addEventListener("DOMContentLoaded", async () => {
+  // back button
+  document.getElementById('backBtn')?.addEventListener('click', () => {
+    window.location.href = 'mainpage.html';
+  });
+
+  // Render the lesson lists
+  renderLessons();
+
+  // wire course buttons
+  const pathButtons = document.querySelectorAll(".path-btn");
+  const courses = document.querySelectorAll(".course");
+  pathButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const path = btn.dataset.path;
+      courses.forEach(c => c.classList.add("hidden"));
+      const selectedCourse = document.getElementById(path);
+      if (selectedCourse) selectedCourse.classList.remove("hidden");
+    });
+  });
+
+  // Setup click handlers for each course
   ["animals", "earth", "health"].forEach(setupLessonClick);
 
-  // Load saved progress
-  loadProgress();
+  // Load saved progress from Supabase (await so UI is consistent)
+  await loadProgress();
 
-  // ===== Reset lessons button =====
+  // Reset button wired to Supabase
   const resetBtn = document.getElementById("resetLessonsBtn");
   if (resetBtn) {
-    resetBtn.addEventListener("click", () => {
-      localStorage.removeItem("learningProgress");
+    resetBtn.addEventListener("click", async () => {
+      const confirmReset = confirm("Reset all lesson progress?");
+      if (!confirmReset) return;
 
+      // Reset UI
       document.querySelectorAll(".lesson").forEach(lesson => {
         lesson.classList.remove("completed", "unlocked");
         lesson.classList.add("locked");
         updateLessonIcon(lesson);
       });
-
       document.querySelectorAll(".course").forEach(course => {
         const firstLesson = course.querySelector(".lesson");
         if (firstLesson) {
@@ -287,8 +338,12 @@ renderLessons();
         }
       });
 
-      alert("All lesson progress has been reset!");
+      // Reset in Supabase
+      const user = await getCurrentUser();
+      if (!user) return;
+      const { error } = await supabase.from("profiles").update({ learning_progress: {} }).eq("id", user.id);
+      if (error) console.error("Error resetting lessons:", error.message);
+      else alert("All lesson progress has been reset!");
     });
   }
-
 });

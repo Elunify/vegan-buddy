@@ -1,55 +1,68 @@
-document.getElementById('backBtn').addEventListener('click', () => {
-      window.location.href = 'mainpage.html'; // Or wherever you want the back button to lead
-    });
+// ===== Setup back button =====
+document.getElementById("backBtn").addEventListener("click", () => {
+  window.location.href = "mainpage.html";
+});
 
-    // Constants for comparisons
-    const sheetsPerTree = 8000;
-    const forestAreaPerTree = 10;
-    const showerWaterUse = 65;
-    const co2PerCarHour = 10;
+// Constants for comparisons
+const sheetsPerTree = 8000;
+const forestAreaPerTree = 10;
+const showerWaterUse = 65;
+const co2PerCarHour = 10;
 
-    // Load saved impact from localStorage or fallback default
-    const savedImpact = JSON.parse(localStorage.getItem('savedImpact')) || {
-      animals: 0,
-      forest: 0,
-      water: 0,
-      co2: 0,
-      donated: 0,
-    };
+// Helper function for comparison text
+function generateComparisonText(animals_saved, forest_saved, water_saved, co2_saved) {
+  const treesSaved = forest_saved / forestAreaPerTree;
+  const paperEquivalent = Math.round(treesSaved * sheetsPerTree);
+  const showerEquivalent = Math.round(water_saved / showerWaterUse);
+  const carTimeEquivalent = (co2_saved / co2PerCarHour).toFixed(1);
 
-    // Helper function for comparison text
-    function generateComparisonText(animals, forest, water, co2) {
-      const treesSaved = forest / forestAreaPerTree;
-      const paperEquivalent = Math.round(treesSaved * sheetsPerTree);
-      const showerEquivalent = Math.round(water / showerWaterUse);
-      const carTimeEquivalent = (co2 / co2PerCarHour).toFixed(1);
+  return `
+    That's equivalent to:<br>
+    • Not using ${paperEquivalent} sheets of paper<br>
+    • Saving ${showerEquivalent} showers worth of water<br>
+    • Avoiding ${carTimeEquivalent} hours spent in a car
+  `;
+}
 
-      return `
-        That's equivalent to:<br>
-        • Not using ${paperEquivalent} sheets of paper<br>
-        • Saving ${showerEquivalent} showers worth of water<br>
-        • Avoiding ${carTimeEquivalent} hours spent in a car
-      `;
-    }
+// Show saved impact
+function displaySavedImpact(impact) {
+  document.getElementById("animals_saved").textContent = Math.round(impact.animals_saved || 0);
+  document.getElementById("forest_saved").textContent = Math.round(impact.forest_saved || 0);
+  document.getElementById("water_saved").textContent = Math.round(impact.water_saved || 0);
+  document.getElementById("co2_saved").textContent = Math.round(impact.co2_saved || 0);
+  document.getElementById("donated").textContent = Math.round(impact.donated || 0);
 
-    // Show saved impact on page load
-    function displaySavedImpact() {
-      document.getElementById('savedAnimals').textContent = savedImpact.animals;
-      document.getElementById('savedForest').textContent = savedImpact.forest;
-      document.getElementById('savedWater').textContent = savedImpact.water;
-      document.getElementById('savedCO2').textContent = savedImpact.co2;
-      document.getElementById('savedDonated').textContent = savedImpact.donated;
+  document.getElementById("savedComparisonText").innerHTML = generateComparisonText(
+    impact.animals_saved || 0,
+    impact.forest_saved || 0,
+    impact.water_saved || 0,
+    impact.co2_saved || 0
+  );
+}
 
-      document.getElementById('savedComparisonText').innerHTML = generateComparisonText(
-        savedImpact.animals,
-        savedImpact.forest,
-        savedImpact.water,
-        savedImpact.co2
-      );
-    }
+// Load from Supabase
+async function loadImpact() {
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError || !user) {
+    console.error("User not logged in:", userError);
+    return;
+  }
 
-    // Initialize display
-    document.addEventListener('DOMContentLoaded', () => {
-      displaySavedImpact();
-    });
-  ;
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("animals_saved, forest_saved, water_saved, co2_saved, donated") // make sure these columns exist
+    .eq("id", user.id)
+    .single();
+
+  if (profileError) {
+    console.error("Error fetching impact data:", profileError);
+    return;
+  }
+
+  displaySavedImpact(profile);
+}
+
+// Init
+document.addEventListener("DOMContentLoaded", () => {
+  loadImpact();
+});

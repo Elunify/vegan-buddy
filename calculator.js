@@ -28,16 +28,16 @@ document.getElementById('backtomainpage').addEventListener('click', () => {
     const totalMonths = years * 12 + months;
 
     // Impact per month constants
-    const animalsSavedPerMonth = 30;
+    const animalsSavedPerMonth = 21;
     const forestSavedPerMonth = 15; // m²
     const waterSavedPerMonth = 2000; // liters
     const co2SavedPerMonth = 120; // kg
 
     // Calculate total impact
-    const animalsSaved = animalsSavedPerMonth * totalMonths;
-    const forestSaved = forestSavedPerMonth * totalMonths;
-    const waterSaved = waterSavedPerMonth * totalMonths;
-    const co2Saved = co2SavedPerMonth * totalMonths;
+    const animalsSaved = Math.round(animalsSavedPerMonth * totalMonths);
+    const forestSaved = Math.round(forestSavedPerMonth * totalMonths);
+    const waterSaved = Math.round(waterSavedPerMonth * totalMonths);
+    const co2Saved = Math.round(co2SavedPerMonth * totalMonths);
 
     // Show results
     document.getElementById('calculatorResults').innerHTML = `

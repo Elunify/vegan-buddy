@@ -178,7 +178,8 @@ async function resetStats(userId) {
     donated: 0,
     total_xp: 10,
     current_level: 1,
-    badge: 0
+    badge: 1,
+    last_checkin_date: "2025-01-02"
   };
 
   const { data, error } = await supabase

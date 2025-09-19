@@ -300,7 +300,17 @@ async function saveProfile() {
     donated: 0,
     total_xp: 10,
     current_level: 1,
-    badge: 1
+    badge: 1,
+
+    // --- Daily check-in tracking ---
+    day_counter: 0,
+    last_checkin_date: "2025-01-01",
+
+    // --- Progress per goal ---
+    goal_progress: answers.goals?.reduce((acc, goal) => {
+        acc[goal] = 0; // start each goal at lesson index 0
+        return acc;
+    }, {})
       })
       .eq('id', user.id)           // ensure only their own row is updated
       .select();                   // return the updated row

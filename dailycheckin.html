@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Daily Check-in</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
   <link rel="stylesheet" href="dailycheckinstyle.css" />
 </head>
 <body>
@@ -20,41 +22,30 @@
   <div class="page">
 
         <div id="quiz" class="box">
-
-          <label class = "bigLabel">What did you learn yesterday?</label>
-
-          <label class="checkbox-label"><input type="radio" name="quiz" value="no"> Eating carrots can make you talk to rabbits. 🥕</label>
-          <label class="checkbox-label"><input type="radio" name="quiz" value="yes"> Plant-based diets reduce the number of animals killed for food. 🐾</label>
-          <label class="checkbox-label"><input type="radio" name="quiz" value="no"> Chickens secretly run a social media network for cows. 🐔</label>
-
+            <!-- JS will insert yesterday's quiz here -->
         </div>
-
 
         <div id="lessonsection" class="box">
           <label class = "bigLabel">Your lesson for today:</label>
-        <div id="dailyLesson" class="lesson-box">
-  <!-- Lesson of the day will appear here -->
-  </div>
+          <div id="dailyLesson" class="lesson-box">
+          <!-- JS will insert today's lesson here -->
+          </div>
         </div>
     
         <div id="mealsection" class="box">
           <label class = "bigLabel">How many plant-based meal did you have yesterday?</label>
         
-          <label class="checkbox-label"><input type="radio" name="meals" value="6"> I didn't have a plant-based meal.</label> 
-          <label class="checkbox-label"><input type="radio" name="meals" value="1"> I had one plant-based meal!</label>  
-          <label class="checkbox-label"><input type="radio" name="meals" value="2"> I didn't have as much plant-based meals as not plant-based. </label> 
-          <label class="checkbox-label"><input type="radio" name="meals" value="3"> My plant-based and meat/dairy meals were balanced.</label> 
-          <label class="checkbox-label"><input type="radio" name="meals" value="4"> I ate a little meat or dairy.</label> 
-          <label class="checkbox-label"><input type="radio" name="meals" value="5"> I had a plant-based day! 🌱</label> 
+          <label class="checkbox-label"><input type="radio" name="meals" value="1">I didn’t manage a plant-based meal today.</label>
+          <label class="checkbox-label"><input type="radio" name="meals" value="2">I had a few plant-based meals! </label>
+          <label class="checkbox-label"><input type="radio" name="meals" value="3">Most of my meals were plant-based!🌱</label>
+          <label class="checkbox-label"><input type="radio" name="meals" value="4">I had a fully plant-based day! 🌿</label>
 
         </div>
-        </div>
+  </div>
 
     <button onclick="handleSubmit()">Submit</button>
 
 </div>
-  <script src="dailycheckinPool.js"></script>
-  <script src="impactxpfunctions.js"></script>
   <script src="dailycheckinscript.js"></script>
 </body>
 </html>

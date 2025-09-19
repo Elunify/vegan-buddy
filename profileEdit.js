@@ -2,285 +2,274 @@ document.getElementById('backBtn').addEventListener('click', () => {
       window.location.href = 'yourprofile.html'; // Or wherever you want the back button to lead
     });
 
-    // Load existing data from localStorage
-const answers = JSON.parse(localStorage.getItem("veganBuddyAnswers")) || {};
-
-// Populate inputs
-document.getElementById("profileNameInput").value = answers.profileName || "";
-document.getElementById("dobDay").value = answers.day || "";
-document.getElementById("dobMonth").value = answers.month || "";
-document.getElementById("dobYear").value = answers.year || "";
-document.getElementById("profilePhotoInput").value = answers.profilePhoto || "";
-document.getElementById("profilePhotoPreview").src = answers.profilePhoto || "blankphoto.jpg";
-
-// Helper function to check checkboxes based on saved answers
-function populateCheckboxes(name, values) {
-  const checkboxes = document.querySelectorAll(`input[name="${name}"]`);
-  checkboxes.forEach(cb => {
-    cb.checked = values && values.includes(cb.value);
-  });
-}
-
-// Populate Q2: Goals
-populateCheckboxes("goal", answers.goals);
-
-// Populate Q2b: Health Issues
-populateCheckboxes("healthIssue", answers.healthIssues);
-
-// Populate Q2c: Digestion Details
-populateCheckboxes("digestion", answers.digestionDetails);
-
-// Populate Q3b: Allergies / Dislikes
-populateCheckboxes("allergy", answers.dislikes);
-
-document.getElementById("petNameInput").value = answers.petName || "";
-document.getElementById("petPhotoInput").value = answers.petPhoto || "";
-document.getElementById("petPhotoPreview").src = answers.petPhoto || "defaultPet.jpg";
-
-// Update preview images on URL input
-document.getElementById("profilePhotoInput").addEventListener("input", e => {
-  const url = e.target.value || "blankphoto.jpg";
-  document.getElementById("profilePhotoPreview").src = url;
-});
-document.getElementById("petPhotoInput").addEventListener("input", e => {
-  const url = e.target.value || "defaultPet.jpg";
-  document.getElementById("petPhotoPreview").src = url;
+// Trigger profile photo file input
+document.getElementById('changeProfilePhotoBtn').addEventListener('click', () => {
+  document.getElementById('profilePhotoUpload').click();
 });
 
-// Save profile
-document.getElementById("saveBtn").addEventListener("click", () => {
-  // Collect goals
-  const goals = Array.from(document.querySelectorAll('input[name="goal"]:checked')).map(cb => cb.value);
-
-  // Collect health issues
-  const healthIssues = Array.from(document.querySelectorAll('input[name="healthIssue"]:checked')).map(cb => cb.value);
-
-  // Collect digestion details
-  const digestionDetails = Array.from(document.querySelectorAll('input[name="digestionDetail"]:checked')).map(cb => cb.value);
-
-  // Collect dislikes / allergies
-  let dislikes = [];
-  const hasAllergy = document.querySelector('input[name="hasAllergy"]:checked')?.value;
-  if (hasAllergy === "yes") {
-    dislikes = Array.from(document.querySelectorAll('input[name="Allergy"]:checked'))
-                    .map(cb => cb.value)
-                    .filter(v => v !== "Other");
-
-    const otherAllergy = document.getElementById("otherAllergy").value.trim();
-    if (otherAllergy) dislikes.push(otherAllergy);
-  }
-
-  const newData = {
-    profileName: document.getElementById("profileNameInput").value.trim(),
-    day: document.getElementById("dobDay").value,
-    month: document.getElementById("dobMonth").value,
-    year: document.getElementById("dobYear").value,
-    // Use the current preview src so uploaded files are saved
-    profilePhoto: document.getElementById("profilePhotoPreview").src || "",
-    goals,
-    healthIssues,
-    digestionDetails,
-    dislikes,
-    petName: document.getElementById("petNameInput").value.trim(),
-    petPhoto: document.getElementById("petPhotoPreview").src || "",
-  };
-
-  localStorage.setItem("veganBuddyAnswers", JSON.stringify(newData));
-  alert("Profile saved!");
-  
-  // Redirect to yourprofile.html
-  window.location.href = 'yourprofile.html';
+// Trigger pet photo file input
+document.getElementById('changePetPhotoBtn').addEventListener('click', () => {
+  document.getElementById('petPhotoUpload').click();
 });
 
-// ===== PROFILE PHOTO =====
-const profilePhotoPreview = document.getElementById('profilePhotoPreview');
-const profilePhotoUpload = document.getElementById('profilePhotoUpload');
-const changeProfilePhotoBtn = document.getElementById('changeProfilePhotoBtn');
-
-// Load previous profile photo if exists
-const savedProfilePhoto = localStorage.getItem('profilePhoto');
-if (savedProfilePhoto) {
-  profilePhotoPreview.src = savedProfilePhoto;
-}
-
-// Open file picker when button is clicked
-changeProfilePhotoBtn.addEventListener('click', () => {
-  profilePhotoUpload.click();
-});
-
-// Save uploaded profile photo to localStorage and preview it
-profilePhotoUpload.addEventListener('change', (event) => {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const photoDataUrl = e.target.result;
-    profilePhotoPreview.src = photoDataUrl;
-    localStorage.setItem('profilePhoto', photoDataUrl); // save to localStorage
-  };
-  reader.readAsDataURL(file);
-});
-
-
-// ===== PET PHOTO =====
-const petPhotoPreview = document.getElementById('petPhotoPreview');
-const petPhotoUpload = document.getElementById('petPhotoUpload');
-const changePetPhotoBtn = document.getElementById('changePetPhotoBtn');
-
-// Load previous pet photo if exists
-const savedPetPhoto = localStorage.getItem('petPhoto');
-if (savedPetPhoto) {
-  petPhotoPreview.src = savedPetPhoto;
-}
-
-// Open file picker when button is clicked
-changePetPhotoBtn.addEventListener('click', () => {
-  petPhotoUpload.click();
-});
-
-// Save uploaded pet photo to localStorage and preview it
-petPhotoUpload.addEventListener('change', (event) => {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const photoDataUrl = e.target.result;
-    petPhotoPreview.src = photoDataUrl;
-    localStorage.setItem('petPhoto', photoDataUrl); // save to localStorage
-  };
-  reader.readAsDataURL(file);
-});
-
-
-// ===== BORN DATE =====
-const dobInputs = document.querySelectorAll('#dobDay, #dobMonth, #dobYear');
-
-dobInputs.forEach(input => {
-  input.addEventListener('input', () => {
-    const maxLength = input.id === 'dobYear' ? 4 : 2;
-    if (input.value.length > maxLength) {
-      input.value = input.value.slice(0, maxLength);
-    }
-  });
-});
-
-
-const dobFields = ['dobDay', 'dobMonth', 'dobYear'];
-
-dobFields.forEach((id, index) => {
-  const input = document.getElementById(id);
-  
-  input.addEventListener('input', () => {
-    // Remove non-digit characters
-    input.value = input.value.replace(/\D/g, '');
     
-    // If the length reaches maxlength, move to next input
-    if (input.value.length >= input.maxLength) {
-      const nextInput = document.getElementById(dobFields[index + 1]);
-      if (nextInput) nextInput.focus();
-    }
+    // --- IMAGE RESIZE FUNCTION ---
+async function resizeImage(file, maxSize = 600, quality = 0.7) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+
+    reader.onload = e => img.src = e.target.result;
+
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let width = img.width;
+      let height = img.height;
+
+      if (width > height) {
+        if (width > maxSize) {
+          height = Math.round(height * maxSize / width);
+          width = maxSize;
+        }
+      } else {
+        if (height > maxSize) {
+          width = Math.round(width * maxSize / height);
+          height = maxSize;
+        }
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+
+      canvas.toBlob(
+        blob => {
+          if (!blob) return reject("Canvas is empty");
+          resolve(new File([blob], file.name, { type: blob.type }));
+        },
+        "image/jpeg",
+        quality
+      );
+    };
+
+    img.onerror = err => reject(err);
+    reader.readAsDataURL(file);
   });
+}
+
+// --- PROFILE PHOTO PREVIEW ---
+const profilePhotoInput = document.getElementById('profilePhotoUpload');
+const profilePhotoPreview = document.getElementById('profilePhotoPreview');
+let newProfilePhotoFile = null;
+
+profilePhotoInput.addEventListener('change', async e => {
+  let file = e.target.files[0];
+  if (!file) return;
+
+  file = await resizeImage(file, 600, 0.7);
+  newProfilePhotoFile = file;
+
+  profilePhotoPreview.src = URL.createObjectURL(file);
 });
 
-const dobDay = document.getElementById('dobDay');
-const dobMonth = document.getElementById('dobMonth');
-const dobYear = document.getElementById('dobYear');
+// --- PET PHOTO PREVIEW ---
+const petPhotoInput = document.getElementById('petPhotoUpload');
+const petPhotoPreview = document.getElementById('petPhotoPreview');
+let newPetPhotoFile = null;
 
-dobDay.addEventListener('input', () => {
-  // Keep only digits
-  dobDay.value = dobDay.value.replace(/\D/g, '');
+petPhotoInput.addEventListener('change', async e => {
+  let file = e.target.files[0];
+  if (!file) return;
 
-  // Restrict range
-  if (dobDay.value !== '') {
-    let val = parseInt(dobDay.value);
-    if (val < 1) val = 1;
-    if (val > 31) val = 31;
-    dobDay.value = val;
-  }
+  file = await resizeImage(file, 300, 0.7);
+  newPetPhotoFile = file;
 
-  // Move to next field if max length reached
-  if (dobDay.value.length >= dobDay.maxLength) {
-    dobMonth.focus();
-  }
+  petPhotoPreview.src = URL.createObjectURL(file);
 });
 
-dobMonth.addEventListener('input', () => {
-  dobMonth.value = dobMonth.value.replace(/\D/g, '');
-  if (dobMonth.value !== '') {
-    let val = parseInt(dobMonth.value);
-    if (val < 1) val = 1;
-    if (val > 12) val = 12;
-    dobMonth.value = val;
+// --- LOAD PROFILE ---
+async function loadProfile() {
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError || !user) return console.error("Not logged in:", userError);
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select(`
+      profile_photo,
+      name,
+      birth_date,
+      goals,
+      health_issues,
+      pet_photo,
+      pet_name
+    `)
+    .eq("id", user.id)
+    .single();
+
+  if (profileError) return console.error("Error fetching profile:", profileError);
+
+  // Fill inputs
+  if (profile.profile_photo) {
+    profilePhotoPreview.src = profile.profile_photo;
+    document.getElementById('profilePhotoInput').value = profile.profile_photo;
   }
-  if (dobMonth.value.length >= dobMonth.maxLength) {
-    dobYear.focus();
+
+  document.getElementById('profileNameInput').value = profile.name || "";
+
+  if (profile.birth_date) {
+    const [year, month, day] = profile.birth_date.split("-");
+    document.getElementById('dobDay').value = day || "";
+    document.getElementById('dobMonth').value = month || "";
+    document.getElementById('dobYear').value = year || "";
   }
-});
 
-dobYear.addEventListener('input', () => {
-  dobYear.value = dobYear.value.replace(/\D/g, '');
-  if (dobYear.value !== '') {
-    let val = parseInt(dobYear.value);
-    if (val < 1925) val = 1925;
-    if (val > 2025) val = 2025;
-    dobYear.value = val;
+  // Goals
+  if (profile.goals) {
+    let goals = Array.isArray(profile.goals) ? profile.goals : Object.values(profile.goals);
+    document.querySelectorAll('input[name="goal"]').forEach(cb => {
+      cb.checked = goals.includes(cb.value);
+    });
   }
-});
+// Make Health Issues section visible if needed
+toggleHealthIssues();
 
-// ===== PERSONALIZE QUESTIONS =====
+  // Health Issues
+  if (profile.health_issues) {
+    let issues = Array.isArray(profile.health_issues) ? profile.health_issues : Object.values(profile.health_issues);
+    document.querySelectorAll('input[name="healthIssue"]').forEach(cb => {
+      cb.checked = issues.includes(cb.value);
+    });
+  }
 
-// Q2: Goals
-const q2Checkboxes = document.querySelectorAll('input[name="goal"]');
-const q2bSection = document.getElementById('q2b'); // Health issues
-const q2cSection = document.getElementById('q2c'); // Digestion details
+  // Pet photo & name
+  if (profile.pet_photo) {
+    petPhotoPreview.src = profile.pet_photo;
+    document.getElementById('petPhotoInput').value = profile.pet_photo;
+  }
+  document.getElementById('petNameInput').value = profile.pet_name || "";
+}
 
-// Q3: Allergies
-const q3Radios = document.querySelectorAll('input[name="hasAllergy"]');
-const q3bSection = document.getElementById('q3b');
 
-// Initially hide conditional sections
-q2bSection.style.display = 'none';
-q2cSection.style.display = 'none';
-q3bSection.style.display = 'none';
 
-// Q2 logic: show Q2b if "Solving health issues" is checked
-q2Checkboxes.forEach(cb => {
-  cb.addEventListener('change', () => {
-    const showQ2b = Array.from(q2Checkboxes).some(c => c.checked && c.value === 'Solving health issues');
-    q2bSection.style.display = showQ2b ? 'block' : 'none';
 
-    if (!showQ2b) {
-      // Hide Q2c and uncheck all Q2b & Q2c checkboxes
-      q2cSection.style.display = 'none';
-      document.querySelectorAll('#q2b input[type="checkbox"], #q2c input[type="checkbox"]').forEach(c => c.checked = false);
+// --- SAVE PROFILE ---
+async function saveProfile() {
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError || !user) return console.error("Not logged in:", userError);
+
+  let updates = {};
+
+  // Name
+  updates.name = document.getElementById('profileNameInput').value || null;
+
+  // Birth date
+  const day = document.getElementById('dobDay').value.padStart(2, "0");
+  const month = document.getElementById('dobMonth').value.padStart(2, "0");
+  const year = document.getElementById('dobYear').value;
+  updates.birth_date = year && month && day ? `${year}-${month}-${day}` : null;
+
+  // Goals
+  const selectedGoals = Array.from(document.querySelectorAll('input[name="goal"]:checked')).map(cb => cb.value);
+  updates.goals = selectedGoals.length ? selectedGoals : null;
+
+  // Health Issues
+const solvingChecked = Array.from(document.querySelectorAll('input[name="goal"]'))
+  .some(cb => cb.checked && cb.value === "Solving health issues");
+
+let selectedHealth = [];
+if (solvingChecked) {
+  selectedHealth = Array.from(document.querySelectorAll('input[name="healthIssue"]:checked')).map(cb => cb.value);
+}
+
+updates.health_issues = selectedHealth.length ? selectedHealth : null;
+
+  // Pet name
+  updates.pet_name = document.getElementById('petNameInput').value || null;
+
+  // --- Handle Profile Photo ---
+  if (newProfilePhotoFile) {
+    const originalName = newProfilePhotoFile.name.replace(/\.[^/.]+$/, ""); // remove extension
+    const fileExt = newProfilePhotoFile.name.split('.').pop(); // "jpg"
+    const timestamp = Date.now();
+    const fileName = `${user.id}/${originalName}-${timestamp}.${fileExt}`; 
+    const bucket = 'profile_photos';
+
+    // Delete old photo if exists
+    const oldUrl = document.getElementById('profilePhotoInput').value;
+    if (oldUrl) {
+      const oldPath = oldUrl.split(`${bucket}/`)[1];
+      if (oldPath) await supabase.storage.from(bucket).remove([oldPath]);
     }
-  });
-});
 
-// Q2b logic: show Q2c if "Digestive issues" is checked
-const q2bCheckboxes = document.querySelectorAll('input[name="healthIssue"]');
-q2bCheckboxes.forEach(cb => {
-  cb.addEventListener('change', () => {
-    const showQ2c = Array.from(q2bCheckboxes).some(c => c.checked && c.value === 'Digestive issues');
-    q2cSection.style.display = showQ2c ? 'block' : 'none';
+    // Upload new photo
+    const { data: uploadData, error: uploadError } = await supabase.storage.from(bucket).upload(fileName, newProfilePhotoFile, { upsert: true });
+    if (uploadError) return console.error("Profile photo upload error:", uploadError);
 
-    if (!showQ2c) {
-      document.querySelectorAll('#q2c input[type="checkbox"]').forEach(c => c.checked = false);
+    updates.profile_photo = supabase.storage.from(bucket).getPublicUrl(fileName).data.publicUrl;
+
+  }
+
+  // --- Handle Pet Photo ---
+  if (newPetPhotoFile) {
+    const originalName = newPetPhotoFile.name.replace(/\.[^/.]+$/, ""); // remove extension
+    const fileExt = newPetPhotoFile.name.split('.').pop();
+    const timestamp = Date.now();
+    const fileName = `${user.id}/${originalName}-${timestamp}.${fileExt}`; // put user ID as folder
+    const bucket = 'pet_photos';
+
+    // Delete old photo if exists
+    const oldUrl = document.getElementById('petPhotoInput').value;
+    if (oldUrl) {
+      const oldPath = oldUrl.split(`${bucket}/`)[1];
+      if (oldPath) await supabase.storage.from(bucket).remove([oldPath]);
     }
-  });
-});
 
-// Q3 logic: show Q3b if "Yes" is selected
-q3Radios.forEach(radio => {
-  radio.addEventListener('change', () => {
-    if (radio.value === 'yes' && radio.checked) {
-      q3bSection.style.display = 'block';
-    } else if (radio.value === 'no' && radio.checked) {
-      q3bSection.style.display = 'none';
-      document.querySelectorAll('#q3b input[type="checkbox"]').forEach(c => c.checked = false);
-      document.getElementById('otherAllergy').value = '';
-    }
-  });
-});
+    // Upload new photo
+    const { data: uploadData, error: uploadError } = await supabase.storage.from(bucket).upload(fileName, newPetPhotoFile, { upsert: true });
+    if (uploadError) return console.error("Pet photo upload error:", uploadError);
+
+    updates.pet_photo = supabase.storage.from(bucket).getPublicUrl(fileName).data.publicUrl;
+  }
+
+  // --- Update profile in Supabase ---
+  const { error: updateError } = await supabase.from('profiles').update(updates).eq('id', user.id);
+  if (updateError) return console.error("Profile update error:", updateError);
+
+  window.location.href = 'yourprofile.html'; // redirect to profile page
+}
+
+// --- Attach save button ---
+document.getElementById('saveBtn').addEventListener('click', saveProfile);
+
+// Run on page load
+loadProfile();
+
+
+// --- Toggle Health Issues Section ---
+const healthIssuesSection = document.getElementById("q2b"); // keep your HTML as is
+const goalsInputs = document.querySelectorAll('input[name="goal"]');
+
+function toggleHealthIssues() {
+  const solvingChecked = Array.from(goalsInputs).some(cb => cb.checked && cb.value === "Solving health issues");
+  healthIssuesSection.style.display = solvingChecked ? "block" : "none";
+
+  // If hidden, uncheck all health issues
+  if (!solvingChecked) {
+    document.querySelectorAll('input[name="healthIssue"]').forEach(cb => cb.checked = false);
+  }
+}
+
+// Listen for changes on goal checkboxes
+goalsInputs.forEach(cb => cb.addEventListener("change", toggleHealthIssues));
+
+
+
+
+
+
+
+
+
+
