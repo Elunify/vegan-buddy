@@ -3,55 +3,6 @@ document.getElementById('backBtn').addEventListener('click', () => {
   window.location.href = 'mainpage.html';
 });
 
-// ======= Pet Section Setup =======
-function setupPetSection() {
-    const answers = JSON.parse(localStorage.getItem("veganBuddyAnswers")) || {};
-    const petAvatarDiv = document.getElementById("petAvatar");
-    const petNameSpan = document.getElementById("petName");
-    const petTip = document.getElementById("petTip");
-    
-    const savedPetPhoto = answers.petPhoto;
-    const savedPetIcon = answers.pet;
-    const savedPetName = answers.petName || "Pet";
-    
-    // Show pet name
-    if (petNameSpan) petNameSpan.textContent = savedPetName + " says:";
-
-    // Show avatar or emoji
-    if (petAvatarDiv) {
-        petAvatarDiv.innerHTML = "";
-        if (savedPetPhoto) {
-            const img = document.createElement("img");
-            img.src = savedPetPhoto;
-            img.alt = savedPetName;
-            img.style.width = "100%";
-            img.style.height = "100%";
-            img.style.borderRadius = "50%";
-            img.style.objectFit = "cover";
-            petAvatarDiv.appendChild(img);
-        } else if (savedPetIcon) {
-            petAvatarDiv.textContent = savedPetIcon;
-        } else {
-            petAvatarDiv.textContent = "🐾";
-        }
-    }
-
-    // Toggle nutrition tip bubble
-    const toggle = document.getElementById("thoughtToggle");
-    if (toggle) {
-      toggle.addEventListener("click", () => {
-        if (petTip.style.display === "block") {
-            petTip.style.display = "none";
-        } else {
-            petTip.style.display = "block";
-        }
-      });
-    }
-
-    // Hide tip by default
-    if (petTip) petTip.style.display = "none";
-}
-
 // ======= Daily Content Pool + Injection =======
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -111,3 +62,53 @@ document.addEventListener("DOMContentLoaded", () => {
     petTip.style.display = "block"; // show by default
   }
 });
+
+// ======= Setup Pet Section =======
+async function setupPetSection() {
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError || !user) {
+    console.error("Not logged in:", userError);
+    return;
+  }
+
+  // Fetch the user's profile record
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("pet_photo, pet_name")
+    .eq("id", user.id)
+    .single();
+
+  if (profileError) {
+    console.error("Error fetching profile:", profileError);
+    return;
+  }
+
+  // DOM elements
+const petAvatarDiv = document.getElementById("petAvatar");
+const petNameSpan = document.getElementById("petName");
+const petTip = document.getElementById("petTip");
+
+// Pet data from Supabase
+const savedPetPhoto = profile.pet_photo;
+const savedPetName = profile.pet_name || "Pet";
+
+// Show pet name
+if (petNameSpan) petNameSpan.textContent = savedPetName + " says:";
+
+// Show avatar or fallback emoji
+if (petAvatarDiv) {
+    petAvatarDiv.innerHTML = "";
+    if (savedPetPhoto) {
+        const img = document.createElement("img");
+        img.src = savedPetPhoto;
+        img.alt = savedPetName;
+        img.style.width = "100%";
+        img.style.height = "100%";
+        img.style.borderRadius = "50%";
+        img.style.objectFit = "cover";
+        petAvatarDiv.appendChild(img);
+    } else {
+        petAvatarDiv.textContent = "🐾";
+    }
+}
+}

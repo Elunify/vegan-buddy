@@ -4,29 +4,117 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Community</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
   <link rel="stylesheet" href="communitystyle.css" />
 </head>
 <body>
 
 
   <div class="top-bar">
-    <div class="top-bar-row">
+  <div class="top-bar-row">
     <div class="backtomainpage" id="backBtn">⬅️</div>
-    <div class="center-counters">
-      <span class="counter">🌍 <span id="indexnumber">0</span></span>
-      <span class="counter">🔥 <span id="streak">0</span></span>
-      </div> 
+
+    <div class="top-icons">
+      <div class="community-icon" id="communityBtn">🏠</div>
+      <div class="friends-icon" id="friendsBtn">👥</div>
+      <div class="messages-icon" id="messagesBtn">💬</div>
+    </div>
+  </div>
 </div>
+
+
 </div> 
 
-  <div class="page">
-    -make or join the local community + forum <br><br>
-    -you can find/add friends to your profile and see other's profile <br><br>
-    -an upgradable vegan map with resaurants and reviews <br><br>
-    -meal art contest (unlock at lvl10, professional/restaurants category separated?)
+<div class="page">
+  
+  <!-- Community Join Prompt Overlay -->
+<div id="communityPrompt" style="
+  position: fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+">
+  <div style="
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 90%;
+    margin: 5%;
+    text-align: center;
+  ">
+    <p>Do you want to join the community and get in touch with others?</p>
+    <button id="communityYesBtn" style="margin-right:1rem;">Yes</button>
+    <button id="communityNoBtn">No</button>
+  </div>
+</div>
+
+  <!-- Community + Meal Art Contest -->
+  <div id="homeSection" class="tab-content">
+    <h2>Community</h2>
+
+    
+
+    <!-- Community Members List -->
+    <ul id="communityList" style="list-style:none; padding:0;">
+      <!-- Populated dynamically via JS -->
+    </ul>
+
+    <h2>Meal Art Contest</h2>
+    <p>Unlock at Level 10! Amateur and professional categories available.</p>
+  </div>
+
+  <!-- Friends Tab -->
+  <div id="friends" class="tab-content" style="display:none;">
+    <h2>Friends</h2>
+    <p>See friends’ profile cards and add new friends.</p>
+  </div>
+
+  <!-- Map / Restaurant Tab -->
+  <div id="map" class="tab-content" style="display:none;">
+    <h2>Restaurant Map</h2>
+    <p>Discover restaurants, leave reviews, and upgrade your map.</p>
+  </div>
+
+  <!-- Messages Tab -->
+  <div id="messages" class="tab-content" style="display:none;">
+    <h2>Messages</h2>
+    <div class="messages-container">
+
+      <!-- Chat list view -->
+      <div id="chatListView">
+        <div class="chat-list-header">
+          <h3>Chats</h3>
+        </div>
+        <ul id="chatListItems"></ul>
+
+        <!-- New Message Floating Button -->
+        <div id="newMessageBtn" class="new-message-btn" title="Start a new chat">＋</div>
+      </div>
+
+      <!-- Single chat view -->
+      <div id="chatView" style="display:none;">
+        <div class="chat-header">
+          <span id="backToList" class="back-arrow">⬅️</span>
+          <span id="chatHeader">Chat</span>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input">
+          <input type="text" id="messageInput" placeholder="Type a message...">
+          <button id="sendMessageBtn">Send</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
 </div>
-  <script src="impactxpfunctions.js"></script>
+
+
+
   <script src="communityscript.js"></script>
 </body>
 </html>

@@ -71,6 +71,9 @@ async function loadProfile() {
       const pay = confirm("You don't have enough badges. Do you want to save your streak for 1€?");
       if (pay) {
         // Integrate payment logic here
+        await supabase.from("profiles").update({
+        last_checkin_date: yesterday
+      }).eq("id", user.id);
         alert("Redirecting to payment...");
         return true;
       } else {
@@ -91,9 +94,9 @@ async function loadProfile() {
     // Missed yesterday
     const streakSaved = await handleStreakSave();
     if (streakSaved) {
-      dailyTab.style.pointerEvents = "none";
-      dailyTab.style.opacity = 0.6;
-      dailyTab.textContent = "✅ Daily Check-in";
+        await supabase.from("profiles").update({
+        last_checkin_date: yesterday
+      }).eq("id", user.id);
     }
   }
 }

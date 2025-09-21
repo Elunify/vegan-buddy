@@ -74,9 +74,163 @@ body {
 .page {
   margin-top: 1%;
   height: auto; /* Let content determine height */
-  padding-top: 5rem; /* height of fixed top-bar (adjust as needed) */
+  padding-top: 3rem; /* height of fixed top-bar (adjust as needed) */
   padding-bottom: 1rem; /* height of fixed bottom bar */
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.top-bar-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-icons {
+  display: flex;
+  gap: 1rem;
+}
+
+.top-icons div {
+  font-size: 1.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tab-content {
+  display: none;
+}
+
+#homeSection {
+  display: block; /* default section shown on load */
+}
+
+
+
+
+
+
+
+
+
+/* General messages area */
+.messages-container {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Chat list */
+#chatListView ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#chatListView li {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+#chatListView li:hover {
+  background: #f5f5f5;
+}
+
+.chat-name {
+  font-weight: bold;
+}
+
+.chat-last {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.unread {
+  font-size: 0.8rem;
+  color: red;
+  margin-left: 5px;
+}
+
+/* Single chat */
+.chat-header {
+  padding: 10px;
+  background: #f9f9f9;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.back-arrow {
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.chat-message {
+  margin-bottom: 8px;
+}
+
+.chat-input {
+  display: flex;
+  border-top: 1px solid #ccc;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 8px;
+  border: none;
+}
+
+.chat-input button {
+  padding: 8px 12px;
+  cursor: pointer;
+  border: none;
+  background: #4caf50;
+  color: white;
+}
+
+.chat-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  background: #f9f9f9;
+}
+
+.new-message-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: #4caf50;
+  color: white;
+  font-size: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  z-index: 1000;
+  transition: background 0.2s;
+}
+
+.new-message-btn:hover {
+  background-color: #45a049;
 }

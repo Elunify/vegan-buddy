@@ -74,9 +74,80 @@ body {
 .page {
   margin-top: 1%;
   height: auto; /* Let content determine height */
-  padding-top: 5rem; /* height of fixed top-bar (adjust as needed) */
+  padding-top: 3rem; /* height of fixed top-bar (adjust as needed) */
   padding-bottom: 1rem; /* height of fixed bottom bar */
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 92%;
+  margin: 4%;
 }
+
+h2 {
+    font-size: 1rem;
+    color: #2e7d32;
+  }
+  h1 {
+    margin-bottom: 0.4rem;
+    font-size: 1.2rem;
+    color: #2e7d32;
+  }
+
+  .section {
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+    border: 2px solid #4caf50;
+    border-radius: 12px;
+    padding: 15px;
+    background-color: #ffffff;
+  }
+
+  .section h2 {
+    margin-top: 0;
+    cursor: pointer;
+  }
+
+  .section-content {
+    display: none;
+    margin-top: 10px;
+  }
+
+  .item {
+    margin-bottom: 10px;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .item:last-child {
+    border-bottom: none;
+  }
+
+  .item a {
+    color: #4caf50;
+    text-decoration: none;
+  }
+
+  .item a:hover {
+    text-decoration: underline;
+  }
+
+  .toggle-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 5px;
+  }
+
+  .toggle-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+  }
+
+  .toggle-btn:active {
+    background-color: #3e8e41;
+    transform: translateY(0);
+  }

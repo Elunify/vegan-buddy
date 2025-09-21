@@ -89,9 +89,91 @@ body {
 .page {
   margin-top: 1%;
   height: auto; /* Let content determine height */
-  padding-top: 5rem; /* height of fixed top-bar (adjust as needed) */
+  padding-top: 3rem; /* height of fixed top-bar (adjust as needed) */
   padding-bottom: 1rem; /* height of fixed bottom bar */
   display: flex;
   flex-direction: column;
+  width: 92%;
+  margin: 4%;
+}
+
+h1 {
+    font-size: 1.7rem;
+    color: #2e7d32;
+    text-align: center;
+  }
+
+  
+  .leaderboard-container {
   width: 100%;
+  max-width: 600px;
+  margin: 1rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.leaderboard {
+  border: 2px solid #4caf50;
+  border-radius: 12px;
+  padding: 0.7rem;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  transition: transform 0.2s;
+}
+
+.leaderboard:hover {
+  transform: translateY(-2px);
+}
+
+.leaderboard h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2e7d32;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.leaderboard h3::after {
+  content: "▼";
+  font-size: 0.8rem;
+  transition: transform 0.3s;
+}
+
+.leaderboard h3.active::after {
+  transform: rotate(-180deg);
+}
+
+.leaderboard ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0.5rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.5s ease;
+  opacity: 0;
+}
+
+.leaderboard ul.visible {
+  max-height: 500px; /* enough for 10 items */
+  opacity: 1;
+}
+
+.leaderboard li {
+  padding: 0.2rem 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
+.leaderboard li:last-child {
+  border-bottom: none;
+}
+
+.impact-item {
+  font-size: 0.85rem;
+  color: #555;
 }

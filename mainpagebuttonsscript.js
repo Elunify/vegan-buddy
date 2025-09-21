@@ -178,7 +178,7 @@ async function resetStats(userId) {
     donated: 0,
     total_xp: 10,
     current_level: 1,
-    badge: 1,
+    badge: 10,
     last_checkin_date: "2025-01-02"
   };
 
