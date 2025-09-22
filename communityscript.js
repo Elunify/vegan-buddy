@@ -1,4 +1,6 @@
 let currentUser;
+let joinedLocationId = null;
+let firstLoad = true;
 
 // ===== Get Current User =====
 async function getCurrentUser() {
@@ -86,37 +88,6 @@ async function loadUserCommunity() {
   }
 }
 
-// put this near the top if not already present
-let firstLoad = true; // tracks first load per opened community
-let joinedLocationId = null;
-
-// ===== Show Community Dashboard =====
-async function showCommunityDashboard(locationId, locationName) {
-  // Save global id
-  joinedLocationId = locationId;
-
-  // Reset firstLoad for this community open so initial view jumps to bottom
-  firstLoad = true;
-
-  // Hide join UI, show dashboard
-  document.getElementById("joinCommunityCard").style.display = "none";
-  document.getElementById("joinedCommunityText").textContent = `You are in the community: ${locationName}`;
-  document.getElementById("communityDashboard").style.display = "block";
-
-  // Ensure the chat & events sections are expanded (so scrollHeight is measurable)
-  const chatContent = document.getElementById("communityChatSection");
-  const eventsContent = document.getElementById("communityEventsSection");
-  if (chatContent) chatContent.style.display = "block";
-  if (eventsContent) eventsContent.style.display = "block";
-
-  // Set title
-  document.getElementById("communityTitle").textContent = `${locationName} Community`;
-
-  // Load content (messages + events)
-  await loadCommunityMessages(locationId);
-  await loadCommunityEvents(locationId);
-}
-
 // ===== Load Community Messages =====
 async function loadCommunityMessages(locationId) {
   if (!locationId) return;
@@ -127,137 +98,43 @@ async function loadCommunityMessages(locationId) {
     .eq("location_id", locationId)
     .order("created_at", { ascending: true });
 
-  if (error) {
-    console.error(error);
-    return;
-  }
+  if (error) return console.error(error);
 
   const container = document.getElementById("communityMessages");
   if (!container) return;
 
-  // check if user was at bottom (only meaningful for subsequent loads)
-  let wasAtBottom = false;
-  if (!firstLoad) {
-    wasAtBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 50;
-  }
+  const wasAtBottom = !firstLoad &&
+    container.scrollHeight - container.scrollTop <= container.clientHeight + 50;
 
-  // clear and append messages in normal order (old -> new)
   container.innerHTML = "";
   data.forEach(msg => {
     const div = document.createElement("div");
     div.classList.add("chat-message");
     div.textContent = `${msg.username}: ${msg.content}`;
-
-    if (msg.user_id === currentUser?.id) {
-      div.classList.add("my-message");
-    } else {
-      div.classList.add("their-message");
-    }
-
+    div.classList.add(msg.user_id === currentUser?.id ? "my-message" : "their-message");
     container.appendChild(div);
   });
 
-  // wait for the browser to render appended nodes
   await new Promise(requestAnimationFrame);
 
-  // scroll behavior:
   const last = container.lastElementChild;
-  if (firstLoad) {
-    // always jump to bottom on first load for this community
+  if (firstLoad || wasAtBottom) {
     if (last) last.scrollIntoView({ block: "end", behavior: "auto" });
     firstLoad = false;
-  } else if (wasAtBottom) {
-    // if the user was at bottom, keep them at bottom on update
-    if (last) last.scrollIntoView({ block: "end", behavior: "auto" });
   }
 }
 
-// ===== Send Community Message (use joinedLocationId) =====
-document.getElementById("sendCommunityMessageBtn").addEventListener("click", async () => {
-  const text = document.getElementById("communityMessageInput").value.trim();
-  if (!text) return;
 
-  if (!joinedLocationId) return alert("You are not in a community.");
+// ===== Send Community Message =====
+async function sendCommunityMessage() {
+  const text = document.getElementById("communityMessageInput").value.trim();
+  if (!text || !joinedLocationId) return alert("You are not in a community.");
 
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("name")
     .eq("id", currentUser.id)
     .maybeSingle();
-
-  if (profileError) {
-    console.error(profileError);
-    return;
-  }
-
-  const username = profile?.name || "Unknown";
-
-  const { error } = await supabase.from("community_messages").insert([{
-    user_id: currentUser.id,
-    username,
-    location_id: joinedLocationId,
-    content: text
-  }]);
-
-  if (error) {
-    console.error(error);
-    return;
-  }
-
-  // Clear input and reload messages (will scroll to bottom because user just sent a message)
-  document.getElementById("communityMessageInput").value = "";
-
-  // Option A: re-fetch messages and force scroll to bottom for the sender
-  await loadCommunityMessages(joinedLocationId);
-
-  // Option B: if you prefer to append locally instead of reloading, you can create DOM node and scroll:
-  // const container = document.getElementById("communityMessages");
-  // const div = document.createElement("div"); div.classList.add('chat-message','my-message'); div.textContent = `${username}: ${text}`; container.appendChild(div);
-  // div.scrollIntoView({ block: 'end' });
-});
-
-function scrollToBottomSmart(container) {
-  const isAtBottom =
-    container.scrollHeight - container.scrollTop <= container.clientHeight + 50; 
-    // +50px tolerance
-
-  if (isAtBottom) {
-    container.scrollTop = container.scrollHeight;
-  }
-}
-
-// ===== When current user sends a message =====
-async function sendMessage(content, username, locationId) {
-  if (!content.trim()) return;
-
-  const { error } = await supabase.from("community_messages").insert([{
-    content,
-    username,
-    location_id: locationId
-  }]);
-
-  if (error) return console.error(error);
-
-  // After sending → scroll to bottom
-  const container = document.getElementById("communityMessages");
-  setTimeout(() => {
-    container.scrollTop = container.scrollHeight;
-  }, 50);
-}
-
-// ===== Send Community Message =====
-document.getElementById("sendCommunityMessageBtn").addEventListener("click", async () => {
-  const text = document.getElementById("communityMessageInput").value.trim();
-  if (!text) return;
-
-  // Use joinedLocationId instead of citySelect.value
-  if (!joinedLocationId) return alert("You are not in a community.");
-
-  const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("name")
-    .eq("id", currentUser.id)
-    .single();
 
   if (profileError) return console.error(profileError);
 
@@ -272,76 +149,40 @@ document.getElementById("sendCommunityMessageBtn").addEventListener("click", asy
 
   document.getElementById("communityMessageInput").value = "";
   await loadCommunityMessages(joinedLocationId);
-});
-
-async function deleteOldMessages() {
-  // calculate 30 days ago
-  const thirtyDaysAgo = new Date();
-  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
-  const { error } = await supabase
-    .from('community_messages')
-    .delete()
-    .lt('created_at', thirtyDaysAgo.toISOString()); // delete messages older than 30 days
-
-  if (error) {
-    console.error('Failed to delete old messages:', error);
-  } else {
-    console.log('Old messages deleted successfully.');
-  }
 }
 
-// run it periodically (optional)
-deleteOldMessages();
+document.getElementById("sendCommunityMessageBtn").addEventListener("click", sendCommunityMessage);
 
-// ===== Load Community Events =====
-async function loadCommunityEvents(locationId) {
-  const { data, error } = await supabase
-    .from("community_events")
-    .select("id, place, description, event_date, user_id, username")
-    .eq("location_id", locationId)
-    .order("event_date", { ascending: true });
+// ===== Realtime Messages =====
+function setupRealtimeMessages(locationId) {
+  supabase
+    .channel('community_messages')
+    .on(
+      'postgres_changes',
+      { event: 'INSERT', schema: 'public', table: 'community_messages', filter: `location_id=eq.${locationId}` },
+      () => loadCommunityMessages(locationId)
+    )
+    .subscribe();
+}
 
-  if (error) return console.error(error);
+// ===== Show Community Dashboard =====
+async function showCommunityDashboard(locationId, locationName) {
+  joinedLocationId = locationId;
+  firstLoad = true;
 
-  const ul = document.getElementById("communityEventsList");
-  ul.innerHTML = "";
-  
-  const now = new Date();
+  document.getElementById("joinCommunityCard").style.display = "none";
+  document.getElementById("joinedCommunityText").textContent = `You are in the community: ${locationName}`;
+  document.getElementById("communityDashboard").style.display = "block";
+  document.getElementById("communityTitle").textContent = `${locationName} Community`;
 
-  for (const event of data) {
-    const eventDate = new Date(event.event_date);
+  // Start chat & events hidden
+  document.getElementById("communityChatSection").style.display = "none";
+  document.getElementById("communityEventsSection").style.display = "none";
 
-    // Automatically delete past events
-    if (eventDate < now) {
-      await supabase
-        .from("community_events")
-        .delete()
-        .eq("id", event.id);
-      continue; // skip displaying
-    }
+  await loadCommunityMessages(locationId);
+  await loadCommunityEvents(locationId);
 
-    // Display event
-    const li = document.createElement("li");
-    li.textContent = `${eventDate.toLocaleString()} — ${event.place} — ${event.description} (by ${event.username})`;
-
-    // Optionally add delete button for creator
-    if (event.user_id === currentUser.id) {
-      const delBtn = document.createElement("button");
-      delBtn.textContent = "Delete";
-      delBtn.style.marginLeft = "1rem";
-      delBtn.onclick = async () => {
-        await supabase
-          .from("community_events")
-          .delete()
-          .eq("id", event.id);
-        await loadCommunityEvents(locationId); // refresh
-      };
-      li.appendChild(delBtn);
-    }
-
-    ul.appendChild(li);
-  }
+  setupRealtimeMessages(locationId);
 }
 
 // ===== Join Community =====
@@ -378,30 +219,82 @@ document.getElementById("leaveCommunityDashboardBtn").addEventListener("click", 
   document.getElementById("joinCommunityBtn").style.display = "inline-block";
 });
 
-// ===== Toggle sections =====
+function scrollCommunityChatToBottom() {
+  const container = document.getElementById("communityMessages");
+  if (container && container.children.length > 0) {
+    container.lastElementChild.scrollIntoView({ block: "end", behavior: "auto" });
+  }
+}
+
+// Toggle sections with scroll fix
 document.querySelectorAll('.community-section-header').forEach(header => {
   header.addEventListener('click', () => {
     const content = header.nextElementSibling;
-    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    if (content.style.display === 'block') {
+      content.style.display = 'none';
+    } else {
+      content.style.display = 'block';
+      // scroll only when chat becomes visible
+      if (content.id === 'communityChatSection') scrollCommunityChatToBottom();
+    }
   });
 });
 
+// ===== Load Community Events =====
+async function loadCommunityEvents(locationId) {
+  const { data, error } = await supabase
+    .from("community_events")
+    .select("id, place, description, event_date, user_id, username")
+    .eq("location_id", locationId)
+    .order("event_date", { ascending: true });
+
+  if (error) return console.error(error);
+
+  const ul = document.getElementById("communityEventsList");
+  ul.innerHTML = "";
+
+  const now = new Date();
+
+  for (const event of data) {
+    const eventDate = new Date(event.event_date);
+
+    // Automatically delete past events
+    if (eventDate < now) {
+      await supabase.from("community_events").delete().eq("id", event.id);
+      continue;
+    }
+
+    const li = document.createElement("li");
+    li.textContent = `${eventDate.toLocaleString()} — ${event.place} — ${event.description} (by ${event.username})`;
+
+    if (event.user_id === currentUser.id) {
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "Delete";
+      delBtn.style.marginLeft = "1rem";
+      delBtn.onclick = async () => {
+        await supabase.from("community_events").delete().eq("id", event.id);
+        await loadCommunityEvents(locationId);
+      };
+      li.appendChild(delBtn);
+    }
+
+    ul.appendChild(li);
+  }
+}
+
 // ===== Create Event =====
 const createEventBtn = document.getElementById("createEventBtn");
-const submitEventBtn = document.getElementById("submitEventBtn"); // new submit button
-const createEventInputs = document.getElementById("createEventInputs"); // the div wrapping inputs
+const submitEventBtn = document.getElementById("submitEventBtn");
+const createEventInputs = document.getElementById("createEventInputs");
 const eventPlaceInput = document.getElementById("eventPlaceInput");
 const eventTimeInput = document.getElementById("eventTimeInput");
-const descriptionInput = document.getElementById("eventDescriptionInput"); // description input
-const communityEventsList = document.getElementById("communityEventsList");
+const descriptionInput = document.getElementById("eventDescriptionInput");
 
-// ===== Toggle input section =====
 createEventBtn.addEventListener("click", () => {
   createEventInputs.style.display = createEventInputs.style.display === "none" ? "flex" : "none";
   createEventInputs.style.flexDirection = "column";
 });
 
-// ===== Submit event =====
 submitEventBtn.addEventListener("click", async () => {
   const place = eventPlaceInput.value.trim();
   const description = descriptionInput.value.trim();
@@ -412,34 +305,29 @@ submitEventBtn.addEventListener("click", async () => {
   }
 
   const { data: profile } = await supabase
-  .from("profiles")
-  .select("name")
-  .eq("id", currentUser.id)
-  .maybeSingle();
+    .from("profiles")
+    .select("name")
+    .eq("id", currentUser.id)
+    .maybeSingle();
 
   const { error } = await supabase.from("community_events").insert([{
     location_id: joinedLocationId,
     place: place,
     description: description,
     event_date: eventDate,
-    user_id: currentUser.id, // <--- save creator
+    user_id: currentUser.id,
     username: profile.name
   }]);
 
   if (error) return console.error(error);
 
-  // Clear inputs
   eventPlaceInput.value = "";
   descriptionInput.value = "";
   eventTimeInput.value = "";
-
-  // Optionally hide inputs after submission
   createEventInputs.style.display = "none";
 
-  // Reload events list
   await loadCommunityEvents(joinedLocationId);
 });
-
 
 // ===== DOMContentLoaded =====
 document.addEventListener("DOMContentLoaded", async () => {
