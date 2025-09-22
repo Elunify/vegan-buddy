@@ -22,7 +22,12 @@
 </div>
 
 <div class="page">
-
+  
+  <!-- Community -->
+   <!-- Community -->
+    <!-- Community -->
+     <!-- Community -->
+      <!-- Community -->
   <!-- Home / Community Tab -->
   <div id="homeSection" class="tab-content">
     <div id="communityCardWrapper">
@@ -78,21 +83,91 @@
 </div>
   </div>
 
-  <!-- Map / Restaurant Tab -->
+
+
+
+  <!-- Meal Art Contest -->
+   <!-- Meal Art Contest -->
+    <!-- Meal Art Contest -->
+     <!-- Meal Art Contest -->
+      <!-- Meal Art Contest -->
   <div id="mealArtContest" class="tab-content" style="display:none;">
-    <!-- Meal Art Contest Card --> <a href="mealartcontest.html" class="meal-art-block"> 
-      <img src="meals/mealcontestenter.jpg" alt="Meal Art Contest" class="meal-art-image"> 
-      <h2 class="h2">Meal Art Contest</h2> </a>
+  <!-- Header / Intro -->
+  <div class="meal-art-header">
+    <h2>Meal Art Contest</h2>
+    <p>Upload your meal art from Tuesday to Sunday. Voting is on Monday.</p>
+
+    <!-- Buttons -->
+  <div class="header-buttons">
+    <button id="uploadBtn" style="display:none;">Upload My Meal</button>
+    <button id="voteBtn" style="display:none;">It's a vote day! Pick your favorite!</button>
+  </div>
   </div>
 
-  <!-- Friends Tab -->
+  <!-- Main Tabs: Current Participants / Past Winners -->
+  <div class="meal-art-main-tabs">
+    <button class="main-tab active" data-tab="participants">Current Participants</button>
+    <button class="main-tab" data-tab="past-winners">Past Winners</button>
+  </div>
+
+  <!-- Participants Gallery -->
+<div class="main-tab-content" id="participants" style="display:none;">
+<div class="participants-gallery">
+  <div class="category-column" id="home-chef-column">
+    <h4>Home Chef</h4>
+    <div class="current-week-gallery" id="home-chef-gallery">
+      <!-- Example participant image -->
+      <img src="meals/homeparticipant1.jpg" alt="Home Chef Participant 1">
+    </div>
+  </div>
+  <div class="category-column" id="pro-kitchen-column">
+    <h4>Pro Kitchen</h4>
+    <div class="current-week-gallery" id="pro-kitchen-gallery">
+      <!-- Example participant image -->
+      <img src="meals/proparticipant1.jpg" alt="Pro Kitchen Participant 1">
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- Past Winners Tab -->
+<div class="main-tab-content" id="past-winners" style="display:none;">
+  <div class="past-winners-columns">
+    <div class="category-column" id="home-chef-past">
+      <h4>Home Chef</h4>
+      <div class="winner-list" id="home-chef-winners">
+        <!-- Example past winner image -->
+        <img src="meals/homewinner1.jpg" alt="Home Chef Winner 1">
+      </div>
+    </div>
+    <div class="category-column" id="pro-kitchen-past">
+      <h4>Pro Kitchen</h4>
+      <div class="winner-list" id="pro-kitchen-winners">
+        <!-- Example past winner image -->
+        <img src="meals/prowinner1.jpg" alt="Pro Kitchen Winner 1">
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+  <!-- Friends -->
+   <!-- Friends -->
+    <!-- Friends -->
+     <!-- Friends -->
+      <!-- Friends -->
   <div id="friends" class="tab-content" style="display:none;">
     <h2>Friends</h2>
     <p>See friends’ profile cards and add new friends.</p>
   </div>
 
 
-  <!-- Messages Tab -->
+  <!-- Messages -->
+   <!-- Messages -->
+    <!-- Messages -->
+     <!-- Messages -->
+      <!-- Messages -->
   <div id="messages" class="tab-content" style="display:none;">
     <h2>Messages</h2>
     <div class="messages-container">
@@ -115,18 +190,12 @@
     </div>
   </div>
 
-  <!-- Meal Art Contest Tab -->
-  <div id="mealArtContest" class="tab-content" style="display:none;">
-    <h2 class="h2">Meal Art Contest</h2>
-    <p>Unlock at Level 10! Amateur and professional categories available.</p>
-    <!-- optional: add a small image or icon inside the tab if you want -->
-  </div>
-
 </div>
 
 
 
 
   <script src="communityscript.js"></script>
+  <script src="mealartscript.js"></script>
 </body>
 </html>

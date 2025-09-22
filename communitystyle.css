@@ -419,3 +419,209 @@ body {
   border-radius: 0 0 16px 16px;
   text-align: center;
 }
+
+/* Community END -->
+   // Community END -->
+    // Community END -->
+     // Community END -->
+      // Community END -->
+
+// Meal Art Contest -->
+// Meal Art Contest -->
+// Meal Art Contest -->
+// Meal Art Contest -->
+// Meal Art Contest --> */
+
+/* General container */
+#mealArtContest {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Header / Intro */
+.meal-art-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.meal-art-header h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.meal-art-header p {
+  font-size: 0.7rem;
+  margin-bottom: 10px;
+}
+
+/* Main Tabs */
+.meal-art-main-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.main-tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: #eee;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.main-tab.active {
+  background-color: #6ab04c;
+  color: white;
+}
+
+/* Tab Content */
+.main-tab-content {
+  display: none; /* JS will toggle */
+}
+
+/* Upload Section */
+.upload-section {
+  margin-bottom: 20px;
+  border-top: 1px solid #ccc;
+  padding-top: 15px;
+}
+
+.upload-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.upload-section button {
+  padding: 8px 15px;
+  background-color: #6ab04c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Participants / Past Winners container */
+.participants-gallery,
+.past-winners-columns {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: nowrap; /* Keep columns side by side */
+}
+
+/* Simple vertical divider between the two columns */
+.category-column:nth-child(2) {
+  position: relative;
+  padding-left: 20px; /* space for the line */
+}
+
+.category-column:nth-child(2)::before {
+  content: "";
+  position: absolute;
+  left: 0;  /* position at the start of the column */
+  top: 0;
+  bottom: 0;
+  width: 2px; /* thickness of the line */
+  background-color: #ccc; /* simple grey color */
+}
+
+/* Each category column */
+.category-column {
+  flex: 1; /* Equal width for both columns */
+  min-width: 40%; /* Optional: ensures columns don't get too small */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Column heading */
+.category-column h4 {
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Gallery / winner list images */
+.current-week-gallery,
+.winner-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.current-week-gallery img,
+.winner-list img {
+  width: 100%; /* adjust size */
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Responsive: stack columns on small screens */
+@media (max-width: 90%) {
+  .participants-gallery,
+  .past-winners-columns {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .category-column {
+    width: 100%;
+  }
+}
+
+/* Header Buttons Container */
+.header-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+/* Common Button Styles */
+.header-buttons button {
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Upload Button Style */
+#uploadBtn {
+  background-color: #6ab04c; /* bright green */
+}
+
+#uploadBtn:hover {
+  background-color: #5aa33f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+}
+
+/* Vote Button Style */
+#voteBtn {
+  background-color: #f39c12; /* warm orange */
+}
+
+#voteBtn:hover {
+  background-color: #d88b0c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+}
+
+/* Responsive: smaller on mobile */
+@media (max-width: 500px) {
+  .header-buttons button {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+}

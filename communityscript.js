@@ -15,6 +15,12 @@ function openTab(tabId) {
   document.getElementById(tabId).style.display = "block";
 }
 
+// Community -->
+   // Community -->
+    // Community -->
+     // Community -->
+      // Community -->
+
 // ===== Load countries and cities =====
 async function loadLocations() {
   const { data, error } = await supabase
@@ -363,3 +369,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   openTab("homeSection"); // default tab
 });
+
+// Community END -->
+   // Community END -->
+    // Community END -->
+     // Community END -->
+      // Community END -->
+
+// Meal Art Contest -->
+// Meal Art Contest -->
+// Meal Art Contest -->
+// Meal Art Contest -->
+// Meal Art Contest -->
+

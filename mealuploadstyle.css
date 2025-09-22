@@ -1,0 +1,175 @@
+/* Basics */
+
+html, body {
+  margin: 0;
+  overflow: auto; /* allow scrolling */
+  font-size: clamp(1rem, 2vw + 1rem, 2rem);
+  position: relative; /* establish root stacking context */
+  z-index: auto;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 0;
+  min-height: 100vh; /* ensure full viewport height */
+  background-color: #cceff0;
+  justify-content: space-between;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+
+/* Top */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 0.5rem;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Layout Row ===== */
+.top-bar-row::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: env(safe-area-inset-top);
+  background-color: rgba(0,0,0,0.3); /* translucent overlay */
+}
+
+.top-bar-row {
+  width: 90%;
+  margin-left: 5%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: env(safe-area-inset-top);
+  margin-top: -1%;
+}
+
+/* TOP BAR END */
+/* TOP BAR END */
+/* TOP BAR END */
+/* TOP BAR END */
+/* TOP BAR END */
+/* TOP BAR END */
+
+/* Main container: */
+.page {
+  margin-top: 1%;
+  height: auto; /* Let content determine height */
+  padding-top: 3rem; /* height of fixed top-bar (adjust as needed) */
+  padding-bottom: 1rem; /* height of fixed bottom bar */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.top-bar-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-icons {
+  display: flex;
+  gap: 1rem;
+}
+
+.top-icons div {
+  font-size: 1.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tab-content {
+  display: none;
+}
+
+h2 {
+      font-size: 1.2rem;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form {
+      max-width: 90%;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    label {
+      font-size: 1rem;
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      font-size: 1rem;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    input[type="file"] {
+      padding: 6px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .optional-label {
+      font-weight: normal;
+      color: #777;
+      font-size: 13px;
+    }
+
+    .preview img {
+      max-width: 50%;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      background: #28a745;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+    }
+
+    button:hover {
+      background: #218838;
+    }
