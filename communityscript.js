@@ -131,8 +131,8 @@ document.getElementById("sendCommunityMessageBtn").addEventListener("click", asy
   const text = document.getElementById("communityMessageInput").value.trim();
   if (!text) return;
 
-  const locationId = document.getElementById("citySelect").value;
-  if (!locationId) return;
+  // Use joinedLocationId instead of citySelect.value
+  if (!joinedLocationId) return alert("You are not in a community.");
 
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
@@ -145,14 +145,14 @@ document.getElementById("sendCommunityMessageBtn").addEventListener("click", asy
   const { error } = await supabase.from("community_messages").insert([{
     user_id: currentUser.id,
     username: profile?.name || "Unknown",
-    location_id: locationId,
+    location_id: joinedLocationId,
     content: text
   }]);
 
   if (error) return console.error(error);
 
   document.getElementById("communityMessageInput").value = "";
-  await loadCommunityMessages(locationId);
+  await loadCommunityMessages(joinedLocationId);
 });
 
 // ===== Load Community Events =====
