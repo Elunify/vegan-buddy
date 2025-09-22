@@ -12,57 +12,77 @@
 
 
   <div class="top-bar">
-  <div class="top-bar-row">
-    <div class="backtomainpage" id="backBtn">⬅️</div>
-
     <div class="top-icons">
-      <div class="community-icon" id="communityBtn">🏠</div>
+    <div class="backtomainpage" id="backBtn">⬅️</div>
+      <div class="community-icon" id="communityBtn">🌐</div>
+      <div class="mealart-icon" id="mealArtBtn">🍽️</div>
       <div class="friends-icon" id="friendsBtn">👥</div>
       <div class="messages-icon" id="messagesBtn">💬</div>
     </div>
-  </div>
 </div>
-
-
-</div> 
 
 <div class="page">
-  
-  <!-- Community Join Prompt Overlay -->
-<div id="communityPrompt" style="
-  position: fixed;
-  top:0; left:0; right:0; bottom:0;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-">
-  <div style="
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    max-width: 90%;
-    margin: 5%;
-    text-align: center;
-  ">
-    <p>Do you want to join the community and get in touch with others?</p>
-    <button id="communityYesBtn" style="margin-right:1rem;">Yes</button>
-    <button id="communityNoBtn">No</button>
-  </div>
-</div>
 
-  <!-- Community + Meal Art Contest -->
+  <!-- Home / Community Tab -->
   <div id="homeSection" class="tab-content">
-    <h2>Community</h2>
+    <div id="communityCardWrapper">
+  <div class="community-card" id="joinCommunityCard">
+    <h2 class="h2">Find your local community</h2>
+    <select id="countrySelect">
+      <option value="">Select country</option>
+    </select>
+    <select id="citySelect" disabled>
+      <option value="">Select city</option>
+    </select>
+    <button id="joinCommunityBtn" disabled>Join Community</button>
+    <button id="leaveCommunityBtn" style="display:none;">Leave Community</button>
+    <p id="joinedCommunityText" style="margin-top:1rem;"></p>
+  </div>
 
-    <!-- Community Members List -->
-    <ul id="communityList" style="list-style:none; padding:0;">
-      <!-- Populated dynamically via JS -->
+  <!-- Community Dashboard (hidden by default) -->
+  <div class="community-dashboard" id="communityDashboard" style="display:none;">
+  <div class="community-section">
+    <h3 id="communityTitle"></h3> <!-- Title will be inserted here -->
+    <div class="community-section-header">Community Chat ▼</div>
+    <div class="community-section-content" id="communityChatSection">
+      <div id="communityMessages" class="chat-box"></div>
+      <input type="text" id="communityMessageInput" placeholder="Type a message...">
+      <button id="sendCommunityMessageBtn">Send</button>
+    </div>
+  </div>
+
+  <div class="community-section">
+    <div class="community-section-header">Upcoming Events ▼</div>
+    <div class="community-section-content" id="communityEventsSection">
+    
+    <!-- Create Event Form -->
+    <div id="createEventForm">
+      <button id="createEventBtn">Create Event</button>
+      
+      <div id="createEventInputs" style="display:none; margin-top:0.5rem;">
+        <input type="text" id="eventPlaceInput" placeholder="Event place" />
+        <input type="text" id="eventDescriptionInput" placeholder="Description" />
+        <input type="datetime-local" id="eventTimeInput" />
+    <button id="submitEventBtn">Submit Event</button>
+      </div>
+    </div>
+
+    <ul id="communityEventsList">
+      <!-- Events populated dynamically -->
     </ul>
+  </div>
+  </div>
 
-    <h2>Meal Art Contest</h2>
-    <p>Unlock at Level 10! Amateur and professional categories available.</p>
+  <button id="leaveCommunityDashboardBtn">Leave Community</button>
+</div>
+</div>
+  </div>
+
+  <!-- Map / Restaurant Tab -->
+  <div id="mealArtContest" class="tab-content" style="display:none;">
+    <!-- Meal Art Contest Card --> <a href="mealartcontest.html" class="meal-art-block"> 
+      <img src="meals/mealcontestenter.jpg" alt="Meal Art Contest" class="meal-art-image"> 
+      <h2 class="h2">Meal Art Contest</h2> </a>
   </div>
 
   <!-- Friends Tab -->
@@ -71,29 +91,16 @@
     <p>See friends’ profile cards and add new friends.</p>
   </div>
 
-  <!-- Map / Restaurant Tab -->
-  <div id="map" class="tab-content" style="display:none;">
-    <h2>Restaurant Map</h2>
-    <p>Discover restaurants, leave reviews, and upgrade your map.</p>
-  </div>
 
   <!-- Messages Tab -->
   <div id="messages" class="tab-content" style="display:none;">
     <h2>Messages</h2>
     <div class="messages-container">
-
-      <!-- Chat list view -->
       <div id="chatListView">
-        <div class="chat-list-header">
-          <h3>Chats</h3>
-        </div>
+        <div class="chat-list-header"><h3>Chats</h3></div>
         <ul id="chatListItems"></ul>
-
-        <!-- New Message Floating Button -->
         <div id="newMessageBtn" class="new-message-btn" title="Start a new chat">＋</div>
       </div>
-
-      <!-- Single chat view -->
       <div id="chatView" style="display:none;">
         <div class="chat-header">
           <span id="backToList" class="back-arrow">⬅️</span>
@@ -105,11 +112,18 @@
           <button id="sendMessageBtn">Send</button>
         </div>
       </div>
-
     </div>
   </div>
 
+  <!-- Meal Art Contest Tab -->
+  <div id="mealArtContest" class="tab-content" style="display:none;">
+    <h2 class="h2">Meal Art Contest</h2>
+    <p>Unlock at Level 10! Amateur and professional categories available.</p>
+    <!-- optional: add a small image or icon inside the tab if you want -->
+  </div>
+
 </div>
+
 
 
 

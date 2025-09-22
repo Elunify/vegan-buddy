@@ -1,6 +1,4 @@
 let currentUser;
-let activeChatId = null;
-let subscription = null;
 
 // ===== Get Current User =====
 async function getCurrentUser() {
@@ -9,266 +7,278 @@ async function getCurrentUser() {
   currentUser = user;
 }
 
-// ===== DOMContentLoaded =====
-document.addEventListener("DOMContentLoaded", async () => {
-  await getCurrentUser();
-
-  // ===== Top bar back button =====
-  document.getElementById('backBtn').addEventListener('click', () => {
-    window.location.href = 'mainpage.html';
-  });
-
-  // ===== Tabs =====
-  function openTab(tabId) {
-    document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = "none");
-    document.getElementById(tabId).style.display = "block";
-  }
-
-  document.getElementById("communityBtn").onclick = () => openTab("homeSection");
-  document.getElementById("friendsBtn").onclick = () => openTab("friends");
-  document.getElementById("messagesBtn").onclick = showMessagesTab;
-
-  // ===== Community =====
-  const promptDiv = document.getElementById("communityPrompt");
-  const yesBtn = document.getElementById("communityYesBtn");
-  const noBtn = document.getElementById("communityNoBtn");
-  const communityList = document.getElementById("communityList");
-
-  // Check if user already joined
-  async function hasJoinedCommunity() {
-    const { data, error } = await supabase
-      .from("community_participants")
-      .select("id")
-      .eq("user_id", currentUser.id)
-      .maybeSingle();
-
-    if (error) {
-      console.error(error);
-      return false;
-    }
-    return !!data;
-  }
-
-  async function joinCommunity() {
-    // Prevent duplicates
-    const alreadyJoined = await hasJoinedCommunity();
-    if (alreadyJoined) return;
-
-    // Get user profile
-    const { data: profile, error: profileError } = await supabase
-      .from("profiles")
-      .select("name")
-      .eq("id", currentUser.id)
-      .single();
-
-    if (profileError) {
-      console.error(profileError);
-      return;
-    }
-
-    let username = profile.name;
-
-    // Check for username conflicts
-    let exists = true;
-    while (exists) {
-      const { data: existing, error: existError } = await supabase
-        .from("community_participants")
-        .select("username")
-        .eq("username", username)
-        .maybeSingle();
-
-      if (existError) {
-        console.error(existError);
-        return;
-      }
-
-      if (existing) {
-        username = prompt(`The name "${username}" is taken. Choose another:`, username);
-        if (!username) return; // user canceled
-      } else {
-        exists = false;
-      }
-    }
-
-    // Insert new row
-    const { error } = await supabase.from("community_participants").insert([{
-      user_id: currentUser.id,
-      username
-    }]);
-
-    if (error) {
-      console.error(error);
-      return;
-    }
-
-    await renderCommunityMembers();
-  }
-
-  async function renderCommunityMembers() {
-    const { data, error } = await supabase
-      .from("community_participants")
-      .select("*")
-      .order("joined_at", { ascending: true });
-
-    if (error) return console.error(error);
-
-    communityList.innerHTML = "";
-    data.forEach(member => {
-      const li = document.createElement("li");
-      li.innerHTML = `<span>${member.username || "Anonymous"}</span>`;
-      li.onclick = () => startChatWith(member.user_id, member.username);
-      communityList.appendChild(li);
-    });
-  }
-
-  // Show the join prompt only if the user hasn't joined
-  async function initCommunity() {
-    const joined = await hasJoinedCommunity();
-
-    if (!joined) {
-      promptDiv.style.display = "flex";
-
-      yesBtn.onclick = async () => {
-        promptDiv.style.display = "none";
-        await joinCommunity();
-      };
-
-      noBtn.onclick = () => {
-        window.location.href = "mainpage.html";
-      };
-    } else {
-      promptDiv.style.display = "none";
-      await renderCommunityMembers();
-    }
-  }
-
-  async function showMessagesTab() {
-    chatListView.style.display = "block";
-    chatView.style.display = "none";
-    await renderChatList();
-    openTab("messages");
-  }
-
-  // Initialize the community tab on load
-  await initCommunity();
-
-  // Default view
-  openTab("homeSection");
-});
-
-let activeChatUserId = null; // who you're chatting with
-
-// DOM elements
-const chatListView = document.getElementById("chatListView");
-const chatView = document.getElementById("chatView");
-const chatMessages = document.getElementById("chatMessages");
-const messageInput = document.getElementById("messageInput");
-const sendMessageBtn = document.getElementById("sendMessageBtn");
-const backToList = document.getElementById("backToList");
-
-// ===== Start a private chat =====
-async function startChatWith(userId, username) {
-  activeChatUserId = userId;
-  document.getElementById("chatHeader").textContent = username;
-  chatListView.style.display = "none";
-  chatView.style.display = "block";
-  await renderMessages();
+// ===== Tabs =====
+function openTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = "none");
+  document.getElementById(tabId).style.display = "block";
 }
 
-// ===== Render messages between current user and active chat =====
-async function renderMessages() {
-  if (!activeChatUserId) return;
-
+// ===== Load countries and cities =====
+async function loadLocations() {
   const { data, error } = await supabase
-    .from("private_messages")
+    .from("locations")
     .select("*")
-    .or(`and(sender_id.eq.${currentUser.id},receiver_id.eq.${activeChatUserId}),
-         and(sender_id.eq.${activeChatUserId},receiver_id.eq.${currentUser.id})`)
+    .order("country");
+
+  if (error) return console.error(error);
+
+  const countries = [...new Set(data.map(l => l.country))];
+  const countrySelect = document.getElementById("countrySelect");
+  const citySelect = document.getElementById("citySelect");
+
+  countries.forEach(c => {
+    const option = document.createElement("option");
+    option.value = c;
+    option.textContent = c;
+    countrySelect.appendChild(option);
+  });
+
+  countrySelect.addEventListener("change", () => {
+    const selectedCountry = countrySelect.value;
+    citySelect.innerHTML = '<option value="">Select city</option>';
+    citySelect.disabled = !selectedCountry;
+    data.filter(l => l.country === selectedCountry).forEach(l => {
+      const option = document.createElement("option");
+      option.value = l.id;
+      option.textContent = l.city;
+      citySelect.appendChild(option);
+    });
+    document.getElementById("joinCommunityBtn").disabled = true;
+  });
+
+  citySelect.addEventListener("change", (e) => {
+    document.getElementById("joinCommunityBtn").disabled = !e.target.value;
+  });
+}
+
+// ===== Load user community if exists =====
+async function loadUserCommunity() {
+  const { data: participant, error: participantError } = await supabase
+    .from("community_participants")
+    .select("id, location_id")
+    .eq("user_id", currentUser.id)
+    .single();
+
+  if (participantError) {
+    console.error(participantError);
+    return;
+  }
+
+  if (participant) {
+    const { data: location, error: locationError } = await supabase
+      .from("locations")
+      .select("country, city")
+      .eq("id", participant.location_id)
+      .single();
+
+    if (locationError) {
+      console.error(locationError);
+      return;
+    }
+
+    const locationName = `${location.city}, ${location.country}`;
+    document.getElementById("joinedCommunityText").textContent = `You are in the community: ${locationName}`;
+    document.getElementById("leaveCommunityBtn").style.display = "inline-block";
+    document.getElementById("joinCommunityBtn").style.display = "none";
+
+    // Show dashboard
+    showCommunityDashboard(participant.location_id, locationName);
+  }
+}
+
+// ===== Show Community Dashboard =====
+let joinedLocationId = null;
+
+async function showCommunityDashboard(locationId, locationName) {
+  // Hide join card
+  joinedLocationId = locationId; // save it globally
+  document.getElementById("joinCommunityCard").style.display = "none";
+  document.getElementById("joinedCommunityText").textContent = `You are in the community: ${locationName}`;
+  document.getElementById("communityDashboard").style.display = "block";
+
+  // Set title dynamically
+  document.getElementById("communityTitle").textContent = `${locationName} Community`;
+
+  // Show joined text
+  document.getElementById("joinedCommunityText").textContent = `You are in the community: ${locationName}`;
+
+  // Load messages and events
+  await loadCommunityMessages(locationId);
+  await loadCommunityEvents(locationId);
+}
+
+// ===== Load Community Messages =====
+async function loadCommunityMessages(locationId) {
+  const { data, error } = await supabase
+    .from("community_messages")
+    .select("*")
+    .eq("location_id", locationId)
     .order("created_at", { ascending: true });
 
   if (error) return console.error(error);
 
-  chatMessages.innerHTML = "";
+  const container = document.getElementById("communityMessages");
+  container.innerHTML = "";
   data.forEach(msg => {
     const div = document.createElement("div");
-    div.textContent = msg.content;
-    div.className = msg.sender_id === currentUser.id ? "my-message" : "their-message";
-    chatMessages.appendChild(div);
+    div.textContent = `${msg.username}: ${msg.content}`;
+    container.appendChild(div);
   });
-
-  chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// ===== Send message =====
-sendMessageBtn.onclick = async () => {
-  const text = messageInput.value.trim();
-  if (!text || !activeChatUserId) return;
+// ===== Send Community Message =====
+document.getElementById("sendCommunityMessageBtn").addEventListener("click", async () => {
+  const text = document.getElementById("communityMessageInput").value.trim();
+  if (!text) return;
 
-  // Check if receiver blocked you
-  const { data: blocked } = await supabase
-    .from("blocked_users")
-    .select("*")
-    .eq("blocker_id", activeChatUserId)
-    .eq("blocked_id", currentUser.id)
-    .maybeSingle();
+  const locationId = document.getElementById("citySelect").value;
+  if (!locationId) return;
 
-  if (blocked) {
-    alert("You cannot send a message. This user blocked you.");
-    return;
-  }
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("name")
+    .eq("id", currentUser.id)
+    .single();
 
-  const { error } = await supabase.from("private_messages").insert([{
-    sender_id: currentUser.id,
-    receiver_id: activeChatUserId,
+  if (profileError) return console.error(profileError);
+
+  const { error } = await supabase.from("community_messages").insert([{
+    user_id: currentUser.id,
+    username: profile?.name || "Unknown",
+    location_id: locationId,
     content: text
   }]);
 
   if (error) return console.error(error);
 
-  messageInput.value = "";
-  await renderMessages();
-};
+  document.getElementById("communityMessageInput").value = "";
+  await loadCommunityMessages(locationId);
+});
 
-// ===== Back to chat list =====
-backToList.onclick = () => {
-  activeChatUserId = null;
-  chatView.style.display = "none";
-  chatListView.style.display = "block";
-};
-
-// ===== Render chat list (community members) =====
-async function renderChatList() {
+// ===== Load Community Events =====
+async function loadCommunityEvents(locationId) {
   const { data, error } = await supabase
-    .from("community_participants")
-    .select("user_id, username")
-    .neq("user_id", currentUser.id); // exclude yourself
+    .from("community_events")
+    .select("*")
+    .eq("location_id", locationId)
+    .order("event_date", { ascending: true });
 
   if (error) return console.error(error);
 
-  const chatListItems = document.getElementById("chatListItems");
-  chatListItems.innerHTML = "";
-  data.forEach(user => {
+  const ul = document.getElementById("communityEventsList");
+  ul.innerHTML = "";
+
+  data.forEach(event => {
     const li = document.createElement("li");
-    li.textContent = user.username;
-    li.onclick = () => startChatWith(user.user_id, user.username);
-    chatListItems.appendChild(li);
+    li.innerHTML = `
+      <strong>${new Date(event.event_date).toLocaleString()}</strong><br>
+      <strong>Place:</strong> ${event.place}<br>
+      <strong>Description:</strong> ${event.description || "-"}
+    `;
+    ul.appendChild(li);
   });
 }
 
-// ===== Real-time updates =====
-supabase
-  .channel("public:private_messages")
-  .on("postgres_changes", { event: "INSERT", schema: "public", table: "private_messages" }, payload => {
-    const msg = payload.new;
-    if (activeChatUserId && 
-        (msg.sender_id === currentUser.id && msg.receiver_id === activeChatUserId) ||
-        (msg.sender_id === activeChatUserId && msg.receiver_id === currentUser.id)) {
-      renderMessages();
-    }
-  })
-  .subscribe();
+// ===== Join Community =====
+document.getElementById("joinCommunityBtn").addEventListener("click", async () => {
+  const locationId = document.getElementById("citySelect").value;
+  if (!locationId) return;
 
-  async function blockUser(userId) {
-  await supabase.from("blocked_users").insert([{ blocker_id: currentUser.id, blocked_id: userId }]);
-  alert("User blocked!");
-}
+  const locationName = document.getElementById("citySelect").selectedOptions[0].text + ", " +
+                       document.getElementById("countrySelect").value;
+
+  const { error } = await supabase.from("community_participants").upsert([{
+    user_id: currentUser.id,
+    location_id: locationId
+  }]);
+
+  if (error) return console.error(error);
+
+  showCommunityDashboard(locationId, locationName);
+});
+
+// ===== Leave Community =====
+document.getElementById("leaveCommunityDashboardBtn").addEventListener("click", async () => {
+  const { error } = await supabase
+    .from("community_participants")
+    .delete()
+    .eq("user_id", currentUser.id);
+
+  if (error) return console.error(error);
+
+  document.getElementById("communityDashboard").style.display = "none";
+  document.getElementById("joinCommunityCard").style.display = "block";
+  document.getElementById("joinedCommunityText").textContent = "";
+  document.getElementById("leaveCommunityBtn").style.display = "none";
+  document.getElementById("joinCommunityBtn").style.display = "inline-block";
+});
+
+// ===== Toggle sections =====
+document.querySelectorAll('.community-section-header').forEach(header => {
+  header.addEventListener('click', () => {
+    const content = header.nextElementSibling;
+    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+  });
+});
+
+// ===== Create Event =====
+const createEventBtn = document.getElementById("createEventBtn");
+const submitEventBtn = document.getElementById("submitEventBtn"); // new submit button
+const createEventInputs = document.getElementById("createEventInputs"); // the div wrapping inputs
+const eventPlaceInput = document.getElementById("eventPlaceInput");
+const eventTimeInput = document.getElementById("eventTimeInput");
+const descriptionInput = document.getElementById("eventDescriptionInput"); // description input
+const communityEventsList = document.getElementById("communityEventsList");
+
+// ===== Toggle input section =====
+createEventBtn.addEventListener("click", () => {
+  createEventInputs.style.display = createEventInputs.style.display === "none" ? "flex" : "none";
+  createEventInputs.style.flexDirection = "column";
+});
+
+// ===== Submit event =====
+submitEventBtn.addEventListener("click", async () => {
+  const place = eventPlaceInput.value.trim();
+  const description = descriptionInput.value.trim();
+  const eventDate = eventTimeInput.value;
+
+  if (!place || !eventDate || !joinedLocationId) {
+    return alert("Please enter place, date, and ensure you are in a community.");
+  }
+
+  const { error } = await supabase.from("community_events").insert([{
+    location_id: joinedLocationId,
+    place: place,
+    description: description,
+    event_date: eventDate
+  }]);
+
+  if (error) return console.error(error);
+
+  // Clear inputs
+  eventPlaceInput.value = "";
+  descriptionInput.value = "";
+  eventTimeInput.value = "";
+
+  // Optionally hide inputs after submission
+  createEventInputs.style.display = "none";
+
+  // Reload events list
+  await loadCommunityEvents(joinedLocationId);
+});
+
+
+// ===== DOMContentLoaded =====
+document.addEventListener("DOMContentLoaded", async () => {
+  await getCurrentUser();
+  await loadLocations();
+  await loadUserCommunity();
+
+  document.getElementById('backBtn').onclick = () => window.location.href = 'mainpage.html';
+  document.getElementById("communityBtn").onclick = () => openTab("homeSection");
+  document.getElementById("mealArtBtn").onclick = () => openTab("mealArtContest");
+  document.getElementById("friendsBtn").onclick = () => openTab("friends");
+  document.getElementById("messagesBtn").onclick = () => openTab("messages");
+
+  openTab("homeSection"); // default tab
+});
