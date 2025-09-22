@@ -57,7 +57,7 @@ async function loadUserCommunity() {
     .from("community_participants")
     .select("id, location_id")
     .eq("user_id", currentUser.id)
-    .single();
+    .maybeSingle();
 
   if (participantError) {
     console.error(participantError);
@@ -159,7 +159,7 @@ document.getElementById("sendCommunityMessageBtn").addEventListener("click", asy
 async function loadCommunityEvents(locationId) {
   const { data, error } = await supabase
     .from("community_events")
-    .select("*")
+    .select("id, place, description, event_date, user_id, username")
     .eq("location_id", locationId)
     .order("event_date", { ascending: true });
 
@@ -169,14 +169,24 @@ async function loadCommunityEvents(locationId) {
   ul.innerHTML = "";
 
   data.forEach(event => {
-    const li = document.createElement("li");
-    li.innerHTML = `
-      <strong>${new Date(event.event_date).toLocaleString()}</strong><br>
-      <strong>Place:</strong> ${event.place}<br>
-      <strong>Description:</strong> ${event.description || "-"}
-    `;
-    ul.appendChild(li);
-  });
+  const li = document.createElement("li");
+  // Event text
+    li.textContent = `${new Date(event.event_date).toLocaleString()} — ${event.place} (${event.description || ''}) by ${event.username || 'Unknown'}`;
+  
+  // If current user is the creator, show a delete button
+  if (event.user_id === currentUser.id) {
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.style.marginLeft = "0.5rem";
+    deleteBtn.addEventListener("click", async () => {
+      await supabase.from("community_events").delete().eq("id", event.id);
+      await loadCommunityEvents(locationId);
+    });
+    li.appendChild(deleteBtn);
+  }
+
+  ul.appendChild(li);
+});
 }
 
 // ===== Join Community =====
@@ -246,11 +256,19 @@ submitEventBtn.addEventListener("click", async () => {
     return alert("Please enter place, date, and ensure you are in a community.");
   }
 
+  const { data: profile } = await supabase
+  .from("profiles")
+  .select("name")
+  .eq("id", currentUser.id)
+  .maybeSingle();
+
   const { error } = await supabase.from("community_events").insert([{
     location_id: joinedLocationId,
     place: place,
     description: description,
-    event_date: eventDate
+    event_date: eventDate,
+    user_id: currentUser.id, // <--- save creator
+    username: profile.name
   }]);
 
   if (error) return console.error(error);
