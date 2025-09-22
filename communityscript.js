@@ -153,14 +153,34 @@ async function sendCommunityMessage() {
 
 document.getElementById("sendCommunityMessageBtn").addEventListener("click", sendCommunityMessage);
 
-// ===== Realtime Messages =====
+let messageChannel = null;
+
 function setupRealtimeMessages(locationId) {
-  supabase
-    .channel('community_messages')
+  if (messageChannel) {
+    supabase.removeChannel(messageChannel);
+  }
+
+  messageChannel = supabase
+    .channel(`community_messages_${locationId}`)
     .on(
       'postgres_changes',
       { event: 'INSERT', schema: 'public', table: 'community_messages', filter: `location_id=eq.${locationId}` },
-      () => loadCommunityMessages(locationId)
+      payload => {
+        const container = document.getElementById("communityMessages");
+        const msg = payload.new;
+
+        // Append only the new message
+        const div = document.createElement("div");
+        div.classList.add("chat-message");
+        div.textContent = `${msg.username}: ${msg.content}`;
+        div.classList.add(msg.user_id === currentUser?.id ? "my-message" : "their-message");
+        container.appendChild(div);
+
+        // Scroll if visible
+        if (container.offsetParent !== null) { // checks if visible
+          div.scrollIntoView({ block: "end", behavior: "auto" });
+        }
+      }
     )
     .subscribe();
 }
