@@ -155,47 +155,63 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   async function loadChats() {
     const { data: chatsData, error } = await supabase
-      .from('chat_participants')
-      .select(`
-        chat:chats(
-          id,
-          name,
-          is_private,
-          messages:messages(
-            id,
-            sender_id,
-            content,
-            created_at
-          )
-        )
-      `)
-      .eq('user_id', currentUser.id);
+  .from('chats')
+  .select(`
+    id,
+    name,
+    is_private,
+    messages(
+      id,
+      sender_id,
+      content,
+      created_at
+    )
+  `).order("id", { ascending: true });
 
-    if (error) console.error(error);
-    return chatsData.map(c => c.chat);
+if (error) {
+  console.error(error);
+  return [];
+}
+
+return chatsData;
   }
 
-  async function renderChatList() {
-    const chats = await loadChats();
-    chatList.innerHTML = "";
+  // ===== Render Chat List =====
+async function renderChatList() {
+  const chats = await loadChats();
+  chatList.innerHTML = "";
 
-    chats.forEach(chat => {
-      const lastMessage = chat.messages?.slice(-1)[0]?.content || '';
-      const unread = chat.messages?.some(m => !m.read && m.sender_id !== currentUser.id);
-
-      const li = document.createElement("li");
-      const left = document.createElement("div");
-      left.innerHTML = `<div class="chat-name">${chat.name}</div>
-                        <div class="chat-last">${lastMessage}</div>`;
-      const right = document.createElement("div");
-      if (unread) right.innerHTML = `<span class="unread">●</span>`;
-
-      li.appendChild(left);
-      li.appendChild(right);
-      li.onclick = () => openChat(chat.id, chat.name);
-      chatList.appendChild(li);
-    });
+  if (!chats.length) {
+    const li = document.createElement("li");
+    li.textContent = "No chats yet. Start one!";
+    chatList.appendChild(li);
+    return;
   }
+
+  chats.forEach(chat => {
+    const lastMessage = chat.messages?.slice(-1)[0];
+    const lastContent = lastMessage ? lastMessage.content : "(no messages yet)";
+
+    const li = document.createElement("li");
+    li.classList.add("chat-item");
+
+    // left side (name + last msg)
+    const left = document.createElement("div");
+    left.innerHTML = `
+      <div class="chat-name">${chat.name}</div>
+      <div class="chat-last">${lastContent}</div>
+    `;
+
+    // right side (optional unread indicator later)
+    const right = document.createElement("div");
+
+    li.appendChild(left);
+    li.appendChild(right);
+
+    li.onclick = () => openChat(chat.id, chat.name);
+    chatList.appendChild(li);
+  });
+}
 
   async function openChat(chatId, chatName) {
     activeChatId = chatId;
@@ -280,8 +296,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (error) return console.error(error);
 
-    await supabase.from('chat_participants').insert([{ chat_id: chat.id, user_id: currentUser.id }]);
-    renderChatList();
+    await renderChatList();
   };
 
   async function showMessagesTab() {
