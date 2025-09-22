@@ -216,36 +216,49 @@ body {
   font-size: 0.88rem;
 }
 
-/* Chat box */
+/* Chat box container */
 .chat-box {
-  max-height: 180px;
-  overflow-y: auto;
+  height: 14rem;                 /* fixed height, adjust as you like */
+  overflow-y: auto;              /* scroll vertically */
+  display: flex;
+  flex-direction: column; /* keep normal order */
   border: 1px solid #ddd;
-  border-radius: 6px;
+  border-radius: 8px;
   background: #fafafa;
-  margin-bottom: 0.5rem;
   padding: 0.4rem;
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+  word-wrap: break-word;         /* wrap long words */
+  overflow-wrap: break-word;     /* modern fallback */
 }
 
+/* Each message bubble */
 .chat-box div {
-  margin-bottom: 0.4rem;
-  padding: 0.3rem 0.5rem;
-  border-radius: 6px;
+  margin: 0.2rem 0;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  max-width: 85%;                /* keep bubbles from stretching across */
+  word-break: break-word;
 }
 
+/* My messages (right aligned) */
 .chat-box .my-message {
   background: #c2f0c2;
+  align-self: flex-end;
   text-align: right;
 }
 
+/* Their messages (left aligned) */
 .chat-box .their-message {
   background: #e6e6e6;
+  align-self: flex-start;
   text-align: left;
 }
 
 /* Chat input and send button */
 #communityMessageInput {
   width: 70%;
+  margin:0.2rem;
   padding: 0.4rem;
   border-radius: 6px;
   border: 1px solid #ccc;
@@ -254,7 +267,7 @@ body {
 
 #sendCommunityMessageBtn {
   padding: 0.4rem 0.8rem;
-  margin-left: 0.3rem;
+  margin: 0.2rem;
   border: none;
   border-radius: 6px;
   background-color: #4caf50;
@@ -266,6 +279,22 @@ body {
 #sendCommunityMessageBtn:hover {
   background-color: #45a049;
 }
+
+#communityMessages {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #fafafa;
+  font-size: 14px;
+}
+
+.chat-message {
+  word-wrap: break-word;
+  max-width: 100%;
+}
+
 
 /* Events list */
 #communityEventsList {
