@@ -142,172 +142,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // ===== Chat helpers =====
-  const chatListView = document.getElementById("chatListView");
-  const chatView = document.getElementById("chatView");
-  const chatList = document.getElementById("chatListItems");
-  const chatHeader = document.getElementById("chatHeader");
-  const chatMessages = document.getElementById("chatMessages");
-  const messageInput = document.getElementById("messageInput");
-  const sendMessageBtn = document.getElementById("sendMessageBtn");
-  const backToList = document.getElementById("backToList");
-  const newMessageBtn = document.getElementById("newMessageBtn");
-
-  async function loadChats() {
-    const { data: chatsData, error } = await supabase
-  .from('chats')
-  .select(`
-    id,
-    name,
-    is_private,
-    messages(
-      id,
-      sender_id,
-      content,
-      created_at
-    )
-  `).order("id", { ascending: true });
-
-if (error) {
-  console.error(error);
-  return [];
-}
-
-return chatsData;
-  }
-
-  // ===== Render Chat List =====
-async function renderChatList() {
-  const chats = await loadChats();
-  chatList.innerHTML = "";
-
-  if (!chats.length) {
-    const li = document.createElement("li");
-    li.textContent = "No chats yet. Start one!";
-    chatList.appendChild(li);
-    return;
-  }
-
-  chats.forEach(chat => {
-    const lastMessage = chat.messages?.slice(-1)[0];
-    const lastContent = lastMessage ? lastMessage.content : "(no messages yet)";
-
-    const li = document.createElement("li");
-    li.classList.add("chat-item");
-
-    // left side (name + last msg)
-    const left = document.createElement("div");
-    left.innerHTML = `
-      <div class="chat-name">${chat.name}</div>
-      <div class="chat-last">${lastContent}</div>
-    `;
-
-    // right side (optional unread indicator later)
-    const right = document.createElement("div");
-
-    li.appendChild(left);
-    li.appendChild(right);
-
-    li.onclick = () => openChat(chat.id, chat.name);
-    chatList.appendChild(li);
-  });
-}
-
-  async function openChat(chatId, chatName) {
-    activeChatId = chatId;
-    chatHeader.textContent = chatName;
-
-    chatListView.style.display = "none";
-    chatView.style.display = "flex";
-    chatView.style.flexDirection = "column";
-
-    await loadMessages(chatId);
-    subscribeToMessages(chatId);
-  }
-
-  async function loadMessages(chatId) {
-    const { data: messagesData, error } = await supabase
-      .from('messages')
-      .select('*')
-      .eq('chat_id', chatId)
-      .order('created_at', { ascending: true });
-
-    if (error) console.error(error);
-
-    chatMessages.innerHTML = "";
-    messagesData.forEach(msg => {
-      const div = document.createElement("div");
-      div.classList.add("chat-message");
-      div.textContent = msg.sender_id === currentUser.id ? "You: " + msg.content : msg.content;
-      chatMessages.appendChild(div);
-    });
-
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-
-  sendMessageBtn.onclick = async () => {
-    const content = messageInput.value.trim();
-    if (!content || !activeChatId) return;
-
-    const { error } = await supabase
-      .from('messages')
-      .insert([{ chat_id: activeChatId, sender_id: currentUser.id, content }]);
-
-    if (error) console.error(error);
-    messageInput.value = "";
-  };
-
-  backToList.onclick = () => {
-    chatView.style.display = "none";
-    chatListView.style.display = "block";
-    renderChatList();
-
-    if (subscription) supabase.removeChannel(subscription);
-  };
-
-  function subscribeToMessages(chatId) {
-    if (subscription) supabase.removeChannel(subscription);
-
-    subscription = supabase
-      .channel(`chat:${chatId}`)
-      .on(
-        'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'messages', filter: `chat_id=eq.${chatId}` },
-        payload => {
-          const msg = payload.new;
-          const div = document.createElement("div");
-          div.classList.add("chat-message");
-          div.textContent = msg.sender_id === currentUser.id ? "You: " + msg.content : msg.content;
-          chatMessages.appendChild(div);
-          chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-      )
-      .subscribe();
-  }
-
-  newMessageBtn.onclick = async () => {
-    const name = prompt("Enter name of user or group chat:");
-    if (!name) return;
-
-    const { data: chat, error } = await supabase
-      .from('chats')
-      .insert([{ name, is_private: true }])
-      .select().single();
-
-    if (error) return console.error(error);
-
-    await renderChatList();
-  };
-
   async function showMessagesTab() {
     chatListView.style.display = "block";
     chatView.style.display = "none";
     await renderChatList();
     openTab("messages");
-  }
-
-  function startChatWith(userId, username) {
-    alert(`Start chat with ${username}`);
   }
 
   // Initialize the community tab on load
@@ -316,3 +155,120 @@ async function renderChatList() {
   // Default view
   openTab("homeSection");
 });
+
+let activeChatUserId = null; // who you're chatting with
+
+// DOM elements
+const chatListView = document.getElementById("chatListView");
+const chatView = document.getElementById("chatView");
+const chatMessages = document.getElementById("chatMessages");
+const messageInput = document.getElementById("messageInput");
+const sendMessageBtn = document.getElementById("sendMessageBtn");
+const backToList = document.getElementById("backToList");
+
+// ===== Start a private chat =====
+async function startChatWith(userId, username) {
+  activeChatUserId = userId;
+  document.getElementById("chatHeader").textContent = username;
+  chatListView.style.display = "none";
+  chatView.style.display = "block";
+  await renderMessages();
+}
+
+// ===== Render messages between current user and active chat =====
+async function renderMessages() {
+  if (!activeChatUserId) return;
+
+  const { data, error } = await supabase
+    .from("private_messages")
+    .select("*")
+    .or(`and(sender_id.eq.${currentUser.id},receiver_id.eq.${activeChatUserId}),
+         and(sender_id.eq.${activeChatUserId},receiver_id.eq.${currentUser.id})`)
+    .order("created_at", { ascending: true });
+
+  if (error) return console.error(error);
+
+  chatMessages.innerHTML = "";
+  data.forEach(msg => {
+    const div = document.createElement("div");
+    div.textContent = msg.content;
+    div.className = msg.sender_id === currentUser.id ? "my-message" : "their-message";
+    chatMessages.appendChild(div);
+  });
+
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// ===== Send message =====
+sendMessageBtn.onclick = async () => {
+  const text = messageInput.value.trim();
+  if (!text || !activeChatUserId) return;
+
+  // Check if receiver blocked you
+  const { data: blocked } = await supabase
+    .from("blocked_users")
+    .select("*")
+    .eq("blocker_id", activeChatUserId)
+    .eq("blocked_id", currentUser.id)
+    .maybeSingle();
+
+  if (blocked) {
+    alert("You cannot send a message. This user blocked you.");
+    return;
+  }
+
+  const { error } = await supabase.from("private_messages").insert([{
+    sender_id: currentUser.id,
+    receiver_id: activeChatUserId,
+    content: text
+  }]);
+
+  if (error) return console.error(error);
+
+  messageInput.value = "";
+  await renderMessages();
+};
+
+// ===== Back to chat list =====
+backToList.onclick = () => {
+  activeChatUserId = null;
+  chatView.style.display = "none";
+  chatListView.style.display = "block";
+};
+
+// ===== Render chat list (community members) =====
+async function renderChatList() {
+  const { data, error } = await supabase
+    .from("community_participants")
+    .select("user_id, username")
+    .neq("user_id", currentUser.id); // exclude yourself
+
+  if (error) return console.error(error);
+
+  const chatListItems = document.getElementById("chatListItems");
+  chatListItems.innerHTML = "";
+  data.forEach(user => {
+    const li = document.createElement("li");
+    li.textContent = user.username;
+    li.onclick = () => startChatWith(user.user_id, user.username);
+    chatListItems.appendChild(li);
+  });
+}
+
+// ===== Real-time updates =====
+supabase
+  .channel("public:private_messages")
+  .on("postgres_changes", { event: "INSERT", schema: "public", table: "private_messages" }, payload => {
+    const msg = payload.new;
+    if (activeChatUserId && 
+        (msg.sender_id === currentUser.id && msg.receiver_id === activeChatUserId) ||
+        (msg.sender_id === activeChatUserId && msg.receiver_id === currentUser.id)) {
+      renderMessages();
+    }
+  })
+  .subscribe();
+
+  async function blockUser(userId) {
+  await supabase.from("blocked_users").insert([{ blocker_id: currentUser.id, blocked_id: userId }]);
+  alert("User blocked!");
+}
