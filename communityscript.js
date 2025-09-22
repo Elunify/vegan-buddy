@@ -167,26 +167,42 @@ async function loadCommunityEvents(locationId) {
 
   const ul = document.getElementById("communityEventsList");
   ul.innerHTML = "";
-
-  data.forEach(event => {
-  const li = document.createElement("li");
-  // Event text
-    li.textContent = `${new Date(event.event_date).toLocaleString()} — ${event.place} (${event.description || ''}) by ${event.username || 'Unknown'}`;
   
-  // If current user is the creator, show a delete button
-  if (event.user_id === currentUser.id) {
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
-    deleteBtn.style.marginLeft = "0.5rem";
-    deleteBtn.addEventListener("click", async () => {
-      await supabase.from("community_events").delete().eq("id", event.id);
-      await loadCommunityEvents(locationId);
-    });
-    li.appendChild(deleteBtn);
-  }
+  const now = new Date();
 
-  ul.appendChild(li);
-});
+  for (const event of data) {
+    const eventDate = new Date(event.event_date);
+
+    // Automatically delete past events
+    if (eventDate < now) {
+      await supabase
+        .from("community_events")
+        .delete()
+        .eq("id", event.id);
+      continue; // skip displaying
+    }
+
+    // Display event
+    const li = document.createElement("li");
+    li.textContent = `${eventDate.toLocaleString()} — ${event.place} — ${event.description} (by ${event.username})`;
+
+    // Optionally add delete button for creator
+    if (event.user_id === currentUser.id) {
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "Delete";
+      delBtn.style.marginLeft = "1rem";
+      delBtn.onclick = async () => {
+        await supabase
+          .from("community_events")
+          .delete()
+          .eq("id", event.id);
+        await loadCommunityEvents(locationId); // refresh
+      };
+      li.appendChild(delBtn);
+    }
+
+    ul.appendChild(li);
+  }
 }
 
 // ===== Join Community =====
