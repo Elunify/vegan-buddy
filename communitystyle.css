@@ -853,45 +853,71 @@ button.decline:hover { background: #e63946; }
 button.message { background: #4895ef; color: white; }
 button.message:hover { background: #4361ee; }
 
-/* === Popup Styling === */
+/* Popup */
 .popup {
-  display: none; /* hidden by default */
+  display: none;
   position: fixed;
-  z-index: 1000;
-  left: 0; top: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.4);
+  z-index: 10;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.5);
   justify-content: center;
   align-items: center;
 }
-
 .popup-content {
-  background: white;
-  padding: 1rem 1.5rem;
-  border-radius: 12px;
-  width: 300px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  position: relative;
-  text-align: center;
-}
-
-.popup-content input {
-  width: 100%;
-  padding: 0.5rem;
-  margin: 0.7rem 0;
-  border: 1px solid #ccc;
+  background-color: #fff;
+  padding: 1rem;
   border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
-
-.popup-content button {
-  background: #52b788;
-  color: white;
-  width: 100%;
-  padding: 0.5rem;
-}
-
-.close {
-  position: absolute;
-  right: 10px; top: 8px;
-  font-size: 1.4rem;
+.popup-content .close {
+  align-self: flex-end;
   cursor: pointer;
+  font-size: 1.2rem;
 }
+
+/* Buttons */
+button {
+  cursor: pointer;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  border: none;
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+button.accept { background-color: #4CAF50; color: white; }
+button.decline { background-color: #f44336; color: white; }
+button.message { background-color: #2196F3; color: white; }
+button.send-request { background-color: #ff9800; color: white; }
+
+/* Friends List */
+#friendsList li,
+#incomingRequestsList li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+#friendsList img,
+#incomingRequestsList img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* Search container */
+.friend-search-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+.friend-search-container .search-note {
+  font-size: 0.85rem;
+  color: #555;
+}
+

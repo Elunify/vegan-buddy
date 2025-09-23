@@ -294,7 +294,8 @@ document.getElementById("joinCommunityBtn").addEventListener("click", async () =
     user_id: currentUser.id,
     location_id: locationId,
     name: profile.name,
-    profile_photo: profile.profile_photo
+    profile_photo: profile.profile_photo,
+    email: profile.email
   }]);
 
   if (error) return console.error(error);
@@ -468,11 +469,11 @@ document.addEventListener("DOMContentLoaded", async () => {
      // Community END -->
       // Community END -->
 
-// Meal Art Contest -->
-// Meal Art Contest -->
-// Meal Art Contest -->
-// Meal Art Contest -->
-// Meal Art Contest -->
+// Friends -->
+// Friends -->
+// Friends -->
+// Friends -->
+// Friends -->
 
 // === Popup controls ===
 const searchPopup = document.getElementById("searchPopup");
@@ -488,42 +489,32 @@ window.addEventListener("click", e => {
 
 // === Send Friend Request ===
 document.getElementById("sendFriendRequestBtn").addEventListener("click", async () => {
-  const email = document.getElementById("friendEmailInput").value.trim();
+  const email = document.getElementById("friendEmailInput").value.trim().toLowerCase();
   if (!email) return;
 
-  // Lookup user by email
-  const { data: user, error: userError } = await supabase
-    .from("profiles")
-    .select("id")
-    .eq("email", email)
-    .maybeSingle();
-
-  if (userError || !user) {
-    alert("User not found.");
-    return;
-  }
-
-  if (user.id === currentUser.id) {
+  if (email === currentUser.email.toLowerCase()) {
     alert("You cannot send a request to yourself.");
     return;
   }
 
-  // Check if request already exists
-  const { data: existingReq } = await supabase
+  // Check if a request already exists
+  const { data: existing, error: checkError } = await supabase
     .from("friend_requests")
     .select("*")
-    .or(`sender_id.eq.${currentUser.id},receiver_id.eq.${currentUser.id}`)
-    .eq("receiver_id", user.id)
+    .eq("sender_id", currentUser.id)
+    .eq("receiver_email", email)
     .maybeSingle();
 
-  if (existingReq) {
-    alert("Friend request already sent or pending.");
+  if (checkError) return console.error(checkError);
+
+  if (existing) {
+    alert("Request already sent!");
     return;
   }
 
   const { error } = await supabase.from("friend_requests").insert([{
     sender_id: currentUser.id,
-    receiver_id: user.id,
+    receiver_email: email,
     status: "pending"
   }]);
 
@@ -534,6 +525,7 @@ document.getElementById("sendFriendRequestBtn").addEventListener("click", async 
     alert("Friend request sent!");
     searchPopup.style.display = "none";
     document.getElementById("friendEmailInput").value = "";
+    await showFriends(); // refresh buttons
   }
 });
 
@@ -541,8 +533,12 @@ document.getElementById("sendFriendRequestBtn").addEventListener("click", async 
 async function showIncomingFriendRequests() {
   const { data: requests, error } = await supabase
     .from("friend_requests")
-    .select(`id, sender_id, profiles!friend_requests_sender_id_fkey(name, profile_photo)`)
-    .eq("receiver_id", currentUser.id)
+    .select(`
+      id,
+      sender_id,
+      sender:sender_id ( name, profile_photo, email )
+    `)
+    .eq("receiver_email", currentUser.email)
     .eq("status", "pending");
 
   if (error) return console.error(error);
@@ -554,11 +550,11 @@ async function showIncomingFriendRequests() {
     const li = document.createElement("li");
 
     const img = document.createElement("img");
-    img.src = req.profiles.profile_photo || "default-avatar.png";
-    img.alt = req.profiles.name;
+    img.src = req.sender.profile_photo || "default-avatar.png";
+    img.alt = req.sender.name;
 
     const span = document.createElement("span");
-    span.textContent = req.profiles.name;
+    span.textContent = req.sender.name;
 
     const actions = document.createElement("div");
     actions.className = "actions";
@@ -567,26 +563,18 @@ async function showIncomingFriendRequests() {
     acceptBtn.className = "accept";
     acceptBtn.textContent = "Accept";
     acceptBtn.onclick = async () => {
-      // Insert into friends table
-      const { error: friendError } = await supabase.from("friends").insert([{
-        user1_id: currentUser.id,
-        user2_id: req.sender_id
-      }]);
-
-      if (friendError) return console.error(friendError);
-
-      // Delete request
-      await supabase.from("friend_requests").delete().eq("id", req.id);
-      showIncomingFriendRequests();
-      showFriends();
+      // mark request as accepted
+      await supabase.from("friend_requests").update({ status: "accepted" }).eq("id", req.id);
+      await showIncomingFriendRequests();
+      await showFriends();
     };
 
     const declineBtn = document.createElement("button");
     declineBtn.className = "decline";
     declineBtn.textContent = "Decline";
     declineBtn.onclick = async () => {
-      await supabase.from("friend_requests").delete().eq("id", req.id);
-      showIncomingFriendRequests();
+      await supabase.from("friend_requests").update({ status: "declined" }).eq("id", req.id);
+      await showIncomingFriendRequests();
     };
 
     actions.appendChild(acceptBtn);
@@ -601,56 +589,100 @@ async function showIncomingFriendRequests() {
 
 // === Show Friends List ===
 async function showFriends() {
-  const { data: friends, error } = await supabase
-    .from("friends")
+  // fetch accepted requests where currentUser is sender or receiver
+  const { data: friendsData, error } = await supabase
+    .from("friend_requests")
     .select(`
-      user1_id,
-      user2_id,
-      profiles1:user1_id ( id, name, profile_photo ),
-      profiles2:user2_id ( id, name, profile_photo )
+      id,
+      sender_id,
+      receiver_email,
+      status,
+      sender:sender_id ( name, profile_photo, email )
     `)
-    .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
+    .or(`sender_id.eq.${currentUser.id},receiver_email.eq.${currentUser.email}`)
+    .eq("status", "accepted");
 
   if (error) return console.error(error);
 
   const list = document.getElementById("friendsList");
   list.innerHTML = "";
 
-  friends.forEach(f => {
-    const friend = f.user1_id === currentUser.id ? f.profiles2 : f.profiles1;
+  // Also get community members to show "Send Request" buttons
+  const { data: communityMembers, error: membersError } = await supabase
+    .from("community_participants")
+    .select("user_id, name, profile_photo, email")
+    .neq("user_id", currentUser.id);
 
+  if (membersError) return console.error(membersError);
+
+  for (const member of communityMembers) {
     const li = document.createElement("li");
+    li.style.display = "flex";
+    li.style.alignItems = "center";
+    li.style.marginBottom = "0.5rem";
 
     const img = document.createElement("img");
-    img.src = friend.profile_photo || "default-avatar.png";
-    img.alt = friend.name;
+    img.src = member.profile_photo || "default-avatar.png";
+    img.alt = member.name;
+    img.style.width = "40px";
+    img.style.height = "40px";
+    img.style.borderRadius = "50%";
+    img.style.marginRight = "0.5rem";
 
-    const span = document.createElement("span");
-    span.textContent = friend.name;
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = member.name;
 
     const actions = document.createElement("div");
-    actions.className = "actions";
+    actions.style.marginLeft = "auto";
 
-    const msgBtn = document.createElement("button");
-    msgBtn.className = "message";
-    msgBtn.textContent = "Message";
-    msgBtn.onclick = () => {
-      alert(`Messaging ${friend.name}...`);
-    };
+    // Check if friend already exists
+    const isFriend = friendsData.some(f =>
+      (f.sender_id === member.user_id || f.receiver_email === member.email)
+    );
 
-    actions.appendChild(msgBtn);
+    if (isFriend) {
+      const msgBtn = document.createElement("button");
+      msgBtn.className = "message";
+      msgBtn.textContent = "Message";
+      msgBtn.onclick = () => alert(`Messaging ${member.name}...`);
+      actions.appendChild(msgBtn);
+    } else {
+      // Check if request already sent
+      const { data: sentReq } = await supabase
+        .from("friend_requests")
+        .select("*")
+        .eq("sender_id", currentUser.id)
+        .eq("receiver_email", member.email)
+        .maybeSingle();
+
+      const btn = document.createElement("button");
+      btn.className = "request";
+      btn.textContent = sentReq ? "Request Sent" : "Send Request";
+      btn.disabled = !!sentReq;
+
+      btn.onclick = async () => {
+        await supabase.from("friend_requests").insert([{
+          sender_id: currentUser.id,
+          receiver_email: member.email,
+          status: "pending"
+        }]);
+        btn.textContent = "Request Sent";
+        btn.disabled = true;
+        await showIncomingFriendRequests();
+      };
+
+      actions.appendChild(btn);
+    }
 
     li.appendChild(img);
-    li.appendChild(span);
+    li.appendChild(nameSpan);
     li.appendChild(actions);
     list.appendChild(li);
-  });
+  }
 }
 
-// Load friends tab
+// === Load Friends Tab ===
 async function loadFriendsTab() {
   await showIncomingFriendRequests();
   await showFriends();
 }
-
-
