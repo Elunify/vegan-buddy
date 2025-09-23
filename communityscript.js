@@ -210,66 +210,80 @@ async function showCommunityDashboard(locationId, locationName) {
 
   setupRealtimeMessages(locationId);
 
+await showCommunityMembers(locationId);
+}
   
 async function showCommunityMembers(locationId) {
   const membersList = document.getElementById("communityMembersList");
   membersList.innerHTML = "";
 
-  
+  // Fetch pending requests sent by current user
+  const { data: sentRequests, error: sentError } = await supabase
+    .from("friend_requests")
+    .select("receiver_email")
+    .eq("sender_id", currentUser.id)
+    .eq("status", "pending");
+
+  if (sentError) return console.error(sentError);
+
+  // Fetch all community members (excluding current user)
   const { data: members, error } = await supabase
     .from("community_participants")
-    .select("user_id, name, profile_photo")
+    .select("user_id, name, profile_photo, email")
     .eq("location_id", locationId);
 
   if (error) return console.error(error);
 
   members.forEach(member => {
-    const li = document.createElement("li");
-    li.style.display = "flex";
-    li.style.alignItems = "center";
-    li.style.marginBottom = "0.5rem";
+  const li = document.createElement("li");
+  li.style.display = "flex";
+  li.style.alignItems = "center";
+  li.style.marginBottom = "0.5rem";
 
-    const img = document.createElement("img");
-    img.src = member.profile_photo || "default.jpg";
-    img.alt = member.name;
-    img.style.width = "40px";
-    img.style.height = "40px";
-    img.style.borderRadius = "50%";
-    img.style.marginRight = "0.5rem";
+  const img = document.createElement("img");
+  img.src = member.profile_photo || "default.jpg";
+  img.alt = member.name;
+  img.style.width = "40px";
+  img.style.height = "40px";
+  img.style.borderRadius = "50%";
+  img.style.marginRight = "0.5rem";
 
-    const nameSpan = document.createElement("span");
-    nameSpan.textContent = member.name + (member.user_id === currentUser.id ? " (You)" : "");
+  const nameSpan = document.createElement("span");
+  nameSpan.textContent = member.name;
 
-    li.appendChild(img);
-    li.appendChild(nameSpan);
+  li.appendChild(img);
+  li.appendChild(nameSpan);
 
-    // Add "Send Friend Request" button if not current user
+  // Only create button for others
   if (member.user_id !== currentUser.id) {
     const btn = document.createElement("button");
-    btn.textContent = "Send Friend Request";
-    btn.style.marginLeft = "1rem";
+    btn.textContent = "Send Request";
+
+    // Check if request was already sent
+    const alreadySent = sentRequests.some(r => r.receiver_email === member.email);
+    if (alreadySent) {
+      btn.textContent = "Request Sent";
+      btn.disabled = true;
+    }
+
     btn.onclick = async () => {
-      const { error } = await supabase.from("friend_requests").insert([{
-        sender_id: currentUser.id,
-        status: "pending"
-      }]);
-      if (error) {
-        console.error(error);
-        alert("Error sending request.");
-      } else {
-        btn.disabled = true;
+      const result = await sendRequest(member.email);
+      if (result.success) {
         btn.textContent = "Request Sent ✅";
+        btn.disabled = true;
+        await showIncomingFriendRequests();
+      } else {
+        alert(result.message);
       }
     };
+
     li.appendChild(btn);
   }
 
-  membersList.appendChild(li);
+  membersList.appendChild(li); // append every member, including yourself
 });
 }
-await showCommunityMembers(locationId);
 
-}
 
 // ===== Join Community =====
 document.getElementById("joinCommunityBtn").addEventListener("click", async () => {
@@ -486,15 +500,17 @@ window.addEventListener("click", e => {
   if (e.target === searchPopup) searchPopup.style.display = "none";
 });
 
+// === Send Friend Request ===// === Send Friend Request ===// === Send Friend Request ===
 // === Send Friend Request ===
-document.getElementById("sendFriendRequestBtn").addEventListener("click", async () => {
-  const email = document.getElementById("friendEmailInput").value.trim().toLowerCase();
-  if (!email) return;
-
-  if (email === currentUser.email.toLowerCase()) {
-    alert("You cannot send a request to yourself.");
-    return;
-  }
+// === Send Friend Request ===
+// === Send Friend Request ===
+// === Send Friend Request ===
+// === Send Friend Request ===
+// ===== Unified Send Friend Request Function =====
+async function sendRequest(receiverEmail) {
+  const email = receiverEmail.trim().toLowerCase();
+  if (!email) return { success: false, message: "No email provided." };
+  if (email === currentUser.email.toLowerCase()) return { success: false, message: "You cannot send a request to yourself." };
 
   // Check if a request already exists
   const { data: existing, error: checkError } = await supabase
@@ -504,38 +520,56 @@ document.getElementById("sendFriendRequestBtn").addEventListener("click", async 
     .eq("receiver_email", email)
     .maybeSingle();
 
-  if (checkError) return console.error(checkError);
+  if (checkError) return { success: false, message: checkError.message };
+  if (existing) return { success: false, message: "Request already sent!" };
 
-  if (existing) {
-    alert("Request already sent!");
-    return;
-  }
+  // Insert request
+  const { error } = await supabase.from("friend_requests").insert([{
+    sender_id: currentUser.id,
+    receiver_email: email,
+    status: "pending"
+  }]);
 
-// Lookup user by email
-const { data: user, error: userError } = await supabase
-  .from("community_participants") // or "profiles"
-  .select("user_id")
-  .eq("email", email)
-  .maybeSingle();
+  if (error) return { success: false, message: error.message };
+  return { success: true };
+}
 
-if (userError || !user) return alert("User not found");
+// ===== Popup Email Request Button =====
+document.getElementById("sendFriendRequestBtn").addEventListener("click", async () => {
+  const email = document.getElementById("friendEmailInput").value;
+  const result = await sendRequest(email);
 
-const { error } = await supabase.from("friend_requests").insert([{
-  sender_id: currentUser.id,
-  receiver_email: email,
-  status: "pending"
-}]);
-
-  if (error) {
-    console.error(error);
-    alert("Error sending request.");
+  if (!result.success) {
+    alert(result.message);
   } else {
     alert("Friend request sent!");
-    searchPopup.style.display = "none";
     document.getElementById("friendEmailInput").value = "";
-    await showFriends(); // refresh buttons
+    searchPopup.style.display = "none";
+    await showFriends(); // refresh friends tab
+    if (joinedLocationId) await showCommunityMembers(joinedLocationId); // refresh community buttons
   }
 });
+
+// ===== Community Member Button Example =====
+// Inside your community members loop:
+const btn = document.createElement("button");
+btn.textContent = "Send Request";
+btn.onclick = async () => {
+  const result = await sendRequest(member.email); // send automatically using the member's email
+  if (result.success) {
+    btn.textContent = "Request Sent ✅";
+    btn.disabled = true;
+    await showIncomingFriendRequests(); // refresh incoming requests for the recipient
+  } else {
+    alert(result.message);
+  }
+};
+
+// === Send Friend Request ===
+// === Send Friend Request ===
+// === Send Friend Request ===
+// === Send Friend Request ===
+// === Send Friend Request ===
 
 // === Show Incoming Requests ===
 async function showIncomingFriendRequests() {

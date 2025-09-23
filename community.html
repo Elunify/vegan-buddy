@@ -186,23 +186,22 @@
   <div id="friends" class="tab-content" style="display:none;">
   <!-- Search / Send Request -->
   <div class="friend-search-container">
-    <button id="openSearchPopup" class="search-btn">🔎 Search Friend by Email</button>
-    <p class="search-note">Enter the email of a friend to send a request.</p>
+    <button id="openSearchPopup" class="search-btn">🔎 Search Friend</button>
   </div>
 
   <div id="searchPopup" class="popup">
     <div class="popup-content">
       <span id="closeSearchPopup" class="close">&times;</span>
-      <input id="friendEmailInput" type="email" placeholder="Friend's email" />
+      <input id="friendEmailInput" type="email" placeholder="Enter your friend's email." />
       <button id="sendFriendRequestBtn">Send Request</button>
     </div>
   </div>
 
   <!-- Incoming Requests -->
   <ul id="incomingRequestsList"></ul>
-  <p id="noRequestsMsg">No incoming friend requests.</p>
 
   <!-- Accepted Friends -->
+  <p id="noRequestsMsg">Friends:</p>
   <ul id="friendsList"></ul>
 </div>
 
