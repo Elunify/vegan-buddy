@@ -737,3 +737,158 @@ button.locked::after {
     font-size: 0.9rem;
   }
 }
+
+/* === Friends Tab === */
+#friends {
+  padding: 1rem;
+  font-family: "Segoe UI", sans-serif;
+  color: #333;
+}
+
+#friends h3 {
+  margin: 0.5rem 0;
+}
+
+/* Header row with search icon */
+.friends-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Search button */
+.search-btn {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.search-btn:hover {
+  transform: scale(1.2);
+}
+
+/* No requests text */
+.no-requests {
+  text-align: center;
+  color: #777;
+  font-style: italic;
+  margin: 0.5rem 0 1rem;
+}
+
+/* Requests & Friends list */
+#incomingRequestsList,
+#friendsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#incomingRequestsList li,
+#friendsList li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.6rem;
+  border-radius: 12px;
+  background: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: background 0.2s ease;
+}
+
+#incomingRequestsList li:hover,
+#friendsList li:hover {
+  background: #edf6f9;
+}
+
+/* Profile photos */
+#incomingRequestsList li img,
+#friendsList li img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #95d5b2;
+}
+
+/* User name */
+#incomingRequestsList li span,
+#friendsList li span {
+  font-weight: 500;
+  flex: 1;
+}
+
+/* Buttons container */
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* General button style */
+#friends button {
+  padding: 0.35rem 0.7rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+#friends button:hover {
+  transform: translateY(-2px);
+}
+
+/* Accept / Decline buttons */
+button.accept { background: #52b788; color: white; }
+button.accept:hover { background: #40916c; }
+
+button.decline { background: #ff6b6b; color: white; }
+button.decline:hover { background: #e63946; }
+
+/* Send Message button */
+button.message { background: #4895ef; color: white; }
+button.message:hover { background: #4361ee; }
+
+/* === Popup Styling === */
+.popup {
+  display: none; /* hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4);
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  width: 300px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  position: relative;
+  text-align: center;
+}
+
+.popup-content input {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.7rem 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.popup-content button {
+  background: #52b788;
+  color: white;
+  width: 100%;
+}
+
+.close {
+  position: absolute;
+  right: 10px; top: 8px;
+  font-size: 1.4rem;
+  cursor: pointer;
+}

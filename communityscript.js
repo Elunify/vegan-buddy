@@ -213,49 +213,17 @@ async function showCommunityDashboard(locationId, locationName) {
   
 async function showCommunityMembers(locationId) {
   const membersList = document.getElementById("communityMembersList");
-  membersList.innerHTML = ""; // Clear existing list
+  membersList.innerHTML = "";
 
-  // 1️⃣ Show current user first
-  const { data: currentUserData, error: profileError } = await supabase
+  
+  const { data: members, error } = await supabase
     .from("community_participants")
-    .select("name, profile_photo")
-    .eq("user_id", currentUser.id)
-    .maybeSingle();
-
-  if (profileError) return console.error(profileError);
-
-  if (currentUserData) {
-    const li = document.createElement("li");
-    li.style.display = "flex";
-    li.style.alignItems = "center";
-    li.style.marginBottom = "0.5rem";
-
-    const img = document.createElement("img");
-    img.src = currentUserData.profile_photo || "default-avatar.png";
-    img.alt = currentUserData.name;
-    img.style.width = "40px";
-    img.style.height = "40px";
-    img.style.borderRadius = "50%";
-    img.style.marginRight = "0.5rem";
-
-    const nameSpan = document.createElement("span");
-    nameSpan.textContent = `${currentUserData.name} (You)`; // mark as "You"
-
-    li.appendChild(img);
-    li.appendChild(nameSpan);
-    membersList.appendChild(li);
-  }
-
-  // 2️⃣ Fetch and show all other members
-  const { data: otherMembers, error } = await supabase
-    .from("community_participants")
-    .select("name, profile_photo")
-    .eq("location_id", locationId)
-    .neq("user_id", currentUser.id);
+    .select("user_id, name, profile_photo")
+    .eq("location_id", locationId);
 
   if (error) return console.error(error);
 
-  otherMembers.forEach(member => {
+  members.forEach(member => {
     const li = document.createElement("li");
     li.style.display = "flex";
     li.style.alignItems = "center";
@@ -270,15 +238,37 @@ async function showCommunityMembers(locationId) {
     img.style.marginRight = "0.5rem";
 
     const nameSpan = document.createElement("span");
-    nameSpan.textContent = member.name;
+    nameSpan.textContent = member.name + (member.user_id === currentUser.id ? " (You)" : "");
 
     li.appendChild(img);
     li.appendChild(nameSpan);
-    membersList.appendChild(li);
-  });
-}
 
-showCommunityMembers(locationId);
+    // Add "Send Friend Request" button if not current user
+  if (member.user_id !== currentUser.id) {
+    const btn = document.createElement("button");
+    btn.textContent = "Send Friend Request";
+    btn.style.marginLeft = "1rem";
+    btn.onclick = async () => {
+      const { error } = await supabase.from("friend_requests").insert([{
+        from_user: currentUser.id,
+        to_user: member.user_id,
+        status: "pending"
+      }]);
+      if (error) {
+        console.error(error);
+        alert("Error sending request.");
+      } else {
+        btn.disabled = true;
+        btn.textContent = "Request Sent ✅";
+      }
+    };
+    li.appendChild(btn);
+  }
+
+  membersList.appendChild(li);
+});
+}
+await showCommunityMembers(locationId);
 
 }
 
@@ -483,4 +473,184 @@ document.addEventListener("DOMContentLoaded", async () => {
 // Meal Art Contest -->
 // Meal Art Contest -->
 // Meal Art Contest -->
+
+// === Popup controls ===
+const searchPopup = document.getElementById("searchPopup");
+document.getElementById("openSearchPopup").addEventListener("click", () => {
+  searchPopup.style.display = "flex";
+});
+document.getElementById("closeSearchPopup").addEventListener("click", () => {
+  searchPopup.style.display = "none";
+});
+window.addEventListener("click", e => {
+  if (e.target === searchPopup) searchPopup.style.display = "none";
+});
+
+// === Send Friend Request ===
+document.getElementById("sendFriendRequestBtn").addEventListener("click", async () => {
+  const email = document.getElementById("friendEmailInput").value.trim();
+  if (!email) return;
+
+  // Lookup user by email
+  const { data: user, error: userError } = await supabase
+    .from("profiles")
+    .select("id")
+    .eq("email", email)
+    .maybeSingle();
+
+  if (userError || !user) {
+    alert("User not found.");
+    return;
+  }
+
+  if (user.id === currentUser.id) {
+    alert("You cannot send a request to yourself.");
+    return;
+  }
+
+  // Check if request already exists
+  const { data: existingReq } = await supabase
+    .from("friend_requests")
+    .select("*")
+    .or(`sender_id.eq.${currentUser.id},receiver_id.eq.${currentUser.id}`)
+    .eq("receiver_id", user.id)
+    .maybeSingle();
+
+  if (existingReq) {
+    alert("Friend request already sent or pending.");
+    return;
+  }
+
+  const { error } = await supabase.from("friend_requests").insert([{
+    sender_id: currentUser.id,
+    receiver_id: user.id,
+    status: "pending"
+  }]);
+
+  if (error) {
+    console.error(error);
+    alert("Error sending request.");
+  } else {
+    alert("Friend request sent!");
+    searchPopup.style.display = "none";
+    document.getElementById("friendEmailInput").value = "";
+  }
+});
+
+// === Show Incoming Requests ===
+async function showIncomingFriendRequests() {
+  const { data: requests, error } = await supabase
+    .from("friend_requests")
+    .select(`id, sender_id, profiles!friend_requests_sender_id_fkey(name, profile_photo)`)
+    .eq("receiver_id", currentUser.id)
+    .eq("status", "pending");
+
+  if (error) return console.error(error);
+
+  const list = document.getElementById("incomingRequestsList");
+  list.innerHTML = "";
+
+  requests.forEach(req => {
+    const li = document.createElement("li");
+
+    const img = document.createElement("img");
+    img.src = req.profiles.profile_photo || "default-avatar.png";
+    img.alt = req.profiles.name;
+
+    const span = document.createElement("span");
+    span.textContent = req.profiles.name;
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+
+    const acceptBtn = document.createElement("button");
+    acceptBtn.className = "accept";
+    acceptBtn.textContent = "Accept";
+    acceptBtn.onclick = async () => {
+      // Insert into friends table
+      const { error: friendError } = await supabase.from("friends").insert([{
+        user1_id: currentUser.id,
+        user2_id: req.sender_id
+      }]);
+
+      if (friendError) return console.error(friendError);
+
+      // Delete request
+      await supabase.from("friend_requests").delete().eq("id", req.id);
+      showIncomingFriendRequests();
+      showFriends();
+    };
+
+    const declineBtn = document.createElement("button");
+    declineBtn.className = "decline";
+    declineBtn.textContent = "Decline";
+    declineBtn.onclick = async () => {
+      await supabase.from("friend_requests").delete().eq("id", req.id);
+      showIncomingFriendRequests();
+    };
+
+    actions.appendChild(acceptBtn);
+    actions.appendChild(declineBtn);
+
+    li.appendChild(img);
+    li.appendChild(span);
+    li.appendChild(actions);
+    list.appendChild(li);
+  });
+}
+
+// === Show Friends List ===
+async function showFriends() {
+  const { data: friends, error } = await supabase
+    .from("friends")
+    .select(`
+      user1_id,
+      user2_id,
+      profiles1:user1_id ( id, name, profile_photo ),
+      profiles2:user2_id ( id, name, profile_photo )
+    `)
+    .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
+
+  if (error) return console.error(error);
+
+  const list = document.getElementById("friendsList");
+  list.innerHTML = "";
+
+  friends.forEach(f => {
+    const friend = f.user1_id === currentUser.id ? f.profiles2 : f.profiles1;
+
+    const li = document.createElement("li");
+
+    const img = document.createElement("img");
+    img.src = friend.profile_photo || "default-avatar.png";
+    img.alt = friend.name;
+
+    const span = document.createElement("span");
+    span.textContent = friend.name;
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+
+    const msgBtn = document.createElement("button");
+    msgBtn.className = "message";
+    msgBtn.textContent = "Message";
+    msgBtn.onclick = () => {
+      alert(`Messaging ${friend.name}...`);
+    };
+
+    actions.appendChild(msgBtn);
+
+    li.appendChild(img);
+    li.appendChild(span);
+    li.appendChild(actions);
+    list.appendChild(li);
+  });
+}
+
+// Load friends tab
+async function loadFriendsTab() {
+  await showIncomingFriendRequests();
+  await showFriends();
+}
+
 

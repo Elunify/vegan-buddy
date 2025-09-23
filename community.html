@@ -184,9 +184,34 @@
      <!-- Friends -->
       <!-- Friends -->
   <div id="friends" class="tab-content" style="display:none;">
-    <h2>Friends</h2>
-    <p>See friends’ profile cards and add new friends.</p>
+
+  <!-- Header row: Requests + Search -->
+  <div class="friends-header">
+    <h3>Incoming Requests</h3>
+    <button id="openSearchPopup" class="search-btn">🔍</button>
   </div>
+
+  <!-- Incoming Requests -->
+  <ul id="incomingRequestsList"></ul>
+  <p id="noRequestsMsg" class="no-requests">No friend requests yet.</p>
+
+  <!-- Divider -->
+  <hr />
+
+  <!-- Friends List -->
+  <h3>Your Friends</h3>
+  <ul id="friendsList"></ul>
+</div>
+
+<!-- Hidden Search Popup -->
+<div id="searchPopup" class="popup">
+  <div class="popup-content">
+    <span id="closeSearchPopup" class="close">&times;</span>
+    <h4>Send Friend Request</h4>
+    <input type="email" id="friendEmailInput" placeholder="Enter user email">
+    <button id="sendFriendRequestBtn">Send Request</button>
+  </div>
+</div>
 
 
   <!-- Messages -->
