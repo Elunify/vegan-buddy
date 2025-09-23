@@ -78,6 +78,15 @@
   </div>
   </div>
 
+  <div class="community-section">
+  <div class="community-section-header">Members ▼</div>
+  <div class="community-section-content" id="communityMembersSection" style="display: none;">
+    <ul id="communityMembersList">
+      <!-- Members populated dynamically -->
+    </ul>
+  </div>
+</div>
+
   <button id="leaveCommunityDashboardBtn">Leave Community</button>
 </div>
 </div>
@@ -95,16 +104,23 @@
   <!-- Header / Intro -->
   <div class="meal-art-header">
     <h2>Meal Art Contest</h2>
-    <p>Upload your meal art from Tuesday to Sunday. Voting is on Monday.</p>
+    <p class="generalnote" id="generalnote" style="display: inline-block">Upload your meal art from Tuesday to Sunday. Voting is on Monday.</p>
 
     <!-- Buttons -->
   <div class="header-buttons">
-    <button id="uploadBtn" class="locked" data-unlock="🔓 Unlock at Lvl 10" style="display:none;">Upload My Meal</button>
-    <p class="uploadnote" id="uploadnote" style="display:none;">
-  <a href="mailto:elunify.app@gmail.com">Restaurants: Request Pro Kitchen access — no level needed!</a>
-</p>
-    <button id="voteBtn" style="display:none;">It's a vote day! Pick your favorite!</button>
-  </div>
+  <button id="uploadBtn" class="locked" data-unlock="🔓 Unlock at Lvl 10" style="display:none;">Upload My Meal</button>
+  
+  <p class="uploadnote" id="uploadnote" style="display:none;">
+    <a href="mailto:elunify.app@gmail.com">Restaurants: Request Pro Kitchen access — no level needed!</a>
+  </p>
+  
+  <p class="votenote" id="votenote" style="display:none;">It's a vote day! Pick your favorite!</p>
+  
+  <!-- New message when user already uploaded -->
+  <p class="already-uploaded" id="alreadyUploadedMsg" style="display:none; color: green; font-weight: bold;">
+    You uploaded your meal this week, congratulations!
+  </p>
+</div>
   </div>
 
   <!-- Main Tabs: Current Participants / Past Winners -->
@@ -115,43 +131,50 @@
 
   <!-- Participants Gallery -->
 <div class="main-tab-content" id="participants" style="display:none;">
-<div class="participants-gallery">
-  <div class="category-column" id="home-chef-column">
-    <h4>Home Chef</h4>
-    <div class="current-week-gallery" id="home-chef-gallery">
-      <!-- Example participant image -->
-      <img src="meals/homeparticipant1.jpg" alt="Home Chef Participant 1">
+  <div class="participants-gallery">
+    <div class="category-column" id="home-chef-column">
+      <h4>Home Chef</h4>
+      <!-- JS will insert current week meals here -->
+      <div class="current-week-gallery" id="home-chef-gallery"></div>
     </div>
-  </div>
-  <div class="category-column" id="pro-kitchen-column">
-    <h4>Pro Kitchen</h4>
-    <div class="current-week-gallery" id="pro-kitchen-gallery">
-      <!-- Example participant image -->
-      <img src="meals/proparticipant1.jpg" alt="Pro Kitchen Participant 1">
+
+    <div class="category-column" id="pro-kitchen-column">
+      <h4>Pro Kitchen</h4>
+      <!-- JS will insert current week meals here -->
+      <div class="current-week-gallery" id="pro-kitchen-gallery"></div>
     </div>
-  </div>
   </div>
 </div>
 
-<!-- Past Winners Tab -->
 <div class="main-tab-content" id="past-winners" style="display:none;">
   <div class="past-winners-columns">
     <div class="category-column" id="home-chef-past">
       <h4>Home Chef</h4>
-      <div class="winner-list" id="home-chef-winners">
-        <!-- Example past winner image -->
-        <img src="meals/homewinner1.jpg" alt="Home Chef Winner 1">
-      </div>
+      <!-- JS will insert winners here -->
+      <div class="winner-list" id="home-chef-winners"></div>
     </div>
+
     <div class="category-column" id="pro-kitchen-past">
       <h4>Pro Kitchen</h4>
-      <div class="winner-list" id="pro-kitchen-winners">
-        <!-- Example past winner image -->
-        <img src="meals/prowinner1.jpg" alt="Pro Kitchen Winner 1">
-      </div>
+      <!-- JS will insert winners here -->
+      <div class="winner-list" id="pro-kitchen-winners"></div>
     </div>
   </div>
 </div>
+
+<!-- Recipe Modal -->
+<div id="recipeModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span id="closeModal" class="close">&times;</span>
+    <h3 id="modalFoodName"></h3>
+    <h4>Ingredients:</h4>
+    <p id="modalIngredients"></p>
+    <h4>Instructions:</h4>
+    <p id="modalInstructions"></p>
+  </div>
+</div>
+
+
 </div>
 
 

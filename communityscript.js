@@ -219,9 +219,21 @@ document.getElementById("joinCommunityBtn").addEventListener("click", async () =
   const locationName = document.getElementById("citySelect").selectedOptions[0].text + ", " +
                        document.getElementById("countrySelect").value;
 
+  // Fetch the user's name and profile picture from profiles
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("name, profile_photo")
+    .eq("id", currentUser.id)
+    .single();
+
+  if (profileError) return console.error(profileError);
+
+  // Insert/Upsert into community_participants
   const { error } = await supabase.from("community_participants").upsert([{
     user_id: currentUser.id,
-    location_id: locationId
+    location_id: locationId,
+    name: profile.name,
+    profile_photo: profile.profile_photo
   }]);
 
   if (error) return console.error(error);
@@ -361,13 +373,32 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadLocations();
   await loadUserCommunity();
 
+  const tabs = {
+    homeSection: document.getElementById("homeSection"),
+    mealArtContest: document.getElementById("mealArtContest"),
+    friends: document.getElementById("friends"),
+    messages: document.getElementById("messages")
+  };
+
+  const openTab = (tabId) => {
+    Object.values(tabs).forEach(tab => tab.style.display = "none"); // hide all
+    if (tabs[tabId]) tabs[tabId].style.display = "block";           // show selected
+    localStorage.setItem("lastOpenTab", tabId);                     // save last tab
+  };
+
   document.getElementById('backBtn').onclick = () => window.location.href = 'mainpage.html';
   document.getElementById("communityBtn").onclick = () => openTab("homeSection");
   document.getElementById("mealArtBtn").onclick = () => openTab("mealArtContest");
   document.getElementById("friendsBtn").onclick = () => openTab("friends");
   document.getElementById("messagesBtn").onclick = () => openTab("messages");
 
-  openTab("homeSection"); // default tab
+  // ===== Load last open tab if available =====
+  const lastTab = localStorage.getItem("lastOpenTab");
+  if (lastTab && tabs[lastTab]) {
+    openTab(lastTab);
+  } else {
+    openTab("homeSection"); // default tab
+  }
 });
 
 // Community END -->
