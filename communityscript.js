@@ -209,6 +209,77 @@ async function showCommunityDashboard(locationId, locationName) {
   await loadCommunityEvents(locationId);
 
   setupRealtimeMessages(locationId);
+
+  
+async function showCommunityMembers(locationId) {
+  const membersList = document.getElementById("communityMembersList");
+  membersList.innerHTML = ""; // Clear existing list
+
+  // 1️⃣ Show current user first
+  const { data: currentUserData, error: profileError } = await supabase
+    .from("community_participants")
+    .select("name, profile_photo")
+    .eq("user_id", currentUser.id)
+    .maybeSingle();
+
+  if (profileError) return console.error(profileError);
+
+  if (currentUserData) {
+    const li = document.createElement("li");
+    li.style.display = "flex";
+    li.style.alignItems = "center";
+    li.style.marginBottom = "0.5rem";
+
+    const img = document.createElement("img");
+    img.src = currentUserData.profile_photo || "default-avatar.png";
+    img.alt = currentUserData.name;
+    img.style.width = "40px";
+    img.style.height = "40px";
+    img.style.borderRadius = "50%";
+    img.style.marginRight = "0.5rem";
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = `${currentUserData.name} (You)`; // mark as "You"
+
+    li.appendChild(img);
+    li.appendChild(nameSpan);
+    membersList.appendChild(li);
+  }
+
+  // 2️⃣ Fetch and show all other members
+  const { data: otherMembers, error } = await supabase
+    .from("community_participants")
+    .select("name, profile_photo")
+    .eq("location_id", locationId)
+    .neq("user_id", currentUser.id);
+
+  if (error) return console.error(error);
+
+  otherMembers.forEach(member => {
+    const li = document.createElement("li");
+    li.style.display = "flex";
+    li.style.alignItems = "center";
+    li.style.marginBottom = "0.5rem";
+
+    const img = document.createElement("img");
+    img.src = member.profile_photo || "default.jpg";
+    img.alt = member.name;
+    img.style.width = "40px";
+    img.style.height = "40px";
+    img.style.borderRadius = "50%";
+    img.style.marginRight = "0.5rem";
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = member.name;
+
+    li.appendChild(img);
+    li.appendChild(nameSpan);
+    membersList.appendChild(li);
+  });
+}
+
+showCommunityMembers(locationId);
+
 }
 
 // ===== Join Community =====
