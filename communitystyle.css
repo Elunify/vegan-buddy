@@ -580,6 +580,7 @@ body {
   gap: 15px;
   justify-content: center;
   margin-top: 15px;
+  flex-direction: column;
 }
 
 /* Common Button Styles */
@@ -598,6 +599,39 @@ body {
 /* Upload Button Style */
 #uploadBtn {
   background-color: #6ab04c; /* bright green */
+  margin-bottom: -0.4rem;
+}
+
+/* Locked style for buttons */
+button.locked {
+  opacity: 0.5;
+  position: relative;
+  pointer-events: none;
+}
+
+button.locked::after {
+  content: attr(data-unlock);
+  position: absolute;
+  inset: 0;
+  background: rgba(138, 138, 138, 0.6);
+  color: rgba(255, 255, 255, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: inherit;
+  font-size: 0.9em;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+.uploadnote {
+  font-size: 0.6rem;
+  color: green;
+}
+.uploadnote a {
+  text-decoration: underline;
+  color: inherit; /* keeps same color as parent */
 }
 
 #uploadBtn:hover {

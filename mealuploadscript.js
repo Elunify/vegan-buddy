@@ -129,4 +129,5 @@ if (profile.is_pro === true) {
   form.reset();
   previewImage.src = "";
   photoPreview.style.display = "none";
+  window.location.href = "community.html";
 });
