@@ -283,7 +283,7 @@ document.getElementById("joinCommunityBtn").addEventListener("click", async () =
   // Fetch the user's name and profile picture from profiles
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
-    .select("name, profile_photo")
+    .select("name, profile_photo, email")
     .eq("id", currentUser.id)
     .single();
 
