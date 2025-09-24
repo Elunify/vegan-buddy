@@ -945,8 +945,6 @@ if (profileError) {
   const { error: messageError } = await supabase.from('messages').insert([{
     chat_id: chatId,
     sender_id: currentUser.id,
-    sender_name: currentUser.user_metadata?.name,
-    sender_profile_photo: currentUser.user_metadata?.profile_photo,
     content: text
   }]);
 
