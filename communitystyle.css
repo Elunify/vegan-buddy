@@ -1093,3 +1093,66 @@ button.send-request:hover {
   border-radius: 3px;
 }
 
+/* Chat box container */
+.chat-messages {
+  height: 14rem;                 /* fixed height */
+  overflow-y: auto;              /* scroll vertically */
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+  padding: 0.4rem;
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Each message bubble */
+.chat-messages div {
+  margin: 0.2rem 0;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  max-width: 85%;
+  word-break: break-word;
+}
+
+/* My messages (right aligned) */
+.chat-messages .my-message {
+  background: #c2f0c2;
+  align-self: flex-end;
+  text-align: right;
+}
+
+/* Their messages (left aligned) */
+.chat-messages .friend-message {
+  background: #e6e6e6;
+  align-self: flex-start;
+  text-align: left;
+}
+
+/* Input and button */
+#messageInput {
+  width: 70%;
+  margin:0.2rem;
+  padding: 0.4rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.85rem;
+}
+
+#sendMessageBtn {
+  padding: 0.4rem 0.8rem;
+  margin: 0.2rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #4caf50;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+#sendMessageBtn:hover {
+  background-color: #45a049;
+}

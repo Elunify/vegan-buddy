@@ -1088,3 +1088,36 @@ async function loadMessages(chatId, friend) {
     })
     .subscribe();
 }
+
+// Toggle chat content when header clicked (like Community Chat)
+const chatHeader = document.querySelector("#chatView .chat-header");
+const chatContent = document.getElementById("chatMessages");
+
+chatHeader.addEventListener("click", () => {
+  const inputRow = document.querySelector("#chatView .chat-input");
+  if (chatContent.style.display === "block") {
+    chatContent.style.display = "none";
+    inputRow.style.display = "none";
+  } else {
+    chatContent.style.display = "block";
+    inputRow.style.display = "flex"; // input & button row
+    scrollChatToBottom();
+  }
+});
+
+// Scroll to bottom function
+function scrollChatToBottom() {
+  const container = document.getElementById("chatMessages");
+  if (container && container.children.length > 0) {
+    container.lastElementChild.scrollIntoView({ block: "end", behavior: "auto" });
+  }
+}
+
+// Optional: scroll automatically on new message
+function addMessageBubble(messageText, type="my-message") {
+  const msgDiv = document.createElement("div");
+  msgDiv.className = type + " chat-message";
+  msgDiv.textContent = messageText;
+  chatContent.appendChild(msgDiv);
+  scrollChatToBottom();
+}
