@@ -470,8 +470,13 @@ submitEventBtn.addEventListener("click", async () => {
 // ===== DOMContentLoaded =====
 document.addEventListener("DOMContentLoaded", async () => {
   await getCurrentUser();
+  if (!currentUser) return; // safety
+
   await loadLocations();
   await loadUserCommunity();
+
+  // Load chat list AFTER currentUser is defined
+  await loadChatList();
 
   const tabs = {
     homeSection: document.getElementById("homeSection"),
@@ -657,17 +662,30 @@ async function showIncomingFriendRequests() {
     acceptBtn.className = "accept";
     acceptBtn.textContent = "Accept";
     acceptBtn.onclick = async () => {
+  // ✅ Get my (receiver's) profile from profiles table
+  const { data: myProfile, error: myError } = await supabase
+    .from("profiles")
+    .select("id, name, profile_photo, email")
+    .eq("id", currentUser.id)
+    .single();
+
+  if (myError) {
+    console.error("Error fetching my profile:", myError);
+    return;
+  }
       // Insert friendship into `friends` table
       const { error: insertError } = await supabase.from("friends").insert([{
-  user1_id: currentUser.id,
-  user1_name: currentUser.user_metadata?.name,
-  user1_email: currentUser.email,
-  user1_profile_photo: currentUser.user_metadata?.profile_photo,
+  // Sender (already in friend_requests)
+    user1_id: req.sender_id,
+    user1_name: req.name,
+    user1_email: req.email,
+    user1_profile_photo: req.profile_photo,
 
-  user2_id: req.sender_id,
-  user2_name: req.name,
-  user2_email: req.email,
-  user2_profile_photo: req.profile_photo
+    // Receiver (me)
+    user2_id: myProfile.id,
+    user2_name: myProfile.name,
+    user2_email: myProfile.email,
+    user2_profile_photo: myProfile.profile_photo
       }]);
 
       if (insertError) {
@@ -701,10 +719,14 @@ async function showIncomingFriendRequests() {
   });
 }
 
-
-// === Show Friends List (from friends table) ===
-async function showFriends() {
-  const list = document.getElementById("friendsList");
+/**
+ * Render friends list in any container.
+ * @param {string} containerId - ID of the <ul> where friends will be listed
+ * @param {function} onClickFriend - callback when a friend is clicked
+ */
+async function showFriends(containerId, onClickFriend) {
+  const list = document.getElementById(containerId);
+  if (!list) return;
   list.innerHTML = "";
 
   // Fetch all friendships where currentUser is one of the two users
@@ -714,12 +736,12 @@ async function showFriends() {
     .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
 
   if (error) {
-    console.error(error);
+    console.error("Error fetching friends:", error);
     return;
   }
 
   friendsData.forEach(friendship => {
-    // Decide who the "other user" is
+    // Determine the "other user"
     const friend = friendship.user1_id === currentUser.id
       ? {
           id: friendship.user2_id,
@@ -734,40 +756,337 @@ async function showFriends() {
           photo: friendship.user1_profile_photo,
         };
 
+    // List item
+    const li = document.createElement("li");
+
+    // Friend photo
+    const img = document.createElement("img");
+    img.src = friend.photo || "default.jpg";
+    img.alt = friend.name;
+
+    // Friend name
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = friend.name || "Unknown";
+
+    li.appendChild(img);
+    li.appendChild(nameSpan);
+
+    // Click behavior
+    const btn = document.createElement("button");
+    btn.textContent = "Message";
+    btn.className = "message";
+    btn.onclick = e => {
+      e.stopPropagation(); // prevent li.onclick from firing
+      onClickFriend(friend);
+};
+li.appendChild(btn);
+
+    list.appendChild(li);
+  });
+}
+
+// === Load Friends Tab ===
+async function loadFriendsTab() {
+  await showIncomingFriendRequests();
+
+  // Friends tab: render in #friendsList with "Message" button click
+  await showFriends("friendsList", friend => startChatWithFriend(friend));
+}
+
+
+// === Chats ===
+// === Chats ===
+// === Chats ===
+// === Chats ===
+
+async function startChatWithFriend(friend) {
+  // 1️⃣ Check if chat already exists
+  const { data: existingChats, error: chatError } = await supabase
+    .from('chats')
+    .select('*')
+    .or(
+      `and(user1_id.eq.${currentUser.id},user2_id.eq.${friend.id}),and(user1_id.eq.${friend.id},user2_id.eq.${currentUser.id})`
+    )
+    .limit(1);
+
+  if (chatError) {
+    console.error("Error fetching chat:", chatError);
+    return;
+  }
+
+  let chatId;
+
+  if (existingChats.length > 0) {
+    // 2️⃣ Chat already exists
+    chatId = existingChats[0].id;
+  } 
+
+  // 4️⃣ Open chat window in Messages tab
+  // Example: set a global/current state for active chat
+  openChatWindow(chatId, friend);
+}
+
+function openChatWindow(chatId, friend) {
+  window.currentChatId = chatId;
+  window.currentChatFriend = friend; // ✅ store friend
+
+  // 1️⃣ Hide friends tab and show messages tab
+  const friends = document.getElementById("friends"); // main friends tab container
+  const messages = document.getElementById("messages"); // main messages tab container
+  if (friends) friends.style.display = "none";
+  if (messages) messages.style.display = "block";
+
+  // 2️⃣ Hide the chat list view and show the chat view
+  const chatListView = document.getElementById("chatListView");
+  const chatView = document.getElementById("chatView");
+  if (chatListView) chatListView.style.display = "none";
+  if (chatView) chatView.style.display = "block";
+
+  // 3️⃣ Update chat header
+  const chatHeader = document.getElementById("chatHeader");
+  if (chatHeader) chatHeader.textContent = friend.name;
+
+  // 4️⃣ Load messages only if chat exists
+  const chatContainer = document.getElementById("chatMessages");
+  if (chatId) {
+    loadMessages(chatId, friend);
+  } else {
+    if (chatContainer) chatContainer.innerHTML = "";
+  }
+}
+
+
+// Trigger the popup
+document.getElementById("newMessageBtn").onclick = async () => {
+  await showFriends("friendsListPopup", friend => {
+    startChatWithFriend(friend);
+    document.getElementById("newChatPopup").style.display = "none";
+  });
+  document.getElementById("newChatPopup").style.display = "flex";
+};
+
+// Close popup
+document.getElementById("closePopup").onclick = () => {
+  document.getElementById("newChatPopup").style.display = "none";
+};
+
+// Back button in chat view
+document.getElementById("backToList").onclick = () => {
+  const chatView = document.getElementById("chatView");
+  const chatListView = document.getElementById("chatListView");
+
+  if (chatView) chatView.style.display = "none";
+  if (chatListView) chatListView.style.display = "block";
+};
+
+// Send message button handler
+document.getElementById("sendMessageBtn").onclick = async () => {
+  const messageInput = document.getElementById("messageInput");
+  const text = messageInput.value.trim();
+  if (!text) return; // ignore empty messages
+
+  // Find the current friend object (you can store it globally when opening chat)
+  const friend = window.currentChatFriend;
+  if (!friend) return;
+
+  // Fetch current user's profile
+const { data: profile, error: profileError } = await supabase
+  .from('profiles')
+  .select("name, profile_photo")
+  .eq("id", currentUser.id)
+  .maybeSingle();
+
+if (profileError) {
+  console.error("Error fetching profile:", profileError);
+  return;
+}
+
+  let chatId = window.currentChatId;
+
+  // 1️⃣ If no chat yet, create it
+  if (!chatId) {
+    const { data: newChat, error: createError } = await supabase
+      .from('chats')
+      .insert([{
+        // Sender (current user)
+      user1_id: currentUser.id,
+      user1_name: profile?.name,
+      user1_profile_photo: profile?.profile_photo,
+
+      // Receiver (friend)
+      user2_id: friend.id,
+      user2_name: friend.name,
+      user2_profile_photo: friend.photo,
+
+        last_message: text,
+        last_message_at: new Date().toISOString()
+      }])
+      .select()
+      .single();
+
+    if (createError) {
+      console.error("Error creating chat:", createError);
+      return;
+    }
+
+    chatId = newChat.id;
+    window.currentChatId = chatId; // store for subsequent messages
+  } else {
+    // 2️⃣ If chat exists, just update last_message metadata
+    await supabase.from('chats')
+      .update({
+        last_message: text,
+        last_message_at: new Date().toISOString()
+      })
+      .eq('id', chatId);
+  }
+
+  // 3️⃣ Insert the actual message
+  const { error: messageError } = await supabase.from('messages').insert([{
+    chat_id: chatId,
+    sender_id: currentUser.id,
+    sender_name: currentUser.user_metadata?.name,
+    sender_profile_photo: currentUser.user_metadata?.profile_photo,
+    content: text
+  }]);
+
+  if (messageError) {
+    console.error("Error sending message:", messageError);
+    return;
+  }
+
+  // 4️⃣ Clear input and reload chat window
+  messageInput.value = '';
+  loadMessages(chatId, friend);
+};
+
+async function loadChatList() {
+  const list = document.getElementById("chatListItems");
+  if (!list) return;
+  list.innerHTML = "";
+
+  // Fetch chats where currentUser is either user1 or user2
+  const { data: chats, error } = await supabase
+    .from('chats')
+    .select('*')
+    .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`)
+    .order('last_message_at', { ascending: false });
+
+  if (error) {
+    console.error("Error fetching chats:", error);
+    return;
+  }
+
+  if (!chats || chats.length === 0) return; // nothing to show yet
+
+  chats.forEach(chat => {
+  if (!chat || !chat.id) return; // <-- skip invalid rows
+
+    // Decide who the friend is
+    const friend = chat.user1_id === currentUser.id
+    ? { id: chat.user2_id || "unknown", name: chat.user2_name || "Unknown", photo: chat.user2_profile_photo || "default.jpg" }
+    : { id: chat.user1_id || "unknown", name: chat.user1_name || "Unknown", photo: chat.user1_profile_photo || "default.jpg" };
+
     const li = document.createElement("li");
     li.style.display = "flex";
     li.style.alignItems = "center";
-    li.style.marginBottom = "0.5rem";
+    li.style.justifyContent = "space-between";
+    li.style.padding = "0.5rem";
+    li.style.borderBottom = "1px solid #eee";
 
     const img = document.createElement("img");
-    img.src = friend.photo || "default-avatar.png";
+    img.src = friend.photo || "default.jpg";
     img.alt = friend.name;
     img.style.width = "40px";
     img.style.height = "40px";
     img.style.borderRadius = "50%";
     img.style.marginRight = "0.5rem";
 
-    const nameSpan = document.createElement("span");
-    nameSpan.textContent = friend.name || "Unknown";
+    const info = document.createElement("div");
+    info.style.flex = "1";
+    const nameSpan = document.createElement("div");
+    nameSpan.textContent = friend.name;
+    nameSpan.style.fontWeight = "500";
+    const lastMessage = document.createElement("div");
+    lastMessage.textContent = chat.last_message || "";
+    lastMessage.style.fontSize = "0.85rem";
+    lastMessage.style.color = "#555";
 
-    const btn = document.createElement("button");
-    btn.textContent = "Message";
-    btn.className = "message";
-    btn.style.marginLeft = "auto";
-    btn.onclick = () => alert(`Messaging ${friend.name}...`);
+    info.appendChild(nameSpan);
+    info.appendChild(lastMessage);
 
     li.appendChild(img);
-    li.appendChild(nameSpan);
-    li.appendChild(btn);
+    li.appendChild(info);
+
+    li.onclick = () => startChatWithFriend(friend);
+
     list.appendChild(li);
   });
 }
 
+// === Subscribe to changes in the chats table for the current user ===
+const chatSubscription = supabase
+  .channel('realtime:chats')
+  .on(
+    'postgres_changes',
+    { event: '*', schema: 'public', table: 'chats' },
+    (payload) => {
+      const newChat = payload.new;
+      if (!newChat) return; // ignore deletes
+      if (newChat.user1_id === currentUser.id || newChat.user2_id === currentUser.id) {
+        loadChatList();
+      }
+    }
+  )
+  .subscribe();
 
+let messageSubscription = null; // keep track of the subscription
 
+async function loadMessages(chatId, friend) {
+  const chatContainer = document.getElementById("chatMessages");
+  if (!chatContainer) return;
 
-// === Load Friends Tab ===
-async function loadFriendsTab() {
-  await showIncomingFriendRequests();
-  await showFriends();
+  // 1️⃣ Load existing messages
+  const { data: messages, error } = await supabase
+    .from('messages')
+    .select('*')
+    .eq('chat_id', chatId)
+    .order('created_at', { ascending: true });
+
+  if (error) {
+    console.error("Error loading messages:", error);
+    return;
+  }
+
+  chatContainer.innerHTML = ""; // clear previous chat
+  messages.forEach(msg => {
+    const div = document.createElement("div");
+    div.textContent = msg.content;
+    div.className = msg.sender_id === currentUser.id ? "my-message" : "friend-message";
+    chatContainer.appendChild(div);
+  });
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+
+  // 2️⃣ Remove old subscription if any
+  if (messageSubscription) {
+    supabase.removeChannel(messageSubscription);
+  }
+
+  // 3️⃣ Subscribe to new messages for this chat
+  messageSubscription = supabase
+    .channel(`chat-${chatId}`)
+    .on('postgres_changes', {
+      event: 'INSERT',
+      schema: 'public',
+      table: 'messages',
+      filter: `chat_id=eq.${chatId}`
+    }, (payload) => {
+      const msg = payload.new;
+      const div = document.createElement("div");
+      div.textContent = msg.content;
+      div.className = msg.sender_id === currentUser.id ? "my-message" : "friend-message";
+      chatContainer.appendChild(div);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    })
+    .subscribe();
 }
