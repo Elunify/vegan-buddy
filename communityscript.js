@@ -223,7 +223,18 @@ async function showCommunityMembers(locationId) {
   const membersList = document.getElementById("communityMembersList");
   membersList.innerHTML = "";
 
-  // Fetch pending requests sent by current user
+  // 1️⃣ Fetch current user's friends first
+  const { data: friendsData, error: friendsError } = await supabase
+    .from("friends")
+    .select("*")
+    .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
+
+  if (friendsError) return console.error(friendsError);
+
+  // Make sure it's an array
+  const friends = Array.isArray(friendsData) ? friendsData : [];
+
+  // 2️⃣ Fetch pending requests sent by current user
   const { data: sentRequests, error: sentError } = await supabase
     .from("friend_requests")
     .select("receiver_email")
@@ -232,7 +243,7 @@ async function showCommunityMembers(locationId) {
 
   if (sentError) return console.error(sentError);
 
-  // Fetch all community members (excluding current user)
+  // 3️⃣ Fetch all community members
   const { data: members, error } = await supabase
     .from("community_participants")
     .select("user_id, name, profile_photo, email")
@@ -240,54 +251,62 @@ async function showCommunityMembers(locationId) {
 
   if (error) return console.error(error);
 
-  members.forEach(member => {
-  const li = document.createElement("li");
-  li.style.display = "flex";
-  li.style.alignItems = "center";
-  li.style.marginBottom = "0.5rem";
-
-  const img = document.createElement("img");
-  img.src = member.profile_photo || "default.jpg";
-  img.alt = member.name;
-  img.style.width = "40px";
-  img.style.height = "40px";
-  img.style.borderRadius = "50%";
-  img.style.marginRight = "0.5rem";
-
-  const nameSpan = document.createElement("span");
-  nameSpan.textContent = member.name;
-
-  li.appendChild(img);
-  li.appendChild(nameSpan);
-
-  // Only create button for others
-  if (member.user_id !== currentUser.id) {
-    const btn = document.createElement("button");
-    btn.textContent = "Send Request";
-
-    // Check if request was already sent
-    const alreadySent = sentRequests.some(r => r.receiver_email === member.email);
-    if (alreadySent) {
-      btn.textContent = "Request Sent";
-      btn.disabled = true;
-    }
-
-    btn.onclick = async () => {
-      const result = await sendRequest(member.email);
-      if (result.success) {
-        btn.textContent = "Request Sent ✅";
-        btn.disabled = true;
-        await showIncomingFriendRequests();
-      } else {
-        alert(result.message);
-      }
-    };
-
-    li.appendChild(btn);
+  // 4️⃣ Helper function
+  function isFriend(memberId, currentUserId, friends) {
+    return friends.some(
+      f =>
+        (f.user1_id === currentUserId && f.user2_id === memberId) ||
+        (f.user2_id === currentUserId && f.user1_id === memberId)
+    );
   }
 
-  membersList.appendChild(li); // append every member, including yourself
-});
+  // 5️⃣ Loop through members
+  members.forEach(member => {
+    const li = document.createElement("li");
+    li.style.display = "flex";
+    li.style.alignItems = "center";
+    li.style.marginBottom = "0.5rem";
+
+    const img = document.createElement("img");
+    img.src = member.profile_photo || "default.jpg";
+    img.alt = member.name;
+    img.style.width = "40px";
+    img.style.height = "40px";
+    img.style.borderRadius = "50%";
+    img.style.marginRight = "0.5rem";
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = member.name;
+
+    li.appendChild(img);
+    li.appendChild(nameSpan);
+
+    if (member.user_id !== currentUser.id && !isFriend(member.user_id, currentUser.id, friends)) {
+      const btn = document.createElement("button");
+      btn.textContent = "Send Request";
+
+      const alreadySent = sentRequests.some(r => r.receiver_email === member.email);
+      if (alreadySent) {
+        btn.textContent = "Request Sent";
+        btn.disabled = true;
+      }
+
+      btn.onclick = async () => {
+        const result = await sendRequest(member.email);
+        if (result.success) {
+          btn.textContent = "Request Sent ✅";
+          btn.disabled = true;
+          await showIncomingFriendRequests();
+        } else {
+          alert(result.message);
+        }
+      };
+
+      li.appendChild(btn);
+    }
+
+    membersList.appendChild(li);
+  });
 }
 
 
@@ -640,14 +659,15 @@ async function showIncomingFriendRequests() {
     acceptBtn.onclick = async () => {
       // Insert friendship into `friends` table
       const { error: insertError } = await supabase.from("friends").insert([{
-        user1_id: req.sender_id,
-        user1_name: req.name,
-        user1_email: req.email,
-        user1_profile_photo: req.profile_photo,
-        user2_id: currentUser.id,
-        user2_name: currentUser.user_metadata?.name || "Me",
-        user2_email: currentUser.email,
-        user2_profile_photo: currentUser.user_metadata?.profile_photo || "default.jpg"
+  user1_id: currentUser.id,
+  user1_name: currentUser.user_metadata?.name,
+  user1_email: currentUser.email,
+  user1_profile_photo: currentUser.user_metadata?.profile_photo,
+
+  user2_id: req.sender_id,
+  user2_name: req.name,
+  user2_email: req.email,
+  user2_profile_photo: req.profile_photo
       }]);
 
       if (insertError) {
