@@ -737,42 +737,72 @@ function openChat(userId, name) {
 let chatChannel;
 
 async function setupRealtimeChat() {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return;
+  const { data: { user }, error } = await supabase.auth.getUser();
+  if (error || !user) return console.error('No user logged in', error);
 
   const userId = user.id;
 
-  // Leave existing channel if any
-  if (chatChannel) chatChannel.unsubscribe();
+  if (chatChannel) {
+    await chatChannel.unsubscribe();
+  }
 
   chatChannel = supabase.channel('buddy_messages_channel')
     .on(
       'postgres_changes',
       {
-        event: '*', // listen for INSERT, UPDATE, DELETE
+        event: 'INSERT', // listen only for new messages
         schema: 'public',
         table: 'buddy_messages',
-        filter: `sender_id=eq.${userId},recipient_id=eq.${userId}`
       },
       (payload) => {
-        console.log('Realtime update:', payload);
+        const msg = payload.new;
+        // Only log messages involving the current user
+        if (msg.sender_id === userId || msg.recipient_id === userId) {
+          console.log('New message received:', msg);
 
-        // Reload chat messages if the update involves the current chat user
-        if (currentChatUserId) {
-          const msg = payload.new || payload.old;
-          if (
-            msg.sender_id === currentChatUserId ||
-            msg.recipient_id === currentChatUserId
-          ) {
-            loadChatMessages();
+          // Append to chat if this is the current chat
+          if (currentChatUserId && (msg.sender_id === currentChatUserId || msg.recipient_id === currentChatUserId)) {
+            appendChatMessage(msg); // Use a function to append only this message
           }
         }
       }
     )
-    .subscribe((status) => {
-      console.log('Realtime chat subscription status:', status);
-    });
+    .subscribe();
 }
 
 // Call it after loading the user and buddy data
 setupRealtimeChat();
+
+function appendChatMessage(msg) {
+  const { data: { user } } = supabase.auth.getUser();
+  if (!user) return;
+  const userId = user.id;
+
+  // Only append if the message belongs to the current chat
+  if (!currentChatUserId) return;
+  if (!(msg.sender_id === currentChatUserId || msg.recipient_id === currentChatUserId)) return;
+
+  const msgContainer = document.createElement("div");
+  msgContainer.style.display = "flex";
+  msgContainer.style.alignItems = "center";
+  msgContainer.style.marginBottom = "5px";
+
+  // Sender profile photo
+  const img = document.createElement("img");
+  img.src = msg.sender_profile_photo || "defaultProfile.jpg";
+  img.alt = msg.sender_name || "User";
+  img.style.width = "30px";
+  img.style.height = "30px";
+  img.style.borderRadius = "50%";
+  img.style.marginRight = "10px";
+
+  // Sender name + message
+  const text = document.createElement("span");
+  text.innerHTML = `<strong>${msg.sender_name || (msg.sender_id === userId ? "You" : "Buddy")}</strong>: ${msg.message}`;
+
+  msgContainer.appendChild(img);
+  msgContainer.appendChild(text);
+
+  chatMessages.appendChild(msgContainer);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
