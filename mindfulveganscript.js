@@ -733,58 +733,60 @@ function openChat(userId, name) {
   loadChatMessages();
 }
 
-let chatSubscription = null;
+let messageChannel = null;
 
-async function subscribeToChat() {
+async function setupRealtimeBuddyMessages() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return;
-  const userId = user.id;
 
-  // Unsubscribe previous subscription
-  if (chatSubscription) {
-    supabase.removeChannel(chatSubscription);
-  }
+  if (messageChannel) {
+  supabase.removeChannel(messageChannel).then(() => {
+    messageChannel = null;
+  });
+}
 
-  // Create a channel for buddy_messages table
-  chatSubscription = supabase.channel('public:buddy_messages')
-    .on('postgres_changes', {
-      event: 'INSERT',
-      schema: 'public',
-      table: 'buddy_messages',
-      filter: `sender_id=eq.${userId},recipient_id=eq.${userId}`
-    }, payload => {
-      const msg = payload.new;
-      if (!currentChatUserId) return; 
+  messageChannel = supabase
+    .channel(`buddy_messages_${user.id}`)
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'buddy_messages',
+        filter: `sender_id=eq.${user.id},recipient_id=eq.${user.id}`
+      },
+      payload => {
+        const msg = payload.new;
 
-      const relevant = (msg.sender_id === userId && msg.recipient_id === currentChatUserId) ||
-                       (msg.sender_id === currentChatUserId && msg.recipient_id === userId);
-      if (!relevant) return;
+        // Show message if chat window is open with this user OR it's an incoming message
+        if (currentChatUserId && (msg.sender_id === currentChatUserId || msg.recipient_id === currentChatUserId)) {
+          const msgContainer = document.createElement("div");
+          msgContainer.style.display = "flex";
+          msgContainer.style.alignItems = "center";
+          msgContainer.style.marginBottom = "5px";
 
-      const msgContainer = document.createElement("div");
-      msgContainer.style.display = "flex";
-      msgContainer.style.alignItems = "center";
-      msgContainer.style.marginBottom = "5px";
+          const img = document.createElement("img");
+          img.src = msg.sender_profile_photo || "defaultProfile.jpg";
+          img.alt = msg.sender_name || "User";
+          img.style.width = "30px";
+          img.style.height = "30px";
+          img.style.borderRadius = "50%";
+          img.style.marginRight = "10px";
 
-      const img = document.createElement("img");
-      img.src = msg.sender_profile_photo || "defaultProfile.jpg";
-      img.alt = msg.sender_name || "User";
-      img.style.width = "30px";
-      img.style.height = "30px";
-      img.style.borderRadius = "50%";
-      img.style.marginRight = "10px";
+          const text = document.createElement("span");
+          text.innerHTML = `<strong>${msg.sender_name}</strong>: ${msg.message}`;
 
-      const text = document.createElement("span");
-      text.innerHTML = `<strong>${msg.sender_name || (msg.sender_id === userId ? "You" : "Buddy")}</strong>: ${msg.message}`;
+          msgContainer.appendChild(img);
+          msgContainer.appendChild(text);
+          chatMessages.appendChild(msgContainer);
 
-      msgContainer.appendChild(img);
-      msgContainer.appendChild(text);
-      chatMessages.appendChild(msgContainer);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    })
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+      }
+    )
     .subscribe();
 }
 
-// Call it after page load
-subscribeToChat();
+setupRealtimeBuddyMessages();
 
 
