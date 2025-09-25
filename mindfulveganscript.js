@@ -733,60 +733,46 @@ function openChat(userId, name) {
   loadChatMessages();
 }
 
-let messageChannel = null;
+// 1️⃣ Create a realtime channel for buddy_messages
+let chatChannel;
 
-async function setupRealtimeBuddyMessages() {
+async function setupRealtimeChat() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return;
 
-  if (messageChannel) {
-  supabase.removeChannel(messageChannel).then(() => {
-    messageChannel = null;
-  });
-}
+  const userId = user.id;
 
-  messageChannel = supabase
-    .channel(`buddy_messages_${user.id}`)
+  // Leave existing channel if any
+  if (chatChannel) chatChannel.unsubscribe();
+
+  chatChannel = supabase.channel('buddy_messages_channel')
     .on(
       'postgres_changes',
       {
-        event: 'INSERT',
+        event: '*', // listen for INSERT, UPDATE, DELETE
         schema: 'public',
         table: 'buddy_messages',
-        filter: `sender_id=eq.${user.id},recipient_id=eq.${user.id}`
+        filter: `sender_id=eq.${userId},recipient_id=eq.${userId}`
       },
-      payload => {
-        const msg = payload.new;
+      (payload) => {
+        console.log('Realtime update:', payload);
 
-        // Show message if chat window is open with this user OR it's an incoming message
-        if (currentChatUserId && (msg.sender_id === currentChatUserId || msg.recipient_id === currentChatUserId)) {
-          const msgContainer = document.createElement("div");
-          msgContainer.style.display = "flex";
-          msgContainer.style.alignItems = "center";
-          msgContainer.style.marginBottom = "5px";
-
-          const img = document.createElement("img");
-          img.src = msg.sender_profile_photo || "defaultProfile.jpg";
-          img.alt = msg.sender_name || "User";
-          img.style.width = "30px";
-          img.style.height = "30px";
-          img.style.borderRadius = "50%";
-          img.style.marginRight = "10px";
-
-          const text = document.createElement("span");
-          text.innerHTML = `<strong>${msg.sender_name}</strong>: ${msg.message}`;
-
-          msgContainer.appendChild(img);
-          msgContainer.appendChild(text);
-          chatMessages.appendChild(msgContainer);
-
-          chatMessages.scrollTop = chatMessages.scrollHeight;
+        // Reload chat messages if the update involves the current chat user
+        if (currentChatUserId) {
+          const msg = payload.new || payload.old;
+          if (
+            msg.sender_id === currentChatUserId ||
+            msg.recipient_id === currentChatUserId
+          ) {
+            loadChatMessages();
+          }
         }
       }
     )
-    .subscribe();
+    .subscribe((status) => {
+      console.log('Realtime chat subscription status:', status);
+    });
 }
 
-setupRealtimeBuddyMessages();
-
-
+// Call it after loading the user and buddy data
+setupRealtimeChat();
