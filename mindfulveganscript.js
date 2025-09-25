@@ -299,3 +299,334 @@ function toggleThought(character) {
   if (typeof prepareHourlyTip === "function") prepareHourlyTip(character);
 }
 
+  const storyForm = document.getElementById("storyForm");
+  const storyInput = document.getElementById("storyInput");
+  const storyMessage = document.getElementById("storyMessage");
+  const storiesList = document.getElementById("veganStories");
+
+  // Load approved stories
+  async function loadStories() {
+    const { data, error } = await supabase
+      .from("stories")
+      .select("content, created_at")
+      .eq("visible", true)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Error fetching stories:", error);
+      return;
+    }
+
+    storiesList.innerHTML = "";
+    data.forEach(story => {
+      const li = document.createElement("li");
+      li.textContent = story.content;
+      storiesList.appendChild(li);
+    });
+  }
+
+  // Submit story
+storyForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    storyMessage.textContent = "You must be logged in to submit a story.";
+    return;
+  }
+
+  // Check if user already submitted today
+  const now = new Date();
+const todayStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0,0,0));
+const todayEnd   = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 23,59,59,999));
+
+  const { data: existing, error: checkError } = await supabase
+    .from("stories")
+    .select("id")
+    .eq("user_id", user.id)
+    .gte("created_at", todayStart.toISOString())
+    .lt("created_at", new Date(todayEnd.getTime() + 1).toISOString())
+
+  if (checkError) {
+    console.error("Error checking existing stories:", checkError);
+    storyMessage.textContent = "Error checking your previous submissions.";
+    return;
+  }
+
+  if (existing.length > 0) {
+    storyMessage.textContent = "You can only submit one story per day.";
+    return;
+  }
+
+  // Insert new story
+  const { error } = await supabase.from("stories").insert([
+    { user_id: user.id, content: storyInput.value }
+  ]);
+
+  if (error) {
+    console.error("Error inserting story:", error);
+    storyMessage.textContent = "Error submitting your story.";
+  } else {
+    storyMessage.textContent = "Thanks! Your story will appear once reviewed.";
+    storyInput.value = "";
+  }
+});
+
+  loadStories();
+
+
+
+
+
+
+
+
+
+
+const mentorsList = document.getElementById("mentorsList");
+const messagesList = document.getElementById("messagesList");
+const applyMentorBtn = document.getElementById("applyMentorBtn");
+const chatWindow = document.getElementById("chatWindow");
+const chatWith = document.getElementById("chatWith");
+const chatMessages = document.getElementById("chatMessages");
+const chatInput = document.getElementById("chatInput");
+const sendChatBtn = document.getElementById("sendChatBtn");
+
+let currentChatUserId = null;
+
+// Check if the logged-in user is already a mentor
+async function checkIfMentor() {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return false;
+
+  const { data: existingMentor, error } = await supabase
+    .from("mentors")
+    .select("id")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (error && error.code !== "PGRST116") {
+    console.error("Error checking mentor status:", error);
+    return false;
+  }
+
+  return !!existingMentor;
+}
+
+// Load mentors and messages
+async function loadBuddyData() {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return;
+
+  const userId = user.id;
+
+  // Load mentors
+  const { data: mentors, error: mentorsError } = await supabase
+    .from("mentors")
+    .select("id, user_id, name, profile_photo, years_vegan")
+    .order("years_vegan", { ascending: false });
+
+  if (mentorsError) {
+    console.error("Error loading mentors:", mentorsError);
+    return;
+  }
+
+  // Hide "Apply to be mentor" button if user is already a mentor
+  const alreadyMentor = mentors.some(m => m.user_id === userId);
+  applyMentorBtn.style.display = alreadyMentor ? "none" : "inline-block";
+  ConnectWithAMentor.style.display = alreadyMentor ? "none" : "inline-block";
+
+  // Render mentors list
+  mentorsList.innerHTML = "";
+
+// Render your own mentor row first (if you are a mentor)
+const yourMentor = mentors.find(m => m.user_id === userId);
+if (yourMentor) {
+  // Show the row
+  const row = document.getElementById("alrdymentor");
+  const photo = document.getElementById("alrdyMentorPhoto");
+  const nameSpan = document.getElementById("alrdyMentorName");
+  const yearsSpan = document.getElementById("alrdyMentorYears");
+  const removeBtn = document.getElementById("removeMentorBtn");
+
+  photo.src = yourMentor.profile_photo || "defaultProfile.jpg";
+  nameSpan.textContent = yourMentor.name;
+  yearsSpan.textContent = yourMentor.years_vegan;
+  row.style.display = "block";
+
+  removeBtn.onclick = async () => {
+    const confirmDelete = confirm("Are you sure you want to remove yourself as a mentor?");
+    if (!confirmDelete) return;
+
+    const { error } = await supabase
+      .from("mentors")
+      .delete()
+      .eq("id", yourMentor.id);
+
+    if (error) {
+      console.error("Error deleting mentor:", error);
+      alert("Failed to remove yourself as a mentor.");
+    } else {
+      alert("You are no longer a mentor.");
+      row.style.display = "none"; // hide row
+      loadBuddyData(); // refresh list
+    }
+  };
+} else {
+  // Hide if not a mentor
+  document.getElementById("alrdymentor").style.display = "none";
+}
+
+// Render other mentors
+mentors.forEach(mentor => {
+  if (mentor.user_id === userId) return; // skip yourself (already rendered)
+  const li = document.createElement("li");
+
+  const img = document.createElement("img");
+  img.src = mentor.profile_photo || "defaultProfile.jpg";
+  img.alt = mentor.name;
+  img.style.width = "40px";
+  img.style.height = "40px";
+  img.style.borderRadius = "50%";
+  img.style.marginRight = "10px";
+
+  const text = document.createElement("span");
+  text.textContent = `${mentor.name} – ${mentor.years_vegan} years vegan`;
+
+  const msgBtn = document.createElement("button");
+  msgBtn.textContent = "Message";
+  msgBtn.style.marginLeft = "10px";
+  msgBtn.onclick = () => openChat(mentor.user_id, mentor.name);
+
+  li.appendChild(img);
+  li.appendChild(text);
+  li.appendChild(msgBtn);
+  mentorsList.appendChild(li);
+});
+
+  // Load messages where user participates
+  const { data: messages, error: messagesError } = await supabase
+    .from("buddy_messages")
+    .select("id, sender_id, recipient_id, message, created_at")
+    .or(`sender_id.eq.${userId},recipient_id.eq.${userId}`)
+    .order("created_at", { ascending: true });
+
+  if (messagesError) {
+    console.error("Error loading messages:", messagesError);
+    return;
+  }
+
+  messagesList.innerHTML = "";
+  messages.forEach(msg => {
+    const li = document.createElement("li");
+    const isSender = msg.sender_id === userId;
+    li.textContent = `${isSender ? "You" : "Buddy"}: ${msg.message}`;
+    messagesList.appendChild(li);
+  });
+}
+
+// Apply to be mentor
+applyMentorBtn.addEventListener("click", async () => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return alert("You must be logged in.");
+
+  const isMentor = await checkIfMentor();
+  if (isMentor) return alert("You are already a mentor!");
+
+  const years = prompt("For how many years have you been vegan?");
+  const yearsNum = parseInt(years);
+  if (isNaN(yearsNum) || yearsNum <= 0) return alert("Please enter a valid number.");
+
+  // Fetch name and profile_photo from profiles table
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("name, profile_photo")
+    .eq("id", user.id)
+    .single();
+
+  if (profileError) {
+    console.error("Error fetching profile:", profileError);
+    return alert("Error fetching your profile info.");
+  }
+
+  // Insert mentor row
+  const { error } = await supabase.from("mentors").insert([
+    {
+      user_id: user.id,
+      name: profile.name || "Anonymous",
+      profile_photo: profile.profile_photo || null,
+      years_vegan: yearsNum
+    }
+  ]);
+
+  if (error) {
+    console.error("Error submitting mentor application:", error);
+    alert("Error submitting mentor application.");
+  } else {
+    alert("Mentor application submitted!");
+    applyMentorBtn.style.display = "none";
+    loadBuddyData();
+  }
+});
+
+// Open chat window
+function openChat(userId, name) {
+  currentChatUserId = userId;
+  chatWith.textContent = `Chat with ${name}`;
+  chatWindow.style.display = "block";
+  loadChatMessages();
+}
+
+// Load chat messages with current chat user
+async function loadChatMessages() {
+  if (!currentChatUserId) return;
+
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return;
+
+  const userId = user.id;
+
+  const { data: chat, error } = await supabase
+    .from("buddy_messages")
+    .select("*")
+    .or(`sender_id.eq.${userId},recipient_id.eq.${userId}`)
+    .order("created_at", { ascending: true });
+
+  if (error) return console.error(error);
+
+  chatMessages.innerHTML = "";
+  chat.forEach(msg => {
+    if ((msg.sender_id === userId && msg.recipient_id === currentChatUserId) ||
+        (msg.sender_id === currentChatUserId && msg.recipient_id === userId)) {
+      const p = document.createElement("p");
+      p.textContent = `${msg.sender_id === userId ? "You" : "Buddy"}: ${msg.message}`;
+      chatMessages.appendChild(p);
+    }
+  });
+
+  // Scroll to bottom
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Send chat message
+sendChatBtn.addEventListener("click", async () => {
+  const text = chatInput.value.trim();
+  if (!text || !currentChatUserId) return;
+
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return;
+
+  const { error } = await supabase.from("buddy_messages").insert([
+    { sender_id: user.id, recipient_id: currentChatUserId, message: text }
+  ]);
+
+  if (error) {
+    console.error("Error sending message:", error);
+  } else {
+    chatInput.value = "";
+    loadChatMessages();
+  }
+});
+
+// Initial load
+loadBuddyData();

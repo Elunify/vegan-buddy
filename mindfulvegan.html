@@ -41,7 +41,7 @@
 <ul id="forumMessages"></ul>
 
       <div id="newBlock">
-    <textarea id="blockContent" placeholder="Share your positive feedback..." rows="3"></textarea>
+    <textarea id="blockContent" placeholder="Open a topic anonymously..." rows="3"></textarea>
     <button id="submitBlockBtn">Submit</button>
       </div>
       
@@ -61,29 +61,50 @@
 
 
 
-    <!-- Stories from other vegans -->
     <section class="section" id="stories">
-      <h2 onclick="toggleList(this)">Success Stories 📖</h2>
-        <div class="section-content">
-      <ul id="veganStories">
-        <li>“I stopped craving meat after 3 weeks!”</li>
-        <li>“Cooking vegan meals has become fun and creative!”</li>
-      </ul>
-    </div>
+  <h2 onclick="toggleList(this)">Success Stories 📖</h2>
+  <div class="section-content">
+    <ul id="veganStories"></ul>
+
+    <form id="storyForm">
+      <textarea id="storyInput" placeholder="Share your vegan journey..." required></textarea>
+      <button type="submit">Submit Story</button>
+    </form>
+    <p id="storyMessage"></p>
+  </div>
     </section>
 
     <!-- Buddy system -->
     <section class="section" id="buddy">
-      <h2 onclick="toggleList(this)">Buddy System 🤝</h2>
-        <div class="section-content">
-      <p>Connect with someone who has been vegan longer for mentorship.</p>
-      <button>Apply to be a mentor</button>
-      <ul id="buddiesList">
-        <li>Emma – 3 years vegan</li>
-        <li>Liam – 5 years vegan</li>
-      </ul>
+  <h2 onclick="toggleList(this)">Buddy System 🤝</h2>
+  <div class="section-content">
+    <p id="ConnectWithAMentor">Connect with someone who has been vegan longer for mentorship.</p>
+    
+    <!-- Messages for logged-in user -->
+    <ul id="messagesList"></ul>
+
+    <!-- Apply to be mentor button -->
+    <button id="applyMentorBtn">Apply to be a mentor</button>
+
+    <!-- Row to display if user is already a mentor -->
+<div id="alrdymentor" style="display: none;">
+  <p> You are a mentor: </p>
+  <img id="alrdyMentorPhoto"  alt="Your photo" style="width:40px;height:40px;border-radius:50%;">
+  <span id="alrdyMentorName"></span> – <span id="alrdyMentorYears"></span> years vegan
+  <button id="removeMentorBtn">X</button>
+</div>
+    <!-- Mentor list -->
+    <ul id="mentorsList"></ul>
+
+    <!-- Chat window -->
+    <div id="chatWindow" style="display:none; border:1px solid #ccc; padding:10px; margin-top:10px;">
+      <h4 id="chatWith"></h4>
+      <div id="chatMessages" style="max-height:200px; overflow-y:auto; border:1px solid #eee; padding:5px; margin-bottom:5px;"></div>
+      <input type="text" id="chatInput" placeholder="Type a message..." />
+      <button id="sendChatBtn">Send</button>
     </div>
-    </section>
+  </div>
+</section>
 
 <div class="avatar-row">
     <!-- Eluna -->

@@ -386,3 +386,34 @@ body {
 .block-delete-btn:hover {
   color: darkred;
 }
+
+#storyForm {
+  margin-top: 1rem;
+}
+#storyForm textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 8px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+#storyForm button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+#storyForm button:hover {
+  background-color: #45a049;
+}
+#storyMessage {
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+p {
+  font-size: 0.7rem;
+}
