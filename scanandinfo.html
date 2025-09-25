@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Scan and Info</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
   <link rel="stylesheet" href="scanandinfostyle.css" />
 </head>
 <body>
@@ -17,25 +19,53 @@
 </div> 
 
   <div class="page">
-    - Scan a product and the app will show if it's vegan or not <br> <br>
-    - extra XP and pet happiness by reading the recommendations <br> <br>
-    UNLOCKS AT LVL 20: <br> <br>
-    - giving information about not cruelty free but vegan products <br> 
-    - eluna/e gives you information about cosmetic products (cruelty free) VEGANISM BEYOND FOOD. 
+    <div class="section-grid">
 
-      <!-- Page content -->
-<div id="homeSection" class="tab-content">
+  <!-- Scan a product -->
+  <section class="section" id="scanProduct">
+    <h2>Scan a Product 📷</h2>
+    <p>Scan a product barcode and the app will show if it's vegan or not.</p>
+  </section>
+
+  <!-- Discover restaurants -->
+  <section class="section" id="restaurants">
+    <h2>Discover Restaurants 🍴</h2>
+    <p>Find vegan-friendly restaurants, leave reviews, and upgrade your map.</p>
+  </section>
+
+  <!-- Level 15 blocked section -->
+  <section class="section blocked" id="cosmetics" data-unlock = "🔓 Lvl 15">
+    <h2>Educate: Not cruelty-free but vegan products 🧴</h2>
+  </section>
+
+  <!-- VEGANISM BEYOND FOOD -->
+  <section class="section blocked" id="beyondFood" data-unlock = "🔓 Lvl 15">
+    <h2>Veganism Beyond Food 🌿</h2>
+    <p>Eluna/Elune give you info about cruelty-free cosmetic products.</p>
+    <img src="characters/eluna.png" alt="Eluna" class="character-small">
+    <img src="characters/elune.png" alt="Elune" class="character-small">
+  </section>
+</div>
+  <!-- Pet toggle section -->
+    <div id="avatarDisplayPet" class="profile-wrapperPet">
+      <div id="petMessage">
+        <div id="petAvatar" class="pet-avatar">
+          <!-- Pet photo or emoji injected here -->
+        </div>
+        <div id="thoughtToggle" class="thought-toggle">💭</div>
+      </div>
+      <!-- Hidden bubble -->
+      <div id="petThought" class="pet-bubble hidden">
+        <span id="petName">Pet</span> is thinking...
+        <div id="dailyTip" class="lesson-box">
+          <!-- Lesson of the day will appear here -->
+      </div>
+    </div>
+  </section>
+
+</div>
+
   
-<div id="map" class="tab-content">
-  <h2>Restaurant Map</h2>
-  <p>Discover restaurants, leave reviews, and upgrade your map.</p>
-</div>
-
-</div>
-
-</div>
-  
-  <script src="impactxpfunctions.js"></script>
   <script src="scanandinfoscript.js"></script>
 </body>
 </html>

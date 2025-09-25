@@ -74,9 +74,80 @@ body {
 .page {
   margin-top: 1%;
   height: auto; /* Let content determine height */
-  padding-top: 5rem; /* height of fixed top-bar (adjust as needed) */
+  padding-top: 3rem; /* height of fixed top-bar (adjust as needed) */
   padding-bottom: 1rem; /* height of fixed bottom bar */
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.section {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.blocked {
+  filter: blur(2px);
+  opacity: 0.6;
+  position: relative;
+}
+
+.character-small {
+  width: 50px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+/* Pet toggle styles */
+.profile-wrapperPet {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.pet-avatar img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.thought-toggle {
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.pet-bubble {
+  position: absolute;
+  bottom: 30%;
+  left: 30%;
+  margin-top: 0.5rem;
+  background-color: #e0f7fa;
+  padding: 1rem;
+  border-radius: 12px;
+  width: 220px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+.pet-bubble.hidden {
+  display: none;
+}
+
+.lesson-box {
+  margin-top: 0.5rem;
+  background-color: #fff;
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
 }

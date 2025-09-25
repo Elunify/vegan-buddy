@@ -99,7 +99,7 @@
   <div class="meal-art-categories">
     <!-- Amatour / Hobby category -->
     <div class="meal-art-card">
-      <h4> 🥕 Individual </h4>
+      <h4> 🥕 Home Chef </h4>
       <p class="winner-name" id="amateurName"> Jane Doe</p>
       <img id="amateurImage" src="meals/amateur.jpg" alt="Amateur winning dish" class="meal-art-image">
       <div class="meal-art-recipe" id="amateurRecipe">
@@ -109,7 +109,7 @@
 
     <!-- Professional / Restaurant category -->
     <div class="meal-art-card">
-      <h4>🍴 Restaurant </h4>
+      <h4>🍴 Pro Kitchen </h4>
       <p class="winner-name" id="proName">Green Leaf Bistro</p>
       <img id="proImage" src="meals/professional.jpg" alt="Professional winning dish" class="meal-art-image">
       <div class="meal-art-recipe" id="professionalRecipe">
@@ -117,6 +117,19 @@
 </div>
     </div>
   </div>
+
+  <!-- Recipe Modal -->
+<div id="recipeModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span id="closeModal" class="close">&times;</span>
+    <h3 id="modalFoodName"></h3>
+    <h4>Ingredients:</h4>
+    <p id="modalIngredients"></p>
+    <h4>Instructions:</h4>
+    <p id="modalInstructions"></p>
+  </div>
+</div>
+
 </div>
 </div>
 </div>

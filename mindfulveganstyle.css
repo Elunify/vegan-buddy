@@ -74,9 +74,321 @@ body {
 .page {
   margin-top: 1%;
   height: auto; /* Let content determine height */
-  padding-top: 5rem; /* height of fixed top-bar (adjust as needed) */
+  padding-top: 3rem; /* height of fixed top-bar (adjust as needed) */
   padding-bottom: 1rem; /* height of fixed bottom bar */
   display: flex;
   flex-direction: column;
   width: 100%;
 }
+
+.section {
+  background-color: #fff;
+  width: 90%;
+  margin:auto;
+  padding: 0.7rem;
+  margin-bottom: 0.5rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.section-content {
+    display: none; /* hidden by default */
+    margin-top: 10px;
+  }
+
+.section h2 {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1rem;
+}
+
+.section h2::after {
+  content: "▼";
+  font-size: 0.8rem;
+  transition: transform 0.3s;
+}
+
+.section h2.active::after {
+  transform: rotate(-180deg);
+}
+
+.section textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  resize: vertical;
+}
+
+.section button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #4caf50;
+  color: #fff;
+  cursor: pointer;
+}
+
+.section button:hover {
+  background-color: #45a049;
+}
+
+.section ul {
+  padding-left: 1.2rem;
+}
+
+
+.profile-wrapper {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer; /* entire wrapper is clickable */
+  }
+
+  .avatar {
+    width: 3rem;
+    border-radius: 50%;
+    font-size: 3rem;
+    margin-bottom: 2px;
+  }
+
+  .avatar-row {
+  width: 95%;
+  margin: auto;
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center; /* center all avatars horizontally */
+  align-items: center;
+  gap: 1.5rem; /* space between avatars */
+  flex-wrap: wrap; /* wrap to next line on small screens */
+  }
+
+  .thought-toggle {
+  position: absolute;
+  top: -0.5rem;
+  right: -1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  overflow: hidden;
+  }
+  .thought-toggle:hover {
+    transform: scale(1.2);
+  }
+
+  /* Make the thought bubbles relative to row */
+.thought-bubble {
+  display: none;
+  position: absolute; /* stays above row */
+  padding: 10px 15px;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  font-size: 0.9rem;
+  z-index: 10;
+  min-width: 350%;    /* adjust bubble width */
+  text-align: center;
+}
+
+.thought-bubble::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #fff;
+}
+
+/* Bubble positions */
+#elunaThought {
+  left: 0;  /* position bubble relative to row or parent */
+}
+#eluneThought {
+  left: 50%;
+  transform: translateX(-50%);
+}
+#petThought {
+  right: 0;
+}
+
+/* Arrow positions inside bubbles */
+#elunaThought::after {
+  left: 15%;  /* point to Eluna avatar inside bubble */
+  transform: translateX(-50%);
+}
+#eluneThought::after {
+  left: 50%;  /* point to Elune avatar */
+  transform: translateX(-50%);
+}
+#petThought::after {
+  left: 85%;  /* point to Pet avatar */
+  transform: translateX(-50%);
+}
+
+.thought-bubble.visible {
+  display: block;
+}
+
+  .lesson-box {
+    margin-top: 6px;
+    padding: 6px;
+    border-left: 3px solid #4CAF50;
+    background: #f9f9f9;
+    font-style: italic;
+  }
+
+.forum-quote {
+  font-style: italic;
+  color: #555;
+  background: #f0f8ff;
+  padding: 8px 12px;
+  border-left: 4px solid #4CAF50;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 0.75rem; /* base font-size for fallback */
+}
+
+.quote-text {
+  font-size: 0.8rem; /* main quote slightly larger */
+  color: #333;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.quote-text em {
+  font-style: italic; /* ensure <em> doesn't reset size */
+  font-size: inherit;
+}
+
+.quote-source {
+  font-size: 0.75rem; /* smaller for source */
+  color: #4CAF50;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.quote-link {
+  text-decoration: none;
+  transition: color 0.2s;
+  font-size: inherit; /* ensure it inherits size from .quote-source */
+}
+
+.quote-link:hover {
+  text-decoration: underline;
+  color: #2e7d32;
+}
+
+.forum-guideline {
+  font-size: 0.8rem; /* slightly smaller than quote */
+  color: #555;
+  display: block;
+}
+
+/* Forum blocks */
+#forumMessages li {
+  background: #f9f9f9;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Delete button */
+.block-delete-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+/* Popup */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.popup.hidden {
+  display: none;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80%;
+  overflow-y: auto;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* Comment list inside popup */
+#popupCommentsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Each comment as a flex row */
+#popupCommentsList li {
+  display: flex;
+  justify-content: space-between; /* message left, button right */
+  align-items: center;
+  padding: 6px 10px;
+  border-bottom: 1px solid #eee;
+  word-break: break-word; /* wrap long text */
+  position: relative; /* ensures button stays inside li */
+}
+
+/* Delete button */
+#popupCommentsList li .block-delete-btn {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+#popupCommentsList li .block-delete-btn:hover {
+  background: #e63946;
+}
+
+/* Popup content */
+.popup-content {
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+

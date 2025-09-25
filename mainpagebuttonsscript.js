@@ -160,7 +160,6 @@ function unlockFeatures(profile) {
   };
 
   checkUnlock("meal-plans", 2, 2);
-  checkUnlock("meal-art", 5, 3);
   checkUnlock("Scan & Info", 10, 5);
   checkUnlock("Community", 15, 6);
   checkUnlock("Playground", 20, 7);

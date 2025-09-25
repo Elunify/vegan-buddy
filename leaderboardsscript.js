@@ -18,8 +18,8 @@ function renderLeaderboard(ulId, data, type) {
     switch(type) {
       case 'streak':
         return `<li>${index + 1}. ${user.name} 🌱 – ${user.streak} days</li>`;
-      case 'level':
-        return `<li>${index + 1}. ${user.name} 💫 – Level ${user.level}</li>`;
+      case 'xp':
+        return `<li>${index + 1}. ${user.name} 💫 – XP: ${user.total_xp}, (Level ${user.level})</li>`;
       case 'donators':
         return `<li>${index + 1}. ${user.name} 🤝 – €${user.donated || 0}</li>`;
       case 'impact':
@@ -34,7 +34,7 @@ function renderLeaderboard(ulId, data, type) {
 async function fetchLeaderboard(leaderboardType, ulId, limitCount = 10) {
   // Adjust RPC for each type if you have separate SQL functions
   let rpcName = 'get_leaderboard'; // default RPC for streak/impact/donators
-  if (leaderboardType === 'level') rpcName = 'get_leaderboard_level';
+  if (leaderboardType === 'xp') rpcName = 'get_leaderboard_level';
 
   const { data, error } = await supabase.rpc(rpcName, { limit_count: limitCount });
 
@@ -50,7 +50,7 @@ async function fetchLeaderboard(leaderboardType, ulId, limitCount = 10) {
 async function fetchAllLeaderboards() {
   // Overall
   await fetchLeaderboard('impact', 'overall-impact');
-  await fetchLeaderboard('level', 'overall-level');
+  await fetchLeaderboard('xp', 'overall-level');
   await fetchLeaderboard('streak', 'overall-streak');
   await fetchLeaderboard('donators', 'overall-donators');
 

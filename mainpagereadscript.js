@@ -103,3 +103,75 @@ async function loadProfile() {
 
 // Run on page load
 loadProfile();
+
+
+
+ // Meal-art
+  // Meal-art
+   // Meal-art
+
+async function loadWinners() {
+    // Amateur / Individual (is_pro = false)
+    const { data: amateurWinner, error: amateurError } = await supabase
+      .from("meals")
+      .select("uploader_name, image_url, recipe_available, food_name, ingredients, instructions, id")
+      .eq("is_winner", true)
+      .eq("is_pro", false)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single();
+
+    if (amateurWinner) {
+      document.getElementById("amateurName").textContent = amateurWinner.uploader_name;
+      document.getElementById("amateurImage").src = amateurWinner.image_url;
+
+      const amateurRecipeDiv = document.getElementById("amateurRecipe");
+      if (amateurWinner.recipe_available) {
+        amateurRecipeDiv.innerHTML = `<a href="#" onclick='showRecipeModal(${JSON.stringify(amateurWinner)})'>Recipe available</a>`;
+      } else {
+        amateurRecipeDiv.innerHTML = `<span class="no-recipe">Recipe unavailable</span>`;
+      }
+    }
+
+    // Professional / Restaurant (is_pro = true)
+    const { data: proWinner, error: proError } = await supabase
+      .from("meals")
+      .select("uploader_name, image_url, recipe_available, food_name, ingredients, instructions, id")
+      .eq("is_winner", true)
+      .eq("is_pro", true)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single();
+
+    if (proWinner) {
+      document.getElementById("proName").textContent = proWinner.uploader_name;
+      document.getElementById("proImage").src = proWinner.image_url;
+
+      const proRecipeDiv = document.getElementById("professionalRecipe");
+      if (proWinner.recipe_available) {
+        proRecipeDiv.innerHTML = `<a href="#" onclick='showRecipeModal(${JSON.stringify(proWinner)})'>Recipe available</a>`;
+      } else {
+        proRecipeDiv.innerHTML = `<span class="no-recipe">Recipe unavailable</span>`;
+      }
+    }
+
+    if (amateurError) console.error("Amateur fetch error:", amateurError);
+    if (proError) console.error("Pro fetch error:", proError);
+  }
+
+  loadWinners();
+
+  // ===== Recipe Modal =====
+  window.showRecipeModal = function (meal) {
+    document.getElementById("modalFoodName").textContent = meal.food_name || "No title";
+    document.getElementById("modalIngredients").textContent = meal.ingredients || "No ingredients provided";
+    document.getElementById("modalInstructions").textContent = meal.instructions || "No instructions provided";
+    document.getElementById("recipeModal").style.display = "flex";
+  }
+
+  document.getElementById("closeModal").addEventListener("click", () => {
+    document.getElementById("recipeModal").style.display = "none";
+  });
+  window.addEventListener("click", e => {
+    if (e.target.id === "recipeModal") document.getElementById("recipeModal").style.display = "none";
+  });

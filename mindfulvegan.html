@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mindful Vegan</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
   <link rel="stylesheet" href="mindfulveganstyle.css" />
 </head>
 <body>
@@ -12,24 +14,112 @@
   <div class="top-bar">
     <div class="top-bar-row">
     <div class="backtomainpage" id="backBtn">⬅️</div>
-    <div class="center-counters">
-      <span class="counter">🌍 <span id="indexnumber">0</span></span>
-      <span class="counter">🔥 <span id="streak">0</span></span>
-      </div> 
 </div>
 </div> 
 
   <div class="page">
-    - anonymous forum (only positive feedback if it's possible)  <br> <br>
-    - tips for dealing with friends, family <br> <br>
-    - usual excuses <br> <br>
-    - Short, uplifting messages from your pet/avatar. <br> <br>
-    - Stories from other vegans about overcoming doubts. <br> <br>
-    - Buddy system: connect with someone who has been vegan longer for mentorship. (Apply to be a mentor)
+    <!-- Anonymous forum -->
+    <section class="section" id="forum">
+      <h2 onclick="toggleList(this)">Anon Forum 🗨️</h2>
+        <div class="section-content">
+  <p class="forum-quote">
+  <span class="quote-text">
+    <em>"That is the best of humanity: When we support each other. Not when we cancel each other out for past mistakes, but when we help each other to grow."</em>
+  </span>
+  
+  <span class="quote-source">
+    <a href="https://www.youtube.com/watch?v=WVPw0UrjLuo" target="_blank" rel="noopener noreferrer" class="quote-link">
+      — Joaquin Phoenix, Oscars 2020
+    </a>
+  </span>
+  
+  <span class="forum-guideline">
+    Please share your thoughts kindly and help others grow 🧡
+  </span>
+</p>
 
+<ul id="forumMessages"></ul>
 
+      <div id="newBlock">
+    <textarea id="blockContent" placeholder="Share your positive feedback..." rows="3"></textarea>
+    <button id="submitBlockBtn">Submit</button>
+      </div>
+      
+        </div>
+    </section>
+
+    <!-- Popup for comments -->
+<div id="commentPopup" class="popup hidden">
+  <div class="popup-content">
+    <span id="closePopup" class="close">&times;</span>
+    <div id="popupBlockContent"></div>
+    <ul id="popupCommentsList"></ul>
+    <input type="text" id="newCommentInput" placeholder="Write your comment...">
+    <button id="submitCommentBtn">Comment</button>
+  </div>
 </div>
-  <script src="impactxpfunctions.js"></script>
+
+
+
+    <!-- Stories from other vegans -->
+    <section class="section" id="stories">
+      <h2 onclick="toggleList(this)">Success Stories 📖</h2>
+        <div class="section-content">
+      <ul id="veganStories">
+        <li>“I stopped craving meat after 3 weeks!”</li>
+        <li>“Cooking vegan meals has become fun and creative!”</li>
+      </ul>
+    </div>
+    </section>
+
+    <!-- Buddy system -->
+    <section class="section" id="buddy">
+      <h2 onclick="toggleList(this)">Buddy System 🤝</h2>
+        <div class="section-content">
+      <p>Connect with someone who has been vegan longer for mentorship.</p>
+      <button>Apply to be a mentor</button>
+      <ul id="buddiesList">
+        <li>Emma – 3 years vegan</li>
+        <li>Liam – 5 years vegan</li>
+      </ul>
+    </div>
+    </section>
+
+<div class="avatar-row">
+    <!-- Eluna -->
+<div class="profile-wrapper" onclick="toggleThought('eluna')">
+  <img class="avatar" src="characters/eluna.png" alt="Eluna">
+  <div class="thought-toggle" >💭</div>
+  <div id="elunaThought" class="thought-bubble">
+    <span>Eluna</span> is thinking...
+    <div id="elunaTip" class="lesson-box"></div>
+  </div>
+</div>
+
+<!-- Elune -->
+<div class="profile-wrapper" onclick="toggleThought('elune')">
+  <img class="avatar" src="characters/elune.png" alt="Elune">
+  <div class="thought-toggle">💭</div>
+  <div id="eluneThought" class="thought-bubble">
+    <span>Elune</span> is thinking...
+    <div id="eluneTip" class="lesson-box"></div>
+  </div>
+</div>
+
+<!-- Pet -->
+<div class="profile-wrapper" onclick="toggleThought('pet')">
+  <div class="avatar" id="petAvatar"></div><!-- Will be replaced by image -->
+  <div class="thought-toggle">💭</div>
+  <div id="petThought" class="thought-bubble">
+    <span id="petName">Pet</span> is thinking...
+    <div id="petTip" class="lesson-box"></div>
+  </div>
+</div>
+</div>
+
+
+  </div>
+
   <script src="mindfulveganscript.js"></script>
 </body>
 </html>
