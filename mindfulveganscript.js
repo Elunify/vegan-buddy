@@ -747,7 +747,6 @@ async function setupRealtimeChat() {
       if (!msg) return;
 
       if (msg.sender_id === userId || msg.recipient_id === userId) {
-        console.log('New message received:', msg);
         appendChatMessage(msg, userId); // pass userId here
       }
     }
