@@ -735,28 +735,31 @@ function openChat(userId, name) {
 
 let chatSubscription = null;
 
-// Subscribe to new chat messages in real-time
 async function subscribeToChat() {
-  // Unsubscribe previous subscription if exists
-  if (chatSubscription) chatSubscription.unsubscribe();
-
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return;
-
   const userId = user.id;
 
-  chatSubscription = supabase
-    .from(`buddy_messages:sender_id=eq.${userId}&recipient_id=eq.${userId}`) // We'll handle filtering in the callback
-    .on("INSERT", payload => {
-      const msg = payload.new;
+  // Unsubscribe previous subscription
+  if (chatSubscription) {
+    supabase.removeChannel(chatSubscription);
+  }
 
-      // Check if the message is relevant for the current open chat
-      if (!currentChatUserId) return; // no chat open
+  // Create a channel for buddy_messages table
+  chatSubscription = supabase.channel('public:buddy_messages')
+    .on('postgres_changes', {
+      event: 'INSERT',
+      schema: 'public',
+      table: 'buddy_messages',
+      filter: `sender_id=eq.${userId},recipient_id=eq.${userId}`
+    }, payload => {
+      const msg = payload.new;
+      if (!currentChatUserId) return; 
+
       const relevant = (msg.sender_id === userId && msg.recipient_id === currentChatUserId) ||
                        (msg.sender_id === currentChatUserId && msg.recipient_id === userId);
       if (!relevant) return;
 
-      // Add the new message to chatMessages
       const msgContainer = document.createElement("div");
       msgContainer.style.display = "flex";
       msgContainer.style.alignItems = "center";
@@ -776,13 +779,12 @@ async function subscribeToChat() {
       msgContainer.appendChild(img);
       msgContainer.appendChild(text);
       chatMessages.appendChild(msgContainer);
-
-      // Scroll to bottom
       chatMessages.scrollTop = chatMessages.scrollHeight;
     })
     .subscribe();
 }
 
-// Call this once at the start of your page
+// Call it after page load
 subscribeToChat();
+
 
