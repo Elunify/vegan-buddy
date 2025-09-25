@@ -298,19 +298,7 @@ body {
   border-radius: 8px;
   cursor: pointer;
   position: relative;
-}
-
-/* Delete button */
-.block-delete-btn {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  background: #ff6b6b;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  cursor: pointer;
+  font-size: 0.8rem;
 }
 
 /* Popup */
@@ -355,6 +343,7 @@ body {
   list-style: none;
   padding: 0;
   margin: 0;
+  font-size: 0.8rem;
 }
 
 /* Each comment as a flex row */
@@ -368,21 +357,6 @@ body {
   position: relative; /* ensures button stays inside li */
 }
 
-/* Delete button */
-#popupCommentsList li .block-delete-btn {
-  background: #ff6b6b;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 0.7rem;
-  padding: 2px 6px;
-  cursor: pointer;
-  margin-left: 10px;
-}
-
-#popupCommentsList li .block-delete-btn:hover {
-  background: #e63946;
-}
 
 /* Popup content */
 .popup-content {
@@ -391,4 +365,24 @@ body {
   overflow-y: auto;
 }
 
+.forum-block {
+  display: flex;
+  justify-content: space-between; /* text left, button right */
+  align-items: center;           /* vertical alignment */
+  padding: 6px 8px;
+  border-bottom: 1px solid #ddd;
+}
 
+.block-delete-btn {
+  background: transparent;
+  border: none;
+  color: red;
+  font-size: 0.7rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+
+.block-delete-btn:hover {
+  color: darkred;
+}

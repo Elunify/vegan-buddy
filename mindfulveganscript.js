@@ -54,15 +54,22 @@ async function loadForumBlocks() {
 
   blocks.forEach(block => {
     const li = document.createElement('li');
-    li.textContent = block.content;
+    li.className = 'forum-block'; // important for CSS
+
+    // Block text span
+    const textSpan = document.createElement('span');
+    textSpan.className = 'block-text';
+    textSpan.textContent = block.content;
+
+    li.appendChild(textSpan);
 
     // Make block clickable to open popup
     li.addEventListener('click', () => openCommentPopup(block));
 
     // Show delete button only for the poster
     if (block.user_id === currentUser.id) {
-      const delBtn = document.createElement('button');
-      delBtn.textContent = 'Delete';
+      const delBtn = document.createElement('deletebutton');
+      delBtn.textContent = '❌';
       delBtn.className = 'block-delete-btn';
       delBtn.addEventListener('click', async (e) => {
         e.stopPropagation(); // prevent opening popup
@@ -116,8 +123,8 @@ async function openCommentPopup(block) {
 
   // Show delete button if this comment belongs to current user
   if (c.commenter_id === currentUser.id) {
-    const delBtn = document.createElement('button');
-    delBtn.textContent = 'Delete';
+    const delBtn = document.createElement('delbutton');
+    delBtn.textContent = '❌';
     delBtn.className = 'block-delete-btn';
     delBtn.addEventListener('click', async () => {
       await supabase.from('forum_comments').delete().eq('id', c.id);
