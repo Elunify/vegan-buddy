@@ -739,38 +739,26 @@ async function setupRealtimeChat() {
   }
 
   chatChannel = supabase.channel('buddy_messages_channel')
-    .on(
-      'postgres_changes',
-      {
-        event: 'INSERT', // listen only for new messages
-        schema: 'public',
-        table: 'buddy_messages',
-      },
-      (payload) => { console.log('Realtime payload received:', payload);
-        const msg = payload.new;
-        // Only log messages involving the current user
-        if (msg.sender_id === userId || msg.recipient_id === userId) {
-          console.log('New message received:', msg);
+  .on(
+    'postgres_changes',
+    { event: 'INSERT', schema: 'public', table: 'buddy_messages' },
+    (payload) => {
+      const msg = payload.new;
+      if (!msg) return;
 
-          // Append to chat if this is the current chat
-          if (currentChatUserId && (msg.sender_id === currentChatUserId || msg.recipient_id === currentChatUserId)) {
-            appendChatMessage(msg); // Use a function to append only this message
-          }
-        }
+      if (msg.sender_id === userId || msg.recipient_id === userId) {
+        console.log('New message received:', msg);
+        appendChatMessage(msg, userId); // pass userId here
       }
-    )
-    .subscribe();
+    }
+  )
+  .subscribe();
 }
 
 // Call it after loading the user and buddy data
 setupRealtimeChat();
 
-function appendChatMessage(msg) {
-  const { data: { user } } = supabase.auth.getUser();
-  if (!user) return;
-  const userId = user.id;
-
-  // Only append if the message belongs to the current chat
+function appendChatMessage(msg, userId) {
   if (!currentChatUserId) return;
   if (!(msg.sender_id === currentChatUserId || msg.recipient_id === currentChatUserId)) return;
 
@@ -779,7 +767,6 @@ function appendChatMessage(msg) {
   msgContainer.style.alignItems = "center";
   msgContainer.style.marginBottom = "5px";
 
-  // Sender profile photo
   const img = document.createElement("img");
   img.src = msg.sender_profile_photo || "defaultProfile.jpg";
   img.alt = msg.sender_name || "User";
@@ -788,9 +775,9 @@ function appendChatMessage(msg) {
   img.style.borderRadius = "50%";
   img.style.marginRight = "10px";
 
-  // Sender name + message
   const text = document.createElement("span");
-  text.innerHTML = `<strong>${msg.sender_name || (msg.sender_id === userId ? "You" : "Buddy")}</strong>: ${msg.message}`;
+  const senderName = msg.sender_name || (msg.sender_id === userId ? "You" : "Buddy");
+  text.innerHTML = `<strong>${senderName}</strong>: ${msg.message}`;
 
   msgContainer.appendChild(img);
   msgContainer.appendChild(text);
