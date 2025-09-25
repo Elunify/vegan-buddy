@@ -82,18 +82,16 @@
 
     <ul id="chatsList"></ul>
     <!-- Chat window -->
-    <div id="chatWindow" style="display:none; border:1px solid #ccc; padding:10px; margin-top:10px;">
-      <h4 id="chatWith"></h4>
-      <div id="chatMessages" style="max-height:200px; overflow-y:auto; border:1px solid #eee; padding:5px; margin-bottom:5px;"></div>
-      <input type="text" id="chatInput" placeholder="Type a message..." />
-      <button id="sendChatBtn">Send</button>
+    <div id="chatWindow" style="display:none; border:1px solid #ccc; padding:10px; margin-top:10px; position:relative;">
+    <span id="closeChatWindow" style="position:absolute; top:5px; right:10px; cursor:pointer; font-weight:bold;">&#x2715;</span> <!-- X as close button -->
+    <h4 id="chatWith"></h4>
+    <div id="chatMessages" style="max-height:200px; overflow-y:auto; border:1px solid #eee; padding:5px; margin-bottom:5px;"></div>
+    <input type="text" id="chatInput" placeholder="Type a message..." />
+    <button id="sendChatBtn">Send</button>
     </div>
 
-    <!-- Messages for logged-in user -->
-    <ul id="messagesList"></ul>
-
     <p id="ConnectWithAMentor">Connect with someone who has been vegan longer for mentorship.</p>
-    
+    <br>
     <!-- Row to display if user is already a mentor -->
 <div id="alrdymentor" style="display: none;">
   <p> You are a mentor: </p>
