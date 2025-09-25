@@ -22,6 +22,12 @@ async function loadProfile() {
     document.getElementById("profilePhoto").src = profile.profile_photo;
   }
 
+  // Insert pet_name into span
+const petNameEl = document.getElementById("pet_name");
+if (petNameEl && profile.pet_name) {
+  petNameEl.textContent = profile.pet_name;
+}
+
   // Render pet
   const petDisplay = document.getElementById("petDisplay");
   const petAvatar = document.getElementById("petAvatar");
