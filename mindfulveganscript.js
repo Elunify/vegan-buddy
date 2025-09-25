@@ -609,14 +609,6 @@ applyMentorBtn.addEventListener("click", async () => {
   }
 });
 
-// Open chat window
-function openChat(userId, name) {
-  currentChatUserId = userId;
-  chatWith.textContent = `Chat with ${name}`;
-  chatWindow.style.display = "block";
-  loadChatMessages();
-}
-
 // Load chat messages with current chat user
 async function loadChatMessages() {
   if (!currentChatUserId) return;
@@ -754,7 +746,7 @@ async function setupRealtimeChat() {
         schema: 'public',
         table: 'buddy_messages',
       },
-      (payload) => {
+      (payload) => { console.log('Realtime payload received:', payload);
         const msg = payload.new;
         // Only log messages involving the current user
         if (msg.sender_id === userId || msg.recipient_id === userId) {
