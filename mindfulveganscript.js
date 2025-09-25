@@ -434,80 +434,77 @@ async function loadBuddyData() {
   // Hide "Apply to be mentor" button if user is already a mentor
   const alreadyMentor = mentors.some(m => m.user_id === userId);
   applyMentorBtn.style.display = alreadyMentor ? "none" : "inline-block";
-  ConnectWithAMentor.style.display = alreadyMentor ? "none" : "inline-block";
+  if (document.getElementById("ConnectWithAMentor"))
+    ConnectWithAMentor.style.display = alreadyMentor ? "none" : "inline-block";
 
-  // Render mentors list
+  // Render your own mentor row first (if you are a mentor)
+  const yourMentor = mentors.find(m => m.user_id === userId);
+  if (yourMentor) {
+    const row = document.getElementById("alrdymentor");
+    const photo = document.getElementById("alrdyMentorPhoto");
+    const nameSpan = document.getElementById("alrdyMentorName");
+    const yearsSpan = document.getElementById("alrdyMentorYears");
+    const removeBtn = document.getElementById("removeMentorBtn");
+
+    photo.src = yourMentor.profile_photo || "defaultProfile.jpg";
+    nameSpan.textContent = yourMentor.name;
+    yearsSpan.textContent = yourMentor.years_vegan;
+    row.style.display = "block";
+
+    removeBtn.onclick = async () => {
+      const confirmDelete = confirm("Are you sure you want to remove yourself as a mentor?");
+      if (!confirmDelete) return;
+
+      const { error } = await supabase
+        .from("mentors")
+        .delete()
+        .eq("id", yourMentor.id);
+
+      if (error) {
+        console.error("Error deleting mentor:", error);
+        alert("Failed to remove yourself as a mentor.");
+      } else {
+        alert("You are no longer a mentor.");
+        row.style.display = "none";
+        loadBuddyData();
+      }
+    };
+  } else {
+    document.getElementById("alrdymentor").style.display = "none";
+  }
+
+  // Render other mentors
   mentorsList.innerHTML = "";
+  mentors.forEach(mentor => {
+    if (mentor.user_id === userId) return;
+    const li = document.createElement("li");
 
-// Render your own mentor row first (if you are a mentor)
-const yourMentor = mentors.find(m => m.user_id === userId);
-if (yourMentor) {
-  // Show the row
-  const row = document.getElementById("alrdymentor");
-  const photo = document.getElementById("alrdyMentorPhoto");
-  const nameSpan = document.getElementById("alrdyMentorName");
-  const yearsSpan = document.getElementById("alrdyMentorYears");
-  const removeBtn = document.getElementById("removeMentorBtn");
+    const img = document.createElement("img");
+    img.src = mentor.profile_photo || "defaultProfile.jpg";
+    img.alt = mentor.name;
+    img.style.width = "40px";
+    img.style.height = "40px";
+    img.style.borderRadius = "50%";
+    img.style.marginRight = "10px";
 
-  photo.src = yourMentor.profile_photo || "defaultProfile.jpg";
-  nameSpan.textContent = yourMentor.name;
-  yearsSpan.textContent = yourMentor.years_vegan;
-  row.style.display = "block";
+    const text = document.createElement("span");
+    text.textContent = `${mentor.name} – ${mentor.years_vegan} years vegan`;
 
-  removeBtn.onclick = async () => {
-    const confirmDelete = confirm("Are you sure you want to remove yourself as a mentor?");
-    if (!confirmDelete) return;
+    const msgBtn = document.createElement("button");
+    msgBtn.textContent = "Message";
+    msgBtn.style.marginLeft = "10px";
+    msgBtn.onclick = () => openChat(mentor.user_id, mentor.name);
 
-    const { error } = await supabase
-      .from("mentors")
-      .delete()
-      .eq("id", yourMentor.id);
+    li.appendChild(img);
+    li.appendChild(text);
+    li.appendChild(msgBtn);
+    mentorsList.appendChild(li);
+  });
 
-    if (error) {
-      console.error("Error deleting mentor:", error);
-      alert("Failed to remove yourself as a mentor.");
-    } else {
-      alert("You are no longer a mentor.");
-      row.style.display = "none"; // hide row
-      loadBuddyData(); // refresh list
-    }
-  };
-} else {
-  // Hide if not a mentor
-  document.getElementById("alrdymentor").style.display = "none";
-}
-
-// Render other mentors
-mentors.forEach(mentor => {
-  if (mentor.user_id === userId) return; // skip yourself (already rendered)
-  const li = document.createElement("li");
-
-  const img = document.createElement("img");
-  img.src = mentor.profile_photo || "defaultProfile.jpg";
-  img.alt = mentor.name;
-  img.style.width = "40px";
-  img.style.height = "40px";
-  img.style.borderRadius = "50%";
-  img.style.marginRight = "10px";
-
-  const text = document.createElement("span");
-  text.textContent = `${mentor.name} – ${mentor.years_vegan} years vegan`;
-
-  const msgBtn = document.createElement("button");
-  msgBtn.textContent = "Message";
-  msgBtn.style.marginLeft = "10px";
-  msgBtn.onclick = () => openChat(mentor.user_id, mentor.name);
-
-  li.appendChild(img);
-  li.appendChild(text);
-  li.appendChild(msgBtn);
-  mentorsList.appendChild(li);
-});
-
-  // Load messages where user participates
+  // Load all messages for this user
   const { data: messages, error: messagesError } = await supabase
     .from("buddy_messages")
-    .select("id, sender_id, recipient_id, message, created_at")
+    .select("id, sender_id, recipient_id, message, created_at, sender_name, sender_profile_photo")
     .or(`sender_id.eq.${userId},recipient_id.eq.${userId}`)
     .order("created_at", { ascending: true });
 
@@ -516,11 +513,12 @@ mentors.forEach(mentor => {
     return;
   }
 
+  // Render messages list (just textual list)
   messagesList.innerHTML = "";
   messages.forEach(msg => {
     const li = document.createElement("li");
     const isSender = msg.sender_id === userId;
-    li.textContent = `${isSender ? "You" : "Buddy"}: ${msg.message}`;
+    li.textContent = `${isSender ? "You" : msg.sender_name}: ${msg.message}`;
     messagesList.appendChild(li);
   });
 }
@@ -537,7 +535,6 @@ applyMentorBtn.addEventListener("click", async () => {
   const yearsNum = parseInt(years);
   if (isNaN(yearsNum) || yearsNum <= 0) return alert("Please enter a valid number.");
 
-  // Fetch name and profile_photo from profiles table
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("name, profile_photo")
@@ -549,15 +546,12 @@ applyMentorBtn.addEventListener("click", async () => {
     return alert("Error fetching your profile info.");
   }
 
-  // Insert mentor row
-  const { error } = await supabase.from("mentors").insert([
-    {
-      user_id: user.id,
-      name: profile.name || "Anonymous",
-      profile_photo: profile.profile_photo || null,
-      years_vegan: yearsNum
-    }
-  ]);
+  const { error } = await supabase.from("mentors").insert([{
+    user_id: user.id,
+    name: profile.name || "Anonymous",
+    profile_photo: profile.profile_photo || null,
+    years_vegan: yearsNum
+  }]);
 
   if (error) {
     console.error("Error submitting mentor application:", error);
@@ -583,12 +577,11 @@ async function loadChatMessages() {
 
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return;
-
   const userId = user.id;
 
   const { data: chat, error } = await supabase
     .from("buddy_messages")
-    .select("*")
+    .select("id, sender_id, recipient_id, message, created_at, sender_name, sender_profile_photo")
     .or(`sender_id.eq.${userId},recipient_id.eq.${userId}`)
     .order("created_at", { ascending: true });
 
@@ -598,13 +591,29 @@ async function loadChatMessages() {
   chat.forEach(msg => {
     if ((msg.sender_id === userId && msg.recipient_id === currentChatUserId) ||
         (msg.sender_id === currentChatUserId && msg.recipient_id === userId)) {
-      const p = document.createElement("p");
-      p.textContent = `${msg.sender_id === userId ? "You" : "Buddy"}: ${msg.message}`;
-      chatMessages.appendChild(p);
+
+      const div = document.createElement("div");
+      div.style.display = "flex";
+      div.style.alignItems = "center";
+      div.style.marginBottom = "5px";
+
+      const img = document.createElement("img");
+      img.src = msg.sender_profile_photo || "defaultProfile.jpg";
+      img.alt = msg.sender_name;
+      img.style.width = "25px";
+      img.style.height = "25px";
+      img.style.borderRadius = "50%";
+      img.style.marginRight = "5px";
+
+      const text = document.createElement("span");
+      text.textContent = `${msg.sender_id === userId ? "You" : msg.sender_name}: ${msg.message}`;
+
+      div.appendChild(img);
+      div.appendChild(text);
+      chatMessages.appendChild(div);
     }
   });
 
-  // Scroll to bottom
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
@@ -616,17 +625,29 @@ sendChatBtn.addEventListener("click", async () => {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return;
 
-  const { error } = await supabase.from("buddy_messages").insert([
-    { sender_id: user.id, recipient_id: currentChatUserId, message: text }
-  ]);
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("name, profile_photo")
+    .eq("id", user.id)
+    .single();
 
-  if (error) {
-    console.error("Error sending message:", error);
-  } else {
+  const { error } = await supabase.from("buddy_messages").insert([{
+    sender_id: user.id,
+    recipient_id: currentChatUserId,
+    message: text,
+    sender_name: profile.name,
+    sender_profile_photo: profile.profile_photo
+  }]);
+
+  if (!error) {
     chatInput.value = "";
     loadChatMessages();
+    loadBuddyData(); // refresh messages list
+  } else {
+    console.error(error);
   }
 });
 
 // Initial load
 loadBuddyData();
+
