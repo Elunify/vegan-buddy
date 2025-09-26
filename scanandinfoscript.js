@@ -151,119 +151,124 @@ function displayProduct(product) {
 // MAP
 // MAP
 // MAP
-
+// MAP
 let map;
-let userMarker;
-let restaurantLayer; // marker layer for caching
-const mapResult = document.getElementById('mapResult');
-const apiKey = '430608aeb5bb4c958d7c9101669859c3'; // Replace with your key
-let lastFetchCenter = null;
+let infowindow;
+let lastFetchLocation = null;
 let fetchTimeout = null;
-const fetchDelay = 1000; // 1 second debounce
-const minDistance = 0.005; // ~0.5 km, adjust as needed
+const FETCH_INTERVAL = 1000; // 1 second
+const MIN_MOVE_DISTANCE = 500; // meters
 
-// Initialize the map
-function initMap() {
-  map = L.map('mapContainer').setView([0, 0], 13);
+async function initMap() {
+  infowindow = new google.maps.InfoWindow();
 
-  // Tile layer
-  L.tileLayer(`https://maps.geoapify.com/v1/tile/osm-carto/{z}/{x}/{y}.png?apiKey=${apiKey}`, {
-    attribution: '© OpenStreetMap contributors',
-    maxZoom: 19,
-  }).addTo(map);
-
-  // Layer group for restaurant markers
-  restaurantLayer = L.layerGroup().addTo(map);
-
-  // Get user location
+  // Try to get the user's current location
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(position => {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
-
-      map.setView([lat, lon], 14);
-
-      userMarker = L.marker([lat, lon]).addTo(map)
-        .bindPopup('You are here')
-        .openPopup();
-
-      fetchVeganRestaurants(lat, lon);
-
-      // Refresh restaurants when map moves
-      map.on('moveend', () => {
-  const center = map.getCenter();
-
-  // Check distance from last fetch
-  if (lastFetchCenter) {
-    const distance = Math.sqrt(
-      Math.pow(center.lat - lastFetchCenter.lat, 2) +
-      Math.pow(center.lng - lastFetchCenter.lng, 2)
-    );
-    if (distance < minDistance) return; // too close, skip
-  }
-
-  // Debounce API call
-  if (fetchTimeout) clearTimeout(fetchTimeout);
-  fetchTimeout = setTimeout(() => {
-    fetchVeganRestaurants(center.lat, center.lng);
-    lastFetchCenter = center;
-  }, fetchDelay);
+      const userLocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+map = new google.maps.Map(document.getElementById("mapContainer"), {
+  center: userLocation,
+  zoom: 14,
+  mapId: "d69dd398ff7fbb3a41b37083" // <- add this
 });
 
+      // Fetch restaurants initially
+      fetchRestaurants(userLocation);
+
+      // Fetch again whenever the map moves or zooms
+      map.addListener("idle", () => {
+        if (fetchTimeout) clearTimeout(fetchTimeout);
+
+        fetchTimeout = setTimeout(() => {
+          const center = map.getCenter();
+          const currentLocation = { lat: center.lat(), lng: center.lng() };
+
+          if (!lastFetchLocation || getDistanceMeters(lastFetchLocation, currentLocation) > MIN_MOVE_DISTANCE) {
+            fetchRestaurants(currentLocation);
+            lastFetchLocation = currentLocation;
+          }
+        }, FETCH_INTERVAL);
+      });
     }, () => {
-      mapResult.textContent = 'Could not get your location.';
+      // fallback to Valencia
+      const defaultLocation = { lat: 39.4699, lng: -0.3763 };
+      map = new google.maps.Map(document.getElementById("mapContainer"), {
+        center: defaultLocation,
+        zoom: 14,
+        mapId: "d69dd398ff7fbb3a41b37083"
+      });
+      infowindow = new google.maps.InfoWindow();
+      fetchRestaurants(defaultLocation);
+      lastFetchLocation = defaultLocation;
     });
   } else {
-    mapResult.textContent = 'Geolocation not supported by your browser.';
+    alert("Your browser does not support geolocation.");
   }
 }
 
-const veganRegex = /vegan|plant[\s-]?based|vegetarian/i; // flexible keyword matching
+// Haversine formula to calculate distance between two lat/lng points
+function getDistanceMeters(loc1, loc2) {
+  const R = 6371000; // radius of Earth in meters
+  const toRad = x => x * Math.PI / 180;
 
-async function fetchVeganRestaurants(lat, lon) {
-  restaurantLayer.clearLayers(); // clear old markers
-  mapResult.textContent = 'Fetching vegan restaurants...';
+  const dLat = toRad(loc2.lat - loc1.lat);
+  const dLng = toRad(loc2.lng - loc1.lng);
 
-  const radius = 5000; // 5 km
-  const apiKey = "AIzaSyAwHL9UaF4A7qSZt_qkW2QrZVnQWXeVFNs"; // <-- replace with your key
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(toRad(loc1.lat)) * Math.cos(toRad(loc2.lat)) *
+            Math.sin(dLng/2) * Math.sin(dLng/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
+}
 
-  const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=${radius}&keyword=vegan&type=restaurant&key=${apiKey}`;
+function fetchRestaurants(location) {
+  const service = new google.maps.places.PlacesService(map);
 
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
+  const request = {
+    location: location,
+    radius: 5000, // 5 km
+    keyword: "vegan restaurant"
+  };
 
-    if (!data.results || data.results.length === 0) {
-      mapResult.textContent = 'No vegan restaurants found nearby.';
-      return;
+  service.nearbySearch(request, (results, status) => {
+    if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+      // Clear old markers
+      map.markers?.forEach(m => m.setMap(null));
+      map.markers = [];
+
+      results.forEach(place => {
+        const marker = createMarker(place);
+        map.markers.push(marker);
+      });
+    } else {
+      document.getElementById("mapResult").textContent = "No vegan restaurants found nearby.";
     }
-
-    let count = 0;
-    data.results.forEach(place => {
-      if (!place.geometry || !place.geometry.location) return;
-
-      const lat = place.geometry.location.lat;
-      const lng = place.geometry.location.lng;
-      const name = place.name || "Unknown";
-      const address = place.vicinity || "";
-      const placeId = place.place_id;
-
-      const popupContent = `
-        <strong>${name}</strong><br>
-        ${address}<br>
-        <a href="https://www.google.com/maps/place/?q=place_id:${placeId}" target="_blank">View on Google Maps</a>
-      `;
-
-      L.marker([lat, lng]).addTo(restaurantLayer).bindPopup(popupContent);
-      count++;
-    });
-
-    mapResult.textContent = count === 0 
-      ? 'No vegan restaurants found nearby.' 
-      : `Found ${count} vegan restaurants nearby.`;
-  } catch (error) {
-    console.error('Error fetching restaurants:', error);
-    mapResult.textContent = 'Error fetching restaurant data.';
-  }
+  });
 }
 
+function createMarker(place) {
+  if (!place.geometry || !place.geometry.location) return;
+
+  const marker = new google.maps.marker.AdvancedMarkerElement({
+    map,
+    position: place.geometry.location,
+    title: place.name
+  });
+
+  let content = '';
+  if (place.photos && place.photos.length > 0) {
+    const photoUrl = place.photos[0].getUrl({ maxWidth: 200, maxHeight: 150 });
+    content += `<img src="${photoUrl}" ><br>`;
+  }
+  content += `<strong>${place.name}</strong><br>${place.vicinity || ''}`;
+
+  marker.addListener("click", () => {
+    infowindow.setContent(content);
+    infowindow.open(map, marker);
+  });
+
+  return marker;
+}
