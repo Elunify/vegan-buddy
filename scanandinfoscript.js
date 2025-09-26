@@ -1,52 +1,14 @@
-function openTab(tabId) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  const section = document.getElementById(tabId);
-  if (section) section.classList.add('active');
+if (tabId === "scan") {
+  startCamera().then(detectBarcode);
+} else {
+  stopCamera();
+}
 
-  if (tabId === "scan") {
-    // Ask for camera access first
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-      .then(stream => {
-        // Permission granted
-        video.srcObject = stream;
-        detectBarcode(); // start scanning
-      })
-      .catch(err => {
-        alert("Camera permission denied. Cannot scan barcodes.");
-        console.error(err);
-      });
-  } else {
-    stopCamera();
-  }
-
-  if (tabId === "map") {
-    // Ask for location access
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          const userLocation = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-          if (!map) {
-            initMap(userLocation); // init map with user's location
-          } else {
-            map.setCenter(userLocation); // update center if map already exists
-          }
-        },
-        err => {
-          alert("Location permission denied. Showing default location.");
-          console.error(err);
-          const defaultLocation = { lat: 39.4699, lng: -0.3763 };
-          if (!map) initMap(defaultLocation);
-        }
-      );
-    } else {
-      alert("Geolocation is not supported by this browser.");
-      const defaultLocation = { lat: 39.4699, lng: -0.3763 };
-      if (!map) initMap(defaultLocation);
-    }
-  }
+if (tabId === "map") {
+  getUserLocation(userLocation => {
+    if (!map) initMap(userLocation);
+    else map.setCenter(userLocation);
+  });
 }
 
 // Emoji buttons
@@ -57,6 +19,17 @@ document.getElementById("scanBtn").onclick = () => openTab("scan");
 document.getElementById('backBtn').addEventListener('click', () => {
   window.location.href = 'mainpage.html';
 });
+
+function getUserLocation(callback) {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => callback({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+      err => alert("Location access denied. Please allow location permissions.")
+    );
+  } else {
+    alert("Geolocation not supported.");
+  }
+}
 
 
 // SCAN
@@ -74,11 +47,15 @@ let cachedProducts = JSON.parse(localStorage.getItem('veganProducts')) || {};
 
 // Start camera
 async function startCamera() {
-  try {
-    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-    video.srcObject = stream;
-  } catch (err) {
-    resultDiv.textContent = "Camera not accessible: " + err;
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      document.querySelector('#video').srcObject = stream;
+    } catch (err) {
+      alert("Camera access denied. Please allow camera permissions.");
+    }
+  } else {
+    alert("Camera not supported.");
   }
 }
 
