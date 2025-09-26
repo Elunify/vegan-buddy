@@ -7,63 +7,46 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabaseClient.js"></script>
   <link rel="stylesheet" href="scanandinfostyle.css" />
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 </head>
 <body>
 
 
   <div class="top-bar">
     <div class="top-bar-row">
-    <div class="backtomainpage" id="backBtn">⬅️</div>
-      <div class="map-icon" id="mapBtn">🗺️</div>
+      <div class="backtomainpage" id="backBtn">⬅️</div>
+      <div class="scan-icon" id="scanBtn" role="button" tabindex="0">🏷️</div>
+      <div class="map-icon" id="mapBtn" role="button" tabindex="0">🗺️</div>
 </div>
 </div> 
 
-  <div class="page">
-    <div class="section-grid">
+<div class="page">
+
+  <div class="section-grid">
 
   <!-- Scan a product -->
-  <section class="section" id="scanProduct">
-    <h2>Scan a Product 📷</h2>
-    <p>Scan a product barcode and the app will show if it's vegan or not.</p>
+  <section class="section" id="scan">
+    <h2>Scan a Product for information 📷</h2>
+  <div id="mapOrScanContainer">
+    <video id="video" width="300" height="300" autoplay></video>
+  </div>
+  <div id="loader" style="display:none;">⏳ Scanning product...</div>
+  <div id="scanResult"></div>
   </section>
 
   <!-- Discover restaurants -->
-  <section class="section" id="restaurants">
-    <h2>Discover Restaurants 🍴</h2>
-    <p>Find vegan-friendly restaurants, leave reviews, and upgrade your map.</p>
-  </section>
+  <section class="section" id="map">
+    <h2>Discover vegan-friendly restaurants 🍴</h2>
 
-  <!-- Level 15 blocked section -->
-  <section class="section blocked" id="cosmetics" data-unlock = "🔓 Lvl 15">
-    <h2>Educate: Not cruelty-free but vegan products 🧴</h2>
-  </section>
-
-  <!-- VEGANISM BEYOND FOOD -->
-  <section class="section blocked" id="beyondFood" data-unlock = "🔓 Lvl 15">
-    <h2>Veganism Beyond Food 🌿</h2>
-    <p>Eluna/Elune give you info about cruelty-free cosmetic products.</p>
-    <img src="characters/eluna.png" alt="Eluna" class="character-small">
-    <img src="characters/elune.png" alt="Elune" class="character-small">
-  </section>
-</div>
-  <!-- Pet toggle section -->
-    <div id="avatarDisplayPet" class="profile-wrapperPet">
-      <div id="petMessage">
-        <div id="petAvatar" class="pet-avatar">
-          <!-- Pet photo or emoji injected here -->
-        </div>
-        <div id="thoughtToggle" class="thought-toggle">💭</div>
-      </div>
-      <!-- Hidden bubble -->
-      <div id="petThought" class="pet-bubble hidden">
-        <span id="petName">Pet</span> is thinking...
-        <div id="dailyTip" class="lesson-box">
-          <!-- Lesson of the day will appear here -->
-      </div>
-    </div>
+    <div id="mapContainer"></div>
+    <div id="mapResult"></div> <!-- For messages like errors or no restaurants -->
   </section>
 
 </div>
+  
 
   
   <script src="scanandinfoscript.js"></script>
