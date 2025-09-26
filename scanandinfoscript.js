@@ -1,14 +1,20 @@
-if (tabId === "scan") {
+function openTab(tabId) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  const section = document.getElementById(tabId);
+  if (section) section.classList.add('active');
+
+  if (tabId === "scan") {
   startCamera().then(detectBarcode);
 } else {
   stopCamera();
 }
 
-if (tabId === "map") {
+  if (tabId === "map") {
   getUserLocation(userLocation => {
     if (!map) initMap(userLocation);
     else map.setCenter(userLocation);
   });
+}
 }
 
 // Emoji buttons
