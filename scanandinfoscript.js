@@ -56,6 +56,7 @@ async function startCamera() {
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      video.srcObject = stream;
       document.querySelector('#video').srcObject = stream;
     } catch (err) {
       alert("Camera access denied. Please allow camera permissions.");
@@ -326,3 +327,4 @@ function requestLocationAccess() {
     initMap(defaultLocation);
   }
 }
+
