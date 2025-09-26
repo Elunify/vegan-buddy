@@ -4,13 +4,48 @@ function openTab(tabId) {
   if (section) section.classList.add('active');
 
   if (tabId === "scan") {
-    startCamera().then(detectBarcode);
+    // Ask for camera access first
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+      .then(stream => {
+        // Permission granted
+        video.srcObject = stream;
+        detectBarcode(); // start scanning
+      })
+      .catch(err => {
+        alert("Camera permission denied. Cannot scan barcodes.");
+        console.error(err);
+      });
   } else {
     stopCamera();
   }
 
-  if (tabId === "map" && !map) {
-    initMap();
+  if (tabId === "map") {
+    // Ask for location access
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const userLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          if (!map) {
+            initMap(userLocation); // init map with user's location
+          } else {
+            map.setCenter(userLocation); // update center if map already exists
+          }
+        },
+        err => {
+          alert("Location permission denied. Showing default location.");
+          console.error(err);
+          const defaultLocation = { lat: 39.4699, lng: -0.3763 };
+          if (!map) initMap(defaultLocation);
+        }
+      );
+    } else {
+      alert("Geolocation is not supported by this browser.");
+      const defaultLocation = { lat: 39.4699, lng: -0.3763 };
+      if (!map) initMap(defaultLocation);
+    }
   }
 }
 
@@ -271,4 +306,40 @@ function createMarker(place) {
   });
 
   return marker;
+}
+
+
+async function requestCameraAccess() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+    // camera access granted, you can use `stream` for your video element
+    document.getElementById("video").srcObject = stream;
+  } catch (err) {
+    alert("Camera access denied. Cannot scan barcodes.");
+    console.error(err);
+  }
+}
+
+function requestLocationAccess() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const userLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        initMap(userLocation); // pass the user's location to your map
+      },
+      (err) => {
+        alert("Location access denied. Showing default location.");
+        console.error(err);
+        const defaultLocation = { lat: 39.4699, lng: -0.3763 }; // fallback
+        initMap(defaultLocation);
+      }
+    );
+  } else {
+    alert("Geolocation is not supported by this browser.");
+    const defaultLocation = { lat: 39.4699, lng: -0.3763 }; // fallback
+    initMap(defaultLocation);
+  }
 }
