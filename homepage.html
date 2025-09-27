@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>MainPage</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
+  <link rel="stylesheet" href="homepagestyle.css" />
+</head>
+<body>
+  <div id="main-container">
+
+    <!-- 🔝 Top Tabs -->
+    <div class="top-bar">
+      <div class="top-bar-row">
+
+        <!-- Profile -->
+        <div class="profile-wrapper">
+          <img id="profilePhoto" src="" alt="Profile Photo" class="profile-photo" />
+          <div id="petDisplay" class="pet-overlay"></div>
+        </div>
+
+        <!-- Level + Streak -->
+        <div class="center-counters">
+          <span class="counter">🌍 <span id="currentLevel">0</span></span>
+          <span class="counter">🔥 <span id="streak-counter">0</span></span>
+        </div>
+
+        <!-- Side Menu -->
+        <div id="menuButton" class="menu-button">☰</div>
+        <div id="sideMenu" class="side-menu hidden">
+          <button class="menu-item" id="topListsBtn">Leaderboards</button>
+          <button class="menu-item" id="helpusgrowBtn">Help Us Grow</button>
+          <button class="menu-item" id="aboutUsBtn">About Us</button>
+          <button class="menu-item" id="sourcesBtn">Sources</button>
+          <button class="menu-item" id="logoutBtn">Log out</button>
+        </div>
+      </div>
+
+      <!-- XP Progress -->
+      <div class="level-bar">
+        <div class="progress">
+          <div id="levelProgress" class="progress-fill"></div>
+        </div>
+        <small id="xpToNext"> </small>
+      </div>
+    </div>
+    <!-- End Top Tabs -->
+
+
+    
+    <!-- 📄 Page Sections -->
+
+    <!-- Learn subsections -->
+    <div id="lessons" class="page hidden"> ...Lessons content... </div>
+    <div id="recommendations" class="page hidden"> ...Recommendations content... </div>
+    <div id="recipes" class="page hidden"> ...Recipes content... </div>
+    <div id="sources" class="page hidden"> ...Sources content... </div>
+
+    <!-- Explore subsections -->
+    <div id="restaurants" class="page hidden"> ...Restaurants Map... </div>
+    <div id="scan" class="page hidden"> ...Scan Products... </div>
+
+    <!-- Community subsections -->
+    <div id="local" class="page hidden"> ...Local Community... </div>
+    <div id="events" class="page hidden"> ...Events... </div>
+    <div id="chat" class="page hidden"> ...Group Chat... </div>
+    <div id="forum" class="page hidden"> ...Forum... </div>
+    <div id="mentorship" class="page hidden"> ...Mentorship... </div>
+    <div id="success" class="page hidden"> ...Success Stories... </div>
+
+    <!-- Playground subsections -->
+    <div id="avatar" class="page hidden"> ...Your Avatar... </div>
+    <div id="badges" class="page hidden"> ...Badges... </div>
+    <div id="leaderboards" class="page hidden"> ...Leaderboards... </div>
+    <div id="challenges" class="page hidden"> ...Challenges... </div>
+
+    <!-- 🏠 Home Content -->
+    <div id="home" class="page">  
+      <!-- Daily Check-in -->
+      <div class="checkin-btn">
+        🌱 Daily Check-in
+      </div>
+
+      <!-- Health Solutions (optional, hidden if none) -->
+      <div id="healthSolutions" class="section hidden">
+        <h3>💚 Health Solutions</h3>
+        <p>Personalised plant-based lessons for your health needs</p>
+      </div>
+
+      <!-- Your Impact -->
+      <div class="section">
+        <h3>Your Impact</h3>
+        <div class="impact-cards">
+          <div class="card">🐾 <strong id="savedAnimals">0</strong><br>Animals saved</div>
+          <div class="card">🌲 <strong id="savedForest">0</strong> m²<br>Forests saved</div>
+          <div class="card">💧 <strong id="savedWater">0</strong> L<br>Water saved</div>
+          <div class="card">🌬️ <strong id="savedCO2">0</strong> kg<br>CO₂ reduced</div>
+        </div>
+      </div>
+
+      <!-- Community Impact -->
+      <div class="community">
+        💚 Together we saved <strong id="communityImpact">3,560 kg</strong>
+      </div>
+
+      <!-- Meal-Art Contest -->
+      <div class="meal-art-winners">
+        <h3>🍽️ Meal-Art Contest</h3>
+        <div class="meal-art-categories">
+
+          <!-- Amateur -->
+          <div class="meal-art-card">
+            <h4>🥕 Home Chef</h4>
+            <p class="winner-name" id="amateurName">Jane Doe</p>
+            <img id="amateurImage" src="meals/amateur.jpg" alt="Amateur winning dish" class="meal-art-image">
+            <div id="amateurRecipe"><span class="recipe">Recipe available</span></div>
+          </div>
+
+          <!-- Professional -->
+          <div class="meal-art-card">
+            <h4>🍴 Pro Kitchen</h4>
+            <p class="winner-name" id="proName">Green Leaf Bistro</p>
+            <img id="proImage" src="meals/professional.jpg" alt="Professional winning dish" class="meal-art-image">
+            <div id="professionalRecipe"><span class="no-recipe">Recipe unavailable</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- End Home Content -->
+
+    <!-- 🔖 Bottom Navigation -->
+    <div class="bottom-nav">
+      <button onclick="showSection('home')">🏠</button>
+      <div class="dropdown">
+        <button>📖 </button>
+        <div class="dropdown-content">
+          <button onclick="showSection('lessons')">Lessons</button>
+          <button onclick="showSection('recommendations')">Recommendations</button>
+          <button onclick="showSection('recipes')">Recipes</button>
+          <button onclick="showSection('sources')">Sources</button>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button>🔍 </button>
+        <div class="dropdown-content">
+          <button onclick="showSection('restaurants')">Restaurants</button>
+          <button onclick="showSection('scan')">Scan Products</button>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button>🌐 </button>
+        <div class="dropdown-content">
+          <button onclick="showSection('local')">Local Community</button>
+          <button onclick="showSection('events')">Events</button>
+          <button onclick="showSection('chat')">Group Chat</button>
+          <button onclick="showSection('forum')">Forum</button>
+          <button onclick="showSection('mentorship')">Mentorship</button>
+          <button onclick="showSection('success')">Success Stories</button>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button>🧸 </button>
+        <div class="dropdown-content">
+          <button onclick="showSection('avatar')">Your Avatar</button>
+          <button onclick="showSection('badges')">Badges</button>
+          <button onclick="showSection('leaderboards')">Leaderboards</button>
+          <button onclick="showSection('challenges')">Challenges</button>
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- End main-container -->
+
+<div class="avatar-row" style="display: none;">
+    <!-- Eluna -->
+<div class="profile-wrapper" onclick="toggleThought('eluna')">
+  <img class="avatar" src="characters/eluna.png" alt="Eluna">
+  <div class="thought-toggle" >💭</div>
+  <div id="elunaThought" class="thought-bubble">
+    <span>Eluna</span> is thinking...
+    <div id="elunaTip" class="lesson-box"></div>
+  </div>
+</div>
+
+<!-- Elune -->
+<div class="profile-wrapper" onclick="toggleThought('elune')">
+  <img class="avatar" src="characters/elune.png" alt="Elune">
+  <div class="thought-toggle">💭</div>
+  <div id="eluneThought" class="thought-bubble">
+    <span>Elune</span> is thinking...
+    <div id="eluneTip" class="lesson-box"></div>
+  </div>
+</div>
+
+<!-- Pet -->
+<div class="profile-wrapper" onclick="toggleThought('pet')">
+  <div class="avatar" id="petAvatar"></div><!-- Will be replaced by image -->
+  <div class="thought-toggle">💭</div>
+  <div id="petThought" class="thought-bubble">
+    <span id="petName">Pet</span> is thinking...
+    <div id="petTip" class="lesson-box"></div>
+  </div>
+</div>
+</div>
+
+
+  <script src="scriptpools.js"></script>
+  <script src="scriptcalculationandinserts.js"></script>
+  <script src="scriptfunctions.js"></script>
+  <script type="module" src="scriptreads.js"></script>
+  <script type="module" src="scriptbuttons.js"></script>
+</body>
+</html>

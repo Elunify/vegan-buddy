@@ -9,7 +9,7 @@ html, body {
 }
 
 body {
-  display: flex;              /* needed for justify-content */
+    display: flex;              /* needed for justify-content */
     flex-direction: column;
     font-family: sans-serif;
     margin: 0;

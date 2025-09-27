@@ -1,0 +1,414 @@
+
+/* Reset */
+body {
+    display: flex;              /* needed for justify-content */
+    flex-direction: column;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  background: #f9f9f9;
+  color: #333;
+  overflow: hidden; /* prevent body scrolling, only content scrolls */
+    justify-content: space-between;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+}
+
+/* Main container takes full viewport */
+#main-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Utility */
+.hidden { display: none; }
+
+/* 🔝 Top Bar */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  z-index: 1000;
+  display: flex;
+  padding: 0.5rem;
+  flex-direction: column;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.top-bar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 0.5rem;
+  box-sizing: border-box;
+}
+.profile-wrapper {
+  width: 50px;
+  height: 50px;
+  flex: 0 0 auto;
+}
+
+.profile-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+}
+
+.pet-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.pet-overlay {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: -8px;
+  right: -10px;
+  font-size: 0.75rem;
+}
+/* ===== Counters (Center) ===== */
+.center-counters {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-grow: 1;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.counter {
+  flex: 0 0 auto;   /* fixed size for counters */
+  margin: 0 1rem;   /* horizontal spacing between counters and neighbors */
+  white-space: nowrap;
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+.menu-button {
+  font-size: 2.5rem;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+.level-bar {
+  margin-top: 8px;
+}
+.progress {
+  background: #81C784;
+  border-radius: 6px;
+  height: 8px;
+  width: 100%;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  width: 40%;
+  background: #2E7D32;
+  border-radius: 6px;
+  transition: width 0.5s ease;
+}
+#xpToNext {
+  font-size: 0.7rem;
+  color: #2E7D32;
+  display: block;
+  margin-top: 3px;
+  margin-bottom: -5px;
+  text-align: center;
+}
+
+/* 📄 Page Sections */
+/* Page content container: between top and bottom bars */
+.page {
+  overflow-y: auto;
+  margin-top: 120px;
+  margin-top: calc(90px + env(safe-area-inset-top)); /* topbar + safe area */
+  margin-bottom: 70px;
+  margin-bottom: calc(40px + env(safe-area-inset-bottom)); /* bottom nav + safe area */
+  padding: 1rem;
+}
+
+/* Optional: smooth scrolling */
+.page::-webkit-scrollbar {
+  width: 8px;
+}
+.page::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+h3 {
+  margin-top: 0;
+}
+
+/* Impact Cards */
+.impact-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  font-size: 0.9rem;
+}
+
+/* Community Impact */
+.community {
+  margin: 20px;
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+  background: #e8f5e9;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Meal-Art Contest */
+.meal-art-winners {
+  margin: 20px 0;
+}
+.meal-art-categories {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.meal-art-card {
+  background: white;
+  border-radius: 16px;
+  padding: 10px;
+  flex: 1 1 100px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.meal-art-image {
+  width: 100%;
+  border-radius: 12px;
+  margin-top: 5px;
+}
+
+/* 🔖 Bottom Navigation */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  z-index: 1000;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem 0;
+}
+.bottom-nav button {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+.bottom-nav button:hover {
+  background: #f1f1f1;
+}
+
+/* Dropdowns inside Bottom Nav */
+.dropdown {
+  position: relative;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  bottom: 55px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+.dropdown-content button {
+  width: 100%;
+  text-align: left;
+  padding: 10px 15px;
+  font-size: 0.9rem;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* 🎭 Avatar Popup */
+.avatar-row {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  background: white;
+  border: 2px solid #4caf50;
+  border-radius: 16px;
+  padding: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  width: 220px;
+}
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.thought-bubble {
+  margin-top: 8px;
+  padding: 8px;
+  background: #e8f5e9;
+  border-radius: 10px;
+  font-size: 0.85rem;
+}
+.close-btn {
+  float: right;
+  cursor: pointer;
+  font-weight: bold;
+  color: #c00;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* charactertips */
+/* charactertips */
+/* charactertips */
+/* charactertips */
+
+.profile-wrapper {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer; /* entire wrapper is clickable */
+  }
+
+  .avatar {
+    width: 3rem;
+    border-radius: 50%;
+    font-size: 3rem;
+    margin-bottom: 2px;
+  }
+
+  .avatar-row {
+  width: 95%;
+  margin: auto;
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center; /* center all avatars horizontally */
+  align-items: center;
+  gap: 1.5rem; /* space between avatars */
+  flex-wrap: wrap; /* wrap to next line on small screens */
+  }
+
+  .thought-toggle {
+  position: absolute;
+  top: -0.5rem;
+  right: -1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  overflow: hidden;
+  }
+  .thought-toggle:hover {
+    transform: scale(1.2);
+  }
+
+  /* Make the thought bubbles relative to row */
+.thought-bubble {
+  display: none;
+  position: absolute; /* stays above row */
+  padding: 10px 15px;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  font-size: 0.9rem;
+  z-index: 10;
+  min-width: 350%;    /* adjust bubble width */
+  text-align: center;
+}
+
+.thought-bubble::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #fff;
+}
+
+/* Bubble positions */
+#elunaThought {
+  left: 0;  /* position bubble relative to row or parent */
+}
+#eluneThought {
+  left: 50%;
+  transform: translateX(-50%);
+}
+#petThought {
+  right: 0;
+}
+
+/* Arrow positions inside bubbles */
+#elunaThought::after {
+  left: 15%;  /* point to Eluna avatar inside bubble */
+  transform: translateX(-50%);
+}
+#eluneThought::after {
+  left: 50%;  /* point to Elune avatar */
+  transform: translateX(-50%);
+}
+#petThought::after {
+  left: 85%;  /* point to Pet avatar */
+  transform: translateX(-50%);
+}
+
+.thought-bubble.visible {
+  display: block;
+}
+
+  .lesson-box {
+    margin-top: 6px;
+    padding: 6px;
+    border-left: 3px solid #4CAF50;
+    background: #f9f9f9;
+    font-style: italic;
+  }
