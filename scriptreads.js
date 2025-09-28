@@ -230,7 +230,7 @@ async function loadWinners() {
       if (amateurWinner.recipe_available) {
         amateurRecipeDiv.innerHTML = `<a href="#" class="recipe" onclick='showRecipeModal(${JSON.stringify(amateurWinner)})'>Recipe available</a>`;
       } else {
-        amateurRecipeDiv.innerHTML = `<span class="no-recipe">Recipe unavailable</span>`;
+        amateurRecipeDiv.innerHTML = `<span class="no-recipe">No recipe</span>`;
       }
     }
 
@@ -252,7 +252,7 @@ async function loadWinners() {
       if (proWinner.recipe_available) {
         proRecipeDiv.innerHTML = `<a href="#" class="recipe" onclick='showRecipeModal(${JSON.stringify(proWinner)})'>Recipe available</a>`;
       } else {
-        proRecipeDiv.innerHTML = `<span class="no-recipe">Recipe unavailable</span>`;
+        proRecipeDiv.innerHTML = `<span class="no-recipe">No recipe</span>`;
       }
     }
 

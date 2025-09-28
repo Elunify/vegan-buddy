@@ -193,8 +193,8 @@ body {
 /* Page content container: between top and bottom bars */
 .page {
   overflow-y: auto;
-  margin-top: 125px;
-  margin-top: calc(95px + env(safe-area-inset-top)); /* topbar + safe area */
+  margin-top: 130px;
+  margin-top: calc(100px + env(safe-area-inset-top)); /* topbar + safe area */
   margin-bottom: 80px;
   margin-bottom: calc(50px + env(safe-area-inset-bottom)); /* bottom nav + safe area */
   padding: 1rem;
@@ -314,6 +314,7 @@ h3 {
   box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* subtle shadow */
   margin: auto;           /* center horizontally */
   margin-top: 0.7rem;
+  margin-bottom: 0.8rem;
   padding-top: 0.6rem;
   font-family: sans-serif;     /* clean font */
   font-size: 1.2em;            /* slightly bigger text */
@@ -408,6 +409,7 @@ h3 {
   border-radius: 16px;
   padding: 10px;
   padding-bottom: 0;
+  margin-bottom: 0.5rem;
   flex: 1 1 100px;
   text-align: center;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
