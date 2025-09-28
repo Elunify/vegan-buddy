@@ -74,8 +74,25 @@ document.getElementById("backToLoginBtn").addEventListener("click", () => {
 
 // Check if logged in
  (async () => {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (user) window.location.href = "mainpage.html";
+  const { data: { user }, error } = await supabase.auth.getUser();
+
+  if (error || !user) return; // not logged in
+
+  // Check if profile exists for this user
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("id")
+    .eq("email", user.email)
+    .maybeSingle();
+
+  if (!profile || profileError) {
+    // no profile → log out to prevent redirect loop
+    await supabase.auth.signOut();
+    return;
+  }
+
+  // ✅ only redirect if both auth user and profile exist
+  window.location.href = "homepage.html";
 })();
 
 // ------------------ Login ------------------
@@ -89,12 +106,13 @@ document.getElementById("signInBtn").addEventListener("click", async () => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
+      console.warn("Login error:", error); // keep console clean but visible for debugging
       // Always return generic error for security
       return setStatus("Invalid email or password");
     }
 
     setStatus("Login successful!", "green");
-    window.location.href = "mainpage.html";
+    window.location.href = "homepage.html";
 
   } catch (err) {
     console.error("Login error:", err);
@@ -252,15 +270,31 @@ document.getElementById('verifyCodeBtn').addEventListener('click', async () => {
 // ------------------ forgot password ------------------
 document.getElementById("forgotPasswordLink").addEventListener("click", async (e) => {
   e.preventDefault();
-  setStatus(""); // clear previous status
+  setStatus("");
 
   const email = document.getElementById("signEmail").value.trim();
   if (!email) return setStatus("Please enter your email");
 
   try {
-    // Request Supabase to send a reset email
+    // 🔍 Check if profile exists in your custom table
+    const { data: existingProfile, error: profileError } = await supabase
+      .from("profiles")
+      .select("id")
+      .eq("email", email)
+      .maybeSingle();
+
+    if (profileError) {
+      console.error("Profile lookup error:", profileError);
+      return setStatus("Something went wrong. Try again later.");
+    }
+
+    if (!existingProfile) {
+      return setStatus("No account found with this email");
+    }
+
+    // ✅ If profile exists, request Supabase password reset
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'https://vegan-buddy.vercel.app/reset-password.html'
+      redirectTo: "https://vegan-buddy.vercel.app/reset-password.html",
     });
 
     if (error) {
@@ -268,8 +302,7 @@ document.getElementById("forgotPasswordLink").addEventListener("click", async (e
       return setStatus("Failed to send reset email. Try again later.");
     }
 
-    // Success message
-    setStatus("Password reset email sent! Check your inbox, or spam.", "green");
+    setStatus("Password reset email sent! Check your inbox (or spam).", "green");
 
   } catch (err) {
     console.error("Forgot password error:", err);
@@ -283,21 +316,135 @@ document.getElementById("forgotPasswordLink").addEventListener("click", async (e
 
 
 <style>
+/* ===== Reset & Body ===== */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #cceff0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    text-align: center;
-    padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  color: #2d6a4f;
 }
-h1, h2 { color: #333; }
-input { width: 80%; margin: 0.5rem 0; padding: 0.8rem; border-radius: 10px; border: 1px solid #ccc; }
-button { padding: 0.8rem 2rem; border-radius: 8px; background-color: #4CAF50; color: white; border: none; cursor: pointer; margin: 0.5rem 0; }
-button:hover { background-color: #45a049; }
+
+/* ===== Card Container ===== */
+#loginSection, #newProfileStep1, #verifyCodeSection {
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  margin: 5%;
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#loginSection h1,
+#newProfileStep1 h2,
+#verifyCodeSection h3 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #3bb341;
+}
+
+/* ===== Inputs ===== */
+input[type="email"], input[type="password"], input[type="text"] {
+  width: 90%;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  border: 1px solid #b7e4c7;
+  font-size: 1rem;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="text"]:focus {
+  border-color: #3bb341;
+}
+
+/* ===== Buttons ===== */
+button {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.8rem;
+  border-radius: 12px;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+#signInBtn {
+  background-color: #3bb341;
+  color: #fff;
+}
+
+#showProfileBtn, #newProfileBtn {
+  background-color: #f0b429;
+  color: #fff;
+}
+
+#backToLoginBtn {
+  background-color: #d9f0e1;
+  color: #3bb341;
+}
+
+#verifyCodeBtn {
+  background-color: #3bb341;
+  color: #fff;
+}
+
+/* ===== Links ===== */
+#forgotPasswordLink {
+  font-size: 0.9rem;
+  color: #2d6a4f;
+  text-decoration: underline;
+}
+
+#forgotPasswordLink:hover {
+  color: #3bb341;
+}
+
+/* ===== Status messages ===== */
+#statusMsg, #emailStatus, #forgotMsg {
+  font-size: 0.9rem;
+  min-height: 20px;
+  margin-bottom: 0.8rem;
+}
+
+/* ===== Labels ===== */
+.smallLabel {
+  font-size: 0.9rem;
+  color: #2d6a4f;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 450px) {
+  #loginSection, #newProfileStep1, #verifyCodeSection {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+
+  input[type="email"], input[type="password"], input[type="text"], button {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+}
 </style>
+
 
 </body>
 </html>
