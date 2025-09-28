@@ -23,6 +23,29 @@ async function loadProfile() {
     return;
   }
 
+  // Daily Check-in button
+const checkinBtn = document.getElementById("checkinBtn");
+const today = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
+if (profile.last_checkin_date === today) {
+  checkinBtn.classList.add("done");
+  checkinBtn.textContent = "✅ Daily Check-in";
+} else if (profile.last_checkin_date < yesterdayStr) {
+    // Missed yesterday
+    const streakSaved = await handleStreakSave();
+    if (streakSaved) {
+        await supabase.from("profiles").update({
+        last_checkin_date: yesterday
+      }).eq("id", user.id);
+    }
+  }
+// Health Solutions button
+const healthBtn = document.getElementById("healthBtn");
+if (profile.health_issues && profile.health_issues.length > 0) {
+  healthBtn.classList.remove("hidden");
+  healthBtn.textContent = "💚 Health Solutions";
+} else {
+  healthBtn.classList.add("hidden");
+}
   // Set profile photo
   if (profile.profile_photo) {
     document.getElementById("profilePhoto").src = profile.profile_photo;
@@ -53,10 +76,6 @@ function formatNumber(value) {
 }
 
   const levelData = getLevelFromXP(profile.total_xp ?? 0); // ⚠ must declare levelData
-
-// Update level & streak
-document.getElementById("currentLevel").textContent = levelData.level;
-document.getElementById("streak-counter").textContent = profile.streak ?? 0;
 
 // Update XP to next level
 const xpRemaining = levelData.xpNeededForNextLevel - levelData.xpTowardsNextLevel;
@@ -130,21 +149,7 @@ if (petNameEl && profile.pet_name) {
     }
   }
 
-  // Check last check-in
-  if (profile.last_checkin_date === todayStr) {
-    // Already checked in today
-    dailyTab.style.pointerEvents = "none";
-    dailyTab.style.opacity = 0.6;
-    dailyTab.textContent = "✅ Daily Check-in";
-  } else if (profile.last_checkin_date < yesterdayStr) {
-    // Missed yesterday
-    const streakSaved = await handleStreakSave();
-    if (streakSaved) {
-        await supabase.from("profiles").update({
-        last_checkin_date: yesterday
-      }).eq("id", user.id);
-    }
-  }
+
 }
 
 // Run on page load

@@ -93,14 +93,13 @@ body {
 .center-counters {
   display: flex;
   justify-content: center;
-  gap: 1rem;
   flex-grow: 1;
   font-size: 1.5rem;
   font-weight: bold;
 }
 .counter {
   flex: 0 0 auto;   /* fixed size for counters */
-  margin: 0 1rem;   /* horizontal spacing between counters and neighbors */
+  margin: 0 5%;   /* horizontal spacing between counters and neighbors */
   white-space: nowrap;
   font-weight: bold;
   font-size: 1.6rem;
@@ -159,17 +158,68 @@ h3 {
   margin-top: 0;
 }
 
+/* Top buttons */
+.top-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.checkin-btn {
+  flex: 0 1 auto; /* default width */
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 0.9rem 1.8rem;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkin-btn.done {
+  background-color: #2e7d32;
+}
+
+.health-btn {
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.health-btn.hidden {
+  display: none;
+}
+
+/* If health button is hidden, make check-in full width */
+.top-buttons .health-btn.hidden + .checkin-btn,
+.top-buttons .checkin-btn:only-child {
+  flex: 1 1 100%;
+  justify-content: center; /* keep icon/text centered */
+}
+
 /* Impact Cards */
 .impact-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 10px;
-  margin-top: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  gap: 2%;
+  margin-top: 1%;
 }
 .card {
   background: white;
   border-radius: 16px;
-  padding: 12px;
+  padding: 10%;
   text-align: center;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   font-size: 0.9rem;
