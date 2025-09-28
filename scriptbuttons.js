@@ -1,6 +1,3 @@
-import { supabase } from "./supabaseClient.js";
-
-
 // Function to hide all pages and show the selected one
 function showSection(sectionId) {
   // Get all elements with class "page"
@@ -15,8 +12,9 @@ function showSection(sectionId) {
 
   // Close side menu if open
   const sideMenu = document.getElementById('sideMenu');
-  if (!sideMenu.classList.contains('hidden')) {
-    sideMenu.classList.add('hidden');
+  if (sideMenu && sideMenu.classList.contains('open')) {
+    sideMenu.classList.remove('open');
+    document.body.classList.remove('menu-open');
   }
 }
 
@@ -115,4 +113,108 @@ if (homeBtn) {
   homeBtn.addEventListener('click', () => showSection('home'));
 }
 
+// --- Top buttons on main page ---
+const checkinBtn = document.getElementById('checkinBtn');
+if (checkinBtn) {
+  checkinBtn.addEventListener('click', () => showSection('dailycheck-in'));
+}
 
+const healthBtn = document.getElementById('healthBtn');
+if (healthBtn) {
+  healthBtn.addEventListener('click', () => showSection('healthissues'));
+}
+
+// --- Quick Access Buttons ---
+const lessonsBtn = document.getElementById('lessonsBtn');
+if (lessonsBtn) {
+  lessonsBtn.addEventListener('click', () => showSection('lessons'));
+}
+
+const recipesBtn = document.getElementById('recipesBtn');
+if (recipesBtn) {
+  recipesBtn.addEventListener('click', () => showSection('recipes'));
+}
+
+// --- Meal-Art Winners H3 Sections ---
+const mealArtHeaders = document.querySelectorAll('.meal-art-winners h3');
+mealArtHeaders.forEach(header => {
+  header.style.cursor = 'pointer'; // shows it’s clickable
+  header.addEventListener('click', () => showSection('mealartcontest'));
+});
+
+// --- Function to open a popup and close others ---
+function openPopup(popupId) {
+  // Close all other popups
+  document.querySelectorAll('.popup').forEach(p => p.classList.add('hidden'));
+
+  // Open the requested popup
+  const popup = document.getElementById(popupId);
+  if (popup) popup.classList.remove('hidden');
+}
+
+// --- Impact Cards Popups ---
+const impactMap = {
+  'youAnimals': 'popupAnimals',
+  'youForest': 'popupForest',
+  'youWater': 'popupWater',
+  'youCO2': 'popupCO2'
+};
+
+// Attach click listeners to each card
+document.querySelectorAll('.impact-cards .card').forEach(card => {
+  card.addEventListener('click', () => {
+    // Find a <strong> in this card whose ID is in impactMap
+    const strong = Array.from(card.querySelectorAll('strong'))
+                        .find(s => impactMap[s.id]);
+    if (strong) {
+      openPopup(impactMap[strong.id]);
+    }
+  });
+});
+
+// --- Impact Calculator Links (all popups) ---
+// Use a class "openCalculator" for all links inside popups
+document.querySelectorAll('.openCalculator').forEach(link => {
+  link.addEventListener('click', () => openPopup('impactcalculator'));
+});
+
+// --- Close popup on X button ---
+document.querySelectorAll('.popup-close').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const popup = btn.closest('.popup');
+    if (popup) popup.classList.add('hidden');
+  });
+});
+
+// --- Optional: close popup when clicking outside content ---
+document.querySelectorAll('.popup').forEach(popup => {
+  popup.addEventListener('click', e => {
+    if (e.target === popup) popup.classList.add('hidden');
+  });
+});
+
+// --- Meal-Art Winners Popups ---
+const mealArtMap = {
+  'amateurImage': 'popupAmateur',
+  'proImage': 'popupProfessional',
+};
+
+// Attach click listeners to the images
+Object.keys(mealArtMap).forEach(id => {
+  const element = document.getElementById(id);
+  if (element) {
+    element.addEventListener('click', () => openPopup(mealArtMap[id]));
+  }
+});
+
+// Amateur Recipe Trigger
+  const amateurRecipe = document.getElementById('amateurRecipe');
+  if (amateurRecipe) {
+    amateurRecipe.addEventListener('click', () => openPopup('popupAmateurRecipe'));
+  }
+
+  // Pro Recipe Trigger
+  const proRecipe = document.getElementById('professionalRecipe');
+  if (proRecipe) {
+    proRecipe.addEventListener('click', () => openPopup('popupProRecipe'));
+  }

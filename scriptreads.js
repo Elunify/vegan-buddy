@@ -225,11 +225,22 @@ async function loadWinners() {
     if (amateurWinner) {
       document.getElementById("amateurName").textContent = amateurWinner.uploader_name;
       document.getElementById("amateurImage").src = amateurWinner.image_url;
+        // Update popup image
+      document.getElementById("amateurImagePopup").src = amateurWinner.image_url;
 
       const amateurRecipeDiv = document.getElementById("amateurRecipe");
       if (amateurWinner.recipe_available) {
-        amateurRecipeDiv.innerHTML = `<a href="#" class="recipe" onclick='showRecipeModal(${JSON.stringify(amateurWinner)})'>Recipe available</a>`;
-      } else {
+  const a = document.createElement("a");
+  a.href = "#";
+  a.className = "recipe";
+  a.textContent = "Recipe available";
+  a.addEventListener("click", e => {
+    e.preventDefault();
+    showRecipeModal(amateurWinner);
+  });
+  amateurRecipeDiv.innerHTML = "";
+  amateurRecipeDiv.appendChild(a);
+}else {
         amateurRecipeDiv.innerHTML = `<span class="no-recipe">No recipe</span>`;
       }
     }
@@ -247,11 +258,22 @@ async function loadWinners() {
     if (proWinner) {
       document.getElementById("proName").textContent = proWinner.uploader_name;
       document.getElementById("proImage").src = proWinner.image_url;
+        // Update popup image
+      document.getElementById("proImagePopup").src = proWinner.image_url;
 
       const proRecipeDiv = document.getElementById("professionalRecipe");
       if (proWinner.recipe_available) {
-        proRecipeDiv.innerHTML = `<a href="#" class="recipe" onclick='showRecipeModal(${JSON.stringify(proWinner)})'>Recipe available</a>`;
-      } else {
+  const a = document.createElement("a");
+  a.href = "#";
+  a.className = "recipe";
+  a.textContent = "Recipe available";
+  a.addEventListener("click", e => {
+    e.preventDefault();
+    showRecipeModal(proWinner);
+  });
+  proRecipeDiv.innerHTML = "";
+  proRecipeDiv.appendChild(a);
+} else {
         proRecipeDiv.innerHTML = `<span class="no-recipe">No recipe</span>`;
       }
     }
@@ -263,16 +285,21 @@ async function loadWinners() {
   loadWinners();
 
   // ===== Recipe Modal =====
-  window.showRecipeModal = function (meal) {
-    document.getElementById("modalFoodName").textContent = meal.food_name || "No title";
-    document.getElementById("modalIngredients").textContent = meal.ingredients || "No ingredients provided";
-    document.getElementById("modalInstructions").textContent = meal.instructions || "No instructions provided";
-    document.getElementById("recipeModal").style.display = "flex";
-  }
+window.showRecipeModal = function (meal) {
+  document.getElementById("modalFoodName").textContent = meal.food_name || "No title";
 
- // document.getElementById("closeModal").addEventListener("click", () => {
- //   document.getElementById("recipeModal").style.display = "none";
- // });
- // window.addEventListener("click", e => {
- //   if (e.target.id === "recipeModal") document.getElementById("recipeModal").style.display = "none";
- // });
+  document.getElementById("modalIngredients").innerHTML = 
+      (meal.ingredients || "No ingredients provided").replace(/\n/g, "<br>");
+
+  document.getElementById("modalInstructions").innerHTML = 
+      (meal.instructions || "No instructions provided").replace(/\n/g, "<br>");
+
+  document.getElementById("recipeModal").style.display = "flex";
+}
+
+ document.getElementById("closeModal").addEventListener("click", () => {
+ document.getElementById("recipeModal").style.display = "none";
+  });
+  window.addEventListener("click", e => {
+    if (e.target.id === "recipeModal") document.getElementById("recipeModal").style.display = "none";
+  });

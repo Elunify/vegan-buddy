@@ -148,6 +148,13 @@
     <div id="supportus" class="page hidden"> ...Support Us... </div>
     <div id="aboutus" class="page hidden"> ...About Us... </div>
 
+    <!-- Main features -->
+    <div id="dailycheck-in" class="page hidden"> ...Daily Check-in content... </div>
+    <div id="healthissues" class="page hidden"> ...Health Issues content... </div>
+
+    <!-- Meal Art Contest -->
+    <div id="mealartcontest" class="page hidden"> ...Meal-Art Contest content... </div>
+
     <!-- Learn subsections -->
     <div id="lessons" class="page hidden"> ...Lessons content... </div>
     <div id="recipes" class="page hidden"> ...Recipes content... </div>
@@ -254,21 +261,124 @@
   </div>
 </div>
 </div>
-
-</div> 
 <!-- End homepageContent -->
  <!-- End homepageContent -->
   <!-- End homepageContent -->
    <!-- End homepageContent -->
     <!-- End homepageContent -->
 
+<!-- POPUPS -->
+ <!-- POPUPS -->
+  <!-- POPUPS -->
+   <!-- POPUPS -->
+    <!-- POPUPS -->
 
+<!-- Popup: Animals -->
+<div id="popupAnimals" class="popup hidden">
+  <div class="popup-content">
+    <button class="popup-close">✖</button>
+    <h2>Animals Saved</h2>
+    <p>Content goes here...</p>
+    <!-- Toggle link -->
+    <p>
+      <span class="openCalculator" style="color:blue; cursor:pointer; text-decoration:underline;">
+        Use our impact calculator
+      </span>
+    </p>
+  </div>
+</div>
+
+<!-- Popup: Forest -->
+<div id="popupForest" class="popup hidden">
+  <div class="popup-content">
+    <button class="popup-close">✖</button>
+    <h2>Forest Saved</h2>
+    <p>Content goes here...</p>
+    <!-- Toggle link -->
+    <p>
+      <span class="openCalculator" style="color:blue; cursor:pointer; text-decoration:underline;">
+        Use our impact calculator
+      </span>
+    </p>
+  </div>
+</div>
+
+<!-- Popup: Water -->
+<div id="popupWater" class="popup hidden">
+  <div class="popup-content">
+    <button class="popup-close">✖</button>
+    <h2>Water Saved</h2>
+    <p>Content goes here...</p>
+    <!-- Toggle link -->
+    <p>
+      <span class="openCalculator" style="color:blue; cursor:pointer; text-decoration:underline;">
+        Use our impact calculator
+      </span>
+    </p>
+  </div>
+</div>
+
+<!-- Popup: CO2 -->
+<div id="popupCO2" class="popup hidden">
+  <div class="popup-content">
+    <button class="popup-close">✖</button>
+    <h2>CO₂ Reduced</h2>
+    <p>Content goes here...</p>
+    <!-- Toggle link -->
+    <p>
+      <span class="openCalculator" style="color:blue; cursor:pointer; text-decoration:underline;">
+        Use our impact calculator
+      </span>
+    </p>
+  </div>
+</div>
+
+<!-- Popup: Impact Calculator -->
+<div id="impactcalculator" class="popup hidden">
+  <div class="popup-content">
+    <button class="popup-close">✖</button>
+    <h2>Impact Calculator</h2>
+    <p>Calculator content goes here...</p>
+  </div>
+</div>
+
+<!-- Popup: Amateur Home Chef -->
+<div id="popupAmateur" class="popup hidden">
+  <div class="popup-content">
+    <button class="popup-close">✖</button>
+    <img id="amateurImagePopup" src="meals/amateur.jpg" alt="Amateur winning dish" class="meal-art-image">
+  </div>
+</div>
+
+<!-- Popup: Pro Kitchen -->
+<div id="popupProfessional" class="popup hidden">
+  <div class="popup-content">
+    <button class="popup-close">✖</button>
+    <img id="proImagePopup" src="meals/professional.jpg" alt="Professional winning dish" class="meal-art-image">
+  </div>
+</div>
+
+<!-- Recipe Modal -->
+<div id="recipeModal" class="popup hidden">
+  <div class="popup-content">
+    <button id="closeModal" class="popup-close">✖</button>
+    <h2 id="modalFoodName"></h2>
+    <h3>Ingredients</h3>
+    <p id="modalIngredients"></p>
+    <h3>Instructions</h3>
+    <p id="modalInstructions"></p>
+  </div>
+</div>
+
+
+
+</div> 
 
 <script type="module" src="scriptpools.js"></script>
 <script type="module" src="scriptcalculationandinserts.js"></script>
 <script type="module" src="scriptfunctions.js"></script>
 <script type="module" src="scriptreads.js"></script>
-<script type="module" src="scriptbuttons.js"></script>
+<script src="scriptbuttons.js"></script>
 
   <script type="module">
   import { supabase } from "./supabaseClient.js";
