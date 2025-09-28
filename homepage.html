@@ -9,44 +9,10 @@
   <link rel="stylesheet" href="homepagestyle.css" />
 </head>
 <body>
-  <div id="main-container">
 
-    <!-- 🔝 Top Tabs -->
-    <div class="top-bar">
-      <div class="top-bar-row">
+<div id="main-container">
 
-        <!-- Profile -->
-        <div class="profile-wrapper">
-          <img id="profilePhoto" src="" alt="Profile Photo" class="profile-photo" />
-          <div id="petDisplay" class="pet-overlay"></div>
-        </div>
-
-        <!-- Level + Streak -->
-        <div class="center-counters">
-          <span class="counter">🌍 <span id="currentLevel">0</span></span>
-          <span class="counter">🔥 <span id="streak-counter">0</span></span>
-        </div>
-
-        <!-- Side Menu -->
-        <div id="menuButton" class="menu-button">☰</div>
-        <div id="sideMenu" class="side-menu hidden">
-          <button class="menu-item" id="topListsBtn">Leaderboards</button>
-          <button class="menu-item" id="helpusgrowBtn">Help Us Grow</button>
-          <button class="menu-item" id="aboutUsBtn">About Us</button>
-          <button class="menu-item" id="sourcesBtn">Sources</button>
-          <button class="menu-item" id="logoutBtn">Log out</button>
-        </div>
-      </div>
-
-      <!-- XP Progress -->
-      <div class="level-bar">
-        <div class="progress">
-          <div id="levelProgress" class="progress-fill"></div>
-        </div>
-        <small id="xpToNext"> </small>
-      </div>
-    </div>
-    <!-- End Top Tabs -->
+    
 
 
     
@@ -76,28 +42,110 @@
     <div id="leaderboards" class="page hidden"> ...Leaderboards... </div>
     <div id="challenges" class="page hidden"> ...Challenges... </div>
 
-    <!-- 🏠 Home Content -->
-    <div id="home" class="page">  
-      <div class="top-buttons">
-        <button id="checkinBtn" class="checkin-btn">🌱 Daily Check-in</button>
-        <button id="healthBtn" class="health-btn hidden">💚 Health Solutions</button>
-      </div>
 
-      <!-- Your Impact -->
-      <div class="section">
-        <h3>Your Impact</h3>
-        <div class="impact-cards">
-          <div class="card">🐾 <strong id="savedAnimals">0</strong><br><br>Animals saved</div>
-          <div class="card">🌲 <strong id="savedForest">0</strong><br> m²<br>Forests saved</div>
-          <div class="card">💧 <strong id="savedWater">0</strong><br> L<br>Water saved</div>
-          <div class="card">🌬️ <strong id="savedCO2">0</strong><br> kg<br>CO₂ reduced</div>
+
+
+
+    <!-- 🏠 Home Content -->
+<div id="home" class="page">  <!-- 🔝 Top Tabs -->
+
+
+
+    <div class="top-bar">
+      <div class="top-bar-row">
+
+        <!-- Profile -->
+        <div class="profile-wrapper">
+          <img id="profilePhoto" src="" alt="Profile Photo" class="profile-photo" />
+          <div id="petDisplay" class="pet-overlay"></div>
+        </div>
+
+        <!-- Level + Streak -->
+        <div class="center-counters">
+          <span class="counter">🌍 <span id="currentLevel">0</span></span>
+          <span class="counter" id="streak">
+            <span class="fire">🔥</span> 
+            <span id="streak-counter">0</span>
+          </span>
+        </div>
+
+        <!-- Side Menu -->
+        <div id="menuButton" class="menu-button">☰</div>
+        <div id="sideMenu" class="side-menu hidden">
+          <button class="menu-item" id="topListsBtn">Leaderboards</button>
+          <button class="menu-item" id="helpusgrowBtn">Help Us Grow</button>
+          <button class="menu-item" id="aboutUsBtn">About Us</button>
+          <button class="menu-item" id="sourcesBtn">Sources</button>
+          <button class="menu-item" id="logoutBtn">Log out</button>
         </div>
       </div>
 
-      <!-- Community Impact -->
-      <div class="community">
-        💚 Together we saved <strong id="communityImpact">3,560 kg</strong>
+      <!-- XP Progress -->
+      <div class="level-bar">
+        <div class="progress">
+          <div id="levelProgress" class="progress-fill"></div>
+        </div>
+        <small id="xpToNext"> </small>
       </div>
+    </div>
+    <!-- End Top Tabs -->
+
+
+      <div class="top-buttons-wrapper">
+        <div class="top-buttons">
+        <button id="checkinBtn" class="checkin-btn"><span class="btn-text">Daily Check-in</span></button>
+        <button id="healthBtn" class="health-btn hidden"><span class="btn-text">Health Solutions</span></button>
+      </div>
+
+  <!-- Column of quick access buttons -->
+      <div class="quick-access">
+        <button id="lessonsBtn" class="quick-btn">📚</button>
+        <button id="recipesBtn" class="quick-btn">🍽️</button>
+      </div>
+    </div>
+
+<div class = impact-box>
+  <p><span class="you">You, </span>and our <span class="community">Community</span> <br>
+  
+<div class="impact-cards">
+  
+  <!-- Animals -->
+  <div class="card">
+    🐾
+    <p> saved <br>
+       <strong id="youAnimals">12</strong> 
+       <strong id="communityAnimals">3560</strong> </p>
+    <p>animals</p>
+  </div>
+
+  <!-- Forest -->
+  <div class="card">
+    🌲
+    <p> saved <br>
+       <strong id="youForest">12</strong> 
+       <strong id="communityForest">3560</strong> </p>
+    <p> m² of forests</p>
+  </div>
+
+  <!-- Water -->
+  <div class="card">
+    💧
+    <p> saved <br>
+       <strong id="youWater">12</strong> 
+       <strong id="communityWater">3560</strong> </p>
+    <p>L of water</p>
+  </div>
+
+  <!-- CO₂ -->
+  <div class="card">
+    🌬️
+    <p> reduced <br>
+       <strong id="youCO2">12</strong> 
+       <strong id="communityCO2">3560</strong> </p>
+    <p>kg of CO₂</p>
+  </div>
+ </div>
+</div>
 
       <!-- Meal-Art Contest -->
       <div class="meal-art-winners">
@@ -121,8 +169,18 @@
           </div>
         </div>
       </div>
-    </div>
+    
+    
+  
+  
   </div>
+
+
+
+
+</div>
+
+
     <!-- End Home Content -->
 
     <!-- 🔖 Bottom Navigation -->

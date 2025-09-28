@@ -23,26 +23,48 @@ async function loadProfile() {
     return;
   }
 
+const streakFire = document.querySelector("#streak .fire");
+const todaystreak = new Date().toISOString().split("T")[0];
+
+if (profile.last_checkin_date !== todaystreak) {
+  streakFire.classList.add("inactive");
+} else {
+  streakFire.classList.remove("inactive");
+}
+
   // Daily Check-in button
 const checkinBtn = document.getElementById("checkinBtn");
 const today = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
+// Calculate yesterday string
+const yesterday = new Date();
+yesterday.setDate(yesterday.getDate() - 1);
+const yesterdayStr = yesterday.toISOString().split("T")[0];
+
 if (profile.last_checkin_date === today) {
+  // Already checked in today
   checkinBtn.classList.add("done");
   checkinBtn.textContent = "✅ Daily Check-in";
-} else if (profile.last_checkin_date < yesterdayStr) {
-    // Missed yesterday
+} else {
+  // Not checked in today
+  checkinBtn.classList.remove("done");
+  checkinBtn.textContent = "Daily Check-in";
+
+  if (profile.last_checkin_date < yesterdayStr) {
+    // Missed yesterday → reset streak or handle special logic
     const streakSaved = await handleStreakSave();
     if (streakSaved) {
-        await supabase.from("profiles").update({
-        last_checkin_date: yesterday
+      await supabase.from("profiles").update({
+        last_checkin_date: yesterdayStr
       }).eq("id", user.id);
     }
   }
+}
+
 // Health Solutions button
 const healthBtn = document.getElementById("healthBtn");
 if (profile.health_issues && profile.health_issues.length > 0) {
   healthBtn.classList.remove("hidden");
-  healthBtn.textContent = "💚 Health Solutions";
+  healthBtn.textContent = "Health Solutions";
 } else {
   healthBtn.classList.add("hidden");
 }
@@ -56,26 +78,28 @@ if (profile.health_issues && profile.health_issues.length > 0) {
   document.getElementById("streak-counter").textContent = profile.streak ?? 0;
 
   // Set impact cards
-    document.getElementById('savedAnimals').textContent = formatNumber(Math.round(profile.animals_saved || 0));
-    document.getElementById('savedForest').textContent  = formatNumber(Math.round(profile.forest_saved || 0));
-    document.getElementById('savedWater').textContent   = formatNumber(Math.round(profile.water_saved || 0));
-    document.getElementById('savedCO2').textContent     = formatNumber(Math.round(profile.co2_saved || 0));
+    document.getElementById('youAnimals').textContent = formatNumber(Math.round(profile.animals_saved || 0));
+    document.getElementById('youForest').textContent  = formatNumber(Math.round(profile.forest_saved || 0));
+    document.getElementById('youWater').textContent   = formatNumber(Math.round(profile.water_saved || 0));
+    document.getElementById('youCO2').textContent     = formatNumber(Math.round(profile.co2_saved || 0));
 
- // ===== Helper to format numbers =====
-function formatNumber(value) {
-  value = Math.round(value); // round to nearest whole number
-  if (value >= 1_000_000_000) {
-    return (value / 1_000_000_000).toFixed(1) + 'B';
-  } else if (value >= 1_000_000) {
-    return (value / 1_000_000).toFixed(1) + 'M';
-  } else if (value >= 1_000) {
-    return (value / 1_000).toFixed(1) + 'k';
+
+  // ===== Load global impact =====
+  const { data: globalImpact, error: globalError } = await supabase
+    .from('global_impact')
+    .select('animals_saved, forest_saved, water_saved, co2_saved, donated')
+    .single();
+
+  if (globalError) {
+    console.error('Error loading global impact:', globalError);
   } else {
-    return value.toString();
+    document.getElementById('communityAnimals').textContent = formatNumber(Math.round(globalImpact.animals_saved || 0));
+    document.getElementById('communityForest').textContent  = formatNumber(Math.round(globalImpact.forest_saved || 0));
+    document.getElementById('communityWater').textContent   = formatNumber(Math.round(globalImpact.water_saved || 0));
+    document.getElementById('communityCO2').textContent     = formatNumber(Math.round(globalImpact.co2_saved || 0));
   }
-}
 
-  const levelData = getLevelFromXP(profile.total_xp ?? 0); // ⚠ must declare levelData
+const levelData = getLevelFromXP(profile.total_xp ?? 0); // ⚠ must declare levelData
 
 // Update XP to next level
 const xpRemaining = levelData.xpNeededForNextLevel - levelData.xpTowardsNextLevel;
@@ -107,53 +131,28 @@ if (petNameEl && profile.pet_name) {
 
   renderPet(petDisplay);
   renderPet(petAvatar);
-
-  // ===== Daily Check-in Tab Logic =====
-  const dailyTab = document.getElementById("daily-checkin-tab");
-  if (!dailyTab) return;
-
-  const todayStr = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  const yesterdayStr = yesterday.toISOString().split("T")[0];
-
-  async function handleStreakSave() {
-    const save = confirm("Do you want to save your streak for 10 badges?");
-    if (!save) {
-      alert("Your streak will reset.");
-      await supabase.from("profiles").update({ streak: 0, last_checkin_date: yesterday }).eq("id", user.id);
-      return false;
-    }
-
-    if ((profile.badge || 0) >= 10) {
-      await supabase.from("profiles").update({
-        badge: profile.badge - 10,
-        last_checkin_date: yesterday
-      }).eq("id", user.id);
-      alert("Streak saved by spending 10 badges!");
-      return true;
-    } else {
-      const pay = confirm("You don't have enough badges. Do you want to save your streak for 1€?");
-      if (pay) {
-        // Integrate payment logic here
-        await supabase.from("profiles").update({
-        last_checkin_date: yesterday
-      }).eq("id", user.id);
-        alert("Redirecting to payment...");
-        return true;
-      } else {
-        alert("Your streak will reset.");
-        await supabase.from("profiles").update({ streak: 0, last_checkin_date: yesterday }).eq("id", user.id);
-        return false;
-      }
-    }
-  }
-
-
+  
 }
+
+ // ===== Helper to format numbers =====
+function formatNumber(value) {
+  value = Math.round(value); // round to nearest whole number
+  if (value >= 1_000_000_000) {
+    return (value / 1_000_000_000).toFixed(1) + 'B';
+  } else if (value >= 1_000_000) {
+    return (value / 1_000_000).toFixed(1) + 'M';
+  } else if (value >= 1_000) {
+    return (value / 1_000).toFixed(1) + 'k';
+  } else {
+    return value.toString();
+  }
+}
+
 
 // Run on page load
 loadProfile();
+
+
 
 
 
@@ -178,7 +177,7 @@ async function loadWinners() {
 
       const amateurRecipeDiv = document.getElementById("amateurRecipe");
       if (amateurWinner.recipe_available) {
-        amateurRecipeDiv.innerHTML = `<a href="#" onclick='showRecipeModal(${JSON.stringify(amateurWinner)})'>Recipe available</a>`;
+        amateurRecipeDiv.innerHTML = `<a href="#" class="recipe" onclick='showRecipeModal(${JSON.stringify(amateurWinner)})'>Recipe available</a>`;
       } else {
         amateurRecipeDiv.innerHTML = `<span class="no-recipe">Recipe unavailable</span>`;
       }
@@ -200,7 +199,7 @@ async function loadWinners() {
 
       const proRecipeDiv = document.getElementById("professionalRecipe");
       if (proWinner.recipe_available) {
-        proRecipeDiv.innerHTML = `<a href="#" onclick='showRecipeModal(${JSON.stringify(proWinner)})'>Recipe available</a>`;
+        proRecipeDiv.innerHTML = `<a href="#" class="recipe" onclick='showRecipeModal(${JSON.stringify(proWinner)})'>Recipe available</a>`;
       } else {
         proRecipeDiv.innerHTML = `<span class="no-recipe">Recipe unavailable</span>`;
       }
