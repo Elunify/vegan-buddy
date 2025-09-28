@@ -9,9 +9,7 @@ localStorage.removeItem("veganBuddyAnswers");
 
 let answers = JSON.parse(localStorage.getItem("veganBuddyAnswers")) || {
   profileName: "",
-  year: "",
-  month: "",
-  day: "",
+  diet: "",
   profilePhoto: null,
   goals: [],
   healthIssues: [],
@@ -31,20 +29,16 @@ async function nextQuestion() {
     if (currentStep === 1) {
         // Step 1: Profile info
         const name = document.getElementById("profileName").value.trim();
-        const year = document.getElementById("year").value;
-        const month = document.getElementById("month").value;
-        const day = document.getElementById("day").value;
+        const diet = document.getElementById("diet").value;
         const profilePhotoFile = document.getElementById("profilePhoto").files[0];
 
-        if (!name || !year || !month || !day) {
+        if (!name || !diet) {
             alert("Please fill in your name and date of birth.");
             return;
         }
 
         answers.profileName = name;
-        answers.year = year;
-        answers.month = month;
-        answers.day = day;
+        answers.diet = diet;
 
         // If the user uploaded a photo, it's already handled by the change event
         // If skipped, leave answers.profilePhoto as null; saveProfile() sets default
@@ -92,6 +86,8 @@ async function nextQuestion() {
         switchStep(currentEl, "q4");
         currentStep = 4;
         nextBtn.style.display = "none";
+        const buddyIntro = document.getElementById("buddyIntro");
+        buddyIntro.classList.remove("hidden"); // Show the buddy intro
         showBuddyIntro();
         return;
     }
@@ -102,9 +98,7 @@ function validateStep(step) {
     switch(step) {
         case 1:
             return document.getElementById("profileName").value.trim() !== "" &&
-                   document.getElementById("year").value.trim() !== "" &&
-                   document.getElementById("month").value.trim() !== "" &&
-                   document.getElementById("day").value.trim() !== "";
+                   document.getElementById("diet").value.trim() !== "";
         case 2:
             return document.querySelectorAll('input[name="goal"]:checked').length > 0;
         case 2.5:
@@ -155,7 +149,7 @@ With my sister I'll be here for you and we'll give you useful tips, and we'll gu
                         btn.classList.remove("hidden");
                         btn.addEventListener("click", async () => {
                             await saveProfile();
-                            window.location.href = "mainpage.html";
+                            window.location.href = "homepage.html";
                         });
                     });
                 }, 1000);
@@ -278,13 +272,11 @@ async function saveProfile() {
 
   try {
 
-    const birthDate = `${answers.year}-${answers.month.padStart(2,'0')}-${answers.day.padStart(2,'0')}`;
-
     const { data, error } = await supabase
       .from('profiles')
       .update({
         name: answers.profileName || "",
-        birth_date: birthDate,
+        diet_preference: answers.diet || "",
         profile_photo: answers.profilePhoto || defaultProfileUrl,
         goals: answers.goals || [],
         health_issues: answers.healthIssues || [],
@@ -292,7 +284,7 @@ async function saveProfile() {
         pet_photo: answers.petPhoto || defaultPetUrl,
 
         // --- Starting values for your app stats ---
-    streak: 1,
+    streak: 0,
     animals_saved: 0,
     forest_saved: 0,
     water_saved: 0,
@@ -304,7 +296,7 @@ async function saveProfile() {
 
     // --- Daily check-in tracking ---
     day_counter: 0,
-    last_checkin_date: "2025-01-01",
+    last_checkin_date: (() => { const d = new Date(); d.setDate(d.getDate() - 1); return d.toISOString().split("T")[0]; })(),
 
     // --- Progress per goal ---
     goal_progress: answers.goals?.reduce((acc, goal) => {

@@ -5,8 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Startup Survey</title>
   <link rel="stylesheet" href="surveystyle.css"/>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabaseClient.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  
+<script type="module">
+    import { supabase } from "./supabaseClient.js";
+</script>
 </head>
 <body>
   <div id="app"></div>
@@ -17,17 +20,21 @@
   <div class="question active" id="q1">
     <label class="bigLabel">Profile Information</label>
 
-    <label class="smallLabel">Name:</label><br>
+    <label class="smallLabel">Name:</label>
     <div class="dob-container">
       <input type="text" id="profileName" placeholder="Your name">
     </div>
 
-    <label class="smallLabel">Date of Birth:</label><br>
-    <div class="dob-container">
-      <input type="text" id="year" maxlength="4" placeholder="YYYY">
-      <input type="text" id="month" maxlength="2" placeholder="MM">
-      <input type="text" id="day" maxlength="2" placeholder="DD">
-    </div>
+    <label class="smallLabel">Diet preference:</label>
+    <select id="diet" name="diet" class="diet-select">
+      <option value="" disabled selected>Select your diet</option>
+      <option value="Vegan">Vegan</option>
+      <option value="In transition">In transition</option>
+      <option value="Vegetarian">Vegetarian</option>
+      <option value="Pescatarian">Pescatarian</option>
+      <option value="Flexitarian">Flexitarian</option>
+      <option value="Omnivore">Omnivore</option>
+    </select>
 
     <label for="profilePhoto" class="file-btn">Upload Profile Photo</label>
     <input type="file" id="profilePhoto" accept="image/*" />
@@ -119,7 +126,7 @@
   <!-- Step 4 – Buddy Intro -->
   <div class="question" id="q4">
     <div id="buddyIntro" class="hidden">
-      <h2>Meet your Vegan Buddies!</h2>
+      <h3>Meet your Vegan Buddies!</h3>
       <div class="buddy-container">
         <div class="buddy">
           <img src="characters/eluna.png" alt="Eluna" class="portrait" id="elunaPortrait">

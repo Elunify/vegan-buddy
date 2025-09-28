@@ -4,52 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>MainPage</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabaseClient.js"></script>
   <link rel="stylesheet" href="homepagestyle.css" />
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>  
 </head>
 <body>
+  <div id="loadingOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:white; z-index:9999;">
+  <p style="text-align:center; margin-top:50vh;">Loading...</p>
+  </div>
+
+<div id="homepageContent" style="opacity:0;">
+  <!-- All homepage content here -->
 
 <div id="main-container">
-
-    
-
-
-    
-    <!-- 📄 Page Sections -->
-
-    <!-- Learn subsections -->
-    <div id="lessons" class="page hidden"> ...Lessons content... </div>
-    <div id="recommendations" class="page hidden"> ...Recommendations content... </div>
-    <div id="recipes" class="page hidden"> ...Recipes content... </div>
-    <div id="sources" class="page hidden"> ...Sources content... </div>
-
-    <!-- Explore subsections -->
-    <div id="restaurants" class="page hidden"> ...Restaurants Map... </div>
-    <div id="scan" class="page hidden"> ...Scan Products... </div>
-
-    <!-- Community subsections -->
-    <div id="local" class="page hidden"> ...Local Community... </div>
-    <div id="events" class="page hidden"> ...Events... </div>
-    <div id="chat" class="page hidden"> ...Group Chat... </div>
-    <div id="forum" class="page hidden"> ...Forum... </div>
-    <div id="mentorship" class="page hidden"> ...Mentorship... </div>
-    <div id="success" class="page hidden"> ...Success Stories... </div>
-
-    <!-- Playground subsections -->
-    <div id="avatar" class="page hidden"> ...Your Avatar... </div>
-    <div id="badges" class="page hidden"> ...Badges... </div>
-    <div id="leaderboards" class="page hidden"> ...Leaderboards... </div>
-    <div id="challenges" class="page hidden"> ...Challenges... </div>
-
-
-
-
-
     <!-- 🏠 Home Content -->
-<div id="home" class="page">  <!-- 🔝 Top Tabs -->
-
-
+  <div id="home" class="page">  <!-- 🔝 Top Tabs -->
 
     <div class="top-bar">
       <div class="top-bar-row">
@@ -71,12 +39,9 @@
 
         <!-- Side Menu -->
         <div id="menuButton" class="menu-button">☰</div>
-        <div id="sideMenu" class="side-menu hidden">
-          <button class="menu-item" id="topListsBtn">Leaderboards</button>
+        <div id="sideMenu" class="side-menu">
           <button class="menu-item" id="helpusgrowBtn">Help Us Grow</button>
           <button class="menu-item" id="aboutUsBtn">About Us</button>
-          <button class="menu-item" id="sourcesBtn">Sources</button>
-          <button class="menu-item" id="logoutBtn">Log out</button>
         </div>
       </div>
 
@@ -149,7 +114,7 @@
 
       <!-- Meal-Art Contest -->
       <div class="meal-art-winners">
-        <h3>🍽️ Meal-Art Contest</h3>
+        <h3>🍽️ Meal-Art Winners This Week:</h3>
         <div class="meal-art-categories">
 
           <!-- Amateur -->
@@ -169,19 +134,45 @@
           </div>
         </div>
       </div>
-    
-    
-  
-  
-  </div>
+  </div>  
+<!-- End Home Page-->
+ <!-- End Home Page-->
+  <!-- End Home Page-->
+   <!-- End Home Page-->
+    <!-- End Home Page-->
 
 
 
+    <!-- Top Bar -->
+    <div id="settings" class="page hidden"> ...Profile Settings... </div>
+    <div id="supportus" class="page hidden"> ...Support Us... </div>
+    <div id="aboutus" class="page hidden"> ...About Us... </div>
 
-</div>
+    <!-- Learn subsections -->
+    <div id="lessons" class="page hidden"> ...Lessons content... </div>
+    <div id="recipes" class="page hidden"> ...Recipes content... </div>
+    <div id="recommendations" class="page hidden"> ...Recommendations content... </div>
+    <div id="sources" class="page hidden"> ...Sources content... </div>
+
+    <!-- Explore subsections -->
+    <div id="restaurants" class="page hidden"> ...Restaurants Map... </div>
+    <div id="scan" class="page hidden"> ...Scan Products... </div>
+
+    <!-- Community subsections -->
+    <div id="local" class="page hidden"> ...Local Community... </div>
+    <div id="events" class="page hidden"> ...Events... </div>
+    <div id="forum" class="page hidden"> ...Forum... </div>
+    <div id="friends" class="page hidden"> ...Friends... </div>
+    <div id="mentorship" class="page hidden"> ...Mentorship... </div>
+    <div id="success" class="page hidden"> ...Success Stories... </div>
+
+    <!-- Playground subsections -->
+    <div id="avatar" class="page hidden"> ...Your Avatar... </div>
+    <div id="shop" class="page hidden"> ...Shop... </div>
+    <div id="leaderboards" class="page hidden"> ...Leaderboards... </div>
+    <div id="challenges" class="page hidden"> ...Challenges... </div>
 
 
-    <!-- End Home Content -->
 
     <!-- 🔖 Bottom Navigation -->
     <div class="bottom-nav">
@@ -190,8 +181,8 @@
         <button>📖 </button>
         <div class="dropdown-content">
           <button onclick="showSection('lessons')">Lessons</button>
-          <button onclick="showSection('recommendations')">Recommendations</button>
           <button onclick="showSection('recipes')">Recipes</button>
+          <button onclick="showSection('recommendations')">Recommendations</button>
           <button onclick="showSection('sources')">Sources</button>
         </div>
       </div>
@@ -207,8 +198,8 @@
         <div class="dropdown-content">
           <button onclick="showSection('local')">Local Community</button>
           <button onclick="showSection('events')">Events</button>
-          <button onclick="showSection('chat')">Group Chat</button>
           <button onclick="showSection('forum')">Forum</button>
+          <button onclick="showSection('friends')">Friends</button>
           <button onclick="showSection('mentorship')">Mentorship</button>
           <button onclick="showSection('success')">Success Stories</button>
         </div>
@@ -217,14 +208,20 @@
         <button>🧸 </button>
         <div class="dropdown-content">
           <button onclick="showSection('avatar')">Your Avatar</button>
-          <button onclick="showSection('badges')">Badges</button>
+          <button onclick="showSection('shop')">Shop</button>
           <button onclick="showSection('leaderboards')">Leaderboards</button>
           <button onclick="showSection('challenges')">Challenges</button>
         </div>
       </div>
     </div>
 
-  </div> <!-- End main-container -->
+</div> 
+<!-- End main-container -->
+ <!-- End main-container -->
+  <!-- End main-container -->
+   <!-- End main-container -->
+    <!-- End main-container -->
+
 
 <div class="avatar-row" style="display: none;">
     <!-- Eluna -->
@@ -258,11 +255,98 @@
 </div>
 </div>
 
+</div> 
+<!-- End homepageContent -->
+ <!-- End homepageContent -->
+  <!-- End homepageContent -->
+   <!-- End homepageContent -->
+    <!-- End homepageContent -->
 
-  <script src="scriptpools.js"></script>
-  <script src="scriptcalculationandinserts.js"></script>
-  <script src="scriptfunctions.js"></script>
-  <script type="module" src="scriptreads.js"></script>
-  <script type="module" src="scriptbuttons.js"></script>
+
+
+<script type="module" src="scriptpools.js"></script>
+<script type="module" src="scriptcalculationandinserts.js"></script>
+<script type="module" src="scriptfunctions.js"></script>
+<script type="module" src="scriptreads.js"></script>
+<script type="module" src="scriptbuttons.js"></script>
+
+  <script type="module">
+  import { supabase } from "./supabaseClient.js";
+  document.addEventListener("DOMContentLoaded", async () => {
+  const loadingOverlay = document.getElementById("loadingOverlay");
+  const homepageContent = document.getElementById("homepageContent"); // wrap your homepage content
+
+  // Helper: Calculate level from XP
+  function getLevelFromXP(totalXP) {
+    let level = 1;
+    let xpNeededForNext = 100;
+    let xpLeft = totalXP;
+
+    while (xpLeft >= xpNeededForNext && level < 100) {
+      xpLeft -= xpNeededForNext;
+      level++;
+      xpNeededForNext = Math.floor(xpNeededForNext * 1.05);
+    }
+
+    return { level, xpTowardsNextLevel: xpLeft, xpNeededForNextLevel: xpNeededForNext };
+  }
+
+  // Wait for auth and profile
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (!user || authError) {
+    console.warn("Not logged in or auth error:", authError);
+    if (loadingOverlay) loadingOverlay.style.display = "none";
+    if (homepageContent) homepageContent.style.opacity = 1;
+    return;
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile || profileError) {
+    console.error("Profile not found:", profileError);
+    if (loadingOverlay) loadingOverlay.style.display = "none";
+    if (homepageContent) homepageContent.style.opacity = 1;
+    return;
+  }
+
+  // Wait for all images on the page
+  await Promise.all(Array.from(document.images).map(img => {
+    if (img.complete) return Promise.resolve();
+    return new Promise(resolve => img.onload = img.onerror = resolve);
+  }));
+
+  // Optional delay 
+  await new Promise(resolve => setTimeout(resolve, 300)); //1000 = 1 second
+
+  // Update XP progress
+  const countersElements = {
+    levelBar: document.getElementById('levelProgress'),
+    currentLevelEl: document.getElementById("currentLevel"),
+  };
+
+  const { level, xpTowardsNextLevel, xpNeededForNextLevel } = getLevelFromXP(profile.total_xp || 0);
+
+  if (countersElements.levelBar) {
+    if (level >= 100) {
+      countersElements.levelBar.style.display = "none";
+    } else {
+      countersElements.levelBar.style.display = "block";
+      let progressPercent = (xpTowardsNextLevel / xpNeededForNextLevel) * 100;
+      progressPercent = Math.min(progressPercent, 100);
+      countersElements.levelBar.style.width = progressPercent + '%';
+      // countersElements.levelBar.textContent = progressPercent.toFixed(0) + '%'; // optional
+      if (countersElements.currentLevelEl) countersElements.currentLevelEl.textContent = level;
+    }
+  }
+
+  // Show the page
+  if (loadingOverlay) loadingOverlay.style.display = "none";
+  if (homepageContent) homepageContent.style.opacity = 1;
+});
+</script>
 </body>
 </html>

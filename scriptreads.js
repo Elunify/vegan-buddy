@@ -1,4 +1,6 @@
+import { supabase } from "./supabaseClient.js";
 
+document.addEventListener("DOMContentLoaded", loadProfile);
 
  // ReadProfile
   // ReadProfile
@@ -31,6 +33,55 @@ if (profile.last_checkin_date !== todaystreak) {
 } else {
   streakFire.classList.remove("inactive");
 }
+
+const countersElements = {
+  animalsSavedEl: document.getElementById('savedAnimals'),
+  forestSavedEl: document.getElementById('savedForest'),
+  waterSavedEl: document.getElementById('savedWater'),
+  co2SavedEl: document.getElementById('savedCO2'),
+  donatedEl: document.getElementById('savedDonated'),
+  levelBar: document.getElementById('levelBar'),
+  levelProgress: document.getElementById('levelProgress'),
+  currentLevelEl: document.getElementById("currentLevel"),
+  streakEl: document.getElementById('streak-counter')
+};
+
+// After fetching the profile:
+const totalXP = profile.total_xp;
+
+// ===== Helper: Calculate level from XP =====
+function getLevelFromXP(totalXP) {
+  let level = 1;
+  let xpNeededForNext = 100;
+  let xpLeft = totalXP;
+
+  while (xpLeft >= xpNeededForNext && level < 100) {
+    xpLeft -= xpNeededForNext;
+    level++;
+    xpNeededForNext = Math.floor(xpNeededForNext * 1.05);
+  }
+
+  return { level, xpTowardsNextLevel: xpLeft, xpNeededForNextLevel: xpNeededForNext };
+}
+
+// Calculate XP progress
+const { level, xpTowardsNextLevel, xpNeededForNextLevel } = getLevelFromXP(totalXP);
+
+if (countersElements.levelProgress) {
+  if (level >= 100) {
+    countersElements.levelProgress.style.display = "none";
+  } else {
+    countersElements.levelProgress.style.display = "block";
+    let progressPercent = (xpTowardsNextLevel / xpNeededForNextLevel) * 100;
+
+    // Cap at 100%
+    progressPercent = Math.min(progressPercent, 100);
+
+    countersElements.levelProgress.style.width = progressPercent + '%';
+    countersElements.currentLevelEl.textContent = level;
+  }
+}
+
 
   // Daily Check-in button
 const checkinBtn = document.getElementById("checkinBtn");
@@ -169,7 +220,7 @@ async function loadWinners() {
       .eq("is_pro", false)
       .order("created_at", { ascending: false })
       .limit(1)
-      .single();
+      .maybeSingle();
 
     if (amateurWinner) {
       document.getElementById("amateurName").textContent = amateurWinner.uploader_name;
@@ -191,7 +242,7 @@ async function loadWinners() {
       .eq("is_pro", true)
       .order("created_at", { ascending: false })
       .limit(1)
-      .single();
+      .maybeSingle();
 
     if (proWinner) {
       document.getElementById("proName").textContent = proWinner.uploader_name;

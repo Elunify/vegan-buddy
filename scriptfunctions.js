@@ -1,3 +1,6 @@
+import { supabase } from "./supabaseClient.js";
+
+
 
 //characters random popup:
 function showRandomAvatar() {
@@ -14,17 +17,3 @@ setTimeout(() => {
   setInterval(showRandomAvatar, 1000 * 60 * 60 * 3); // every 3 hours
 }, 1000 * 60 * 60);
 
-// ===== Helper: Calculate level from XP =====
-function getLevelFromXP(totalXP) {
-  let level = 1;
-  let xpNeededForNext = 100;
-  let xpLeft = totalXP;
-
-  while (xpLeft >= xpNeededForNext && level < 100) {
-    xpLeft -= xpNeededForNext;
-    level++;
-    xpNeededForNext = Math.floor(xpNeededForNext * 1.05);
-  }
-
-  return { level, xpTowardsNextLevel: xpLeft, xpNeededForNextLevel: xpNeededForNext };
-}
