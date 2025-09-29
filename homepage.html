@@ -141,43 +141,462 @@
    <!-- End Home Page-->
     <!-- End Home Page-->
 
-
-
     <!-- Top Bar -->
-    <div id="settings" class="page hidden"> ...Profile Settings... </div>
-    <div id="supportus" class="page hidden"> ...Support Us... </div>
-    <div id="aboutus" class="page hidden"> ...About Us... </div>
+     <!-- Top Bar -->
+      <!-- Top Bar -->
+       <!-- Top Bar -->
+<!-- settings -->   
+ <!-- settings -->   
+  <!-- settings -->   
+   <!-- settings -->        
+<div id="settings" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+  <div class="containersettings active">
+    <h1 class="settingsh1">My Profile</h1>
 
-    <!-- Main features -->
-    <div id="dailycheck-in" class="page hidden"> ...Daily Check-in content... </div>
-    <div id="healthissues" class="page hidden"> ...Health Issues content... </div>
+    <div class="profile-sectionsettings">
+        <img id="profilePhotoprofile" class="profile-photosettings" src="blankphoto.jpg" alt="Profile Photo">
+        <div class="profile-infosettings">
+            <div class="info-itemsettings"><strong>Name:</strong> <br><span id="profileName">-</span></div>
+            <div class="info-itemsettings"><strong>Diet:</strong><br> <span id="diet">-</span></div>
+        </div>
+    </div>
 
+<div class="profile-counterssettings">
+  <span class="countersettings">🌍 <span id="currentLevelprofile">0</span></span>
+  <span class="countersettings">🔥 <span id="streak-counterprofile">0</span></span>
+  <span class="countersettings">🏅 <span id="badgeprofile">0</span></span>
+</div>
+
+    <div class="section-titlesettings">Goals</div>
+<ul id="goalsList" class="details-listsettings"></ul>
+
+<div class="section-titlesettings">Health Issues</div>
+<ul id="healthIssuesList" class="details-listsettings"></ul>
+
+    <div class="profile-sectionsettings">
+        <img id="petPhotoprofile" class="pet-photosettings" src="defaultPet.jpg" alt="Pet Photo">
+        <div class="profile-infosettings">
+            <div class="info-item"><strong>Pet Name:</strong> <br><span id="petNameprofile">-</span></div>
+        </div>
+    </div>
+    <a href="#" class="editprofile"> <button>Edit profile</button></a>
+  </div>
+
+  <div class="containeredit hidden">
+    <h1 class="settingsh1">Edit My Profile</h1>
+
+    <!-- Profile Info -->
+      <div class="profile-sectionsettings">
+        <img id="profilePhotoPreview" class="profile-photosettings" src="blankphoto.jpg" alt="Profile Photo">
+        <input type="text-hidden" id="profilePhotoInput">
+
+        <div class="profile-infoedit">
+          <div class="info-itemsettings">
+        <label for="profileNameInput"><strong>Name:</strong></label>
+        <input type="text" id="profileNameInput" placeholder="Enter your name">
+        </div>
+          <div class="info-itemsettings">
+
+        <label for="profileDietSelect"><strong>Diet:</strong></label>
+  <select id="profileDietSelect">
+    <option value="vegan">Vegan</option>
+    <option value="intransition">In Transition</option>
+    <option value="vegetarian">Vegetarian</option>
+    <option value="pescatarian">Pescatarian</option>
+    <option value="Flexitarian">Flexitarian</option>
+    <option value="omnivore">Omnivore</option>
+  </select>
+          </div>
+        </div>
+      </div>
+
+          <div class="changebtn">
+            <input type="file" id="profilePhotoUpload" accept="image/*" style="display: none;">
+            <button class="button" id="changeProfilePhotoBtn">Change Profile Photo</button>
+          </div>
+
+      <!-- Lists -->
+      <!-- Q2: Goals -->
+<div class="question" id="q2">
+  <div class="section-titleedit">Goals:</div>
+
+  <label class="checkbox-label">
+    <input type="checkbox" name="goal" value="Protecting animals & animal welfare">
+    Protecting animals
+  </label>
+<br>
+  <label class="checkbox-label">
+    <input type="checkbox" name="goal" value="Caring for the environment & fighting climate change">
+    Caring for the environment
+  </label>
+<br>
+  <label class="checkbox-label">
+    <input type="checkbox" name="goal" value="Healthy living & wellness">
+    Healthy living
+  </label> 
+<br>
+  <label class="checkbox-label">
+    <input type="checkbox" name="goal" value="Solving health issues">
+    Solving health issues
+  </label> 
+<br>
+  <label class="checkbox-label">
+    <input type="checkbox" name="goal" value="Boosting my performance as an athlete">
+    Boosting my performance as an athlete
+  </label>
+</div>
+
+<!-- Q2b: Health Issues (shown only if "Solving health issues" is checked) -->
+<div class="question" id="q2b">
+  <div class="section-titleedit">Health Issues:</div>
+
+  <label class="checkbox-label">
+    <input type="checkbox" name="healthIssue" value="Heart disease">
+    Heart disease
+  </label>
+<br>
+  <label class="checkbox-label">
+    <input type="checkbox" name="healthIssue" value="High cholesterol">
+    High cholesterol
+  </label>
+<br>
+  <label class="checkbox-label">
+    <input type="checkbox" name="healthIssue" value="High blood pressure">
+    High blood pressure
+  </label>
+<br>
+  <label class="checkbox-label">
+    <input type="checkbox" name="healthIssue" value="Type 2 diabetes">
+    Type 2 diabetes
+  </label>
+<br>
+  <label class="checkbox-label">
+    <input type="checkbox" name="healthIssue" value="Obesity">
+    Obesity
+  </label>
+<br>
+  <label class="checkbox-label">
+    <input type="checkbox" name="healthIssue" value="Digestive issues">
+    Digestive issues
+  </label>
+<br>
+  <label class="checkbox-label">
+    <input type="checkbox" name="healthIssue" value="Inflammation or swelling">
+    Inflammation or swelling
+  </label>
+<br>
+  <label class="checkbox-label">
+    <input type="checkbox" name="healthIssue" value="Fatigue">
+    Fatigue
+  </label>
+<br>
+  <label class="checkbox-label">
+    <input type="checkbox" name="healthIssue" value="Cancer risk">
+    Concerned about cancer risk
+  </label>
+</div>
+
+
+      <!-- Pet Info -->
+      <div class="profile-sectionsettings"><br>
+        <img id="petPhotoPreview" class="pet-photosettings" src="defaultPet.jpg" alt="Pet Photo"> 
+        <input type="text-hidden" id="petPhotoInput">
+        <div class="profile-infoedit">
+          <div class="info-itemsettings">
+        <label for="petNameInput"><strong>Pet Name:</strong></label>
+        <input type="text" id="petNameInput" placeholder="Enter pet name">
+        </div>
+          <div class="info-itemsettings">
+            <input type="file" id="petPhotoUpload" accept="image/*" style="display: none;">
+            <button class="button" id="changePetPhotoBtn">Change Pet Photo</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin:1rem 0;">
+        <button class="button" id="saveBtn">💾 Save Profile</button>
+      </div> 
+  </div>
+</div>
+
+<!-- SupportUs -->   
+ <!-- SupportUs -->   
+  <!-- SupportUs -->   
+   <!-- SupportUs -->   
+<div id="supportus" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+
+  <div class="explanationsupportus">
+    <div class="message-section">
+      <div class="buddy-messagesupportus">
+        <img src="characters/eluna.png" alt="Eluna" class="buddy-portraitsupportus" />
+        <div class="buddy-text">
+          <strong style="font-size: 1.1em; line-height: 1.3rem;">Eluna says:</strong><br> 
+          We believe in full transparency. Every euro you donate goes directly to projects that make a real difference for animals, people, and the planet. 
+          Our organisation is non-profit, and every cent is used for impact — not profit. To keep you connected, we share regular videos on 
+          <a href="https://www.instagram.com/app.elunify/" target="_blank" rel="noopener noreferrer">Instagram</a>
+          showing exactly where your donations go. Together, we can grow something bigger than ourselves.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="optionssupportus">
+    <div class="optionsupportus donate">
+      <h3>Donate</h3>
+      <p>
+        Your donation makes a direct impact. Whether big or small, every contribution helps us grow. 
+        As a thank-you, you’ll receive XP and badges inside the app, and the top donors will be honored in our leaderboards.
+      </p>
+      <button class="button" id="donatebtn" onclick="window.location.href='donation.html'">Donate Now</button>
+    </div>
+
+    <div class="optionsupportus support">
+      <h3>Support Us</h3>
+      <p>
+        Want to help but can’t donate right now? You can still support us! By watching a short ad, you generate funds that we will use for the same projects. 
+        As a thank-you, you’ll also earn XP and badges — because every action matters.
+      </p>
+      <button class="button" id="adbtn" onclick="watchAd()">Watch an Ad</button>
+    </div>
+
+
+    <div class="optionsupportus membershipssupportus">
+  <h3>Memberships</h3>
+  <p>
+    Want to support us long-term and unlock extra rewards? Become a member! You’ll get XP boosts, badges, and special recognition. 
+  </p>
+  <button class="button" id="memberbtn" onclick="toggleMemberships()">View Memberships</button>
+
+  <div id="membership-list" style="display:none; margin-top:15px;">
+    <h4>🌟 Membership Tiers</h4>
+    <div class="membership-cardssupportus">
+
+      <div class="membership-cardsupportus">
+        <h5>Seed Member 🌱</h5>
+        <p>€2 / month</p>
+        <ul>
+          <li>+5% XP boost on all activities & badges for donations</li>
+          <li>Seed badge in profile</li>
+        </ul>
+      </div>
+
+      <div class="membership-cardsupportus">
+        <h5>Sprout Member 🌿</h5>
+        <p>€5 / month</p>
+        <ul>
+          <li>+10% XP boost</li>
+          <li>Exclusive badge</li>
+        </ul>
+      </div>
+
+      <div class="membership-cardsupportus">
+        <h5>Tree Member 🌳</h5>
+        <p>€10 / month</p>
+        <ul>
+          <li>+20% XP boost</li>
+          <li>Early access to new features</li>
+          <li>Name in donor videos</li>
+        </ul>
+      </div>
+
+      <div class="membership-cardsupportus">
+        <h5>Forest Member 🌲</h5>
+        <p>€20 / month</p>
+        <ul>
+          <li>+40% XP boost</li>
+          <li>Highlighted spot on leaderboard</li>
+          <li>Special recognition badge</li>
+        </ul>
+      </div>
+
+      <div class="membership-cardsupportus">
+        <h5>Earth Guardian Member 🌍</h5>
+        <p>€50 / month</p>
+        <ul>
+          <li>+100% XP boost</li>
+          <li>Personal shoutout in videos</li>
+          <li>VIP badge & profile highlight</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+
+</div>
+<!-- AboutUs --> 
+ <!-- AboutUs --> 
+  <!-- AboutUs --> 
+   <!-- AboutUs -->   
+    <div id="aboutus" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      <div class="optionssupportus">
+      <div class="optionaboutus">
+      <h3>About us</h3>
+      <p>
+        We are a small, heart-driven initiative with one clear goal: to make a difference for animals, people, and the planet. 
+        This project is not backed by big companies — it’s personal, transparent, and honest. 
+        Right now, it’s just me working on it, but together with you, we can build a community that cares.
+        By using this app, supporting, or even just being here, you are part of something that creates real-world impact. 
+        We dream of a future where compassion grows stronger every day — and you are part of that story.
+      </p>
+     </div>
+    </div>
+  </div>
+<!-- Main features -->   
+ <!-- Main features -->   
+  <!-- Main features -->   
+   <!-- Main features -->   
+  
+<!-- Daily Check-in -->
+ <!-- Daily Check-in -->
+  <!-- Daily Check-in -->
+   <!-- Daily Check-in -->
+    <div id="dailycheck-in" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      
+    
+        <div id="quizDCI" class="boxDCI">
+            <!-- JS will insert yesterday's quiz here -->
+        </div>
+
+        <div id="lessonsectionDCI" class="boxDCI">
+          <label class = "bigLabelDCI">Your lesson for today:</label>
+          <div id="dailyLessonDCI" class="lesson-boxDCI">
+          <!-- JS will insert today's lesson here -->
+          </div>
+        </div>
+    
+        <div id="mealsectionDCI" class="boxDCI">
+          <label class = "bigLabelDCI">How many plant-based meal did you have yesterday?</label>
+        
+          <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="1">I didn’t have a plant-based meal.</label>
+          <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="2">I had a few plant-based meals! </label>
+          <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="3">Most of my meals were plant-based!</label>
+          <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="4">I had a fully plant-based day! 🌱</label>
+
+        </div>
+    
+        <button class="button" id="submitBtnDCI" onclick="handleSubmit()">Submit</button>
+    
+    </div>
+
+<!-- Health Issues -->
+ <!-- Health Issues -->
+  <!-- Health Issues -->
+   <!-- Health Issues -->
+  <div id="healthissues" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+     
+  <h2 class = "YourHealthIssueTitle">Your Health Issues</h2>
+
+  <div class="learning-path-buttons">
+    <!-- All possible health issues (initially hidden) -->
+    <button class="path-btn hidden" data-path="Heart disease">Heart disease</button>
+    <button class="path-btn hidden" data-path="High cholesterol">High cholesterol</button>
+    <button class="path-btn hidden" data-path="High blood pressure">High blood pressure</button>
+    <button class="path-btn hidden" data-path="Type 2 diabetes">Type 2 diabetes</button>
+    <button class="path-btn hidden" data-path="Obesity">Obesity</button>
+    <button class="path-btn hidden" data-path="Digestive issues">Digestive issues</button>
+    <button class="path-btn hidden" data-path="Inflammation or swelling">Inflammation or swelling</button>
+    <button class="path-btn hidden" data-path="Fatigue">Fatigue</button>
+    <button class="path-btn hidden" data-path="Cancer risk">Concerned about cancer risk</button>
+  </div>
+
+  <!-- Courses / Lessons containers -->
+  <div class="courses">
+    <!-- one course container per health issue, initially hidden -->
+    <div class="course hidden" id="Heart disease"><h3>Heart disease</h3><ul class="lesson-list"></ul></div>
+    <div class="course hidden" id="High cholesterol"><h3>High cholesterol</h3><ul class="lesson-list"></ul></div>
+    <div class="course hidden" id="High blood pressure"><h3>High blood pressure</h3><ul class="lesson-list"></ul></div>
+    <div class="course hidden" id="Type 2 diabetes"><h3>Type 2 diabetes</h3><ul class="lesson-list"></ul></div>
+    <div class="course hidden" id="Obesity"><h3>Obesity</h3><ul class="lesson-list"></ul></div>
+    <div class="course hidden" id="Digestive issues"><h3>Digestive issues</h3><ul class="lesson-list"></ul></div>
+    <div class="course hidden" id="Inflammation or swelling"><h3>Inflammation or swelling</h3><ul class="lesson-list"></ul></div>
+    <div class="course hidden" id="Fatigue"><h3>Fatigue</h3><ul class="lesson-list"></ul></div>
+    <div class="course hidden" id="Cancer risk"><h3>Concerned about cancer risk</h3><ul class="lesson-list"></ul></div>
+  </div>
+</div>
+
+<!-- Hidden lesson tab -->
+<div id="healthylesson-tab" class="hidden">
+  <button id="close-lesson">⬅ Back</button>
+  <h2 id="lesson-title"></h2>
+  <div id="lesson-content"></div>
+  <div id="quiz-container"></div>
+</div>
+  
     <!-- Meal Art Contest -->
-    <div id="mealartcontest" class="page hidden"> ...Meal-Art Contest content... </div>
+    <div id="mealartcontest" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      ...Meal-Art Contest content... 
+    </div>
 
     <!-- Learn subsections -->
-    <div id="lessons" class="page hidden"> ...Lessons content... </div>
-    <div id="recipes" class="page hidden"> ...Recipes content... </div>
-    <div id="recommendations" class="page hidden"> ...Recommendations content... </div>
-    <div id="sources" class="page hidden"> ...Sources content... </div>
+    <div id="lessons" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      
+      <div class="learning-path-buttons">
+    <button class="path-btn" data-path="animals">For the Animals</button>
+    <button class="path-btn" data-path="earth">For the Earth</button>
+    <button class="path-btn" data-path="health">For Health</button>
+  </div>
+
+  <!-- Courses / Lessons containers -->
+<div class="courses">
+
+  <div class="course hidden" id="animals">
+    <h3>For the Animals</h3>
+    <ul class="extralesson-list"></ul>
+  </div>
+
+  <div class="course hidden" id="earth">
+    <h3>For the Earth</h3>
+    <ul class="extralesson-list"></ul>
+  </div>
+
+  <div class="course hidden" id="health">
+    <h3>For Health</h3>
+    <ul class="extralesson-list"></ul>
+  </div>
+
+ </div>
+</div>
+
+
+    <div id="recipes" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      ...Recipes content... </div>
+    <div id="recommendations" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      ...Recommendations content... </div>
+    <div id="sources" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      ...Sources content... </div>
 
     <!-- Explore subsections -->
-    <div id="restaurants" class="page hidden"> ...Restaurants Map... </div>
-    <div id="scan" class="page hidden"> ...Scan Products... </div>
+    <div id="restaurants" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      ...Restaurants Map... </div>
+    <div id="scan" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      ...Scan Products... </div>
 
     <!-- Community subsections -->
-    <div id="local" class="page hidden"> ...Local Community... </div>
-    <div id="events" class="page hidden"> ...Events... </div>
-    <div id="forum" class="page hidden"> ...Forum... </div>
-    <div id="friends" class="page hidden"> ...Friends... </div>
-    <div id="mentorship" class="page hidden"> ...Mentorship... </div>
-    <div id="success" class="page hidden"> ...Success Stories... </div>
+    <div id="local" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      ...Local Community... </div>
+    <div id="events" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      ...Events... </div>
+    <div id="forum" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      ...Forum... </div>
+    <div id="friends" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      ...Friends... </div>
+    <div id="mentorship" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      ...Mentorship... </div>
+    <div id="success" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      ...Success Stories... </div>
 
     <!-- Playground subsections -->
-    <div id="avatar" class="page hidden"> ...Your Avatar... </div>
-    <div id="shop" class="page hidden"> ...Shop... </div>
-    <div id="leaderboards" class="page hidden"> ...Leaderboards... </div>
-    <div id="challenges" class="page hidden"> ...Challenges... </div>
+    <div id="avatar" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      ...Your Avatar... </div>
+    <div id="shop" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      ...Shop... </div>
+    <div id="leaderboards" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      ...Leaderboards... </div>
+    <div id="challenges" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      ...Challenges... </div>
 
 
 

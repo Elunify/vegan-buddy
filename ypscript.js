@@ -15,7 +15,7 @@ document.getElementById('backBtn').addEventListener('click', () => {
     .select(`
       profile_photo,
       name,
-      birth_date,
+      diet_preference,
       goals,
       health_issues,
       pet_photo,
@@ -39,7 +39,7 @@ document.getElementById('backBtn').addEventListener('click', () => {
 
   // Name + birth date
   document.getElementById("profileName").textContent = profile.name || "-";
-  document.getElementById("dob").textContent = profile.birth_date || "-";
+  document.getElementById("diet").textContent = profile.diet_preference || "-";
 
   // Streak + level + badge
   document.getElementById("streak-counter").textContent = profile.streak || 0;

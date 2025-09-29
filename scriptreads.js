@@ -1,4 +1,5 @@
 import { supabase } from "./supabaseClient.js";
+import { initHealthPaths } from "./scriptfunctions.js";
 
 // ===== Helper to format numbers =====
 function formatNumber(value) {
@@ -51,7 +52,7 @@ document.addEventListener("DOMContentLoaded", loadProfile);
   // ReadProfile
    // ReadProfile
 
-async function loadProfile() {
+export async function loadProfile() {
   const { data: { user }, error: userError } = await supabase.auth.getUser();
   if (userError || !user) {
     console.error("Not logged in:", userError);
@@ -61,7 +62,24 @@ async function loadProfile() {
   // Fetch the user's profile record
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
-    .select("profile_photo, pet_photo, pet_name, last_checkin_date, badge, streak, current_level, total_xp, animals_saved, forest_saved, water_saved, co2_saved, goals, health_issues")
+    .select(`
+        profile_photo, 
+        name,
+        pet_photo, 
+        pet_name, 
+        last_checkin_date, 
+        badge, 
+        streak, 
+        current_level, 
+        total_xp, 
+        animals_saved, 
+        forest_saved, 
+        water_saved, 
+        co2_saved, 
+        goals, 
+        health_issues,
+        diet_preference
+        `)
     .eq("id", user.id)
     .single();
 
@@ -69,6 +87,84 @@ async function loadProfile() {
     console.error("Error fetching profile:", profileError);
     return;
   }
+
+  // Profile photo
+  if (profile.profile_photo) {
+    document.getElementById("profilePhoto").src = profile.profile_photo;
+    document.getElementById("profilePhotoprofile").src = profile.profile_photo;
+    document.getElementById("profilePhotoPreview").src = profile.profile_photo;
+  }
+
+  // Name + Diet
+  document.getElementById("profileName").textContent = profile.name || "-";
+  document.getElementById("profileNameInput").value = profile.name || "-";
+  document.getElementById("diet").textContent = profile.diet_preference || "-";
+  document.getElementById("profileDietSelect").option = profile.diet_preference || "-";
+
+  // Streak + level + badge
+  document.getElementById("streak-counter").textContent = profile.streak || 0;
+  document.getElementById("currentLevel").textContent = profile.current_level || 0;
+  document.getElementById("streak-counterprofile").textContent = profile.streak || 0;
+  document.getElementById("currentLevelprofile").textContent = profile.current_level || 0;
+  document.getElementById("badgeprofile").textContent = profile.badge || 0;
+
+// Helper function to normalize array
+function toArray(value) {
+  return Array.isArray(value) ? value : Object.values(value || []);
+}
+
+// ===== Populate Goals =====
+const goalsList = document.getElementById("goalsList");
+goalsList.innerHTML = "";
+const goals = toArray(profile.goals);
+
+goals.forEach(goal => {
+  const li = document.createElement("li");
+  li.textContent = goal;
+  goalsList.appendChild(li);
+});
+
+// Check corresponding checkboxes (if any)
+document.querySelectorAll('input[name="goal"]').forEach(cb => {
+  cb.checked = goals.includes(cb.value);
+});
+
+// ===== Populate Health Issues =====
+const healthList = document.getElementById("healthIssuesList");
+healthList.innerHTML = "";
+const issues = toArray(profile.health_issues);
+
+issues.forEach(issue => {
+  const li = document.createElement("li");
+  li.textContent = issue;
+  healthList.appendChild(li);
+});
+
+// Check corresponding checkboxes (if any)
+document.querySelectorAll('input[name="healthIssue"]').forEach(cb => {
+  cb.checked = issues.includes(cb.value);
+});
+
+// Optional: show/hide Health Issues section
+toggleHealthIssues();
+
+  // Pet
+  if (profile.pet_photo) {
+ //   document.getElementById("petPhoto").src = profile.pet_photo;
+    document.getElementById("petPhotoprofile").src = profile.pet_photo;
+    document.getElementById("petPhotoPreview").src = profile.pet_photo;
+  }
+  document.getElementById("petName").textContent = profile.pet_name || "-";
+  document.getElementById("petNameprofile").textContent = profile.pet_name || "-";
+  document.getElementById("petNameInput").value = profile.pet_name || "-";
+
+  document.querySelectorAll(".details-list").forEach(list => {
+  // Only count <li> elements, ignore whitespace/text nodes
+  if (list.querySelectorAll("li").length === 0) {
+    list.previousElementSibling.style.display = "none"; // hide the section title
+    list.style.display = "none"; // hide the list itself
+  }
+});
 
 const streakFire = document.querySelector("#streak .fire");
 const todaystreak = new Date().toISOString().split("T")[0];
@@ -140,6 +236,8 @@ if (profile.last_checkin_date === today) {
   // Already checked in today
   checkinBtn.classList.add("done");
   checkinBtn.textContent = "✅ Daily Check-in";
+  checkinBtn.disabled = true; // Make button non-clickable
+  checkinBtn.style.cursor = "not-allowed"; // Optional: show not-allowed cursor
 } else {
   // Not checked in today
   checkinBtn.classList.remove("done");
@@ -333,3 +431,214 @@ window.showRecipeModal = function (meal) {
   });
 
   //===== Homepage Ends =======//
+
+// --- Toggle Health Issues Section ---
+const healthIssuesSection = document.getElementById("q2b"); // keep your HTML as is
+const goalsInputs = document.querySelectorAll('input[name="goal"]');
+
+  function toggleHealthIssues() {
+  const solvingChecked = Array.from(goalsInputs).some(cb => cb.checked && cb.value === "Solving health issues");
+  healthIssuesSection.style.display = solvingChecked ? "block" : "none";
+
+  // If hidden, uncheck all health issues
+  if (!solvingChecked) {
+    document.querySelectorAll('input[name="healthIssue"]').forEach(cb => cb.checked = false);
+  }
+}
+// React to user changes
+goalsInputs.forEach(cb => cb.addEventListener("change", toggleHealthIssues));
+
+// Trigger profile photo file input
+document.getElementById('changeProfilePhotoBtn').addEventListener('click', () => {
+  document.getElementById('profilePhotoUpload').click();
+});
+
+// Trigger pet photo file input
+document.getElementById('changePetPhotoBtn').addEventListener('click', () => {
+  document.getElementById('petPhotoUpload').click();
+});
+
+    
+    // --- IMAGE RESIZE & CROP TO SQUARE FUNCTION ---
+async function resizeImage(file, maxSize = 600, quality = 0.7) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+
+    reader.onload = e => img.src = e.target.result;
+
+    img.onload = () => {
+      // Determine the square crop (centered)
+      const minSide = Math.min(img.width, img.height);
+      const startX = (img.width - minSide) / 2;
+      const startY = (img.height - minSide) / 2;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = maxSize;
+      canvas.height = maxSize;
+
+      const ctx = canvas.getContext('2d');
+
+      // Draw the cropped square scaled to maxSize x maxSize
+      ctx.drawImage(
+        img,
+        startX, startY,          // start of crop
+        minSide, minSide,        // size of crop
+        0, 0,                    // start position on canvas
+        maxSize, maxSize          // size on canvas
+      );
+
+      canvas.toBlob(
+        blob => {
+          if (!blob) return reject("Canvas is empty");
+          resolve(new File([blob], file.name, { type: blob.type }));
+        },
+        "image/jpeg",
+        quality
+      );
+    };
+
+    img.onerror = err => reject(err);
+    reader.readAsDataURL(file);
+  });
+}
+
+
+// --- PROFILE PHOTO PREVIEW ---
+const profilePhotoInput = document.getElementById('profilePhotoUpload');
+const profilePhotoPreview = document.getElementById('profilePhotoPreview');
+let newProfilePhotoFile = null;
+
+profilePhotoInput.addEventListener('change', async e => {
+  let file = e.target.files[0];
+  if (!file) return;
+
+  file = await resizeImage(file, 600, 0.7);
+  newProfilePhotoFile = file;
+
+  profilePhotoPreview.src = URL.createObjectURL(file);
+});
+
+// --- PET PHOTO PREVIEW ---
+const petPhotoInput = document.getElementById('petPhotoUpload');
+const petPhotoPreview = document.getElementById('petPhotoPreview');
+let newPetPhotoFile = null;
+
+petPhotoInput.addEventListener('change', async e => {
+  let file = e.target.files[0];
+  if (!file) return;
+
+  file = await resizeImage(file, 300, 0.7);
+  newPetPhotoFile = file;
+
+  petPhotoPreview.src = URL.createObjectURL(file);
+});
+
+
+// --- SAVE PROFILE ---
+async function saveProfile() {
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError || !user) return console.error("Not logged in:", userError);
+
+  let updates = {};
+
+  // Name
+  updates.name = document.getElementById('profileNameInput').value || null;
+
+  // Diet Preference
+  const selectedDiet = document.getElementById('profileDietSelect').value;
+  updates.diet_preference = selectedDiet || null;
+
+  // Goals
+  const selectedGoals = Array.from(document.querySelectorAll('input[name="goal"]:checked')).map(cb => cb.value);
+  updates.goals = selectedGoals.length ? selectedGoals : null;
+
+  // Health Issues
+const solvingChecked = Array.from(document.querySelectorAll('input[name="goal"]'))
+  .some(cb => cb.checked && cb.value === "Solving health issues");
+
+let selectedHealth = [];
+if (solvingChecked) {
+  selectedHealth = Array.from(document.querySelectorAll('input[name="healthIssue"]:checked')).map(cb => cb.value);
+}
+
+updates.health_issues = selectedHealth.length ? selectedHealth : null;
+
+  // Pet name
+  updates.pet_name = document.getElementById('petNameInput').value || null;
+
+  // --- Handle Profile Photo ---
+  if (newProfilePhotoFile) {
+    const originalName = newProfilePhotoFile.name.replace(/\.[^/.]+$/, ""); // remove extension
+    const fileExt = newProfilePhotoFile.name.split('.').pop(); // "jpg"
+    const timestamp = Date.now();
+    const fileName = `${user.id}/${originalName}-${timestamp}.${fileExt}`; 
+    const bucket = 'profile_photos';
+
+    // Delete old photo if exists
+    const oldUrl = document.getElementById('profilePhotoInput').value;
+    if (oldUrl) {
+      const oldPath = oldUrl.split(`${bucket}/`)[1];
+      if (oldPath) await supabase.storage.from(bucket).remove([oldPath]);
+    }
+
+    // Upload new photo
+    const { data: uploadData, error: uploadError } = await supabase.storage.from(bucket).upload(fileName, newProfilePhotoFile, { upsert: true });
+    if (uploadError) return console.error("Profile photo upload error:", uploadError);
+
+    updates.profile_photo = supabase.storage.from(bucket).getPublicUrl(fileName).data.publicUrl;
+
+  }
+
+  // --- Handle Pet Photo ---
+  if (newPetPhotoFile) {
+    const originalName = newPetPhotoFile.name.replace(/\.[^/.]+$/, ""); // remove extension
+    const fileExt = newPetPhotoFile.name.split('.').pop();
+    const timestamp = Date.now();
+    const fileName = `${user.id}/${originalName}-${timestamp}.${fileExt}`; // put user ID as folder
+    const bucket = 'pet_photos';
+
+    // Delete old photo if exists
+    const oldUrl = document.getElementById('petPhotoInput').value;
+    if (oldUrl) {
+      const oldPath = oldUrl.split(`${bucket}/`)[1];
+      if (oldPath) await supabase.storage.from(bucket).remove([oldPath]);
+    }
+
+    // Upload new photo
+    const { data: uploadData, error: uploadError } = await supabase.storage.from(bucket).upload(fileName, newPetPhotoFile, { upsert: true });
+    if (uploadError) return console.error("Pet photo upload error:", uploadError);
+
+    updates.pet_photo = supabase.storage.from(bucket).getPublicUrl(fileName).data.publicUrl;
+  }
+
+  // --- Update profile in Supabase ---
+  const { error: updateError } = await supabase.from('profiles').update(updates).eq('id', user.id);
+  if (updateError) return console.error("Profile update error:", updateError);
+
+// --- Reload profile data to update UI ---
+  await initHealthPaths();
+  await loadProfile();
+
+  // --- Show profile and hide edit form instead of redirect ---
+const containerSettings = document.querySelector('.containersettings');
+const containerEdit = document.querySelector('.containeredit');
+
+containerEdit.classList.add('hidden');     // hide edit form
+containerSettings.classList.remove('hidden'); // show profile view
+}
+
+// --- Attach save button ---
+document.getElementById('saveBtn').addEventListener('click', saveProfile);
+
+// --- End settings ---
+// --- End settings ---
+// --- End settings ---
+// --- End settings ---
+
+// --- Supportus + aboutus ---
+// --- Supportus + aboutus ---
+// --- Supportus + aboutus ---
+// --- Supportus + aboutus ---
+
+

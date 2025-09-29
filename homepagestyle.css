@@ -17,6 +17,31 @@ body {
     padding-right: env(safe-area-inset-right);
 }
 
+.button{
+  background-color: #3bb341; /* green */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: background-color 0.25s ease, transform 0.15s ease;
+}
+
+/* Hover effect */
+.button:hover {
+  background-color: rgb(58, 146, 62); /* slightly darker green */
+  transform: translateY(-2px);
+}
+
+/* Click effect */
+.button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
 /* Main container takes full viewport */
 #main-container {
   display: flex;
@@ -25,7 +50,7 @@ body {
 }
 
 /* Utility */
-.hidden { display: none; }
+.hidden { display: none !important; }
 
 /* 🔝 Top Bar */
 
@@ -717,3 +742,939 @@ h3 {
   /* HomePage END */
   /* HomePage END */
   /* HomePage END */
+
+  /* TOPBAR */
+  /* TOPBAR */
+  /* TOPBAR */
+  /* TOPBAR */
+  /* TOPBAR */
+
+  .containersettings {
+  height: auto; /* Let content determine height */
+  padding-top: 0.1rem; /* height of fixed top-bar (adjust as needed) */
+  padding-bottom: 0.1rem; /* height of fixed bottom bar */
+  display: flex;
+  flex-direction: column;
+  width: 94%;
+  margin:auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  overflow-x: hidden; /* 🔒 disables side scrolling */
+}
+    .settingsh1 {
+        text-align: center;
+        color: #3bb341;
+        font-size: 1.7rem;
+        margin-top:5%;
+    }
+    .profile-sectionsettings {
+        display: flex;
+        gap: 2%;
+        flex-wrap: nowrap;
+        margin-bottom: 2%;
+    }
+    .profile-photosettings, .pet-photosettings {
+        width: 40%;
+        height: 40%;
+        margin-top: 5%;
+        margin-left: 5%;
+        margin-right: 5%;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #3bb341;
+        background: #ddd;
+    }
+    .pet-photosettings {
+      margin-bottom: 4%;
+    }
+    .profile-infosettings {
+        margin-top: 8%;
+        flex: 1;
+        min-width: 250px;
+        font-size: 1.2rem;
+        line-height: 1;
+    }
+    .profile-infoedit {
+        margin-top: 4%;
+        flex: 1;
+        min-width: 250px;
+        font-size: 1.2rem;
+        line-height: 1;
+    }
+    .info-itemsettings {
+        margin-bottom: 15px;
+    }
+    .info-itemsettings strong {
+        display: inline-block;
+        width: 150px;
+        color: #555;
+    }
+    .details-listsettings {
+  font-size: 1.2rem; /* smaller than normal text */
+  line-height: 1.4;   /* keeps it readable */
+  padding-left: 15%;
+  padding-right: 5%;
+  list-style-type: disc;
+}
+    .section-titlesettings {
+        margin-top: 0.1rem;
+        margin-left: 5%;
+        margin-right: 10%;
+        font-size: 1.2rem;
+        color: #3bb341;
+        border-bottom: 1px solid #3bb341;
+        padding-bottom: 5px;
+    }
+.editprofile {
+    margin:auto;
+    margin-bottom: 5%;
+}
+
+.editprofile button {
+  background-color: #3bb341; /* green */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: background-color 0.25s ease, transform 0.15s ease;
+}
+
+/* Hover effect */
+.editprofile button:hover {
+  background-color: rgb(58, 146, 62); /* slightly darker green */
+  transform: translateY(-2px);
+}
+
+/* Click effect */
+.editprofile button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.profile-counterssettings {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #3bb341;
+}
+
+.countersettings {
+  background: #f5fff5;
+  border: 1px solid #3bb341;
+  border-radius: 12px;
+  padding: 0.3rem 0.6rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.containersettings, .containeredit {
+  transition: opacity 0.3s ease;
+}
+
+.containeredit {
+  height: auto; /* Let content determine height */
+  padding-top: 0.1rem; /* height of fixed top-bar (adjust as needed) */
+  padding-bottom: 0.1rem; /* height of fixed bottom bar */
+  display: flex;
+  flex-direction: column;
+  width: 94%;
+  margin:auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  overflow-x: hidden; /* 🔒 disables side scrolling */
+}
+
+#profileNameInput
+ {
+  margin-top: 0.1rem;
+  width: 50%;  /* just enough for 2 digits */
+  padding: 0.3rem 0.6rem;
+}
+#petNameInput
+ {
+  margin-top: 0.1rem;
+  width: 50%;  /* just enough for 2 digits */
+  padding: 0.3rem 0.6rem;
+}
+#profileDietSelect
+ {
+  margin-top: 0.1rem;
+  width: 50%;  /* just enough for 2 digits */
+  padding: 0.3rem 0.6rem;
+  flex: 1;
+  border-radius: 8px;
+  border: 1px solid #4CAF50;
+  font-size: 1rem;
+  outline: none;
+  text-align: center;   /* center the text inside */
+}
+/* For Firefox: style the dropdown */
+#profileDietSelect option {
+  padding: 0.4rem 0.5rem;
+  background-color: #fff;
+  color: #333;
+  border-bottom: 1px solid #e0e0e0; /* subtle line between rows */
+}
+
+/* Remove border for the last option */
+#profileDietSelect option:last-child {
+  border-bottom: none;
+  border-radius: 0 0 8px 8px; /* rounded corners for bottom */
+}
+
+/* Rounded corners for first option (top) */
+#profileDietSelect option:first-child {
+  border-radius: 8px 8px 0 0;
+}
+
+/* Editable inputs */
+input[type="text"], input[type="number"], textarea {
+  flex: 1;
+  padding: 0.1rem 0.1rem;
+  border-radius: 8px;
+  border: 1px solid #4CAF50;
+  font-size: 1rem;
+  outline: none;
+  text-align: center;   /* center the text inside */
+}
+
+input[type="text-hidden"]{
+  display: none;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 3rem;
+}
+
+/* Lists of items with add/remove */
+
+.question {
+  font-size: 1rem;
+  line-height: 1.4;
+  width: 90%;
+  margin: auto;
+}
+
+.details-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-left: 10%;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.details-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.details-list li input {
+  flex: 1;
+}
+
+#changeProfilePhotoBtn {
+  display: block;        /* make it a block element */
+  margin: 0.5rem auto;   /* top/bottom 0.5rem, left/right auto */
+  margin-top: 0;
+}
+
+#changePetPhotoBtn {
+  max-width: 50%;
+  font-size: 1rem;
+}
+
+/* Lists of items with add/remove */
+
+.section-titleedit{
+  list-style-type: disc;
+  margin-top: 2%;
+  padding-left: 4%;
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.details-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-left: 10%;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.details-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.details-list li input {
+  flex: 1;
+}
+
+/* Initially hide the conditional sections */
+#q2b {
+  width: 90%;
+  margin: auto;
+  display: none;
+}
+
+/* supportus + aboutus */
+/* supportus + aboutus */
+/* supportus + aboutus */
+/* supportus + aboutus */
+/* supportus + aboutus */
+
+/* Explanation Section */
+.explanationsupportus {
+  flex: 0 0 59%;
+  width: 92%;
+  margin: 4%;
+  font-size: 1rem;
+  font-style: black;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  color: inherit; /* inherit text color from parent or body */
+  text-decoration: none; /* remove underline */
+}
+
+.buddy-messagesupportus {
+  flex: 0 0 59%;
+  min-width: 0;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: row;  /* change here */
+  gap: 0.2rem;
+  background-color: #ffffff;
+}
+
+.buddy-portraitsupportus {
+  display: block;        /* make it behave like a block element */
+  margin: 0 auto;        /* center horizontally if you want */
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  object-fit: cover;     /* keeps image ratio inside circle */
+}
+
+/* Options Container */
+.optionssupportus {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Individual Option Card */
+.optionsupportus {
+  flex: 1 1 calc(50% - 1rem);
+  width: 92%;
+  margin: 4%;
+  margin-bottom: 1%;
+  font-size: 1rem;
+  background-color: #fcfcfc;
+  padding: 0.7rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.optionsupportus h3 {
+  margin-top: 0;
+  color: #1e4020;
+  width: 92%;
+  font-size: 1.1rem;
+}
+
+.optionsupportus:hover {
+  transform: translateY(-2px);
+  background-color: #f2fdf2;
+}
+
+/* Specific Styling */
+.donate {
+  border-top: 4px solid #4caf50;
+}
+
+.support {
+  border-top: 4px solid #81c784;
+}
+
+.membershipssupportus {
+  border-top: 4px solid #81c784;
+}
+
+
+/* Mobile Friendly */
+@media (max-width: 600px) {
+  .option {
+    flex: 1 1 100%;
+  }
+}
+
+.membership-cardssupportus {
+    display: grid;
+    gap: 15px;
+    margin-top: 10px;
+  }
+
+  .membership-cardsupportus {
+    border: 2px solid #4caf50;
+    border-radius: 12px;
+    padding: 15px;
+    background: #f9fff9;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .membership-cardsupportus:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  .membership-cardsupportus h5 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #2e7d32;
+  }
+
+  .membership-cardsupportus p {
+    margin: 5px 0;
+    font-weight: bold;
+  }
+
+  .membership-cardsupportus ul {
+    margin: 5px 0 0 15px;
+    padding: 0;
+    font-size: 0.9em;
+    color: #444;
+  }
+  
+#donatebtn{
+  display: block;
+  margin: auto;
+  margin-top: 0.3rem;
+}
+#adbtn{
+  display: block;
+  margin: auto;
+  margin-top: 0.3rem;
+}
+#memberbtn{
+  display: block;
+  margin: auto;
+  margin-top: 0.3rem;
+}
+
+/* Individual Option Card */
+.optionaboutus {
+  flex: 1 1 calc(50% - 1rem);
+  width: 92%;
+  margin: 4%;
+  margin-bottom: 1%;
+  font-size: 1.1rem;
+  background-color: #ffffff;
+  padding: 0.7rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12); /* stronger shadow */
+  transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+  border-top: 5px solid #4CAF50; /* green top line */
+}
+
+.optionaboutus h3 {
+  margin: 0.5rem;
+  margin-bottom: 1rem;
+  color: #2E7D32;
+  width: 92%;
+  font-size: 1.8rem;
+}
+
+.optionaboutus:hover {
+  transform: translateY(-4px);
+  background-color: #f6fff6; /* lighter green background */
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18); /* stronger shadow on hover */
+}
+
+.optionaboutus p {
+  text-align: center;
+}
+
+/* DAILY CHECKIN */
+/* DAILY CHECKIN */
+/* DAILY CHECKIN */
+/* DAILY CHECKIN */
+
+/* ====== Box Container ====== */
+.boxDCI {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  margin-bottom: 25px;
+}
+
+/* ====== Section Labels ====== */
+.bigLabelDCI {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #2e7d32; /* green for plant-based vibe */
+}
+
+/* ====== Checkbox / Radio Labels ====== */
+.checkbox-labelDCI {
+  display: block;
+  background-color: #e8f5e9;
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin-bottom: 7px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1.2rem;
+}
+
+.checkbox-labelDCI input {
+  margin-right: 10px;
+}
+
+.checkbox-labelDCI:hover {
+  background-color: #c8e6c9;
+}
+
+/* ====== Lesson Box ====== */
+.lesson-boxDCI {
+  background-color: #fff9c4;
+  border-left: 6px solid #fbc02d;
+  padding: 15px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #5d4037;
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 480px) {
+  .pageDCI {
+    padding: 15px;
+  }
+
+  .bigLabelDCI {
+    font-size: 1.2rem;
+  }
+
+  .checkbox-labelDCI {
+    font-size: 1rem;
+    padding: 8px 12px;
+  }
+}
+
+.quiz-questionDCI {
+  font-size: 1rem;
+  font-weight: bold;
+}
+.quiz-optionsDCI {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+
+#submitBtnDCI{
+  display: block;
+  margin: auto;
+  margin-bottom: 2rem;
+}
+
+
+
+/* ---------- Health Learning Paths ---------- */
+
+
+/* --- Health Issues Section --- */
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+.learning-path-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.path-btn {
+  background-color: #7dcfb6;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.path-btn:hover {
+  background-color: #65bfa0;
+  transform: translateY(-2px);
+}
+
+.path-btn.hidden {
+  display: none;
+}
+
+/* --- Courses / Lessons --- */
+.courses {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.course {
+  background-color: #f0f8f5;
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.course h3 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #34495e;
+}
+
+.lesson-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lesson {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+}
+
+.lesson:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+.lesson.completed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.lesson.unlocked {
+  background-color: #eafaf1;
+  color: #2c3e50;
+}
+
+.lesson.locked {
+  background-color: #f8f9fa;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.lesson-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.lesson-icon {
+  font-size: 1.2rem;
+}
+
+/* --- Lesson Tab / Quiz --- */
+#healthylesson-tab {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #ffffff;
+  padding: 2rem;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 0 0 30px rgba(0,0,0,0.2);
+}
+
+#healthylesson-tab.hidden {
+  display: none;
+}
+
+#close-lesson {
+  background-color: #ff7f50;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
+}
+
+#close-lesson:hover {
+  background-color: #e86f3e;
+}
+
+#lesson-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+#lesson-content {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+#start-quiz-btn {
+  background-color: #7dcfb6;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+}
+
+#start-quiz-btn:hover {
+  background-color: #65bfa0;
+  transform: translateY(-2px);
+}
+
+#quiz-container {
+  margin-top: 1.5rem;
+}
+
+.quiz-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.6rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background-color: #f7f7f7;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quiz-option:hover {
+  background-color: #e2f2e9;
+}
+
+#quiz-feedback {
+  margin-top: 1rem;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+/* --- extraLesson --- */
+
+/* ===== PAGE LAYOUT ===== */
+#lessons {
+  font-family: 'Inter', sans-serif;
+  padding: 1rem;
+  color: #333;
+}
+
+/* ===== BUTTONS ===== */
+.learning-path-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.path-btn {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.path-btn:hover {
+  background-color: #45a049;
+}
+
+/* ===== COURSES ===== */
+.course {
+  margin-top: 1rem;
+}
+
+.course h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
+}
+
+/* ===== EXTRA LESSON LIST ===== */
+.extralesson-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.extralesson {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 0.8rem;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+
+.extralesson.unlocked {
+  border-color: #4caf50;
+}
+
+.extralesson.completed {
+  border-color: #2196f3;
+  background-color: #f0f8ff;
+}
+
+.extralesson.locked {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* ===== EXTRA LESSON TITLE ===== */
+.extralesson-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  background-color: #fafafa;
+  cursor: pointer;
+}
+
+.extralesson-title:hover {
+  background-color: #f0f0f0;
+}
+
+.extralesson-icon {
+  font-size: 1.2rem;
+}
+
+/* ===== EXTRA LESSON CONTENT ===== */
+.extralesson-content {
+  padding: 0.8rem 1rem;
+  display: none;
+  background-color: #fff;
+  animation: fadeIn 0.3s ease;
+}
+
+.extralesson-content.active {
+  display: block;
+}
+
+/* ===== EXTRA LESSON TEXT ===== */
+.extralesson-text {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #eee;
+}
+
+/* ===== QUIZ ===== */
+.extraquiz-submit {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.extraquiz-submit:hover {
+  background-color: #1976d2;
+}
+
+.extraquiz-feedback {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: red;
+}
+
+/* ===== COMPLETE BUTTON ===== */
+.complete-btn {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.complete-btn:hover {
+  background-color: #43a047;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .learning-path-buttons {
+    flex-direction: column;
+  }
+
+  .path-btn {
+    width: 100%;
+  }
+
+  .extralesson-title {
+    font-size: 0.95rem;
+  }
+}

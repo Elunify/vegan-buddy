@@ -240,3 +240,35 @@ Object.keys(mealArtMap).forEach(id => {
   if (proRecipe) {
     proRecipe.addEventListener('click', () => openPopup('popupProRecipe'));
   }
+
+  // HomePage END
+  // HomePage END
+  // HomePage END
+  // HomePage END
+  // HomePage END
+
+  // TOPBAR
+  // TOPBAR
+  // TOPBAR
+  // TOPBAR
+  // TOPBAR
+
+  // Grab elements
+const editBtn = document.querySelector('.editprofile');
+const containerSettings = document.querySelector('.containersettings');
+const containerEdit = document.querySelector('.containeredit');
+
+editBtn.addEventListener('click', (e) => {
+  e.preventDefault(); // prevent default link navigation
+  containerSettings.classList.add('hidden'); // hide settings
+  containerEdit.classList.remove('hidden');  // show edit form
+});
+
+function toggleMemberships() {
+    const list = document.getElementById("membership-list");
+    if (list.style.display === "none") {
+      list.style.display = "block";
+    } else {
+      list.style.display = "none";
+    }
+  }
