@@ -641,6 +641,14 @@ document.querySelectorAll(".learning-path-buttons .path-btn").forEach(btn => {
 });
 
 
+// Recipes
+// Recipes
+// Recipes
+// Recipes
+// Recipes
+
+
+
 
 
 

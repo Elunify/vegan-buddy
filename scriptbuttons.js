@@ -232,13 +232,13 @@ Object.keys(mealArtMap).forEach(id => {
 // Amateur Recipe Trigger
   const amateurRecipe = document.getElementById('amateurRecipe');
   if (amateurRecipe) {
-    amateurRecipe.addEventListener('click', () => openPopup('popupAmateurRecipe'));
+    amateurRecipe.addEventListener('click', () => openPopup('recipeModal'));
   }
 
   // Pro Recipe Trigger
   const proRecipe = document.getElementById('professionalRecipe');
   if (proRecipe) {
-    proRecipe.addEventListener('click', () => openPopup('popupProRecipe'));
+    proRecipe.addEventListener('click', () => openPopup('recipeModal'));
   }
 
   // HomePage END
