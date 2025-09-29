@@ -71,12 +71,22 @@ document.querySelectorAll('.dropdown > button').forEach(btn => {
   });
 });
 
+// Helper: close all dropdowns when a section button is clicked
+function closeDropdowns() {
+  document.querySelectorAll('.dropdown-content.open').forEach(d => {
+    d.classList.remove('open');
+  });
+}
+
 // Lessons, Recipes, Recommendations, Sources
 const learnButtons = ['lessons','recipes','recommendations','sources'];
 learnButtons.forEach(id => {
   const btn = document.querySelector(`button[onclick="showSection('${id}')"]`);
   if (btn) {
-    btn.addEventListener('click', () => showSection(id));
+    btn.addEventListener('click', () => {
+      showSection(id);
+      closeDropdowns(); // close dropdown
+    });
   }
 });
 
@@ -85,7 +95,10 @@ const exploreButtons = ['restaurants','scan'];
 exploreButtons.forEach(id => {
   const btn = document.querySelector(`button[onclick="showSection('${id}')"]`);
   if (btn) {
-    btn.addEventListener('click', () => showSection(id));
+    btn.addEventListener('click', () => {
+      showSection(id);
+      closeDropdowns(); // close dropdown
+    });
   }
 });
 
@@ -94,7 +107,10 @@ const communityButtons = ['local','events','forum','friends','mentorship','succe
 communityButtons.forEach(id => {
   const btn = document.querySelector(`button[onclick="showSection('${id}')"]`);
   if (btn) {
-    btn.addEventListener('click', () => showSection(id));
+    btn.addEventListener('click', () => {
+      showSection(id);
+      closeDropdowns(); // close dropdown
+    });
   }
 });
 
@@ -103,15 +119,21 @@ const playgroundButtons = ['avatar','shop','leaderboards','challenges'];
 playgroundButtons.forEach(id => {
   const btn = document.querySelector(`button[onclick="showSection('${id}')"]`);
   if (btn) {
-    btn.addEventListener('click', () => showSection(id));
+    btn.addEventListener('click', () => {
+      showSection(id);
+      closeDropdowns(); // close dropdown
+    });
   }
 });
 
 // Home button
 const homeBtn = document.querySelector('.bottom-nav button[onclick="showSection(\'home\')"]');
 if (homeBtn) {
-  homeBtn.addEventListener('click', () => showSection('home'));
-}
+  homeBtn.addEventListener('click', () => {
+    showSection('home');
+    closeDropdowns();
+  });
+  }
 
 // --- Top buttons on main page ---
 const checkinBtn = document.getElementById('checkinBtn');
@@ -136,10 +158,10 @@ if (recipesBtn) {
 }
 
 // --- Meal-Art Winners H3 Sections ---
-const mealArtHeaders = document.querySelectorAll('.meal-art-winners h3');
-mealArtHeaders.forEach(header => {
-  header.style.cursor = 'pointer'; // shows it’s clickable
-  header.addEventListener('click', () => showSection('mealartcontest'));
+const mealartBtn = document.querySelectorAll('.mealartBtn');
+mealartBtn.forEach(link => {
+  link.style.cursor = 'pointer'; // shows it’s clickable
+  link.addEventListener('click', () => showSection('mealartcontest'));
 });
 
 // --- Function to open a popup and close others ---

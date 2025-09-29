@@ -1,4 +1,5 @@
-
+ import { supabase } from "./supabaseClient.js";
+ 
 const nextBtn = document.getElementById("nextBtn");
 nextBtn.addEventListener("click", nextQuestion);
 

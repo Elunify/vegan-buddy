@@ -63,7 +63,9 @@
 
 <p id="statusMsg"></p>
 
-<script>
+<script type="module">
+  import { supabase } from "./supabaseClient.js";
+  
 const statusMsg = document.getElementById("statusMsg");
 emailjs.init("_BvHMRNPejeC7Wsha");
 

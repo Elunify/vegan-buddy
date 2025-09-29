@@ -3,13 +3,13 @@
 body {
     display: flex;              /* needed for justify-content */
     flex-direction: column;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: "Poppins", sans-serif;
-  background: #f9f9f9;
-  color: #333;
-  overflow: hidden; /* prevent body scrolling, only content scrolls */
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background: #f9f9f9;
+    color: #333;
+    overflow: hidden; /* prevent body scrolling, only content scrolls */
     justify-content: space-between;
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
@@ -212,6 +212,7 @@ body {
 }
 
 h3 {
+  text-align: center;
   margin-top: 0;
   margin-bottom: 0.3rem;
   font-size: 1.14rem;
@@ -404,6 +405,7 @@ h3 {
   justify-content: center;
   align-items: center;
   z-index: 3000;
+  overflow: auto; /* allow scrolling if popup is taller than viewport */
 }
 
 .popup-content {
@@ -412,6 +414,8 @@ h3 {
   border-radius: 12px;
   width: 90%;
   max-width: 400px;
+  max-height: 90vh;   /* 🔹 don’t exceed viewport height */
+  overflow-y: auto;   /* 🔹 make inner content scrollable */
   text-align: center;
   position: relative;
 }
@@ -434,6 +438,16 @@ h3 {
 /* Meal-Art Contest */
 .meal-art-winners {
   margin-top: 0.7rem;
+}
+.mealartBtn {
+  cursor: pointer;
+  color: #2d8cff;           /* accent color */
+  text-decoration: underline; /* make it link-like */
+  transition: color 0.2s;
+}
+
+.mealartBtn:hover {
+  color: #1a5fbf;           /* darker on hover */
 }
 .meal-art-categories {
   display: flex;
@@ -516,7 +530,7 @@ h3 {
 
 /* Dropdown content (full width, above bottom nav) */
 .dropdown-content {
-  display: none;
+  display: block;
   position: fixed;        /* fixed to viewport */
   bottom: 60px;           /* above bottom nav */
   left: 0;
@@ -531,12 +545,14 @@ h3 {
   transform: scaleY(0);          /* start collapsed */
   transform-origin: bottom;      /* grow from bottom (button) */
   opacity: 0;
+  pointer-events: none;            /* prevent clicking when closed */
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .dropdown-content.open {
   transform: scaleY(1);          /* expand */
   opacity: 1;
+  pointer-events: auto;            /* clickable only when open */
 }
 
 /* Show dropdown on hover */
@@ -587,21 +603,6 @@ h3 {
   font-weight: bold;
   color: #c00;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* charactertips */
@@ -709,3 +710,10 @@ h3 {
     background: #f9f9f9;
     font-style: italic;
   }
+
+
+  /* HomePage END */
+  /* HomePage END */
+  /* HomePage END */
+  /* HomePage END */
+  /* HomePage END */

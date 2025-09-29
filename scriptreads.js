@@ -1,5 +1,50 @@
 import { supabase } from "./supabaseClient.js";
 
+// ===== Helper to format numbers =====
+function formatNumber(value) {
+  value = Math.round(value);
+  if (value >= 1_000_000_000) {
+    return (value / 1_000_000_000).toFixed(1) + 'B';
+  } else if (value >= 1_000_000) {
+    return (value / 1_000_000).toFixed(1) + 'M';
+  } else if (value >= 1_000) {
+    return (value / 1_000).toFixed(1) + 'k';
+  } else {
+    return value.toString();
+  }
+}
+
+// ===== Handle Streak Save (make it global so both loadProfile and tab logic can use it) =====
+async function handleStreakSave(user, profile, yesterday) {
+  const save = confirm("Do you want to save your streak for 10 badges?");
+  if (!save) {
+    alert("Your streak will reset.");
+    await supabase.from("profiles").update({ streak: 0, last_checkin_date: yesterday }).eq("id", user.id);
+    return false;
+  }
+
+  if ((profile.badge || 0) >= 10) {
+    await supabase.from("profiles").update({
+      badge: profile.badge - 10,
+      last_checkin_date: yesterday
+    }).eq("id", user.id);
+    alert("Streak saved by spending 10 badges!");
+    return true;
+  } else {
+    const pay = confirm("You don't have enough badges. Do you want to save your streak for 1€?");
+    if (pay) {
+      // TODO: integrate payment
+      await supabase.from("profiles").update({ last_checkin_date: yesterday }).eq("id", user.id);
+      alert("Redirecting to payment...");
+      return true;
+    } else {
+      alert("Your streak will reset.");
+      await supabase.from("profiles").update({ streak: 0, last_checkin_date: yesterday }).eq("id", user.id);
+      return false;
+    }
+  }
+}
+
 document.addEventListener("DOMContentLoaded", loadProfile);
 
  // ReadProfile
@@ -185,27 +230,10 @@ if (petNameEl && profile.pet_name) {
   
 }
 
- // ===== Helper to format numbers =====
-function formatNumber(value) {
-  value = Math.round(value); // round to nearest whole number
-  if (value >= 1_000_000_000) {
-    return (value / 1_000_000_000).toFixed(1) + 'B';
-  } else if (value >= 1_000_000) {
-    return (value / 1_000_000).toFixed(1) + 'M';
-  } else if (value >= 1_000) {
-    return (value / 1_000).toFixed(1) + 'k';
-  } else {
-    return value.toString();
-  }
-}
 
 
 // Run on page load
 loadProfile();
-
-
-
-
 
  // Meal-art
   // Meal-art
@@ -233,7 +261,7 @@ async function loadWinners() {
   const a = document.createElement("a");
   a.href = "#";
   a.className = "recipe";
-  a.textContent = "Recipe available";
+  a.textContent = "Recipe";
   a.addEventListener("click", e => {
     e.preventDefault();
     showRecipeModal(amateurWinner);
@@ -266,7 +294,7 @@ async function loadWinners() {
   const a = document.createElement("a");
   a.href = "#";
   a.className = "recipe";
-  a.textContent = "Recipe available";
+  a.textContent = "Recipe";
   a.addEventListener("click", e => {
     e.preventDefault();
     showRecipeModal(proWinner);
@@ -303,3 +331,5 @@ window.showRecipeModal = function (meal) {
   window.addEventListener("click", e => {
     if (e.target.id === "recipeModal") document.getElementById("recipeModal").style.display = "none";
   });
+
+  //===== Homepage Ends =======//
