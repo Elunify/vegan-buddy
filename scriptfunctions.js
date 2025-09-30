@@ -266,15 +266,37 @@ export async function initHealthPaths() {
   const userData = profile;
   const healthIssues = userData.health_issues || []; // array of user's health issues
 
-  // Show only the buttons for the user's health issues
+  // Grab elements
+  const title = document.querySelector(".YourHealthIssueTitle");
   const allButtons = document.querySelectorAll("#healthissues .path-btn");
+  const allCourses = document.querySelectorAll("#healthissues .course");
+
+  // --- RESET STATE ---
+  if (title) title.classList.remove("hidden");          // always show title first
+  allButtons.forEach(b => b.classList.add("hidden"));   // hide all buttons initially
+  allCourses.forEach(c => c.classList.add("hidden"));   // hide all courses initially
+
+  // Show only the buttons for the user's health issues
   allButtons.forEach(btn => {
     if (healthIssues.includes(btn.dataset.path)) {
       btn.classList.remove("hidden");
     }
   });
 
-  const allCourses = document.querySelectorAll("#healthissues .course");
+  // If user has only 1 health issue → auto-click it and hide title/buttons
+  if (healthIssues.length === 1) {
+    const btn = document.querySelector(
+      `#healthissues .path-btn[data-path="${healthIssues[0]}"]`
+    );
+    if (btn) {
+      // Hide title + buttons section
+      if (title) title.classList.add("hidden");
+      allButtons.forEach(b => b.classList.add("hidden"));
+
+      // Auto-open the single health issue
+      btn.click();
+    }
+  }
 
   // Wire click events to show selected course
   allButtons.forEach(btn => {

@@ -272,3 +272,25 @@ function toggleMemberships() {
       list.style.display = "none";
     }
   }
+
+
+//  Health Lesson
+//  Health Lesson
+//  Health Lesson
+//  Health Lesson
+
+  // Back button logic
+document.getElementById("close-lesson").addEventListener("click", () => {
+  const lessonTab = document.getElementById("healthylesson-tab");
+  const mainTab = document.getElementById("healthissues");
+
+  // Hide lesson tab and show main health issues tab
+  lessonTab.classList.add("hidden");
+  mainTab.classList.remove("hidden");
+
+  // Optionally: scroll back to the course/lesson that was open
+  const openLesson = document.querySelector("#healthissues .lesson.unlocked, #healthissues .lesson.completed");
+  if (openLesson) {
+    openLesson.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+});

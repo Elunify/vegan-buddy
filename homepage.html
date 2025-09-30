@@ -42,6 +42,7 @@
         <div id="sideMenu" class="side-menu">
           <button class="menu-item" id="helpusgrowBtn">Help Us Grow</button>
           <button class="menu-item" id="aboutUsBtn">About Us</button>
+          <button onclick="showSection('sources')" class="menu-item" id="sourcesBtn">Sources</button>
         </div>
       </div>
 
@@ -444,6 +445,19 @@
      </div>
     </div>
   </div>
+<!-- Sources -->
+ <!-- Sources -->
+  <!-- Sources -->
+   <!-- Sources -->
+    <div id="sources" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      ...Sources content... 
+    
+    
+    
+    
+    
+    
+    </div>
 <!-- Main features -->   
  <!-- Main features -->   
   <!-- Main features -->   
@@ -531,6 +545,13 @@
    <!-- Meal Art Contest -->
     <div id="mealartcontest" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
       ...Meal-Art Contest content... 
+
+
+
+
+
+
+
     </div>
 
 <!-- Learn subsections -->
@@ -571,21 +592,18 @@
   <!-- Recipes -->
    <!-- Recipes -->
     <div id="recipes" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      ...Recipes content... 
-    
-    
-    
-    
-    
-    
+      <h2>Community Recipes</h2>
+  <div id="recipes-container" class="recipes-container">
+    <!-- Recipes will be loaded here dynamically -->
+  </div>
+  <!-- Upload Recipe Button -->
+  <button id="openUploadBtn" class="upload-btn">➕ Upload Your Own Recipe</button>
     </div>
 
 
 
     <div id="recommendations" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
       ...Recommendations content... </div>
-    <div id="sources" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      ...Sources content... </div>
 
     <!-- Explore subsections -->
     <div id="restaurants" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
@@ -628,7 +646,6 @@
           <button onclick="showSection('lessons')">Lessons</button>
           <button onclick="showSection('recipes')">Recipes</button>
           <button onclick="showSection('recommendations')">Recommendations</button>
-          <button onclick="showSection('sources')">Sources</button>
         </div>
       </div>
       <div class="dropdown">
@@ -808,7 +825,46 @@
   </div>
 </div>
 
-
+<!-- Upload Recipe Modal -->
+<div id="upload-recipe" class="modal hidden-modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <h2>Upload a New Recipe</h2>
+    <form id="recipeForm">
+      <label>
+        Recipe Image:
+        <input type="file" id="recipeImage" accept="image/*" required>
+      </label>
+      <div id="imagePreview" style="width:150px; height:150px; border:1px solid #ccc; display:none; align-items:center; justify-content:center; overflow:hidden; border-radius:10px; margin:auto; margin-bottom: 0.5rem;">
+  <img id="previewImg" style="display:block;width:100%; height:100%; object-fit:cover; margin-bottom: 0.5rem;">
+</div>
+      <label>
+        Title:
+        <input type="text" id="recipeTitle" required>
+      </label>
+      <label>
+        Ingredients:
+        <textarea id="recipeIngredients" placeholder="List ingredients..." required></textarea>
+      </label>
+      <label>
+        Instructions:
+        <textarea id="recipeInstructions" placeholder="Step by step instructions..." required></textarea>
+      </label>
+      <button type="submit">Upload Recipe</button>
+    </form>
+    <div id="uploadFeedback" style="margin-top:10px;"></div>
+  </div>
+</div>
+<!-- Recipe Details Modal -->
+<div id="recipe-modal" class="hidden-modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <img id="modal-img" src="" alt="" class="modal-img">
+    <h2 id="modal-title"></h2>
+    <p id="modal-ingredients"></p>
+    <p id="modal-instructions"></p>
+  </div>
+</div>
 
 </div> 
 

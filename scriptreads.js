@@ -636,9 +636,342 @@ document.getElementById('saveBtn').addEventListener('click', saveProfile);
 // --- End settings ---
 // --- End settings ---
 
-// --- Supportus + aboutus ---
-// --- Supportus + aboutus ---
-// --- Supportus + aboutus ---
-// --- Supportus + aboutus ---
+// --- Recipes -----
+// --- Recipes -----
+// --- Recipes -----
+// --- Recipes -----
 
+// Make sure supabase client is initialized
+// const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+async function loadRecipes() {
+  const { data: userData } = await supabase.auth.getUser();
+  const userId = userData?.user?.id;
+
+  if (!userId) return; // user not logged in
+
+  // CALL RPC FUNCTION instead of direct table/view
+  const { data, error } = await supabase
+    .rpc("get_recipes_with_likes", { user_uuid: userId })
+    .order('like_count', { ascending: false }); 
+
+  if (error) return console.error("Error fetching recipes:", error);
+
+  const container = document.getElementById("recipes-container");
+  container.innerHTML = "";
+
+  const modal = document.getElementById("recipe-modal");
+  const modalImg = document.getElementById("modal-img");
+  const modalTitle = document.getElementById("modal-title");
+  const modalIngredients = document.getElementById("modal-ingredients");
+  const modalInstructions = document.getElementById("modal-instructions");
+  const closeBtn = modal.querySelector(".close-btn");
+
+  closeBtn.addEventListener("click", () => modal.classList.add("hidden-modal"));
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) modal.classList.add("hidden-modal");
+  });
+
+  data.forEach(recipe => {
+    const card = document.createElement("div");
+    card.className = "recipe-card";
+    card.innerHTML = `
+      <img src="${recipe.image_url}" alt="${recipe.title}" class="recipe-img">
+      <div class="recipe-title">${recipe.title}</div>
+      <button class="like-btn ${recipe.liked_by_user ? "liked" : "not-liked"}" data-id="${recipe.id}">
+        <span class="heart-icon"></span>
+        <span class="like-count">${recipe.like_count}</span>
+    </button>
+    `;
+
+    // Add delete button if this recipe belongs to the current user
+    if (recipe.user_id === userId) {
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "x";
+      deleteBtn.className = "delete-btn";
+      deleteBtn.addEventListener("click", async (e) => {
+        e.stopPropagation(); // Prevent modal from opening
+        if (!confirm("Are you sure you want to delete this recipe?")) return;
+
+        const { error: delError } = await supabase
+          .from("recipes")
+          .delete()
+          .eq("id", recipe.id);
+
+        if (delError) return console.error("Delete failed:", delError);
+
+        // Optionally, delete the image from storage
+        await supabase.storage.from("recipes").remove([recipe.image_url.split("/").pop()]);
+
+        // Remove card from DOM
+        card.remove();
+      });
+
+      card.appendChild(deleteBtn);
+    }
+
+    // Card click opens modal
+    card.querySelector(".recipe-img, .recipe-title").addEventListener("click", () => {
+      modalImg.src = recipe.image_url;
+      modalTitle.textContent = recipe.title;
+      modalIngredients.innerHTML = "<strong>Ingredients:</strong><br>" + recipe.ingredients;
+      modalInstructions.innerHTML = "<strong>Instructions:</strong><br>" + recipe.description;
+      modal.classList.remove("hidden-modal");
+    });
+
+    // Like button toggle
+    const likeBtn = card.querySelector(".like-btn");
+    likeBtn.addEventListener("click", () => toggleLike(recipe.id, userId, likeBtn));
+
+    container.appendChild(card);
+  });
+}
+
+
+// Toggle like function
+async function toggleLike(recipeId, userId) {
+  const likeBtn = document.querySelector(`.like-btn[data-id="${recipeId}"]`);
+  const countSpan = likeBtn.querySelector(".like-count");
+
+  // Prevent spamming
+  if (likeBtn.disabled) return;
+  likeBtn.disabled = true;
+
+  try {
+    const { data: existingLikes, error } = await supabase
+      .from("recipe_likes")
+      .select("*")
+      .eq("recipe_id", recipeId)
+      .eq("user_id", userId);
+
+    if (error) throw error;
+
+    if (existingLikes.length > 0) {
+      // Remove like
+      const { error: delError } = await supabase
+        .from("recipe_likes")
+        .delete()
+        .eq("recipe_id", recipeId)
+        .eq("user_id", userId);
+      if (delError) throw delError;
+
+      likeBtn.classList.remove("liked");
+      likeBtn.classList.add("not-liked");
+      countSpan.textContent = parseInt(countSpan.textContent) - 1;
+    } else {
+      // Add like
+      const { error: insertError } = await supabase
+        .from("recipe_likes")
+        .insert([{ recipe_id: recipeId, user_id: userId }]);
+      if (insertError) throw insertError;
+
+      likeBtn.classList.remove("not-liked");
+      likeBtn.classList.add("liked");
+      countSpan.textContent = parseInt(countSpan.textContent) + 1;
+    }
+  } catch (err) {
+    console.error(err);
+  } finally {
+    likeBtn.disabled = false; // Re-enable after request completes
+  }
+}
+
+
+
+// Initialize page
+document.addEventListener("DOMContentLoaded", () => {
+  loadRecipes();
+
+
+// Elements
+const openUploadBtn = document.getElementById("openUploadBtn");
+const modal = document.getElementById("upload-recipe");
+const closeBtn = modal.querySelector(".close-btn");
+const recipeForm = document.getElementById("recipeForm");
+const feedback = document.getElementById("uploadFeedback");
+
+// Open modal
+openUploadBtn.addEventListener("click", () => {
+  modal.classList.remove("hidden-modal");
+});
+
+// Close modal
+closeBtn.addEventListener("click", () => {
+  modal.classList.add("hidden-modal");
+});
+
+// Close modal on outside click
+window.addEventListener("click", (e) => {
+  if (e.target === modal) modal.classList.add("hidden-modal");
+});
+
+const imageInput = document.getElementById("recipeImage");
+const imagePreview = document.getElementById("imagePreview");
+
+imageInput.addEventListener("change", async () => {
+  const file = imageInput.files[0];
+  if (!file) {
+    imagePreview.innerHTML = '<span style="color:#999;">No image selected</span>';
+    return;
+  }
+
+  try {
+    const resizedFile = await resizeImageToSquare(file, 300);
+    const url = URL.createObjectURL(resizedFile);
+
+    // Clear preview and show image
+    imagePreview.innerHTML = "";
+    const imgEl = document.createElement("img");
+    imgEl.src = url;
+    imgEl.style.width = "100%";
+    imgEl.style.height = "100%";
+    imgEl.style.objectFit = "cover"; // ensures cropped fit
+    imagePreview.appendChild(imgEl);
+
+    // Store resized file to use on upload
+    imageInput.resizedFile = resizedFile;
+
+  } catch (err) {
+    console.error(err);
+    imagePreview.innerHTML = '<span style="color:red;">Failed to preview image</span>';
+  }
+});
+
+const previewImg = document.getElementById("previewImg");
+
+imageInput.addEventListener("change", async () => {
+  const file = imageInput.files[0];
+  if (!file) {
+    imagePreview.style.display = "none"; // hide preview if nothing selected
+    return;
+  }
+
+  try {
+    const resizedFile = await resizeImageToSquare(file, 500); // square 500x500
+    const url = URL.createObjectURL(resizedFile);
+
+    previewImg.src = url;
+    imagePreview.style.display = "flex"; // show preview
+    imageInput.resizedFile = resizedFile; // store for submit
+  } catch (err) {
+    console.error(err);
+    imagePreview.style.display = "none"; // hide on error
+  }
+});
+
+// Upload recipe logic
+recipeForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  feedback.textContent = "";
+
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return feedback.textContent = "You must be logged in to upload a recipe.";
+
+  let imageFile = imageInput.resizedFile; // use the resized & cropped image
+if (imageFile) {
+  imageFile = await resizeImageToSquare(imageFile, 500); // resize & crop
+}
+  const title = document.getElementById("recipeTitle").value.trim();
+  const ingredients = document.getElementById("recipeIngredients").value.trim();
+  const instructions = document.getElementById("recipeInstructions").value.trim();
+
+  if (!imageFile || !title || !ingredients || !instructions) {
+    return feedback.textContent = "Please fill in all fields and select an image.";
+  }
+
+  try {
+    // Upload image to bucket
+    const fileExt = imageFile.name.split('.').pop() || 'jpg';
+    const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+
+    // if imageFile is a Blob without name, wrap it into a File
+if (!(imageFile instanceof File)) {
+  imageFile = new File([imageFile], fileName, { type: imageFile.type });
+}
+
+    const { error: uploadError } = await supabase.storage
+      .from("recipes")
+      .upload(fileName, imageFile, { upsert: true });
+    if (uploadError) throw uploadError;
+
+    const imageUrl = supabase.storage
+      .from("recipes")
+      .getPublicUrl(fileName).data.publicUrl;
+
+    // Insert into recipes table
+    const { error: insertError } = await supabase.from("recipes").insert({
+      user_id: user.id,
+      title,
+      ingredients,
+      description: instructions,
+      image_url: imageUrl
+    });
+    if (insertError) throw insertError;
+
+    feedback.style.color = "green";
+    feedback.textContent = "✅ Recipe uploaded successfully!";
+    recipeForm.reset();
+    modal.classList.add("hidden");
+
+    // Reload recipes to show the new one
+    loadRecipes();
+
+  } catch (err) {
+    console.error(err);
+    feedback.style.color = "red";
+    feedback.textContent = "❌ Failed to upload recipe. Try again.";
+  }
+});
+
+function autoResizeTextarea(textarea) {
+  textarea.style.height = 'auto';          // reset height
+  textarea.style.height = textarea.scrollHeight + 'px'; // set height to fit content
+}
+
+const textareas = document.querySelectorAll('textarea');
+
+textareas.forEach(textarea => {
+  textarea.addEventListener('input', () => autoResizeTextarea(textarea));
+  
+  // initialize height in case there's pre-filled text
+  autoResizeTextarea(textarea);
+});
+
+});
+
+async function resizeImageToSquare(file, size = 500) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+
+    reader.onload = e => {
+      img.src = e.target.result;
+    };
+
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext("2d");
+
+      // Determine square crop
+      const minSide = Math.min(img.width, img.height);
+      const sx = (img.width - minSide) / 2;
+      const sy = (img.height - minSide) / 2;
+
+      // Draw cropped square into canvas
+      ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, size, size);
+
+      // Convert canvas to blob
+      canvas.toBlob(blob => {
+        if (blob) resolve(new File([blob], file.name, { type: file.type }));
+        else reject(new Error("Canvas conversion failed"));
+      }, file.type, 0.9); // 0.9 quality
+    };
+
+    reader.onerror = err => reject(err);
+
+    reader.readAsDataURL(file);
+  });
+}
 
