@@ -544,15 +544,118 @@
   <!-- Meal Art Contest -->
    <!-- Meal Art Contest -->
     <div id="mealartcontest" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      ...Meal-Art Contest content... 
+      
+      
+      <div id="mealArtContestSmall" class="tab-content">
+  <!-- Header / Intro -->
+  <div class="meal-art-header">
+    <h2>Meal Art Contest</h2>
+    <p class="generalnote" id="generalnote" style="display: inline-block">Upload your meal art from Tuesday to Sunday. Voting is on Monday.</p>
 
+    <!-- Buttons -->
+  <div class="header-buttons">
+  <button id="uploadBtn" class="locked" data-unlock="🔓 Unlock at Lvl 10" style="display:none;">Upload My Meal</button>
+  
+  <p class="uploadnote hidden-meal" id="uploadnote">
+    <a href="mailto:elunify.app@gmail.com">Restaurants: Request Pro Kitchen access — no level needed!</a>
+  </p>
+  
+  <p class="votenote hidden-meal" id="votenote">It's a vote day! Pick your favorite!</p>
+  
+  <!-- New message when user already uploaded -->
+  <p class="already-uploaded" id="alreadyUploadedMsg" style="display:none; color: green; font-weight: bold;">
+    You uploaded your meal this week, congratulations!
+  </p>
+</div>
+  </div>
 
+  <!-- Main Tabs: Current Participants / Past Winners -->
+  <div class="meal-art-main-tabs">
+    <button class="main-tab active" data-tab="participants">Current Participants</button>
+    <button class="main-tab" data-tab="past-winners">Past Winners</button>
+  </div>
 
-
-
-
-
+  <!-- Participants Gallery -->
+<div class="main-tab-content hidden-meal" id="participants">
+  <div class="participants-gallery">
+    <div class="category-column" id="home-chef-column">
+      <h4>Home Chef</h4>
+      <!-- JS will insert current week meals here -->
+      <div class="current-week-gallery" id="home-chef-gallery"></div>
     </div>
+
+    <div class="category-column" id="pro-kitchen-column">
+      <h4>Pro Kitchen</h4>
+      <!-- JS will insert current week meals here -->
+      <div class="current-week-gallery" id="pro-kitchen-gallery"></div>
+    </div>
+  </div>
+</div>
+
+<div class="main-tab-content hidden-meal" id="past-winners">
+  <div class="past-winners-columns">
+    <div class="category-column" id="home-chef-past">
+      <h4>Home Chef</h4>
+      <!-- JS will insert winners here -->
+      <div class="winner-list" id="home-chef-winners"></div>
+    </div>
+
+    <div class="category-column" id="pro-kitchen-past">
+      <h4>Pro Kitchen</h4>
+      <!-- JS will insert winners here -->
+      <div class="winner-list" id="pro-kitchen-winners"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Recipe Modal -->
+<div class="modal hidden-meal" id="mealArtrecipeModal" >
+  <div class="modal-content">
+    <span id="mealArtcloseModal" class="close">&times;</span>
+    <h3 id="mealArtmodalFoodName"></h3>
+    <h4>Ingredients:</h4>
+    <p id="mealArtmodalIngredients"></p>
+    <h4>Instructions:</h4>
+    <p id="mealArtmodalInstructions"></p>
+  </div>
+</div>
+
+</div>
+
+<div class="MealArtUploadContent hidden-meal" id="MealArtUploadContent">
+
+  <h2 class="UploadYourMeal">Upload Your Meal</h2>
+  <p class="rule">Only plant-based meals are allowed!</p>
+
+  <form id="mealUploadForm">
+    <!-- Required Photo -->
+    <label for="mealPhoto">Meal Photo <span style="color:red">*</span></label>
+    <input type="file" id="mealPhoto" name="mealPhoto" accept="image/*" required>
+
+    <!-- Preview Area -->
+    <div class="mealArtpreview hidden-meal" id="mealArtphotoPreview">
+      <img id="mealArtpreviewImage" src="" alt="Meal Preview">
+    </div>
+
+    <!-- Optional Recipe -->
+     <p class="recipe-note">Fill all boxes to make your recipe available:</p>
+
+    <label for="recipeName">Recipe Name <span class="optional-label">(optional)</span></label>
+    <input type="text" id="mealArtrecipeName" name="mealArtrecipeName" placeholder="E.g., Vegan Lasagna">
+
+    <label for="mealArtrecipeIngredients">Ingredients <span class="optional-label">(optional)</span></label>
+    <textarea id="mealArtrecipeIngredients" name="mealArtrecipeIngredients" placeholder="List ingredients here..."></textarea>
+
+    <label for="mealArtrecipeInstructions">Instructions <span class="optional-label">(optional)</span></label>
+    <textarea id="mealArtrecipeInstructions" name="mealArtrecipeInstructions" placeholder="Write instructions here..."></textarea>
+
+    <button class= "button" id="sbmtMealArtBtn" type="submit">Submit Meal</button>
+  </form>
+
+
+</div>
+
+</div>
 
 <!-- Learn subsections -->
  <!-- Learn subsections -->
@@ -561,6 +664,7 @@
     <div id="lessons" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
       
       <div class="learning-path-buttons">
+        <h2>Learn</h2>
     <button class="path-btn" data-path="animals">For the Animals</button>
     <button class="path-btn" data-path="earth">For the Earth</button>
     <button class="path-btn" data-path="health">For Health</button>
@@ -592,7 +696,7 @@
   <!-- Recipes -->
    <!-- Recipes -->
     <div id="recipes" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      <h2>Community Recipes</h2>
+      <h2>Recipes</h2>
   <div id="recipes-container" class="recipes-container">
     <!-- Recipes will be loaded here dynamically -->
   </div>
@@ -732,11 +836,9 @@
 <div id="popupAnimals" class="popup hidden">
   <div class="popup-content">
     <button class="popup-close">✖</button>
-    <h2>Animals Saved</h2>
-    <p>Content goes here...</p>
-    <!-- Toggle link -->
-    <p>
-      <span class="openCalculator" style="color:blue; cursor:pointer; text-decoration:underline;">
+    <div id="animalsSentence"></div> <br> 
+    <p>See how far your impact can go:</p>
+      <span class="openCalculator">
         Use our impact calculator
       </span>
     </p>
@@ -747,11 +849,9 @@
 <div id="popupForest" class="popup hidden">
   <div class="popup-content">
     <button class="popup-close">✖</button>
-    <h2>Forest Saved</h2>
-    <p>Content goes here...</p>
-    <!-- Toggle link -->
-    <p>
-      <span class="openCalculator" style="color:blue; cursor:pointer; text-decoration:underline;">
+    <div id="forestSentence"></div> <br> 
+    <p>See how far your impact can go:</p>
+      <span class="openCalculator">
         Use our impact calculator
       </span>
     </p>
@@ -762,11 +862,9 @@
 <div id="popupWater" class="popup hidden">
   <div class="popup-content">
     <button class="popup-close">✖</button>
-    <h2>Water Saved</h2>
-    <p>Content goes here...</p>
-    <!-- Toggle link -->
-    <p>
-      <span class="openCalculator" style="color:blue; cursor:pointer; text-decoration:underline;">
+    <div id="waterSentence"></div> <br> 
+    <p>See how far your impact can go:</p>
+      <span class="openCalculator">
         Use our impact calculator
       </span>
     </p>
@@ -777,11 +875,9 @@
 <div id="popupCO2" class="popup hidden">
   <div class="popup-content">
     <button class="popup-close">✖</button>
-    <h2>CO₂ Reduced</h2>
-    <p>Content goes here...</p>
-    <!-- Toggle link -->
-    <p>
-      <span class="openCalculator" style="color:blue; cursor:pointer; text-decoration:underline;">
+    <div id="co2Sentence"></div> <br> 
+    <p>See how far your impact can go:</p>
+      <span class="openCalculator">
         Use our impact calculator
       </span>
     </p>
@@ -792,8 +888,26 @@
 <div id="impactcalculator" class="popup hidden">
   <div class="popup-content">
     <button class="popup-close">✖</button>
-    <h2>Impact Calculator</h2>
-    <p>Calculator content goes here...</p>
+    <h2 id="ImpactCalcTitle">Impact Calculator</h2>
+
+    <div class="calculator-inputs">
+      <label>
+        Years:
+        <input type="number" id="years" min="0" value="0">
+      </label>
+      <label>
+        Months:
+        <input type="number" id="months" min="0" max="11" value="0">
+      </label>
+      <button id="calculateImpactBtn">Calculate Impact</button>
+    </div>
+
+    <div class="calculator-results hidden" id="impactResults">
+      <p>Animals saved: <span class="highlight" id="calcAnimals">0</span></p>
+      <p>Forest saved: <span class="highlight" id="calcForest">0</span> m²</p>
+      <p>Water saved: <span class="highlight" id="calcWater">0</span> liters</p>
+      <p>CO₂ reduced: <span class="highlight" id="calcCO2">0</span> kg</p>
+    </div>
   </div>
 </div>
 
@@ -869,9 +983,9 @@
 </div> 
 
 <script type="module" src="scriptpools.js"></script>
-<script type="module" src="scriptcalculationandinserts.js"></script>
 <script type="module" src="scriptfunctions.js"></script>
 <script type="module" src="scriptreads.js"></script>
+<script type="module" src="scriptmealartcontest.js"></script> 
 <script src="scriptbuttons.js"></script>
 
   <script type="module">

@@ -1979,3 +1979,543 @@ h2 {
   border-radius: 3px;
 }
 
+/* IMPACTS+CALCULATOR */
+/* IMPACTS+CALCULATOR */
+/* IMPACTS+CALCULATOR */
+/* IMPACTS+CALCULATOR */
+
+/* Sentences inside */
+#animalsSentence,
+#forestSentence,
+#waterSentence,
+#co2Sentence {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #2c3e50;
+  margin-bottom: 16px;
+  line-height: 1.5;
+  padding: 0.5rem;
+}
+
+/* Intro line */
+.popup-content p {
+  font-size: 1rem;
+  color: #444;
+}
+
+/* Open Calculator link */
+.openCalculator {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c8e6e;
+  cursor: pointer;
+  text-decoration: none;
+  border-bottom: 2px solid #2c8e6e;
+  transition: all 0.2s ease;
+}
+.openCalculator:hover {
+  color: #1f5f4a;
+  border-bottom-color: #1f5f4a;
+  transform: scale(1.05);
+}
+
+/* Subtle animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.highlight {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  font-weight: 700;
+  color: #2c8e6e;
+  background: rgba(44, 142, 110, 0.1);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.calculator-inputs label {
+  display: block;
+  margin: 8px 0;
+  font-size: 1.1rem;
+}
+/* Make all inputs same width */
+.calculator-inputs input[type="number"] {
+  width: 100px;      /* same fixed width for both */
+  padding: 6px 8px;  /* some padding for comfort */
+  font-size: 1.2rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-left: 8px;  /* space between label text and input */
+  box-sizing: border-box;
+}
+
+#calculateImpactBtn {
+  margin-top: 8px;
+  font-size: 1.2rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #2c8e6e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+#calculateImpactBtn:hover {
+  background-color: #1f5f4a;
+}
+
+#ImpactCalcTitle {
+    font-size: 1.5rem;
+    padding: 0.5rem;
+}
+
+/* MealArtContest */
+/* MealArtContest */
+/* MealArtContest */
+/* MealArtContest */
+/* MealArtContest */
+
+.hidden-meal {
+    display: none;
+}
+
+/* General container */
+#mealArtContest {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Header / Intro */
+.meal-art-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.meal-art-header h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.meal-art-header p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+/* Main Tabs */
+.meal-art-main-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.main-tab {
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background-color: #eee;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.main-tab.active {
+  background-color: #6ab04c;
+  color: white;
+}
+
+/* Tab Content */
+.main-tab-content {
+  display: none; /* JS will toggle */
+}
+
+/* Upload Section */
+.upload-section {
+  margin-bottom: 20px;
+  border-top: 1px solid #ccc;
+  padding-top: 15px;
+}
+
+.upload-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.upload-section button {
+  
+  padding: 8px 15px;
+  background-color: #6ab04c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Participants / Past Winners container */
+.participants-gallery,
+.past-winners-columns {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: nowrap; /* Keep columns side by side */
+}
+
+/* Simple vertical divider between the two columns */
+.category-column:nth-child(2) {
+  position: relative;
+  padding-left: 20px; /* space for the line */
+}
+
+.category-column:nth-child(2)::before {
+  content: "";
+  position: absolute;
+  left: 0;  /* position at the start of the column */
+  top: 0;
+  bottom: 0;
+  width: 2px; /* thickness of the line */
+  background-color: #ccc; /* simple grey color */
+}
+
+/* Each category column */
+.category-column {
+  flex: 1; /* Equal width for both columns */
+  min-width: 40%; /* Optional: ensures columns don't get too small */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Column heading */
+.category-column h4 {
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Gallery / winner list images */
+.current-week-gallery,
+.winner-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.current-week-gallery img,
+.winner-list img {
+  width: 100%; /* adjust size */
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.meal-item {
+  margin: 10px;
+  text-align: center;
+}
+
+.meal-item img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.recipe-label {
+  display: block;
+  font-size: 1rem;
+  color: #555;
+}
+
+.recipe-available {
+  color: green; /* green when recipe is available */
+  cursor: pointer; /* optional: indicate it's clickable */
+}
+
+.delete-meal-btn {
+  margin-top: 5px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.delete-meal-btn:hover {
+  background-color: #c0392b;
+}
+
+
+.modal {
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close {
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+
+/* Responsive: stack columns on small screens */
+@media (max-width: 90%) {
+  .participants-gallery,
+  .past-winners-columns {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .category-column {
+    width: 100%;
+  }
+}
+
+/* Header Buttons Container */
+.header-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 15px;
+  flex-direction: column;
+}
+
+/* Common Button Styles */
+.header-buttons button {
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Upload Button Style */
+#uploadBtn {
+  background-color: #6ab04c; /* bright green */
+  margin-bottom: -0.4rem;
+  font-size: 1.1rem;
+}
+
+/* Locked style for buttons */
+button.locked {
+  opacity: 0.5;
+  position: relative;
+  pointer-events: none;
+}
+
+button.locked::after {
+  content: attr(data-unlock);
+  position: absolute;
+  inset: 0;
+  background: rgba(138, 138, 138, 0.6);
+  color: rgba(255, 255, 255, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: inherit;
+  font-size: 0.9em;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+.uploadnote {
+  font-size: 0.6rem;
+  color: green;
+}
+.votenote {
+  font-size: 0.6rem;
+  color: green;
+}
+
+.uploadnote a {
+  text-decoration: underline;
+  color: inherit; /* keeps same color as parent */
+}
+.votenote a {
+  text-decoration: underline;
+  color: inherit; /* keeps same color as parent */
+}
+
+#uploadBtn:hover {
+  background-color: #5aa33f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+}
+
+/* Vote Button Style */
+#voteBtn {
+  background-color: #f39c12; /* warm orange */
+}
+
+#voteBtn:hover {
+  background-color: #d88b0c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+}
+
+/* Responsive: smaller on mobile */
+@media (max-width: 500px) {
+  .header-buttons button {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Recipe Modal Content */
+#mealArtrecipeModal .modal-content {
+  position: relative; /* needed for absolute positioning of close button */
+  display: flex;
+  flex-direction: column;
+  text-align: center;       /* centers text */
+  padding: 20px 20px 40px;  /* extra bottom padding for spacing */
+  max-width: 500px;         /* limit width */
+  margin: auto;        /* center on screen */
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Close button top-right */
+#mealArtcloseModal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Change color on hover */
+#mealArtcloseModal:hover {
+  color: #ff4d4d;
+}
+
+/* Food Name bigger */
+#mealArtmodalFoodName {
+  font-size: 2rem;   /* larger */
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.top-icons {
+  display: flex;
+  gap: 1rem;
+}
+
+.top-icons div {
+  font-size: 1.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+
+.recipe-note {
+  font-size: 0.9rem;
+  color: green;
+}
+.UploadYourMeal{
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 0;
+    }
+.rule {
+      font-size: 0.8rem;
+      text-align: center;
+      margin-bottom: 0.7rem;
+      color: #218838;
+    }
+
+h2 {
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    form {
+      max-width: 90%;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    label {
+      font-size: 1.2rem;
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      font-size: 1rem;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    input[type="file"] {
+      padding: 6px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .optional-label {
+      font-weight: normal;
+      color: #777;
+      font-size: 13px;
+    }
+
+    .mealArtpreview img {
+      max-width: 60%;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: block;
+      margin: auto;
+      margin-top: 0;
+      margin-bottom: 0.4rem;
+    }
+
+    #sbmtMealArtBtn{
+      display: block;
+      margin: auto;
+    }

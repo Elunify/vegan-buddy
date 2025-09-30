@@ -277,7 +277,6 @@ if (profile.health_issues && profile.health_issues.length > 0) {
     document.getElementById('youWater').textContent   = formatNumber(Math.round(profile.water_saved || 0));
     document.getElementById('youCO2').textContent     = formatNumber(Math.round(profile.co2_saved || 0));
 
-
   // ===== Load global impact =====
   const { data: globalImpact, error: globalError } = await supabase
     .from('global_impact')
@@ -326,6 +325,7 @@ if (petNameEl && profile.pet_name) {
   renderPet(petDisplay);
   renderPet(petAvatar);
   
+  return profile;
 }
 
 
@@ -974,4 +974,3 @@ async function resizeImageToSquare(file, size = 500) {
     reader.readAsDataURL(file);
   });
 }
-

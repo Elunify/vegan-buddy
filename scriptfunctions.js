@@ -610,22 +610,48 @@ async function saveExtraLessonProgress() {
   const user = await getCurrentUser();
   if (!user) return;
 
+  // Fetch current progress and XP
+  const { data: profileData, error: fetchError } = await supabase
+    .from("profiles")
+    .select("extra_lesson, total_xp")
+    .eq("id", user.id)
+    .single();
+
+  if (fetchError) { console.error(fetchError); return; }
+
+  const previousProgress = profileData?.extra_lesson || {};
+  let totalXp = profileData?.total_xp || 0;
+
   const progress = {};
+  let newLessonsCompleted = 0;
+
   Object.keys(extralessonsData).forEach(courseId => {
     progress[courseId] = [];
     const lessons = document.querySelectorAll(`#${courseId} .extralesson`);
     lessons.forEach((lesson, idx) => {
-      if (lesson.classList.contains("completed")) progress[courseId].push(idx + 1);
+      if (lesson.classList.contains("completed")) {
+        progress[courseId].push(idx + 1);
+
+        // Count only new completions to add XP
+        if (!previousProgress[courseId] || !previousProgress[courseId].includes(idx + 1)) {
+          newLessonsCompleted++;
+        }
+      }
     });
   });
 
+  // Add +2 XP for each new completed lesson
+  totalXp += newLessonsCompleted * 2;
+
   const { error } = await supabase
     .from("profiles")
-    .update({ extra_lesson: progress })
+    .update({ extra_lesson: progress, total_xp: totalXp })
     .eq("id", user.id);
 
   if (error) console.error("Error saving extra lesson progress:", error);
+  loadProfile();
 }
+
 
 async function loadExtraLessonProgress() {
   const user = await getCurrentUser();
@@ -669,7 +695,70 @@ document.querySelectorAll(".learning-path-buttons .path-btn").forEach(btn => {
 // Recipes
 // Recipes
 
+// Constants for comparisons
+const sheetsPerTree = 8000;
+const forestAreaPerTree = 10; // m²
+const showerWaterUse = 65; // liters
+const co2PerCarHour = 10; // kg
 
+function injectComparisonSentences(profile) {
+  const animals = Math.round(profile.animals_saved || 0);
+  const forest  = Math.round(profile.forest_saved || 0);
+  const water   = Math.round(profile.water_saved || 0);
+  const co2     = Math.round(profile.co2_saved || 0);
+
+  // Calculate equivalents
+  const treesSaved = forest / forestAreaPerTree;
+  const paperEquivalent = Math.round(treesSaved * sheetsPerTree);
+  const showerEquivalent = Math.round(water / showerWaterUse);
+  const carTimeEquivalent = (co2 / co2PerCarHour).toFixed(1);
+
+  // Inject into separate blocks with highlighted values
+document.getElementById("animalsSentence").innerHTML =
+  `Because of you, <span class="highlight">${animals}</span> animals are safe — imagine them as happy friends roaming, swimming, and enjoying life freely!`;
+
+document.getElementById("forestSentence").innerHTML =
+  `With your choices, you’ve protected <span class="highlight">${forest}</span> m² of forest — that’s like saving <span class="highlight">${paperEquivalent}</span> sheets of paper from ever being used!`;
+
+document.getElementById("waterSentence").innerHTML =
+  `By choosing plant-based meals, you’ve saved <span class="highlight">${water}</span> liters of water — enough for <span class="highlight">${showerEquivalent}</span> refreshing showers!`;
+
+document.getElementById("co2Sentence").innerHTML =
+  `Your actions cut down <span class="highlight">${co2}</span> kg of CO₂ emissions — the same as avoiding <span class="highlight">${carTimeEquivalent}</span> hours of car travel!`;
+}
+
+// 🔥 load profile first, then inject
+loadProfile().then(profile => {
+  if (profile) {
+    injectComparisonSentences(profile);
+  }
+});
+
+document.getElementById('calculateImpactBtn').addEventListener('click', () => {
+  const years = parseInt(document.getElementById('years').value) || 0;
+  const months = parseInt(document.getElementById('months').value) || 0;
+  const totalMonths = years * 12 + months;
+
+  // Impact per month constants
+  const animalsSavedPerMonth = 21;
+  const forestSavedPerMonth = 15; // m²
+  const waterSavedPerMonth = 2000; // liters
+  const co2SavedPerMonth = 120; // kg
+
+  // Calculate total impact
+  const animalsSaved = animalsSavedPerMonth * totalMonths;
+  const forestSaved = forestSavedPerMonth * totalMonths;
+  const waterSaved = waterSavedPerMonth * totalMonths;
+  const co2Saved = co2SavedPerMonth * totalMonths;
+
+  // Inject results and show container
+  document.getElementById('calcAnimals').textContent = animalsSaved;
+  document.getElementById('calcForest').textContent = forestSaved;
+  document.getElementById('calcWater').textContent = waterSaved;
+  document.getElementById('calcCO2').textContent = co2Saved;
+
+  document.getElementById('impactResults').classList.remove('hidden');
+});
 
 
 
