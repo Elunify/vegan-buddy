@@ -71,7 +71,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error(err);
     return;
   }
+  // After fetching currentUser and profile
+try {
+  // Check if the user already uploaded a meal this week
+  const { data: existingMeals, error: existingError } = await supabase
+    .from("meals")
+    .select("*")
+    .eq("user_id", currentUser.id)
+    .eq("is_winner", false); // only current contest entries
 
+  if (existingError) throw existingError;
+
+  if (existingMeals && existingMeals.length > 0) {
+    // User already uploaded a meal: hide upload button, show already-uploaded message
+    uploadBtn.style.display = "none";
+    document.getElementById("alreadyUploadedMsg").style.display = "block";
+    uploadnote.style.display = "none";
+  } else {
+    // User can upload
+    uploadBtn.style.display = "inline-block";
+    uploadnote.style.display = profile.is_pro ? "none" : "inline-block";
+
+    if (profile.is_pro || (profile.current_level || 0) >= 10) {
+      uploadBtn.classList.remove("locked");
+      uploadBtn.removeAttribute("data-unlock");
+      uploadBtn.style.pointerEvents = "auto";
+      uploadBtn.style.opacity = "1";
+    }
+  }
+} catch (err) {
+  console.error("Error checking existing meals:", err);
+}
   // --- FETCH MEALS ---
   let meals = [];
   try {
@@ -112,19 +142,34 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     mealDiv.append(img, nameP, recipeSpan);
 
-    // Delete button
-    if (meal.user_id === currentUser.id && !meal.is_winner && today !== 1) {
-      const delBtn = document.createElement("button");
-      delBtn.className = "delete-meal-btn";
-      delBtn.textContent = "Delete";
-      delBtn.addEventListener("click", async () => {
-        if (!confirm("Are you sure you want to delete this meal?")) return;
-        const { error } = await supabase.from("meals").delete().eq("id", meal.id);
-        if (error) alert("Error deleting meal: " + error.message);
-        else mealDiv.remove();
-      });
-      mealDiv.appendChild(delBtn);
+    // Delete button for own meal
+if (meal.user_id === currentUser.id && !meal.is_winner && today !== 1) {
+  const delBtn = document.createElement("button");
+  delBtn.className = "delete-meal-btn";
+  delBtn.textContent = "Delete";
+  delBtn.addEventListener("click", async () => {
+    if (!confirm("Are you sure you want to delete this meal?")) return;
+
+    const { error } = await supabase.from("meals").delete().eq("id", meal.id);
+    if (error) {
+      alert("Error deleting meal: " + error.message);
+    } else {
+      // Remove the meal div from the gallery
+      mealDiv.remove();
+
+      // Show the upload button again
+      const uploadBtn = document.getElementById("uploadBtn");
+      if (uploadBtn) uploadBtn.style.display = "block";
+
+      // Hide the "already uploaded" message
+      const alreadyUploadedMsg = document.getElementById("alreadyUploadedMsg");
+      if (alreadyUploadedMsg) alreadyUploadedMsg.style.display = "none";
     }
+  });
+  mealDiv.appendChild(delBtn);
+}
+    
+setupMealPopups();
 
     // Append to gallery
     if (meal.is_winner) {
@@ -157,41 +202,74 @@ document.addEventListener("DOMContentLoaded", async () => {
         .eq("week_start_date", weekStr)
         .maybeSingle();
 
-      gallery.querySelectorAll(".meal-item").forEach(async meal => {
-        const radio = document.createElement("input");
-        radio.type = "radio";
-        radio.name = `${isPro}-vote`;
-        radio.value = meal.dataset.id;
-        radio.style.marginRight = "5px";
-        if (existingVote) radio.disabled = true;
+      for (const meal of gallery.querySelectorAll(".meal-item")) {
+  const radio = document.createElement("input");
+  radio.type = "radio";
+  radio.name = `${isPro}-vote`;
+  radio.value = meal.dataset.id;
+  radio.style.marginRight = "5px";
+  if (existingVote) radio.disabled = true;
 
-        const { data: mealData } = await supabase.from("meals").select("votes").eq("id", meal.dataset.id).single();
-        const votesCount = mealData?.votes || 0;
-        const votesSpan = document.createElement("span");
-        votesSpan.textContent = `Votes: ${votesCount}`;
-        votesSpan.style.marginLeft = "10px";
+  // Fetch current votes for this meal
+  const { data: mealData } = await supabase
+    .from("meals")
+    .select("votes")
+    .eq("id", meal.dataset.id)
+    .single();
+  const votesCount = mealData?.votes || 0;
 
-        meal.prepend(radio);
-        meal.appendChild(votesSpan);
-      });
+  // Create or find the votes span
+  let votesSpan = meal.querySelector(".votes-span");
+  if (!votesSpan) {
+    votesSpan = document.createElement("span");
+    votesSpan.classList.add("votes-span");
+    votesSpan.style.marginLeft = "10px";
+    meal.appendChild(votesSpan);
+  }
+  votesSpan.textContent = `Votes: ${votesCount}`;
+
+  // Add the radio button
+  meal.prepend(radio);
+}
 
       const submitBtn = document.createElement("button");
       submitBtn.textContent = "Submit Vote";
+      submitBtn.classList.add("button");
       submitBtn.style.marginTop = "10px";
       submitBtn.disabled = !!existingVote;
       submitBtn.addEventListener("click", async () => {
         const selected = gallery.querySelector(`input[name='${isPro}-vote']:checked`);
-        if (!selected) return alert("Please select a meal to vote!");
-        const mealId = selected.value;
-        await supabase.from("votes").insert([{ user_id: currentUser.id, meal_id: mealId, category: isPro, week_start_date: weekStr }]);
-        const { data: mealData } = await supabase.from("meals").select("votes").eq("id", mealId).single();
-        const currentVotes = mealData?.votes || 0;
-        await supabase.from("meals").update({ votes: currentVotes + 1 }).eq("id", mealId);
-        selected.parentElement.querySelector("span").textContent = `Votes: ${currentVotes + 1}`;
-        gallery.querySelectorAll("input").forEach(r => r.disabled = true);
-        submitBtn.disabled = true;
-        alert("Vote submitted! Thank you.");
-      });
+  if (!selected) return alert("Please select a meal to vote!");
+  
+  const mealId = selected.value;
+
+  // Insert the vote
+  await supabase.from("votes").insert([{
+    user_id: currentUser.id,
+    meal_id: mealId,
+    category: isPro,
+    week_start_date: weekStr
+  }]);
+
+  // Find the votes span next to the selected meal
+  const votesSpan = selected.parentElement.querySelector(".votes-span");
+
+  // Get current count from the span text
+  let currentVotes = parseInt(votesSpan.textContent.replace("Votes: ", "")) || 0;
+  
+  // Increment locally
+  currentVotes += 1;
+  votesSpan.textContent = `Votes: ${currentVotes}`;
+
+  // Disable all radios and the submit button
+  gallery.querySelectorAll("input").forEach(r => r.disabled = true);
+  submitBtn.disabled = true;
+
+  // Update the DB asynchronously (optional)
+  await supabase.from("meals").update({ votes: currentVotes }).eq("id", mealId);
+
+  alert("Vote submitted! Thank you.");
+});
 
       gallery.parentElement.appendChild(submitBtn);
     };
@@ -280,21 +358,29 @@ document.addEventListener("DOMContentLoaded", async () => {
     const weekStartDate = new Date();
     weekStartDate.setDate(weekStartDate.getDate() - weekStartDate.getDay() + 1);
 
-    const { error: mealError } = await supabase.from("meals").insert([{
-      user_id: currentUser.id,
-      uploader_name: profile.name || "Anonymous",
-      is_pro: isProCategory,
-      image_url: imageUrl,
-      food_name: foodName,
-      ingredients,
-      instructions,
-      recipe_available: recipeAvailable,
-      week_start_date: weekStartDate.toISOString().split('T')[0]
-    }]);
-    if (mealError) return alert("Error saving meal: " + mealError.message);
+    // After inserting the meal
+const { data: newMeals, error: mealError } = await supabase
+  .from("meals")
+  .insert([{
+    user_id: currentUser.id,
+    uploader_name: profile.name || "Anonymous",
+    is_pro: isProCategory,
+    image_url: imageUrl,
+    food_name: foodName,
+    ingredients,
+    instructions,
+    recipe_available: recipeAvailable,
+    week_start_date: weekStartDate.toISOString().split('T')[0]
+  }])
+  .select(); // <--- returns the inserted row
+
+if (mealError) return alert("Error saving meal: " + mealError.message);
 
     alert("Meal uploaded successfully!");
-    refreshParticipants(currentUser);
+    refreshParticipants(newMeals[0], currentUser, today, homeChefGallery, proKitchenGallery, homeChefWinners, proKitchenWinners);
+    uploadBtn.style.display = "none";
+    document.getElementById("alreadyUploadedMsg").style.display = "block";
+    uploadnote.style.display = "none";
     form.reset();
     previewImage.src = "";
     photoPreview.style.display = "none";
@@ -309,74 +395,82 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // --- REFRESH PARTICIPANTS ---
 // --- REFRESH PARTICIPANTS ---
-async function refreshParticipants(currentUser) {
-  try {
-    // Fetch all meals where is_winner = false (current contest entries)
-    const { data: meals, error } = await supabase
-      .from("meals")
-      .select("*")
-      .eq("is_winner", false);
+// --- REFRESH PARTICIPANTS ---
+async function refreshParticipants(meal , currentUser, today, homeChefGallery, proKitchenGallery, homeChefWinners, proKitchenWinners) {
+    const mealDiv = document.createElement("div");
+    mealDiv.className = "meal-item";
+    mealDiv.dataset.id = meal.id;
 
-    if (error) {
-      console.error("Error fetching participants:", error.message);
-      return;
+    const img = document.createElement("img");
+    img.src = meal.image_url;
+    img.alt = `${meal.uploader_name}'s meal`;
+
+    const nameP = document.createElement("p");
+    nameP.textContent = meal.uploader_name;
+
+    const recipeSpan = document.createElement("span");
+    recipeSpan.className = "recipe-label";
+    recipeSpan.textContent = meal.recipe_available ? "Recipe available" : "No recipe";
+    if (meal.recipe_available) {
+      recipeSpan.classList.add("recipe-available");
+      recipeSpan.addEventListener("click", () => showRecipeModal(meal));
     }
 
-    const homeChefGallery = document.getElementById("home-chef-gallery");
-    const proKitchenGallery = document.getElementById("pro-kitchen-gallery");
+    mealDiv.append(img, nameP, recipeSpan);
 
-    // Clear galleries first
-    homeChefGallery.innerHTML = "";
-    proKitchenGallery.innerHTML = "";
+    // Delete button for own meal
+if (meal.user_id === currentUser.id && !meal.is_winner && today !== 1) {
+  const delBtn = document.createElement("button");
+  delBtn.className = "delete-meal-btn";
+  delBtn.textContent = "Delete";
+  delBtn.addEventListener("click", async () => {
+    if (!confirm("Are you sure you want to delete this meal?")) return;
 
-    const today = new Date().getDay(); // Sunday=0, Monday=1
+    const { error } = await supabase.from("meals").delete().eq("id", meal.id);
+    if (error) {
+      alert("Error deleting meal: " + error.message);
+    } else {
+      // Remove the meal div from the gallery
+      mealDiv.remove();
 
-    // Render each meal
-    meals.forEach(meal => {
-      const mealDiv = document.createElement("div");
-      mealDiv.className = "meal-item";
-      mealDiv.dataset.id = meal.id;
+      // Show the upload button again
+      const uploadBtn = document.getElementById("uploadBtn");
+      if (uploadBtn) uploadBtn.style.display = "block";
 
-      // Meal image
-      const img = document.createElement("img");
-      img.src = meal.image_url;
-      img.alt = `${meal.uploader_name}'s meal`;
-
-      // Uploader name
-      const nameP = document.createElement("p");
-      nameP.textContent = meal.uploader_name;
-
-      // Recipe label
-      const recipeSpan = document.createElement("span");
-      recipeSpan.className = "recipe-label";
-      recipeSpan.textContent = meal.recipe_available ? "Recipe available" : "No recipe";
-      if (meal.recipe_available) {
-        recipeSpan.classList.add("recipe-available");
-        recipeSpan.addEventListener("click", () => showRecipeModal(meal));
-      }
-
-      mealDiv.append(img, nameP, recipeSpan);
-
-      // Delete button for own meal
-      if (meal.user_id === currentUser.id && !meal.is_winner && today !== 1) {
-        const delBtn = document.createElement("button");
-        delBtn.className = "delete-meal-btn";
-        delBtn.textContent = "Delete";
-        delBtn.addEventListener("click", async () => {
-          if (!confirm("Are you sure you want to delete this meal?")) return;
-          const { error } = await supabase.from("meals").delete().eq("id", meal.id);
-          if (error) alert("Error deleting meal: " + error.message);
-          else mealDiv.remove();
-        });
-        mealDiv.appendChild(delBtn);
-      }
-
-      // Append to correct gallery
-      (meal.is_pro ? proKitchenGallery : homeChefGallery).appendChild(mealDiv);
-    });
-  } catch (err) {
-    console.error("Unexpected error refreshing participants:", err);
-  }
+      // Hide the "already uploaded" message
+      const alreadyUploadedMsg = document.getElementById("alreadyUploadedMsg");
+      if (alreadyUploadedMsg) alreadyUploadedMsg.style.display = "none";
+    }
+  });
+  mealDiv.appendChild(delBtn);
 }
+    
+setupMealPopups();
+
+    // Append to gallery
+    if (meal.is_winner) {
+      (meal.is_pro ? proKitchenWinners : homeChefWinners).appendChild(mealDiv);
+    } else {
+      (meal.is_pro ? proKitchenGallery : homeChefGallery).appendChild(mealDiv);
+    }
+  };
 
 
+function setupMealPopups() {
+  const popup = document.getElementById("mealPopup");
+  const popupImg = document.getElementById("popupMealImage");
+  const closeBtn = popup.querySelector(".popup-close");
+
+  closeBtn.addEventListener("click", () => popup.classList.add("hidden"));
+  popup.addEventListener("click", e => {
+    if (e.target === popup) popup.classList.add("hidden");
+  });
+
+  // Make each meal image clickable
+  document.querySelectorAll(".meal-item img").forEach(img => {
+    img.addEventListener("click", () => {
+      popupImg.src = img.src;
+      popup.classList.remove("hidden");
+    });
+  });
+}

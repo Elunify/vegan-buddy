@@ -294,3 +294,334 @@ document.getElementById("close-lesson").addEventListener("click", () => {
     openLesson.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 });
+
+
+
+
+
+//  Scan and Map
+//  Scan and Map
+//  Scan and Map
+//  Scan and Map
+
+// =======================
+// GLOBAL VARIABLES
+// =======================
+let stream = null;
+let scanning = false; // NEW FLAG
+let lastBarcode = null;
+let cachedProducts = JSON.parse(localStorage.getItem('veganProducts')) || {};
+let scanTimeout = null;
+
+let map;
+let infowindow;
+let lastFetchLocation = null;
+let fetchTimeout = null;
+const FETCH_INTERVAL = 1000; // ms
+const MIN_MOVE_DISTANCE = 500; // meters
+
+// Start camera and barcode detection
+async function startCameraWithTimeout() {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    alert("Camera not supported in this browser.");
+    return;
+  }
+
+  try {
+    if (!stream) {
+      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      video.srcObject = stream;
+    }
+
+    scanning = true;
+    detectBarcode();
+
+    // Auto-stop camera after 10 seconds
+    if (scanTimeout) clearTimeout(scanTimeout);
+    scanTimeout = setTimeout(() => {
+      stopCamera();
+      // Reset UI
+      startScanBtn.classList.remove("hidden");
+      scanContainer.classList.add("hidden");
+      resultDiv.innerHTML = "";
+      lastBarcode = null;
+    }, 10000); // 10 seconds
+
+  } catch (err) {
+    alert("Camera access denied. Please allow camera permissions.");
+    console.error(err);
+  }
+}
+
+// =======================
+// SCAN ELEMENTS
+// =======================
+const startScanBtn = document.getElementById("startScanBtn");
+const scanContainer = document.getElementById("scanContainer");
+const video = document.getElementById('scanVideo');
+const resultDiv = document.getElementById('scanResult');
+const loader = document.getElementById('scanLoader');
+
+// =======================
+// SCAN FUNCTIONS
+// =======================
+
+// Start camera
+async function startCamera() {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    alert("Camera not supported in this browser.");
+    return;
+  }
+  try {
+    if (!stream) {
+      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      video.srcObject = stream;
+    }
+  } catch (err) {
+    alert("Camera access denied. Please allow camera permissions.");
+    console.error(err);
+  }
+}
+
+
+let scanLoopId = null; // store requestAnimationFrame ID
+
+// Start barcode detection loop
+async function detectBarcode() {
+  if (!('BarcodeDetector' in window)) {
+    resultDiv.textContent = "Your browser does not support the Barcode Detection API.";
+    return;
+  }
+
+  const barcodeDetector = new BarcodeDetector({ formats: ['ean_13', 'upc_a', 'upc_e'] });
+
+  async function scanLoop() {
+    if (!scanning) return; // STOP the loop if camera is off
+    try {
+      const barcodes = await barcodeDetector.detect(video);
+      if (barcodes.length > 0) {
+        stopCamera(); // stop camera when barcode is found
+        checkVegan(barcodes[0].rawValue);
+        return;
+      }
+      scanLoopId = requestAnimationFrame(scanLoop);
+    } catch (err) {
+      console.error(err);
+      requestAnimationFrame(scanLoop);
+    }
+  }
+
+  scanLoop();
+}
+
+// Stop camera
+function stopCamera() {
+  scanning = false;
+  if (scanTimeout) {
+    clearTimeout(scanTimeout);
+    scanTimeout = null;
+  }
+  if (stream) {
+    stream.getTracks().forEach(track => track.stop());
+    stream = null;
+    video.srcObject = null;
+  }
+}
+
+// Fetch product info
+async function checkVegan(barcode) {
+  if (barcode === lastBarcode) return;
+  lastBarcode = barcode;
+
+  if (cachedProducts[barcode]) {
+    displayProduct(cachedProducts[barcode]);
+    return;
+  }
+
+  loader.style.display = "block";
+  resultDiv.innerHTML = "";
+
+  try {
+    const response = await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
+    const data = await response.json();
+    loader.style.display = "none";
+
+    if (data.status === 0) {
+      resultDiv.textContent = "Product not found in database.";
+      return;
+    }
+
+    const product = data.product;
+    const productData = {
+      name: product.product_name || "Unknown product",
+      brands: product.brands || "N/A",
+      ingredients: product.ingredients_text || "Ingredients info not available",
+      vegan: product.labels_tags?.includes("en:vegan") || product.ingredients_text?.toLowerCase().includes("vegan"),
+      nutriScore: product.nutriscore_grade ? product.nutriscore_grade.toLowerCase() : null,
+      image: product.image_url || null
+    };
+
+    cachedProducts[barcode] = productData;
+    localStorage.setItem('veganProducts', JSON.stringify(cachedProducts));
+
+    displayProduct(productData);
+
+  } catch (error) {
+    loader.style.display = "none";
+    resultDiv.textContent = "Error fetching product info.";
+    console.error(error);
+  }
+}
+
+// Display product info with "Scan Again" button
+function displayProduct(product) {
+  let html = `<div class="recommendation-product-card">
+    ${product.image ? `<img src="${product.image}" alt="${product.name}">` : ''}
+    <h3>${product.name}</h3>
+    <p>${product.vegan ? "✅ This product is vegan!" : "❌ Not vegan or unknown."}</p>
+    <p><strong>Brands:</strong> ${product.brands}</p>
+    <p><strong>Ingredients:</strong> ${product.ingredients}</p>`;
+
+  if (product.nutriScore) {
+    html += `<p><strong>Nutri-Score:</strong> <span class="nutri-score nutri-${product.nutriScore}">${product.nutriScore.toUpperCase()}</span></p>`;
+  }
+
+  html += `</div>
+    <button id="scanAgainBtn" class="scan-again-btn">🔄 Scan Again</button>`;
+
+  resultDiv.innerHTML = html;
+
+  const scanAgainBtn = document.getElementById("scanAgainBtn");
+  if (scanAgainBtn) {
+    scanAgainBtn.addEventListener("click", () => {
+      lastBarcode = null;
+      resultDiv.innerHTML = "";
+      startCamera().then(detectBarcode);
+    });
+  }
+}
+
+// =======================
+// SCAN BUTTON CLICK
+// =======================
+// Scan button
+startScanBtn.addEventListener("click", () => {
+  startScanBtn.classList.add("hidden");
+  scanContainer.classList.remove("hidden");
+  startCameraWithTimeout();
+});
+
+// =======================
+// MAP FUNCTIONS
+// =======================
+function getDistanceMeters(loc1, loc2) {
+  const R = 6371000;
+  const toRad = x => x * Math.PI / 180;
+  const dLat = toRad(loc2.lat - loc1.lat);
+  const dLng = toRad(loc2.lng - loc1.lng);
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(loc1.lat)) * Math.cos(toRad(loc2.lat)) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function fetchRestaurants(location) {
+  const service = new google.maps.places.PlacesService(map);
+  const mapResult = document.getElementById("mapResult");
+
+  service.nearbySearch({ location, radius: 5000, keyword: "vegan restaurant" }, (results, status) => {
+    if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+      map.markers.forEach(m => m.setMap(null));
+      map.markers = [];
+      results.forEach(place => {
+        const marker = createMarker(place);
+        if (marker) map.markers.push(marker);
+      });
+      mapResult.textContent = "";
+    } else {
+      mapResult.textContent = "No vegan restaurants found nearby.";
+    }
+  });
+}
+
+function createMarker(place) {
+  if (!place.geometry || !place.geometry.location) return null;
+  const marker = new google.maps.marker.AdvancedMarkerElement({ map, position: place.geometry.location, title: place.name });
+  let content = place.photos?.length > 0 ? `<img src="${place.photos[0].getUrl({ maxWidth:200,maxHeight:150 })}" style="border-radius:8px;"><br>` : '';
+  content += `<strong>${place.name}</strong><br>${place.vicinity || ''}`;
+  marker.addListener("click", () => { infowindow.setContent(content); infowindow.open(map, marker); });
+  return marker;
+}
+
+window.initMap = async function() {
+  infowindow = new google.maps.InfoWindow();
+  const mapContainer = document.getElementById("mapContainer");
+
+  function setupMap(location) {
+    map = new google.maps.Map(mapContainer, { center: location, zoom: 14, mapId: "d69dd398ff7fbb3a41b37083" });
+    map.markers = [];
+    fetchRestaurants(location);
+
+    map.addListener("idle", () => {
+      if (fetchTimeout) clearTimeout(fetchTimeout);
+      fetchTimeout = setTimeout(() => {
+        const center = map.getCenter();
+        const currentLocation = { lat: center.lat(), lng: center.lng() };
+        if (!lastFetchLocation || getDistanceMeters(lastFetchLocation, currentLocation) > MIN_MOVE_DISTANCE) {
+          fetchRestaurants(currentLocation);
+          lastFetchLocation = currentLocation;
+        }
+      }, FETCH_INTERVAL);
+    });
+  }
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => setupMap({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+      () => setupMap({ lat: 39.4699, lng: -0.3763 }) // fallback
+    );
+  } else {
+    setupMap({ lat: 39.4699, lng: -0.3763 });
+  }
+};
+
+// =======================
+// TAB SWITCHING
+// =======================
+let currentTab = 'home'; // default tab
+
+function openTab(tabId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+  const page = document.getElementById(tabId);
+  if (page) page.classList.remove('hidden');
+
+  // Stop camera if leaving scan tab
+  if (currentTab === 'scan' && tabId !== 'scan') {
+    stopCamera();
+  }
+
+  currentTab = tabId;
+
+  // Initialize scan/map if necessary
+  if (tabId === "scan") {
+    startScanBtn.classList.remove("hidden");
+    scanContainer.classList.add("hidden"); // hide camera until button click
+  }
+  if (tabId === "restaurants" && !map) initMap();
+}
+
+// --- Global click listener to stop camera on page change ---
+document.body.addEventListener('click', e => {
+  const clickedTab = e.target.closest('button[data-tab]');
+  if (clickedTab && clickedTab.dataset.tab !== 'scan') {
+    stopCamera();
+  }
+});
+
+// =======================
+// BUTTON HANDLERS
+// =======================
+const scanBtn = document.getElementById("scanBtn");
+const mapBtn = document.getElementById("mapBtn");
+
+if (scanBtn) scanBtn.addEventListener('click', () => openTab("scan"));
+if (mapBtn) mapBtn.addEventListener('click', () => openTab("restaurants"));
+

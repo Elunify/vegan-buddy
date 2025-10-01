@@ -704,16 +704,100 @@
   <button id="openUploadBtn" class="upload-btn">➕ Upload Your Own Recipe</button>
     </div>
 
+<!-- Recommendations -->
+ <!-- Recommendations -->
+  <!-- Recommendations -->
+   <!-- Recommendations -->
+      <div id="recommendations" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      <h2 class="recommendation-title">📚 Recommendations</h2>
 
+  <!-- Books -->
+  <div class="recommendation-section" id="recommendation-books">
+    <h3 class="recommendation-subtitle">Books</h3>
+    <ul class="recommendation-list">
+      <li class="recommendation-item">
+        <strong>Book:</strong> "Harry Potter" series <em>by J.K. Rowling</em>
+      </li>
+      <li class="recommendation-item">
+        <strong>Book:</strong> "Sapiens: A Brief History of Humankind" <em>by Yuval Noah Harari</em>
+      </li>
+      <li class="recommendation-item">
+        <strong>Book:</strong> "The Vegan Way" <em>by Jackie Day</em>
+      </li>
+    </ul>
+  </div>
 
-    <div id="recommendations" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      ...Recommendations content... </div>
+  <!-- Movies -->
+  <div class="recommendation-section" id="recommendation-movies">
+    <h3 class="recommendation-subtitle">Movies</h3>
+    <ul class="recommendation-list">
+      <li class="recommendation-item">
+        <strong>Movie:</strong> "Soul" (Pixar, 2020)
+      </li>
+      <li class="recommendation-item">
+        <strong>Movie:</strong> "Okja" (Netflix, 2017)
+      </li>
+      <li class="recommendation-item">
+        <strong>Movie:</strong> "Into the Wild" (2007)
+      </li>
+    </ul>
+  </div>
+
+  <!-- Websites -->
+  <div class="recommendation-section" id="recommendation-websites">
+    <h3 class="recommendation-subtitle">Websites</h3>
+    <ul class="recommendation-list">
+      <li class="recommendation-item">
+        <strong>Website:</strong> <a href="https://www.vegan.com" target="_blank">Vegan.com</a>
+      </li>
+      <li class="recommendation-item">
+        <strong>Website:</strong> <a href="https://www.goodreads.com" target="_blank">Goodreads</a>
+      </li>
+      <li class="recommendation-item">
+        <strong>Website:</strong> <a href="https://www.imdb.com" target="_blank">IMDB</a>
+      </li>
+    </ul>
+  </div>
+    
+    
+    
+      </div>
 
     <!-- Explore subsections -->
+        <!-- Explore subsections -->
+            <!-- Explore subsections -->
+                <!-- Explore subsections -->
+
+<!-- Restaurant map -->
+ <!-- Restaurant map -->
+  <!-- Restaurant map -->
+   <!-- Restaurant map -->
     <div id="restaurants" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      ...Restaurants Map... </div>
+      <h2 class="map-title">Discover Vegan-Friendly Restaurants 🍴</h2>
+  <div id="mapContainer" class="map-container"></div>
+  <div id="mapResult" class="map-result"></div>
+
+  
+    </div>
+<!-- Scan -->
+ <!-- Scan -->
+  <!-- Scan -->
+   <!-- Scan -->
     <div id="scan" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      ...Scan Products... </div>
+      <h2 class="scan-title">Scan a Product for Information 📷</h2>
+
+      <button id="startScanBtn" class="button" style = "display:block; margin: auto;">📷 Scan Product</button>
+
+  <div id="scanContainer" class="scan-container">
+    <video id="scanVideo" width="300" height="300" autoplay></video>
+    <div id="scanLoader" class="scan-loader" style="display:none;">⏳ Scanning product...</div>
+    <div id="scanResult" class="scan-result"></div>
+  </div>
+
+  <!-- Leaflet CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    </div>
 
     <!-- Community subsections -->
     <div id="local" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
@@ -724,6 +808,8 @@
       ...Forum... </div>
     <div id="friends" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
       ...Friends... </div>
+    <div id="messages" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      ...Messages... </div>
     <div id="mentorship" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
       ...Mentorship... </div>
     <div id="success" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
@@ -766,6 +852,7 @@
           <button onclick="showSection('events')">Events</button>
           <button onclick="showSection('forum')">Forum</button>
           <button onclick="showSection('friends')">Friends</button>
+          <button onclick="showSection('messages')">Messages</button>
           <button onclick="showSection('mentorship')">Mentorship</button>
           <button onclick="showSection('success')">Success Stories</button>
         </div>
@@ -927,6 +1014,14 @@
   </div>
 </div>
 
+<!-- Popup: MealArt -->
+<div id="mealPopup" class="popup hidden">
+  <div class="popup-content">
+    <button class="popup-close">✖</button>
+    <img id="popupMealImage" src="" alt="Meal" class="meal-art-image">
+  </div>
+</div>
+
 <!-- Recipe Modal -->
 <div id="recipeModal" class="popup hidden">
   <div class="popup-content">
@@ -987,6 +1082,13 @@
 <script type="module" src="scriptreads.js"></script>
 <script type="module" src="scriptmealartcontest.js"></script> 
 <script src="scriptbuttons.js"></script>
+
+<!-- Optional: Google Maps API (if needed) -->
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwHL9UaF4A7qSZt_qkW2QrZVnQWXeVFNs&libraries=places,marker&callback=initMap"
+  async defer>
+</script>
+
 
   <script type="module">
   import { supabase } from "./supabaseClient.js";
