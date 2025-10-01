@@ -332,10 +332,18 @@
         <img src="characters/eluna.png" alt="Eluna" class="buddy-portraitsupportus" />
         <div class="buddy-text">
           <strong style="font-size: 1.1em; line-height: 1.3rem;">Eluna says:</strong><br> 
-          We believe in full transparency. Every euro you donate goes directly to projects that make a real difference for animals, people, and the planet. 
+       <!--   We believe in full transparency. Every euro you donate goes directly to projects that make a real difference for animals, people, and the planet. 
           Our organisation is non-profit, and every cent is used for impact — not profit. To keep you connected, we share regular videos on 
           <a href="https://www.instagram.com/app.elunify/" target="_blank" rel="noopener noreferrer">Instagram</a>
-          showing exactly where your donations go. Together, we can grow something bigger than ourselves.
+          showing exactly where your donations go. Together, we can grow something bigger than ourselves. -->
+
+          Our app is built with one goal: to inspire positive change for animals, people, and the planet. Unlike most apps, we don’t rely on ads or distractions — 
+          we focus entirely on creating a playful, meaningful experience that helps more people discover the joy and impact of this lifestyle.
+
+          By supporting us, you’re not funding profit — you’re helping keep this project alive, independent, and free from ads. 
+          Every contribution allows us to keep improving the app, adding new features, and reaching more people who want to make a difference.
+
+          Together, we’re building something bigger than ourselves — a movement for kindness, sustainability, and conscious living.
         </div>
       </div>
     </div>
@@ -800,20 +808,192 @@
     </div>
 
     <!-- Community subsections -->
+     <!-- Community subsections -->
+      <!-- Community subsections -->
+       <!-- Community subsections -->
+  
+<!-- Local Community -->
+ <!-- Local Community -->
+  <!-- Local Community -->
+   <!-- Local Community -->
+
     <div id="local" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      ...Local Community... </div>
-    <div id="events" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      ...Events... </div>
+      
+      <div id="communityCardWrapper">
+  <div class="community-card" id="joinCommunityCard">
+    <h5 class="localCommunityh2">Find your local community</h5>
+    <select id="countrySelect">
+      <option value="">Select country</option>
+    </select>
+    <select id="citySelect" disabled>
+      <option value="">Select city</option>
+    </select>
+    <button id="joinCommunityBtn" disabled>Join Community</button>
+    <button id="leaveCommunityBtn" style="display:none;">Leave Community</button>
+    <p id="joinedCommunityText" style="margin-top:1rem;"></p>
+  </div>
+
+  <!-- Community Dashboard (hidden by default) -->
+  <div class="community-dashboard" id="communityDashboard" style="display:none;">
+  <div class="community-section">
+    <h3 id="communityTitle"></h3> <!-- Title will be inserted here -->
+    <div class="community-section-header">Community Chat ▼</div>
+    <div class="community-section-content" id="communityChatSection">
+      <div id="communityMessages" class="chat-box"></div>
+      <input type="text" id="communityMessageInput" placeholder="Type a message...">
+      <button id="sendCommunityMessageBtn">Send</button>
+    </div>
+  </div>
+
+  <div class="community-section">
+    <div class="community-section-header">Upcoming Events ▼</div>
+    <div class="community-section-content" id="communityEventsSection">
+    
+    <ul id="communityEventsList">
+      <!-- Events populated dynamically -->
+    </ul>
+    <!-- Create Event Form -->
+    <div id="createEventForm">
+      <button id="createEventBtn">Create Event</button>
+      
+      <div id="createEventInputs" style="display:none; margin-top:0.5rem;">
+        <input type="text" id="eventPlaceInput" placeholder="Event place" />
+        <input type="text" id="eventDescriptionInput" placeholder="Description" />
+        <input type="datetime-local" id="eventTimeInput" />
+    <button id="submitEventBtn">Submit Event</button>
+      </div>
+    </div>
+
+  </div>
+  </div>
+
+  <div class="community-section">
+  <div class="community-section-header">Members ▼</div>
+  <div class="community-section-content" id="communityMembersSection" style="display: none;">
+    <ul id="communityMembersList">
+      <!-- Members populated dynamically -->
+    </ul>
+  </div>
+</div>
+
+  <button id="leaveCommunityDashboardBtn">Leave Community</button>
+</div>
+
+</div>
+    </div>
+
+<!-- Anonymous Forum -->
+ <!-- Anonymous Forum -->
+  <!-- Anonymous Forum -->
+   <!-- Anonymous Forum -->
     <div id="forum" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      ...Forum... </div>
+      
+      <!-- Anonymous forum -->
+    <section class="AFsection" id="forum">
+        <div class="AFsection-content">
+  <p class="forum-quote">
+  <span class="quote-text">
+    <em>"That is the best of humanity: When we support each other. Not when we cancel each other out for past mistakes, but when we help each other to grow."</em>
+  </span>
+  
+  <span class="quote-source">
+    <a href="https://www.youtube.com/watch?v=WVPw0UrjLuo" target="_blank" rel="noopener noreferrer" class="quote-link">
+      — Joaquin Phoenix, Oscars 2020
+    </a>
+  </span>
+  
+  <span class="forum-guideline">
+    Please share your thoughts kindly and help others grow 🧡
+  </span>
+</p>
+
+<ul id="forumMessages"></ul>
+
+      <div id="newBlock">
+    <textarea id="blockContent" placeholder="Open a topic anonymously..." rows="3"></textarea>
+    <button id="submitBlockBtn">Submit</button>
+      </div>
+      
+        </div>
+    </section>
+
+    <!-- Popup for comments -->
+<div id="AFcommentPopup" class="AFpopup hidden">
+  <div class="AFpopup-content">
+    <span id="AFclosePopup" class="close">&times;</span>
+    <div id="AFpopupBlockContent"></div>
+    <ul id="AFpopupCommentsList"></ul>
+    <input type="text" id="AFnewCommentInput" placeholder="Write your comment...">
+    <button class = "button" id="AFsubmitCommentBtn">Comment</button>
+  </div>
+</div>
+
+    </div>
+
+<!-- Friends -->
+ <!-- Friends -->
+  <!-- Friends -->
+   <!-- Friends -->
     <div id="friends" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      ...Friends... </div>
-    <div id="messages" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      ...Messages... </div>
+      <!-- Search / Send Request -->
+  <div class="friend-search-container">
+    <button id="openSearchPopup" class="search-btn">🔎 Search a Friend</button>
+  </div>
+
+  <div id="searchPopup" class="popup">
+    <div class="popup-content">
+      <span id="closeSearchPopup" class="close">&times;</span>
+      <input id="friendEmailInput" type="email" placeholder="Enter your friend's email." />
+      <button id="sendFriendRequestBtn">Send Request</button>
+    </div>
+  </div>
+
+  <!-- Incoming Requests -->
+  <ul id="incomingRequestsList"></ul>
+
+  <!-- Accepted Friends -->
+  <p class="friendsTitle">Friends:</p>
+  <ul id="friendsList"></ul>
+    </div>
+
+
+
+<!-- Messages -->
+ <!-- Messages -->
+  <!-- Messages -->
+   <!-- Messages -->
+<div id="messages" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      <h2>Messages</h2>
+    <div class="messages-container">
+      <div id="chatListView">
+        <div class="chat-list-header"><h3>Chats</h3></div>
+        <ul id="chatListItems"></ul>
+        <div id="newMessageBtn" class="new-message-btn" title="Start a new chat">＋</div>
+      </div>
+      <div id="chatView" style="display:none;">
+        <div class="chat-header">
+          <span id="backToList" class="back-arrow">⬅️</span>
+          <span id="chatHeader">Chat</span>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input">
+          <input type="text" id="messageInput" placeholder="Type a message...">
+          <button id="sendMessageBtn">Send</button>
+        </div>
+      </div>
+    </div>
+
+  <div id="newChatPopup" class="popup" style="display:none;">
+  <div class="popup-content">
+    <span id="closePopup" class="close">&times;</span>
+    <h3>Select a friend to message</h3>
+    <ul id="friendsListPopup"></ul>
+  </div>
+</div>
+
+</div>
     <div id="mentorship" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
       ...Mentorship... </div>
-    <div id="success" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      ...Success Stories... </div>
 
     <!-- Playground subsections -->
     <div id="avatar" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
@@ -849,12 +1029,10 @@
         <button>🌐 </button>
         <div class="dropdown-content">
           <button onclick="showSection('local')">Local Community</button>
-          <button onclick="showSection('events')">Events</button>
-          <button onclick="showSection('forum')">Forum</button>
+          <button onclick="showSection('forum')">Anonymous Forum</button>
           <button onclick="showSection('friends')">Friends</button>
           <button onclick="showSection('messages')">Messages</button>
           <button onclick="showSection('mentorship')">Mentorship</button>
-          <button onclick="showSection('success')">Success Stories</button>
         </div>
       </div>
       <div class="dropdown">

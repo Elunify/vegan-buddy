@@ -625,3 +625,20 @@ const mapBtn = document.getElementById("mapBtn");
 if (scanBtn) scanBtn.addEventListener('click', () => openTab("scan"));
 if (mapBtn) mapBtn.addEventListener('click', () => openTab("restaurants"));
 
+// Friends -->
+// Friends -->
+// Friends -->
+// Friends -->
+// Friends -->
+
+// === Popup controls ===
+const searchPopup = document.getElementById("searchPopup");
+document.getElementById("openSearchPopup").addEventListener("click", () => {
+  searchPopup.style.display = "flex";
+});
+document.getElementById("closeSearchPopup").addEventListener("click", () => {
+  searchPopup.style.display = "none";
+});
+window.addEventListener("click", e => {
+  if (e.target === searchPopup) searchPopup.style.display = "none";
+});

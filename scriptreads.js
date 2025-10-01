@@ -776,12 +776,34 @@ async function toggleLike(recipeId, userId) {
   }
 }
 
-
+let currentUser;
+let joinedLocationId = null;
+let firstLoad = true;
 
 // Initialize page
-document.addEventListener("DOMContentLoaded", () => {
-  loadRecipes();
+document.addEventListener("DOMContentLoaded", async () => {
+  // 1️⃣ Load recipes (doesn’t need currentUser)
+  await loadRecipes();
 
+  // 2️⃣ Load user
+  await initUser();  // sets currentUser
+
+  // 3️⃣ Load locations, forum, chat, etc.
+  await loadLocations();
+
+  // Forum blocks (needs currentUser)
+  await loadForumBlocks();
+
+  // Chat list (needs currentUser)
+  await loadChatList();
+
+  // ===== Load last open tab if available =====
+  const lastTab = localStorage.getItem("lastOpenTab");
+  if (lastTab && tabs[lastTab]) {
+    openTab(lastTab);
+  } else {
+    openTab("home"); // default tab
+  }
 
 // Elements
 const openUploadBtn = document.getElementById("openUploadBtn");
@@ -811,53 +833,28 @@ const imagePreview = document.getElementById("imagePreview");
 imageInput.addEventListener("change", async () => {
   const file = imageInput.files[0];
   if (!file) {
+    imagePreview.style.display = "none";
     imagePreview.innerHTML = '<span style="color:#999;">No image selected</span>';
     return;
   }
 
   try {
-    const resizedFile = await resizeImageToSquare(file, 300);
+    const resizedFile = await resizeImageToSquare(file, 500); // single size
     const url = URL.createObjectURL(resizedFile);
 
-    // Clear preview and show image
-    imagePreview.innerHTML = "";
-    const imgEl = document.createElement("img");
-    imgEl.src = url;
-    imgEl.style.width = "100%";
-    imgEl.style.height = "100%";
-    imgEl.style.objectFit = "cover"; // ensures cropped fit
-    imagePreview.appendChild(imgEl);
+    // show preview
+    previewImg.src = url;
+    imagePreview.style.display = "flex";
 
-    // Store resized file to use on upload
+    // store file for submission
     imageInput.resizedFile = resizedFile;
-
   } catch (err) {
     console.error(err);
+    imagePreview.style.display = "none";
     imagePreview.innerHTML = '<span style="color:red;">Failed to preview image</span>';
   }
 });
 
-const previewImg = document.getElementById("previewImg");
-
-imageInput.addEventListener("change", async () => {
-  const file = imageInput.files[0];
-  if (!file) {
-    imagePreview.style.display = "none"; // hide preview if nothing selected
-    return;
-  }
-
-  try {
-    const resizedFile = await resizeImageToSquare(file, 500); // square 500x500
-    const url = URL.createObjectURL(resizedFile);
-
-    previewImg.src = url;
-    imagePreview.style.display = "flex"; // show preview
-    imageInput.resizedFile = resizedFile; // store for submit
-  } catch (err) {
-    console.error(err);
-    imagePreview.style.display = "none"; // hide on error
-  }
-});
 
 // Upload recipe logic
 recipeForm.addEventListener("submit", async (e) => {
@@ -973,4 +970,1043 @@ async function resizeImageToSquare(file, size = 500) {
 
     reader.readAsDataURL(file);
   });
+}
+
+// Community -->
+   // Community -->
+    // Community -->
+     // Community -->
+      // Community -->
+
+// ===== Load countries and cities =====
+async function loadLocations() {
+  const { data, error } = await supabase
+    .from("locations")
+    .select("*")
+    .order("country");
+
+  if (error) return console.error(error);
+
+  const countries = [...new Set(data.map(l => l.country))];
+  const countrySelect = document.getElementById("countrySelect");
+  const citySelect = document.getElementById("citySelect");
+
+  countries.forEach(c => {
+    const option = document.createElement("option");
+    option.value = c;
+    option.textContent = c;
+    countrySelect.appendChild(option);
+  });
+
+  countrySelect.addEventListener("change", () => {
+    const selectedCountry = countrySelect.value;
+    citySelect.innerHTML = '<option value="">Select city</option>';
+    citySelect.disabled = !selectedCountry;
+    data.filter(l => l.country === selectedCountry).forEach(l => {
+      const option = document.createElement("option");
+      option.value = l.id;
+      option.textContent = l.city;
+      citySelect.appendChild(option);
+    });
+    document.getElementById("joinCommunityBtn").disabled = true;
+  });
+
+  citySelect.addEventListener("change", (e) => {
+    document.getElementById("joinCommunityBtn").disabled = !e.target.value;
+  });
+}
+
+// ===== Load user community if exists =====
+async function loadUserCommunity(currentUser) {
+  const { data: participant, error: participantError } = await supabase
+    .from("community_participants")
+    .select("id, location_id")
+    .eq("user_id", currentUser.id)
+    .maybeSingle();
+
+  if (participantError) {
+    console.error(participantError);
+    return;
+  }
+
+  if (participant) {
+    const { data: location, error: locationError } = await supabase
+      .from("locations")
+      .select("country, city")
+      .eq("id", participant.location_id)
+      .single();
+
+    if (locationError) {
+      console.error(locationError);
+      return;
+    }
+
+    const locationName = `${location.city}, ${location.country}`;
+    document.getElementById("joinedCommunityText").textContent = `You are in the community: ${locationName}`;
+    document.getElementById("leaveCommunityBtn").style.display = "inline-block";
+    document.getElementById("joinCommunityBtn").style.display = "none";
+
+    // Show dashboard
+    showCommunityDashboard(participant.location_id, locationName);
+  }
+}
+
+// ===== Load Community Messages =====
+async function loadCommunityMessages(locationId) {
+  if (!locationId) return;
+
+  const { data, error } = await supabase
+    .from("community_messages")
+    .select("*")
+    .eq("location_id", locationId)
+    .order("created_at", { ascending: true });
+
+  if (error) return console.error(error);
+
+  const container = document.getElementById("communityMessages");
+  if (!container) return;
+
+  const wasAtBottom = !firstLoad &&
+    container.scrollHeight - container.scrollTop <= container.clientHeight + 50;
+
+  container.innerHTML = "";
+  data.forEach(msg => {
+    const div = document.createElement("div");
+    div.classList.add("chat-message");
+    div.textContent = `${msg.username}: ${msg.content}`;
+    div.classList.add(msg.user_id === currentUser?.id ? "my-message" : "their-message");
+    container.appendChild(div);
+  });
+
+  await new Promise(requestAnimationFrame);
+
+  const last = container.lastElementChild;
+  if (firstLoad || wasAtBottom) {
+    if (last) last.scrollIntoView({ block: "end", behavior: "auto" });
+    firstLoad = false;
+  }
+}
+
+
+// ===== Send Community Message =====
+async function sendCommunityMessage() {
+  const text = document.getElementById("communityMessageInput").value.trim();
+  if (!text || !joinedLocationId) return alert("You are not in a community.");
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("name")
+    .eq("id", currentUser.id)
+    .maybeSingle();
+
+  if (profileError) return console.error(profileError);
+
+  const { error } = await supabase.from("community_messages").insert([{
+    user_id: currentUser.id,
+    username: profile?.name || "Unknown",
+    location_id: joinedLocationId,
+    content: text
+  }]);
+
+  if (error) return console.error(error);
+
+  document.getElementById("communityMessageInput").value = "";
+  await loadCommunityMessages(joinedLocationId);
+}
+
+document.getElementById("sendCommunityMessageBtn").addEventListener("click", sendCommunityMessage);
+
+let messageChannel = null;
+
+function setupRealtimeMessages(locationId) {
+  if (messageChannel) {
+    supabase.removeChannel(messageChannel);
+  }
+
+  messageChannel = supabase
+    .channel(`community_messages_${locationId}`)
+    .on(
+      'postgres_changes',
+      { event: 'INSERT', schema: 'public', table: 'community_messages', filter: `location_id=eq.${locationId}` },
+      payload => {
+        const container = document.getElementById("communityMessages");
+        const msg = payload.new;
+
+        // Append only the new message
+        const div = document.createElement("div");
+        div.classList.add("chat-message");
+        div.textContent = `${msg.username}: ${msg.content}`;
+        div.classList.add(msg.user_id === currentUser?.id ? "my-message" : "their-message");
+        container.appendChild(div);
+
+        // Scroll if visible
+        if (container.offsetParent !== null) { // checks if visible
+          div.scrollIntoView({ block: "end", behavior: "auto" });
+        }
+      }
+    )
+    .subscribe();
+}
+
+// ===== Show Community Dashboard =====
+async function showCommunityDashboard(locationId, locationName) {
+  joinedLocationId = locationId;
+  firstLoad = true;
+
+  document.getElementById("joinCommunityCard").style.display = "none";
+  document.getElementById("joinedCommunityText").textContent = `You are in the community: ${locationName}`;
+  document.getElementById("communityDashboard").style.display = "block";
+  document.getElementById("communityTitle").textContent = `${locationName} Community`;
+
+  // Start chat & events hidden
+  document.getElementById("communityChatSection").style.display = "none";
+  document.getElementById("communityEventsSection").style.display = "none";
+
+  await loadCommunityMessages(locationId);
+  await loadCommunityEvents(locationId);
+
+  setupRealtimeMessages(locationId);
+
+await showCommunityMembers(locationId);
+}
+  
+async function showCommunityMembers(locationId) {
+  const membersList = document.getElementById("communityMembersList");
+  membersList.innerHTML = "";
+
+  // 1️⃣ Fetch current user's friends first
+  const { data: friendsData, error: friendsError } = await supabase
+    .from("friends")
+    .select("*")
+    .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
+
+  if (friendsError) return console.error(friendsError);
+
+  // Make sure it's an array
+  const friends = Array.isArray(friendsData) ? friendsData : [];
+
+  // 2️⃣ Fetch pending requests sent by current user
+  const { data: sentRequests, error: sentError } = await supabase
+    .from("friend_requests")
+    .select("receiver_email")
+    .eq("sender_id", currentUser.id)
+    .eq("status", "pending");
+
+  if (sentError) return console.error(sentError);
+
+  // 3️⃣ Fetch all community members
+  const { data: members, error } = await supabase
+    .from("community_participants")
+    .select("user_id, name, profile_photo, email")
+    .eq("location_id", locationId);
+
+  if (error) return console.error(error);
+
+  // 4️⃣ Helper function
+  function isFriend(memberId, currentUserId, friends) {
+    return friends.some(
+      f =>
+        (f.user1_id === currentUserId && f.user2_id === memberId) ||
+        (f.user2_id === currentUserId && f.user1_id === memberId)
+    );
+  }
+
+  // 5️⃣ Loop through members
+  members.forEach(member => {
+    const li = document.createElement("li");
+
+    const img = document.createElement("img");
+    img.src = member.profile_photo || "default.jpg";
+    img.alt = member.name;
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = member.name;
+
+    li.appendChild(img);
+    li.appendChild(nameSpan);
+
+    if (member.user_id !== currentUser.id && !isFriend(member.user_id, currentUser.id, friends)) {
+      const btn = document.createElement("button");
+      btn.textContent = "Send Request";
+
+      const alreadySent = sentRequests.some(r => r.receiver_email === member.email);
+      if (alreadySent) {
+        btn.textContent = "Request Sent";
+        btn.disabled = true;
+      }
+
+      btn.onclick = async () => {
+        const result = await sendRequest(member.email);
+        if (result.success) {
+          btn.textContent = "Request Sent ✅";
+          btn.disabled = true;
+          await showIncomingFriendRequests();
+        } else {
+          alert(result.message);
+        }
+      };
+
+      li.appendChild(btn);
+    }
+
+    membersList.appendChild(li);
+  });
+}
+
+
+// ===== Join Community =====
+document.getElementById("joinCommunityBtn").addEventListener("click", async () => {
+  const locationId = document.getElementById("citySelect").value;
+  if (!locationId || !currentUser) return;
+
+  // Check if user is already in a community
+  const { data: existing, error } = await supabase
+    .from("community_participants")
+    .select("*")
+    .eq("user_id", currentUser.id)
+    .maybeSingle();
+
+  if (error) return console.error(error);
+
+  if (existing) {
+    alert("You are already a member of a community!");
+    return showCommunityDashboard(existing.location_id, `${existing.city}, ${existing.country}`);
+  }
+
+  const locationName = document.getElementById("citySelect").selectedOptions[0].text + ", " +
+                       document.getElementById("countrySelect").value;
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("name, profile_photo, email")
+    .eq("id", currentUser.id)
+    .single();
+
+  if (profileError) return console.error(profileError);
+
+  await supabase.from("community_participants").upsert([{
+    user_id: currentUser.id,
+    location_id: locationId,
+    name: profile.name,
+    profile_photo: profile.profile_photo,
+    email: profile.email
+  }]);
+
+  showCommunityDashboard(locationId, locationName);
+});
+
+
+// ===== Leave Community =====
+document.getElementById("leaveCommunityDashboardBtn").addEventListener("click", async () => {
+  const { error } = await supabase
+    .from("community_participants")
+    .delete()
+    .eq("user_id", currentUser.id);
+
+  if (error) return console.error(error);
+
+  document.getElementById("communityDashboard").style.display = "none";
+  document.getElementById("joinCommunityCard").style.display = "block";
+  document.getElementById("joinedCommunityText").textContent = "";
+  document.getElementById("leaveCommunityBtn").style.display = "none";
+  document.getElementById("joinCommunityBtn").style.display = "inline-block";
+});
+
+function scrollCommunityChatToBottom() {
+  const container = document.getElementById("communityMessages");
+  if (container && container.children.length > 0) {
+    container.lastElementChild.scrollIntoView({ block: "end", behavior: "auto" });
+  }
+}
+
+// Toggle sections with scroll fix
+document.querySelectorAll('.community-section-header').forEach(header => {
+  header.addEventListener('click', () => {
+    const content = header.nextElementSibling;
+    if (content.style.display === 'block') {
+      content.style.display = 'none';
+    } else {
+      content.style.display = 'block';
+      // scroll only when chat becomes visible
+      if (content.id === 'communityChatSection') scrollCommunityChatToBottom();
+    }
+  });
+});
+
+// ===== Load Community Events =====
+async function loadCommunityEvents(locationId) {
+  const { data, error } = await supabase
+    .from("community_events")
+    .select("id, place, description, event_date, user_id, username")
+    .eq("location_id", locationId)
+    .order("event_date", { ascending: true });
+
+  if (error) return console.error(error);
+
+  const ul = document.getElementById("communityEventsList");
+  ul.innerHTML = "";
+
+  const now = new Date();
+
+  for (const event of data) {
+    const eventDate = new Date(event.event_date);
+
+    // Automatically delete past events
+    if (eventDate < now) {
+      await supabase.from("community_events").delete().eq("id", event.id);
+      continue;
+    }
+
+    const li = document.createElement("li");
+    li.textContent = `${eventDate.toLocaleString()} — ${event.place} — ${event.description} (by ${event.username})`;
+
+    if (event.user_id === currentUser.id) {
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "x";
+      delBtn.className = "eventdelete-btn";
+      delBtn.onclick = async () => {
+        await supabase.from("community_events").delete().eq("id", event.id);
+        await loadCommunityEvents(locationId);
+      };
+      li.appendChild(delBtn);
+    }
+
+    ul.appendChild(li);
+  }
+}
+
+// ===== Create Event =====
+const createEventBtn = document.getElementById("createEventBtn");
+const submitEventBtn = document.getElementById("submitEventBtn");
+const createEventInputs = document.getElementById("createEventInputs");
+const eventPlaceInput = document.getElementById("eventPlaceInput");
+const eventTimeInput = document.getElementById("eventTimeInput");
+const descriptionInput = document.getElementById("eventDescriptionInput");
+
+createEventBtn.addEventListener("click", () => {
+  createEventInputs.style.display = createEventInputs.style.display === "none" ? "flex" : "none";
+  createEventInputs.style.flexDirection = "column";
+});
+
+submitEventBtn.addEventListener("click", async () => {
+  const place = eventPlaceInput.value.trim();
+  const description = descriptionInput.value.trim();
+  const eventDate = eventTimeInput.value;
+
+  if (!place || !eventDate || !joinedLocationId) {
+    return alert("Please enter place, date, and ensure you are in a community.");
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("name")
+    .eq("id", currentUser.id)
+    .maybeSingle();
+
+  const { error } = await supabase.from("community_events").insert([{
+    location_id: joinedLocationId,
+    place: place,
+    description: description,
+    event_date: eventDate,
+    user_id: currentUser.id,
+    username: profile.name
+  }]);
+
+  if (error) return console.error(error);
+
+  eventPlaceInput.value = "";
+  descriptionInput.value = "";
+  eventTimeInput.value = "";
+  createEventInputs.style.display = "none";
+
+  await loadCommunityEvents(joinedLocationId);
+});
+
+loadLocations();
+
+// ----- Anonymous Forum -----
+// ----- Anonymous Forum -----
+// ----- Anonymous Forum -----
+// ----- Anonymous Forum -----
+// ----- Anonymous Forum -----
+
+document.querySelectorAll(".AFsection h2").forEach(header => {
+    header.addEventListener("click", () => {
+      const content = header.nextElementSibling;
+      content.style.display = content.style.display === "block" ? "none" : "block";
+    });
+  });
+  
+
+const forumMessages = document.getElementById('forumMessages');
+const submitBlockBtn = document.getElementById('submitBlockBtn');
+const blockContent = document.getElementById('blockContent');
+
+const commentPopup = document.getElementById('AFcommentPopup');
+const closePopup = document.getElementById('AFclosePopup');
+
+closePopup.addEventListener('click', () => {
+  commentPopup.classList.add('hidden');
+});
+
+const popupBlockContent = document.getElementById('AFpopupBlockContent');
+const popupCommentsList = document.getElementById('AFpopupCommentsList');
+const newCommentInput = document.getElementById('AFnewCommentInput');
+const submitCommentBtn = document.getElementById('AFsubmitCommentBtn');
+
+let activeBlockId;
+
+
+
+// Get logged in user before anything else
+async function initUser() {
+  const { data, error } = await supabase.auth.getUser();
+  if (error) {
+    console.error("Auth error:", error);
+    return;
+  }
+  currentUser = data.user;
+  // Now safe to load community info
+  await loadUserCommunity(currentUser);
+}
+
+// Load forum blocks
+async function loadForumBlocks() {  
+  forumMessages.innerHTML = '';
+  const { data: blocks, error } = await supabase
+    .from('forum_blocks')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) return console.error(error);
+
+  blocks.forEach(block => { 
+    const li = document.createElement('li');
+    li.className = 'forum-block'; // important for CSS
+
+    // Block text span
+    const textSpan = document.createElement('span');
+    textSpan.className = 'block-text';
+    textSpan.textContent = block.content;
+
+    li.appendChild(textSpan);
+
+    // Make block clickable to open popup
+    li.addEventListener('click', () => AFopenCommentPopup(block));
+
+    // Show delete button only for the poster
+    if (block.user_id === currentUser.id) {
+      const delBtn = document.createElement('deletebutton');
+      delBtn.textContent = '❌';
+      delBtn.className = 'block-delete-btn';
+      delBtn.addEventListener('click', async (e) => {
+        e.stopPropagation(); // prevent opening popup
+        await supabase.from('forum_blocks').delete().eq('id', block.id);
+        loadForumBlocks();
+      });
+      li.appendChild(delBtn);
+    }
+
+    forumMessages.appendChild(li);
+  });
+}
+
+// Submit new block
+submitBlockBtn.addEventListener('click', async () => {
+  const content = blockContent.value.trim();
+  if (!content) return;
+
+  await supabase.from('forum_blocks').insert([{ user_id: currentUser.id, content }]);
+  blockContent.value = '';
+  loadForumBlocks();
+});
+
+// Open popup for comments
+async function AFopenCommentPopup(block) {
+  activeBlockId = block.id;
+  popupBlockContent.textContent = block.content;
+
+  const { data: comments, error } = await supabase
+    .from('forum_comments')
+    .select('*')
+    .eq('block_id', block.id)
+    .order('created_at', { ascending: true });
+
+  if (error) return console.error(error);
+
+  popupCommentsList.innerHTML = '';
+  comments.forEach(c => {
+  const li = document.createElement('li');
+
+  // Show "Asker" if commenter is the original poster
+  const isAsker = c.commenter_id === block.user_id;
+  const displayName = isAsker ? "Asker" : c.commenter_name;
+
+  // Create text span
+  const textSpan = document.createElement('span');
+  textSpan.innerHTML = `<strong>${displayName}:</strong> ${c.content}`;
+
+  li.appendChild(textSpan);
+
+  // Show delete button if this comment belongs to current user
+  if (c.commenter_id === currentUser.id) {
+    const delBtn = document.createElement('delbutton');
+    delBtn.textContent = '❌';
+    delBtn.className = 'block-delete-btn';
+    delBtn.addEventListener('click', async () => {
+      await supabase.from('forum_comments').delete().eq('id', c.id);
+      AFopenCommentPopup(block); // refresh comments
+    });
+    li.appendChild(delBtn); // now button is in the same flex row
+  }
+
+  popupCommentsList.appendChild(li);
+});
+
+
+  commentPopup.classList.remove('hidden');
+}
+
+// Submit new comment
+submitCommentBtn.addEventListener('click', async () => {
+  const content = newCommentInput.value.trim();
+  if (!content || !activeBlockId) return;
+
+  // Get current user's profile name
+  const { data: profile, error } = await supabase
+    .from('profiles')
+    .select('id, name') // adjust to your column name
+    .eq('id', currentUser.id)
+    .single();
+
+  if (error) {
+    console.error('Error fetching profile:', error);
+    return;
+  }
+
+  const commenterName = profile?.name || "Anonymous";
+
+  // Insert comment with commenter_id
+  await supabase.from('forum_comments').insert([{
+    block_id: activeBlockId,
+    commenter_id: currentUser.id,    // <--- NEW: save user ID
+    commenter_name: commenterName,
+    content
+  }]);
+
+  newCommentInput.value = '';
+
+  // Refresh comments in popup
+const { data: fullBlock, error: blockError } = await supabase
+  .from('forum_blocks')
+  .select('*')
+  .eq('id', activeBlockId)
+  .single();
+
+if (blockError) return console.error(blockError);
+
+AFopenCommentPopup(fullBlock);
+});
+
+async function loadChatList() {
+  const list = document.getElementById("chatListItems");
+  if (!list) return;
+  list.innerHTML = "";
+
+  // Fetch chats where currentUser is either user1 or user2
+  const { data: chats, error } = await supabase
+    .from('chats')
+    .select('*')
+    .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`)
+    .order('last_message_at', { ascending: false });
+
+  if (error) {
+    console.error("Error fetching chats:", error);
+    return;
+  }
+
+  if (!chats || chats.length === 0) return; // nothing to show yet
+
+  chats.forEach(chat => {
+  if (!chat || !chat.id) return; // <-- skip invalid rows
+
+    // Decide who the friend is
+    const friend = chat.user1_id === currentUser.id
+    ? { id: chat.user2_id || "unknown", name: chat.user2_name || "Unknown", photo: chat.user2_profile_photo || "default.jpg" }
+    : { id: chat.user1_id || "unknown", name: chat.user1_name || "Unknown", photo: chat.user1_profile_photo || "default.jpg" };
+
+    const li = document.createElement("li");
+    li.style.display = "flex";
+    li.style.alignItems = "center";
+    li.style.justifyContent = "space-between";
+    li.style.padding = "0.5rem";
+    li.style.borderBottom = "1px solid #eee";
+
+    const img = document.createElement("img");
+    img.src = friend.photo || "default.jpg";
+    img.alt = friend.name;
+    img.style.width = "40px";
+    img.style.height = "40px";
+    img.style.borderRadius = "50%";
+    img.style.marginRight = "0.5rem";
+
+    const info = document.createElement("div");
+    info.style.flex = "1";
+    const nameSpan = document.createElement("div");
+    nameSpan.textContent = friend.name;
+    nameSpan.style.fontWeight = "500";
+    const lastMessage = document.createElement("div");
+    lastMessage.textContent = chat.last_message || "";
+    lastMessage.style.fontSize = "0.85rem";
+    lastMessage.style.color = "#555";
+
+    info.appendChild(nameSpan);
+    info.appendChild(lastMessage);
+
+    li.appendChild(img);
+    li.appendChild(info);
+
+    li.onclick = () => startChatWithFriend(friend);
+
+    list.appendChild(li);
+  });
+}
+
+// ===== Friends =====
+// ===== Friends =====
+// ===== Friends =====
+// ===== Friends =====
+
+// ============================================
+// FRIENDS & CHATS MODULE
+// ============================================
+
+// Global state
+let messageSubscription = null;
+
+// ----------------------
+// Unified Send Friend Request
+// ----------------------
+async function sendRequest(receiverEmail) {
+  const email = receiverEmail.trim().toLowerCase();
+  if (!email) return { success: false, message: "No email provided." };
+  if (email === currentUser.email.toLowerCase()) return { success: false, message: "You cannot send a request to yourself." };
+
+  // Check for existing request
+  const { data: existing, error: checkError } = await supabase
+    .from("friend_requests")
+    .select("*")
+    .eq("sender_id", currentUser.id)
+    .eq("receiver_email", email)
+    .maybeSingle();
+  if (checkError) return { success: false, message: checkError.message };
+  if (existing) return { success: false, message: "Request already sent!" };
+
+  // Fetch profile
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("name, profile_photo")
+    .eq("id", currentUser.id)
+    .maybeSingle();
+  if (profileError) return { success: false, message: profileError.message };
+
+  // Insert request
+  const { error } = await supabase.from("friend_requests").insert([{
+    sender_id: currentUser.id,
+    receiver_email: email,
+    name: profile?.name || "Unknown",
+    profile_photo: profile?.profile_photo || "default.jpg",
+    email: currentUser.email,
+    status: "pending"
+  }]);
+  if (error) return { success: false, message: error.message };
+
+  return { success: true };
+}
+
+// ----------------------
+// Friend Request Popup Button
+// ----------------------
+document.getElementById("sendFriendRequestBtn")?.addEventListener("click", async () => {
+  const email = document.getElementById("friendEmailInput")?.value;
+  const result = await sendRequest(email);
+
+  if (!result.success) {
+    alert(result.message);
+  } else {
+    alert("Friend request sent!");
+    document.getElementById("friendEmailInput").value = "";
+    searchPopup.style.display = "none";
+    await showFriends("friendsList", friend => startChatWithFriend(friend));
+    if (joinedLocationId) await showCommunityMembers(joinedLocationId);
+  }
+});
+
+// ----------------------
+// Show Incoming Friend Requests
+// ----------------------
+async function showIncomingFriendRequests() { 
+  const list = document.getElementById("incomingRequestsList");
+  if (!list) return;
+  list.innerHTML = "";
+
+  const { data: requests, error } = await supabase
+    .from("friend_requests")
+    .select("id, sender_id, name, profile_photo, email, receiver_email, status")
+    .eq("receiver_email", currentUser.email)
+    .eq("status", "pending");
+
+  if (error) return console.error(error);
+
+  requests.forEach(req => {
+    const li = document.createElement("li");
+    li.className = "friend-request-item";
+
+    const img = document.createElement("img");
+    img.src = req.profile_photo || "default.jpg";
+    img.alt = req.name || "Unknown";
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = req.name || "Unknown";
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+
+    // Accept
+    const acceptBtn = document.createElement("button");
+    acceptBtn.className = "accept";
+    acceptBtn.textContent = "Accept";
+    acceptBtn.onclick = async () => {
+      const { data: myProfile, error: myError } = await supabase
+        .from("profiles")
+        .select("id, name, profile_photo, email")
+        .eq("id", currentUser.id)
+        .single();
+      if (myError) return console.error(myError);
+
+      const { error: insertError } = await supabase.from("friends").insert([{
+        user1_id: req.sender_id,
+        user1_name: req.name,
+        user1_email: req.email,
+        user1_profile_photo: req.profile_photo,
+        user2_id: myProfile.id,
+        user2_name: myProfile.name,
+        user2_email: myProfile.email,
+        user2_profile_photo: myProfile.profile_photo
+      }]);
+      if (insertError) return console.error(insertError);
+
+      await supabase.from("friend_requests").delete().eq("id", req.id);
+      await showIncomingFriendRequests();
+      await showFriends("friendsList", friend => startChatWithFriend(friend));
+    };
+
+    // Decline
+    const declineBtn = document.createElement("button");
+    declineBtn.className = "decline";
+    declineBtn.textContent = "Decline";
+    declineBtn.onclick = async () => {
+      await supabase.from("friend_requests").delete().eq("id", req.id);
+      await showIncomingFriendRequests();
+    };
+
+    actions.appendChild(acceptBtn);
+    actions.appendChild(declineBtn);
+
+    li.appendChild(img);
+    li.appendChild(nameSpan);
+    li.appendChild(actions);
+
+    list.appendChild(li);
+  });
+}
+
+// ----------------------
+// Show Friends List
+// ----------------------
+async function showFriends(containerId, onClickFriend) {
+  const list = document.getElementById(containerId);
+  if (!list) return;
+  list.innerHTML = "";
+
+  const { data: friendsData, error } = await supabase
+    .from("friends")
+    .select("*")
+    .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
+  if (error) return console.error(error);
+
+  friendsData.forEach(friendship => {
+    const friend = friendship.user1_id === currentUser.id
+      ? { id: friendship.user2_id, name: friendship.user2_name, email: friendship.user2_email, photo: friendship.user2_profile_photo }
+      : { id: friendship.user1_id, name: friendship.user1_name, email: friendship.user1_email, photo: friendship.user1_profile_photo };
+
+    const li = document.createElement("li");
+    li.className = "friend-item";
+
+    const img = document.createElement("img");
+    img.src = friend.photo || "default.jpg";
+    img.alt = friend.name;
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = friend.name || "Unknown";
+
+    const btn = document.createElement("button");
+    btn.textContent = "Message";
+    btn.className = "message";
+    btn.onclick = e => {
+      e.stopPropagation();
+      onClickFriend(friend);
+    };
+
+    li.appendChild(img);
+    li.appendChild(nameSpan);
+    li.appendChild(btn);
+
+    list.appendChild(li);
+  });
+}
+
+// ----------------------
+// Load Friends Tab
+// ----------------------
+async function loadFriendsTab() {
+  await showIncomingFriendRequests();
+  await showFriends("friendsList", friend => startChatWithFriend(friend));
+}
+
+// ----------------------
+// Start Chat with Friend
+// ----------------------
+async function startChatWithFriend(friend) {
+  const { data: existingChats, error: chatError } = await supabase
+    .from('chats')
+    .select('*')
+    .or(
+      `and(user1_id.eq.${currentUser.id},user2_id.eq.${friend.id}),and(user1_id.eq.${friend.id},user2_id.eq.${currentUser.id})`
+    )
+    .limit(1);
+  if (chatError) return console.error(chatError);
+
+  const chatId = existingChats?.[0]?.id;
+  openChatWindow(chatId, friend);
+}
+
+function openChatWindow(chatId, friend) {
+  window.currentChatId = chatId;
+  window.currentChatFriend = friend;
+
+  const friendsEl = document.getElementById("friends");
+if (friendsEl) friendsEl.style.display = "none";
+
+const messagesEl = document.getElementById("messages");
+if (messagesEl) messagesEl.style.display = "block";
+
+const chatListEl = document.getElementById("chatListView");
+if (chatListEl) chatListEl.style.display = "none";
+
+const chatViewEl = document.getElementById("chatView");
+if (chatViewEl) chatViewEl.style.display = "block";
+  document.getElementById("chatHeader").textContent = friend.name;
+
+  if (chatId) loadMessages(chatId, friend);
+  else document.getElementById("chatMessages").innerHTML = "";
+}
+
+// ----------------------
+// Send Message
+// ----------------------
+document.getElementById("sendMessageBtn")?.addEventListener("click", async () => {
+  const messageInput = document.getElementById("messageInput");
+  const text = messageInput.value.trim();
+  if (!text) return;
+
+  const friend = window.currentChatFriend;
+  if (!friend) return;
+
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select("name, profile_photo")
+    .eq("id", currentUser.id)
+    .maybeSingle();
+  if (profileError) return console.error(profileError);
+
+  let chatId = window.currentChatId;
+
+  if (!chatId) {
+    const { data: newChat, error: createError } = await supabase
+      .from('chats')
+      .insert([{
+        user1_id: currentUser.id,
+        user1_name: profile?.name,
+        user1_profile_photo: profile?.profile_photo,
+        user2_id: friend.id,
+        user2_name: friend.name,
+        user2_profile_photo: friend.photo,
+        last_message: text,
+        last_message_at: new Date().toISOString()
+      }])
+      .select()
+      .single();
+    if (createError) return console.error(createError);
+    chatId = newChat.id;
+    window.currentChatId = chatId;
+  } else {
+    await supabase.from('chats').update({
+      last_message: text,
+      last_message_at: new Date().toISOString()
+    }).eq('id', chatId);
+  }
+
+  const { error: messageError } = await supabase.from('messages').insert([{
+    chat_id: chatId,
+    sender_id: currentUser.id,
+    content: text
+  }]);
+  if (messageError) return console.error(messageError);
+
+  messageInput.value = '';
+  loadMessages(chatId, friend);
+});
+
+// ----------------------
+// Load Messages & Subscribe
+// ----------------------
+async function loadMessages(chatId, friend) {
+  const chatContainer = document.getElementById("chatMessages");
+  if (!chatContainer) return;
+
+  const { data: messages, error } = await supabase
+    .from('messages')
+    .select('*')
+    .eq('chat_id', chatId)
+    .order('created_at', { ascending: true });
+  if (error) return console.error(error);
+
+  chatContainer.innerHTML = "";
+  messages.forEach(msg => {
+    const div = document.createElement("div");
+    div.textContent = msg.content;
+    div.className = msg.sender_id === currentUser.id ? "my-message" : "friend-message";
+    chatContainer.appendChild(div);
+  });
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+
+  if (messageSubscription) supabase.removeChannel(messageSubscription);
+
+  messageSubscription = supabase
+    .channel(`chat-${chatId}`)
+    .on('postgres_changes', {
+      event: 'INSERT',
+      schema: 'public',
+      table: 'messages',
+      filter: `chat_id=eq.${chatId}`
+    }, (payload) => {
+      const msg = payload.new;
+      const div = document.createElement("div");
+      div.textContent = msg.content;
+      div.className = msg.sender_id === currentUser.id ? "my-message" : "friend-message";
+      chatContainer.appendChild(div);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    })
+    .subscribe();
 }
