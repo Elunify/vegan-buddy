@@ -798,10 +798,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadChatList();
 
   const tabs = {
-  home: document.getElementById("home"),
-  friends: document.getElementById("friends"),
-  messages: document.getElementById("messages")
-  // ...add other tabs here
+  home: document.getElementById("home")
 };
   // ===== Load last open tab if available =====
   const lastTab = localStorage.getItem("lastOpenTab");
