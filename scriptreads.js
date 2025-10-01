@@ -797,6 +797,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Chat list (needs currentUser)
   await loadChatList();
 
+  // Chat list (needs currentUser)
+  await loadFriendsTab();
+
   const tabs = {
   home: document.getElementById("home")
 };
@@ -1749,6 +1752,7 @@ document.getElementById("sendFriendRequestBtn")?.addEventListener("click", async
 // Show Incoming Friend Requests
 // ----------------------
 async function showIncomingFriendRequests() { 
+     
   const list = document.getElementById("incomingRequestsList");
   if (!list) return;
   list.innerHTML = "";
@@ -1758,7 +1762,6 @@ async function showIncomingFriendRequests() {
     .select("id, sender_id, name, profile_photo, email, receiver_email, status")
     .eq("receiver_email", currentUser.email)
     .eq("status", "pending");
-
   if (error) return console.error(error);
 
   requests.forEach(req => {
@@ -1899,21 +1902,29 @@ function openChatWindow(chatId, friend) {
   window.currentChatFriend = friend;
 
   const friendsEl = document.getElementById("friends");
-if (friendsEl) friendsEl.style.display = "none";
+  const messagesEl = document.getElementById("messages");
+  const chatListEl = document.getElementById("chatListView");
+  const chatViewEl = document.getElementById("chatView");
 
-const messagesEl = document.getElementById("messages");
-if (messagesEl) messagesEl.style.display = "block";
+  // Add/remove hidden class instead of changing style.display
+  // Add/remove hidden class safely
+  if (friendsEl) friendsEl.classList.add("hidden");
+  if (messagesEl) messagesEl.classList.remove("hidden");
+  if (chatListEl) chatListEl.classList.add("hidden");
+  if (chatViewEl) chatViewEl.classList.remove("hidden");
 
-const chatListEl = document.getElementById("chatListView");
-if (chatListEl) chatListEl.style.display = "none";
-
-const chatViewEl = document.getElementById("chatView");
-if (chatViewEl) chatViewEl.style.display = "block";
   document.getElementById("chatHeader").textContent = friend.name;
 
   if (chatId) loadMessages(chatId, friend);
   else document.getElementById("chatMessages").innerHTML = "";
 }
+// Back arrow
+document.getElementById("backToList").addEventListener("click", () => {
+  document.getElementById("chatListView").classList.remove("hidden");
+  document.getElementById("chatView").classList.add("hidden");
+  window.currentChatId = null;
+  window.currentChatFriend = null;
+});
 
 // ----------------------
 // Send Message
@@ -2013,3 +2024,9 @@ async function loadMessages(chatId, friend) {
     })
     .subscribe();
 }
+
+// --------- MENTORSHIP ------------
+// --------- MENTORSHIP ------------
+// --------- MENTORSHIP ------------
+// --------- MENTORSHIP ------------
+

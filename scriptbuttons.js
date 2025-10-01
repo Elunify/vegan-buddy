@@ -103,7 +103,7 @@ exploreButtons.forEach(id => {
 });
 
 // Community: Local, Events, Forum, Friends, Mentorship, Success
-const communityButtons = ['local','events','forum','friends','mentorship','success'];
+const communityButtons = ['local','forum','friends','messages','mentorship'];
 communityButtons.forEach(id => {
   const btn = document.querySelector(`button[onclick="showSection('${id}')"]`);
   if (btn) {
