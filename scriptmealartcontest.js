@@ -169,7 +169,16 @@ if (meal.user_id === currentUser.id && !meal.is_winner && today !== 1) {
   mealDiv.appendChild(delBtn);
 }
     
-setupMealPopups();
+img.src = meal.image_url;
+img.alt = `${meal.uploader_name}'s meal`;
+
+// directly attach popup handler here
+img.addEventListener("click", () => {
+  const popup = document.getElementById("mealPopup");
+  const popupImg = document.getElementById("popupMealImage");
+  popupImg.src = img.src;
+  popup.classList.remove("hidden");
+});
 
     // Append to gallery
     if (meal.is_winner) {
@@ -445,7 +454,16 @@ if (meal.user_id === currentUser.id && !meal.is_winner && today !== 1) {
   mealDiv.appendChild(delBtn);
 }
     
-setupMealPopups();
+img.src = meal.image_url;
+img.alt = `${meal.uploader_name}'s meal`;
+
+// directly attach popup handler here
+img.addEventListener("click", () => {
+  const popup = document.getElementById("mealPopup");
+  const popupImg = document.getElementById("popupMealImage");
+  popupImg.src = img.src;
+  popup.classList.remove("hidden");
+});
 
     // Append to gallery
     if (meal.is_winner) {
@@ -455,22 +473,3 @@ setupMealPopups();
     }
   };
 
-
-function setupMealPopups() {
-  const popup = document.getElementById("mealPopup");
-  const popupImg = document.getElementById("popupMealImage");
-  const closeBtn = popup.querySelector(".popup-close");
-
-  closeBtn.addEventListener("click", () => popup.classList.add("hidden"));
-  popup.addEventListener("click", e => {
-    if (e.target === popup) popup.classList.add("hidden");
-  });
-
-  // Make each meal image clickable
-  document.querySelectorAll(".meal-item img").forEach(img => {
-    img.addEventListener("click", () => {
-      popupImg.src = img.src;
-      popup.classList.remove("hidden");
-    });
-  });
-}
