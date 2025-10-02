@@ -40,9 +40,9 @@
         <!-- Side Menu -->
         <div id="menuButton" class="menu-button">☰</div>
         <div id="sideMenu" class="side-menu">
-          <button class="menu-item" id="helpusgrowBtn">Help Us Grow</button>
           <button class="menu-item" id="aboutUsBtn">About Us</button>
-          <button onclick="showSection('sources')" class="menu-item" id="sourcesBtn">Sources</button>
+          <button class="menu-item" id="helpusgrowBtn">Help Us Grow</button>
+      <!--     <button onclick="showSection('sources')" class="menu-item" id="sourcesBtn">Sources</button> -->
         </div>
       </div>
 
@@ -445,15 +445,13 @@
  <!-- Sources -->
   <!-- Sources -->
    <!-- Sources -->
-    <div id="sources" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+    
+
+   <div id="sources" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
       ...Sources content... 
-    
-    
-    
-    
-    
-    
     </div>
+
+
 <!-- Main features -->   
  <!-- Main features -->   
   <!-- Main features -->   
@@ -1025,12 +1023,93 @@
       ...Your Avatar... </div>
     <div id="shop" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
       ...Shop... </div>
-    <div id="leaderboards" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      ...Leaderboards... </div>
+
+<!-- LeaderBoards -->
+ <!-- LeaderBoards -->
+  <!-- LeaderBoards -->
+   <!-- LeaderBoards -->
+  <div id="leaderboards" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+      
+      <div class="leaderboard-container" id="leaderboards">
+<h2>Leaderboards</h2>
+  <!-- Overall Leaderboards -->
+  <div class="leaderboard" data-period="overall">
+    <h3 onclick="toggleListLeader(this)">Biggest Impact</h3>
+    <ul id="overall-impact">
+      <!-- JS will insert top 10 impact users here -->
+    </ul>
+  </div>
+
+  <div class="leaderboard" data-period="overall">
+    <h3 onclick="toggleListLeader(this)">Most XP</h3>
+  <ul id="overall-level">
+    <!-- JS will insert top 10 users by XP here -->
+  </ul>
+  </div>
+
+  <div class="leaderboard" data-period="overall">
+    <h3 onclick="toggleListLeader(this)">Biggest Streak</h3>
+    <ul id="overall-streak">
+      <!-- JS will insert top 10 streak users here -->
+    </ul>
+  </div>
+
+</div>
+
+</div>
+
+<!-- Challenges -->
+ <!-- Challenges -->
+  <!-- Challenges -->
+   <!-- Challenges -->
     <div id="challenges" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      ...Challenges... </div>
+      
+<div class="challenge-list">
 
 
+<div class="challenge-card">
+<h3>🌱 Fully Plant-Based Month</h3>
+<p>Check in each day that you had a fully plant-based day. Fill 30 slots to finish the month.</p>
+<div class="progress"><div style="width:60%"></div></div>
+<div class="badge-count">Badges: 12</div>
+<button>Check in</button>
+</div>
+
+
+<div class="challenge-card">
+<h3>🤝 Find 10 Friends</h3>
+<p>Invite friends to join Vegan Buddies. Each accepted invite counts toward the goal.</p>
+<div class="progress"><div style="width:40%"></div></div>
+<button>Invite</button>
+</div>
+
+
+<div class="challenge-card">
+<h3>🎨 Meal-Art Contest — 5x Streak</h3>
+<p>Participate in five contests in a row. Keep your streak alive to win creative rewards.</p>
+<div class="progress"><div style="width:60%"></div></div>
+<div class="badge-count">Streak: 3</div>
+<button>Enter Contest</button>
+</div>
+
+
+<div class="challenge-card">
+<h3>🌍 Increase Impact — Invite a Friend</h3>
+<p>Invite friends — when they log their first plant-based day, your impact increases together.</p>
+<div class="progress"><div style="width:25%"></div></div>
+<button>Invite</button>
+</div>
+
+
+<div class="challenge-card">
+<h3>🎁 Monthly Mystery Box</h3>
+<p>Complete small missions across the month. Collect 5 mission points and open a mystery box.</p>
+<div class="progress"><div style="width:40%"></div></div>
+<button>Complete Mission</button>
+</div>
+
+</div>
+</div>
 
     <!-- 🔖 Bottom Navigation -->
     <div class="bottom-nav">

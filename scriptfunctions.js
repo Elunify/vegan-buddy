@@ -178,17 +178,18 @@ if (userData.last_lesson) {
       animals_saved: 0.7,
       forest_saved: 0.5,
       water_saved: 660,
-      co2_saved: 4,
-      donated: 0,
+      co2_saved: 4
     };
 
     const impactIncrement = {
       animals_saved: baseImpact.animals_saved * impactMultiplier,
       forest_saved: baseImpact.forest_saved * impactMultiplier,
       water_saved: baseImpact.water_saved * impactMultiplier,
-      co2_saved: baseImpact.co2_saved * impactMultiplier,
-      donated: 0,
+      co2_saved: baseImpact.co2_saved * impactMultiplier
     };
+
+    // 🌱 Badge increment logic
+    const badgeIncrement = (mealValue === 4) ? 1 : 0;
 
     // 7️⃣ Update profile
     const updatedProfile = {
@@ -210,6 +211,8 @@ if (userData.last_lesson) {
       co2_saved: (userData.co2_saved || 0) + impactIncrement.co2_saved,
       donated: (userData.donated || 0),
       last_checkin_date: new Date().toISOString().split("T")[0],
+      // 🏅 Update badges here
+        badges: (userData.badges || 0) + badgeIncrement,
     };
 
     const { error: updateError } = await supabase
@@ -1008,4 +1011,48 @@ async function startChatWithMentor(mentor) {
 }
 
 
+// Helper function to render a leaderboard into a <ul> by ID
+function renderLeaderboard(ulId, data, type) {
+  const ul = document.getElementById(ulId);
+  if (!ul) return;
 
+  ul.innerHTML = data.map((user, index) => {
+    switch(type) {
+      case 'streak':
+        return `<li>${index + 1}. ${user.name} 🌱 – ${user.streak} days</li>`;
+      case 'xp':
+        return `<li>${index + 1}. ${user.name} 💫 – XP: ${user.total_xp}, (Level ${user.level})</li>`;
+      case 'impact':
+        return `<li>${index + 1}. ${user.name} 🌿 – ${user.animals_saved || 0} animals, ${user.water_saved || 0}L water, ${user.forest_saved || 0} trees, ${user.co2_saved || 0}kg CO₂</li>`;
+      default:
+        return `<li>${index + 1}. ${user.name}</li>`;
+    }
+  }).join('');
+}
+
+// Fetch leaderboard from Supabase RPC
+async function fetchLeaderboard(leaderboardType, ulId, limitCount = 10) {
+  // Adjust RPC for each type if you have separate SQL functions
+  let rpcName = 'get_leaderboard'; // default RPC for streak/impact/donators
+  if (leaderboardType === 'xp') rpcName = 'get_leaderboard_level';
+
+  const { data, error } = await supabase.rpc(rpcName, { limit_count: limitCount });
+
+  if (error) {
+    console.error(`Error fetching ${leaderboardType} leaderboard:`, error);
+    return;
+  }
+
+  renderLeaderboard(ulId, data, leaderboardType);
+}
+
+// Fetch all leaderboards
+async function fetchAllLeaderboards() {
+  // Overall
+  await fetchLeaderboard('impact', 'overall-impact');
+  await fetchLeaderboard('xp', 'overall-level');
+  await fetchLeaderboard('streak', 'overall-streak');
+}
+
+// Run when page loads
+fetchAllLeaderboards();

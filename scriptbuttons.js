@@ -642,3 +642,15 @@ document.getElementById("closeSearchPopup").addEventListener("click", () => {
 window.addEventListener("click", e => {
   if (e.target === searchPopup) searchPopup.style.display = "none";
 });
+
+
+// LeaderBoard
+// LeaderBoard
+// LeaderBoard
+// LeaderBoard
+
+function toggleListLeader(header) {
+  const ul = header.nextElementSibling;
+  ul?.classList.toggle('visible');
+  header.classList.toggle('active'); // rotates arrow
+}
