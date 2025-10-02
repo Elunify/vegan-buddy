@@ -965,58 +965,70 @@ async function checkAndToggleMentorUI() {
 
 
 async function startChatWithMentor(mentor) {
-    const { data: { user: currentUser }, error } = await supabase.auth.getUser();
+    // 1. Get logged-in user
+  const { data: { user: currentUser }, error } = await supabase.auth.getUser();
+
+  console.log("DEBUG: currentUser:", currentUser);
+  console.log("DEBUG: mentor:", mentor);
+
   if (error || !currentUser) {
     alert("You must be logged in to start a chat.");
     return;
   }
 
-  if (!currentUser) {
-    alert("You must be logged in to start a chat.");
+  if (!mentor || !mentor.user_id) {
+    console.error("Mentor user_id is missing!", mentor);
+    alert("Cannot start chat: mentor user ID is missing.");
     return;
   }
 
   try {
-    // 1. Check if chat already exists
+    // 2. Check if chat already exists
+    const orQuery = `and(user1_id.eq.${currentUser.id},user2_id.eq.${mentor.user_id}),and(user1_id.eq.${mentor.user_id},user2_id.eq.${currentUser.id})`;
+    console.log("DEBUG: Supabase .or() query:", orQuery);
+
     const { data: existingChats, error: chatError } = await supabase
       .from('chats')
       .select('*')
-      .or(
-        `and(user1_id.eq.${currentUser.id},user2_id.eq.${mentor.user_id}),and(user1_id.eq.${mentor.user_id},user2_id.eq.${currentUser.id})`
-      )
+      .or(orQuery)
       .limit(1);
 
     if (chatError) {
-      console.error(chatError);
+      console.error("Error checking existing chat:", chatError);
       return;
     }
 
+    console.log("DEBUG: existingChats:", existingChats);
+
     let chatId = existingChats?.[0]?.id;
 
-    // 2. If no chat exists, create one
+    // 3. If no chat exists, create one
     if (!chatId) {
+      console.log("No chat exists, creating new chat...");
       const { data: newChat, error: insertError } = await supabase
         .from('chats')
         .insert({
           user1_id: currentUser.id,
           user2_id: mentor.user_id,
-          user1_name: currentUser.name,
+          user1_name: currentUser.user_metadata?.name || currentUser.email,
           user2_name: mentor.name,
-          user1_profile_photo: currentUser.profile_photo || "",
+          user1_profile_photo: currentUser.user_metadata?.avatar_url || "",
           user2_profile_photo: mentor.profile_photo || "",
         })
         .select('id')
         .single();
 
       if (insertError) {
-        console.error(insertError);
+        console.error("Error inserting new chat:", insertError);
         return;
       }
 
       chatId = newChat.id;
+      console.log("DEBUG: new chat created with id:", chatId);
     }
 
-    // 3. Open the chat window
+    // 4. Open the chat window
+    console.log("Opening chat window with chatId:", chatId);
     openChatWindow(chatId, mentor);
 
   } catch (err) {
