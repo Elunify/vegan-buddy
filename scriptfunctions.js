@@ -966,7 +966,6 @@ async function checkAndToggleMentorUI() {
 
 
 async function startChatWithMentor(mentor) {
-  // 1. Get current logged-in user
   const { data: { user: currentUser }, error } = await supabase.auth.getUser();
   if (error || !currentUser) {
     alert("You must be logged in to start a chat.");
@@ -979,23 +978,34 @@ async function startChatWithMentor(mentor) {
     return;
   }
 
+  // 1. Check if chat already exists
+  const orQuery = `and(user1_id.eq.${currentUser.id},user2_id.eq.${mentor.user_id}),and(user1_id.eq.${mentor.user_id},user2_id.eq.${currentUser.id})`;
+  const { data: existingChats, error: chatError } = await supabase
+    .from('chats')
+    .select('*')
+    .or(orQuery)
+    .limit(1);
+
+  if (chatError) {
+    console.error("Error checking existing chat:", chatError);
+  }
+
+  let chatId = existingChats?.[0]?.id || null;
+
   // 2. Set the global current chat context
   window.currentChatFriend = {
-    id: mentor.user_id,              // must be profiles.id
+    id: mentor.user_id,
     name: mentor.name,
     photo: mentor.profile_photo || ""
   };
-  window.currentChatId = null;       // chat row not created yet
+  window.currentChatId = chatId; // will be null if chat doesn't exist
 
-  // 3. Optionally hide the mentorship tab
+  // 3. Hide the mentorship tab
   document.getElementById("mentorship")?.classList.add("hidden");
 
-  // 4. Open empty chat window
-  openChatWindow(null, window.currentChatFriend);
-
-  // At this point, the user can type a message.
-  // The first message will trigger chat row creation (handled in your sendMessageBtn listener).
-  
+  // 4. Open chat window (empty if chatId is null)
+  openChatWindow(chatId, window.currentChatFriend);
 }
+
 
 
