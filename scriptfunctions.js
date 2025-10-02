@@ -970,7 +970,7 @@ async function startChatWithMentor(mentor) {
     alert("You must be logged in to start a chat.");
     return;
   }
-  
+
   if (!currentUser) {
     alert("You must be logged in to start a chat.");
     return;
@@ -982,8 +982,7 @@ async function startChatWithMentor(mentor) {
       .from('chats')
       .select('*')
       .or(
-        `and(user1_id.eq.${currentUser.id},user2_id.eq.${mentor.user_id}),
-         and(user1_id.eq.${mentor.user_id},user2_id.eq.${currentUser.id})`
+        `and(user1_id.eq.${currentUser.id},user2_id.eq.${mentor.user_id}),and(user1_id.eq.${mentor.user_id},user2_id.eq.${currentUser.id})`
       )
       .limit(1);
 
