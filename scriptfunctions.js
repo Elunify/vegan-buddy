@@ -966,62 +966,33 @@ async function checkAndToggleMentorUI() {
 
 
 async function startChatWithMentor(mentor) {
-    // 1. Get logged-in user
   const { data: { user: currentUser }, error } = await supabase.auth.getUser();
-
   if (error || !currentUser) {
     alert("You must be logged in to start a chat.");
     return;
   }
 
-  if (!mentor || !mentor.user_id) {
-    alert("Cannot start chat: mentor user ID is missing.");
-    return;
+  let chatId = null;
+
+  // 1. Check if chat already exists
+  const { data: existingChats, error: chatError } = await supabase
+    .from('chats')
+    .select('*')
+    .or(`and(user1_id.eq.${currentUser.id},user2_id.eq.${mentor.user_id}),and(user1_id.eq.${mentor.user_id},user2_id.eq.${currentUser.id})`)
+    .limit(1);
+
+  if (chatError) {
+    console.error("Error checking existing chat:", chatError);
   }
 
-  try {
-    // 2. Check if chat already exists
-    const orQuery = `and(user1_id.eq.${currentUser.id},user2_id.eq.${mentor.user_id}),and(user1_id.eq.${mentor.user_id},user2_id.eq.${currentUser.id})`;
+  if (existingChats?.[0]) {
+    // 2a. Chat exists → use it
+    chatId = existingChats[0].id;
+  } 
+  // 2b. Chat doesn't exist → chatId remains null
+  // open empty chat window
 
-    const { data: existingChats, error: chatError } = await supabase
-      .from('chats')
-      .select('*')
-      .or(orQuery)
-      .limit(1);
-
-    if (chatError) {
-      console.error("Error checking existing chat:", chatError);
-      return;
-    }
-
-    let chatId = existingChats?.[0]?.id;
-
-    // 3. If no chat exists, create one
-    if (!chatId) {
-      const { data: newChat, error: insertError } = await supabase
-        .from('chats')
-        .insert({
-          user1_id: currentUser.id,
-          user2_id: mentor.user_id,
-          user1_name: currentUser.user_metadata?.name || currentUser.email,
-          user2_name: mentor.name,
-          user1_profile_photo: currentUser.user_metadata?.avatar_url || "",
-          user2_profile_photo: mentor.profile_photo || "",
-        })
-        .select('id')
-        .single();
-
-      if (insertError) {
-        return;
-      }
-
-      chatId = newChat.id;
-    }
-
-    // 4. Open the chat window
-    openChatWindow(chatId, mentor);
-
-  } catch (err) {
-  }
+  document.getElementById("mentorship").classList.add("hidden");
+  openChatWindow(chatId, mentor, currentUser);
 }
 
