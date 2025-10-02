@@ -1927,58 +1927,77 @@ document.getElementById("backToList").addEventListener("click", () => {
 // ----------------------
 // Send Message
 // ----------------------
+// ----------------------
+// Send Message
+// ----------------------
 document.getElementById("sendMessageBtn")?.addEventListener("click", async () => {
   const messageInput = document.getElementById("messageInput");
   const text = messageInput.value.trim();
   if (!text) return;
 
-  const friend = window.currentChatFriend;
-  if (!friend) return;
-
-  const { data: profile, error: profileError } = await supabase
-    .from('profiles')
-    .select("name, profile_photo")
-    .eq("id", currentUser.id)
-    .maybeSingle();
-  if (profileError) return console.error(profileError);
-
-  let chatId = window.currentChatId;
-
-  if (!chatId) {
-    const { data: newChat, error: createError } = await supabase
-      .from('chats')
-      .insert([{
-        user1_id: currentUser.id,
-        user1_name: profile?.name,
-        user1_profile_photo: profile?.profile_photo,
-        user2_id: friend.id,
-        user2_name: friend.name,
-        user2_profile_photo: friend.photo,
-        last_message: text,
-        last_message_at: new Date().toISOString()
-      }])
-      .select()
-      .single();
-    if (createError) return console.error(createError);
-    chatId = newChat.id;
-    window.currentChatId = chatId;
-  } else {
-    await supabase.from('chats').update({
-      last_message: text,
-      last_message_at: new Date().toISOString()
-    }).eq('id', chatId);
+  const friend = window.currentChatFriend; // must have id from profiles table
+  if (!friend?.id) {
+    return console.error("No valid friend or mentor selected.");
   }
 
-  const { error: messageError } = await supabase.from('messages').insert([{
-    chat_id: chatId,
-    sender_id: currentUser.id,
-    content: text
-  }]);
-  if (messageError) return console.error(messageError);
+  try {
+    // 1. Fetch current user profile (for name/photo)
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select("name, profile_photo")
+      .eq("id", currentUser.id)
+      .maybeSingle();
+    if (profileError) return console.error(profileError);
 
-  messageInput.value = '';
-  loadMessages(chatId, friend);
+    let chatId = window.currentChatId;
+
+    // 2. Create chat row if it doesn't exist yet
+    if (!chatId) {
+      const { data: newChat, error: createError } = await supabase
+        .from('chats')
+        .insert([{
+          user1_id: currentUser.id,
+          user1_name: profile?.name || currentUser.email,
+          user1_profile_photo: profile?.profile_photo || "",
+          user2_id: friend.id,            // must be profile ID
+          user2_name: friend.name,
+          user2_profile_photo: friend.photo || "",
+          last_message: text,
+          last_message_at: new Date().toISOString()
+        }])
+        .select()
+        .single();
+
+      if (createError) return console.error(createError);
+
+      chatId = newChat.id;
+      window.currentChatId = chatId;
+    } else {
+      // 3. Update last_message info if chat exists
+      await supabase.from('chats').update({
+        last_message: text,
+        last_message_at: new Date().toISOString()
+      }).eq('id', chatId);
+    }
+
+    // 4. Insert the actual message
+    const { error: messageError } = await supabase.from('messages').insert([{
+      chat_id: chatId,
+      sender_id: currentUser.id,
+      content: text
+    }]);
+    if (messageError) return console.error(messageError);
+
+    // 5. Clear input and reload messages
+    messageInput.value = '';
+    loadMessages(chatId, friend);
+
+  } catch (err) {
+    console.error("Error sending message:", err);
+  }
 });
+
+
 
 // ----------------------
 // Load Messages & Subscribe
