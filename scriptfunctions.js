@@ -37,6 +37,10 @@ setTimeout(() => {
 let yesterdayQuiz = []; // top-level scope
 
 document.addEventListener("DOMContentLoaded", async () => {
+    checkAndToggleMentorUI();
+    loadMentors();
+
+
   // 1️⃣ Get current logged-in user
   const { data: { user }, error: userError } = await supabase.auth.getUser();
   if (userError || !user) {
@@ -760,9 +764,267 @@ document.getElementById('calculateImpactBtn').addEventListener('click', () => {
   document.getElementById('impactResults').classList.remove('hidden');
 });
 
+// --- MENTORSHIP ---
+// --- MENTORSHIP ---
+// --- MENTORSHIP ---
+// --- MENTORSHIP ---
+
+// --- Show popup ---
+const applyBtn = document.getElementById("applyMentorBtn");
+
+applyBtn.addEventListener("click", () => {
+  document.getElementById("mentor-popup").classList.remove("mentor-hidden");
+});
 
 
+// --- Cancel popup ---
+document.getElementById("mentor-cancel").addEventListener("click", () => {
+  document.getElementById("mentor-popup").classList.add("mentor-hidden");
+});
+
+// --- Submit handler ---
+const mentorSubmitBtn = document.getElementById("mentor-submit");
+
+mentorSubmitBtn.addEventListener("click", async () => {
+  mentorSubmitBtn.disabled = true; // disable right away
+
+  const years = document.getElementById("mentor-years").value;
+
+  if (years === "" || isNaN(years)) {
+    alert("Please enter how many years you’ve been vegan.");
+    mentorSubmitBtn.disabled = false; // re-enable on error
+    return;
+  }
+
+  // 1. Get logged-in user
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError || !user) {
+    alert("You must be logged in.");
+    mentorSubmitBtn.disabled = false;
+    return;
+  }
+
+  // Fetch their profile row
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("name, profile_photo, email")
+    .eq("id", user.id)
+    .single();
+
+  if (profileError) {
+    console.error(profileError);
+    mentorSubmitBtn.disabled = false;
+  }
+
+  // Insert into mentors
+  const { error: insertError } = await supabase
+    .from("mentors")
+    .insert({
+      user_id: user.id,
+      name: profile?.name,
+      profile_photo: profile?.profile_photo || "",
+      email: profile?.email,
+      years_vegan: parseInt(years, 10)
+    });
+
+  if (insertError) {
+    console.error(insertError);
+    alert("Something went wrong while saving.");
+    mentorSubmitBtn.disabled = false; // re-enable on failure
+    return;
+  }
+
+  alert("Mentor application submitted!");
+  loadMentors();
+  checkAndToggleMentorUI();
+  document.getElementById("mentor-popup").classList.add("mentor-hidden");
+
+  // Optionally keep it disabled permanently after success:
+  // mentorSubmitBtn.disabled = true;
+  // Or re-enable if you want users to be able to try again:
+  mentorSubmitBtn.disabled = false;
+});
 
 
+async function loadMentors() {
+   const { data: { user } } = await supabase.auth.getUser();
+  const { data: mentorRecord } = await supabase
+    .from("mentors")
+    .select("*")
+    .eq("user_id", user.id)
+    .maybeSingle();
 
+  const isMentor = !!mentorRecord;
+  const mentorsList = document.getElementById("mentorsList");
+  mentorsList.innerHTML = "<li>Loading mentors...</li>";
+
+  const { data: mentors, error } = await supabase
+    .from("mentors")
+    .select("id, name, profile_photo, years_vegan");
+
+  if (error) {
+    console.error(error);
+    mentorsList.innerHTML = "<li>Error loading mentors.</li>";
+    return;
+  }
+
+  mentorsList.innerHTML = "";
+
+  mentors.forEach((mentor) => { 
+    const li = document.createElement("li");
+    li.className = "mentor-item";
+
+    li.innerHTML = `
+      <img src="${mentor.profile_photo}" alt="${mentor.name}" class="mentor-photo">
+      <div class="mentor-info">
+        <p class="mentor-name">${mentor.name}</p>
+        <p class="mentor-years">${mentor.years_vegan} years vegan</p>
+      </div>
+      <button class="mentor-message-btn" data-id="${mentor.id}">Message</button>
+    `;
+
+    mentorsList.appendChild(li);
+
+  
+
+    // Select the button **inside this li**
+  const msgBtn = li.querySelector(".mentor-message-btn");
+  msgBtn.addEventListener("click", () => {
+    // pass the mentor as "friend" to your existing function
+    startChatWithMentor(mentor);
+  });
+
+  // Hide button if current user is a mentor
+  if (isMentor) {
+    msgBtn.style.display = "none";
+  }
+  });
+
+  // Attach message button handlers
+  document.querySelectorAll(".mentor-message-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const mentorId = e.target.getAttribute("data-id");
+      alert("Start a message to mentor with ID: " + mentorId);
+      // Here you can open a chat modal or redirect to chat page
+    });
+  });
+}
+
+async function checkAndToggleMentorUI() {
+  // 1. Get current logged-in user
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError || !user) {
+    console.error("No logged-in user or error:", userError);
+    return;
+  }
+
+  const userId = user.id;
+
+  // 2. Check if user exists in mentors table
+  const { data: mentorRecord, error: mentorError } = await supabase
+    .from("mentors")
+    .select("*")
+    .eq("user_id", userId)
+    .maybeSingle(); // get only one record
+
+  if (mentorError && mentorError.code !== "PGRST116") { // ignore "no rows" error
+    console.error("Error checking mentor:", mentorError);
+    return;
+  }
+
+  const isMentor = !!mentorRecord;
+
+  // 3. Show/hide sections based on mentor status
+  const applyBtn = document.getElementById("applyMentorBtn");
+  const alreadyMentorSection = document.getElementById("alrdymentor");
+  const connectwithmentor = document.getElementById("ConnectWithAMentor");
+
+
+  if (isMentor) {
+    applyBtn.style.display = "none";              // hide apply button
+    alreadyMentorSection.style.display = "flex";  // show mentor section
+    connectwithmentor.style.display = "none";
+
+  } else {
+    applyBtn.style.display = "inline-block";      // show apply button
+    alreadyMentorSection.style.display = "none";  // hide mentor section
+  }
+
+  // 4. Handle "End mentorship" button click
+  const endBtn = document.getElementById("endmentorship");
+  endBtn.addEventListener("click", async () => {
+    const { error } = await supabase
+      .from("mentors")
+      .delete()
+      .eq("user_id", userId);
+
+    if (error) {
+      console.error(error);
+      alert("Failed to end mentorship.");
+      return;
+    }
+
+    alert("Mentorship ended.");
+    // Update UI
+    applyBtn.style.display = "inline-block";
+    alreadyMentorSection.style.display = "none";
+    loadMentors();
+  });
+}
+
+
+async function startChatWithMentor(mentor) {
+  if (!currentUser) {
+    alert("You must be logged in to start a chat.");
+    return;
+  }
+
+  try {
+    // 1. Check if chat already exists
+    const { data: existingChats, error: chatError } = await supabase
+      .from('chats')
+      .select('*')
+      .or(
+        `and(user1_id.eq.${currentUser.id},user2_id.eq.${mentor.user_id}),
+         and(user1_id.eq.${mentor.user_id},user2_id.eq.${currentUser.id})`
+      )
+      .limit(1);
+
+    if (chatError) {
+      console.error(chatError);
+      return;
+    }
+
+    let chatId = existingChats?.[0]?.id;
+
+    // 2. If no chat exists, create one
+    if (!chatId) {
+      const { data: newChat, error: insertError } = await supabase
+        .from('chats')
+        .insert({
+          user1_id: currentUser.id,
+          user2_id: mentor.user_id,
+          user1_name: currentUser.name,
+          user2_name: mentor.name,
+          user1_profile_photo: currentUser.profile_photo || "",
+          user2_profile_photo: mentor.profile_photo || "",
+        })
+        .select('id')
+        .single();
+
+      if (insertError) {
+        console.error(insertError);
+        return;
+      }
+
+      chatId = newChat.id;
+    }
+
+    // 3. Open the chat window
+    openChatWindow(chatId, mentor);
+
+  } catch (err) {
+    console.error("Error starting chat with mentor:", err);
+  }
+}
 

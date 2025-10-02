@@ -3711,79 +3711,38 @@ h2 {
   gap: 1rem;
 }
 
-/* Chats list */
-#chatsList, #mentorsList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-/* Chat window */
-#chatWindow {
-  background-color: #f5fff5;
-  border-radius: 10px;
+/* Mentor info if already a mentor */
+#alrdymentor {
+  display: none; /* hidden by default */
+  display: flex;          /* put children side by side */
+  align-items: center;    /* align text & button vertically */
+  gap: 10px;              /* space between p and button */
   padding: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-#chatWindow h4 {
-  margin: 0 0 5px 0;
-  color: #3bb341;
-}
-
-#chatMessages {
-  background: #fff;
-  border: 1px solid #eee;
+  background: #f8f9fa;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 5px;
-  max-height: 200px;
-  overflow-y: auto;
 }
 
-#chatInput {
-  width: calc(100% - 70px);
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  margin-right: 5px;
-}
-
-#sendChatBtn {
-  background-color: #3bb341;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 6px 12px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background 0.2s;
-}
-
-#sendChatBtn:hover {
-  background-color: #2ea235;
-}
-
-/* Close chat button */
-#closeChatWindow {
-  color: #999;
-  font-size: 1.2rem;
-}
-
-#closeChatWindow:hover {
+/* Style the text */
+.youareamentorP {
+  margin: 0;
+  font-weight: bold;
   color: #333;
 }
 
-/* Mentor info if already a mentor */
-#alrdymentor {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: #e0f7e0;
-  padding: 5px 10px;
-  border-radius: 8px;
+/* Style the button */
+#endmentorship {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  background: #d9534f;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#endmentorship:hover {
+  background: #c9302c;
 }
 
 #alrdymentor img {
@@ -3829,3 +3788,89 @@ h2 {
   color: #555;
   margin-bottom: 0.5rem;
 }
+
+
+/* --- Popup Styles --- */
+.mentor-hidden { display: none !important; }
+.mentor-popup-overlay {
+  position: fixed; top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.5);
+  display:flex; justify-content:center; align-items:center;
+  z-index: 1000;
+}
+.mentor-popup {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+.mentor-input {
+  margin: 10px 0; padding: 0.4rem; width: 80%; font-size: 1.5rem; line-height: 1.4;
+}
+.mentor-button {
+  margin: 5px; padding: 8px 14px;
+  border: none; border-radius: 5px;
+  background: #4CAF50; color: white; cursor: pointer;
+}
+.mentor-cancel {
+  background: #d9534f;
+}
+
+.mentorlisttitle{
+  font-size: 1.5rem;           /* larger font size */
+  font-weight: 600;            /* semi-bold */
+  color: #2c3e50;              /* dark, elegant tone */
+  padding-bottom: 6px;         /* space under text */
+  border-bottom: 2px solid #4CAF50;  /* green underline accent */
+  display: inline-block;       /* underline only under text width */
+  letter-spacing: 0.5px;       /* slight spacing for readability */
+}
+
+.mentor-list {
+  list-style: none;
+  padding: 0;
+}
+
+.mentor-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.mentor-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.mentor-info {
+  flex: 1;
+}
+
+.mentor-name {
+  font-weight: bold;
+  margin: 0;
+}
+
+.mentor-years {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.mentor-message-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  background: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+.mentor-message-btn:hover {
+  background: #45a049;
+}
+
