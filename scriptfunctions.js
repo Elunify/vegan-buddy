@@ -899,15 +899,6 @@ async function loadMentors() {
     msgBtn.style.display = "none";
   }
   });
-
-  // Attach message button handlers
-  document.querySelectorAll(".mentor-message-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      const mentorId = e.target.getAttribute("data-id");
-      alert("Start a message to mentor with ID: " + mentorId);
-      // Here you can open a chat modal or redirect to chat page
-    });
-  });
 }
 
 async function checkAndToggleMentorUI() {
@@ -974,6 +965,12 @@ async function checkAndToggleMentorUI() {
 
 
 async function startChatWithMentor(mentor) {
+    const { data: { user: currentUser }, error } = await supabase.auth.getUser();
+  if (error || !currentUser) {
+    alert("You must be logged in to start a chat.");
+    return;
+  }
+  
   if (!currentUser) {
     alert("You must be logged in to start a chat.");
     return;
