@@ -1895,7 +1895,7 @@ async function startChatWithFriend(friend) {
   openChatWindow(chatId, friend);
 }
 
-function openChatWindow(chatId, friend) {
+export async function openChatWindow(chatId, friend) {
   window.currentChatId = chatId;
   window.currentChatFriend = friend;
 

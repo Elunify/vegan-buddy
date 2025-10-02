@@ -3,6 +3,7 @@ import { DailyCheckInPool } from "./scriptpools.js"; // pool file
 import { HealthIssuesPool } from "./scriptpools.js";
 import { extralessonsData } from "./scriptpools.js";
 import { loadProfile } from './scriptreads.js';
+import { openChatWindow } from './scriptreads.js';
 
 // Helper: get current logged-in user
 async function getCurrentUser() {
@@ -850,7 +851,7 @@ async function loadMentors() {
    const { data: { user } } = await supabase.auth.getUser();
   const { data: mentorRecord } = await supabase
     .from("mentors")
-    .select("id, user_id, name, profile_photo, years_vegan")
+    .select("*")
     .eq("user_id", user.id)
     .maybeSingle();
 
@@ -968,16 +969,12 @@ async function startChatWithMentor(mentor) {
     // 1. Get logged-in user
   const { data: { user: currentUser }, error } = await supabase.auth.getUser();
 
-  console.log("DEBUG: currentUser:", currentUser);
-  console.log("DEBUG: mentor:", mentor);
-
   if (error || !currentUser) {
     alert("You must be logged in to start a chat.");
     return;
   }
 
   if (!mentor || !mentor.user_id) {
-    console.error("Mentor user_id is missing!", mentor);
     alert("Cannot start chat: mentor user ID is missing.");
     return;
   }
@@ -985,7 +982,6 @@ async function startChatWithMentor(mentor) {
   try {
     // 2. Check if chat already exists
     const orQuery = `and(user1_id.eq.${currentUser.id},user2_id.eq.${mentor.user_id}),and(user1_id.eq.${mentor.user_id},user2_id.eq.${currentUser.id})`;
-    console.log("DEBUG: Supabase .or() query:", orQuery);
 
     const { data: existingChats, error: chatError } = await supabase
       .from('chats')
@@ -998,13 +994,10 @@ async function startChatWithMentor(mentor) {
       return;
     }
 
-    console.log("DEBUG: existingChats:", existingChats);
-
     let chatId = existingChats?.[0]?.id;
 
     // 3. If no chat exists, create one
     if (!chatId) {
-      console.log("No chat exists, creating new chat...");
       const { data: newChat, error: insertError } = await supabase
         .from('chats')
         .insert({
@@ -1019,20 +1012,16 @@ async function startChatWithMentor(mentor) {
         .single();
 
       if (insertError) {
-        console.error("Error inserting new chat:", insertError);
         return;
       }
 
       chatId = newChat.id;
-      console.log("DEBUG: new chat created with id:", chatId);
     }
 
     // 4. Open the chat window
-    console.log("Opening chat window with chatId:", chatId);
     openChatWindow(chatId, mentor);
 
   } catch (err) {
-    console.error("Error starting chat with mentor:", err);
   }
 }
 
