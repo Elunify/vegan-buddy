@@ -860,7 +860,7 @@ async function loadMentors() {
 
   const { data: mentors, error } = await supabase
     .from("mentors")
-    .select("id, name, profile_photo, years_vegan");
+    .select("id, user_id, name, profile_photo, years_vegan");
 
   if (error) {
     console.error(error);
