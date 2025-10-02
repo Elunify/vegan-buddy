@@ -995,6 +995,7 @@ async function startChatWithMentor(mentor) {
 
   // At this point, the user can type a message.
   // The first message will trigger chat row creation (handled in your sendMessageBtn listener).
+  
 }
 
 
