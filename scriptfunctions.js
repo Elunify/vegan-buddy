@@ -850,7 +850,7 @@ async function loadMentors() {
    const { data: { user } } = await supabase.auth.getUser();
   const { data: mentorRecord } = await supabase
     .from("mentors")
-    .select("*")
+    .select("id, user_id, name, profile_photo, years_vegan")
     .eq("user_id", user.id)
     .maybeSingle();
 
