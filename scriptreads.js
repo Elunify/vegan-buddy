@@ -245,7 +245,7 @@ if (profile.last_checkin_date === today) {
 
   if (profile.last_checkin_date < yesterdayStr) {
     // Missed yesterday → reset streak or handle special logic
-    const streakSaved = await handleStreakSave();
+    const streakSaved = await handleStreakSave(user, profile, yesterday);
     if (streakSaved) {
       await supabase.from("profiles").update({
         last_checkin_date: yesterdayStr
@@ -330,8 +330,6 @@ if (petNameEl && profile.pet_name) {
 
 
 
-// Run on page load
-loadProfile();
 
  // Meal-art
   // Meal-art
