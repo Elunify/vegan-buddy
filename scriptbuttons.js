@@ -325,6 +325,11 @@ document.getElementById("close-lesson").addEventListener("click", () => {
 // =======================
 // GLOBAL VARIABLES
 // =======================
+const startScanBtn = document.getElementById("startScanBtn");
+const scanContainer = document.getElementById("scanContainer");
+const scanResult = document.getElementById("scanResult");
+const scanAgainBtn = document.getElementById("scanAgainBtn");
+const video = document.getElementById('scanVideo');
 let stream = null;
 let scanning = false; // NEW FLAG
 let lastBarcode = null;
@@ -337,6 +342,22 @@ let lastFetchLocation = null;
 let fetchTimeout = null;
 const FETCH_INTERVAL = 1000; // ms
 const MIN_MOVE_DISTANCE = 500; // meters
+
+startScanBtn.addEventListener("click", () => {
+  startScanBtn.classList.add("hidden");   // hide button
+  scanContainer.classList.remove("hidden"); // show camera
+  scanResult.classList.add("hidden");     // hide previous product (if any)
+  scanAgainBtn.classList.add("hidden");   // hide scan again button
+  startCameraWithTimeout();
+});
+
+scanAgainBtn.addEventListener("click", () => {
+  scanContainer.classList.remove("hidden"); // show camera
+  scanResult.classList.add("hidden");       // hide product info
+  scanAgainBtn.classList.add("hidden");     // hide button
+  lastBarcode = null;
+  startCameraWithTimeout();
+});
 
 // Start camera and barcode detection
 async function startCameraWithTimeout() {
@@ -374,9 +395,6 @@ async function startCameraWithTimeout() {
 // =======================
 // SCAN ELEMENTS
 // =======================
-const startScanBtn = document.getElementById("startScanBtn");
-const scanContainer = document.getElementById("scanContainer");
-const video = document.getElementById('scanVideo');
 const resultDiv = document.getElementById('scanResult');
 const loader = document.getElementById('scanLoader');
 
@@ -491,33 +509,19 @@ async function checkVegan(barcode) {
   }
 }
 
-// Display product info with "Scan Again" button
+// After barcode is detected
 function displayProduct(product) {
-    scanContainer.classList.add("hidden");
-  let html = `<div class="recommendation-product-card">
-    ${product.image ? `<img src="${product.image}" alt="${product.name}">` : ''}
-    <h3>${product.name}</h3>
-    <p>${product.vegan ? "✅ This product is vegan!" : "❌ Not vegan or unknown."}</p>
-    <p><strong>Brands:</strong> ${product.brands}</p>
-    <p><strong>Ingredients:</strong> ${product.ingredients}</p>`;
-
-  if (product.nutriScore) {
-    html += `<p><strong>Nutri-Score:</strong> <span class="nutri-score nutri-${product.nutriScore}">${product.nutriScore.toUpperCase()}</span></p>`;
-  }
-
-  html += `</div>
-    <button id="scanAgainBtn" class="scan-again-btn">🔄 Scan Again</button>`;
-
-  resultDiv.innerHTML = html;
-
-  const scanAgainBtn = document.getElementById("scanAgainBtn");
-  if (scanAgainBtn) {
-    scanAgainBtn.addEventListener("click", () => {
-      lastBarcode = null;
-      resultDiv.innerHTML = "";
-      startCamera().then(detectBarcode);
-    });
-  }
+  scanContainer.classList.add("hidden");    // hide camera
+  scanResult.innerHTML = `
+    <div class="recommendation-product-card">
+      ${product.image ? `<img src="${product.image}" alt="${product.name}">` : ''}
+      <h3>${product.name}</h3>
+      <p>${product.vegan ? "✅ This product is vegan!" : "❌ Not vegan or unknown."}</p>
+      <p><strong>Brands:</strong> ${product.brands}</p>
+      <p><strong>Ingredients:</strong> ${product.ingredients}</p>
+    </div>`;
+  scanResult.classList.remove("hidden");   // show product info
+  scanAgainBtn.classList.remove("hidden"); // show scan again button
 }
 
 // =======================
