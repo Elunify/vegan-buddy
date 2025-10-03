@@ -205,6 +205,7 @@ function getLevelFromXP(totalXP) {
   return { level, xpTowardsNextLevel: xpLeft, xpNeededForNextLevel: xpNeededForNext };
 }
 
+
 // Calculate XP progress
 const { level, xpTowardsNextLevel, xpNeededForNextLevel } = getLevelFromXP(totalXP);
 
@@ -223,6 +224,19 @@ if (countersElements.levelProgress) {
   }
 }
 
+// ✅ Sync level back to DB if it’s different
+if (profile.current_level !== level) {
+  const { error: updateError } = await supabase
+    .from("profiles")
+    .update({ current_level: level })
+    .eq("id", user.id);
+
+  if (updateError) {
+    console.error("Error updating level:", updateError);
+  } else {
+    profile.current_level = level; // keep local copy in sync
+  }
+}
 
   // Daily Check-in button
 const checkinBtn = document.getElementById("checkinBtn");
@@ -1178,6 +1192,14 @@ async function showCommunityMembers(locationId) {
   const membersList = document.getElementById("communityMembersList");
   membersList.innerHTML = "";
 
+  const demoCard = document.getElementById("ProfileCardDemo");
+  const closeBtn = demoCard.querySelector(".close-btn");
+
+  // Close demo card when clicking X
+  closeBtn.addEventListener("click", () => {
+    demoCard.classList.remove("show");
+  });
+
   // 1️⃣ Fetch current user's friends first
   const { data: friendsData, error: friendsError } = await supabase
     .from("friends")
@@ -1222,6 +1244,12 @@ async function showCommunityMembers(locationId) {
     const img = document.createElement("img");
     img.src = member.profile_photo || "default.jpg";
     img.alt = member.name;
+
+    // Show demo profile card on avatar click
+    img.addEventListener("click", (e) => {
+      e.stopPropagation();
+      demoCard.classList.add("show");
+    });
 
     const nameSpan = document.createElement("span");
     nameSpan.textContent = member.name;
@@ -1615,65 +1643,88 @@ AFopenCommentPopup(fullBlock);
 async function loadChatList() {
   const list = document.getElementById("chatListItems");
   if (!list) return;
-  list.innerHTML = "";
 
-  // Fetch chats where currentUser is either user1 or user2
+  // Helper to render the list
+  function renderChats(chats) {
+    list.innerHTML = "";
+    if (!chats || chats.length === 0) return;
+
+    chats.forEach(chat => {
+      if (!chat || !chat.id) return;
+
+      const friend = chat.user1_id === currentUser.id
+        ? { id: chat.user2_id || "unknown", name: chat.user2_name || "Unknown", photo: chat.user2_profile_photo || "default.jpg" }
+        : { id: chat.user1_id || "unknown", name: chat.user1_name || "Unknown", photo: chat.user1_profile_photo || "default.jpg" };
+
+      const li = document.createElement("li");
+      li.style.display = "flex";
+      li.style.alignItems = "center";
+      li.style.justifyContent = "space-between";
+      li.style.padding = "0.5rem";
+      li.style.borderBottom = "1px solid #eee";
+
+      const img = document.createElement("img");
+      img.src = friend.photo || "default.jpg";
+      img.alt = friend.name;
+      img.style.width = "40px";
+      img.style.height = "40px";
+      img.style.borderRadius = "50%";
+      img.style.marginRight = "0.5rem";
+
+      const info = document.createElement("div");
+      info.style.flex = "1";
+      const nameSpan = document.createElement("div");
+      nameSpan.textContent = friend.name;
+      nameSpan.style.fontWeight = "500";
+      const lastMessage = document.createElement("div");
+      lastMessage.textContent = chat.last_message || "";
+      lastMessage.style.fontSize = "0.85rem";
+      lastMessage.style.color = "#555";
+
+      info.appendChild(nameSpan);
+      info.appendChild(lastMessage);
+
+      li.appendChild(img);
+      li.appendChild(info);
+
+      li.onclick = () => startChatWithFriend(friend);
+
+      list.appendChild(li);
+    });
+  }
+
+  // Initial fetch
   const { data: chats, error } = await supabase
     .from('chats')
     .select('*')
     .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`)
     .order('last_message_at', { ascending: false });
 
-  if (error) {
-    console.error("Error fetching chats:", error);
-    return;
-  }
+  if (error) return console.error("Error fetching chats:", error);
+  renderChats(chats);
 
-  if (!chats || chats.length === 0) return; // nothing to show yet
+  // Subscribe to real-time changes
+  supabase
+    .channel('public:chats')
+    .on(
+      'postgres_changes',
+      {
+        event: '*', // listen to INSERT, UPDATE, DELETE
+        schema: 'public',
+        table: 'chats'
+      },
+      payload => {
+        // If the current user is involved, re-render the list
+        const chat = payload.new;
+        if (!chat) return;
 
-  chats.forEach(chat => {
-  if (!chat || !chat.id) return; // <-- skip invalid rows
-
-    // Decide who the friend is
-    const friend = chat.user1_id === currentUser.id
-    ? { id: chat.user2_id || "unknown", name: chat.user2_name || "Unknown", photo: chat.user2_profile_photo || "default.jpg" }
-    : { id: chat.user1_id || "unknown", name: chat.user1_name || "Unknown", photo: chat.user1_profile_photo || "default.jpg" };
-
-    const li = document.createElement("li");
-    li.style.display = "flex";
-    li.style.alignItems = "center";
-    li.style.justifyContent = "space-between";
-    li.style.padding = "0.5rem";
-    li.style.borderBottom = "1px solid #eee";
-
-    const img = document.createElement("img");
-    img.src = friend.photo || "default.jpg";
-    img.alt = friend.name;
-    img.style.width = "40px";
-    img.style.height = "40px";
-    img.style.borderRadius = "50%";
-    img.style.marginRight = "0.5rem";
-
-    const info = document.createElement("div");
-    info.style.flex = "1";
-    const nameSpan = document.createElement("div");
-    nameSpan.textContent = friend.name;
-    nameSpan.style.fontWeight = "500";
-    const lastMessage = document.createElement("div");
-    lastMessage.textContent = chat.last_message || "";
-    lastMessage.style.fontSize = "0.85rem";
-    lastMessage.style.color = "#555";
-
-    info.appendChild(nameSpan);
-    info.appendChild(lastMessage);
-
-    li.appendChild(img);
-    li.appendChild(info);
-
-    li.onclick = () => startChatWithFriend(friend);
-
-    list.appendChild(li);
-  });
+        if (chat.user1_id === currentUser.id || chat.user2_id === currentUser.id) {
+          // Fetch updated chat list again (or you could update only the changed row)
+          loadChatList();
+        }
+      }
+    )
+    .subscribe();
 }
 
 // ===== Friends =====
@@ -1755,6 +1806,14 @@ async function showIncomingFriendRequests() {
   if (!list) return;
   list.innerHTML = "";
 
+  const demoCard = document.getElementById("ProfileCardDemo");
+  const closeBtn = demoCard.querySelector(".close-btn");
+
+  // Close demo card when clicking X
+  closeBtn.addEventListener("click", () => {
+    demoCard.classList.remove("show");
+  });
+
   const { data: requests, error } = await supabase
     .from("friend_requests")
     .select("id, sender_id, name, profile_photo, email, receiver_email, status")
@@ -1769,6 +1828,12 @@ async function showIncomingFriendRequests() {
     const img = document.createElement("img");
     img.src = req.profile_photo || "default.jpg";
     img.alt = req.name || "Unknown";
+
+    // Show demo profile card on avatar click
+    img.addEventListener("click", (e) => {
+      e.stopPropagation();
+      demoCard.classList.add("show");
+    });
 
     const nameSpan = document.createElement("span");
     nameSpan.textContent = req.name || "Unknown";
@@ -1839,6 +1904,14 @@ async function showFriends(containerId, onClickFriend) {
     .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
   if (error) return console.error(error);
 
+  const demoCard = document.getElementById("ProfileCardDemo");
+  const closeBtn = demoCard.querySelector(".close-btn");
+
+  // Close demo card when clicking X
+  closeBtn.addEventListener("click", () => {
+    demoCard.classList.remove("show");
+  });
+
   friendsData.forEach(friendship => {
     const friend = friendship.user1_id === currentUser.id
       ? { id: friendship.user2_id, name: friendship.user2_name, email: friendship.user2_email, photo: friendship.user2_profile_photo }
@@ -1850,6 +1923,12 @@ async function showFriends(containerId, onClickFriend) {
     const img = document.createElement("img");
     img.src = friend.photo || "default.jpg";
     img.alt = friend.name;
+
+    // Show static demo card on avatar click
+    img.addEventListener("click", (e) => {
+      e.stopPropagation(); // prevent event bubbling
+      demoCard.classList.add("show");
+    });
 
     const nameSpan = document.createElement("span");
     nameSpan.textContent = friend.name || "Unknown";
@@ -2041,9 +2120,4 @@ async function loadMessages(chatId, friend) {
     })
     .subscribe();
 }
-
-// --------- MENTORSHIP ------------
-// --------- MENTORSHIP ------------
-// --------- MENTORSHIP ------------
-// --------- MENTORSHIP ------------
 

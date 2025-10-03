@@ -212,7 +212,7 @@ if (userData.last_lesson) {
       donated: (userData.donated || 0),
       last_checkin_date: new Date().toISOString().split("T")[0],
       // 🏅 Update badges here
-        badges: (userData.badges || 0) + badgeIncrement,
+        badge: (userData.badge || 0) + badgeIncrement,
     };
 
     const { error: updateError } = await supabase
@@ -874,6 +874,8 @@ async function loadMentors() {
 
   mentorsList.innerHTML = "";
 
+  const demoCard = document.getElementById("ProfileCardDemo");
+
   mentors.forEach((mentor) => { 
     const li = document.createElement("li");
     li.className = "mentor-item";
@@ -889,7 +891,11 @@ async function loadMentors() {
 
     mentorsList.appendChild(li);
 
-  
+  // Show demo profile card when clicking the avatar image
+    const img = li.querySelector(".mentor-photo");
+    img.addEventListener("click", () => { 
+      demoCard.classList.add("show");
+    });
 
     // Select the button **inside this li**
   const msgBtn = li.querySelector(".mentor-message-btn");
@@ -903,6 +909,11 @@ async function loadMentors() {
     msgBtn.style.display = "none";
   }
   });
+  // Optional: close demo card with the X button
+  const closeBtn = demoCard.querySelector(".close-btn");
+  closeBtn.addEventListener("click", () => {
+    demoCard.classList.remove("show");
+    });
 }
 
 async function checkAndToggleMentorUI() {

@@ -115,7 +115,7 @@ communityButtons.forEach(id => {
 });
 
 // Playground: Avatar, Shop, Leaderboards, Challenges
-const playgroundButtons = ['avatar','shop','leaderboards','challenges'];
+const playgroundButtons = ['profilecard','avatar','shop','leaderboards','challenges'];
 playgroundButtons.forEach(id => {
   const btn = document.querySelector(`button[onclick="showSection('${id}')"]`);
   if (btn) {
@@ -125,6 +125,24 @@ playgroundButtons.forEach(id => {
     });
   }
 });
+
+// Close dropdowns when clicking outside
+document.body.addEventListener('click', e => {
+  // Select all dropdown buttons and their corresponding contents
+  const dropdowns = document.querySelectorAll('.dropdown');
+  const openDropdowns = document.querySelectorAll('.dropdown-content.open');
+
+  openDropdowns.forEach(dropdown => {
+    const parent = dropdown.parentElement; // the .dropdown container
+    const button = parent.querySelector('button');
+
+    // If click is outside the dropdown container and the button
+    if (!parent.contains(e.target) && e.target !== button) {
+      dropdown.classList.remove('open');
+    }
+  });
+});
+
 
 // Home button
 const homeBtn = document.querySelector('.bottom-nav button[onclick="showSection(\'home\')"]');
@@ -475,6 +493,7 @@ async function checkVegan(barcode) {
 
 // Display product info with "Scan Again" button
 function displayProduct(product) {
+    scanContainer.classList.add("hidden");
   let html = `<div class="recommendation-product-card">
     ${product.image ? `<img src="${product.image}" alt="${product.name}">` : ''}
     <h3>${product.name}</h3>
@@ -654,3 +673,13 @@ function toggleListLeader(header) {
   ul?.classList.toggle('visible');
   header.classList.toggle('active'); // rotates arrow
 }
+
+
+
+
+
+
+
+
+
+

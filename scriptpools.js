@@ -557,3 +557,162 @@ export const extralessonsData = {
     { title: "Healthy habits", content: "Healthy habits add up to longevity.", question: { text: "What supports longevity?", options: ["Healthy habits", "Smoking", "Junk food"], correctIndex: 0 } }
   ]
 };
+
+// ---------------------------
+// Tip pools
+// ---------------------------
+const characterTips = {
+  eluna: [
+    "Remember to water your plants today!",
+    "A plant-based meal is a gift to your body 🌱",
+    "Take a deep breath and enjoy nature.",
+    "Every animal wants to live, just like us 🐮🐷🐔",
+    "Protecting forests means protecting animal homes 🌳",
+    "Skipping meat once saves a little life somewhere ❤️",
+    "Imagine a world where no animal suffers—you're building it 🌍",
+    "Pollution hurts wild animals too—choose kindness daily.",
+    "Dairy calves are separated from mothers—plant milk makes a difference 🥛🌱",
+    "Fish feel pain too—let the oceans breathe 🌊🐟",
+    "Each meal can be compassion on your plate.",
+    "Be the reason an animal sees tomorrow.",
+    "Protecting animals also protects our shared planet."
+  ],
+  elune: [
+    "Share your vegan journey with a friend today!",
+    "Try a new plant-based recipe this week!",
+    "Small actions create big impact!",
+    "Plant-based diets reduce carbon footprints—every bite counts 🌱",
+    "Your heart loves veggies—literally ❤️",
+    "Clean air comes from clean choices 🌬️",
+    "Healthier meals mean healthier future generations.",
+    "Climate change affects people most vulnerable—your choices help them 🌍",
+    "Eating plants saves water, which means more for communities in need 💧",
+    "Your body thrives on plant power 💪",
+    "Choosing plants is choosing a future for humanity.",
+    "Healthy planet = healthy you.",
+    "Together, small steps create a giant leap for Earth."
+  ],
+  pet: [
+    "Play with your pet today 🐾",
+    "Give your pet a hug and feel the love!",
+    "Pets teach us patience and care.",
+    "What makes you feel most alive today?",
+    "Kindness is never wasted—try it out!",
+    "You are stronger than yesterday.",
+    "If your pet could talk, what wisdom would it share?",
+    "Love grows when shared 💚",
+    "Take a pause—your pet lives in the moment 🕊️",
+    "What does freedom mean to you?",
+    "Encourage yourself like you encourage your best friend.",
+    "Every small act of care shapes who you are.",
+    "Philosophy isn’t in books only—it’s in how you treat life."
+  ]
+};
+
+
+// Track last shown timestamp (single for all characters)
+let lastShown = parseInt(localStorage.getItem("lastShownTime"), 10) || 0; // timestamp of last tip shown
+
+// Save helper
+function saveLastShown(ts) {
+  lastShown = ts;
+  localStorage.setItem("lastShownTime", ts);
+}
+
+// Define spawn zones for each character
+function getRandomPositionForChar(char, wrapperWidth, wrapperHeight) {
+  const vw = Math.max(document.documentElement.clientWidth, window.innerWidth);
+  const vh = Math.max(document.documentElement.clientHeight, window.innerHeight);
+
+  const leftEdge = 0.15 * vw;
+  const rightEdge = 0.85 * vw - wrapperWidth;
+  const bottomLimit = 0.55 * vh; // max Y (40% from bottom)
+  const topLimit = 0.10 * vh;
+
+  let minX, maxX;
+
+  switch (char) {
+    case "eluna":
+      minX = leftEdge;
+      maxX = 0.4 * vw - wrapperWidth; // left side
+      break;
+    case "elune":
+      minX = 0.3 * vw;
+      maxX = 0.7 * vw - wrapperWidth; // middle
+      break;
+    case "pet":
+      minX = 0.6 * vw;
+      maxX = rightEdge; // right side
+      break;
+    default:
+      minX = leftEdge;
+      maxX = rightEdge;
+  }
+
+  const minY = topLimit;
+  const maxY = bottomLimit - wrapperHeight;
+
+  const x = minX + Math.random() * (maxX - minX);
+  const y = minY + Math.random() * (maxY - minY);
+
+  return { x, y };
+}
+
+function showRandomAvatar() {
+  const now = Date.now();
+  const cooldown = 60 * 60 * 1000; // 1 hour
+  if (now - lastShown < cooldown) return;
+
+  const chars = Object.keys(characterTips);
+  const char = chars[Math.floor(Math.random() * chars.length)];
+
+  const originalWrapper = document.getElementById(char + "Wrapper");
+  if (!originalWrapper) return;
+
+  const wrapper = originalWrapper.cloneNode(true);
+  wrapper.id = char + "_floating";
+  wrapper.style.position = "fixed";
+  wrapper.style.zIndex = "1000";
+  wrapper.style.display = "block";
+
+  // ✅ Call the position function here
+  // Call the function correctly
+const pos = getRandomPositionForChar(
+  char,
+  wrapper.offsetWidth,
+  wrapper.offsetHeight
+);
+wrapper.style.left = `${pos.x}px`;
+wrapper.style.top = `${pos.y}px`;
+
+  document.body.appendChild(wrapper);
+  // ✅ Save time to localStorage
+  saveLastShown(now);
+
+  const bubble = wrapper.querySelector(".thought-bubble");
+  const tipBox = wrapper.querySelector(".lesson-box");
+  const tips = characterTips[char];
+  tipBox.textContent = tips[Math.floor(Math.random() * tips.length)];
+
+  const avatar = wrapper.querySelector(".avatar, #petAvatar, .thought-toggle");
+  avatar.onclick = (e) => {
+    e.stopPropagation();
+    bubble.classList.add("visible");
+  };
+
+  const closeBtn = bubble.querySelector(".close-thought");
+  closeBtn.onclick = (e) => {
+    e.stopPropagation();
+    bubble.classList.remove("visible");
+    wrapper.remove();
+  };
+}
+
+// ---------------------------
+// Schedule check every minute
+// ---------------------------
+setInterval(showRandomAvatar, 10 * 1000);
+window.addEventListener("load", () => setTimeout(showRandomAvatar, 8000)); // first tip after 6s
+window.addEventListener("load", () => {
+  setTimeout(() => showRandomAvatar(), 8000);
+});
