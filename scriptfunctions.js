@@ -553,11 +553,11 @@ function setupExtraLessonClicks() {
           }
 
           innerHTML += `
-            <div class="extralesson-text" style="margin-top:0.5rem;">
-              <p>${extralessonsData[courseId][idx].content}</p>
-              <button class="complete-btn">I have read it ✅</button>
-            </div>
-          `;
+  <div class="extralesson-text" style="margin-top:0.5rem; display:${questionObj ? "none" : "block"};">
+    <p>${extralessonsData[courseId][idx].content}</p>
+    <button class="complete-btn">I have read it ✅</button>
+  </div>
+`;
 
           contentContainer.innerHTML = innerHTML;
 
