@@ -563,51 +563,336 @@ export const extralessonsData = {
 // ---------------------------
 const characterTips = {
   eluna: [
-    "Remember to water your plants today!",
-    "A plant-based meal is a gift to your body 🌱",
-    "Take a deep breath and enjoy nature.",
+    "Dairy calves are separated from mothers—plant milk makes a difference 🥛🌱",
+    "Cows in factory farms often never see grass or open fields.",
+    "Mother pigs are kept in crates so small they can’t even turn around.",
+    "Chickens raised for meat grow so fast their legs often break under them.",
+    "Egg-laying hens live in cages the size of an A4 paper sheet.",
+    "Fishing nets don’t just catch fish — they trap dolphins, turtles, and seabirds too.",
+    "Every year, thousands of dolphins suffocate after getting tangled in fishing nets.",
+    "Dolphins are often killed as ‘bycatch’ — an industry term for accidental victims.",
+    "Sea turtles drown when trapped in nets, unable to reach the surface for air.",
+    "Many whales carry heavy fishing gear for years, suffering constant pain.",
+    "We kill 80 billion animals yearly — if it were humans, extinction in 17 days.",
+
+    "Fun fact: pigs are actually more intelligent than dogs!",
+    "Dolphins give themselves names using unique whistles.",
+    "Dolphins work together to care for injured friends.",
+    "By protecting cows, you help preserve gentle, social animals with rich emotions.",
+    "Turkeys love affection and can purr when they’re happy!",
+    "Some fish use tools and can recognize themselves in mirrors.",
+    "Fish feel pain and stress — just like land animals do.",
     "Every animal wants to live, just like us 🐮🐷🐔",
     "Protecting forests means protecting animal homes 🌳",
-    "Skipping meat once saves a little life somewhere ❤️",
-    "Imagine a world where no animal suffers—you're building it 🌍",
-    "Pollution hurts wild animals too—choose kindness daily.",
-    "Dairy calves are separated from mothers—plant milk makes a difference 🥛🌱",
-    "Fish feel pain too—let the oceans breathe 🌊🐟",
-    "Each meal can be compassion on your plate.",
-    "Be the reason an animal sees tomorrow.",
-    "Protecting animals also protects our shared planet."
+    "Cows have best friends — and they get stressed when separated.",
+
+
+    "Imagine a world where no animal suffers—you're building it! 🌍",
+    "You are the reason an animal sees tomorrow!",
+    "With every kind action, you protect someone who cannot speak for themselves.",
+    "By caring, you turn empathy into real change for animals.",
+    "Every plant-based meal is a hug to the planet and its creatures.",
+    "Your actions today ripple into a brighter future for all animals.",
+    "Thanks to you, someone is free to live and flourish.",
+    "You are creating a world where kindness is the norm.",
+    "Each conscious choice makes suffering optional, not inevitable.",
+    "Because of you, a life is lived, not taken.",
+    "Your compassion is stronger than any industry of cruelty.",
+    "Every act of kindness makes the world safer for the voiceless.",
+    "You are part of the solution — a hero for every animal.",
+    "The animals you protect today will thank you in ways you’ll never see — but feel.",
+    "Every small step toward compassion changes the story for thousands of lives.",
+    "Your choices matter more than you realize — they save lives. 💛",
+    "Imagine the joy of a world where no creature lives in fear — you make it possible. 🌟",
+    "Each plant-based meal is a victory for animals. 🥦",
+    "Your empathy is a superpower — use it to protect the voiceless. 🦸",
+    "Because of your choices, someone can play, explore, and be free. 🐇",
+    "Every act of kindness counts — one life at a time. 🐾",
+    "You’re shaping a future where compassion wins. 🌈",
+    "A world without animal suffering begins with you. 🌍",
+    "Your care creates safe spaces for animals every day. 💚",
+    "Plant-based choices = lives saved. It’s that simple. 🌱",
+    "Even small changes ripple into massive kindness. 🌊",
+    "With every thoughtful choice, you fight cruelty. ⚡",
+    "You are the voice for those who cannot speak. 🗣️",
+    "Every conscious meal is a step toward a brighter, gentler world. 🌞",
+    "Your compassion today builds hope for tomorrow. ✨",
+    "You are a guardian for the innocent. 🛡️",
+    "One meal, one choice, one life saved — you are amazing! 💛",
+    "Your actions give freedom a chance to flourish. 🌿",
+    "Each kind choice is a victory against cruelty. 🏆",
+    "You are creating a world worth living for, for every creature. 🌍",
+    "Every thoughtful act for animals multiplies kindness. 💫",
+    "You hold the power to change lives — one compassionate choice at a time. 🌱",
+    "Every life you protect matters — and you matter to them. 💛",
+    "Your compassion can turn fear into freedom. 🕊️",
+    "Imagine the smiles of animals living without fear — that’s your impact. 🐶",
+    "By caring, you create a world full of hope and joy. 🌈",
+    "Your everyday choices have extraordinary power. ⚡",
+    "The kindness you show today echoes through countless lives. 🌊",
+    "You are a hero for animals — simple as that. 🦸",
+    "Every act of empathy builds a gentler world. 💛",
+    "Plant-based choices = love in action. 🌱",
+    "You are proof that small actions can make big changes. ✨",
+    "Each life you protect is a victory for compassion. 🐾",
+    "You are making the world brighter, one kind choice at a time. 🌞",
+    "Thanks to you, more animals get to live, explore, and play. 🐇",
+    "Every kind choice is a ripple in the ocean of compassion. 🌊",
+    "Your empathy shapes the world into a safer place for the voiceless. 💚"
+
   ],
   elune: [
-    "Share your vegan journey with a friend today!",
-    "Try a new plant-based recipe this week!",
-    "Small actions create big impact!",
-    "Plant-based diets reduce carbon footprints—every bite counts 🌱",
-    "Your heart loves veggies—literally ❤️",
-    "Clean air comes from clean choices 🌬️",
-    "Healthier meals mean healthier future generations.",
-    "Climate change affects people most vulnerable—your choices help them 🌍",
-    "Eating plants saves water, which means more for communities in need 💧",
-    "Your body thrives on plant power 💪",
-    "Choosing plants is choosing a future for humanity.",
-    "Healthy planet = healthy you.",
-    "Together, small steps create a giant leap for Earth."
+"We feed 80 billion farm animals annually — yet 673 million humans go hungry.", //(Based on the 2024 UN report indicating 673 million people experienced hunger.)
+"Approximately 70% of antibiotics are used in farm animals, not humans.", //(Based on estimates from the 2010s; figures may vary.)
+"Up to 80% of chronic diseases are linked to diets high in meat and dairy.",
+"Air pollution causes 7 million deaths globally every year.",
+"Plastic waste kills over a million marine animals annually.",
+"Deforestation wipes out 10 million hectares of forest each year.",
+"Industrial farming produces more greenhouse gases than all cars and planes combined.",
+"Overfishing has wiped out 90% of large fish populations in the last century.",
+"Food systems account for 30% of global greenhouse gas emissions.",
+"Human consumption uses 1.7 times the planet’s resources annually.",
+"Climate change is increasing the frequency of deadly heatwaves and storms.",
+"Animal agriculture uses 70% of global freshwater for meat and dairy production.",
+"Polluted oceans threaten the food supply of billions of people.",
+"Industrial farming often causes soil degradation and erosion, making land infertile.",
+"Air pollution from factories contributes to asthma and other respiratory diseases.",
+"Rising CO₂ levels make oceans more acidic, threatening coral reefs.",
+"Waste from meat and dairy farms contaminates rivers and lakes.",
+"Global livestock emits 14.5% of all human-caused greenhouse gases.",
+"Climate change is a major factor in the increasing spread of diseases.",
+"Industrial farming contributes to biodiversity loss — thousands of species are disappearing.",
+"Fossil fuel burning is the main cause of climate change — we rely on it too much.",
+"Extreme weather events are killing more people and displacing millions each year.",
+
+
+"Meat-free meals are linked to lower cholesterol and better heart health.",
+"Eating more plants can reduce your risk of type 2 diabetes.",
+"Urban forests help absorb CO₂ and reduce air pollution in cities.",
+"Every kilogram of beef uses 15,000 liters of water to produce.",
+"Global temperature has already increased by over 1°C since pre-industrial times.",
+"Methane is a more potent greenhouse gas than CO₂ over 20 years.",
+"Switching to a plant-based diet could reduce a person’s carbon footprint by up to 50%.",
+"Every plant-based meal helps protect the planet and your health. 🌱",
+"Choosing to walk, bike, or use public transport reduces CO₂ emissions. 🚲",
+"Renewable energy is growing fast — solar and wind are changing the world. ☀️💨",
+"Planting trees can restore habitats and fight climate change. 🌳",
+"Every action to reduce waste saves resources for future generations. ♻️",
+"Eating more plants supports your heart, your body, and the Earth. ❤️",
+"Community gardens turn cities green and feed people sustainably. 🌿",
+"Switching to a plant-based diet is one of the fastest ways to reduce your footprint. 🌎",
+"Renewable energy now powers millions of homes worldwide. ⚡",
+"Composting at home returns nutrients to the soil naturally. 🌱",
+"Sustainable fashion and recycled materials reduce pollution and save lives. 👕",
+"Urban forests provide shade, cleaner air, and cooling for cities. 🌳",
+"Eating less meat helps conserve water and reduce emissions. 💧",
+"Solar panels on homes generate clean energy and reduce bills. ☀️",
+"Many companies are switching to plant-based products — change is spreading fast. 🌱",
+"Supporting local farmers keeps food fresh and reduces transport emissions. 🥕",
+"Every reusable bottle, bag, and cup reduces landfill waste. ♻️",
+"Plant-based diets can reduce heart disease, diabetes, and obesity. ❤️",
+"Community action on climate change makes a bigger impact than you think. 🌎",
+"Protecting forests keeps wildlife safe and helps stabilize the climate. 🌲",
+"Choosing sustainable seafood supports ocean ecosystems. 🐟",
+"Small daily actions add up — every choice matters. ✨",
+"Green rooftops help cities absorb heat and CO₂. 🌿",
+"Eating more seasonal vegetables reduces emissions and supports farmers. 🥦",
+"Volunteering for environmental projects directly helps the planet. 🌎",
+"Planting a single tree can capture hundreds of kilograms of CO₂ over its life. 🌳",
+"Every clean river and beach is a victory for wildlife. 🐢",
+"Solar cooking and energy-saving devices cut emissions and protect health. ☀️",
+"Choosing cruelty-free products protects animals and the environment. 🐾",
+"Reducing food waste saves money, energy, and lives. 🥗",
+"Bike commuting replaces car emissions and boosts your health. 🚴",
+"Eating a variety of plants supports both your health and biodiversity. 🌾",
+"Supporting renewable energy projects brings clean power to more people. ⚡",
+"Every kind choice creates a ripple of positive change. 🌊",
+"Reforestation projects worldwide are bringing forests back. 🌲",
+"Eating plant-based can save thousands of liters of water each year. 💧",
+"Eco-friendly choices show that humans can live in harmony with nature. 🌎",
+"Every small reduction in waste helps preserve oceans and rivers. 🐠",
+"You have the power to make healthy, compassionate, and sustainable choices every day. 💚"
+
+
+
   ],
   pet: [
-    "Play with your pet today 🐾",
-    "Give your pet a hug and feel the love!",
-    "Pets teach us patience and care.",
-    "What makes you feel most alive today?",
-    "Kindness is never wasted—try it out!",
-    "You are stronger than yesterday.",
-    "If your pet could talk, what wisdom would it share?",
+    "Be kind to every kind — and don’t forget to be kind to yourself too!",
     "Love grows when shared 💚",
-    "Take a pause—your pet lives in the moment 🕊️",
-    "What does freedom mean to you?",
-    "Encourage yourself like you encourage your best friend.",
     "Every small act of care shapes who you are.",
-    "Philosophy isn’t in books only—it’s in how you treat life."
+    "Happiness multiplies when you give it away.",
+"Patience is love in action.",
+"You are at your best when you guide and educate instead of judge.",
+"A gentle word can change someone’s entire day.",
+"Kindness is contagious — spread it freely.",
+"Joy is found in the little things, not in the rush.",
+"True strength is shown in how gently you treat others.",
+"Sharing love is never wasted — it always returns.",
+"Every creature deserves respect, including you.",
+"Listening is one of the kindest gifts you can give.",
+"A calm heart brings clarity and courage.",
+"Small acts of care create big ripples in the world.",
+"Compassion starts with noticing someone’s needs.",
+"Your warmth makes others feel safe and valued.",
+"Encouragement can blossom where criticism would wither.",
+"Gentle patience often accomplishes more than force.",
+"Being present is one of the kindest things you can do.",
+"Every smile you share brightens someone’s path.",
+"Kindness costs nothing but creates priceless moments.",
+"You are wiser when you seek understanding before judgment.",
+"Helping others grow is a reflection of your own strength.",
+"Gratitude turns ordinary moments into blessings.",
+"Love yourself as fiercely as you love others.",
+"Quiet support is often more powerful than loud words.",
+"Small kindnesses weave a lifetime of trust.",
+"Your patience today teaches others how to be gentle tomorrow.",
+"Sharing your knowledge softly guides hearts, not forces them.",
+"Happiness blooms when you care without expecting in return.",
+"Your calm presence can soothe even the stormiest minds.",
+"Every gentle touch leaves a mark of love.",
+"Encouragement turns mistakes into lessons, not failures.",
+"You are strongest when you act with empathy.",
+"A kind action can be louder than a thousand words.",
+"Your warmth has the power to heal invisible wounds.",
+"Sharing joy multiplies it for everyone involved. 🌟",
+"Teach by example — hearts learn faster than ears.",
+"Every act of love is a building block for a better world.",
+    
+  ],
+celebrity: [   // ✅ replace placeholder with real array
+    {
+      name: "Natalie Portman",
+      title: "Actress & Activist",
+      quote: "Three times a day, I remind myself that I value life and do not want to cause pain to or kill other living beings. That is why I eat the way I do.",
+      avatar: "images/natalie.jpg"
+    },
+    {
+      name: "Albert Einstein",
+      title: "Theoretical Physicist",
+      quote: "Nothing will benefit health or increase chances of survival on Earth as much as the evolution to a vegetarian diet.",
+      avatar: "images/einstein.jpg"
+    },
+    {
+      name: "Patrik Baboumian",
+      title: "Strongman & Vegan Activist",
+      quote: "Someone once asked me, 'How can you get as strong as an ox without eating any meat?' My answer was, 'Have you ever seen an ox eating meat?'",
+      avatar: "images/patrik.jpg"
+    },
+    {
+      name: "Abraham Lincoln",
+      title: "16th U.S. President",
+      quote: "I am in favor of animal rights as well as human rights. That is the way of a whole human being.",
+      avatar: "images/lincoln.jpg"
+    },
+    {
+      name: "Leonardo da Vinci",
+      title: "Renaissance Polymath",
+      quote: "I have from an early age abjured the use of meat.",
+      avatar: "images/davinci.jpg"
+    },
+    {
+      name: "Plato",
+      title: "Philosopher",
+      quote: "The greatness of a nation and its moral progress can be judged by the way its animals are treated.",
+      avatar: "images/plato.jpg"
+    }
   ]
 };
+
+/*
+Ariana Grande – Singer and Actress
+“I’m a firm believer in eating a full plant-based, whole food diet that can expand your life length and make you an all-around happier person.” 
+
+Alicia Silverstone – Actress and Activist
+“Being vegan helped me realize I can say and do what I believe is right. That's powerful.” 
+
+Jermaine Dupri – Musician and Producer
+“I’ve been vegan for over a decade, and for me, there’s nothing better for feeling your best and knowing you’re helping the planet and animals.” 
+
+Mayim Bialik – Actress and Neuroscientist
+“Even as a child, I felt very guilty about eating animals and never knew that there was something to do about it. And as I got older, it became clearer that there are things that I can do and choices I can make.” 
+
+Tara McDonald – Singer and Activist
+“The vegan lifestyle has made me feel so good that it's only natural that I want to share it with people.” 
+
+Kristen Bell – Actress
+“I have always been an animal lover. I had a hard time disassociating the animals I cuddled with—dogs and cats, for example—from the animals on my plate.” 
+
+Genesis Butler – Activist
+“I chose to go vegan because I want to be part of the solution, not the problem.” 
+
+
+
+
+🏅 Athletes
+
+Novak Djokovic – Tennis Champion
+“Food is the fuel that determines how I play, how I recover, and how alert I am on the court. I attribute a great deal of my professional success to my diet.” 
+
+Brendan Brazier – Former Endurance Athlete and Author
+“Being vegan doesn’t make you a stronger, better athlete. But it allows you to make yourself a stronger, better athlete.” 
+
+Chloe Arthur – Scottish Footballer
+“Whatever you have I will probably eat the same, I just replace the meat with a different protein. Why slaughter animals when you can get all the nutritious meals without having to do that?” 
+
+Alex Morgan – Soccer Player
+“I never thought it was possible I could be playing at an elite level as a professional athlete with a plant-based diet. Then I realized it wasn’t detrimental at all.” 
+
+Lewis Hamilton – Formula 1 World Champion
+“We all have choices to make. I choose to love, to be conscious of what I’m supporting and I refuse to support the companies killing and torturing animals.” 
+
+Zac Efron – Actor and Athlete
+“That’s [veganism] completely changed the way that my body works, and the way that I metabolize food, the way it turns into energy, the way that I sleep. It’s been brilliant. It’s been great for my exercise, and great for my routine.” 
+
+Mathieu Flamini – Former Footballer and Environmental Entrepreneur
+“Football needs to stand up for climate change.
+
+
+
+🌟 Famous Scientists & Philosophers
+
+Pythagoras – Philosopher & Mathematician
+“As long as man continues to be the ruthless destroyer of lower living beings, he will never know health or peace.”
+
+Voltaire – Philosopher
+“It is forbidden to kill; therefore all murderers are punished unless they kill in large numbers and to the sound of trumpets.”
+
+Isaac Bashevis Singer – Writer & Philosopher
+“The animals of the world exist for their own reasons. They were not made for humans any more than black people were made for whites or women created for men.”
+
+Henry Salt – Writer & Social Reformer
+“The question is not, Can they reason? nor, Can they talk? but, Can they suffer?”
+
+
+🌟 Famous Leaders & Reformers
+
+Mahatma Gandhi – Indian Leader & Activist
+“The greatness of a nation can be judged by the way its animals are treated.”
+“I hold that, the more helpless a creature, the more entitled it is to protection by man from the cruelty of man.”
+
+
+Leo Tolstoy – Author & Philosopher
+“As long as there are slaughterhouses, there will be battlefields.”
+
+Thomas Jefferson – 3rd U.S. President
+“Nothing is more honorable than a gentle, humane treatment of animals.”
+
+John Stuart Mill – Philosopher & Economist
+“The worth of a civilization is measured by the compassion it shows toward those who cannot defend themselves.”
+
+Buddha
+“All beings tremble before violence. All fear death. When a man considers this, he does not kill or cause to kill.”
+
+Jesus Christ
+“The righteous care for the needs of their animals.” (Proverbs 12:10)
+
+St. Francis of Assisi
+“If you have men who will exclude any of God’s creatures from the shelter of compassion and pity, you will have men who will deal likewise with their fellow men.”
+
+Albert Schweitzer – Theologian & Philosopher
+“The ethical treatment of animals is the most humane and noble test of civilization.”
+*/
+
 
 
 // Track last shown timestamp (single for all characters)
@@ -644,6 +929,10 @@ function getRandomPositionForChar(char, wrapperWidth, wrapperHeight) {
       minX = 0.6 * vw;
       maxX = rightEdge; // right side
       break;
+    case "celebrity":
+      minX = leftEdge;
+      maxX = 0.4 * vw - wrapperWidth;
+    break;
     default:
       minX = leftEdge;
       maxX = rightEdge;
@@ -690,15 +979,36 @@ wrapper.style.top = `${pos.y}px`;
   saveLastShown(now);
 
   const bubble = wrapper.querySelector(".thought-bubble");
-  const tipBox = wrapper.querySelector(".lesson-box");
-  const tips = characterTips[char];
-  tipBox.textContent = tips[Math.floor(Math.random() * tips.length)];
+  const tipBox = wrapper.querySelector(".lesson-box");  
+    
+    if (char === "celebrity") {
+  // pick random celebrity
+  const celeb = characterTips.celebrity[Math.floor(Math.random() * characterTips.celebrity.length)];
 
-  const avatar = wrapper.querySelector(".avatar, #petAvatar, .thought-toggle");
-  avatar.onclick = (e) => {
+  // ✅ format the bubble content with styling
+  tipBox.innerHTML = `
+    <div class="celeb-quote">
+      <p class="quote">“${celeb.quote}”</p>
+      <p class="celeb-name"><strong>${celeb.name}</strong></p>
+      <p class="celeb-title"><em>${celeb.title}</em></p>
+    </div>
+  `;
+
+    const avatarImg = wrapper.querySelector("#celebrityAvatar");
+    avatarImg.src = celeb.avatar;
+    
+} else {
+    const tips = characterTips[char];
+    tipBox.textContent = tips[Math.floor(Math.random() * tips.length)];
+}
+
+  const avatars = wrapper.querySelectorAll(".avatar, #petAvatar, .thought-toggle");
+avatars.forEach(av => {
+  av.onclick = (e) => {
     e.stopPropagation();
     bubble.classList.add("visible");
   };
+});
 
   const closeBtn = bubble.querySelector(".close-thought");
   closeBtn.onclick = (e) => {
@@ -711,7 +1021,7 @@ wrapper.style.top = `${pos.y}px`;
 // ---------------------------
 // Schedule check every minute
 // ---------------------------
-setInterval(showRandomAvatar, 10 * 1000);
+setInterval(showRandomAvatar, 60 * 1000);
 window.addEventListener("load", () => setTimeout(showRandomAvatar, 8000)); // first tip after 6s
 window.addEventListener("load", () => {
   setTimeout(() => showRandomAvatar(), 8000);
