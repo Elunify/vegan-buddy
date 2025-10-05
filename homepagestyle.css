@@ -229,8 +229,8 @@ body {
   margin-top: calc(100px + env(safe-area-inset-top));
   margin-bottom: calc(50px + env(safe-area-inset-bottom));
   padding: 1rem;
-  padding-bottom: 3rem;
-  padding-top: 3rem;
+  padding-bottom: 6rem;
+  padding-top: 6rem;
 
   /* Smooth scrolling for iOS */
   -webkit-overflow-scrolling: touch;
