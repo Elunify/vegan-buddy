@@ -164,17 +164,6 @@ if (healthBtn) {
   healthBtn.addEventListener('click', () => showSection('healthissues'));
 }
 
-// --- Quick Access Buttons ---
-const lessonsBtn = document.getElementById('lessonsBtn');
-if (lessonsBtn) {
-  lessonsBtn.addEventListener('click', () => showSection('lessons'));
-}
-
-const recipesBtn = document.getElementById('recipesBtn');
-if (recipesBtn) {
-  recipesBtn.addEventListener('click', () => showSection('recipes'));
-}
-
 // --- Meal-Art Winners H3 Sections ---
 const mealartBtn = document.querySelectorAll('.mealartBtn');
 mealartBtn.forEach(link => {

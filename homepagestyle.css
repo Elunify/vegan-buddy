@@ -223,12 +223,15 @@ body {
 /* 📄 Page Sections */
 /* Page content container: between top and bottom bars */
 .page {
+  flex: 1 1 auto;                       /* allow growth/shrink in flex layout */
+  min-height: 0;                         /* crucial for overflow-y in flex children */
   overflow-y: auto;
-  margin-top: 130px;
-  margin-top: calc(100px + env(safe-area-inset-top)); /* topbar + safe area */
-  margin-bottom: 80px;
-  margin-bottom: calc(50px + env(safe-area-inset-bottom)); /* bottom nav + safe area */
+  margin-top: calc(100px + env(safe-area-inset-top));
+  margin-bottom: calc(50px + env(safe-area-inset-bottom));
   padding: 1rem;
+
+  /* Smooth scrolling for iOS */
+  -webkit-overflow-scrolling: touch;
 }
 /* Optional: smooth scrolling */
 .page::-webkit-scrollbar {
