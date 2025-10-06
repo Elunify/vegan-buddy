@@ -104,20 +104,23 @@ if (userData.last_lesson) {
   quizContainer.style.display = "block"; // make sure it's visible
   quizContainer.innerHTML = `<label class="bigLabelDCI">Last lesson's quiz:</label>`;
 
-  yesterdayQuiz.forEach((q, i) => {
-    const div = document.createElement("div");
-    div.className = "quiz-itemDCI";
-    div.innerHTML = `
-      <p class="quiz-questionDCI">${q.question}</p>
-      <div class="quiz-optionsDCI">
-        ${q.options.map(opt => `
-          <label class="checkbox-labelDCI">
-            <input type="radio" name="q${i}" value="${opt}"> ${opt}
-          </label>`).join("")}
-      </div>
-    `;
-    quizContainer.appendChild(div);
-  });
+  // Ensure yesterdayQuiz is always an array
+const quizArray = Array.isArray(yesterdayQuiz) ? yesterdayQuiz : [yesterdayQuiz];
+
+quizArray.forEach((q, i) => {
+  const div = document.createElement("div");
+  div.className = "quiz-itemDCI";
+  div.innerHTML = `
+    <p class="quiz-questionDCI">${q.question}</p>
+    <div class="quiz-optionsDCI">
+      ${q.options.map(opt => `
+        <label class="checkbox-labelDCI">
+          <input type="radio" name="q${i}" value="${opt}"> ${opt}
+        </label>`).join("")}
+    </div>
+  `;
+  quizContainer.appendChild(div);
+});
 } else {
   // first day, hide quiz
   quizContainer.style.display = "none";
