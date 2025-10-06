@@ -10,6 +10,10 @@ function showSection(sectionId) {
     }
   });
 
+  // Hide lesson tab whenever a page is shown
+  const lessonTab = document.getElementById('healthylesson-tab');
+  if (lessonTab) lessonTab.classList.add('hidden');
+
   // Close side menu if open
   const sideMenu = document.getElementById('sideMenu');
   if (sideMenu && sideMenu.classList.contains('open')) {
@@ -163,6 +167,8 @@ const healthBtn = document.getElementById('healthBtn');
 if (healthBtn) {
   healthBtn.addEventListener('click', () => showSection('healthissues'));
 }
+
+
 
 // --- Meal-Art Winners H3 Sections ---
 const mealartBtn = document.querySelectorAll('.mealartBtn');

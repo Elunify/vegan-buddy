@@ -15,6 +15,7 @@ async function getCurrentUser() {
   return data?.user || null;
 }
 
+
 // ------- Daily CheckIn----------
 // ------- Daily CheckIn----------
 // ------- Daily CheckIn----------
