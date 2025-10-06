@@ -28,8 +28,7 @@ html, body {
   /* Smooth scrolling for iOS */
   -webkit-overflow-scrolling: touch;
 
-  padding-bottom: env(safe-area-inset-bottom, 5rem);
-  box-sizing: border-box;
+                         /* FOR TESTS */    padding-bottom: 3rem;
 }
 /* Optional: smooth scrolling */
 .page::-webkit-scrollbar {
@@ -54,8 +53,7 @@ html, body {
   overflow-y: auto;
   background-color: #fff;
   z-index: 100;
-  padding-bottom: env(safe-area-inset-bottom, 5rem);
-  box-sizing: border-box;
+                       /* FOR TESTS */    padding-bottom: 3rem;
 }
 
 #healthylesson-tab.hidden {
