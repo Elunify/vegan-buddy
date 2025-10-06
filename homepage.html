@@ -25,6 +25,7 @@
         <!-- Profile -->
         <div class="profile-wrapper">
           <img id="profilePhoto" src="https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/profile_photos/default.jpg" alt="Profile Photo" class="profile-photo" />
+       <!--   <img id="petDisplay" src="https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/pet_photos/default.jpg" class="pet-overlay" /> -->
         </div>
 
         <!-- Level + Streak -->
@@ -1558,9 +1559,10 @@
 
 </div> 
 
+<script type="module" src="supabaseClient.js"></script>
 <script type="module" src="scriptpools.js"></script>
-<script type="module" src="scriptfunctions.js"></script>
 <script type="module" src="scriptreads.js"></script>
+<script type="module" src="scriptfunctions.js"></script>
 <script type="module" src="scriptmealartcontest.js"></script> 
 <script src="scriptbuttons.js"></script>
 
@@ -1621,7 +1623,7 @@
   }));
 
   // Optional delay 
-  await new Promise(resolve => setTimeout(resolve, 300)); //1000 = 1 second
+  await new Promise(resolve => setTimeout(resolve, 600)); //1000 = 1 second
 
   // Update XP progress
   const countersElements = {

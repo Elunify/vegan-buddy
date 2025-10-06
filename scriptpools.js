@@ -4525,12 +4525,6 @@ celebrity: [   // ✅ replace placeholder with real array
       title: "Spiritual Leader",
       quote: "All beings tremble before violence. All fear death. When a man considers this, he does not kill or cause to kill.",
       avatar: "images/buddha.jpg"
-    },
-    {
-      name: "Jesus Christ",
-      title: "Spiritual Leader",
-      quote: "The righteous care for the needs of their animals. (Proverbs 12:10)",
-      avatar: "images/jesus.jpg"
     }
   ]
 };
