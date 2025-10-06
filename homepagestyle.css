@@ -1,6 +1,6 @@
 
 /* Reset */
-body {
+html, body {
     display: flex;              /* needed for justify-content */
     flex-direction: column;
     height: 100%;
@@ -15,6 +15,31 @@ body {
     padding-bottom: env(safe-area-inset-bottom);
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
+}
+
+.page {
+  flex: 1 1 auto;                       /* allow growth/shrink in flex layout */
+  min-height: 0;                         /* crucial for overflow-y in flex children */
+  overflow-y: auto;
+  margin-top: calc(100px + env(safe-area-inset-top));
+  margin-bottom: calc(50px + env(safe-area-inset-bottom));
+  padding: 1rem;
+
+ 
+
+  /* Smooth scrolling for iOS */
+  -webkit-overflow-scrolling: touch;
+}
+/* Optional: smooth scrolling */
+.page::-webkit-scrollbar {
+  width: 8px;
+}
+.page::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+.page.hidden {
+  display: none;
 }
 
 .button{
@@ -222,32 +247,7 @@ body {
 
 /* 📄 Page Sections */
 /* Page content container: between top and bottom bars */
-.page {
-  flex: 1 1 auto;                       /* allow growth/shrink in flex layout */
-  min-height: 0;                         /* crucial for overflow-y in flex children */
-  overflow-y: auto;
-  margin-top: calc(100px + env(safe-area-inset-top));
-  margin-bottom: calc(50px + env(safe-area-inset-bottom));
-  padding: 1rem;
 
- 
-  /* Temporal for the tests */ padding-bottom: 7rem;
-  /* Temporal for the tests */ padding-top: 7rem;
-
-  /* Smooth scrolling for iOS */
-  -webkit-overflow-scrolling: touch;
-}
-/* Optional: smooth scrolling */
-.page::-webkit-scrollbar {
-  width: 8px;
-}
-.page::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.2);
-  border-radius: 4px;
-}
-.page.hidden {
-  display: none;
-}
 
 
 h3 {
@@ -1446,9 +1446,6 @@ h2 {
   z-index: 100;
   padding-top: env(safe-area-inset-top, 30px);
   padding-bottom: env(safe-area-inset-bottom, 50px);
-  
-  /* Temporal for the tests */ padding-bottom: 7rem;
-  /* Temporal for the tests */ padding-top: 7rem;
 }
 
 #healthylesson-tab.hidden {

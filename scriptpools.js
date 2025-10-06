@@ -9,178 +9,1586 @@ export const DailyCheckInPool = {
   goals: {
     "Protecting animals & animal welfare": [
       {
-    lesson: "Choosing a plant-based diet can prevent the slaughter of hundreds of animals per year, depending on your consumption habits. Many plant-based alternatives, like lab-grown or plant-based meats, reduce the demand for factory farming, which improves overall animal welfare.",
-    quiz: [
-      {
-        question: "How does a plant-based diet help animals?",
-        options: ["It prevents the slaughter of many animals", "It increases factory farming", "It has no effect"],
-        answer: "It prevents the slaughter of many animals"
+        lesson: `
+        Humans dominate 36% of all mammals on Earth. This includes livestock, pets, and urban-adapted species. 
+        The remaining mammals are mostly farm animals (60%) and only 4% are truly wild. This shows how little 
+        space is left for wildlife and how human activity has reshaped mammal populations globally.
+        `,
+        quiz: {
+          question: "What percentage of mammals are truly wild?",
+          options: ["4%", "36%", "60%"],
+          answer: "4%"
+        }
       },
       {
-        question: "What effect do plant-based alternatives have on factory farming?",
-        options: ["Reduce demand for factory farming", "Increase animal suffering", "No effect"],
-        answer: "Reduce demand for factory farming"
+  lesson: `About 25% of mammal species are currently threatened with extinction, according to the IUCN. 
+  Species like primates, big cats, and elephants are among the most iconic and widely loved, while less charismatic species, 
+  like small rodents or bats, are often overlooked despite being equally important for ecosystems.`,
+  quiz: {
+    question: "What percentage of mammal species are currently threatened with extinction?",
+    options: ["25%", "10%", "50%"],
+    answer: "25%"
+  }
+},
+      {
+  lesson: `Chickens today grow much faster and larger than their wild ancestors due to selective breeding and genetic modification.
+   While wild chickens laid about 12 eggs per year, modern farmed chickens can lay over 240 eggs annually. 
+   This rapid growth impacts their health, mobility, and quality of life.`,
+  quiz: {
+    question: "How many eggs did wild chickens lay annually?",
+    options: ["12", "240", "100"],
+    answer: "12"
+  }
+},
+{
+  lesson: `Around 70% of global antibiotic supply is used in livestock farming, not in humans. Antibiotics are given to animals to 
+  promote growth and prevent disease in crowded conditions, which contributes to antibiotic resistance—a major public health concern.`,
+  quiz: {
+    question: "What percentage of antibiotics is used in livestock farming?",
+    options: ["70%", "30%", "50%"],
+    answer: "70%"
+  }
+},
+{
+  lesson: `Many farmed animals are kept in extremely small cages, often unable to turn around or move freely. 
+  This raises ethical questions: is severe confinement worse than the act of slaughter itself?`,
+  quiz: {
+    question: "What ethical issue arises from very small cages?",
+    options: ["Severe confinement limits movement", "Animals become smarter", "Cages improve health"],
+    answer: "Severe confinement limits movement"
+  }
+},
+{
+  lesson: `Companies that provide better conditions for animals cannot compete with conventional industrial farms due to higher costs. 
+  This raises a philosophical question about the value of life and whether profit should outweigh the well-being of sentient beings.`,
+  quiz: {
+    question: "Why can't companies with better animal conditions compete?",
+    options: ["Higher costs than industrial farms", "They don't care about animals", "They produce less milk"],
+    answer: "Higher costs than industrial farms"
+  }
+},
+{
+  lesson: `Debeaking, the removal of parts of chickens' beaks, is common in industrial farms to prevent pecking injuries in crowded conditions.
+   This procedure causes both physical pain and behavioral stress for the birds.`,
+  quiz: {
+    question: "Why is debeaking performed on farmed chickens?",
+    options: ["To prevent pecking injuries", "To make them grow faster", "For decoration"],
+    answer: "To prevent pecking injuries"
+  }
+},
+{
+  lesson: `The dairy industry often grinds up male chicks alive and repeatedly artificially inseminates cows, separating mothers from their 
+  calves. These practices cause significant suffering and raise questions about the ethics of animal exploitation.`,
+  quiz: {
+    question: "What happens to male chicks in the dairy industry?",
+    options: ["They are often ground alive", "They live freely on farms", "They are given special care"],
+    answer: "They are often ground alive"
+  }
+},
+      {
+        lesson: `
+        Chickens originally laid about 12 eggs per year in natural conditions. Through selective breeding and 
+        genetic modification, modern hens can lay over 240 eggs annually. This demonstrates how human intervention 
+        can drastically alter an animal’s biology for production purposes.
+        `,
+        quiz: {
+          question: "How many eggs did chickens originally lay per year?",
+          options: ["12", "240", "100"],
+          answer: "12"
+        }
       },
       {
-        question: "Lab-grown or plant-based meats help improve what?",
-        options: ["Animal welfare", "Air quality", "Traffic conditions"],
-        answer: "Animal welfare"
+        lesson: `
+        Many pigs and cows are highly intelligent and social. Pigs can solve puzzles, have excellent long-term 
+        memory, and form strong bonds with other pigs. Cows have complex social structures and can remember faces 
+        of other cows and humans. Recognizing these traits changes how we think about their treatment.
+        `,
+        quiz: {
+          question: "Which statement is true about pigs?",
+          options: [
+            "They are intelligent, social, and can solve puzzles",
+            "They only eat and sleep",
+            "They do not interact with other pigs"
+          ],
+          answer: "They are intelligent, social, and can solve puzzles"
+        }
+      },
+      {
+        lesson: `
+        Farmed animals experience emotions like fear, joy, and grief. For example, cows can show stress when 
+        separated from their herd, and pigs can enjoy playing with toys. Understanding this helps us see that 
+        suffering in factory farms is not abstract—it’s experienced every day by sentient beings.
+        `,
+        quiz: {
+          question: "Which emotions can farmed animals experience?",
+          options: ["Fear, joy, and grief", "Only fear", "No emotions"],
+          answer: "Fear, joy, and grief"
+        }
+      },
+      {
+        lesson: `
+        Factory farming often restricts natural behaviors. Chickens may never leave cages, pigs cannot root 
+        or explore, and cows may never graze freely. These constraints are linked to physical and psychological suffering, 
+        highlighting why reducing demand for animal products has a direct impact on welfare.
+        `,
+        quiz: {
+          question: "Why do factory-farmed animals suffer?",
+          options: [
+            "They cannot express natural behaviors",
+            "They are always outdoors",
+            "They have unlimited space"
+          ],
+          answer: "They cannot express natural behaviors"
+        }
+      },
+      {
+        lesson: `
+        Adopting animals from shelters reduces overpopulation and prevents suffering. Every pet adopted frees 
+        resources for another animal and avoids the cycle of breeding for profit. Adoption is a direct, measurable 
+        way to improve animal welfare in your community.
+        `,
+        quiz: {
+          question: "What is a major benefit of adopting animals from shelters?",
+          options: [
+            "Reduces overpopulation and prevents suffering",
+            "Increases the number of homeless pets",
+            "Supports pet factories"
+          ],
+          answer: "Reduces overpopulation and prevents suffering"
+        }
+      },
+      {
+        lesson: `
+        Volunteering at animal sanctuaries provides critical care and emotional enrichment for rescued animals. 
+        Even a few hours a week can make a difference, helping staff feed, clean, and socialize animals, improving 
+        their recovery and quality of life.
+        `,
+        quiz: {
+          question: "How does volunteering at sanctuaries help animals?",
+          options: [
+            "Provides care and enrichment for rescued animals",
+            "Harms the animals",
+            "Has no impact"
+          ],
+          answer: "Provides care and enrichment for rescued animals"
+        }
+      },
+      {
+        lesson: `
+        Animals have personalities. Pigs can be shy or bold, cows can be playful or calm, and chickens can be 
+        curious or cautious. Recognizing individuality encourages respect and motivates actions that improve 
+        their welfare.
+        `,
+        quiz: {
+          question: "What does recognizing animal personalities help with?",
+          options: [
+            "Encourages respect and better welfare",
+            "Has no practical effect",
+            "Only applies to pets"
+          ],
+          answer: "Encourages respect and better welfare"
+        }
+      },
+      {
+        lesson: `
+        Supporting cruelty-free products and plant-based meals creates economic incentives for companies to 
+        adopt humane practices. When consumers prioritize compassion, it drives change in markets and reduces 
+        the suffering of billions of animals worldwide.
+        `,
+        quiz: {
+          question: "How does choosing cruelty-free products help animals?",
+          options: [
+            "Encourages companies to adopt humane practices",
+            "Increases animal exploitation",
+            "Has no effect"
+          ],
+          answer: "Encourages companies to adopt humane practices"
+        }
+      },
+      {
+        lesson: `
+        Over 70 billion land animals are raised for food every year. This massive number highlights how human 
+        consumption patterns directly determine the scale of animal suffering globally, from chickens to pigs to cows.
+        `,
+        quiz: {
+          question: "Approximately how many land animals are raised for food each year?",
+          options: ["70 billion", "10 million", "500 million"],
+          answer: "70 billion"
+        }
+      },
+      {
+        lesson: `
+        Male chicks are commonly culled in the egg industry because they cannot lay eggs and are not bred for meat. 
+        Each year, billions of male chicks are killed shortly after hatching. This practice exemplifies the hidden suffering 
+        behind common food products.
+        `,
+        quiz: {
+          question: "Why are male chicks culled in the egg industry?",
+          options: [
+            "They cannot lay eggs and are not used for meat",
+            "They are more valuable than hens",
+            "They are released into the wild"
+          ],
+          answer: "They cannot lay eggs and are not used for meat"
+        }
+      },
+      {
+        lesson: `
+        Dairy cows are repeatedly impregnated to produce milk. Once their milk production declines, they are sent 
+        to slaughter, often at 4–6 years old instead of their natural lifespan of 20 years. This cycle is invisible 
+        to most consumers but causes immense suffering.
+        `,
+        quiz: {
+          question: "Why are dairy cows sent to slaughter?",
+          options: [
+            "Their milk production declines",
+            "They have lived a full natural lifespan",
+            "They choose to leave"
+          ],
+          answer: "Their milk production declines"
+        }
+      },
+      {
+        lesson: `
+        Pigs are capable of using mirrors to explore hidden objects, demonstrating self-awareness. Self-awareness 
+        is a trait previously thought to be unique to humans and some primates. Recognizing it in pigs challenges 
+        assumptions about their mental capacities and ethical treatment.
+        `,
+        quiz: {
+          question: "What does using mirrors to explore hidden objects demonstrate in pigs?",
+          options: ["Self-awareness", "Lack of intelligence", "No learning ability"],
+          answer: "Self-awareness"
+        }
+      },
+      {
+        lesson: `
+        Chickens can communicate with more than 30 distinct vocalizations, each signaling different threats, desires, 
+        or social cues. They are not silent or unintelligent; they live complex social lives that are often ignored in 
+        commercial farming.
+        `,
+        quiz: {
+          question: "How many distinct vocalizations can chickens use?",
+          options: ["Over 30", "5", "10"],
+          answer: "Over 30"
+        }
+      },
+      {
+        lesson: `
+        Farmed animals can experience chronic stress, which affects their health, immune system, and behavior. 
+        Stress arises from confinement, noise, overcrowding, and handling methods. Reducing the demand for animal products 
+        directly decreases the number of animals exposed to these stressors.
+        `,
+        quiz: {
+          question: "What causes chronic stress in farmed animals?",
+          options: [
+            "Confinement, noise, and overcrowding",
+            "Freedom to roam outdoors",
+            "Proper nutrition and care"
+          ],
+          answer: "Confinement, noise, and overcrowding"
+        }
+      },
+      {
+        lesson: `
+        Cows have been observed forming lifelong friendships and showing signs of grief when separated from a bonded 
+        partner. Understanding their social bonds illustrates that farmed animals experience emotional depth, contrary 
+        to the perception of them as mere production units.
+        `,
+        quiz: {
+          question: "What emotional behavior do cows exhibit?",
+          options: [
+            "Form lifelong friendships and show grief",
+            "Ignore other cows entirely",
+            "React only to food"
+          ],
+          answer: "Form lifelong friendships and show grief"
+        }
+      },
+      {
+        lesson: `
+        Transporting animals to slaughterhouses is highly stressful. Animals may be crowded, deprived of food or water, 
+        and subjected to unfamiliar environments. Each transport event amplifies suffering, which could be reduced 
+        by lowering the number of animals raised for food.
+        `,
+        quiz: {
+          question: "Why is transport to slaughterhouses stressful for animals?",
+          options: [
+            "Crowding, deprivation, and unfamiliar environments",
+            "It is a calming experience",
+            "Animals enjoy traveling"
+          ],
+          answer: "Crowding, deprivation, and unfamiliar environments"
+        }
+      },
+      {
+        lesson: `
+        Many fish are capable of feeling pain and stress. Fish subjected to industrial fishing practices can experience 
+        suffocation, bruising, and fear, contradicting the outdated belief that fish are insentient. Ethical considerations 
+        should extend to aquatic life as well.
+        `,
+        quiz: {
+          question: "Can fish experience pain and stress?",
+          options: ["Yes", "No", "Only some types of fish"],
+          answer: "Yes"
+        }
+      },
+      {
+        lesson: `
+        Broiler chickens are genetically modified to grow extremely fast, reaching slaughter weight in just 6–7 weeks, 
+        compared to their natural growth of several months. This rapid growth often causes skeletal deformities, 
+        organ failure, and chronic pain.
+        `,
+        quiz: {
+          question: "What is a consequence of genetically modified rapid growth in broiler chickens?",
+          options: [
+            "Skeletal deformities, organ failure, and chronic pain",
+            "Stronger and healthier bones",
+            "No negative effects"
+          ],
+          answer: "Skeletal deformities, organ failure, and chronic pain"
+        }
+      },
+      {
+        lesson: `
+        Factory-farmed animals often live in barren environments with no enrichment. Pigs cannot root, chickens cannot 
+        scratch in soil, and cows are confined to concrete floors. Lack of stimulation causes behavioral issues such as 
+        pacing, feather pecking, and aggression.
+        `,
+        quiz: {
+          question: "What behavioral issues arise from barren factory-farm environments?",
+          options: [
+            "Pacing, feather pecking, aggression",
+            "Calmness and contentment",
+            "Enhanced intelligence"
+          ],
+          answer: "Pacing, feather pecking, aggression"
+        }
+      },
+      {
+        lesson: `
+        Wild animals are indirectly affected by factory farming through deforestation and habitat destruction. Forests 
+        are cleared to grow feed crops or pasture livestock, reducing biodiversity and displacing countless species.
+        `,
+        quiz: {
+          question: "How does factory farming affect wild animals?",
+          options: [
+            "Habitat loss through deforestation",
+            "Provides more natural habitats",
+            "No effect"
+          ],
+          answer: "Habitat loss through deforestation"
+        }
+      },
+      {
+        lesson: `
+        Over 80% of marine biodiversity decline is linked to industrial fishing and habitat destruction. Unsustainable 
+        practices harm ecosystems, showing that consumer choices on seafood can have global ecological consequences.
+        `,
+        quiz: {
+          question: "What percentage of marine biodiversity decline is linked to industrial fishing?",
+          options: ["Over 80%", "50%", "10%"],
+          answer: "Over 80%"
+        }
+      },
+      {
+        lesson: `
+        Animal intelligence is often underestimated. Octopuses can use tools, solve mazes, and remember solutions. 
+        This highlights that sentience and cognitive abilities extend far beyond mammals, expanding our ethical responsibility 
+        to multiple species.
+        `,
+        quiz: {
+          question: "What is true about octopuses?",
+          options: [
+            "They can use tools and solve mazes",
+            "They have no cognitive abilities",
+            "They cannot learn"
+          ],
+          answer: "They can use tools and solve mazes"
+        }
+      },
+      {
+        lesson: `
+        Farmed rabbits are highly social and communicate through body language, scent, and vocalizations. They form 
+        bonds, experience fear, and show joy when playing. Understanding this complexity urges us to improve their welfare.
+        `,
+        quiz: {
+          question: "How do farmed rabbits communicate?",
+          options: ["Body language, scent, and vocalizations", "Only hopping", "They do not communicate"],
+          answer: "Body language, scent, and vocalizations"
+        }
+      },
+      {
+        lesson: `
+        Animals experience cumulative suffering. A single stressful event may be recoverable, but repetitive 
+        confinement, mutilation, and transport compound over time, resulting in chronic distress and weakened health.
+        `,
+        quiz: {
+          question: "What does cumulative suffering in animals lead to?",
+          options: ["Chronic distress and weakened health", "Improved resilience", "No impact"],
+          answer: "Chronic distress and weakened health"
+        }
+      },
+      {
+        lesson: `
+        Compassionate consumer choices can save billions of animal lives annually. Reducing meat, dairy, and egg consumption 
+        decreases the number of animals raised under intensive conditions and shifts markets toward more humane practices.
+        `,
+        quiz: {
+          question: "How can consumers save billions of animal lives annually?",
+          options: [
+            "By reducing meat, dairy, and egg consumption",
+            "By eating more animal products",
+            "By ignoring animal welfare"
+          ],
+          answer: "By reducing meat, dairy, and egg consumption"
+        }
+      },
+      {
+        lesson: `
+        Animal sanctuaries provide safe, lifelong homes for rescued animals. Supporting these sanctuaries ensures that 
+        animals experience comfort, care, and enrichment, demonstrating a practical solution to widespread suffering.
+        `,
+        quiz: {
+          question: "What do animal sanctuaries provide?",
+          options: [
+            "Safe, lifelong homes for rescued animals",
+            "Temporary confinement",
+            "Factories for production"
+          ],
+          answer: "Safe, lifelong homes for rescued animals"
+        }
+      },
+      {
+        lesson: `
+        Educating others about animal sentience and welfare creates systemic change. Sharing facts about intelligence, 
+        emotion, and suffering empowers communities to make compassionate decisions that collectively reduce harm.
+        `,
+        quiz: {
+          question: "How does educating others about animal welfare help?",
+          options: [
+            "Empowers communities to reduce harm",
+            "Increases factory farming",
+            "Has no effect"
+          ],
+          answer: "Empowers communities to reduce harm"
+       }
       }
-    ]
-  },
-  {
-        lesson: "Supporting cruelty-free products and plant-based meals reduces the exploitation of animals and encourages companies to adopt more humane practices.",
-        quiz: [
-          {
-            question: "Buying cruelty-free products helps to?",
-            options: ["Reduce animal exploitation", "Increase factory farming", "Have no effect"],
-            answer: "Reduce animal exploitation"
-          },
-          {
-            question: "Plant-based meals encourage companies to adopt?",
-            options: ["More humane practices", "Less sustainable practices", "No change"],
-            answer: "More humane practices"
-          },
-          {
-            question: "Eating plant-based affects animal welfare by?",
-            options: ["Reducing demand for animal products", "Increasing demand", "No effect"],
-            answer: "Reducing demand for animal products"
-          }
-        ]
-      }
-
-  // ✅ Add more lessons here in the future
-],
+      // ✅ More lessons can continue here 
+    ],
 
     "Caring for the environment & fighting climate change": [
+        
       {
-    lesson: "A plant-based diet typically generates 50–70% less greenhouse gas emissions compared to a meat-heavy diet. Producing plant foods generally uses far less water and land than raising livestock, helping preserve forests and freshwater resources.",
-    quiz: [
+        lesson: `
+        Livestock farming uses 77% of agricultural land to produce just 12% of global calories. 
+        This shows that animal-based diets are extremely land-inefficient, and shifting to plants can free up vast areas 
+        for rewilding and carbon sequestration.
+        `,
+        quiz: {
+          question: "How much agricultural land do livestock use relative to calories produced?",
+          options: ["77% of land for 12% of calories", "50% of land for 50% of calories", "20% of land for 80% of calories"],
+          answer: "77% of land for 12% of calories"
+        }
+      },
+{
+  lesson: `Biodiversity is crucial for human survival. Diverse ecosystems provide food, clean water, fertile soils, and help regulate 
+  the climate. Losing species reduces ecosystem resilience and the services we rely on for our own health and survival.`,
+  quiz: {
+    question: "Why is biodiversity important for humans?",
+    options: ["It supports food, water, and climate regulation", "It is just nice to look at", "It increases traffic"],
+    answer: "It supports food, water, and climate regulation"
+  }
+},
+{
+  lesson: `Around 46% of ocean plastic comes from abandoned or lost fishing gear, like nets and lines. These “ghost nets” entangle fish, 
+  turtles, and marine mammals, causing injuries and death, and have long-lasting effects on marine ecosystems.`,
+  quiz: {
+    question: "What percentage of ocean plastic comes from fishing gear?",
+    options: ["Around 46%", "10%", "75%"],
+    answer: "Around 46%"
+  }
+},{
+  lesson: `If humanity shifted to a mostly plant-based diet, we could potentially free up around 70% of agricultural land currently used 
+  for livestock and feed crops. Returning this land to nature could restore habitats, greatly increase biodiversity, and allow wild 
+  species to recover in numbers and variety.`,
+  quiz: {
+    question: "What percentage of agricultural land could be freed by adopting a plant-based diet?",
+    options: ["Around 70%", "10%", "50%"],
+    answer: "Around 70%"
+  }
+},
+{
+  lesson: `Bottom trawling and other destructive fishing methods damage the ocean floor, destroy habitats, and wipe out slow-growing species. 
+  These practices reduce biodiversity and destabilize marine ecosystems, making it harder for oceans to recover.`,
+  quiz: {
+    question: "Which effect do destructive fishing methods like bottom trawling have?",
+    options: ["Destroy habitats and reduce biodiversity", "Increase fish populations", "Help coral growth"],
+    answer: "Destroy habitats and reduce biodiversity"
+  }
+},
+{
+  lesson: `Oceans act as a major carbon sink, absorbing about 30% of CO₂ emissions. When biodiversity declines, the ability of oceans to 
+  store carbon effectively decreases, accelerating climate change and reducing the health of marine ecosystems.`,
+  quiz: {
+    question: "How does declining ocean biodiversity affect CO₂ absorption?",
+    options: ["Reduces the ocean's ability to store carbon", "Increases carbon storage", "Has no effect"],
+    answer: "Reduces the ocean's ability to store carbon"
+  }
+},
       {
-        question: "How much less greenhouse gas does a plant-based diet produce?",
-        options: ["50–70% less", "10% less", "More emissions"],
-        answer: "50–70% less"
+        lesson: `
+        Eating plant-based reduces water use dramatically. For example, producing 1 kg of beef requires around 15,000 liters of water, 
+        while 1 kg of wheat requires only about 1,300 liters. Choosing plants over meat has an immediate impact on freshwater conservation.
+        `,
+        quiz: {
+          question: "Approximately how much water is needed to produce 1 kg of beef?",
+          options: ["15,000 liters", "1,500 liters", "500 liters"],
+          answer: "15,000 liters"
+        }
       },
       {
-        question: "Why does eating plants help preserve forests and water?",
-        options: ["Uses less land and water than livestock", "Uses more land and water", "No effect"],
-        answer: "Uses less land and water than livestock"
+        lesson: `
+        Agriculture is responsible for nearly 25% of global greenhouse gas emissions. Most of these emissions come from livestock, 
+        including methane from cows and nitrous oxide from fertilized soils. Reducing animal product consumption directly lowers emissions.
+        `,
+        quiz: {
+          question: "What percentage of global greenhouse gas emissions comes from agriculture?",
+          options: ["25%", "10%", "50%"],
+          answer: "25%"
+        }
       },
       {
-        question: "Plant-based diets help fight what major global issue?",
-        options: ["Climate change", "Traffic congestion", "Deforestation of cities"],
-        answer: "Climate change"
-      }
-    ]
-  },
+        lesson: `
+        Deforestation is largely driven by the need for pasture and feed crops for animals. Each year, millions of hectares of forests 
+        are cleared, releasing stored carbon into the atmosphere and accelerating climate change.
+        `,
+        quiz: {
+          question: "What is a primary driver of deforestation?",
+          options: ["Pasture and feed crops for animals", "Urban expansion only", "Natural causes"],
+          answer: "Pasture and feed crops for animals"
+        }
+      },
       {
-        lesson: "Reducing meat consumption lowers deforestation and water pollution, helping to protect biodiversity and maintain healthier ecosystems.",
-        quiz: [
-          {
-            question: "Eating less meat helps reduce?",
-            options: ["Deforestation and water pollution", "Air traffic", "Urban sprawl"],
-            answer: "Deforestation and water pollution"
-          },
-          {
-            question: "Reducing meat consumption helps protect?",
-            options: ["Biodiversity", "Plastic production", "Internet speed"],
-            answer: "Biodiversity"
-          },
-          {
-            question: "Healthier ecosystems are maintained by?",
-            options: ["Lower meat consumption", "More livestock farming", "No dietary change"],
-            answer: "Lower meat consumption"
-          }
-        ]
+        lesson: `
+        Livestock produce more greenhouse gases than the entire transportation sector combined. Methane from ruminants is 
+        over 25 times more potent than CO₂ over a 100-year period, making livestock a critical focus for climate mitigation.
+        `,
+        quiz: {
+          question: "Compared to CO₂, how potent is methane over 100 years?",
+          options: ["Over 25 times more potent", "Equally potent", "Less potent"],
+          answer: "Over 25 times more potent"
+        }
+      },
+      {
+        lesson: `
+        Animal agriculture contributes heavily to ocean dead zones. Runoff from fertilizers used to grow animal feed 
+        fuels algae blooms, depleting oxygen in coastal waters and killing marine life.
+        `,
+        quiz: {
+          question: "What causes ocean dead zones linked to agriculture?",
+          options: ["Fertilizer runoff", "Plastic waste", "Tourism"],
+          answer: "Fertilizer runoff"
+        }
+      },
+      {
+        lesson: `
+        Over 80% of global deforestation occurs in tropical regions to make way for livestock grazing or feed crops. 
+        Protecting these forests preserves carbon sinks and biodiversity while mitigating climate change.
+        `,
+        quiz: {
+          question: "Where does most global deforestation occur?",
+          options: ["Tropical regions", "Temperate forests", "Polar regions"],
+          answer: "Tropical regions"
+        }
+      },
+      {
+        lesson: `
+        Shifting 20% of the global population to a plant-based diet could reduce global agricultural land use by about 10 million km², 
+        roughly the size of the Amazon rainforest, creating opportunities for ecosystem restoration.
+        `,
+        quiz: {
+          question: "What could reducing animal product consumption by 20% globally achieve?",
+          options: ["Free about 10 million km² of land", "No significant change", "Increase deforestation"],
+          answer: "Free about 10 million km² of land"
+        }
+      },
+      {
+        lesson: `
+        Methane emissions from cows are a major contributor to short-term climate warming. Unlike CO₂, methane remains in the atmosphere 
+        for about 12 years but traps heat 80 times more efficiently than CO₂ over that period.
+        `,
+        quiz: {
+          question: "How long does methane from cows stay in the atmosphere?",
+          options: ["About 12 years", "100 years", "1 year"],
+          answer: "About 12 years"
+        }
+      },
+      {
+        lesson: `
+        Global biodiversity has declined by approximately 80% over the last 50 years, largely due to habitat destruction 
+        and intensive agriculture. Every meal choice has the potential to either exacerbate or alleviate this crisis.
+        `,
+        quiz: {
+          question: "By what percentage has global biodiversity declined in the last 50 years?",
+          options: ["80%", "50%", "20%"],
+          answer: "80%"
+        }
+      },
+      {
+        lesson: `
+        Overfishing removes key species from marine ecosystems, destabilizing the food chain. Reducing consumption of farmed 
+        and wild-caught seafood can protect ocean biodiversity and help restore natural balances.
+        `,
+        quiz: {
+          question: "What is a major effect of overfishing?",
+          options: ["Destabilizes marine food chains", "Improves ecosystem balance", "Has no impact"],
+          answer: "Destabilizes marine food chains"
+        }
+      },
+      {
+        lesson: `
+        Livestock manure is a major source of nitrous oxide, a greenhouse gas roughly 300 times more potent than CO₂ over a century. 
+        Managing or reducing animal numbers can significantly lower this impact.
+        `,
+        quiz: {
+          question: "Nitrous oxide from livestock is how many times more potent than CO₂?",
+          options: ["300 times", "25 times", "100 times"],
+          answer: "300 times"
+        }
+      },
+      {
+        lesson: `
+        Producing 1 kg of cheese can require up to 5,000 liters of water, illustrating how dairy is among the most resource-intensive foods. 
+        Plant-based alternatives reduce this water footprint dramatically.
+        `,
+        quiz: {
+          question: "How much water is needed to produce 1 kg of cheese?",
+          options: ["5,000 liters", "1,000 liters", "500 liters"],
+          answer: "5,000 liters"
+        }
+      },
+      {
+        lesson: `
+        Ruminant animals, such as cows and sheep, produce methane through enteric fermentation, a digestive process. 
+        This natural digestive activity accounts for a significant portion of agricultural greenhouse gases.
+        `,
+        quiz: {
+          question: "Which animals produce methane through enteric fermentation?",
+          options: ["Cows and sheep", "Pigs and chickens", "Fish"],
+          answer: "Cows and sheep"
+        }
+      },
+      {
+        lesson: `
+        Meat and dairy production drives soil degradation. Intensive grazing compacts soil, reduces fertility, and 
+        increases erosion, limiting the land's ability to store carbon.
+        `,
+        quiz: {
+          question: "What effect does meat and dairy production have on soil?",
+          options: ["Degradation, compaction, reduced fertility", "Enhances fertility", "No effect"],
+          answer: "Degradation, compaction, reduced fertility"
+        }
+      },
+      {
+        lesson: `
+        Global livestock generates more CO₂ equivalents than all cars, trucks, planes, and ships combined. 
+        Reducing consumption is therefore one of the fastest ways to cut carbon emissions.
+        `,
+        quiz: {
+          question: "Which generates more CO₂ equivalents than global transportation?",
+          options: ["Livestock", "Cars only", "Airplanes only"],
+          answer: "Livestock"
+        }
+      },
+      {
+        lesson: `
+        Rice paddies produce methane, contributing significantly to agricultural greenhouse gases. Adopting 
+        plant-based diets with reduced rice and meat intake can mitigate these emissions simultaneously.
+        `,
+        quiz: {
+          question: "Which agricultural practice contributes significantly to methane emissions?",
+          options: ["Rice paddies", "Wheat farming", "Carrot farming"],
+          answer: "Rice paddies"
+        }
+      },
+      {
+        lesson: `
+        Eating locally and seasonally reduces transport emissions. While diet shifts have the largest impact, 
+        sourcing foods closer to home further lowers the carbon footprint of our meals.
+        `,
+        quiz: {
+          question: "How does eating locally affect emissions?",
+          options: ["Reduces transport emissions", "Increases emissions", "No effect"],
+          answer: "Reduces transport emissions"
+        }
+      },
+      {
+        lesson: `
+        Plant-based agriculture allows for reforestation opportunities. Land freed from livestock feed production 
+        can be returned to forests, which absorb CO₂ and help reverse climate change.
+        `,
+        quiz: {
+          question: "What does freeing land from livestock feed production enable?",
+          options: ["Reforestation", "Urban development", "More livestock"],
+          answer: "Reforestation"
+        }
+      },
+      {
+        lesson: `
+        Reducing meat and dairy consumption also lowers energy use. Less feed production, animal housing, and transport 
+        reduce fossil fuel consumption throughout the food system.
+        `,
+        quiz: {
+          question: "How does reducing meat and dairy consumption affect energy use?",
+          options: ["Lowers fossil fuel use", "Increases fossil fuel use", "No effect"],
+          answer: "Lowers fossil fuel use"
+        }
+      },
+      {
+        lesson: `
+        Agriculture contributes to 70% of freshwater withdrawals globally. Plant-based diets dramatically reduce water 
+        stress by relying on crops that need less water per calorie than animal products.
+        `,
+        quiz: {
+          question: "What percentage of freshwater withdrawals is used by agriculture?",
+          options: ["70%", "30%", "50%"],
+          answer: "70%"
+        }
+      },
+      {
+        lesson: `
+        Livestock feed production contributes to pesticide use, which harms insects, birds, and aquatic life. 
+        Reducing meat intake decreases chemical usage and protects ecosystems.
+        `,
+        quiz: {
+          question: "How does livestock feed production affect wildlife?",
+          options: ["Increases pesticide exposure", "Reduces chemical use", "No effect"],
+          answer: "Increases pesticide exposure"
+        }
+      },
+      {
+        lesson: `
+        Soil carbon loss is accelerated by tilling and overgrazing for livestock feed. Plant-based cropping systems 
+        often preserve or enhance soil carbon, mitigating climate change.
+        `,
+        quiz: {
+          question: "How do plant-based cropping systems affect soil carbon?",
+          options: ["Preserve or enhance it", "Reduce it", "No effect"],
+          answer: "Preserve or enhance it"
+        }
+      },
+      {
+        lesson: `
+        Shifting global diets could reduce agricultural greenhouse gases by up to 50% by 2050, showing the power of 
+        personal and collective choices in combating climate change.
+        `,
+        quiz: {
+          question: "By how much could greenhouse gases be reduced through global diet shifts?",
+          options: ["Up to 50%", "10%", "No significant reduction"],
+          answer: "Up to 50%"
+        }
+      },
+      {
+        lesson: `
+        Livestock manure contributes to water pollution through nitrogen and phosphorus runoff, causing eutrophication. 
+        Plant-based diets reduce manure volumes and protect rivers and lakes.
+        `,
+        quiz: {
+          question: "What water problem is caused by livestock manure runoff?",
+          options: ["Eutrophication", "Oxygenation", "Purification"],
+          answer: "Eutrophication"
+        }
+      },
+      {
+        lesson: `
+        Reducing meat consumption also reduces energy-intensive fertilizer use. Fertilizers for animal feed require 
+        fossil fuels to produce, so plant-based diets help lower fossil fuel demand.
+        `,
+        quiz: {
+          question: "How does reducing meat consumption affect fertilizer use?",
+          options: ["Reduces energy-intensive fertilizer use", "Increases it", "No effect"],
+          answer: "Reduces energy-intensive fertilizer use"
+        }
+      },
+      {
+        lesson: `
+        Greenhouse gas emissions from beef are roughly 20 times higher per kilogram of protein than legumes. 
+        Choosing legumes over beef for protein can drastically cut your carbon footprint.
+        `,
+        quiz: {
+          question: "How much higher are beef emissions compared to legumes per kg of protein?",
+          options: ["About 20 times higher", "Same", "10 times lower"],
+          answer: "About 20 times higher"
+        }
+      },
+      {
+        lesson: `
+        Methane emissions from livestock can be reduced indirectly by lowering demand. Consumer choices shape 
+        production practices and market supply, showing that eating fewer animal products is a climate action.
+        `,
+        quiz: {
+          question: "How can methane emissions from livestock be reduced?",
+          options: ["By lowering consumer demand for animal products", "By eating more meat", "No effect"],
+          answer: "By lowering consumer demand for animal products"
+        }
+      },
+      {
+        lesson: `
+        Plant-based diets help preserve pollinator populations. Less land for feed crops means more natural habitats 
+        for bees, butterflies, and other vital pollinators, supporting global food security.
+        `,
+        quiz: {
+          question: "How do plant-based diets help pollinators?",
+          options: ["Preserve natural habitats", "Reduce pollination", "No effect"],
+          answer: "Preserve natural habitats"
+        }
+      },
+      {
+        lesson: `
+        Every meal is an opportunity for climate action. By choosing plants, we reduce land degradation, water use, 
+        emissions, and pollution, collectively creating a measurable positive impact on our planet.
+        `,
+        quiz: {
+          question: "How does choosing plant-based meals impact the planet?",
+          options: ["Reduces land use, water use, emissions, and pollution", "No impact", "Increases emissions"],
+          answer: "Reduces land use, water use, emissions, and pollution"
+        }
       }
 // ✅ Add more lessons here in the future
   ],
 
     "Healthy living & wellness": [
       {
-    lesson: "Diets rich in fruits, vegetables, legumes, and whole grains are linked to lower risks of heart disease, diabetes, and certain cancers. Plant-based diets are naturally high in fiber, which improves gut health and can aid in weight management.",
-    quiz: [
+  lesson: `Over the last 50 years, global consumption of meat and dairy has increased dramatically. Coinciding with this rise, rates of heart disease, type 2 diabetes, and obesity have surged worldwide, suggesting a strong correlation between diet and modern chronic illnesses.`,
+  quiz: {
+    question: "What trend coincided with increased meat and dairy consumption over the last 50 years?",
+    options: ["Rise in chronic diseases like diabetes and heart disease", "Decline in obesity", "Decrease in cancer rates"],
+    answer: "Rise in chronic diseases like diabetes and heart disease"
+  }
+},
+{
+  lesson: `Although milk contains calcium, the digestion of milk protein can cause your body to use more calcium than it provides. This means that high dairy consumption does not necessarily strengthen bones and may even affect bone health negatively.`,
+  quiz: {
+    question: "Does milk always strengthen bones?",
+    options: ["No, it can cause net calcium loss", "Yes, always", "Only if drunk with sugar"],
+    answer: "No, it can cause net calcium loss"
+  }
+},
+{
+  lesson: `Humans are biologically closer to frugivores and herbivores like gorillas. Our digestive system, teeth, and gut microbiota 
+  are adapted for high-fiber, plant-based foods. While we can digest meat, our anatomy suggests that a mostly plant-based diet is optimal 
+  for long-term health.`,
+  quiz: {
+    question: "Humans are most similar in diet to which group?",
+    options: ["Frugivores/herbivores like gorillas", "Carnivores like lions", "Omnivores like pigs"],
+    answer: "Frugivores/herbivores like gorillas"
+  }
+},
+{
+  lesson: `Blue Zones—regions where people live exceptionally long lives—primarily eat plant-based diets rich in vegetables, legumes, 
+  and whole grains. The arrival of fast, meat-heavy foods has eroded these traditional diets, contributing to rising rates of chronic 
+  disease and shorter lifespans.`,
+  quiz: {
+    question: "What type of diet is common in Blue Zones?",
+    options: ["Plant-based with vegetables and legumes", "Fast-food and meat-heavy", "High sugar and processed snacks"],
+    answer: "Plant-based with vegetables and legumes"
+  }
+},
+{
+  lesson: `Plant proteins, such as beans, lentils, tofu, and quinoa, provide all the essential amino acids when eaten in variety. 
+  Unlike meat, they contain no cholesterol and much less saturated fat. Diets rich in plant protein are linked to lower risk of 
+  heart disease and longer lifespan, while high meat protein intake is associated with inflammation and chronic illness.`,
+  quiz: {
+    question: "What is one key difference between plant and meat protein?",
+    options: ["Plant proteins contain no cholesterol", "Meat proteins are cholesterol-free", "Plant proteins lack amino acids"],
+    answer: "Plant proteins contain no cholesterol"
+  }
+},
+{
+  lesson: `Heart disease, stroke, diabetes, and certain cancers are among the top causes of death globally. Research shows that diets 
+  high in meat and dairy significantly increase the risk of these diseases by raising LDL cholesterol, promoting inflammation, 
+  and affecting insulin sensitivity.`,
+  quiz: {
+    question: "Which dietary factor contributes to major global diseases?",
+    options: ["High meat and dairy consumption", "Eating more vegetables", "Exercising regularly"],
+    answer: "High meat and dairy consumption"
+  }
+},
+{
+  lesson: `The human body can handle only small amounts of saturated fat and LDL cholesterol. Excess consumption from meat and 
+  dairy—like in cheese, which can contain 6–8g of saturated fat per 30g slice—raises blood cholesterol and increases heart disease risk.`,
+  quiz: {
+    question: "Why is high intake of cheese a concern?",
+    options: ["It contains high saturated fat, raising LDL cholesterol", "It provides too much fiber", "It reduces energy levels"],
+    answer: "It contains high saturated fat, raising LDL cholesterol"
+  }
+},
+{
+  lesson: `A standard 250ml glass of whole milk contains roughly 8g of fat, of which about 5g is saturated. This can provide a significant percentage of your daily recommended saturated fat intake, often over 20% of calories for an average adult, contributing to heart disease risk if consumed daily.`,
+  quiz: {
+    question: "What percentage of your daily saturated fat can a glass of milk provide?",
+    options: ["Over 20%", "Less than 5%", "0%"],
+    answer: "Over 20%"
+  }
+},
+{
+  lesson: `Milk contains hormones like estrogen, progesterone, and IGF-1. These hormones can influence human hormone levels, potentially affecting growth, development, and reproductive health, which is particularly concerning for children consuming large quantities.`,
+  quiz: {
+    question: "What hormones are naturally present in cow's milk?",
+    options: ["Estrogen, progesterone, IGF-1", "Adrenaline, testosterone", "Insulin only"],
+    answer: "Estrogen, progesterone, IGF-1"
+  }
+},
+{
+  lesson: `Soy contains phytoestrogens, plant compounds that mimic estrogen. However, research shows they do not feminize men when consumed in normal dietary amounts. Instead, they may offer health benefits like lowering cholesterol and supporting heart health.`,
+  quiz: {
+    question: "Does consuming soy make men feminine?",
+    options: ["No, normal dietary amounts are safe", "Yes, immediately", "Only if combined with dairy"],
+    answer: "No, normal dietary amounts are safe"
+  }
+},
       {
-        question: "Which health benefits are linked to plant-based diets?",
-        options: ["Lower risk of heart disease, diabetes, and certain cancers", "Higher cholesterol and blood pressure", "No effect on health"],
-        answer: "Lower risk of heart disease, diabetes, and certain cancers"
+        lesson: `
+        Plant-based diets are naturally high in fiber, which helps regulate digestion, stabilize blood sugar, 
+        and lower cholesterol levels. Over time, this can reduce the risk of cardiovascular disease and improve gut microbiome diversity.
+        `,
+        quiz: {
+          question: "Why is fiber in plant-based diets beneficial?",
+          options: ["Regulates digestion, lowers cholesterol, stabilizes blood sugar", "Causes constipation", "No effect"],
+          answer: "Regulates digestion, lowers cholesterol, stabilizes blood sugar"
+        }
       },
       {
-        question: "Why is a plant-based diet good for gut health?",
-        options: ["High in fiber", "Low in nutrients", "Contains no protein"],
-        answer: "High in fiber"
+        lesson: `
+        Consuming a variety of vegetables, fruits, legumes, and whole grains provides essential vitamins and minerals, 
+        including vitamin C, potassium, magnesium, and antioxidants, which protect cells from oxidative stress and inflammation.
+        `,
+        quiz: {
+          question: "What benefits do plant-based vitamins and minerals provide?",
+          options: ["Protect cells from oxidative stress and inflammation", "Increase oxidative stress", "No effect"],
+          answer: "Protect cells from oxidative stress and inflammation"
+        }
       },
       {
-        question: "Plant-based diets can help with what aspect of wellness?",
-        options: ["Weight management", "Increasing sugar intake", "Muscle wasting"],
-        answer: "Weight management"
-      }
-    ]
-  },
+        lesson: `
+        Diets high in leafy greens like spinach, kale, and broccoli are associated with improved cognitive function. 
+        Nutrients like folate, vitamin K, and lutein support brain health and may reduce the risk of age-related cognitive decline.
+        `,
+        quiz: {
+          question: "Which aspect of health do leafy greens support?",
+          options: ["Brain health and cognitive function", "Hair growth only", "Bone density only"],
+          answer: "Brain health and cognitive function"
+        }
+      },
       {
-        lesson: "Eating more vegetables and whole foods supports a balanced diet, increases energy levels, and promotes long-term physical and mental well-being.",
-        quiz: [
-          {
-            question: "Eating vegetables and whole foods helps?",
-            options: ["Increase energy and promote well-being", "Cause fatigue", "Decrease immunity"],
-            answer: "Increase energy and promote well-being"
-          },
-          {
-            question: "A balanced diet includes?",
-            options: ["Vegetables and whole foods", "Only processed snacks", "Sugary drinks only"],
-            answer: "Vegetables and whole foods"
-          },
-          {
-            question: "Plant-based diets can improve?",
-            options: ["Physical and mental health", "Only financial health", "No effect"],
-            answer: "Physical and mental health"
-          }
-        ]
+        lesson: `
+        Legumes such as lentils, beans, and chickpeas provide plant protein, iron, and B vitamins. 
+        These nutrients support muscle repair, energy production, and red blood cell formation.
+        `,
+        quiz: {
+          question: "What benefits do legumes provide?",
+          options: ["Muscle repair, energy production, red blood cell formation", "Cause muscle loss", "Reduce energy"],
+          answer: "Muscle repair, energy production, red blood cell formation"
+        }
+      },
+      {
+        lesson: `
+        Whole grains like oats, quinoa, and brown rice help maintain steady blood sugar levels, reduce cholesterol, 
+        and provide long-lasting energy, which can improve concentration and mood throughout the day.
+        `,
+        quiz: {
+          question: "Why are whole grains beneficial for energy?",
+          options: ["Provide steady blood sugar and long-lasting energy", "Spike blood sugar quickly", "Reduce energy"],
+          answer: "Provide steady blood sugar and long-lasting energy"
+        }
+      },
+      {
+        lesson: `
+        Plant-based diets can improve cardiovascular health. Studies show lower blood pressure, reduced LDL cholesterol, 
+        and decreased risk of heart attacks among people who follow a diet rich in plants.
+        `,
+        quiz: {
+          question: "What cardiovascular benefits do plant-based diets offer?",
+          options: ["Lower blood pressure, reduced LDL cholesterol, decreased heart attack risk", "Increase blood pressure", "No effect"],
+          answer: "Lower blood pressure, reduced LDL cholesterol, decreased heart attack risk"
+        }
+      },
+      {
+        lesson: `
+        Antioxidants in berries, nuts, and colorful vegetables help combat free radicals that can damage cells and accelerate aging. 
+        A diet rich in these foods supports longevity and healthy skin.
+        `,
+        quiz: {
+          question: "How do antioxidants from plant foods benefit the body?",
+          options: ["Protect cells from damage and support longevity", "Accelerate aging", "No effect"],
+          answer: "Protect cells from damage and support longevity"
+        }
+      },
+      {
+        lesson: `
+        Adequate hydration is crucial for overall wellness. Plant-based foods with high water content, like cucumbers, 
+        melons, and oranges, contribute to hydration and can support kidney function and skin health.
+        `,
+        quiz: {
+          question: "How do high-water plant foods support wellness?",
+          options: ["Improve hydration, kidney function, and skin health", "Dehydrate the body", "Cause kidney damage"],
+          answer: "Improve hydration, kidney function, and skin health"
+        }
+      },
+      {
+        lesson: `
+        Consuming more fruits and vegetables has been linked to improved mood and mental health. 
+        Nutrients like folate, magnesium, and antioxidants support neurotransmitter function and reduce stress.
+        `,
+        quiz: {
+          question: "Which mental health benefits come from plant-based nutrients?",
+          options: ["Support neurotransmitters and reduce stress", "Increase anxiety", "No effect"],
+          answer: "Support neurotransmitters and reduce stress"
+        }
+      },
+      {
+        lesson: `
+        Fiber-rich plant foods help regulate the gut microbiome, which has a direct effect on the immune system, 
+        digestion, and even mental health through the gut-brain axis.
+        `,
+        quiz: {
+          question: "How does fiber affect the gut microbiome?",
+          options: ["Regulates digestion, immunity, and mental health", "Harms gut bacteria", "No effect"],
+          answer: "Regulates digestion, immunity, and mental health"
+        }
+      },
+      {
+        lesson: `
+        Plant-based diets are naturally lower in saturated fat, which supports healthy cholesterol levels, reduces 
+        inflammation, and helps maintain a healthy weight.
+        `,
+        quiz: {
+          question: "Why is a plant-based diet good for weight and inflammation?",
+          options: ["Lower in saturated fat, supports healthy cholesterol and weight", "Higher in fat, increases inflammation", "No effect"],
+          answer: "Lower in saturated fat, supports healthy cholesterol and weight"
+        }
+      },
+      {
+        lesson: `
+        Vitamin B12 is essential for nerve function and red blood cell production. While mostly found in animal products, 
+        fortified plant foods or supplements ensure plant-based eaters meet their needs safely.
+        `,
+        quiz: {
+          question: "How can plant-based eaters get sufficient vitamin B12?",
+          options: ["Fortified foods or supplements", "Eat more vegetables only", "No need for B12"],
+          answer: "Fortified foods or supplements"
+        }
+      },
+      {
+        lesson: `
+        Magnesium from nuts, seeds, and leafy greens supports energy metabolism, muscle function, and heart health. 
+        Many people are deficient, but a varied plant-based diet covers daily needs naturally.
+        `,
+        quiz: {
+          question: "Why is magnesium important and how is it obtained?",
+          options: ["Supports energy, muscles, heart; from nuts, seeds, greens", "Not important", "Only found in meat"],
+          answer: "Supports energy, muscles, heart; from nuts, seeds, greens"
+        }
+      },
+      {
+        lesson: `
+        Omega-3 fatty acids from flax, chia, and walnuts help reduce inflammation, support brain health, and protect heart function. 
+        Plant-based sources are excellent alternatives to fish for essential fats.
+        `,
+        quiz: {
+          question: "What do plant-based omega-3s support?",
+          options: ["Reduce inflammation, support brain and heart health", "Cause inflammation", "No effect"],
+          answer: "Reduce inflammation, support brain and heart health"
+        }
+      },
+      {
+        lesson: `
+        Antioxidants and phytonutrients from colorful fruits and vegetables help prevent DNA damage, 
+        lower cancer risk, and enhance cellular repair mechanisms.
+        `,
+        quiz: {
+          question: "How do antioxidants from plants affect cancer risk?",
+          options: ["Prevent DNA damage and lower cancer risk", "Increase cancer risk", "No effect"],
+          answer: "Prevent DNA damage and lower cancer risk"
+        }
+      },
+      {
+        lesson: `
+        Whole food plant-based diets support stable energy levels. Avoiding processed foods prevents sugar crashes, 
+        and fiber slows digestion, maintaining focus and productivity throughout the day.
+        `,
+        quiz: {
+          question: "How do plant-based whole foods affect energy levels?",
+          options: ["Provide stable energy and prevent crashes", "Cause energy spikes and crashes", "No effect"],
+          answer: "Provide stable energy and prevent crashes"
+        }
+      },
+      {
+        lesson: `
+        Phytonutrients in cruciferous vegetables like broccoli and cauliflower activate detoxification enzymes 
+        in the liver, helping the body eliminate harmful compounds and support liver health.
+        `,
+        quiz: {
+          question: "What do cruciferous vegetables do for the liver?",
+          options: ["Activate detox enzymes and support liver health", "Harm liver function", "No effect"],
+          answer: "Activate detox enzymes and support liver health"
+        }
+      },
+      {
+        lesson: `
+        Consuming nuts regularly improves heart health, stabilizes blood sugar, and supports satiety. 
+        Just a handful a day provides healthy fats, protein, and micronutrients.
+        `,
+        quiz: {
+          question: "How do nuts benefit health?",
+          options: ["Improve heart health, stabilize blood sugar, promote satiety", "Cause heart disease", "No effect"],
+          answer: "Improve heart health, stabilize blood sugar, promote satiety"
+        }
+      },
+      {
+        lesson: `
+        Plant-based diets can help regulate hormones. Nutrient-rich foods, fiber, and low saturated fat support balanced 
+        insulin, estrogen, and testosterone levels naturally.
+        `,
+        quiz: {
+          question: "How do plant-based diets affect hormones?",
+          options: ["Support balanced insulin, estrogen, and testosterone", "Cause imbalance", "No effect"],
+          answer: "Support balanced insulin, estrogen, and testosterone"
+        }
+      },
+      {
+        lesson: `
+        Fermented plant foods like sauerkraut, kimchi, and tempeh introduce beneficial probiotics that enhance 
+        gut microbiota diversity and immunity.
+        `,
+        quiz: {
+          question: "What do fermented plant foods provide?",
+          options: ["Probiotics that support gut and immunity", "Harm gut microbiome", "No effect"],
+          answer: "Probiotics that support gut and immunity"
+        }
+      },
+      {
+        lesson: `
+        Plant-based diets reduce chronic inflammation, a root cause of many diseases including diabetes, cardiovascular 
+        disease, and arthritis.
+        `,
+        quiz: {
+          question: "How do plant-based diets affect inflammation?",
+          options: ["Reduce chronic inflammation", "Increase inflammation", "No effect"],
+          answer: "Reduce chronic inflammation"
+        }
+      },
+      {
+        lesson: `
+        A diverse plant-based diet ensures sufficient intake of antioxidants, vitamins, minerals, and fiber, which 
+        work synergistically to support overall wellness and prevent nutrient deficiencies.
+        `,
+        quiz: {
+          question: "Why is dietary diversity important in plant-based diets?",
+          options: ["Supports wellness and prevents deficiencies", "Causes deficiencies", "No effect"],
+          answer: "Supports wellness and prevents deficiencies"
+        }
+      },
+      {
+        lesson: `
+        Vitamin D can be obtained through fortified plant milks or sunlight exposure. Adequate levels are essential 
+        for bone health, immunity, and mood regulation.
+        `,
+        quiz: {
+          question: "How can plant-based eaters obtain sufficient vitamin D?",
+          options: ["Fortified foods or sunlight", "Only from meat", "No need for vitamin D"],
+          answer: "Fortified foods or sunlight"
+        }
+      },
+      {
+        lesson: `
+        Plant-based diets can improve sleep quality. Nutrients like magnesium, tryptophan, and complex carbohydrates 
+        from whole foods support natural sleep cycles.
+        `,
+        quiz: {
+          question: "How do plant-based diets affect sleep?",
+          options: ["Support natural sleep cycles", "Disrupt sleep", "No effect"],
+          answer: "Support natural sleep cycles"
+        }
+      },
+      {
+        lesson: `
+        Including a variety of herbs and spices in plant-based meals adds antioxidants and anti-inflammatory compounds, 
+        enhancing flavor while promoting long-term health.
+        `,
+        quiz: {
+          question: "What do herbs and spices contribute in plant-based diets?",
+          options: ["Antioxidants and anti-inflammatory compounds", "Nothing", "Harm health"],
+          answer: "Antioxidants and anti-inflammatory compounds"
+        }
+      },
+      {
+        lesson: `
+        Plant-based diets encourage mindful eating. Preparing meals and eating with intention improves digestion, 
+        satisfaction, and mental well-being.
+        `,
+        quiz: {
+          question: "How does plant-based eating support mindfulness?",
+          options: ["Improves digestion and satisfaction", "Reduces mindfulness", "No effect"],
+          answer: "Improves digestion and satisfaction"
+        }
+      },
+      {
+        lesson: `
+        Transitioning to a plant-based diet can reduce the risk of obesity. High-fiber, nutrient-dense foods promote 
+        satiety, regulate metabolism, and help maintain healthy body weight.
+        `,
+        quiz: {
+          question: "How does plant-based eating affect body weight?",
+          options: ["Reduces risk of obesity", "Increases obesity risk", "No effect"],
+          answer: "Reduces risk of obesity"
+        }
+      },
+      {
+        lesson: `
+        Plant-based diets provide anti-aging benefits. Antioxidants, phytonutrients, and vitamins in plants support 
+        skin elasticity, reduce wrinkles, and protect cells from oxidative stress.
+        `,
+        quiz: {
+          question: "How do plant-based diets affect aging?",
+          options: ["Support skin health and reduce oxidative stress", "Accelerate aging", "No effect"],
+          answer: "Support skin health and reduce oxidative stress"
+        }
+      },
+      {
+        lesson: `
+        Choosing whole, minimally processed plant foods supports stable energy, prevents cravings, and enhances 
+        overall mental clarity throughout the day.
+        `,
+        quiz: {
+          question: "How do whole plant foods affect energy and clarity?",
+          options: ["Provide stable energy and mental clarity", "Cause energy crashes", "No effect"],
+          answer: "Provide stable energy and mental clarity"
+        }
       }
 // ✅ Add more lessons here in the future
 ],
 
     "Boosting my performance as an athlete": [
       {
-    lesson: "Plant-based athletes often recover faster due to higher intake of antioxidants from fruits and vegetables. Vegan protein sources like lentils, beans, tofu, and quinoa provide all essential amino acids when combined properly, supporting muscle growth and endurance.",
-    quiz: [
-      {
-        question: "Why do plant-based athletes often recover faster?",
-        options: ["Higher intake of antioxidants", "Lower protein intake", "Fewer carbohydrates"],
-        answer: "Higher intake of antioxidants"
-      },
-      {
-        question: "Which vegan protein sources support muscle growth?",
-        options: ["Lentils, beans, tofu, and quinoa", "Candy and soda", "Processed snacks only"],
-        answer: "Lentils, beans, tofu, and quinoa"
-      },
-      {
-        question: "Plant-based diets support athletes by providing what?",
-        options: ["All essential amino acids", "Only carbs", "No nutrients"],
-        answer: "All essential amino acids"
-      }
-    ]
+    lesson: `
+    Plant-based athletes often recover faster due to high antioxidant intake from fruits, vegetables, and nuts. 
+    Antioxidants combat exercise-induced oxidative stress, reducing muscle soreness and supporting faster recovery.
+    `,
+    quiz: {
+      question: "Why do plant-based athletes recover faster?",
+      options: ["High antioxidant intake reduces muscle soreness", "Lower protein intake slows recovery", "Fewer carbs improve performance"],
+      answer: "High antioxidant intake reduces muscle soreness"
+    }
   },
-      {
-        lesson: "Consuming a variety of plant proteins throughout the day ensures sufficient nutrient intake and can improve endurance, stamina, and overall athletic performance.",
-        quiz: [
-          {
-            question: "Eating a variety of plant proteins helps?",
-            options: ["Ensure sufficient nutrients and improve performance", "Cause weakness", "Reduce stamina"],
-            answer: "Ensure sufficient nutrients and improve performance"
-          },
-          {
-            question: "Plant-based protein intake supports?",
-            options: ["Endurance and stamina", "Only flexibility", "No performance"],
-            answer: "Endurance and stamina"
-          },
-          {
-            question: "Combining plant proteins properly ensures?",
-            options: ["All essential amino acids", "None of the amino acids", "Only carbs"],
-            answer: "All essential amino acids"
-          }
-        ]
-      }
+  {
+    lesson: `
+    Vegan protein sources such as lentils, beans, tofu, tempeh, and quinoa provide all essential amino acids 
+    when eaten in combination throughout the day, supporting muscle growth and repair.
+    `,
+    quiz: {
+      question: "Which plant foods provide complete amino acids when combined?",
+      options: ["Lentils, beans, tofu, tempeh, quinoa", "Candy and soda", "White bread only"],
+      answer: "Lentils, beans, tofu, tempeh, quinoa"
+    }
+  },
+  {
+    lesson: `
+    Iron is critical for endurance athletes to transport oxygen efficiently. Plant-based sources include lentils, beans, 
+    spinach, pumpkin seeds, and fortified cereals. Pairing with vitamin C-rich foods improves absorption.
+    `,
+    quiz: {
+      question: "How can plant-based athletes optimize iron absorption?",
+      options: ["Pair iron-rich foods with vitamin C", "Eat iron alone", "Iron isn’t important"],
+      answer: "Pair iron-rich foods with vitamin C"
+    }
+  },
+  {
+    lesson: `
+    Omega-3 fatty acids from flaxseeds, chia seeds, walnuts, and algae oil reduce inflammation, 
+    support cardiovascular health, and enhance joint mobility for athletes.
+    `,
+    quiz: {
+      question: "What do plant-based omega-3s support in athletes?",
+      options: ["Reduce inflammation and support joints", "Increase inflammation", "No effect on performance"],
+      answer: "Reduce inflammation and support joints"
+    }
+  },
+  {
+    lesson: `
+    Adequate carbohydrate intake from whole grains, fruits, and vegetables fuels endurance performance, 
+    maintains glycogen stores, and prevents fatigue during high-intensity exercise.
+    `,
+    quiz: {
+      question: "Why are carbohydrates important for athletes?",
+      options: ["Fuel performance and maintain glycogen", "Slow down recovery", "Not necessary"],
+      answer: "Fuel performance and maintain glycogen"
+    }
+  },
+  {
+    lesson: `
+    Plant-based diets are naturally rich in nitrates, found in beetroot, spinach, and arugula. Nitrates enhance blood flow, 
+    improve oxygen delivery to muscles, and can boost stamina.
+    `,
+    quiz: {
+      question: "How do dietary nitrates support athletic performance?",
+      options: ["Improve blood flow and oxygen delivery", "Decrease stamina", "No effect"],
+      answer: "Improve blood flow and oxygen delivery"
+    }
+  },
+  {
+    lesson: `
+    Hydration is crucial for athletes. High-water-content fruits and vegetables like watermelon, cucumber, 
+    oranges, and celery contribute to fluid intake and maintain optimal performance.
+    `,
+    quiz: {
+      question: "How do fruits and vegetables support hydration for athletes?",
+      options: ["High water content helps maintain performance", "They dehydrate the body", "No effect"],
+      answer: "High water content helps maintain performance"
+    }
+  },
+  {
+    lesson: `
+    Magnesium from nuts, seeds, and leafy greens supports muscle contraction, nerve function, and energy production, 
+    helping athletes avoid cramps and fatigue.
+    `,
+    quiz: {
+      question: "Why is magnesium important for athletes?",
+      options: ["Supports muscles, nerves, and energy", "Causes fatigue", "No effect"],
+      answer: "Supports muscles, nerves, and energy"
+    }
+  },
+  {
+    lesson: `
+    Plant-based diets provide antioxidants like vitamin C, E, and polyphenols that reduce inflammation and oxidative stress 
+    caused by intense exercise, aiding in faster recovery.
+    `,
+    quiz: {
+      question: "How do plant-based antioxidants help athletes?",
+      options: ["Reduce exercise-induced inflammation", "Increase stress", "No effect"],
+      answer: "Reduce exercise-induced inflammation"
+    }
+  },
+  {
+    lesson: `
+    Adequate protein timing matters. Consuming plant-based protein within 30–60 minutes post-workout helps 
+    muscle protein synthesis and recovery.
+    `,
+    quiz: {
+      question: "Why is protein timing important for plant-based athletes?",
+      options: ["Supports muscle synthesis after workouts", "Not important", "Slows recovery"],
+      answer: "Supports muscle synthesis after workouts"
+    }
+  },
+  {
+    lesson: `
+    Creatine, naturally found in meat but also available as a vegan supplement, enhances high-intensity performance, 
+    strength, and power in plant-based athletes.
+    `,
+    quiz: {
+      question: "How can vegan athletes get creatine?",
+      options: ["Through supplements", "Only from meat", "Not needed"],
+      answer: "Through supplements"
+    }
+  },
+  {
+    lesson: `
+    Calcium from fortified plant milks, tofu, almonds, and leafy greens supports bone health and reduces injury risk, 
+    essential for high-impact sports.
+    `,
+    quiz: {
+      question: "Why is calcium important for athletes?",
+      options: ["Supports bone health and reduces injuries", "Not necessary", "Only improves muscles"],
+      answer: "Supports bone health and reduces injuries"
+    }
+  },
+  {
+    lesson: `
+    Vitamin D, obtained through sunlight or fortified foods, strengthens bones, muscles, and immunity, 
+    contributing to consistent performance.
+    `,
+    quiz: {
+      question: "How does vitamin D support athletes?",
+      options: ["Strengthens bones, muscles, and immunity", "Weakens performance", "No effect"],
+      answer: "Strengthens bones, muscles, and immunity"
+    }
+  },
+  {
+    lesson: `
+    Potassium from bananas, sweet potatoes, and leafy greens regulates fluid balance and prevents muscle cramps 
+    during prolonged exercise.
+    `,
+    quiz: {
+      question: "Why is potassium important for athletes?",
+      options: ["Prevents cramps and regulates fluids", "Causes cramping", "No effect"],
+      answer: "Prevents cramps and regulates fluids"
+    }
+  },
+  {
+    lesson: `
+    A variety of colorful vegetables ensures intake of polyphenols, carotenoids, and flavonoids, 
+    which reduce exercise-induced oxidative stress and promote cardiovascular health.
+    `,
+    quiz: {
+      question: "What benefits do colorful vegetables provide for athletes?",
+      options: ["Reduce oxidative stress and support heart health", "No effect", "Increase oxidative stress"],
+      answer: "Reduce oxidative stress and support heart health"
+    }
+  },
+  {
+    lesson: `
+    Adequate sleep is critical for recovery. Plant-based foods high in magnesium and tryptophan can support better 
+    sleep quality and muscle repair overnight.
+    `,
+    quiz: {
+      question: "How do plant-based foods affect athlete sleep?",
+      options: ["Support recovery and quality sleep", "Disrupt sleep", "No effect"],
+      answer: "Support recovery and quality sleep"
+    }
+  },
+  {
+    lesson: `
+    Beta-alanine, naturally in some plant foods or as a vegan supplement, improves endurance, buffers lactic acid, 
+    and delays fatigue during high-intensity exercise.
+    `,
+    quiz: {
+      question: "What does beta-alanine do for athletes?",
+      options: ["Delays fatigue and buffers lactic acid", "Causes fatigue", "No effect"],
+      answer: "Delays fatigue and buffers lactic acid"
+    }
+  },
+  {
+    lesson: `
+    Tart cherry juice contains anthocyanins that reduce muscle soreness and inflammation after strenuous workouts, 
+    helping plant-based athletes recover faster.
+    `,
+    quiz: {
+      question: "How does tart cherry juice help recovery?",
+      options: ["Reduces muscle soreness and inflammation", "Increases soreness", "No effect"],
+      answer: "Reduces muscle soreness and inflammation"
+    }
+  },
+  {
+    lesson: `
+    Beetroot and nitrate-rich vegetables enhance endurance by improving oxygen efficiency, lowering blood pressure, 
+    and boosting performance in both aerobic and anaerobic exercise.
+    `,
+    quiz: {
+      question: "How do nitrate-rich foods like beetroot help athletes?",
+      options: ["Improve oxygen efficiency and endurance", "Decrease performance", "No effect"],
+      answer: "Improve oxygen efficiency and endurance"
+    }
+  },
+  {
+    lesson: `
+    Adequate carbohydrate and protein combination post-workout supports glycogen replenishment and 
+    muscle repair, optimizing recovery and readiness for the next training session.
+    `,
+    quiz: {
+      question: "Why combine carbs and protein post-workout?",
+      options: ["Replenish glycogen and repair muscles", "Reduce recovery", "No effect"],
+      answer: "Replenish glycogen and repair muscles"
+    }
+  },
+  {
+    lesson: `
+    Electrolytes like sodium, potassium, and magnesium lost during sweat are crucial for endurance athletes. 
+    Coconut water, bananas, and leafy greens help maintain balance and prevent fatigue.
+    `,
+    quiz: {
+      question: "How do electrolytes help athletes?",
+      options: ["Prevent fatigue and maintain balance", "Cause cramping", "No effect"],
+      answer: "Prevent fatigue and maintain balance"
+    }
+  },
+  {
+    lesson: `
+    Anti-inflammatory foods like turmeric, ginger, and berries reduce delayed onset muscle soreness (DOMS) 
+    and accelerate post-exercise recovery.
+    `,
+    quiz: {
+      question: "How do anti-inflammatory plant foods help athletes?",
+      options: ["Reduce DOMS and accelerate recovery", "Increase soreness", "No effect"],
+      answer: "Reduce DOMS and accelerate recovery"
+    }
+  },
+  {
+    lesson: `
+    High-fiber plant foods improve digestive health and nutrient absorption, ensuring athletes can efficiently 
+    fuel their bodies for performance.
+    `,
+    quiz: {
+      question: "Why is fiber important for athletes?",
+      options: ["Supports digestion and nutrient absorption", "Hinders nutrient uptake", "No effect"],
+      answer: "Supports digestion and nutrient absorption"
+    }
+  },
+  {
+    lesson: `
+    Protein-rich seeds and nuts like pumpkin seeds, almonds, and sunflower seeds provide micronutrients like zinc 
+    and selenium, supporting immunity and reducing illness risk during training.
+    `,
+    quiz: {
+      question: "How do seeds and nuts support athlete performance?",
+      options: ["Provide zinc and selenium to support immunity", "Reduce immunity", "No effect"],
+      answer: "Provide zinc and selenium to support immunity"
+    }
+  },
+  {
+    lesson: `
+    Plant-based diets are naturally anti-inflammatory, which can reduce chronic joint pain and inflammation, 
+    supporting long-term athletic health and longevity.
+    `,
+    quiz: {
+      question: "How do plant-based diets affect long-term joint health?",
+      options: ["Reduce inflammation and joint pain", "Increase inflammation", "No effect"],
+      answer: "Reduce inflammation and joint pain"
+    }
+  },
+  {
+    lesson: `
+    Adequate hydration combined with antioxidant-rich plant foods enhances thermoregulation, preventing overheating 
+    and maintaining performance during prolonged exercise.
+    `,
+    quiz: {
+      question: "How do hydration and plant antioxidants support athletes?",
+      options: ["Prevent overheating and maintain performance", "Cause dehydration", "No effect"],
+      answer: "Prevent overheating and maintain performance"
+    }
+  },
+  {
+    lesson: `
+    Mindful eating of plant-based foods supports digestion, nutrient absorption, and mental focus, which can enhance 
+    overall athletic performance.
+    `,
+    quiz: {
+      question: "How does mindful plant-based eating affect performance?",
+      options: ["Improves focus and nutrient absorption", "Reduces focus", "No effect"],
+      answer: "Improves focus and nutrient absorption"
+    }
+  },
+  {
+    lesson: `
+    Prebiotics found in garlic, onions, and asparagus nourish gut bacteria, supporting immunity, 
+    energy metabolism, and reducing gastrointestinal issues in athletes.
+    `,
+    quiz: {
+      question: "What do prebiotics in plant foods support?",
+      options: ["Gut health, immunity, and energy", "Cause gut issues", "No effect"],
+      answer: "Gut health, immunity, and energy"
+    }
+  },
+  {
+    lesson: `
+    Plant-based diets can help athletes maintain healthy body composition. Nutrient-dense, lower-calorie foods 
+    support fat loss while preserving lean muscle mass.
+    `,
+    quiz: {
+      question: "How do plant-based diets affect body composition?",
+      options: ["Support fat loss and preserve lean muscle", "Cause muscle loss", "No effect"],
+      answer: "Support fat loss and preserve lean muscle"
+    }
+   }
 // ✅ Add more lessons here in the future
   ]
  }
@@ -1724,73 +3132,1163 @@ Every plant-based meal contributes to long-term protection and vitality.
 //------ extraLessons -------
 export const extralessonsData = {
   animals: [
-    { title: "Why animals?", content: "Animals matter because they feel pain and deserve compassion.", question: { text: "Why do animals matter?", options: ["They feel pain and deserve compassion", "They cannot move", "They are objects"], correctIndex: 0 } },
-    { title: "Welfare basics", content: "Animal welfare means ensuring animals are healthy, safe, and respected.", question: { text: "What does animal welfare focus on?", options: ["Health, safety, respect", "Fashion", "Profit only"], correctIndex: 0 } },
-    { title: "Adoption", content: "Adopting animals from shelters helps reduce homelessness and suffering.", question: { text: "Why is adoption important?", options: ["Reduces animal homelessness", "Increases sales", "Decorates homes"], correctIndex: 0 } },
-    { title: "Volunteering", content: "Volunteering at animal sanctuaries supports care and rescue work.", question: { text: "What can volunteering do?", options: ["Help care and rescue animals", "Harm animals", "Sell products"], correctIndex: 0 } },
-    { title: "Sanctuaries", content: "Supporting sanctuaries provides animals with safe lifelong homes.", question: { text: "What do sanctuaries provide?", options: ["Safe homes", "Circus training", "Factories"], correctIndex: 0 } },
-    { title: "Farmed animals", content: "Farmed animals are intelligent and social, just like pets.", question: { text: "How are farmed animals similar to pets?", options: ["They are intelligent and social", "They cannot feel", "They are machines"], correctIndex: 0 } },
-    { title: "Emotions", content: "Animals can feel emotions like joy, fear, and sadness.", question: { text: "Which is true about animals?", options: ["They feel emotions", "They cannot think", "They are toys"], correctIndex: 0 } },
-    { title: "Conservation", content: "Wildlife conservation protects species and ecosystems.", question: { text: "What does conservation do?", options: ["Protect species and ecosystems", "Destroy habitats", "Capture animals"], correctIndex: 0 } },
-    { title: "Poaching", content: "Poaching threatens endangered animals worldwide.", question: { text: "What threatens endangered animals?", options: ["Poaching", "Conservation", "Protection laws"], correctIndex: 0 } },
-    { title: "Deforestation", content: "Deforestation destroys the homes of countless wild animals.", question: { text: "What does deforestation do?", options: ["Destroys habitats", "Builds homes", "Helps animals"], correctIndex: 0 } },
-    { title: "Overfishing", content: "Overfishing harms ocean life and balance.", question: { text: "What harms ocean ecosystems?", options: ["Overfishing", "Marine protection", "Restoring reefs"], correctIndex: 0 } },
-    { title: "Pollution", content: "Pollution can poison animals and their environments.", question: { text: "How does pollution affect animals?", options: ["Poisons them", "Makes them stronger", "Feeds them"], correctIndex: 0 } },
-    { title: "Zoos", content: "Zoos can either educate or exploit animals, depending on practices.", question: { text: "What is true about zoos?", options: ["They can educate or exploit", "Always safe", "Always harmful"], correctIndex: 0 } },
-    { title: "Circuses", content: "Circuses often use cruel training on animals.", question: { text: "Why are circuses criticized?", options: ["Cruel training", "Freedom", "Natural behavior"], correctIndex: 0 } },
-    { title: "Pets care", content: "Companion animals need love, exercise, and proper nutrition.", question: { text: "What do pets need?", options: ["Love, exercise, nutrition", "Isolation", "Nothing"], correctIndex: 0 } },
-    { title: "Neutering", content: "Spaying and neutering prevent overpopulation and suffering.", question: { text: "What does neutering do?", options: ["Prevents overpopulation", "Causes illness", "Is unnecessary"], correctIndex: 0 } },
-    { title: "Respect", content: "Respecting animals means seeing them as individuals, not products.", question: { text: "How should we see animals?", options: ["As individuals", "As objects", "As tools"], correctIndex: 0 } },
-    { title: "Rights", content: "Animal rights movements fight for freedom from exploitation.", question: { text: "What do animal rights groups want?", options: ["End exploitation", "Expand hunting", "Sell animals"], correctIndex: 0 } },
-    { title: "Laws", content: "Laws protect some animals, but enforcement is often weak.", question: { text: "What is a problem with animal laws?", options: ["Weak enforcement", "Strong protection", "No cruelty exists"], correctIndex: 0 } },
-    { title: "Vegan lifestyle", content: "Choosing a vegan lifestyle reduces harm to animals.", question: { text: "What lifestyle helps animals most?", options: ["Vegan lifestyle", "Excessive hunting", "Circus shows"], correctIndex: 0 } }
-  ],
+    { 
+    title: "Sensing the World", 
+    content: "Animals perceive the world in ways humans can hardly imagine. Dogs detect scents thousands of times more acutely than we can, allowing them to track people, find hidden objects, and even sense illness. Bats navigate entirely by echolocation, sending out sounds and interpreting returning echoes. Birds, like pigeons, can detect the Earth's magnetic field to find their way home. Understanding these incredible senses helps us appreciate how rich and varied animal life really is.", 
+    question: { text: "Which animal uses echolocation?", options: ["Bat", "Dog", "Cat"], correctIndex: 0 } 
+  },
+  { 
+    title: "Memory & Learning", 
+    content: "Memory is essential for survival, and many animals have astonishing capabilities. Elephants remember locations of water sources for years, crows recall faces of humans who treated them kindly or threatened them, and octopuses can solve puzzles and remember solutions for future use. These skills show that intelligence exists in many forms, often different from human reasoning.", 
+    question: { text: "Which animal remembers human faces?", options: ["Crow", "Elephant", "Shark"], correctIndex: 0 } 
+  },
+  { 
+    title: "Problem Solving", 
+    content: "Problem-solving is a sign of intelligence and creativity. Chimpanzees use sticks to extract termites from mounds, crows bend wires into hooks to retrieve food, and otters use rocks to crack open shells. Animals learn from trial and error and sometimes even invent entirely new solutions, showing ingenuity and adaptability.", 
+    question: { text: "Which animal bends tools to get food?", options: ["Crow", "Monkey", "Dolphin"], correctIndex: 0 } 
+  },
+  { 
+    title: "Planning & Foresight", 
+    content: "Some animals think ahead, preparing for the future. Squirrels hide nuts to eat months later, and some birds collect and store food carefully for scarcity periods. Great apes also plan for tool use, demonstrating that foresight is not unique to humans. Planning improves survival and showcases complex cognition.", 
+    question: { text: "Which animal hides food for future use?", options: ["Squirrel", "Dog", "Cat"], correctIndex: 0 } 
+  },
+  { 
+    title: "Time Perception", 
+    content: "Animals perceive time differently than humans. Bees remember the exact timing of flower nectar availability. Dogs can anticipate routines, and birds know when to migrate. These abilities demonstrate that animals live in a temporal world that requires awareness and adaptation.", 
+    question: { text: "Which animal remembers timing for nectar?", options: ["Bee", "Elephant", "Horse"], correctIndex: 0 } 
+  },
+  { 
+    title: "Navigation Skills", 
+    content: "Navigation is crucial for survival. Salmon travel thousands of miles back to their birthplace to spawn. Sea turtles find their natal beaches after years at sea. Even tiny insects like monarch butterflies migrate across continents. This sense of direction relies on memory, environmental cues, and sometimes Earth's magnetic field.", 
+    question: { text: "Which animal migrates thousands of miles to spawn?", options: ["Salmon", "Dolphin", "Owl"], correctIndex: 0 } 
+  },
+  { 
+    title: "Communication Basics", 
+    content: "Animals communicate in ways both subtle and complex. Dolphins use unique whistles to identify each other, elephants rumble across kilometers to coordinate movement, and bees perform dances to indicate food locations. Communication is vital for survival, cooperation, and social bonding.", 
+    question: { text: "Which animal uses dances to communicate?", options: ["Bee", "Dog", "Elephant"], correctIndex: 0 } 
+  },
+  { 
+    title: "Body Language & Signals", 
+    content: "Nonverbal cues are everywhere in the animal kingdom. Cats purr when content, wag tails to express excitement, and dogs raise hackles to signal alertness. Recognizing these signals helps us understand needs, emotions, and intentions, creating opportunities for compassion and care.", 
+    question: { text: "What does a dog's wagging tail usually indicate?", options: ["Excitement or friendliness", "Fear", "Illness"], correctIndex: 0 } 
+  },
+  { 
+    title: "Sensory Superpowers", 
+    content: "Some animals have senses humans can't imagine. Sharks detect electrical fields of prey, owls hear tiny rustles under snow, and star-nosed moles sense the smallest vibrations. These 'superpowers' let animals navigate and survive in ways humans cannot replicate, reminding us of the diversity of life.", 
+    question: { text: "Which animal can detect electrical fields?", options: ["Shark", "Cat", "Dog"], correctIndex: 0 } 
+  },
+  { 
+    title: "Why It Matters", 
+    content: "Understanding how animals perceive and interact with the world fosters empathy. Recognizing their intelligence, sensitivity, and emotions motivates us to protect them and create environments where they can thrive. Knowledge is the first step toward action and compassion.", 
+    question: { text: "Why should we understand animal senses?", options: ["To foster empathy and protect them", "To make them work for us", "To avoid them"], correctIndex: 0 } 
+  },
+  { 
+    title: "Group Living", 
+    content: "Many animals thrive in groups. Wolves hunt cooperatively, meerkats share babysitting duties, and elephants form tight family bonds. Social living increases survival chances, allows sharing of resources, and strengthens learning through observation.", 
+    question: { text: "Why do many animals live in groups?", options: ["For survival and cooperation", "To look cute", "To fight humans"], correctIndex: 0 } 
+  },
+  { 
+    title: "Social Hierarchies", 
+    content: "Animal societies often have hierarchies to maintain order. Alpha wolves lead packs, chimpanzees have dominance ranks, and bees have a queen. Understanding these structures helps us see how animals organize themselves and cooperate efficiently.", 
+    question: { text: "What is the purpose of social hierarchies?", options: ["Maintain order and cooperation", "Control humans", "Prevent reproduction"], correctIndex: 0 } 
+  },
+  { 
+    title: "Cooperation & Altruism", 
+    content: "Some animals act altruistically. Dolphins support sick pod members, vampire bats share food with those who went hungry, and elephants help injured companions. These behaviors show empathy and that cooperation can benefit the whole group.", 
+    question: { text: "Which animal shares food with hungry peers?", options: ["Vampire bat", "Lion", "Frog"], correctIndex: 0 } 
+  },
+  { 
+    title: "Play & Learning", 
+    content: "Play is critical for social and cognitive development. Young animals wrestle, chase, and explore, practicing skills for hunting or defense. Ravens play games with sticks, and kittens chase invisible prey. Play is both fun and essential for learning.", 
+    question: { text: "Why do animals play?", options: ["To learn skills and socialize", "To waste energy", "To annoy humans"], correctIndex: 0 } 
+  },
+  { 
+    title: "Mating Rituals", 
+    content: "Courtship can be elaborate. Birds perform dances and display feathers, whales sing complex songs, and spiders do acrobatic moves. These rituals ensure reproductive success and show that animals experience behavioral richness we often overlook.", 
+    question: { text: "Why do animals have courtship rituals?", options: ["To ensure reproductive success", "To show off to humans", "To fight predators"], correctIndex: 0 } 
+  },
+  { 
+    title: "Parenting Styles", 
+    content: "Parenting varies widely. Elephants and orcas care for young for years, ensuring survival and teaching social skills. Birds like penguins share duties equally, while some fish guard eggs vigilantly. Parenting demonstrates intelligence, empathy, and long-term planning.", 
+    question: { text: "Which animal cares for its young for many years?", options: ["Elephant", "Shark", "Frog"], correctIndex: 0 } 
+  },
+  { 
+    title: "Communication Networks", 
+    content: "Animal communication can be surprisingly complex. Ants leave pheromone trails to guide others, prairie dogs have alarm calls for different predators, and whales coordinate through songs across oceans. These networks are essential for safety, cooperation, and survival.", 
+    question: { text: "Which animal uses pheromone trails to communicate?", options: ["Ant", "Horse", "Parrot"], correctIndex: 0 } 
+  },
+  { 
+    title: "Emotions & Empathy", 
+    content: "Animals feel emotions similar to humans. Dogs grieve their owners, elephants mourn dead, and rats show empathy by freeing trapped companions. Emotions drive social behavior and reveal depth in animal lives, encouraging ethical treatment.", 
+    question: { text: "Which animal is known to show empathy?", options: ["Rat", "Snake", "Lizard"], correctIndex: 0 } 
+  },
+  { 
+    title: "Conflict & Resolution", 
+    content: "Conflicts happen in animal societies but are often resolved peacefully. Bonobos hug to calm tensions, wolves show submission to avoid fights, and dolphins form alliances. Conflict management highlights intelligence and the need for social harmony.", 
+    question: { text: "How do bonobos resolve conflicts?", options: ["Hugging and grooming", "Fighting endlessly", "Ignoring each other"], correctIndex: 0 } 
+  },
+  { 
+    title: "Why Social Life Matters", 
+    content: "Studying social behavior helps us understand intelligence, emotional depth, and interdependence in animals. Recognizing their social complexity encourages protection and compassion, showing that animals are not isolated beings but participants in rich communities.", 
+    question: { text: "Why should we understand animal social life?", options: ["To protect them and appreciate intelligence", "To train them for entertainment", "To isolate them"], correctIndex: 0 } 
+  },
+  { 
+    title: "Unique Individuals", 
+    content: "Just like humans, animals have distinct personalities. Some dolphins are bold explorers, while others are shy observers. Elephants show different temperaments, and dogs have preferences and quirks. Recognizing individuality helps us see them as sentient beings, not just species.", 
+    question: { text: "Do animals have unique personalities?", options: ["Yes, each individual is different", "No, all are the same", "Only pets do"], correctIndex: 0 } 
+  },
+  { 
+    title: "Problem-Solving Skills", 
+    content: "Animals are capable of creative problem-solving. Crows use tools to access food, octopuses open jars, and elephants manipulate objects to achieve goals. These skills show intelligence, memory, and adaptability, challenging outdated notions of animal cognition.", 
+    question: { text: "Which animal is known for using tools?", options: ["Crow", "Cow", "Frog"], correctIndex: 0 } 
+  },
+  { 
+    title: "Memory & Recognition", 
+    content: "Some animals have astonishing memory. Elephants remember watering holes over decades, dolphins recognize each other after years, and crows recall human faces. Memory is linked to social life and survival, reflecting sophisticated cognitive abilities.", 
+    question: { text: "Which animal can recognize human faces after years?", options: ["Crow", "Rabbit", "Goldfish"], correctIndex: 0 } 
+  },
+  { 
+    title: "Playful Characters", 
+    content: "Play is also tied to personality. Some cats love chasing lasers, some parrots invent games, and some otters slide repeatedly for fun. Play reflects curiosity, learning, and joy, reminding us that animals experience happiness like we do.", 
+    question: { text: "What does animal play indicate?", options: ["Curiosity and joy", "Boredom only", "Hunger"], correctIndex: 0 } 
+  },
+  { 
+    title: "Empathy Varies", 
+    content: "Even empathy shows personality differences. Some rats go out of their way to free trapped peers, while others ignore them. Dogs react differently to humans in distress, and elephants comfort grieving companions selectively. This variation shows depth and complexity.", 
+    question: { text: "Does empathy vary among animals?", options: ["Yes, personalities affect empathy", "No, all animals feel the same", "Only mammals do"], correctIndex: 0 } 
+  },
+  { 
+    title: "Learning Styles", 
+    content: "Animals have different ways of learning. Some parrots learn by imitation, dolphins by observation, and dogs by repetition. Recognizing learning styles helps us provide better enrichment and care, enhancing well-being and cognitive stimulation.", 
+    question: { text: "Do animals have different learning styles?", options: ["Yes, they learn differently", "No, all learn the same", "Only humans learn differently"], correctIndex: 0 } 
+  },
+  { 
+    title: "Expressing Preferences", 
+    content: "Animals show likes and dislikes. Chickens may favor certain foods, cats prefer specific resting spots, and horses enjoy particular companions. Preferences reveal personality, awareness, and choice—foundations of ethical consideration.", 
+    question: { text: "Do animals have preferences?", options: ["Yes, they express likes and dislikes", "No, they are random", "Only pets express preferences"], correctIndex: 0 } 
+  },
+  { 
+    title: "Curiosity & Exploration", 
+    content: "Exploration is a sign of personality and intelligence. Foxes investigate new scents, parrots manipulate novel objects, and octopuses examine their tanks. Curiosity drives learning, problem-solving, and engagement with the environment.", 
+    question: { text: "Which trait drives animal learning and problem-solving?", options: ["Curiosity", "Fear", "Hunger only"], correctIndex: 0 } 
+  },
+  { 
+    title: "Social Bonds Are Personal", 
+    content: "Friendships among animals are often selective. Elephants form tight bonds with certain herd members, dolphins have favorite partners, and birds maintain long-term social relationships. These personal bonds highlight emotional depth.", 
+    question: { text: "Do animals form selective friendships?", options: ["Yes, they choose companions", "No, they bond randomly", "Only primates do"], correctIndex: 0 } 
+  },
+  { 
+    title: "Why Individuality Matters", 
+    content: "Recognizing animal individuality changes how we treat them. Understanding that each animal has personality, memory, preferences, and emotions encourages compassion, ethical choices, and a deeper connection to the living world.", 
+    question: { text: "Why is recognizing individuality important?", options: ["Encourages compassion and ethical treatment", "For fun only", "It doesn't matter"], correctIndex: 0 } 
+  },
+   { 
+    title: "Farmed Animal Reality", 
+    content: "Billions of animals are raised for food in intensive systems. They often face overcrowding, stress, and lack of natural behaviors. Understanding this reality is the first step toward compassionate choices.", 
+    question: { text: "What challenges do farmed animals face?", options: ["Overcrowding and stress", "Luxury housing", "No challenges"], correctIndex: 0 } 
+  },
+  { 
+    title: "Sentience Means Suffering", 
+    content: "Animals are sentient—they feel pain, fear, and joy. Practices that ignore their needs cause real suffering, from birth to slaughter. Acknowledging sentience strengthens ethical responsibility.", 
+    question: { text: "What does sentience imply?", options: ["They can feel pain and joy", "They don't feel anything", "Only emotions exist in humans"], correctIndex: 0 } 
+  },
+  { 
+    title: "Emotional Stress in Farms", 
+    content: "Farmed animals experience chronic stress due to confinement, separation from family, and lack of stimulation. Stress weakens immunity and affects growth, showing that ethical treatment is linked to biology.", 
+    question: { text: "What does chronic stress cause in farmed animals?", options: ["Weak immunity and poor growth", "Stronger bodies", "Nothing"], correctIndex: 0 } 
+  },
+  { 
+    title: "Wildlife Threats", 
+    content: "Animals in the wild face habitat loss, poaching, and climate change. Rainforest destruction, for example, not only reduces biodiversity but also forces animals into conflict with humans.", 
+    question: { text: "What threatens wildlife?", options: ["Habitat loss and poaching", "Protection laws", "Clean forests"], correctIndex: 0 } 
+  },
+  { 
+    title: "Rescue Operations", 
+    content: "Sanctuaries and rescue organizations save thousands of animals yearly, providing safe environments, medical care, and rehabilitation. Supporting these efforts directly improves animal welfare.", 
+    question: { text: "What do sanctuaries provide?", options: ["Safety and care", "More exploitation", "Entertainment"], correctIndex: 0 } 
+  },
+  { 
+    title: "Behavioral Rehabilitation", 
+    content: "Animals rescued from abusive environments often need behavioral rehabilitation. Trust-building, enrichment, and socialization help them recover emotionally and physically.", 
+    question: { text: "What helps rescued animals recover?", options: ["Trust-building and enrichment", "Neglect", "Loud noise"], correctIndex: 0 } 
+  },
+  { 
+    title: "Veterinary Care Saves Lives", 
+    content: "Medical interventions in rescues—treatment of injuries, disease prevention, and spaying/neutering—significantly improve longevity and quality of life.", 
+    question: { text: "What role does veterinary care play?", options: ["Improves life quality and longevity", "Is unnecessary", "Only cosmetic"], correctIndex: 0 } 
+  },
+  { 
+    title: "The Power of Adoption", 
+    content: "Adopting animals from shelters saves lives and reduces demand for breeding. Each adoption prevents suffering and gives a second chance to a sentient being.", 
+    question: { text: "How does adoption help animals?", options: ["Saves lives and reduces suffering", "Increases shelters", "Has no impact"], correctIndex: 0 } 
+  },
+  { 
+    title: "Volunteering Matters", 
+    content: "Volunteers in sanctuaries, shelters, and rescue organizations provide essential care, socialization, and enrichment. Every hour spent directly improves animals’ welfare.", 
+    question: { text: "Why is volunteering important?", options: ["Directly improves welfare", "Only for fun", "It doesn't matter"], correctIndex: 0 } 
+  },
+  { 
+    title: "Small Daily Choices", 
+    content: "Every compassionate choice—choosing plant-based meals, supporting cruelty-free products, or educating others—reduces suffering and creates a tangible impact.", 
+    question: { text: "How can we reduce animal suffering daily?", options: ["Plant-based choices and advocacy", "Ignore it", "Overconsume animal products"], correctIndex: 0 } 
+  },
+  { 
+    title: "Cognitive Skills", 
+    content: "Many animals, from pigs to crows, demonstrate problem-solving, memory, and planning skills. Recognizing their intelligence helps us design more compassionate care systems.", 
+    question: { text: "Which animals show advanced cognition?", options: ["Pigs and crows", "Rocks and trees", "Goldfish only"], correctIndex: 0 } 
+  },
+  { 
+    title: "Communication", 
+    content: "Animals communicate through sounds, gestures, and chemical signals. Elephants, dolphins, and bees share complex information, highlighting their social intelligence.", 
+    question: { text: "How do animals communicate?", options: ["Sounds, gestures, chemicals", "Telepathy only", "They don't communicate"], correctIndex: 0 } 
+  },
+  { 
+    title: "Emotional Intelligence", 
+    content: "Animals feel empathy, grief, joy, and curiosity. Elephants mourn their dead, dogs comfort humans, and birds play, proving that emotions are not uniquely human.", 
+    question: { text: "Which emotions can animals feel?", options: ["Empathy, grief, joy", "None", "Only hunger"], correctIndex: 0 } 
+  },
+  { 
+    title: "Personality Traits", 
+    content: "Individual animals have distinct personalities. Some are shy, others playful or bold. Recognizing this helps us provide environments tailored to each animal’s needs.", 
+    question: { text: "Do animals have personalities?", options: ["Yes, distinct traits", "No, identical behavior", "Only humans do"], correctIndex: 0 } 
+  },
+  { 
+    title: "Social Structures", 
+    content: "Many species live in structured social groups with rules, alliances, and hierarchies. Understanding social dynamics is crucial to welfare and enrichment programs.", 
+    question: { text: "Why study animal social structures?", options: ["To improve welfare and enrichment", "To ignore them", "To copy human society"], correctIndex: 0 } 
+  },
+  { 
+    title: "Play Behavior", 
+    content: "Play is a sign of intelligence and well-being. Animals like dolphins, octopuses, and primates engage in play, which enhances learning, social bonds, and problem-solving skills.", 
+    question: { text: "What does play indicate in animals?", options: ["Intelligence and well-being", "Nothing", "Only hunger"], correctIndex: 0 } 
+  },
+  { 
+    title: "Tool Use", 
+    content: "Some animals use tools to obtain food or solve problems—crows bend wires, chimpanzees use sticks, and octopuses manipulate objects—demonstrating advanced cognition.", 
+    question: { text: "Which animals use tools?", options: ["Crows, chimps, octopuses", "Fish only", "No animals use tools"], correctIndex: 0 } 
+  },
+  { 
+    title: "Memory & Planning", 
+    content: "Animals can remember locations, faces, and past events. Scrub jays hide food and recall locations months later, showing foresight and complex memory capabilities.", 
+    question: { text: "What abilities show advanced memory?", options: ["Food caching and recognition", "Only instinct", "No memory"], correctIndex: 0 } 
+  },
+  { 
+    title: "Problem Solving", 
+    content: "Animals solve novel problems using reasoning and observation. Octopuses escape enclosures, elephants manipulate locks, and ravens create sequences of actions to reach goals.", 
+    question: { text: "Which is an example of animal problem-solving?", options: ["Octopuses escaping enclosures", "Random movement", "Automatic reflex"], correctIndex: 0 } 
+  },
+  { 
+    title: "Empowerment Through Action", 
+    content: "By learning about intelligence and suffering, we can make compassionate choices: adopt, support sanctuaries, advocate for change, and choose plant-based diets to reduce harm.", 
+    question: { text: "How can we help intelligent animals?", options: ["Adopt, support, advocate, choose plant-based", "Ignore them", "Use them for entertainment"], correctIndex: 0 } 
+  }
+],
 
   earth: [
-    { title: "Emissions", content: "Food choices affect greenhouse gas emissions.", question: { text: "What affects emissions?", options: ["Food choices", "Reading books", "Painting walls"], correctIndex: 0 } },
-    { title: "Deforestation", content: "Animal agriculture is a major cause of deforestation.", question: { text: "What drives deforestation?", options: ["Animal agriculture", "Recycling", "Planting trees"], correctIndex: 0 } },
-    { title: "Plant diet", content: "Eating plants uses fewer resources than eating animals.", question: { text: "Which diet uses fewer resources?", options: ["Plant-based", "Meat-heavy", "Wasteful"], correctIndex: 0 } },
-    { title: "Water use", content: "Water is wasted when producing meat compared to plants.", question: { text: "Which uses more water?", options: ["Meat", "Vegetables", "Legumes"], correctIndex: 0 } },
-    { title: "Methane", content: "Methane from cows warms the planet.", question: { text: "What gas do cows release?", options: ["Methane", "Oxygen", "Helium"], correctIndex: 0 } },
-    { title: "Recycling", content: "Recycling reduces waste and pollution.", question: { text: "What does recycling do?", options: ["Reduces waste", "Increases trash", "Destroys resources"], correctIndex: 0 } },
-    { title: "Plastic", content: "Plastic pollution harms oceans and wildlife.", question: { text: "Where does plastic pollution harm?", options: ["Oceans", "Libraries", "Mountains"], correctIndex: 0 } },
-    { title: "Renewables", content: "Renewable energy reduces fossil fuel use.", question: { text: "Which reduces fossil fuels?", options: ["Renewables", "Coal", "Oil"], correctIndex: 0 } },
-    { title: "Biodiversity", content: "Deforestation reduces biodiversity and oxygen.", question: { text: "What does deforestation reduce?", options: ["Biodiversity", "Pollution", "Plastic"], correctIndex: 0 } },
-    { title: "Trees", content: "Planting trees helps absorb CO₂.", question: { text: "What absorbs CO₂?", options: ["Trees", "Cars", "Factories"], correctIndex: 0 } },
-    { title: "Overfishing", content: "Overfishing disrupts ecosystems.", question: { text: "What does overfishing disrupt?", options: ["Ecosystems", "Schools", "Forests"], correctIndex: 0 } },
-    { title: "Composting", content: "Composting turns waste into soil.", question: { text: "What does composting make?", options: ["Soil", "Plastic", "Metal"], correctIndex: 0 } },
-    { title: "Efficiency", content: "Energy efficiency saves resources.", question: { text: "What does efficiency do?", options: ["Saves resources", "Wastes energy", "Breaks machines"], correctIndex: 0 } },
-    { title: "Cycling", content: "Using bikes reduces pollution.", question: { text: "What reduces air pollution?", options: ["Cycling", "Driving cars", "Flying planes"], correctIndex: 0 } },
-    { title: "Dead zones", content: "Ocean dead zones are caused by pollution.", question: { text: "What causes dead zones?", options: ["Pollution", "Clean water", "Trees"], correctIndex: 0 } },
-    { title: "Climate", content: "Climate change increases extreme weather.", question: { text: "What increases storms and floods?", options: ["Climate change", "Planting trees", "Good farming"], correctIndex: 0 } },
-    { title: "Local eating", content: "Eating locally reduces transport emissions.", question: { text: "How can we reduce transport emissions?", options: ["Eat locally", "Fly food in", "Ship more"], correctIndex: 0 } },
-    { title: "Rainforests", content: "Protecting rainforests preserves biodiversity.", question: { text: "What do rainforests protect?", options: ["Biodiversity", "Plastic", "Concrete"], correctIndex: 0 } },
-    { title: "Solar", content: "Solar panels use sunlight for clean energy.", question: { text: "What do solar panels use?", options: ["Sunlight", "Coal", "Gas"], correctIndex: 0 } },
-    { title: "Daily actions", content: "Small daily actions matter for sustainability.", question: { text: "What makes sustainability possible?", options: ["Daily actions", "Ignoring waste", "Overusing"], correctIndex: 0 } }
-  ],
+    {
+  title: "Your Diet Has a Carbon Footprint",
+  content: "Every bite you take leaves a mark on the planet — it’s called your food’s carbon footprint. Producing animal-based foods, especially beef and dairy, emits enormous amounts of greenhouse gases like methane, nitrous oxide, and CO₂. In fact, if cows were a country, they’d be the third-largest emitter in the world — after China and the United States. By replacing just one beef meal per week with a plant-based one, you can save the same amount of emissions as driving 500 km less per year. The simple truth? What’s on your plate changes the climate more than what’s in your garage.",
+  question: {
+    text: "What food group has the highest carbon footprint?",
+    options: ["Animal-based foods", "Plant-based foods", "Locally grown vegetables"],
+    correctIndex: 0
+  }
+},
+{
+  title: "The Methane Mystery",
+  content: "Methane traps 80 times more heat than carbon dioxide over 20 years. Most of it comes from livestock — mainly cows and sheep — as they digest food. Each cow can emit up to 120 kg of methane a year just through burps. That’s equivalent to driving a car thousands of kilometers! When you choose beans over beef, you’re literally helping cool the planet. Scientists say cutting methane could slow global warming faster than any other single action humanity can take in the next decade.",
+  question: {
+    text: "Which gas from livestock warms the planet the most?",
+    options: ["Methane", "Oxygen", "Nitrogen"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Deforestation on Your Plate",
+  content: "Every second, a piece of rainforest the size of a football field disappears — mostly to make room for livestock or grow soy for animal feed. About 80% of all deforestation in the Amazon is linked to cattle. This not only destroys trees that absorb CO₂ but also wipes out countless species. Switching to plant-based meals means less land needed, more forests protected, and more oxygen for everyone. Your dinner can either clear a forest or help regrow one.",
+  question: {
+    text: "What’s the main driver of deforestation in the Amazon?",
+    options: ["Cattle farming", "Eco-tourism", "Fruit cultivation"],
+    correctIndex: 0
+  }
+},
+{
+  title: "The Water Footprint of Food",
+  content: "Producing meat isn’t just carbon-intensive — it’s water-intensive too. It takes about 15,000 liters of water to produce 1 kg of beef, compared to only 1,000 liters for 1 kg of grains. Imagine every steak as a hidden swimming pool. Livestock also pollute rivers through runoff from manure and fertilizers. Choosing lentils, beans, or tofu can cut your water footprint by more than half while still nourishing you fully.",
+  question: {
+    text: "How much more water does beef production use compared to grains?",
+    options: ["About 15 times more", "The same", "Less"],
+    correctIndex: 0
+  }
+},
+{
+  title: "The Hidden Energy Behind Meat",
+  content: "Feeding and raising animals requires enormous energy — to grow crops, pump water, run machinery, transport feed, and refrigerate meat. In total, it takes 11 times more fossil fuel energy to produce animal protein than plant protein. That’s like using a diesel engine to power your salad. By eating lower on the food chain — plants instead of animals — you’re tapping directly into solar energy stored in plants instead of burning fossil fuels to feed animals first.",
+  question: {
+    text: "How much more energy does animal protein require compared to plant protein?",
+    options: ["About 11 times more", "About the same", "Less energy overall"],
+    correctIndex: 0
+  }
+},
+{
+  title: "The Power of One Meal",
+  content: "You don’t need to be 100% vegan to make a difference. Every plant-based meal counts. A single plant-based lunch instead of a beef burger saves about 2.5 kg of CO₂ — that’s like skipping a 10 km drive. If everyone in the world replaced one animal meal per day with plants, we could cut global emissions by up to 8 billion tons per year — more than all cars on Earth combined. Your fork is a climate tool — use it wisely.",
+  question: {
+    text: "Replacing one beef meal a day with plants could cut emissions by how much?",
+    options: ["Billions of tons per year", "A few kilograms total", "No measurable change"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Climate-Friendly Protein",
+  content: "Plant proteins like lentils, chickpeas, tofu, and quinoa don’t just nourish your body — they protect the planet. Lentils emit 43 times less greenhouse gas than beef per gram of protein. That means one bowl of lentil stew has the same climate impact as one slice of beef — and it’s full of fiber and iron. The good news: plant protein doesn’t require compromise. It’s nutritious, ethical, and the single most powerful climate choice available to individuals.",
+  question: {
+    text: "How much less greenhouse gas do lentils produce compared to beef?",
+    options: ["About 40 times less", "The same amount", "Twice as much"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Food Waste and Climate Change",
+  content: "Nearly one-third of all food produced is never eaten — and wasted food emits 8–10% of all global greenhouse gases. That’s more than the entire aviation industry. Every time food ends up in the bin, all the land, water, and energy used to make it are wasted too. Freezing leftovers, composting, and buying only what you need are simple but powerful acts of climate care. Reducing waste is just as important as eating green.",
+  question: {
+    text: "How much of global emissions come from wasted food?",
+    options: ["8–10%", "1%", "50%"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Oceans, Fish, and the Carbon Cycle",
+  content: "Oceans absorb about a quarter of all the CO₂ humans emit — but industrial fishing and fish farming threaten this balance. Overfishing removes key species that keep algae and plankton in check, while fish farms release methane and nitrogen. The ocean is the planet’s largest carbon sink, yet we treat it as a buffet. Choosing plant-based seafood alternatives protects this vital system — and the billions who depend on it.",
+  question: {
+    text: "What helps oceans maintain the carbon cycle?",
+    options: ["Healthy marine ecosystems", "Overfishing", "Fish farms"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Eating for a Cooler Planet",
+  content: "Every plant-based meal is a small act of resistance against global warming. It’s a message that says, ‘I care about future generations.’ Studies show that if everyone adopted a plant-rich diet, global farmland use could drop by 75%, freeing space for rewilding and carbon capture. The planet doesn’t need a few perfect vegans — it needs millions of imperfect people making better choices, one plate at a time.",
+  question: {
+    text: "What could happen if everyone ate a plant-rich diet?",
+    options: ["Farmland use would drop massively", "Deforestation would increase", "Emissions would rise"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Food Miles vs. Food Type",
+  content: "Many people think imported fruits are worse for the planet than local meat. Surprisingly, the type of food matters far more than distance. Transporting vegetables by plane has a carbon footprint, but a single steak produces 50 times more emissions than flying in a few mangoes. Your choice of *what* to eat matters more than *where* it comes from. Eating plants, even if flown in occasionally, is still far better for the climate than a daily meat habit.",
+  question: {
+    text: "What impacts emissions more than shipping distance?",
+    options: ["Type of food", "Packaging color", "Plate size"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Soil Carbon Secrets",
+  content: "Soil stores more carbon than all the forests on Earth combined. But conventional animal agriculture strips soil of nutrients, compacts it with heavy machinery, and emits CO₂. Growing plants, especially legumes and cover crops, restores soil carbon and fertility. Your plate doesn’t just feed you — it can regenerate the Earth beneath your feet. Every lentil and bean planted responsibly helps trap carbon underground.",
+  question: {
+    text: "Which practice restores soil carbon?",
+    options: ["Growing plants and legumes", "Overgrazing", "Tilling repeatedly"],
+    correctIndex: 0
+  }
+},
+{
+  title: "The Hidden Energy of Feed Crops",
+  content: "Most livestock eat crops like corn and soy that could feed humans directly. Globally, we produce enough plant calories to feed 10 billion people, but livestock consume nearly half. Producing meat first wastes energy and resources: it takes roughly 7 kg of plant feed to produce 1 kg of beef. By choosing plants directly, we cut energy waste and reduce the planet’s burden dramatically.",
+  question: {
+    text: "How many kg of plants are needed to make 1 kg of beef?",
+    options: ["About 7 kg", "1 kg", "20 kg"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Nitrous Oxide – The Forgotten Gas",
+  content: "Nitrous oxide (N₂O) is 300 times more potent than CO₂ at trapping heat. It mostly comes from fertilizer used to grow animal feed. By reducing demand for animal products, we lower fertilizer use, slow N₂O emissions, and protect water sources from nutrient pollution. It’s a gas that quietly accelerates warming — but your meals can fight it.",
+  question: {
+    text: "Which greenhouse gas from fertilizer is extremely potent?",
+    options: ["Nitrous oxide", "Oxygen", "Argon"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Regenerative Plant Choices",
+  content: "Regenerative agriculture grows plants in ways that restore soil, capture carbon, and protect biodiversity. By choosing foods from regenerative farms — nuts, grains, legumes, vegetables — you amplify your climate impact. One salad grown regeneratively can offset more emissions than a day without driving your car. Food becomes a solution, not a problem.",
+  question: {
+    text: "Which type of farming helps restore soil and capture carbon?",
+    options: ["Regenerative agriculture", "Conventional feedlots", "Deforested grazing"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Plant-Based Protein Revolution",
+  content: "Plant-based alternatives are no longer niche. Foods like tofu, tempeh, seitan, and innovative lab-grown proteins allow people to meet nutritional needs with a fraction of emissions. Replacing half your meat meals with plants could cut your personal carbon footprint by 30–50%. Every choice scales — small changes multiplied by millions can alter global emissions trajectories.",
+  question: {
+    text: "What can reduce personal carbon footprint by 30–50%?",
+    options: ["Replacing half of meat meals with plants", "Drinking water", "Driving electric cars only"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Seasonal Eating = Smarter Planet",
+  content: "Eating seasonally is a subtle but effective climate strategy. Growing vegetables in their natural season avoids energy-intensive greenhouses, reduces food miles, and aligns with local ecosystems. A winter tomato grown in a heated greenhouse can produce 10 times more CO₂ than the same tomato in summer. Choosing seasonal produce is a small habit with a surprisingly big impact.",
+  question: {
+    text: "Why is seasonal produce better for the planet?",
+    options: ["It avoids extra energy use", "It tastes sweeter", "It lasts longer"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Packaging Myths",
+  content: "Many people focus on packaging — but food type dominates climate impact. A beef burger in minimal packaging causes far more emissions than a packaged salad shipped from afar. Prioritize plant-based meals first; then consider packaging. Choosing lentils, beans, or grains over meat is always the bigger climate win.",
+  question: {
+    text: "Which matters more for emissions than packaging?",
+    options: ["Food type", "Color of packaging", "Plate size"],
+    correctIndex: 0
+  }
+},
+{
+  title: "The Domino Effect of Change",
+  content: "Your dietary choices ripple across systems: fewer cows → less feed crop demand → lower fertilizer use → less deforestation → cleaner water → cooler planet. Each meal becomes a small domino, and each domino contributes to a chain reaction of environmental healing. The most empowering fact? You are at the center of this chain — your fork is your lever.",
+  question: {
+    text: "How do individual dietary choices impact the planet?",
+    options: ["They create a ripple effect across ecosystems", "They have no effect", "They only affect taste"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Scaling Impact With Communities",
+  content: "One person switching to plant-based meals is powerful. A community? Exponential. Schools, workplaces, and cities adopting plant-rich programs reduce emissions, save water, and protect forests. Joining or creating plant-based groups amplifies your effect. Collective change is the only way to meet climate goals — your choices inspire others to follow.",
+  question: {
+    text: "Why is community action important for climate?",
+    options: ["It multiplies individual impact", "It doesn’t help", "It only affects prices"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Hidden Water Footprints",
+  content: "One kilogram of beef can require up to 15,000 liters of water when accounting for feed, drinking water, and processing. In contrast, growing 1 kg of lentils takes around 1,250 liters. Every plant-based meal you eat conserves thousands of liters of water — a hidden resource that most people forget when choosing their food.",
+  question: {
+    text: "Which uses far less water per kg?",
+    options: ["Lentils", "Beef", "Cheese"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Food Waste = Climate Waste",
+  content: "Globally, roughly one-third of all food is wasted. Animal products have the highest climate cost when wasted because so much energy went into producing them. Wasting a pound of beef is like driving 160 miles in a car. By planning meals and storing food properly, you save energy, water, and reduce unnecessary emissions.",
+  question: {
+    text: "Which type of food waste has the highest climate impact?",
+    options: ["Animal products", "Bread", "Leafy greens"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Legumes: Tiny Giants",
+  content: "Legumes aren’t just protein-rich; they fix nitrogen in the soil naturally, reducing the need for synthetic fertilizers, which emit potent nitrous oxide. Eating beans and lentils is like planting mini carbon-traps every time you cook. These small seeds pack huge climate benefits, and they’re delicious too!",
+  question: {
+    text: "Why are legumes good for the climate?",
+    options: ["They fix nitrogen and reduce fertilizer use", "They grow slowly", "They need lots of water"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Cow Belching vs. Car Engines",
+  content: "A single cow can emit up to 500 liters of methane per day through burping. Methane traps heat 25 times more effectively than CO₂ over a century. Reducing meat consumption isn’t just a gentle choice — it’s like removing a small fleet of cars from the road daily. Your dinner plate is a climate lever.",
+  question: {
+    text: "Which gas from cows is very potent?",
+    options: ["Methane", "Oxygen", "CO₂ only"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Forest-Free Diets",
+  content: "Every year, millions of acres of rainforest are cleared for livestock or feed crops. Choosing plant-based foods helps protect forests, which act as Earth’s lungs. One person’s plant-forward diet could save dozens of trees annually, prevent habitat loss, and preserve biodiversity — a single forkful saving entire ecosystems.",
+  question: {
+    text: "What helps protect forests from being cleared?",
+    options: ["Eating more plant-based foods", "Driving electric cars", "Buying paper"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Soil Microbes & Carbon Capture",
+  content: "Healthy soils are full of microbes that store carbon efficiently. Animal farming compacts the soil, killing microbes and releasing stored CO₂. Plant-focused farming nourishes the soil, supports microbes, and keeps carbon locked underground. Your salad is a tiny ecosystem hero!",
+  question: {
+    text: "What do plant-focused farms help?",
+    options: ["Support soil microbes and carbon storage", "Destroy microbes", "Use more fertilizer"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Hidden Protein Sources",
+  content: "Many plant foods contain more protein per acre than meat. Quinoa, lentils, peas, and soy yield far more usable protein for humans per unit of land, meaning plant-based diets are more efficient, climate-friendly, and help reduce pressure on forests, water, and biodiversity.",
+  question: {
+    text: "Which provides more protein per acre for humans?",
+    options: ["Plant crops like lentils and quinoa", "Cattle farming", "Poultry"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Seafood Carbon Surprises",
+  content: "Fishing and aquaculture contribute to emissions, overfishing, and habitat destruction. Plant-based meals can reduce pressure on oceans, prevent bycatch, and preserve marine biodiversity. Choosing legumes, grains, or algae-based foods is not just healthier — it protects entire aquatic ecosystems.",
+  question: {
+    text: "Why is reducing seafood consumption helpful for the planet?",
+    options: ["It protects oceans and reduces emissions", "It increases overfishing", "It has no effect"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Hidden Fossil Fuels",
+  content: "From tractors to transport, producing meat consumes 5–10 times more fossil fuels than equivalent plant foods. A plant-forward diet isn’t just low-carbon in theory — it drastically reduces dependence on fossil fuels, a key driver of climate change.",
+  question: {
+    text: "Which consumes more fossil fuels?",
+    options: ["Meat production", "Plant production", "Cooking plant-based meals"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Meal Impact Multiplier",
+  content: "Switching one meal per day from animal products to plants might seem small — but if 1 billion people did it, it would reduce global emissions by over 1 billion tons annually. Your choices ripple across the planet, proving that small, consistent dietary changes can create massive, tangible climate impact.",
+  question: {
+    text: "What happens if a billion people switch one meal to plants daily?",
+    options: ["Global emissions drop significantly", "Nothing changes", "Prices go up"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Synthetic Fertilizer Shock",
+  content: "Producing synthetic nitrogen fertilizers releases nitrous oxide, a greenhouse gas 300 times stronger than CO₂. By eating more legumes and plant-based proteins, we reduce reliance on synthetic fertilizers, protecting the atmosphere from hidden emissions. Every bean counts!",
+  question: {
+    text: "Which gas from fertilizers is extremely potent?",
+    options: ["Nitrous oxide", "CO₂", "Methane"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Plant Protein, Tiny Footprint",
+  content: "Switching from beef to lentils for protein reduces your food-related carbon footprint by up to 90%. One meal change can save more CO₂ than skipping a car trip for a week. Your plate isn’t just food — it’s a climate action plan.",
+    question: {
+    text: "Which protein has the lowest carbon footprint?",
+    options: ["Lentils", "Beef", "Chicken"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Seasonal Eating Matters",
+  content: "Eating fruits and vegetables in season avoids energy-intensive greenhouses and long-distance transport. Seasonal, plant-based diets drastically cut emissions and support local farmers. It’s a small change with surprisingly big planetary impact.",
+  question: {
+    text: "Why eat seasonal plant foods?",
+    options: ["Reduces emissions and supports local farming", "Tastes worse", "Increases transport"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Hidden Land Use",
+  content: "About 80% of agricultural land is used for animals, yet they provide only 18% of calories globally. Choosing plant-based foods frees land for forests, wildlife, and carbon capture. Your dinner can literally return land to nature.",
+  question: {
+    text: "Which takes more land for less food?",
+    options: ["Animal agriculture", "Vegetable crops", "Legumes"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Cheese Climate Surprise",
+  content: "Dairy has a surprisingly high carbon footprint. One kilogram of cheese can emit as much CO₂ as driving 50 miles. Plant-based alternatives or reducing dairy even slightly can have a major climate effect.",
+  question: {
+    text: "Which has a surprisingly high carbon footprint?",
+    options: ["Cheese", "Lettuce", "Potatoes"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Egg Emissions",
+  content: "Eggs may seem harmless, but producing one dozen eggs can emit roughly 4.5 kg CO₂. Swapping eggs for legumes or tofu reduces emissions significantly without sacrificing protein.",
+  question: {
+    text: "Which swap reduces carbon footprint?",
+    options: ["Eggs → tofu/legumes", "Eggs → more eggs", "Eggs → meat"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Beyond Meat: Lab Meat",
+  content: "Lab-grown meat could reduce emissions by up to 90% compared to conventional beef. Plant-based proteins, however, are still simpler, cheaper, and more immediately climate-friendly. Science gives options — but plants remain the most reliable climate ally.",
+  question: {
+    text: "Which is the most immediately climate-friendly?",
+    options: ["Plant-based proteins", "Lab meat", "Beef"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Hidden Emissions in Drinks",
+  content: "Milk, cheese, and even coffee with dairy have hidden carbon emissions. Switching to plant-based milks like oat, soy, or almond can save significant CO₂, especially when multiplied over billions of cups daily.",
+  question: {
+    text: "Which change saves hidden emissions in drinks?",
+    options: ["Dairy → plant milk", "Coffee → water", "Tea → soda"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Global Protein Inefficiency",
+  content: "Feeding grains to animals for meat is inefficient: only 12% of the protein fed to cows becomes edible meat. Eating grains directly could feed far more people and dramatically reduce environmental impact.",
+  question: {
+    text: "Which is more efficient for feeding people?",
+    options: ["Eat grains directly", "Feed grains to cows", "Feed grains to pigs"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Plant-Based Multiplier Effect",
+  content: "One person switching to a plant-forward diet influences farmers, markets, and culture. A single choice can ripple outward, shaping what foods are produced, which carbon-intensive practices are reduced, and even inspiring others to act. Change starts at your plate.",
+  question: {
+    text: "How does one plant-based choice affect the world?",
+    options: ["It creates a ripple effect reducing emissions and influencing markets", "It has no effect", "It increases meat demand"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Ocean Dead Zones",
+  content: "Excess nitrogen and phosphorus from animal farming run-off create 'dead zones' in oceans, where life cannot survive. Plant-based diets reduce this pollution, keeping marine ecosystems vibrant and carbon storage healthy.",
+  question: {
+    text: "What causes ocean dead zones?",
+    options: ["Animal farming run-off", "Plastic bags", "Solar panels"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Seafood Footprint",
+  content: "Overfishing and industrial seafood production emit significant greenhouse gases. Reducing seafood consumption in favor of plant-based options helps oceans regenerate and lowers your diet’s carbon footprint.",
+  question: {
+    text: "How does reducing seafood help the planet?",
+    options: ["Lowers emissions and helps ocean recovery", "Increases CO₂", "Pollutes rivers"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Transport Matters Less Than You Think",
+  content: "Food transportation contributes only 10% of food-related emissions. The majority comes from production — especially animal-based foods. Focusing on what you eat impacts climate more than where it comes from.",
+  question: {
+    text: "What contributes most to food emissions?",
+    options: ["Production, especially animal-based foods", "Transportation", "Packaging"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Soil Carbon Storage",
+  content: "Healthy plant-based farming can increase soil carbon storage, removing CO₂ from the atmosphere. Cover crops, legumes, and reduced animal grazing all help turn fields into carbon sinks.",
+  question: {
+    text: "How can plant-based farming help climate?",
+    options: ["Increases soil carbon storage", "Worsens emissions", "Consumes more water"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Food Waste Amplifies Emissions",
+  content: "About a third of all food is wasted, and when meat is wasted, the emissions and land use are multiplied. Prioritizing plant-based, portion-controlled meals drastically reduces climate impact.",
+  question: {
+    text: "Why is food waste worse for meat than plants?",
+    options: ["Higher emissions and land use are wasted", "It’s not worse", "Plants emit more CO₂"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Carbon Opportunity Cost",
+  content: "Every kilogram of beef we avoid frees up land that can regrow forests, sequestering more carbon than the emissions saved from meat alone. Eating plants creates a double climate benefit.",
+  question: {
+    text: "What is the double benefit of avoiding beef?",
+    options: ["Reduces emissions and allows forests to regrow", "No effect", "Increases soil erosion"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Processed vs Whole Plant Foods",
+  content: "Whole plant foods have lower emissions than highly processed vegan foods, which often require energy-intensive production. Eating minimally processed plants maximizes climate benefit.",
+  question: {
+    text: "Which has the lowest emissions?",
+    options: ["Whole plant foods", "Vegan processed foods", "Dairy"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Fertilizer-Free Farming",
+  content: "Organic and regenerative plant-based farming avoids synthetic fertilizers, which are energy-intensive and emit nitrous oxide. Eating plants grown this way has a surprisingly low climate impact.",
+  question: {
+    text: "Which farming reduces nitrous oxide emissions?",
+    options: ["Organic/regenerative plant farming", "Conventional beef farming", "Processed vegan foods"],
+    correctIndex: 0
+  }
+},
+{
+  title: "The Power of Meat-Free Days",
+  content: "Even one meat-free day per week per person reduces global emissions significantly. Multiply that by millions of people, and you have a real climate solution — simple, delicious, and empowering.",
+  question: {
+    text: "What’s the impact of one meat-free day per person?",
+    options: ["Reduces global emissions significantly", "No impact", "Increases emissions"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Long-Term Planetary Balance",
+  content: "Diet shifts are not just about emissions today. Reducing animal-based foods slows deforestation, restores ecosystems, enhances biodiversity, and stabilizes climate feedback loops for decades. Your choices echo far into the future.",
+  question: {
+    text: "Why do plant-based diets matter long-term?",
+    options: ["Protect ecosystems and stabilize climate", "Only affect taste", "No real effect"],
+    correctIndex: 0
+  }
+}
+],
 
-  health: [
-    { title: "Plant diet", content: "A plant-based diet boosts energy and immunity.", question: { text: "What boosts immunity?", options: ["Plant-based diet", "Fast food", "No food"], correctIndex: 0 } },
-    { title: "Balanced meals", content: "Balanced meals should include protein, carbs, and fats.", question: { text: "What should meals include?", options: ["Protein, carbs, fats", "Sugar only", "Air"], correctIndex: 0 } },
-    { title: "Vitamins", content: "Fruits and vegetables provide vitamins and minerals.", question: { text: "Where do vitamins come from?", options: ["Fruits and vegetables", "Plastic", "Chips"], correctIndex: 0 } },
-    { title: "Grains", content: "Whole grains give long-lasting energy.", question: { text: "What gives lasting energy?", options: ["Whole grains", "Candy", "Soda"], correctIndex: 0 } },
-    { title: "Protein", content: "Legumes are excellent protein sources.", question: { text: "What provides plant protein?", options: ["Legumes", "Rocks", "Water"], correctIndex: 0 } },
-    { title: "Healthy fats", content: "Nuts and seeds contain healthy fats.", question: { text: "Where do healthy fats come from?", options: ["Nuts and seeds", "Plastic", "Oil spills"], correctIndex: 0 } },
-    { title: "Hydration", content: "Hydration supports every body function.", question: { text: "What does hydration support?", options: ["Body functions", "Car engines", "TVs"], correctIndex: 0 } },
-    { title: "Sleep", content: "Sleep restores energy and mental health.", question: { text: "What restores energy?", options: ["Sleep", "Exhaustion", "Skipping rest"], correctIndex: 0 } },
-    { title: "Exercise", content: "Exercise strengthens muscles and the heart.", question: { text: "What strengthens the heart?", options: ["Exercise", "Laziness", "TV"], correctIndex: 0 } },
-    { title: "Stress", content: "Stress management is vital for health.", question: { text: "What helps health?", options: ["Managing stress", "More stress", "Ignoring issues"], correctIndex: 0 } },
-    { title: "Fiber", content: "Fiber aids digestion and prevents disease.", question: { text: "What helps digestion?", options: ["Fiber", "Sugar", "Oil"], correctIndex: 0 } },
-    { title: "B12", content: "Vitamin B12 must be supplemented in vegan diets.", question: { text: "Which vitamin needs supplementing?", options: ["B12", "C", "D"], correctIndex: 0 } },
-    { title: "Omega-3", content: "Omega-3s can be obtained from flax and chia.", question: { text: "Where can Omega-3 come from?", options: ["Flax and chia", "Plastic", "Candy"], correctIndex: 0 } },
-    { title: "Iron", content: "Iron is found in lentils, beans, and spinach.", question: { text: "Which foods have iron?", options: ["Lentils and spinach", "Sugar", "Soda"], correctIndex: 0 } },
-    { title: "Calcium", content: "Calcium is abundant in leafy greens and tofu.", question: { text: "Where can calcium be found?", options: ["Leafy greens and tofu", "Chips", "Plastic"], correctIndex: 0 } },
-    { title: "Mindful eating", content: "Mindful eating prevents overeating.", question: { text: "What prevents overeating?", options: ["Mindful eating", "Rushing meals", "Skipping breakfast"], correctIndex: 0 } },
-    { title: "Sugar", content: "Too much sugar harms health.", question: { text: "What harms health?", options: ["Excess sugar", "Water", "Fruits"], correctIndex: 0 } },
-    { title: "Cooking", content: "Cooking at home helps control nutrition.", question: { text: "What helps control nutrition?", options: ["Cooking at home", "Fast food daily", "Skipping meals"], correctIndex: 0 } },
-    { title: "Mental health", content: "Mental health is as important as physical health.", question: { text: "What is as important as physical health?", options: ["Mental health", "Money", "Fashion"], correctIndex: 0 } },
-    { title: "Healthy habits", content: "Healthy habits add up to longevity.", question: { text: "What supports longevity?", options: ["Healthy habits", "Smoking", "Junk food"], correctIndex: 0 } }
-  ]
+ health: [
+  {
+    title: "Your Body Rebuilds Itself",
+    content: "Here’s a fact that most people don’t realize: about every 7–10 years, almost every cell in your body is replaced. Your bones, skin, and even parts of your liver are rebuilt molecule by molecule — using the nutrients from the food you eat today. That means your next body is literally being built right now. The salad you eat becomes part of your muscles and skin; the processed junk becomes part of you too. This makes nutrition not just about weight or calories — but about *what kind of body you want to rebuild*.",
+    question: {
+      text: "How often does your body rebuild most of its cells?",
+      options: ["Every 7–10 years", "Every year", "Never"],
+      correctIndex: 0
+    }
+  },
+  {
+    title: "Gut Feelings: The Hidden Brain in Your Belly",
+    content: "Your gut isn’t just a tube that digests food — it’s lined with over 100 million neurons, sometimes called your ‘second brain’. It communicates constantly with your real brain, influencing mood, energy, and even decision-making. Scientists have found that 90% of serotonin — the ‘happiness chemical’ — is produced in the gut. When you feed your gut bacteria fiber, fruits, and vegetables, they produce compounds that improve your mood and protect your immune system. So, eating well doesn’t just fuel your body — it literally makes you happier and calmer.",
+    question: {
+      text: "Where is most of the body's serotonin produced?",
+      options: ["In the gut", "In the brain", "In the skin"],
+      correctIndex: 0
+    }
+  },
+  {
+    title: "Inflammation: The Silent Fire",
+    content: "Chronic inflammation is one of the most underestimated threats to health. It’s not visible, but it silently damages arteries, joints, and organs for years before any disease appears. What causes it? Constant exposure to processed foods, animal fats, refined sugar, and stress. The good news? A single week on a whole-food, plant-based diet can reduce inflammatory markers measurably. Foods like turmeric, leafy greens, berries, and flaxseed act as natural fire extinguishers inside your body — cooling that hidden flame that causes heart disease and fatigue.",
+    question: {
+      text: "What type of foods help reduce inflammation?",
+      options: ["Leafy greens and berries", "Processed meats", "Refined sugar"],
+      correctIndex: 0
+    }
+  },
+  {
+    title: "Energy Isn’t From Coffee",
+    content: "When people feel tired, they often blame lack of caffeine, but true energy doesn’t come from stimulants — it comes from mitochondria, the microscopic power plants in your cells. These mitochondria burn the nutrients you eat to produce energy (ATP). Diets rich in antioxidants from fruits, vegetables, and whole grains protect them from damage, while processed foods and high-fat diets clog up their efficiency. Real vitality comes not from drinking more coffee, but from *feeding your mitochondria* what they need to thrive.",
+    question: {
+      text: "What gives your body real, lasting energy?",
+      options: ["Healthy mitochondria", "More caffeine", "Less sleep"],
+      correctIndex: 0
+    }
+  },
+  {
+    title: "You Have a Built-In Detox System",
+    content: "Forget detox teas — your liver, kidneys, lungs, and skin are already detoxing you every second. But they can only do their job if you give them the right materials. Cruciferous vegetables like broccoli and kale activate liver enzymes that flush out toxins. Water helps your kidneys filter waste. Fiber traps and removes harmful compounds through digestion. When you eat real food, you’re upgrading your natural detox system — no expensive products needed.",
+    question: {
+      text: "What truly helps your body detoxify?",
+      options: ["A healthy liver and diet", "Detox teas", "Fasting for days"],
+      correctIndex: 0
+    }
+  },
+  {
+    title: "Protein Myths: You’re Probably Getting Enough",
+    content: "One of the most common nutrition myths is that we need massive amounts of protein. In reality, most adults in Western countries consume almost twice the recommended amount. What we actually lack are *fiber and micronutrients*. Legumes, nuts, seeds, tofu, and whole grains provide all essential amino acids — without the cholesterol or inflammation caused by animal protein. In fact, plant-based athletes are breaking world records while eating less protein but more antioxidants and recovery-boosting foods.",
+    question: {
+      text: "What nutrient are most people actually lacking?",
+      options: ["Fiber", "Protein", "Fat"],
+      correctIndex: 0
+    }
+  },
+  {
+    title: "The 80,000 Meals That Shape Your Life",
+    content: "An average person eats around 80,000 meals in their lifetime — that’s 80,000 chances to build or harm your health. Each meal changes your blood chemistry within minutes: inflammation levels, sugar balance, and even gene expression. Your DNA is not your destiny; it’s your *diet* that decides which genes get activated. This is the science of epigenetics — showing that food can literally turn disease-promoting genes off and healing genes on. Every bite is a message to your body.",
+    question: {
+      text: "What influences which genes become active?",
+      options: ["Your diet", "Luck", "Horoscope"],
+      correctIndex: 0
+    }
+  },
+  {
+    title: "Your Blood Changes After One Meal",
+    content: "It’s astonishing but true: your blood becomes thicker and inflamed within hours after eating a meal high in saturated fat or refined sugar. Under a microscope, blood cells start sticking together, slowing oxygen flow. Conversely, eating a meal rich in fruits, greens, and whole grains makes blood flow smoother and boosts oxygen delivery to your muscles and brain. Your next meal changes your body’s chemistry almost instantly — that’s how powerful food really is.",
+    question: {
+      text: "How quickly does your blood react to what you eat?",
+      options: ["Within hours", "After weeks", "After years"],
+      correctIndex: 0
+    }
+  },
+  {
+    title: "Your Immune System Eats What You Eat",
+    content: "About 70% of your immune system lives in your gut, so the health of your microbiome directly determines how well you fight infections. When you eat colorful plants, your gut bacteria release anti-inflammatory compounds that boost immunity. When you eat processed foods, they release toxins that weaken your defenses. A diverse plant-based diet literally trains your immune system to become stronger, faster, and more intelligent — like giving it daily exercise.",
+    question: {
+      text: "Where does most of your immune system reside?",
+      options: ["In the gut", "In the heart", "In the brain"],
+      correctIndex: 0
+    }
+  },
+  {
+    title: "Longevity Isn’t Luck",
+    content: "In the world’s longest-living communities — the Blue Zones — people don’t rely on genetics or luck. They live longer because of simple, consistent habits: eating mostly plants, staying active naturally, having close social connections, and living with purpose. Their diets are 95% plant-based, rich in beans, greens, and whole grains. It’s proof that longevity is not mysterious — it’s a lifestyle that you can start building today, one choice at a time.",
+    question: {
+      text: "What do all Blue Zone diets have in common?",
+      options: ["They’re mostly plant-based", "They’re meat-centered", "They’re high in sugar"],
+      correctIndex: 0
+    }
+  },
+  {
+  title: "Stress Ages You — But You Can Reverse It",
+  content: "Every time you experience stress, your body releases cortisol and adrenaline — powerful hormones designed to save your life in emergencies. But when stress becomes chronic, it shortens your telomeres — the protective caps at the ends of your DNA strands. Shorter telomeres mean faster aging and higher disease risk. The fascinating part? Meditation, deep breathing, and plant-based diets have been shown to *lengthen* telomeres again. In other words, a calm mind can literally slow biological aging.",
+  question: {
+    text: "What protects your DNA from aging?",
+    options: ["Telomeres", "Calories", "Protein"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Sleep: Your Brain’s Nightly Cleaning Service",
+  content: "During deep sleep, your brain activates a ‘cleaning’ network called the glymphatic system. It flushes out toxins and waste proteins that accumulate during the day — including beta-amyloid, which is linked to Alzheimer’s disease. Even one night of poor sleep slows this process. Prioritizing 7–9 hours of quality rest isn’t laziness; it’s essential brain maintenance. Every hour you sleep well, you protect your memory, mood, and long-term mental clarity.",
+  question: {
+    text: "What does the brain do during deep sleep?",
+    options: ["Flushes out toxins", "Stores fat", "Stops working"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Your Mindset Can Boost Immunity",
+  content: "Scientists have found that positive emotions don’t just feel good — they strengthen your immune response. People who practice gratitude or maintain optimism after stress have higher levels of protective antibodies and lower inflammation. It’s not magic; it’s the biology of hope. When your brain feels safe and positive, your immune system stops wasting energy on defense and focuses on healing instead. How you *think* literally changes how your cells behave.",
+  question: {
+    text: "What effect can positive emotions have on the body?",
+    options: ["They strengthen immunity", "They weaken it", "They have no effect"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Movement is Medicine — Even 10 Minutes Counts",
+  content: "Many people believe they need hours in the gym to stay healthy. The truth: just 10 minutes of brisk walking, dancing, or cycling can increase blood flow, improve focus, and release endorphins. Regular movement reduces the risk of depression and boosts longevity — even without heavy workouts. Our bodies are designed to move often, not to sit all day. Every step tells your body, ‘I’m alive, I’m safe, keep me strong.’",
+  question: {
+    text: "How much movement can already improve health?",
+    options: ["10 minutes", "1 hour minimum", "None"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Your Taste Buds Can Change",
+  content: "If you think you’ll never enjoy healthy food, here’s the truth: your taste buds completely renew themselves about every two weeks. That means your preferences are not fixed. When you reduce processed sugar and salt, your sensitivity to natural flavors increases. Within weeks, fruit tastes sweeter, vegetables taste richer, and junk food starts to taste *too* strong. You can literally retrain your tongue — and your brain — to love healthy food again.",
+  question: {
+    text: "How often do taste buds renew themselves?",
+    options: ["About every two weeks", "Once a year", "Never"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Loneliness Can Hurt Like Smoking",
+  content: "Chronic loneliness raises stress hormones, weakens immunity, and increases the risk of early death — as much as smoking 15 cigarettes a day. Humans are wired for connection; meaningful relationships are vital for health. Sharing meals, volunteering, or joining a community helps regulate stress and boost emotional resilience. The strongest predictor of long life isn’t wealth or genetics — it’s having people you can truly count on.",
+  question: {
+    text: "How harmful can loneliness be to health?",
+    options: ["As harmful as smoking", "No harm at all", "Good for you"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Mindful Eating Transforms Digestion",
+  content: "Your body digests food differently depending on your mental state. Eating in a rush or while stressed reduces enzyme secretion and nutrient absorption. When you slow down, breathe, and chew mindfully, your body shifts to ‘rest and digest’ mode — optimizing metabolism and even lowering blood sugar spikes. Mindful eating isn’t about restriction; it’s about respect — giving your food, and yourself, the attention they deserve.",
+  question: {
+    text: "What helps your body digest better?",
+    options: ["Eating calmly", "Eating while stressed", "Eating faster"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Your Thoughts Can Affect Your Heartbeat",
+  content: "Your heart doesn’t beat in a perfectly steady rhythm — it’s meant to vary with your breath and emotions. High ‘heart rate variability’ (HRV) means your body adapts well to stress; low HRV predicts burnout and disease. Practices like meditation, gratitude, and slow breathing increase HRV, making your heart more resilient. It’s proof that calm thinking directly strengthens the physical heart.",
+  question: {
+    text: "What does a high heart rate variability indicate?",
+    options: ["Better stress adaptation", "Heart weakness", "Nothing important"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Nature Is a Natural Antidepressant",
+  content: "Studies show that spending just 20 minutes in nature lowers cortisol, slows heart rate, and boosts mood. The human body evolved outdoors — the sight of trees, sunlight, and flowing water triggers relaxation in our nervous system. Even looking at pictures of nature can reduce stress hormones. Nature isn’t just beautiful; it’s biologically necessary. If you can, make time every day to step outside and let your body remember where it came from.",
+  question: {
+    text: "How long in nature can reduce stress hormones?",
+    options: ["Around 20 minutes", "Only after hours", "It doesn’t help"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Healthy Habits Build Themselves",
+  content: "Most people try to change through motivation, but the secret lies in identity. Instead of saying ‘I want to eat healthy,’ say ‘I’m the kind of person who nourishes their body.’ The brain loves consistency — once your identity shifts, your habits naturally align. Every time you choose a healthy option, you’re casting a vote for your future self. Over time, those votes become who you are.",
+  question: {
+    text: "What’s the most powerful way to create lasting habits?",
+    options: ["Change your identity first", "Rely on willpower", "Avoid all mistakes"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Your Body Has a Second Brain",
+  content: "Deep inside your digestive system lives the enteric nervous system — over 100 million neurons running along your intestines. Scientists call it the 'second brain' because it can function independently of the central nervous system and communicates directly with your mood and immune system. About 90% of your serotonin — the ‘happiness’ neurotransmitter — is made in your gut, not your head. That’s why poor diet or stress can lead to both digestive and emotional imbalance. Healing your gut is literally healing your mood.",
+  question: {
+    text: "Where is most of your serotonin produced?",
+    options: ["In the gut", "In the brain", "In the lungs"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Your Brain Cleans Itself on a Schedule",
+  content: "Your brain follows a strict cleaning rhythm tied to your circadian clock — the internal 24-hour timer that regulates everything from sleep to hormones. At night, while you sleep, brain cells shrink slightly to make space for cerebrospinal fluid to wash away waste. But late-night screen use and irregular sleep confuse this system, letting toxins accumulate. Respecting your natural rhythm (sleeping and eating at consistent times) is like oiling your biological machinery — it keeps your mind clear and focused.",
+  question: {
+    text: "When does your brain clean out waste most effectively?",
+    options: ["During deep sleep", "While watching screens", "When skipping sleep"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Dopamine Isn’t Happiness — It’s Desire",
+  content: "Many people think dopamine brings joy, but it’s actually the *anticipation* chemical. It motivates you to seek rewards — like checking your phone or craving a snack. Too much artificial stimulation (social media, sugar, or constant notifications) hijacks this system, leaving you restless and unfulfilled. True balance comes from ‘natural dopamine’ — small, steady hits from purpose, learning, connection, and exercise. When you control dopamine, you control your focus and contentment.",
+  question: {
+    text: "What is dopamine mainly responsible for?",
+    options: ["Motivation and desire", "Sleep", "Digestion"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Neuroplasticity: You Can Rewire Your Mind",
+  content: "Your brain is not fixed — it constantly reshapes itself based on what you do, think, and feel. Every thought strengthens certain neural connections and weakens others. Learning new skills, practicing mindfulness, or even changing self-talk physically rewires your brain structure. Neuroplasticity means you’re never stuck — your habits and emotions are patterns, not prisons. Each small change builds new pathways toward a healthier mind.",
+  question: {
+    text: "What does neuroplasticity mean?",
+    options: ["The brain can rewire itself", "The brain never changes", "Plastic affects the brain"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Circadian Nutrition — Timing Matters",
+  content: "What you eat matters, but *when* you eat may matter almost as much. Your metabolism follows the sun — it’s most efficient during the day and slows at night. Late-night eating disrupts insulin sensitivity, blood sugar balance, and even sleep. Studies show that restricting meals to a 10–12 hour window during daylight improves energy and longevity. You’re not just what you eat — you’re *when* you eat.",
+  question: {
+    text: "When is your metabolism most efficient?",
+    options: ["During the day", "Late at night", "At random times"],
+    correctIndex: 0
+  }
+},
+{
+  title: "The Power of Emotional Labeling",
+  content: "When you name your feelings — ‘I’m anxious,’ ‘I feel tense,’ ‘I’m sad’ — activity in the brain’s emotional centers (like the amygdala) decreases, while control areas (like the prefrontal cortex) increase. It’s called ‘affect labeling,’ and it’s scientifically proven to calm you. Naming emotions doesn’t make you weak; it gives your brain back its steering wheel. Words turn raw feelings into manageable experiences.",
+  question: {
+    text: "What happens when you name your emotions?",
+    options: ["You regain emotional control", "You lose control", "Nothing changes"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Your Immune System Remembers Your Emotions",
+  content: "Every emotion releases chemical messengers that communicate with your immune cells. Chronic anger or despair suppresses them; gratitude and love strengthen them. This ‘psychoneuroimmunology’ shows that your mental state is part of your immune defense. It’s why laughter, kindness, and hope aren’t luxuries — they’re biological shields. You literally heal faster when you feel safe and connected.",
+  question: {
+    text: "What effect do positive emotions have on immunity?",
+    options: ["They strengthen it", "They weaken it", "No effect"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Focus Is a Muscle — And It Weakens with Multitasking",
+  content: "Switching between tasks floods your brain with dopamine bursts, giving the illusion of productivity — but actually burns out focus circuits. Over time, it becomes harder to concentrate on anything deep. To rebuild focus, do one thing at a time and protect distraction-free blocks. Each time you resist a notification, your attention span gets a little stronger. True focus is now a superpower.",
+  question: {
+    text: "What happens when you multitask frequently?",
+    options: ["Focus weakens", "Focus improves", "No change"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Your Body Learns from Your Thoughts",
+  content: "Visualizing an action activates nearly the same brain circuits as physically performing it. Athletes improve performance through mental rehearsal; patients recover faster when they visualize healing. The body doesn’t fully distinguish between imagined and real experiences — it follows your mind’s lead. Use this wisely: imagine calm, success, and health, and your biology starts believing it.",
+  question: {
+    text: "What happens when you visualize an action?",
+    options: ["The brain activates similar circuits", "Nothing happens", "You get tired"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Food Talks to Your Genes",
+  content: "Every bite you take sends information to your DNA. Nutrients act as signals that turn genes on or off — this is called epigenetics. A plant-based, nutrient-rich diet activates genes that reduce inflammation and promote longevity. Processed food does the opposite. You’re not a victim of your genes; you’re in a constant conversation with them. Every meal is a message saying who you want to become.",
+  question: {
+    text: "What is epigenetics about?",
+    options: ["How lifestyle turns genes on or off", "Genetic mutations only", "Unchangeable DNA"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Your Cells Listen to Your Purpose",
+  content: "Having a sense of purpose is not just philosophical — it’s biological. Studies on longevity show that people who wake up with a reason to live (something larger than themselves) have lower inflammation markers, slower cellular aging, and better immunity. Your body literally responds to meaning. Purpose acts as an internal compass that stabilizes your stress hormones, supports sleep, and strengthens your heart. When you live with direction, your cells feel it too.",
+  question: {
+    text: "How does having a purpose affect your body?",
+    options: ["It lowers inflammation and strengthens health", "It makes you tired", "It has no effect"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Loneliness Hurts Like a Physical Wound",
+  content: "Your brain processes social pain the same way it processes physical pain. That’s why rejection or isolation can actually ‘hurt.’ Chronic loneliness activates the same stress pathways as chronic illness, raising blood pressure and inflammation. Building genuine connection — even with one person or community — is one of the strongest predictors of longevity. Humans are wired for belonging; isolation makes the body feel unsafe.",
+  question: {
+    text: "How does loneliness affect your health?",
+    options: ["It triggers stress and inflammation", "It improves focus", "It has no physical impact"],
+    correctIndex: 0
+  }
+},
+{
+  title: "The Hormone of Trust and Healing: Oxytocin",
+  content: "When you hug someone, pet an animal, or even share a deep conversation, your body releases oxytocin — a hormone that lowers blood pressure, reduces stress, and promotes emotional bonding. It’s the body’s natural antidote to cortisol (the stress hormone). Oxytocin is one reason kindness and touch speed up healing. Connection is not a luxury — it’s a medicine you can give and receive daily.",
+  question: {
+    text: "What does oxytocin do for your body?",
+    options: ["It lowers stress and strengthens bonding", "It increases anxiety", "It causes fatigue"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Inflammation Begins in the Mind",
+  content: "Your thoughts and emotions can start inflammation long before food or illness does. Chronic stress tells your immune system to ‘stay alert,’ flooding your body with inflammatory molecules even when there’s no danger. Over time, this weakens your defenses. But mindfulness, gratitude, and slow breathing can instantly reduce this internal fire. The mind and the immune system are in constant dialogue — calm one, and you calm the other.",
+  question: {
+    text: "How can mindfulness help reduce inflammation?",
+    options: ["By lowering stress signals", "By increasing alertness", "By boosting inflammation"],
+    correctIndex: 0
+  }
+},
+{
+  title: "The Longevity Paradox — Stress Makes You Strong, in Doses",
+  content: "Some stress is not only harmless — it’s vital. Short, manageable bursts like exercise, fasting, or learning something challenging trigger ‘hormesis’ — the process that makes your body stronger by adaptation. Too little stress weakens resilience, too much breaks it. The secret is balance: challenge yourself just enough to grow. Your body, like a muscle, thrives on being gently pushed, not chronically strained.",
+  question: {
+    text: "What is the benefit of short-term stress?",
+    options: ["It strengthens the body through adaptation", "It causes chronic illness", "It has no benefit"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Your Breath Is a Remote Control for the Nervous System",
+  content: "You can’t directly tell your heart to slow down or your anxiety to stop — but you can breathe. Slow, deep breaths signal the vagus nerve (your body’s calming highway) to activate the parasympathetic system — the one responsible for rest, digestion, and healing. Within 90 seconds, your heart rate, blood pressure, and cortisol levels begin to drop. Every breath is a manual override for stress.",
+  question: {
+    text: "How does slow breathing calm the body?",
+    options: ["By activating the vagus nerve", "By increasing adrenaline", "By stopping oxygen flow"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Digital Overload — The Hidden Drain on Focus",
+  content: "Constant notifications, multitasking, and endless scrolling don’t just waste time — they rewire your brain for distraction. Dopamine spikes from digital rewards keep you in a loop of craving new stimulation. Over time, this erodes deep focus, patience, and even creativity. The solution isn’t to abandon technology, but to use it consciously — check less often, create more. Protect your attention like your most valuable resource — because it is.",
+  question: {
+    text: "What effect does digital overload have on the brain?",
+    options: ["It weakens focus and patience", "It boosts creativity", "It improves memory"],
+    correctIndex: 0
+  }
+},
+{
+  title: "The Power of Sunlight — More Than Vitamin D",
+  content: "Morning sunlight does more than create vitamin D. It resets your circadian rhythm, boosts serotonin, improves metabolism, and synchronizes every cell’s clock. Just 10–15 minutes outdoors after waking tells your brain, ‘It’s time to be alert.’ Missing this cue can cause fatigue, insomnia, or low mood. Nature is not optional — it’s the original operating system your body still runs on.",
+  question: {
+    text: "What is one major benefit of morning sunlight?",
+    options: ["It resets your circadian rhythm", "It causes fatigue", "It disrupts sleep"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Your Thoughts Can Age You — Or Reverse It",
+  content: "People with an optimistic mindset tend to live 7–10 years longer, according to multiple studies. Optimism isn’t blind positivity — it’s a realistic belief that challenges can be overcome. This attitude reduces chronic cortisol exposure, protects DNA telomeres (the aging caps on chromosomes), and encourages healthy behavior. Your perspective literally slows cellular aging. Every hopeful thought is youth at the molecular level.",
+  question: {
+    text: "How does optimism influence aging?",
+    options: ["It protects DNA and reduces stress", "It increases stress", "It accelerates aging"],
+    correctIndex: 0
+  }
+},
+{
+  title: "You Are a Community of Trillions",
+  content: "Your body is home to around 38 trillion microorganisms — more than your human cells. This ecosystem (your microbiome) trains your immune system, digests food, and even affects your mood. A fiber-rich, plant-based diet feeds these tiny allies, while processed foods and antibiotics starve them. You’re not alone inside your skin — you’re a living planet, and how you eat decides which species thrive within you.",
+  question: {
+    text: "What is the microbiome?",
+    options: ["The community of microorganisms in your body", "Your brain", "A type of vitamin"],
+    correctIndex: 0
+  }
+},
+{
+  title: "The 24-Hour Health Cycle",
+  content: "Your body follows a precise rhythm — the circadian clock. Every cell, hormone, and organ runs on this 24-hour timer. When you align your habits with it, your energy and focus peak naturally. Morning sunlight wakes your brain. Midday movement optimizes metabolism. Evening calm signals repair. But screens, late meals, and erratic sleep confuse this internal orchestra. Try eating and sleeping at roughly the same times daily, and step outside early. You’ll feel the difference within days — clearer mind, steadier mood, deeper rest.",
+  question: {
+    text: "What helps your circadian rhythm stay balanced?",
+    options: ["Consistent sleep and sunlight exposure", "Late-night screens", "Skipping meals"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Designing Your Morning for Energy",
+  content: "The first 30 minutes after waking set the tone for your entire day. Cortisol (your natural wake-up hormone) peaks in the morning — it’s your built-in espresso. Support it with movement, hydration, and sunlight instead of caffeine and screens. Try stretching or journaling before checking notifications. This trains your brain to begin the day in creation mode, not reaction mode. A mindful start compounds — better mood, sharper focus, and more willpower for the rest of the day.",
+  question: {
+    text: "What helps start the day in 'creation mode'?",
+    options: ["Avoiding screens and moving early", "Checking notifications immediately", "Skipping breakfast"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Midday Reset — The Power of Pausing",
+  content: "Most people push through fatigue, thinking productivity means constant motion. But the brain naturally dips in alertness every 90–120 minutes. Short pauses — standing up, breathing deeply, or walking for 2 minutes — reset attention and creativity. NASA studies show that short breaks can improve focus by up to 40%. Rest is not wasted time; it’s how the brain consolidates and refuels. Learn to pause, and you’ll get more done with less effort.",
+  question: {
+    text: "Why are short breaks important during the day?",
+    options: ["They restore focus and creativity", "They waste time", "They increase stress"],
+    correctIndex: 0
+  }
+},
+{
+  title: "How to Build Meals That Heal",
+  content: "Think of each meal as an opportunity for repair. Combine colorful vegetables (antioxidants), legumes or tofu (protein), whole grains (steady energy), and nuts or seeds (healthy fats). This combination keeps blood sugar stable and supports brain function. Variety matters more than perfection — your gut microbes love diversity. Try eating the rainbow over a week. Your skin, mood, and focus will mirror the nourishment you give yourself.",
+  question: {
+    text: "What’s the benefit of eating a variety of plant foods?",
+    options: ["It supports gut health and balance", "It causes inflammation", "It reduces nutrients"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Digital Detox — Reclaiming Your Attention",
+  content: "Your attention span has a measurable value — it’s your mental currency. Each scroll and notification taxes your dopamine system, fragmenting your focus. Choose intentional consumption: designate 'offline hours,' keep your phone away from meals, and use apps mindfully. Neuroscientists found that even having your phone nearby (face down!) reduces working memory. Every moment of digital silence is a gift to your nervous system — a breath of mental oxygen.",
+  question: {
+    text: "What happens when your phone is constantly nearby?",
+    options: ["Your focus weakens even if unused", "You think better", "You digest faster"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Evening Ritual — Programming Rest",
+  content: "Sleep doesn’t begin when your eyes close; it begins one hour before. Light, sound, and thoughts tell your brain whether it’s safe to rest. Dim screens, stretch, read, or write a gratitude list — this lowers cortisol and releases melatonin. Think of it as a landing runway for your body’s airplane. The smoother the landing, the deeper the sleep. Consistent sleep hygiene is one of the simplest forms of therapy — and it’s completely free.",
+  question: {
+    text: "What helps the body prepare for sleep?",
+    options: ["Reducing light and stimulation before bed", "Watching TV until sleep", "Eating large meals late"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Hydration — The Forgotten Habit",
+  content: "Dehydration often masquerades as fatigue, irritability, or hunger. Even a 2% drop in body water impairs cognition. Your body needs water to transport nutrients, clear toxins, and maintain mood. Instead of counting cups, use color: pale yellow urine means hydrated. Add slices of lemon, cucumber, or mint if plain water bores you. Hydration is one of the cheapest energy upgrades — yet most people ignore it until they crash.",
+  question: {
+    text: "What can dehydration cause?",
+    options: ["Fatigue and reduced focus", "Improved mood", "Stronger immunity"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Stress Reset in 60 Seconds",
+  content: "Stress isn’t the enemy; staying there is. When tension rises, your nervous system needs a quick signal of safety. Try this 60-second reset: inhale slowly through your nose for 4 seconds, hold for 4, exhale for 6, and relax your shoulders. This activates the vagus nerve, switching your body from fight-or-flight to rest-and-digest. One mindful breath can stop a stress cascade before it starts — biology obeys calmness.",
+  question: {
+    text: "What does slow breathing do to the nervous system?",
+    options: ["Activates calm responses", "Raises adrenaline", "Increases stress signals"],
+    correctIndex: 0
+  }
+},
+{
+  title: "The Power of Small Habits",
+  content: "Transformation doesn’t come from intensity, but consistency. A single push-up, one glass of water, or one deep breath repeated daily builds identity. Your brain loves repetition — each small success wires new neural pathways of self-trust. Start with one 2-minute habit. Stack it on something you already do: drink water after brushing teeth, or stretch before breakfast. Health is not a goal — it’s a rhythm you create.",
+  question: {
+    text: "What’s more important than intensity for habit change?",
+    options: ["Consistency and repetition", "Random big efforts", "Perfection"],
+    correctIndex: 0
+  }
+},
+{
+  title: "Health Is Not the Absence of Illness",
+  content: "True health is a dynamic state of energy, clarity, and emotional stability — not just the lack of disease. It’s the feeling of being fully alive in your body. You build it moment by moment through rest, nourishment, connection, and curiosity. Every choice — food, breath, thought — sends a signal toward vitality or depletion. The goal isn’t perfection; it’s awareness. When you understand your body’s language, every day becomes an opportunity to thrive.",
+  question: {
+    text: "What defines true health?",
+    options: ["A dynamic state of energy and clarity", "The total absence of bacteria", "Never getting tired"],
+    correctIndex: 0
+  }
+}
+]
 };
 
 // ---------------------------
@@ -1991,10 +4489,51 @@ celebrity: [   // ✅ replace placeholder with real array
       title: "Philosopher",
       quote: "The greatness of a nation and its moral progress can be judged by the way its animals are treated.",
       avatar: "images/plato.jpg"
+    },
+    {
+      name: "Pythagoras",
+      title: "Philosopher & Mathematician",
+      quote: "As long as man continues to be the ruthless destroyer of lower living beings, he will never know health or peace.",
+      avatar: "images/pythagoras.jpg"
+    },
+    {
+      name: "Lewis Hamilton",
+      title: "Formula 1 World Champion",
+      quote: "We all have choices to make. I choose to love, to be conscious of what I’m supporting and I refuse to support the companies killing and torturing animals.",
+      avatar: "images/hamilton.jpg"
+    },
+    {
+      name: "Mahatma Gandhi",
+      title: "Indian Leader & Activist",
+      quote: "The greatness of a nation can be judged by the way its animals are treated.",
+      avatar: "images/gandhi.jpg"
+    },
+    {
+      name: "Leo Tolstoy",
+      title: "Author & Philosopher",
+      quote: "As long as there are slaughterhouses, there will be battlefields.",
+      avatar: "images/tolstoy.jpg"
+    },
+    {
+      name: "John Stuart Mill",
+      title: "Philosopher & Economist",
+      quote: "The worth of a civilization is measured by the compassion it shows toward those who cannot defend themselves.",
+      avatar: "images/stuart.jpg"
+    },
+    {
+      name: "Buddha",
+      title: "Spiritual Leader",
+      quote: "All beings tremble before violence. All fear death. When a man considers this, he does not kill or cause to kill.",
+      avatar: "images/buddha.jpg"
+    },
+    {
+      name: "Jesus Christ",
+      title: "Spiritual Leader",
+      quote: "The righteous care for the needs of their animals. (Proverbs 12:10)",
+      avatar: "images/jesus.jpg"
     }
   ]
 };
-
 /*
 Ariana Grande – Singer and Actress
 “I’m a firm believer in eating a full plant-based, whole food diet that can expand your life length and make you an all-around happier person.” 
@@ -2018,8 +4557,6 @@ Genesis Butler – Activist
 “I chose to go vegan because I want to be part of the solution, not the problem.” 
 
 
-
-
 🏅 Athletes
 
 Novak Djokovic – Tennis Champion
@@ -2034,9 +4571,6 @@ Chloe Arthur – Scottish Footballer
 Alex Morgan – Soccer Player
 “I never thought it was possible I could be playing at an elite level as a professional athlete with a plant-based diet. Then I realized it wasn’t detrimental at all.” 
 
-Lewis Hamilton – Formula 1 World Champion
-“We all have choices to make. I choose to love, to be conscious of what I’m supporting and I refuse to support the companies killing and torturing animals.” 
-
 Zac Efron – Actor and Athlete
 “That’s [veganism] completely changed the way that my body works, and the way that I metabolize food, the way it turns into energy, the way that I sleep. It’s been brilliant. It’s been great for my exercise, and great for my routine.” 
 
@@ -2044,11 +4578,7 @@ Mathieu Flamini – Former Footballer and Environmental Entrepreneur
 “Football needs to stand up for climate change.
 
 
-
 🌟 Famous Scientists & Philosophers
-
-Pythagoras – Philosopher & Mathematician
-“As long as man continues to be the ruthless destroyer of lower living beings, he will never know health or peace.”
 
 Voltaire – Philosopher
 “It is forbidden to kill; therefore all murderers are punished unless they kill in large numbers and to the sound of trumpets.”
@@ -2063,24 +4593,11 @@ Henry Salt – Writer & Social Reformer
 🌟 Famous Leaders & Reformers
 
 Mahatma Gandhi – Indian Leader & Activist
-“The greatness of a nation can be judged by the way its animals are treated.”
 “I hold that, the more helpless a creature, the more entitled it is to protection by man from the cruelty of man.”
-
-
-Leo Tolstoy – Author & Philosopher
-“As long as there are slaughterhouses, there will be battlefields.”
 
 Thomas Jefferson – 3rd U.S. President
 “Nothing is more honorable than a gentle, humane treatment of animals.”
 
-John Stuart Mill – Philosopher & Economist
-“The worth of a civilization is measured by the compassion it shows toward those who cannot defend themselves.”
-
-Buddha
-“All beings tremble before violence. All fear death. When a man considers this, he does not kill or cause to kill.”
-
-Jesus Christ
-“The righteous care for the needs of their animals.” (Proverbs 12:10)
 
 St. Francis of Assisi
 “If you have men who will exclude any of God’s creatures from the shelter of compassion and pity, you will have men who will deal likewise with their fellow men.”
@@ -2088,7 +4605,6 @@ St. Francis of Assisi
 Albert Schweitzer – Theologian & Philosopher
 “The ethical treatment of animals is the most humane and noble test of civilization.”
 */
-
 
 
 // Track last shown timestamp (single for all characters)
@@ -2148,8 +4664,26 @@ function showRandomAvatar() {
   const cooldown = 60 * 60 * 1000; // 1 hour
   if (now - lastShown < cooldown) return;
 
-  const chars = Object.keys(characterTips);
-  const char = chars[Math.floor(Math.random() * chars.length)];
+  // 🎯 Weighted probability setup
+  const weightedChars = [
+    { char: "celebrity", weight: 50 },
+    { char: "Elune", weight: 15 },
+    { char: "Eluna", weight: 15 },
+    { char: "pet", weight: 20 }
+  ];
+
+  const totalWeight = weightedChars.reduce((sum, c) => sum + c.weight, 0);
+  const randomNum = Math.random() * totalWeight;
+  let cumulative = 0;
+  let char = weightedChars[0].char;
+
+  for (const c of weightedChars) {
+    cumulative += c.weight;
+    if (randomNum <= cumulative) {
+      char = c.char;
+      break;
+    }
+  }
 
   const originalWrapper = document.getElementById(char + "Wrapper");
   if (!originalWrapper) return;
@@ -2160,51 +4694,52 @@ function showRandomAvatar() {
   wrapper.style.zIndex = "1000";
   wrapper.style.display = "block";
 
-  // ✅ Call the position function here
-  // Call the function correctly
-const pos = getRandomPositionForChar(
-  char,
-  wrapper.offsetWidth,
-  wrapper.offsetHeight
-);
-wrapper.style.left = `${pos.x}px`;
-wrapper.style.top = `${pos.y}px`;
+  // ✅ Call position function correctly
+  const pos = getRandomPositionForChar(
+    char,
+    wrapper.offsetWidth,
+    wrapper.offsetHeight
+  );
+  wrapper.style.left = `${pos.x}px`;
+  wrapper.style.top = `${pos.y}px`;
 
   document.body.appendChild(wrapper);
-  // ✅ Save time to localStorage
   saveLastShown(now);
 
   const bubble = wrapper.querySelector(".thought-bubble");
-  const tipBox = wrapper.querySelector(".lesson-box");  
-    
-    if (char === "celebrity") {
-  // pick random celebrity
-  const celeb = characterTips.celebrity[Math.floor(Math.random() * characterTips.celebrity.length)];
+  const tipBox = wrapper.querySelector(".lesson-box");
 
-  // ✅ format the bubble content with styling
-  tipBox.innerHTML = `
-    <div class="celeb-quote">
-      <p class="quote">“${celeb.quote}”</p>
-      <p class="celeb-name"><strong>${celeb.name}</strong></p>
-      <p class="celeb-title"><em>${celeb.title}</em></p>
-    </div>
-  `;
+  // 🎭 Special logic for celebrities
+  if (char === "celebrity") {
+    const celeb =
+      characterTips.celebrity[
+        Math.floor(Math.random() * characterTips.celebrity.length)
+      ];
+
+    tipBox.innerHTML = `
+      <div class="celeb-quote">
+        <p class="quote">“${celeb.quote}”</p>
+        <p class="celeb-name"><strong>${celeb.name}</strong></p>
+        <p class="celeb-title"><em>${celeb.title}</em></p>
+      </div>
+    `;
 
     const avatarImg = wrapper.querySelector("#celebrityAvatar");
     avatarImg.src = celeb.avatar;
-    
-} else {
+  } else {
     const tips = characterTips[char];
     tipBox.textContent = tips[Math.floor(Math.random() * tips.length)];
-}
+  }
 
-  const avatars = wrapper.querySelectorAll(".avatar, #petAvatar, .thought-toggle");
-avatars.forEach(av => {
-  av.onclick = (e) => {
-    e.stopPropagation();
-    bubble.classList.add("visible");
-  };
-});
+  const avatars = wrapper.querySelectorAll(
+    ".avatar, #petAvatar, .thought-toggle"
+  );
+  avatars.forEach((av) => {
+    av.onclick = (e) => {
+      e.stopPropagation();
+      bubble.classList.add("visible");
+    };
+  });
 
   const closeBtn = bubble.querySelector(".close-thought");
   closeBtn.onclick = (e) => {
