@@ -1011,7 +1011,7 @@ async function startChatWithMentor(mentor) {
 }
 
 
-// Helper function to render a leaderboard into a <ul> by ID
+// Render leaderboard
 function renderLeaderboard(ulId, data, type) {
   const ul = document.getElementById(ulId);
   if (!ul) return;
@@ -1030,11 +1030,21 @@ function renderLeaderboard(ulId, data, type) {
   }).join('');
 }
 
-// Fetch leaderboard from Supabase RPC
+// Fetch leaderboard
 async function fetchLeaderboard(leaderboardType, ulId, limitCount = 10) {
-  // Adjust RPC for each type if you have separate SQL functions
-  let rpcName = 'get_leaderboard'; // default RPC for streak/impact/donators
-  if (leaderboardType === 'xp') rpcName = 'get_leaderboard_level';
+  let rpcName;
+
+  switch(leaderboardType) {
+    case 'xp':
+      rpcName = 'get_leaderboard_level';
+      break;
+    case 'impact':      // <-- use 'impact' here
+      rpcName = 'get_leaderboard_impact';
+      break;
+    default:            // streak / other
+      rpcName = 'get_leaderboard';
+      break;
+  }
 
   const { data, error } = await supabase.rpc(rpcName, { limit_count: limitCount });
 
@@ -1046,13 +1056,12 @@ async function fetchLeaderboard(leaderboardType, ulId, limitCount = 10) {
   renderLeaderboard(ulId, data, leaderboardType);
 }
 
-// Fetch all leaderboards
+// Fetch all
 async function fetchAllLeaderboards() {
-  // Overall
-  await fetchLeaderboard('impact', 'overall-impact');
   await fetchLeaderboard('xp', 'overall-level');
   await fetchLeaderboard('streak', 'overall-streak');
+  await fetchLeaderboard('impact', 'overall-impact'); // Only three leaderboards
 }
 
-// Run when page loads
+// Run on page load
 fetchAllLeaderboards();
