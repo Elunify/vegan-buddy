@@ -4666,10 +4666,10 @@ function showRandomAvatar() {
 
   // 🎯 Weighted probability setup
   const weightedChars = [
-    { char: "celebrity", weight: 50 },
-    { char: "Elune", weight: 15 },
-    { char: "Eluna", weight: 15 },
-    { char: "pet", weight: 20 }
+    { char: "celebrity", weight: 25 },
+    { char: "Elune", weight: 25 },
+    { char: "Eluna", weight: 25 },
+    { char: "pet", weight: 25 }
   ];
 
   const totalWeight = weightedChars.reduce((sum, c) => sum + c.weight, 0);
