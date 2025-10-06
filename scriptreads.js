@@ -46,11 +46,7 @@ async function handleStreakSave(user, profile, yesterday) {
   }
 }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", loadProfile);
-} else {
-  loadProfile();
-}
+document.addEventListener("DOMContentLoaded", loadProfile);
 
  // ReadProfile
   // ReadProfile
