@@ -10,10 +10,6 @@ function showSection(sectionId) {
     }
   });
 
-  // Hide lesson tab whenever a page is shown
-  const lessonTab = document.getElementById('healthylesson-tab');
-  if (lessonTab) lessonTab.classList.add('hidden');
-
   // Close side menu if open
   const sideMenu = document.getElementById('sideMenu');
   if (sideMenu && sideMenu.classList.contains('open')) {
@@ -168,7 +164,16 @@ if (healthBtn) {
   healthBtn.addEventListener('click', () => showSection('healthissues'));
 }
 
+// --- Quick Access Buttons ---
+const lessonsBtn = document.getElementById('lessonsBtn');
+if (lessonsBtn) {
+  lessonsBtn.addEventListener('click', () => showSection('lessons'));
+}
 
+const recipesBtn = document.getElementById('recipesBtn');
+if (recipesBtn) {
+  recipesBtn.addEventListener('click', () => showSection('recipes'));
+}
 
 // --- Meal-Art Winners H3 Sections ---
 const mealartBtn = document.querySelectorAll('.mealartBtn');
@@ -320,11 +325,6 @@ document.getElementById("close-lesson").addEventListener("click", () => {
 // =======================
 // GLOBAL VARIABLES
 // =======================
-const startScanBtn = document.getElementById("startScanBtn");
-const scanContainer = document.getElementById("scanContainer");
-const scanResult = document.getElementById("scanResult");
-const scanAgainBtn = document.getElementById("scanAgainBtn");
-const video = document.getElementById('scanVideo');
 let stream = null;
 let scanning = false; // NEW FLAG
 let lastBarcode = null;
@@ -337,22 +337,6 @@ let lastFetchLocation = null;
 let fetchTimeout = null;
 const FETCH_INTERVAL = 1000; // ms
 const MIN_MOVE_DISTANCE = 500; // meters
-
-startScanBtn.addEventListener("click", () => {
-  startScanBtn.classList.add("hidden");   // hide button
-  scanContainer.classList.remove("hidden"); // show camera
-  scanResult.classList.add("hidden");     // hide previous product (if any)
-  scanAgainBtn.classList.add("hidden");   // hide scan again button
-  startCameraWithTimeout();
-});
-
-scanAgainBtn.addEventListener("click", () => {
-  scanContainer.classList.remove("hidden"); // show camera
-  scanResult.classList.add("hidden");       // hide product info
-  scanAgainBtn.classList.add("hidden");     // hide button
-  lastBarcode = null;
-  startCameraWithTimeout();
-});
 
 // Start camera and barcode detection
 async function startCameraWithTimeout() {
@@ -390,6 +374,9 @@ async function startCameraWithTimeout() {
 // =======================
 // SCAN ELEMENTS
 // =======================
+const startScanBtn = document.getElementById("startScanBtn");
+const scanContainer = document.getElementById("scanContainer");
+const video = document.getElementById('scanVideo');
 const resultDiv = document.getElementById('scanResult');
 const loader = document.getElementById('scanLoader');
 
@@ -504,19 +491,32 @@ async function checkVegan(barcode) {
   }
 }
 
-// After barcode is detected
+// Display product info with "Scan Again" button
 function displayProduct(product) {
-  scanContainer.classList.add("hidden");    // hide camera
-  scanResult.innerHTML = `
-    <div class="recommendation-product-card">
-      ${product.image ? `<img src="${product.image}" alt="${product.name}">` : ''}
-      <h3>${product.name}</h3>
-      <p>${product.vegan ? "✅ This product is vegan!" : "❌ Not vegan or unknown."}</p>
-      <p><strong>Brands:</strong> ${product.brands}</p>
-      <p><strong>Ingredients:</strong> ${product.ingredients}</p>
-    </div>`;
-  scanResult.classList.remove("hidden");   // show product info
-  scanAgainBtn.classList.remove("hidden"); // show scan again button
+  let html = `<div class="recommendation-product-card">
+    ${product.image ? `<img src="${product.image}" alt="${product.name}">` : ''}
+    <h3>${product.name}</h3>
+    <p>${product.vegan ? "✅ This product is vegan!" : "❌ Not vegan or unknown."}</p>
+    <p><strong>Brands:</strong> ${product.brands}</p>
+    <p><strong>Ingredients:</strong> ${product.ingredients}</p>`;
+
+  if (product.nutriScore) {
+    html += `<p><strong>Nutri-Score:</strong> <span class="nutri-score nutri-${product.nutriScore}">${product.nutriScore.toUpperCase()}</span></p>`;
+  }
+
+  html += `</div>
+    <button id="scanAgainBtn" class="scan-again-btn">🔄 Scan Again</button>`;
+
+  resultDiv.innerHTML = html;
+
+  const scanAgainBtn = document.getElementById("scanAgainBtn");
+  if (scanAgainBtn) {
+    scanAgainBtn.addEventListener("click", () => {
+      lastBarcode = null;
+      resultDiv.innerHTML = "";
+      startCamera().then(detectBarcode);
+    });
+  }
 }
 
 // =======================
@@ -681,4 +681,92 @@ function toggleListLeader(header) {
 
 
 
+
+
+
+  // Trigger profile photo file input
+document.getElementById('changeProfilePhotoBtn').addEventListener('click', () => {
+  document.getElementById('profilePhotoUpload').click();
+});
+
+// Trigger pet photo file input
+document.getElementById('changePetPhotoBtn').addEventListener('click', () => {
+  document.getElementById('petPhotoUpload').click();
+});
+
+    
+    // --- IMAGE RESIZE & CROP TO SQUARE FUNCTION ---
+async function resizeImage(file, maxSize = 600, quality = 0.7) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+
+    reader.onload = e => img.src = e.target.result;
+
+    img.onload = () => {
+      // Determine the square crop (centered)
+      const minSide = Math.min(img.width, img.height);
+      const startX = (img.width - minSide) / 2;
+      const startY = (img.height - minSide) / 2;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = maxSize;
+      canvas.height = maxSize;
+
+      const ctx = canvas.getContext('2d');
+
+      // Draw the cropped square scaled to maxSize x maxSize
+      ctx.drawImage(
+        img,
+        startX, startY,          // start of crop
+        minSide, minSide,        // size of crop
+        0, 0,                    // start position on canvas
+        maxSize, maxSize          // size on canvas
+      );
+
+      canvas.toBlob(
+        blob => {
+          if (!blob) return reject("Canvas is empty");
+          resolve(new File([blob], file.name, { type: blob.type }));
+        },
+        "image/jpeg",
+        quality
+      );
+    };
+
+    img.onerror = err => reject(err);
+    reader.readAsDataURL(file);
+  });
+}
+
+
+// --- PROFILE PHOTO PREVIEW ---
+const profilePhotoInput = document.getElementById('profilePhotoUpload');
+const profilePhotoPreview = document.getElementById('profilePhotoPreview');
+let newProfilePhotoFile = null;
+
+profilePhotoInput.addEventListener('change', async e => {
+  let file = e.target.files[0];
+  if (!file) return;
+
+  file = await resizeImage(file, 600, 0.7);
+  newProfilePhotoFile = file;
+
+  profilePhotoPreview.src = URL.createObjectURL(file);
+});
+
+// --- PET PHOTO PREVIEW ---
+const petPhotoInput = document.getElementById('petPhotoUpload');
+const petPhotoPreview = document.getElementById('petPhotoPreview');
+let newPetPhotoFile = null;
+
+petPhotoInput.addEventListener('change', async e => {
+  let file = e.target.files[0];
+  if (!file) return;
+
+  file = await resizeImage(file, 300, 0.7);
+  newPetPhotoFile = file;
+
+  petPhotoPreview.src = URL.createObjectURL(file);
+});
 

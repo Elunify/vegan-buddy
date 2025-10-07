@@ -1,0 +1,1998 @@
+//--------------------------
+// SUPABASE
+//--------------------------
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const supabaseUrl = 'https://pqrgvelzxmtdqrofxujx.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBxcmd2ZWx6eG10ZHFyb2Z4dWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxMTc0ODAsImV4cCI6MjA3MTY5MzQ4MH0.s8JZLDdzIS1wBLln0Zs3LK_9BHelUcbRhyAC_0-5sos';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+import { DailyCheckInPool } from './scriptpools.js';
+import { HealthIssuesPool } from './scriptpools.js';
+import { extralessonsData } from './scriptpools.js';
+
+//--------------------------
+// GLOBAL VARIABLES
+//--------------------------
+let currentUser = null;
+let currentProfile = null;
+let currentGlobalImpact = null;
+let globalImpact = {
+  animals_saved: 0,
+  forest_saved: 0,
+  water_saved: 0,
+  co2_saved: 0,
+  donated: 0
+};
+let currentMeals = [];
+
+const goalsInputs = document.querySelectorAll('input[name="goal"]');
+const healthIssuesSection = document.getElementById("q2b");
+
+//--------------------------
+// HELPERS
+//--------------------------
+function showLoading(isLoading) {
+  const loader = document.getElementById("loading");
+  const content = document.getElementById("homepageContent");
+  if (!loader || !content) return;
+
+  if (isLoading) {
+    loader.style.display = "flex";
+    content.style.opacity = "0";
+  } else {
+    loader.style.display = "none";
+    content.style.opacity = "1";
+  }
+}
+
+function toArray(value) {
+  return Array.isArray(value) ? value : Object.values(value || []);
+}
+
+function getLevelFromXP(totalXP) {
+  let level = 1;
+  let xpNeededForNext = 100;
+  let xpLeft = totalXP;
+
+  while (xpLeft >= xpNeededForNext && level < 100) {
+    xpLeft -= xpNeededForNext;
+    level++;
+    xpNeededForNext = Math.floor(xpNeededForNext * 1.05);
+  }
+
+  return { level, xpTowardsNextLevel: xpLeft, xpNeededForNextLevel: xpNeededForNext };
+}
+
+function formatNumber(value) {
+  value = Math.round(value);
+  if (value >= 1_000_000_000) return (value / 1_000_000_000).toFixed(1) + 'B';
+  if (value >= 1_000_000) return (value / 1_000_000).toFixed(1) + 'M';
+  if (value >= 1_000) return (value / 1_000).toFixed(1) + 'k';
+  return value.toString();
+}
+
+//--------------------------
+// FETCH DATA
+//--------------------------
+async function fetchAllData() {
+  // 1️⃣ Get current user
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError || !user) return console.error("Not logged in:", userError);
+  currentUser = user;
+
+  // 2️⃣ Fetch profile
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+  if (profileError) return console.error("Error fetching profile:", profileError);
+  currentProfile = profile;
+
+  // 3️⃣ Fetch global impact (single row)
+  const { data: impact, error: impactError } = await supabase
+    .from("global_impact")
+    .select("*")
+    .single();
+  if (impactError) return console.error("Error fetching global impact:", impactError);
+  currentGlobalImpact = impact; // assign fetched row to top-level variable
+
+  // 4️⃣ Fetch meals
+  const { data: meals, error: mealsError } = await supabase
+    .from("meals")
+    .select("*");
+  if (mealsError) return console.error("Error fetching meals:", mealsError);
+  currentMeals = meals;
+
+  return { profile, impact, meals };
+}
+
+//--------------------------
+// PROFILE RENDERING
+//--------------------------
+async function renderProfile() {
+  const profile = currentProfile;
+  const globalImpact = currentGlobalImpact;
+  
+  if (!profile) return;
+
+  // Profile photo
+  ["profilePhoto", "profilePhotoprofile", "profilePhotoPreview"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && profile.profile_photo) el.src = profile.profile_photo;
+  });
+
+  // Name & Diet
+  document.getElementById("profileName").textContent = profile.name || "-";
+  document.getElementById("profileNameInput").value = profile.name || "-";
+  document.getElementById("diet").textContent = profile.diet_preference || "-";
+  document.getElementById("profileDietSelect").value = profile.diet_preference || "-";
+
+  // Streak, Level, Badge
+  document.getElementById("streak-counter").textContent = profile.streak || 0;
+  document.getElementById("currentLevel").textContent = profile.current_level || 0;
+  document.getElementById("streak-counterprofile").textContent = profile.streak || 0;
+  document.getElementById("currentLevelprofile").textContent = profile.current_level || 0;
+  document.getElementById("badgeprofile").textContent = profile.badge || 0;
+
+  // ===== Goals =====
+  const goalsList = document.getElementById("goalsList");
+  goalsList.innerHTML = "";
+  const goals = toArray(profile.goals);
+  goals.forEach(goal => {
+    const li = document.createElement("li");
+    li.textContent = goal;
+    goalsList.appendChild(li);
+  });
+  document.querySelectorAll('input[name="goal"]').forEach(cb => {
+    cb.checked = goals.includes(cb.value);
+  });
+
+  // ===== Health Issues =====
+  const healthList = document.getElementById("healthIssuesList");
+  healthList.innerHTML = "";
+  const issues = toArray(profile.health_issues);
+  issues.forEach(issue => {
+    const li = document.createElement("li");
+    li.textContent = issue;
+    healthList.appendChild(li);
+  });
+  document.querySelectorAll('input[name="healthIssue"]').forEach(cb => {
+    cb.checked = issues.includes(cb.value);
+  });
+  toggleHealthIssues();
+
+  // Pet
+  ["petPhotoprofile", "petPhotoPreview"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && profile.pet_photo) el.src = profile.pet_photo;
+  });
+  document.getElementById("petName").textContent = profile.pet_name || "-";
+  document.getElementById("petNameprofile").textContent = profile.pet_name || "-";
+  document.getElementById("petNameInput").value = profile.pet_name || "-";
+
+  // Hide empty lists titles
+  document.querySelectorAll(".details-list").forEach(list => {
+    if (list.querySelectorAll("li").length === 0) {
+      if (list.previousElementSibling) list.previousElementSibling.style.display = "none";
+      list.style.display = "none";
+    }
+  });
+
+  // Streak fire icon
+  const streakFire = document.querySelector("#streak .fire");
+  const todaystreak = new Date().toISOString().split("T")[0];
+  if (profile.last_checkin_date !== todaystreak) {
+    streakFire?.classList.add("inactive");
+  } else {
+    streakFire?.classList.remove("inactive");
+  }
+
+  // Counters
+  const countersElements = {
+    animalsSavedEl: document.getElementById('savedAnimals'),
+    forestSavedEl: document.getElementById('savedForest'),
+    waterSavedEl: document.getElementById('savedWater'),
+    co2SavedEl: document.getElementById('savedCO2'),
+    donatedEl: document.getElementById('savedDonated'),
+    levelBar: document.getElementById('levelBar'),
+    levelProgress: document.getElementById('levelProgress'),
+    currentLevelEl: document.getElementById("currentLevel"),
+    streakEl: document.getElementById('streak-counter')
+  };
+
+  // ===== Level & XP =====
+  const totalXP = profile.total_xp ?? 0;
+  const levelData = getLevelFromXP(totalXP);
+  const { level, xpTowardsNextLevel, xpNeededForNextLevel } = levelData;
+
+  if (countersElements.levelProgress) {
+    if (level >= 100) {
+      countersElements.levelProgress.style.display = "none";
+    } else {
+      countersElements.levelProgress.style.display = "block";
+      let progressPercent = (xpTowardsNextLevel / xpNeededForNextLevel) * 100;
+      progressPercent = Math.min(progressPercent, 100);
+      countersElements.levelProgress.style.width = progressPercent + '%';
+      countersElements.currentLevelEl.textContent = level;
+    }
+  }
+
+  // Sync level to DB
+  if (profile.current_level !== level) {
+    const { error: updateError } = await supabase
+      .from("profiles")
+      .update({ current_level: level })
+      .eq("id", currentUser.id);
+    if (!updateError) profile.current_level = level;
+  }
+
+  // Daily check-in
+  const checkinBtn = document.getElementById("checkinBtn");
+  const today = new Date().toISOString().split("T")[0];
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yesterdayStr = yesterday.toISOString().split("T")[0];
+
+  if (profile.last_checkin_date === today) {
+    checkinBtn?.classList.add("done");
+    checkinBtn.textContent = "✅ Daily Check-in";
+    checkinBtn.disabled = true;
+    checkinBtn.style.cursor = "not-allowed";
+  } else {
+    checkinBtn?.classList.remove("done");
+    checkinBtn.textContent = "Daily Check-in";
+
+    if (profile.last_checkin_date < yesterdayStr) {
+      const streakSaved = await handleStreakSave(currentUser, profile, yesterdayStr);
+      if (streakSaved) {
+        await supabase.from("profiles").update({ last_checkin_date: yesterdayStr }).eq("id", currentUser.id);
+      }
+    }
+  }
+
+  // Health Solutions button
+  const healthBtn = document.getElementById("healthBtn");
+  if (profile.health_issues?.length > 0) {
+    healthBtn?.classList.remove("hidden");
+    healthBtn.textContent = "Health Solutions";
+  } else {
+    healthBtn?.classList.add("hidden");
+  }
+
+  // Personal impact cards
+  document.getElementById('youAnimals').textContent = formatNumber(profile.animals_saved ?? 0);
+  document.getElementById('youForest').textContent  = formatNumber(profile.forest_saved ?? 0);
+  document.getElementById('youWater').textContent   = formatNumber(profile.water_saved ?? 0);
+  document.getElementById('youCO2').textContent     = formatNumber(profile.co2_saved ?? 0);
+
+  // Community impact from fetched variable
+  if (globalImpact) {
+    document.getElementById('communityAnimals').textContent = formatNumber(globalImpact.animals_saved ?? 0);
+    document.getElementById('communityForest').textContent  = formatNumber(globalImpact.forest_saved ?? 0);
+    document.getElementById('communityWater').textContent   = formatNumber(globalImpact.water_saved ?? 0);
+    document.getElementById('communityCO2').textContent     = formatNumber(globalImpact.co2_saved ?? 0);
+  }
+
+  // XP to next level
+  const xpRemaining = levelData.xpNeededForNextLevel - levelData.xpTowardsNextLevel;
+  document.getElementById("xpToNext").textContent = `${xpRemaining} XP to next level`;
+
+  // Pet rendering
+  const petDisplay = document.getElementById("petDisplay");
+  const petAvatar = document.getElementById("petAvatar");
+
+  function renderPet(container) {
+    if (!container) return;
+    container.innerHTML = "";
+    if (profile.pet_photo) {
+      const petImg = document.createElement("img");
+      petImg.src = profile.pet_photo;
+      petImg.alt = profile.pet_name || "Pet";
+      petImg.classList.add("pet-photo");
+      container.appendChild(petImg);
+    } else if (profile.pet_name) {
+      container.textContent = profile.pet_name;
+    }
+  }
+
+  renderPet(petDisplay);
+  renderPet(petAvatar);
+
+  return profile;
+}
+
+//--------------------------
+// WINNERS (from currentMeals)
+//--------------------------
+function loadWinnersFromData() {
+  if (!currentMeals || currentMeals.length === 0) return;
+
+  // Helper to find latest winner by type
+  function getLatestWinner(isPro) {
+    return currentMeals
+      .filter(meal => meal.is_winner && meal.is_pro === isPro)
+      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0] || null;
+  }
+
+  // Amateur / Individual
+  const amateurWinner = getLatestWinner(false);
+  if (amateurWinner) {
+    document.getElementById("amateurName").textContent = amateurWinner.uploader_name;
+    document.getElementById("amateurImage").src = amateurWinner.image_url;
+    document.getElementById("amateurImagePopup").src = amateurWinner.image_url;
+
+    const amateurRecipeDiv = document.getElementById("amateurRecipe");
+    if (amateurWinner.recipe_available) {
+      const a = document.createElement("a");
+      a.href = "#";
+      a.className = "recipe";
+      a.textContent = "Recipe";
+      a.addEventListener("click", e => {
+        e.preventDefault();
+        showRecipeModal(amateurWinner);
+      });
+      amateurRecipeDiv.innerHTML = "";
+      amateurRecipeDiv.appendChild(a);
+    } else {
+      amateurRecipeDiv.innerHTML = `<span class="no-recipe">No recipe</span>`;
+    }
+  }
+
+  // Professional / Restaurant
+  const proWinner = getLatestWinner(true);
+  if (proWinner) {
+    document.getElementById("proName").textContent = proWinner.uploader_name;
+    document.getElementById("proImage").src = proWinner.image_url;
+    document.getElementById("proImagePopup").src = proWinner.image_url;
+
+    const proRecipeDiv = document.getElementById("professionalRecipe");
+    if (proWinner.recipe_available) {
+      const a = document.createElement("a");
+      a.href = "#";
+      a.className = "recipe";
+      a.textContent = "Recipe";
+      a.addEventListener("click", e => {
+        e.preventDefault();
+        showRecipeModal(proWinner);
+      });
+      proRecipeDiv.innerHTML = "";
+      proRecipeDiv.appendChild(a);
+    } else {
+      proRecipeDiv.innerHTML = `<span class="no-recipe">No recipe</span>`;
+    }
+  }
+}
+
+//--------------------------
+// RECIPE MODAL
+//--------------------------
+window.showRecipeModal = function (meal) {
+  document.getElementById("modalFoodName").textContent = meal.food_name || "No title";
+  document.getElementById("modalIngredients").innerHTML =
+    (meal.ingredients || "No ingredients provided").replace(/\n/g, "<br>");
+  document.getElementById("modalInstructions").innerHTML =
+    (meal.instructions || "No instructions provided").replace(/\n/g, "<br>");
+  document.getElementById("recipeModal").style.display = "flex";
+};
+
+document.getElementById("closeModal").addEventListener("click", () => {
+  document.getElementById("recipeModal").style.display = "none";
+});
+
+window.addEventListener("click", e => {
+  if (e.target.id === "recipeModal") {
+    document.getElementById("recipeModal").style.display = "none";
+  }
+});
+
+
+//--------------------------
+// GOALS / HEALTH TOGGLE
+//--------------------------
+function toggleHealthIssues() {
+  const solvingChecked = Array.from(goalsInputs).some(cb => cb.checked && cb.value === "Solving health issues");
+  healthIssuesSection.style.display = solvingChecked ? "block" : "none";
+  if (!solvingChecked) {
+    document.querySelectorAll('input[name="healthIssue"]').forEach(cb => cb.checked = false);
+  }
+}
+document.querySelectorAll('input[name="goal"]').forEach(cb => cb.addEventListener("change", toggleHealthIssues));
+
+//--------------------------
+// STREAK MANAGEMENT
+//--------------------------
+async function handleStreakSave(user, profile, yesterday) {
+  const save = confirm("Do you want to save your streak for 10 badges?");
+  if (!save) {
+    alert("Your streak will reset.");
+    await supabase.from("profiles").update({ streak: 0, last_checkin_date: yesterday }).eq("id", user.id);
+    profile.streak = 0;
+    profile.last_checkin_date = yesterday;
+    return false;
+  }
+
+  if ((profile.badge || 0) >= 10) {
+    await supabase.from("profiles").update({ badge: profile.badge - 10, last_checkin_date: yesterday }).eq("id", user.id);
+    profile.badge -= 10;
+    profile.last_checkin_date = yesterday;
+    alert("Streak saved by spending 10 badges!");
+    return true;
+  } else {
+    const pay = confirm("You don't have enough badges. Do you want to save your streak for 1€?");
+    if (pay) {
+      await supabase.from("profiles").update({ last_checkin_date: yesterday }).eq("id", user.id);
+      profile.last_checkin_date = yesterday;
+      alert("Redirecting to payment...");
+      return true;
+    } else {
+      alert("Your streak will reset.");
+      await supabase.from("profiles").update({ streak: 0, last_checkin_date: yesterday }).eq("id", user.id);
+      profile.streak = 0;
+      profile.last_checkin_date = yesterday;
+      return false;
+    }
+  }
+}
+
+//--------------------------
+// CHANGE PROFILE
+//--------------------------
+
+// --- SAVE PROFILE ---
+async function saveProfile() {
+  if (!currentUser || !currentProfile) {
+    console.error("User not loaded yet");
+    return;
+  }
+
+  const updates = {};
+
+  // Name
+  updates.name = document.getElementById('profileNameInput').value || null;
+
+  // Diet Preference
+  updates.diet_preference = document.getElementById('profileDietSelect').value || null;
+
+  // Goals
+  const selectedGoals = Array.from(document.querySelectorAll('input[name="goal"]:checked')).map(cb => cb.value);
+  updates.goals = selectedGoals.length ? selectedGoals : null;
+
+  // Health Issues
+  const solvingChecked = selectedGoals.includes("Solving health issues");
+  const selectedHealth = solvingChecked
+    ? Array.from(document.querySelectorAll('input[name="healthIssue"]:checked')).map(cb => cb.value)
+    : [];
+  updates.health_issues = selectedHealth.length ? selectedHealth : null;
+
+  // Pet name
+  updates.pet_name = document.getElementById('petNameInput').value || null;
+
+  // --- Handle Profile Photo ---
+  if (newProfilePhotoFile) {
+    updates.profile_photo = await uploadFile(newProfilePhotoFile, 'profile_photos', currentUser.id);
+  }
+
+  // --- Handle Pet Photo ---
+  if (newPetPhotoFile) {
+    updates.pet_photo = await uploadFile(newPetPhotoFile, 'pet_photos', currentUser.id);
+  }
+
+  // --- Update profile in Supabase ---
+  const { error: updateError } = await supabase.from('profiles').update(updates).eq('id', currentUser.id);
+  if (updateError) return console.error("Profile update error:", updateError);
+
+  // --- Update local profile object ---
+  Object.assign(currentProfile, updates);
+
+  // --- Reload UI ---
+  const { profile, globalImpact } = await fetchAllData();
+  await renderProfile(profile, globalImpact);
+  await initHealthPaths();
+
+  // Show profile view
+  document.querySelector('.containeredit')?.classList.add('hidden');
+  document.querySelector('.containersettings')?.classList.remove('hidden');
+}
+
+// --- Helper: upload file ---
+async function uploadFile(file, bucket, userId) {
+  const timestamp = Date.now();
+  const fileName = `${userId}/${file.name.split('.')[0]}-${timestamp}.${file.name.split('.').pop()}`;
+  const { data, error } = await supabase.storage.from(bucket).upload(fileName, file, { upsert: true });
+  if (error) throw error;
+  return supabase.storage.from(bucket).getPublicUrl(fileName).data.publicUrl;
+}
+
+// Attach save button
+document.getElementById('saveBtn')?.addEventListener('click', saveProfile);
+
+//--------------------------
+// DAILY CHECKIN
+//--------------------------
+
+// Global variables
+let yesterdayQuiz = [];
+let todayGoal = null;
+let todayLessonIndex = 0;
+let todayLesson = null;
+
+// ------------------
+// 1️⃣ Get today's lesson from currentProfile
+// ------------------
+function getTodaysLessonFromProfile(profile) {
+  if (!profile.goals || !Array.isArray(profile.goals) || profile.goals.length === 0) {
+    profile.goals = Object.keys(DailyCheckInPool.goals);
+  }
+
+  const validGoals = profile.goals.filter(goal => DailyCheckInPool.goals[goal]?.length > 0);
+  if (validGoals.length === 0) throw new Error("User has no valid goals with lessons.");
+
+  const index = profile.day_counter % validGoals.length;
+  todayGoal = validGoals[index];
+  todayLessonIndex = profile.goal_progress?.[todayGoal] ?? 0;
+
+  const lessonsForGoal = DailyCheckInPool.goals[todayGoal];
+  todayLesson = lessonsForGoal && lessonsForGoal.length > 0 
+    ? lessonsForGoal[todayLessonIndex] 
+    : Object.values(DailyCheckInPool.goals).flat()[profile.day_counter % Object.values(DailyCheckInPool.goals).flat().length];
+
+  return { todayGoal, todayLessonIndex, todayLesson };
+}
+
+// ------------------
+// 2️⃣ Render today's lesson
+// ------------------
+function renderTodaysLesson() {
+  document.getElementById("dailyLessonDCI").innerHTML = `
+    <p class="lesson-text">${todayLesson.lesson}</p>
+  `;
+}
+
+// ------------------
+// 3️⃣ Render yesterday's quiz
+// ------------------
+function renderYesterdaysQuiz(profile) {
+  const quizContainer = document.getElementById("quizDCI");
+  quizContainer.innerHTML = "";
+
+  if (!profile.last_lesson) {
+    quizContainer.style.display = "none";
+    yesterdayQuiz = [];
+    return;
+  }
+
+  const { goal, lessonIndex } = profile.last_lesson;
+  let quiz = DailyCheckInPool.goals[goal][lessonIndex].quiz;
+
+  // Ensure it's always an array
+  yesterdayQuiz = Array.isArray(quiz) ? quiz : [quiz];
+
+  quizContainer.style.display = "block";
+  quizContainer.innerHTML = `<label class="bigLabelDCI">Last lesson's quiz:</label>`;
+
+  yesterdayQuiz.forEach((q, i) => {
+    const div = document.createElement("div");
+    div.className = "quiz-itemDCI";
+    div.innerHTML = `
+      <p class="quiz-questionDCI">${q.question}</p>
+      <div class="quiz-optionsDCI">
+        ${q.options.map(opt => `
+          <label class="checkbox-labelDCI">
+            <input type="radio" name="q${i}" value="${opt}"> ${opt}
+          </label>`).join("")}
+      </div>
+    `;
+    quizContainer.appendChild(div);
+  });
+}
+
+// ------------------
+// 4️⃣ Calculate impact
+// ------------------
+function calculateImpact(mealValue) {
+  const impactMultiplier = [0, 0.3, 0.7, 1][mealValue - 1];
+  const baseImpact = { animals_saved: 0.7, forest_saved: 0.5, water_saved: 660, co2_saved: 4 };
+
+  return {
+    animals_saved: baseImpact.animals_saved * impactMultiplier,
+    forest_saved: baseImpact.forest_saved * impactMultiplier,
+    water_saved: baseImpact.water_saved * impactMultiplier,
+    co2_saved: baseImpact.co2_saved * impactMultiplier
+  };
+}
+
+// ------------------
+// 5️⃣ Update profile & global impact
+// ------------------
+// top-level scope
+
+async function handleSubmit() {
+  // Quiz validation
+  if (currentProfile.day_counter > 0) {
+    let allAnswered = true, allCorrect = true;
+
+    yesterdayQuiz.forEach((q, i) => {
+      const selected = document.querySelector(`input[name="q${i}"]:checked`);
+      if (!selected) allAnswered = false;
+      else if (selected.value !== q.answer) allCorrect = false;
+    });
+
+    if (!allAnswered) return alert("Please answer all quiz questions!");
+    if (!allCorrect) return alert("Some answers are incorrect. Try again!");
+  }
+
+  // Meal selection
+  const mealAnswer = document.querySelector('input[name="mealsDCI"]:checked');
+  if (!mealAnswer) return alert("Please select your diet from yesterday!");
+  const mealValue = parseInt(mealAnswer.value);
+  const impactIncrement = calculateImpact(mealValue);
+  const badgeIncrement = mealValue === 4 ? 1 : 0;
+
+  // Update currentProfile
+  currentProfile.day_counter += 1;
+  currentProfile.streak = (currentProfile.streak || 0) + 1;
+  currentProfile.total_xp = (currentProfile.total_xp || 0) + 30;
+  currentProfile.goal_progress = { ...currentProfile.goal_progress, [todayGoal]: (todayLessonIndex + 1) % DailyCheckInPool.goals[todayGoal].length };
+  currentProfile.last_lesson = { goal: todayGoal, lessonIndex: todayLessonIndex };
+  currentProfile.animals_saved = (currentProfile.animals_saved || 0) + impactIncrement.animals_saved;
+  currentProfile.forest_saved = (currentProfile.forest_saved || 0) + impactIncrement.forest_saved;
+  currentProfile.water_saved = (currentProfile.water_saved || 0) + impactIncrement.water_saved;
+  currentProfile.co2_saved = (currentProfile.co2_saved || 0) + impactIncrement.co2_saved;
+  currentProfile.last_checkin_date = new Date().toISOString().split("T")[0];
+  currentProfile.badge = (currentProfile.badge || 0) + badgeIncrement;
+
+  // Update Supabase
+  const { error: updateError } = await supabase.from("profiles").update(currentProfile).eq("id", currentProfile.id);
+  if (updateError) return console.error("Profile update failed:", updateError);
+
+  // Update globalImpact locally
+  Object.keys(impactIncrement).forEach(key => {
+    globalImpact[key] = (globalImpact[key] || 0) + impactIncrement[key];
+  });
+
+  // Update global impact UI immediately
+  document.getElementById('communityAnimals').textContent = formatNumber(Math.round(globalImpact.animals_saved || 0));
+  document.getElementById('communityForest').textContent  = formatNumber(Math.round(globalImpact.forest_saved || 0));
+  document.getElementById('communityWater').textContent   = formatNumber(Math.round(globalImpact.water_saved || 0));
+  document.getElementById('communityCO2').textContent     = formatNumber(Math.round(globalImpact.co2_saved || 0));
+
+  await updateGlobalImpact(impactIncrement);
+
+  // Refresh homepage
+  const { profile, globalImpact } = await fetchAllData();
+  await renderProfile(profile, globalImpact);
+
+  // Hide Daily Check-in, show home
+  document.getElementById("dailycheck-in").classList.add("hidden");
+  document.getElementById("home").classList.remove("hidden");
+}
+
+async function updateGlobalImpact(increment) {
+  if (!currentGlobalImpact || !currentGlobalImpact.id) return;
+
+  // Calculate new totals
+  const updatedImpact = {
+    animals_saved: (currentGlobalImpact.animals_saved || 0) + (increment.animals_saved || 0),
+    forest_saved:  (currentGlobalImpact.forest_saved || 0)  + (increment.forest_saved || 0),
+    water_saved:   (currentGlobalImpact.water_saved || 0)   + (increment.water_saved || 0),
+    co2_saved:     (currentGlobalImpact.co2_saved || 0)     + (increment.co2_saved || 0)
+  };
+
+  const { error } = await supabase
+    .from("global_impact")
+    .update(updatedImpact)
+    .eq("id", currentGlobalImpact.id);
+
+  if (error) {
+    console.error("Failed to update global impact:", error);
+  } else {
+    // Update top-level variable so UI can read the new totals immediately
+    currentGlobalImpact = { ...currentGlobalImpact, ...updatedImpact };
+  }
+}
+
+//--------------------------
+// HEALTH LESSONS
+//--------------------------
+
+// ------- Health issues----------
+async function initHealthPaths() {
+  if (!currentUser || !currentProfile) return;
+
+  const userData = currentProfile;
+  const healthIssues = userData.health_issues || []; // array of user's health issues
+
+  // Grab elements
+  const title = document.querySelector(".YourHealthIssueTitle");
+  const allButtons = document.querySelectorAll("#healthissues .path-btn");
+  const allCourses = document.querySelectorAll("#healthissues .course");
+
+  // --- RESET STATE ---
+  if (title) title.classList.remove("hidden");          // always show title first
+  allButtons.forEach(b => b.classList.add("hidden"));   // hide all buttons initially
+  allCourses.forEach(c => c.classList.add("hidden"));   // hide all courses initially
+
+  // Show only the buttons for the user's health issues
+  allButtons.forEach(btn => {
+    if (healthIssues.includes(btn.dataset.path)) {
+      btn.classList.remove("hidden");
+    }
+  });
+
+  // If user has only 1 health issue → auto-click it and hide title/buttons
+  if (healthIssues.length === 1) {
+    const btn = document.querySelector(
+      `#healthissues .path-btn[data-path="${healthIssues[0]}"]`
+    );
+    if (btn) {
+      // Hide title + buttons section
+      if (title) title.classList.add("hidden");
+      allButtons.forEach(b => b.classList.add("hidden"));
+
+      // Auto-open the single health issue
+      btn.click();
+    }
+  }
+
+  // Wire click events to show selected course
+  allButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const path = btn.dataset.path;
+
+      // Hide all courses first
+      allCourses.forEach(c => c.classList.add("hidden"));
+
+      // Show selected course
+      const selectedCourse = document.getElementById(path);
+      if (selectedCourse) selectedCourse.classList.remove("hidden");
+
+      // Render lessons for this course (from your lessonsData for health)
+      renderLessonsForHealthIssue(
+  path,
+  Array.isArray(userData.health_progress?.[path]) ? userData.health_progress[path] : [],
+  userData,
+  currentUser.id
+);
+    });
+  });
+
+  // If user has only 1 health issue → auto-click it
+  if (healthIssues.length === 1) {
+    const btn = document.querySelector(`#healthissues .path-btn[data-path="${healthIssues[0]}"]`);
+    if (btn) btn.click();
+  }
+}
+
+// Render lessons for a specific health issue
+function renderLessonsForHealthIssue(issue, completedLessons = [], userData, userId) {
+
+  const course = document.getElementById(issue);
+  if (!course) return;
+  const lessonList = course.querySelector(".lesson-list");
+  lessonList.innerHTML = "";
+
+  const lessons = HealthIssuesPool.health.filter(l => l.issue === issue);
+
+  lessons.forEach((lesson, index) => {
+    const li = document.createElement("li");
+
+    // Determine class
+    let className = "lesson locked";
+    if (completedLessons.includes(index + 1)) {
+      className = "lesson completed";
+    } else if (completedLessons.includes(index) || index === 0) {
+      // Unlock the next lesson after the last completed or first lesson
+      className = "lesson unlocked";
+    }
+
+    li.dataset.step = index + 1;
+    li.className = className;
+
+    li.innerHTML = `
+      <div class="lesson-title">
+        <span class="lesson-icon">${
+          li.classList.contains("completed") ? "✅" :
+          li.classList.contains("unlocked") ? "🟢" : "🔒"
+        }</span>
+        ${lesson.title}
+      </div>
+      <div class="lesson-content"></div>
+    `;
+    lessonList.appendChild(li);
+
+    setupLessonClickForHealth(li, lesson, index, issue, userData, userId);
+  });
+}
+
+function setupLessonClickForHealth(li, lesson, index, issue, userData, userId) {
+  const lessonTab = document.getElementById("healthylesson-tab");
+  const lessonTitle = document.getElementById("lesson-title");
+  const lessonContent = document.getElementById("lesson-content");
+  const quizContainer = document.getElementById("quiz-container");
+
+  li.addEventListener("click", () => {
+    if (li.classList.contains("locked")) return; // locked lessons cannot be opened
+
+    // Fill lesson content
+    lessonTitle.textContent = lesson.title;
+    lessonContent.innerHTML = `<p>${lesson.content}</p>`;
+
+    // Start Quiz button
+    const startQuizBtn = document.createElement("button");
+    startQuizBtn.textContent = "Start Quiz 📝";
+    startQuizBtn.id = "start-quiz-btn";
+    lessonContent.appendChild(startQuizBtn);
+
+    quizContainer.innerHTML = "";
+
+    // Show lesson tab and hide main health tab
+    lessonTab.classList.remove("hidden");
+    document.getElementById("healthissues").classList.add("hidden");
+
+    // Start Quiz click
+    startQuizBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      quizContainer.classList.remove("hidden");
+      quizContainer.innerHTML = `
+        <p><strong>Quiz:</strong> ${lesson.quiz.question}</p>
+        ${lesson.quiz.options
+          .map((opt, i) => `<button class="quiz-option" data-index="${i}">${opt}</button>`)
+          .join("")}
+        <div id="quiz-feedback"></div>
+      `;
+
+      // Quiz option click
+quizContainer.querySelectorAll(".quiz-option").forEach((answerBtn) => {
+  answerBtn.addEventListener("click", async (e) => {
+    const chosenIndex = parseInt(answerBtn.dataset.index, 10);
+    const feedback = quizContainer.querySelector("#quiz-feedback");
+
+    if (chosenIndex === lesson.quiz.answer) {
+      feedback.textContent = "✅ Correct! Lesson completed.";
+      feedback.style.color = "green";
+
+      // Initialize progress
+      if (!userData.health_progress) userData.health_progress = {};
+      if (!userData.health_progress[issue]) userData.health_progress[issue] = [];
+      if (!userData.health_progress[issue].includes(index + 1)) {
+        userData.health_progress[issue].push(index + 1);
+
+        // Update Supabase
+        const { error } = await supabase
+          .from("profiles")
+          .update({
+            total_xp: (userData.total_xp || 0) + 5,
+            health_progress: userData.health_progress
+          })
+          .eq("id", userId);
+        if (error) console.error("Failed to update lesson completion:", error);
+
+        // Rerender course lessons with updated progress
+        renderLessonsForHealthIssue(
+          issue,
+          userData.health_progress[issue],
+          userData,
+          userId
+        );
+        const { profile, globalImpact } = await fetchAllData();
+        await renderProfile(profile, globalImpact);
+
+        // ✅ Delay before switching back
+        setTimeout(() => {
+          // Hide lesson tab and show main tab
+          lessonTab.classList.add("hidden");
+          const mainTab = document.getElementById("healthissues");
+          mainTab.classList.remove("hidden");
+
+          // Scroll to next lesson
+          const courseList = document.querySelector(`#${CSS.escape(issue)} .lesson-list`);
+          const nextLesson = courseList.querySelectorAll(".lesson")[index + 1];
+          if (nextLesson) nextLesson.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 1300); // 1000 ms = 1 second
+      }
+    } else {
+      feedback.textContent = "❌ Incorrect. Try again!";
+      feedback.style.color = "red";
+    }
+  });
+});   
+    });
+  });
+}
+
+
+//--------------------------
+// COMPARISON
+//--------------------------
+
+// Constants for comparisons
+const sheetsPerTree = 8000;
+const forestAreaPerTree = 10; // m²
+const showerWaterUse = 65; // liters
+const co2PerCarHour = 10; // kg
+
+function injectComparisonSentences(profile) {
+  const animals = Math.round(profile.animals_saved || 0);
+  const forest  = Math.round(profile.forest_saved || 0);
+  const water   = Math.round(profile.water_saved || 0);
+  const co2     = Math.round(profile.co2_saved || 0);
+
+  // Calculate equivalents
+  const treesSaved = forest / forestAreaPerTree;
+  const paperEquivalent = Math.round(treesSaved * sheetsPerTree);
+  const showerEquivalent = Math.round(water / showerWaterUse);
+  const carTimeEquivalent = (co2 / co2PerCarHour).toFixed(1);
+
+  // Inject into separate blocks with highlighted values
+document.getElementById("animalsSentence").innerHTML =
+  `Because of you, <span class="highlight">${animals}</span> animals are safe — imagine them as happy friends roaming, swimming, and enjoying life freely!`;
+
+document.getElementById("forestSentence").innerHTML =
+  `With your choices, you’ve protected <span class="highlight">${forest}</span> m² of forest — that’s like saving <span class="highlight">${paperEquivalent}</span> sheets of paper from ever being used!`;
+
+document.getElementById("waterSentence").innerHTML =
+  `By choosing plant-based meals, you’ve saved <span class="highlight">${water}</span> liters of water — enough for <span class="highlight">${showerEquivalent}</span> refreshing showers!`;
+
+document.getElementById("co2Sentence").innerHTML =
+  `Your actions cut down <span class="highlight">${co2}</span> kg of CO₂ emissions — the same as avoiding <span class="highlight">${carTimeEquivalent}</span> hours of car travel!`;
+}
+
+
+document.getElementById('calculateImpactBtn').addEventListener('click', () => {
+  const years = parseInt(document.getElementById('years').value) || 0;
+  const months = parseInt(document.getElementById('months').value) || 0;
+  const totalMonths = years * 12 + months;
+
+  // Impact per month constants
+  const animalsSavedPerMonth = 21;
+  const forestSavedPerMonth = 15; // m²
+  const waterSavedPerMonth = 2000; // liters
+  const co2SavedPerMonth = 120; // kg
+
+  // Calculate total impact
+  const animalsSaved = animalsSavedPerMonth * totalMonths;
+  const forestSaved = forestSavedPerMonth * totalMonths;
+  const waterSaved = waterSavedPerMonth * totalMonths;
+  const co2Saved = co2SavedPerMonth * totalMonths;
+
+  // Inject results and show container
+  document.getElementById('calcAnimals').textContent = animalsSaved;
+  document.getElementById('calcForest').textContent = forestSaved;
+  document.getElementById('calcWater').textContent = waterSaved;
+  document.getElementById('calcCO2').textContent = co2Saved;
+
+  document.getElementById('impactResults').classList.remove('hidden');
+});
+
+
+//--------------------------
+// MEALART
+//--------------------------
+
+function showRecipeModal(meal) {
+  const modal = document.getElementById("mealArtrecipeModal");
+  document.getElementById("mealArtmodalFoodName").textContent = meal.food_name || "No title";
+  document.getElementById("mealArtmodalIngredients").innerHTML = (meal.ingredients || "No ingredients provided").replace(/\n/g, "<br>");
+  document.getElementById("mealArtmodalInstructions").innerHTML = (meal.instructions || "No instructions provided").replace(/\n/g, "<br>");
+  modal.style.display = "flex";
+}
+
+function closeRecipeModal() {
+  const modal = document.getElementById("mealArtrecipeModal");
+  modal.style.display = "none";
+}
+
+
+// TAB HANDLER
+function setupTabs() {
+  const tabs = document.querySelectorAll(".main-tab");
+  const tabContents = document.querySelectorAll(".main-tab-content");
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      tabContents.forEach(c => c.style.display = "none");
+      const content = document.getElementById(tab.dataset.tab);
+      if (content) content.style.display = "block";
+    });
+  });
+  tabs[0]?.click();
+}
+
+
+// MEAL RENDERING
+function renderMealItem(meal, today) {
+  const homeChefGallery = document.getElementById("home-chef-gallery");
+  const proKitchenGallery = document.getElementById("pro-kitchen-gallery");
+  const homeChefWinners = document.getElementById("home-chef-winners");
+  const proKitchenWinners = document.getElementById("pro-kitchen-winners");
+
+  const mealDiv = document.createElement("div");
+  mealDiv.className = "meal-item";
+  mealDiv.dataset.id = meal.id;
+
+  const img = document.createElement("img");
+  img.src = meal.image_url;
+  img.alt = `${meal.uploader_name}'s meal`;
+
+  const nameP = document.createElement("p");
+  nameP.textContent = meal.uploader_name;
+
+  const recipeSpan = document.createElement("span");
+  recipeSpan.className = "recipe-label";
+  recipeSpan.textContent = meal.recipe_available ? "Recipe available" : "No recipe";
+  if (meal.recipe_available) {
+    recipeSpan.classList.add("recipe-available");
+    recipeSpan.addEventListener("click", () => showRecipeModal(meal));
+  }
+
+  mealDiv.append(img, nameP, recipeSpan);
+
+  // Delete button for own meal
+  if (meal.user_id === currentUser.id && !meal.is_winner && today !== 1) {
+    const delBtn = document.createElement("button");
+    delBtn.className = "delete-meal-btn";
+    delBtn.textContent = "Delete";
+    delBtn.addEventListener("click", async () => {
+      if (!confirm("Are you sure you want to delete this meal?")) return;
+
+      const { error } = await supabase.from("meals").delete().eq("id", meal.id);
+      if (error) {
+        alert("Error deleting meal: " + error.message);
+      } else {
+        mealDiv.remove();
+        const uploadBtn = document.getElementById("uploadBtn");
+        if (uploadBtn) uploadBtn.style.display = "block";
+        const alreadyUploadedMsg = document.getElementById("alreadyUploadedMsg");
+        if (alreadyUploadedMsg) alreadyUploadedMsg.style.display = "none";
+      }
+      fetchAllData();
+    });
+    mealDiv.appendChild(delBtn);
+  }
+
+  // Image popup
+  img.addEventListener("click", () => {
+    const popup = document.getElementById("mealPopup");
+    const popupImg = document.getElementById("popupMealImage");
+    popupImg.src = img.src;
+    popup.classList.remove("hidden");
+  });
+
+  // Append to gallery
+  if (meal.is_winner) {
+    (meal.is_pro ? proKitchenWinners : homeChefWinners).appendChild(mealDiv);
+  } else {
+    (meal.is_pro ? proKitchenGallery : homeChefGallery).appendChild(mealDiv);
+  }
+}
+
+function renderMeals(meals) {
+  const today = new Date().getDay();
+  const galleries = [
+    document.getElementById("home-chef-gallery"),
+    document.getElementById("pro-kitchen-gallery"),
+    document.getElementById("home-chef-winners"),
+    document.getElementById("pro-kitchen-winners")
+  ].filter(el => el); // <-- remove nulls
+
+  galleries.forEach(el => el.innerHTML = "");
+
+  meals.forEach(meal => renderMealItem(meal, today));
+}
+
+
+// UPLOAD BUTTON & FORM
+function setupUploadButton() {
+  const uploadBtn = document.getElementById("uploadBtn");
+  if (!uploadBtn) return;
+
+  uploadBtn.addEventListener("click", () => {
+    if (!uploadBtn.classList.contains("locked")) {
+      document.getElementById("mealArtContestSmall").classList.add("hidden-meal");
+      document.getElementById("MealArtUploadContent").classList.remove("hidden-meal");
+    }
+  });
+
+  // Unlock if pro or level >= 10
+  if (currentProfile.is_pro || (currentProfile.current_level || 0) >= 1) {                      // ---- BLOCK HERE IF YOU WANT
+    uploadBtn.classList.remove("locked");
+    uploadBtn.removeAttribute("data-unlock");
+    uploadBtn.style.pointerEvents = "auto";
+    uploadBtn.style.opacity = "1";
+  }
+}
+
+function setupMealUploadForm() {
+  const mealPhotoInput = document.getElementById("mealPhoto");
+  const previewImage = document.getElementById("mealArtpreviewImage");
+  const photoPreview = document.getElementById("mealArtphotoPreview");
+  const form = document.getElementById("mealUploadForm");
+  const uploadBtn = document.getElementById("uploadBtn");
+
+  // Photo preview
+  mealPhotoInput.addEventListener("change", e => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        previewImage.src = e.target.result;
+        photoPreview.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    } else {
+      previewImage.src = "";
+      photoPreview.style.display = "none";
+    }
+  });
+
+  // Form submit
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const file = mealPhotoInput.files[0];
+    if (!file) return alert("Please select a photo before submitting.");
+
+    const foodName = document.getElementById("mealArtrecipeName").value.trim();
+    const ingredients = document.getElementById("mealArtrecipeIngredients").value.trim();
+    const instructions = document.getElementById("mealArtrecipeInstructions").value.trim();
+    const recipeAvailable = !!(foodName && ingredients && instructions);
+
+    const isProCategory = currentProfile.is_pro === true;
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${currentUser.id}_${Date.now()}.${fileExt}`;
+    const filePath = `${isProCategory ? 'pro' : 'home'}/${fileName}`;
+
+    const { error: uploadError } = await supabase.storage.from("meal-uploads").upload(filePath, file);
+    if (uploadError) return alert("Error uploading photo: " + uploadError.message);
+
+    const { data: publicUrlData } = supabase.storage.from("meal-uploads").getPublicUrl(filePath);
+    const imageUrl = publicUrlData.publicUrl;
+
+    const weekStartDate = new Date();
+    weekStartDate.setDate(weekStartDate.getDate() - weekStartDate.getDay() + 1);
+
+    const { data: newMeals, error: mealError } = await supabase
+      .from("meals")
+      .insert([{
+        user_id: currentUser.id,
+        uploader_name: currentProfile.name || "Anonymous",
+        is_pro: isProCategory,
+        image_url: imageUrl,
+        food_name: foodName,
+        ingredients,
+        instructions,
+        recipe_available: recipeAvailable,
+        week_start_date: weekStartDate.toISOString().split('T')[0]
+      }])
+      .select();
+
+    if (mealError) return alert("Error saving meal: " + mealError.message);
+
+    alert("Meal uploaded successfully!");
+    renderMeals([...currentMeals, newMeals[0]]);
+    currentMeals.push(newMeals[0]);
+
+    uploadBtn.style.display = "none";
+    document.getElementById("alreadyUploadedMsg").style.display = "block";
+    form.reset();
+    previewImage.src = "";
+    photoPreview.style.display = "none";
+    document.getElementById("MealArtUploadContent").classList.add("hidden-meal");
+    document.getElementById("mealArtContestSmall").classList.remove("hidden-meal");
+    document.querySelector(".main-tab[data-tab='participants']")?.click();
+  });
+}
+
+
+// MONDAY VOTING
+async function setupMondayVoting() {
+  const today = new Date().getDay();
+  if (today !== 1) return;
+
+  const homeChefGallery = document.getElementById("home-chef-gallery");
+  const proKitchenGallery = document.getElementById("pro-kitchen-gallery");
+  const votenote = document.getElementById("votenote");
+  if (votenote) votenote.style.display = "block";
+
+  const uploadBtn = document.getElementById("uploadBtn");
+  if (uploadBtn) uploadBtn.style.display = "none";
+
+  const uploadnote = document.getElementById("uploadnote");
+  const generalnote = document.getElementById("generalnote");
+  if (uploadnote) uploadnote.style.display = "none";
+  if (generalnote) generalnote.style.display = "none";
+
+  await addVotingToGallery(homeChefGallery, false);
+  await addVotingToGallery(proKitchenGallery, true);
+}
+
+async function addVotingToGallery(gallery, isPro) {
+  if (!gallery) return;
+  const weekStart = new Date();
+  weekStart.setDate(weekStart.getDate() - weekStart.getDay() + 1);
+  const weekStr = weekStart.toISOString().split("T")[0];
+
+  const { data: existingVote } = await supabase
+    .from("votes")
+    .select("*")
+    .eq("user_id", currentUser.id)
+    .eq("category", isPro)
+    .eq("week_start_date", weekStr)
+    .maybeSingle();
+
+  for (const mealDiv of gallery.querySelectorAll(".meal-item")) {
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = `${isPro}-vote`;
+    radio.value = mealDiv.dataset.id;
+    radio.style.marginRight = "5px";
+    if (existingVote) radio.disabled = true;
+
+    let votesSpan = mealDiv.querySelector(".votes-span");
+    if (!votesSpan) {
+      votesSpan = document.createElement("span");
+      votesSpan.classList.add("votes-span");
+      votesSpan.style.marginLeft = "10px";
+      mealDiv.appendChild(votesSpan);
+    }
+
+    const { data: mealData } = await supabase
+      .from("meals")
+      .select("votes")
+      .eq("id", mealDiv.dataset.id)
+      .single();
+    votesSpan.textContent = `Votes: ${mealData?.votes || 0}`;
+
+    mealDiv.prepend(radio);
+  }
+
+  const submitBtn = document.createElement("button");
+  submitBtn.textContent = "Submit Vote";
+  submitBtn.classList.add("button");
+  submitBtn.style.marginTop = "10px";
+  submitBtn.disabled = !!existingVote;
+
+  submitBtn.addEventListener("click", async () => {
+    const selected = gallery.querySelector(`input[name='${isPro}-vote']:checked`);
+    if (!selected) return alert("Please select a meal to vote!");
+    const mealId = selected.value;
+
+    await supabase.from("votes").insert([{
+      user_id: currentUser.id,
+      meal_id: mealId,
+      category: isPro,
+      week_start_date: weekStr
+    }]);
+
+    const votesSpan = selected.parentElement.querySelector(".votes-span");
+    let currentVotes = parseInt(votesSpan.textContent.replace("Votes: ", "")) || 0;
+    currentVotes += 1;
+    votesSpan.textContent = `Votes: ${currentVotes}`;
+
+    gallery.querySelectorAll("input").forEach(r => r.disabled = true);
+    submitBtn.disabled = true;
+
+    await supabase.from("meals").update({ votes: currentVotes }).eq("id", mealId);
+
+    alert("Vote submitted! Thank you.");
+  });
+
+  gallery.parentElement.appendChild(submitBtn);
+}
+
+
+// RECIPE MODAL CLOSE
+function setupRecipeModalClose() {
+  document.getElementById("mealArtcloseModal").addEventListener("click", closeRecipeModal);
+  window.addEventListener("click", e => {
+    if (e.target.id === "mealArtrecipeModal") closeRecipeModal();
+  });
+}
+
+function updateMealArtNotes(today) {
+  const uploadBtn = document.getElementById("uploadBtn");
+  const votenote = document.getElementById("votenote");
+  const uploadnote = document.getElementById("uploadnote");
+  const generalnote = document.getElementById("generalnote");
+  const alreadyUploadedMsg = document.getElementById("alreadyUploadedMsg");
+
+  if (today === 1) { // Monday — voting day
+    votenote?.classList.remove("hidden-meal");
+    uploadBtn?.classList.add("hidden-meal");
+    uploadnote?.classList.add("hidden-meal");
+    generalnote?.classList.add("hidden-meal");
+  } else { // Tuesday-Sunday — upload day
+    votenote?.classList.add("hidden-meal");
+    uploadBtn?.classList.remove("hidden-meal");
+    generalnote?.classList.remove("hidden-meal");
+
+    // Show uploadnote only for non-pro
+    if (!currentProfile.is_pro) {
+      uploadnote?.classList.remove("hidden-meal");
+    } else {
+      uploadnote?.classList.add("hidden-meal");
+    }
+
+    // Check if user already uploaded
+    if (currentMeals.some(m => m.user_id === currentUser.id && !m.is_winner)) {
+      uploadBtn?.classList.add("hidden-meal");
+      alreadyUploadedMsg?.classList.remove("hidden-meal");
+      uploadnote?.classList.add("hidden-meal");
+    } else {
+      alreadyUploadedMsg?.classList.add("hidden-meal");
+    }
+  }
+}
+
+// ----------------------------
+// EXTRA LESSONS 
+// ----------------------------
+// Render lessons per course
+function renderExtraLessons() {
+  if (!extralessonsData) return;
+
+  Object.keys(extralessonsData).forEach(courseKey => {
+    const course = document.getElementById(courseKey);
+    if (!course) return;
+
+    const lessonList = course.querySelector(".extralesson-list");
+    if (!lessonList) return;
+
+    lessonList.innerHTML = ""; // clear
+
+    extralessonsData[courseKey].forEach((lesson, index) => {
+      const li = document.createElement("li");
+      li.dataset.step = index + 1;
+      li.className = index === 0 ? "extralesson unlocked" : "extralesson locked";
+      li.innerHTML = `
+        <div class="extralesson-title">
+          <span class="extralesson-icon">${index === 0 ? "🟢" : "🔒"}</span>
+          ${lesson.title}
+        </div>
+        <div class="extralesson-content"></div>
+      `;
+      lessonList.appendChild(li);
+    });
+  });
+}
+
+// Setup click handlers for lessons
+function setupExtraLessonClicks() {
+  if (!extralessonsData) return;
+
+  ["animals", "earth", "health"].forEach(courseId => {
+    const course = document.getElementById(courseId);
+    if (!course) return;
+
+    const lessons = course.querySelectorAll(".extralesson");
+    lessons.forEach((lesson, idx) => {
+      const contentContainer = lesson.querySelector(".extralesson-content");
+      const title = lesson.querySelector(".extralesson-title");
+      if (!title) return;
+
+      title.addEventListener("click", async () => {
+        if (lesson.classList.contains("locked")) return;
+
+        // Close other lessons
+        lessons.forEach(l => {
+          if (l !== lesson) l.querySelector(".extralesson-content")?.classList.remove("active");
+        });
+
+        contentContainer.classList.toggle("active");
+
+        // Load question if not first lesson
+        const questionObj = idx > 0 ? extralessonsData[courseId][idx - 1].question : null;
+
+        if (!contentContainer.innerHTML.trim()) {
+          let innerHTML = "";
+
+          if (questionObj) {
+            innerHTML += `
+              <p><strong>${questionObj.text}</strong></p>
+              ${questionObj.options.map((opt, i) => `
+                <label style="display:block; margin-bottom:0.3rem;">
+                  <input type="radio" name="extraquiz-${courseId}-${idx}" value="${i}"> ${opt}
+                </label>`).join("")}
+              <button class="extraquiz-submit">Submit Answer</button>
+              <div class="extraquiz-feedback" style="margin:0.5rem 0; color:red"></div>
+            `;
+          }
+
+          innerHTML += `
+            <div class="extralesson-text" style="margin-top:0.5rem; display:${questionObj ? "none" : "block"};">
+              <p>${extralessonsData[courseId][idx].content}</p>
+              <button class="complete-btn">I have read it ✅</button>
+            </div>
+          `;
+
+          contentContainer.innerHTML = innerHTML;
+
+          // Quiz submission
+          if (questionObj) {
+            const submitBtn = contentContainer.querySelector(".extraquiz-submit");
+            const feedback = contentContainer.querySelector(".extraquiz-feedback");
+            const lessonText = contentContainer.querySelector(".extralesson-text");
+
+            submitBtn.addEventListener("click", e => {
+              e.stopPropagation();
+              const selected = contentContainer.querySelector(`input[name="extraquiz-${courseId}-${idx}"]:checked`);
+              if (!selected) { feedback.textContent = "Please select an answer!"; return; }
+              if (parseInt(selected.value) !== questionObj.correctIndex) { feedback.textContent = "Wrong answer, try again!"; return; }
+
+              feedback.textContent = "";
+              lessonText.style.display = "block";
+              submitBtn.style.display = "none";
+            });
+          }
+
+          // Complete button
+          const completeBtn = contentContainer.querySelector(".complete-btn");
+          completeBtn.addEventListener("click", async e => {
+            e.stopPropagation();
+            lesson.classList.remove("unlocked");
+            lesson.classList.add("completed");
+
+            // Save progress using global profile
+            await saveExtraLessonProgress();
+
+            // Refresh lessons immediately
+            renderExtraLessons();
+            setupExtraLessonClicks();
+            applyExtraLessonProgress();
+
+            // Scroll to next lesson
+            const nextLesson = document.querySelector(`#${CSS.escape(courseId)} .extralesson[data-step="${idx + 2}"]`);
+            if (nextLesson) nextLesson.scrollIntoView({ behavior: "smooth", block: "center" });
+
+            // Close current content
+            contentContainer.classList.remove("active");
+            contentContainer.innerHTML = "";
+          });
+        }
+      });
+    });
+  });
+}
+
+// Save progress using currentProfile if available
+async function saveExtraLessonProgress() {
+  if (!currentProfile) return;
+
+  const previousProgress = currentProfile.extra_lesson || {};
+  let totalXp = currentProfile.total_xp || 0;
+
+  const progress = {};
+  let newLessonsCompleted = 0;
+
+  Object.keys(extralessonsData).forEach(courseId => {
+    progress[courseId] = [];
+    const lessons = document.querySelectorAll(`#${courseId} .extralesson`);
+    lessons.forEach((lesson, idx) => {
+      if (lesson.classList.contains("completed")) {
+        progress[courseId].push(idx + 1);
+        if (!previousProgress[courseId] || !previousProgress[courseId].includes(idx + 1)) {
+          newLessonsCompleted++;
+        }
+      }
+    });
+  });
+
+  totalXp += newLessonsCompleted * 5;
+
+  // Update profile using global supabase
+  const { error } = await supabase
+    .from("profiles")
+    .update({ extra_lesson: progress, total_xp: totalXp })
+    .eq("id", currentProfile.id);
+
+  if (error) console.error("Error saving extra lesson progress:", error);
+  else currentProfile.extra_lesson = progress;
+  currentProfile.total_xp = totalXp;
+
+  // Optionally refresh profile on page
+  const { profile, globalImpact } = await fetchAllData();
+  await renderProfile(profile, globalImpact);
+}
+
+// Apply saved progress to DOM (no extra fetch)
+function applyExtraLessonProgress() {
+  if (!currentProfile || !currentProfile.extra_lesson) return;
+
+  Object.keys(currentProfile.extra_lesson).forEach(courseId => {
+    const lessons = document.querySelectorAll(`#${courseId} .extralesson`);
+    const completedLessons = currentProfile.extra_lesson[courseId] || [];
+
+    lessons.forEach((lesson, idx) => {
+      if (completedLessons.includes(idx + 1)) lesson.className = "extralesson completed";
+      else if (idx === 0 || completedLessons.includes(idx)) lesson.className = "extralesson unlocked";
+      else lesson.className = "extralesson locked";
+
+      lesson.querySelector(".extralesson-icon").textContent =
+        lesson.classList.contains("completed") ? "✅" :
+        lesson.classList.contains("unlocked") ? "🟢" : "🔒";
+    });
+  });
+}
+
+// COURSE BUTTONS
+function setupCourseButtons() {
+  document.querySelectorAll(".learning-path-buttons .path-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const path = btn.dataset.path;
+      document.querySelectorAll(".course").forEach(c => c.classList.add("hidden"));
+      document.getElementById(path)?.classList.remove("hidden");
+    });
+  });
+}
+
+// ----------------------------
+// RECIPES
+// ----------------------------
+
+async function loadRecipes() {
+  const { data: userData } = await supabase.auth.getUser();
+  const userId = userData?.user?.id;
+
+  if (!userId) return; // user not logged in
+
+  // CALL RPC FUNCTION instead of direct table/view
+  const { data, error } = await supabase
+    .rpc("get_recipes_with_likes", { user_uuid: userId })
+    .order('like_count', { ascending: false }); 
+
+  if (error) return console.error("Error fetching recipes:", error);
+
+  const container = document.getElementById("recipes-container");
+  container.innerHTML = "";
+
+  const modal = document.getElementById("recipe-modal");
+  const modalImg = document.getElementById("modal-img");
+  const modalTitle = document.getElementById("modal-title");
+  const modalIngredients = document.getElementById("modal-ingredients");
+  const modalInstructions = document.getElementById("modal-instructions");
+  const closeBtn = modal.querySelector(".close-btn");
+
+  closeBtn.addEventListener("click", () => modal.classList.add("hidden-modal"));
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) modal.classList.add("hidden-modal");
+  });
+
+  data.forEach(recipe => {
+    const card = document.createElement("div");
+    card.className = "recipe-card";
+    card.innerHTML = `
+      <img src="${recipe.image_url}" alt="${recipe.title}" class="recipe-img">
+      <div class="recipe-title">${recipe.title}</div>
+      <button class="like-btn ${recipe.liked_by_user ? "liked" : "not-liked"}" data-id="${recipe.id}">
+        <span class="heart-icon"></span>
+        <span class="like-count">${recipe.like_count}</span>
+    </button>
+    `;
+
+    // Add delete button if this recipe belongs to the current user
+    if (recipe.user_id === userId) {
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "x";
+      deleteBtn.className = "delete-btn";
+      deleteBtn.addEventListener("click", async (e) => {
+        e.stopPropagation(); // Prevent modal from opening
+        if (!confirm("Are you sure you want to delete this recipe?")) return;
+
+        const { error: delError } = await supabase
+          .from("recipes")
+          .delete()
+          .eq("id", recipe.id);
+
+        if (delError) return console.error("Delete failed:", delError);
+
+        // Optionally, delete the image from storage
+        await supabase.storage.from("recipes").remove([recipe.image_url.split("/").pop()]);
+
+        // Remove card from DOM
+        card.remove();
+      });
+
+      card.appendChild(deleteBtn);
+    }
+
+    // Card click opens modal
+    card.querySelector(".recipe-img, .recipe-title").addEventListener("click", () => {
+      modalImg.src = recipe.image_url;
+      modalTitle.textContent = recipe.title;
+      modalIngredients.innerHTML = "<strong>Ingredients:</strong><br>" + recipe.ingredients;
+      modalInstructions.innerHTML = "<strong>Instructions:</strong><br>" + recipe.description;
+      modal.classList.remove("hidden-modal");
+    });
+
+    // Like button toggle
+    const likeBtn = card.querySelector(".like-btn");
+    likeBtn.addEventListener("click", () => toggleLike(recipe.id, userId, likeBtn));
+
+    container.appendChild(card);
+  });
+}
+
+
+// Toggle like function
+async function toggleLike(recipeId, userId) {
+  const likeBtn = document.querySelector(`.like-btn[data-id="${recipeId}"]`);
+  const countSpan = likeBtn.querySelector(".like-count");
+
+  // Prevent spamming
+  if (likeBtn.disabled) return;
+  likeBtn.disabled = true;
+
+  try {
+    const { data: existingLikes, error } = await supabase
+      .from("recipe_likes")
+      .select("*")
+      .eq("recipe_id", recipeId)
+      .eq("user_id", userId);
+
+    if (error) throw error;
+
+    if (existingLikes.length > 0) {
+      // Remove like
+      const { error: delError } = await supabase
+        .from("recipe_likes")
+        .delete()
+        .eq("recipe_id", recipeId)
+        .eq("user_id", userId);
+      if (delError) throw delError;
+
+      likeBtn.classList.remove("liked");
+      likeBtn.classList.add("not-liked");
+      countSpan.textContent = parseInt(countSpan.textContent) - 1;
+    } else {
+      // Add like
+      const { error: insertError } = await supabase
+        .from("recipe_likes")
+        .insert([{ recipe_id: recipeId, user_id: userId }]);
+      if (insertError) throw insertError;
+
+      likeBtn.classList.remove("not-liked");
+      likeBtn.classList.add("liked");
+      countSpan.textContent = parseInt(countSpan.textContent) + 1;
+    }
+  } catch (err) {
+    console.error(err);
+  } finally {
+    likeBtn.disabled = false; // Re-enable after request completes
+  }
+}
+// ----------------------------
+// COMMUNITY
+// ----------------------------
+
+
+
+
+
+
+
+
+
+
+
+// ----------------------------
+// MENTORSHIP
+// ----------------------------
+function setupMentorshipUI() {
+  const applyBtn = document.getElementById("applyMentorBtn");
+  const cancelBtn = document.getElementById("mentor-cancel");
+  const submitBtn = document.getElementById("mentor-submit");
+
+  if (applyBtn) {
+    applyBtn.addEventListener("click", () => {
+      document.getElementById("mentor-popup")?.classList.remove("mentor-hidden");
+    });
+  }
+
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", () => {
+      document.getElementById("mentor-popup")?.classList.add("mentor-hidden");
+    });
+  }
+
+  if (submitBtn) {
+    submitBtn.addEventListener("click", async () => {
+      submitBtn.disabled = true;
+
+      const years = document.getElementById("mentor-years").value;
+      if (years === "" || isNaN(years)) {
+        alert("Please enter valid years.");
+        submitBtn.disabled = false;
+        return;
+      }
+
+      const user = currentUser;
+      const profile = currentProfile;
+      if (!user || !profile) {
+        alert("You must be logged in.");
+        submitBtn.disabled = false;
+        return;
+      }
+
+      // Insert mentor
+      const { error } = await supabase.from("mentors").insert({
+        user_id: user.id,
+        name: profile.name,
+        profile_photo: profile.profile_photo || "",
+        email: profile.email,
+        years_vegan: parseInt(years, 10)
+      });
+
+      if (error) {
+        console.error(error);
+        alert("Failed to submit mentorship.");
+        submitBtn.disabled = false;
+        return;
+      }
+
+      alert("Mentor application submitted!");
+      document.getElementById("mentor-popup")?.classList.add("mentor-hidden");
+      submitBtn.disabled = false;
+
+      loadMentors();          // refresh mentors list
+      checkAndToggleMentorUI(); // refresh UI
+    });
+  }
+}
+async function loadMentors() {
+
+
+  const user = currentUser;
+  if (!user) return;
+
+  const mentorsList = document.getElementById("mentorsList");
+  mentorsList.innerHTML = "<li>Loading mentors...</li>";
+
+  const { data: mentors, error } = await supabase
+    .from("mentors")
+    .select("id, user_id, name, profile_photo, years_vegan");
+
+  if (error) {
+    console.error(error);
+    mentorsList.innerHTML = "<li>Error loading mentors.</li>";
+    return;
+  }
+
+  mentorsList.innerHTML = "";
+  const demoCard = document.getElementById("ProfileCardDemo");
+
+  const isMentor = mentors.some(m => m.user_id === user.id);
+
+  mentors.forEach(mentor => {
+    const li = document.createElement("li");
+    li.className = "mentor-item";
+    li.innerHTML = `
+      <img src="${mentor.profile_photo}" alt="${mentor.name}" class="mentor-photo">
+      <div class="mentor-info">
+        <p class="mentor-name">${mentor.name}</p>
+        <p class="mentor-years">${mentor.years_vegan} years vegan</p>
+      </div>
+      <button class="mentor-message-btn" data-id="${mentor.id}">Message</button>
+    `;
+
+    mentorsList.appendChild(li);
+
+    // Avatar click shows demo
+    li.querySelector(".mentor-photo")?.addEventListener("click", () => demoCard.classList.add("show"));
+
+    // Message button
+    const msgBtn = li.querySelector(".mentor-message-btn");
+    msgBtn.addEventListener("click", () => startChatWithMentor(mentor));
+    if (isMentor) msgBtn.style.display = "none";
+  });
+
+  // Close demo card button
+  demoCard.querySelector(".close-btn")?.addEventListener("click", () => demoCard.classList.remove("show"));
+}
+async function checkAndToggleMentorUI() {
+  const user = currentUser;
+  if (!user) return;
+
+  const { data: mentorRecord } = await supabase
+    .from("mentors")
+    .select("*")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  const isMentor = !!mentorRecord;
+
+  const applyBtn = document.getElementById("applyMentorBtn");
+  const alreadyMentor = document.getElementById("alrdymentor");
+  const connectWithMentor = document.getElementById("ConnectWithAMentor");
+
+  if (isMentor) {
+    applyBtn.style.display = "none";
+    alreadyMentor.style.display = "flex";
+    connectWithMentor.style.display = "none";
+  } else {
+    applyBtn.style.display = "inline-block";
+    alreadyMentor.style.display = "none";
+  }
+
+  const endBtn = document.getElementById("endmentorship");
+  endBtn?.addEventListener("click", async () => {
+    const { error } = await supabase.from("mentors").delete().eq("user_id", user.id);
+    if (error) { console.error(error); alert("Failed to end mentorship."); return; }
+    alert("Mentorship ended.");
+    applyBtn.style.display = "inline-block";
+    alreadyMentor.style.display = "none";
+    loadMentors();
+  });
+}
+function setupDemoCard() {
+  const demoCard = document.getElementById("ProfileCardDemo");
+  const closeBtn = demoCard.querySelector(".close-btn");
+
+  closeBtn?.addEventListener("click", () => demoCard.classList.remove("show"));
+
+  document.addEventListener("click", e => {
+    if (demoCard.classList.contains("show") &&
+        !demoCard.contains(e.target) &&
+        !e.target.classList.contains("mentor-photo")) {
+      demoCard.classList.remove("show");
+    }
+  });
+}
+
+
+// ----------------------------
+// LEADERBOARDS
+// ----------------------------
+// Render leaderboard
+function renderLeaderboard(ulId, data, type) {
+  const ul = document.getElementById(ulId);
+  if (!ul) return;
+
+  ul.innerHTML = data.map((user, index) => {
+    switch(type) {
+      case 'streak':
+        return `<li>${index + 1}. ${user.name} 🌱 – ${user.streak} days</li>`;
+      case 'xp':
+        return `<li>${index + 1}. ${user.name} 💫 – XP: ${user.total_xp}, (Level ${user.level})</li>`;
+      case 'impact':
+        return `<li>${index + 1}. ${user.name} 🌿 – ${user.animals_saved || 0} animals, ${user.water_saved || 0}L water, ${user.forest_saved || 0} trees, ${user.co2_saved || 0}kg CO₂</li>`;
+      default:
+        return `<li>${index + 1}. ${user.name}</li>`;
+    }
+  }).join('');
+}
+
+// Fetch leaderboard
+async function fetchLeaderboard(leaderboardType, ulId, limitCount = 10) {
+  let rpcName;
+
+  switch(leaderboardType) {
+    case 'xp':
+      rpcName = 'get_leaderboard_level';
+      break;
+    case 'impact':      // <-- use 'impact' here
+      rpcName = 'get_leaderboard_impact';
+      break;
+    default:            // streak / other
+      rpcName = 'get_leaderboard';
+      break;
+  }
+
+  const { data, error } = await supabase.rpc(rpcName, { limit_count: limitCount });
+
+  if (error) {
+    console.error(`Error fetching ${leaderboardType} leaderboard:`, error);
+    return;
+  }
+
+  renderLeaderboard(ulId, data, leaderboardType);
+}
+
+// Fetch all
+async function fetchAllLeaderboards() {
+  await fetchLeaderboard('xp', 'overall-level');
+  await fetchLeaderboard('streak', 'overall-streak');
+  await fetchLeaderboard('impact', 'overall-impact'); // Only three leaderboards
+}
+//--------------------------
+// INIT
+//--------------------------
+document.addEventListener("DOMContentLoaded", async () => {
+    //pageload
+  showLoading(true);
+  try {
+    await fetchAllData();
+    await renderProfile();
+    await loadWinnersFromData();
+
+  } catch (err) {
+    console.error("Error initializing mainpage:", err);
+  }
+
+  //dailycheckin
+
+  try {
+    getTodaysLessonFromProfile(currentProfile);
+    renderTodaysLesson();
+    renderYesterdaysQuiz(currentProfile);
+
+    window.handleSubmit = handleSubmit;
+  } catch (err) {
+    console.error("Daily Check-in setup error:", err);
+  }
+  //Healthlessons
+  await initHealthPaths();
+
+//Comparison
+if (currentProfile) {
+  injectComparisonSentences(currentProfile);
+} else {
+  console.warn("currentProfile not available yet — comparison sentences not injected.");
+}
+
+//MEALART
+setupTabs();
+  setupUploadButton();
+  setupMealUploadForm();
+  setupRecipeModalClose();
+  renderMeals(currentMeals);
+  await setupMondayVoting();
+
+  const modal = document.getElementById("mealArtrecipeModal");
+if (modal) {
+    modal.classList.add("hidden-meal");
+    modal.style.display = "none"; // force hide
+  }
+  const today = new Date().getDay();
+  updateMealArtNotes(today);
+
+//EXTRA LESSONS
+// Ensure extralessonsData and currentProfile are already loaded
+  if (!extralessonsData) {
+    console.warn("extralessonsData not loaded yet!");
+    return;
+  }
+  if (!currentProfile) {
+    console.warn("currentProfile not available yet!");
+    return;
+  }
+  // Render lessons and apply existing progress
+  renderExtraLessons();
+  applyExtraLessonProgress();
+  // Setup click handlers for lessons
+  setupExtraLessonClicks();
+  // Setup course buttons
+  setupCourseButtons();
+//EXTRA LESSONS
+await loadRecipes();
+
+  
+
+
+
+
+
+
+
+//Mentorship
+await setupMentorshipUI();
+await setupDemoCard();
+await loadMentors();
+await checkAndToggleMentorUI();
+
+//LeaderBoards
+await fetchAllLeaderboards();
+
+//Show page after everything is loaded:
+  showLoading(false);
+});
+
+
+
+
+
+
+
+
+ 

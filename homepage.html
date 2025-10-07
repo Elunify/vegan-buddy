@@ -8,9 +8,18 @@
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>  
 </head>
 <body>
-  <div id="loadingOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:white; z-index:9999;">
-  <p style="text-align:center; margin-top:50vh;">Loading...</p>
-  </div>
+  <div id="loading" style="
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: white;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+">
+  <p>Loading...</p>
+</div>
 
 <div id="homepageContent" style="opacity:0;">
   <!-- All homepage content here -->
@@ -544,7 +553,7 @@
 
     <!-- Buttons -->
   <div class="header-buttons">
-  <button id="uploadBtn" class="locked" data-unlock="🔓 Unlock at Lvl 10" style="display:none;">Upload My Meal</button>
+  <button id="uploadBtn" class="locked hidden-meal" data-unlock="🔓 Unlock at Lvl 10">Upload My Meal</button>
   
   <p class="uploadnote hidden-meal" id="uploadnote">
     <a href="mailto:elunify.app@gmail.com">Restaurants: Request Pro Kitchen access — no level needed!</a>
@@ -553,7 +562,7 @@
   <p class="votenote hidden-meal" id="votenote">It's a vote day! Pick your favorite!</p>
   
   <!-- New message when user already uploaded -->
-  <p class="already-uploaded" id="alreadyUploadedMsg" style="display:none; color: green; font-weight: bold;">
+  <p class="already-uploaded hidden-meal" id="alreadyUploadedMsg" style="color: green; font-weight: bold;">
     You uploaded your meal this week, congratulations!
   </p>
 </div>
@@ -1598,96 +1607,15 @@
 
 </div> 
 
+<script type="module" src="mainscript.js"></script>
 <script type="module" src="scriptpools.js"></script>
-<script type="module" src="scriptfunctions.js"></script>
-<script type="module" src="scriptreads.js"></script>
-<script type="module" src="scriptmealartcontest.js"></script> 
 <script src="scriptbuttons.js"></script>
 
 <!-- Optional: Google Maps API (if needed) -->
 <script
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwHL9UaF4A7qSZt_qkW2QrZVnQWXeVFNs&libraries=places,marker&callback=initMap"
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwHL9UaF4A7qSZt_qkW2QrZVnQWXeVFNs&libraries=places,marker"
   async defer>
 </script>
 
-
-  <script type="module">
-  import { supabase } from "./supabaseClient.js";
-  document.addEventListener("DOMContentLoaded", async () => {
-  const loadingOverlay = document.getElementById("loadingOverlay");
-  const homepageContent = document.getElementById("homepageContent"); // wrap your homepage content
-
-  // Helper: Calculate level from XP
-  function getLevelFromXP(totalXP) {
-    let level = 1;
-    let xpNeededForNext = 100;
-    let xpLeft = totalXP;
-
-    while (xpLeft >= xpNeededForNext && level < 100) {
-      xpLeft -= xpNeededForNext;
-      level++;
-      xpNeededForNext = Math.floor(xpNeededForNext * 1.05);
-    }
-
-    return { level, xpTowardsNextLevel: xpLeft, xpNeededForNextLevel: xpNeededForNext };
-  }
-
-  // Wait for auth and profile
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-  if (!user || authError) {
-    console.warn("Not logged in or auth error:", authError);
-    if (loadingOverlay) loadingOverlay.style.display = "none";
-    if (homepageContent) homepageContent.style.opacity = 1;
-    return;
-  }
-
-  const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .single();
-
-  if (!profile || profileError) {
-    console.error("Profile not found:", profileError);
-    if (loadingOverlay) loadingOverlay.style.display = "none";
-    if (homepageContent) homepageContent.style.opacity = 1;
-    return;
-  }
-
-  // Wait for all images on the page
-  await Promise.all(Array.from(document.images).map(img => {
-    if (img.complete) return Promise.resolve();
-    return new Promise(resolve => img.onload = img.onerror = resolve);
-  }));
-
-  // Optional delay 
-  await new Promise(resolve => setTimeout(resolve, 600)); //1000 = 1 second
-
-  // Update XP progress
-  const countersElements = {
-    levelBar: document.getElementById('levelProgress'),
-    currentLevelEl: document.getElementById("currentLevel"),
-  };
-
-  const { level, xpTowardsNextLevel, xpNeededForNextLevel } = getLevelFromXP(profile.total_xp || 0);
-
-  if (countersElements.levelBar) {
-    if (level >= 100) {
-      countersElements.levelBar.style.display = "none";
-    } else {
-      countersElements.levelBar.style.display = "block";
-      let progressPercent = (xpTowardsNextLevel / xpNeededForNextLevel) * 100;
-      progressPercent = Math.min(progressPercent, 100);
-      countersElements.levelBar.style.width = progressPercent + '%';
-      // countersElements.levelBar.textContent = progressPercent.toFixed(0) + '%'; // optional
-      if (countersElements.currentLevelEl) countersElements.currentLevelEl.textContent = level;
-    }
-  }
-
-  // Show the page
-  if (loadingOverlay) loadingOverlay.style.display = "none";
-  if (homepageContent) homepageContent.style.opacity = 1;
-});
-</script>
 </body>
 </html>
