@@ -60,7 +60,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     } else {
       uploadBtn.style.display = "inline-block";
       uploadnote.style.display = profile.is_pro ? "none" : "inline-block";
-      if (profile.is_pro || profile.current_level >= 10) {
+      if (profile.is_pro || profile.current_level >= 1 //-------------------- Lock section here until a level if it's necessary once!
+      ) {
         uploadBtn.classList.remove("locked");
         uploadBtn.removeAttribute("data-unlock");
         uploadBtn.style.pointerEvents = "auto";
@@ -210,6 +211,11 @@ img.addEventListener("click", () => {
         .eq("category", isPro)
         .eq("week_start_date", weekStr)
         .maybeSingle();
+
+setTimeout(async () => {
+  console.log("Finalizing weekly contest...");
+  await finalizeWeekContest();
+}, getMillisUntilEndOfDay());
 
       for (const meal of gallery.querySelectorAll(".meal-item")) {
   const radio = document.createElement("input");
