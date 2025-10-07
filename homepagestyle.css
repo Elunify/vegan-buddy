@@ -238,7 +238,7 @@ html, body {
 
 .level-bar {
   display: block;
-  margin-top: 8px;
+  margin-top: 2px;
 }
 .progress {
   background: #81C784;
