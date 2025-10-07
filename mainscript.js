@@ -1665,6 +1665,440 @@ async function toggleLike(recipeId, userId) {
 // ----------------------------
 // COMMUNITY
 // ----------------------------
+let joinedLocationId = null;
+let firstLoad = true;
+let messageChannel = null;
+
+// ----------------------------
+// Load countries and cities
+// ----------------------------
+async function loadLocations() {
+  const { data, error } = await supabase
+    .from("locations")
+    .select("*")
+    .order("country");
+
+  if (error) return console.error(error);
+
+  const countries = [...new Set(data.map(l => l.country))];
+  const countrySelect = document.getElementById("countrySelect");
+  const citySelect = document.getElementById("citySelect");
+
+  // Populate countries
+  countries.forEach(c => {
+    const option = document.createElement("option");
+    option.value = c;
+    option.textContent = c;
+    countrySelect.appendChild(option);
+  });
+
+  countrySelect.addEventListener("change", () => {
+    const selectedCountry = countrySelect.value;
+    citySelect.innerHTML = '<option value="">Select city</option>';
+    citySelect.disabled = !selectedCountry;
+
+    data.filter(l => l.country === selectedCountry).forEach(l => {
+      const option = document.createElement("option");
+      option.value = l.id;
+      option.textContent = l.city;
+      citySelect.appendChild(option);
+    });
+
+    document.getElementById("joinCommunityBtn").disabled = true;
+  });
+
+  citySelect.addEventListener("change", e => {
+    document.getElementById("joinCommunityBtn").disabled = !e.target.value;
+  });
+}
+
+// ----------------------------
+// Load user community if exists
+// ----------------------------
+async function loadUserCommunity(currentUser) {
+  if (!currentUser) return;
+
+  const { data: participant, error } = await supabase
+    .from("community_participants")
+    .select("id, location_id")
+    .eq("user_id", currentUser.id)
+    .maybeSingle();
+
+  if (error) return console.error(error);
+
+  if (participant) {
+    const { data: location, error: locationError } = await supabase
+      .from("locations")
+      .select("country, city")
+      .eq("id", participant.location_id)
+      .single();
+
+    if (locationError) return console.error(locationError);
+
+    const locationName = `${location.city}, ${location.country}`;
+    document.getElementById("joinedCommunityText").textContent = `You are in the community: ${locationName}`;
+    document.getElementById("leaveCommunityBtn").style.display = "inline-block";
+    document.getElementById("joinCommunityBtn").style.display = "none";
+
+    await showCommunityDashboard(participant.location_id, locationName);
+  }
+}
+
+// ----------------------------
+// Show community dashboard
+// ----------------------------
+async function showCommunityDashboard(locationId, locationName) {
+  joinedLocationId = locationId;
+  firstLoad = true;
+
+  document.getElementById("joinCommunityCard").style.display = "none";
+  document.getElementById("joinedCommunityText").textContent = `You are in the community: ${locationName}`;
+  document.getElementById("communityDashboard").style.display = "block";
+  document.getElementById("communityTitle").textContent = `${locationName} Community`;
+
+  // Hide chat & events initially
+  document.getElementById("communityChatSection").style.display = "none";
+  document.getElementById("communityEventsSection").style.display = "none";
+
+  await loadCommunityMessages(locationId);
+  await loadCommunityEvents(locationId);
+  await showCommunityMembers(locationId);
+
+  setupRealtimeMessages(locationId);
+}
+
+// ----------------------------
+// Load community messages
+// ----------------------------
+async function loadCommunityMessages(locationId) {
+  if (!locationId) return;
+
+  const { data, error } = await supabase
+    .from("community_messages")
+    .select("*")
+    .eq("location_id", locationId)
+    .order("created_at", { ascending: true });
+
+  if (error) return console.error(error);
+
+  const container = document.getElementById("communityMessages");
+  if (!container) return;
+
+  const wasAtBottom = !firstLoad &&
+    container.scrollHeight - container.scrollTop <= container.clientHeight + 50;
+
+  container.innerHTML = "";
+  data.forEach(msg => {
+    const div = document.createElement("div");
+    div.classList.add("chat-message");
+    div.textContent = `${msg.username}: ${msg.content}`;
+    div.classList.add(msg.user_id === currentUser?.id ? "my-message" : "their-message");
+    container.appendChild(div);
+  });
+
+  await new Promise(requestAnimationFrame);
+
+  if (firstLoad || wasAtBottom) {
+    container.lastElementChild?.scrollIntoView({ block: "end", behavior: "auto" });
+    firstLoad = false;
+  }
+}
+
+// ----------------------------
+// Send community message
+// ----------------------------
+async function sendCommunityMessage() {
+  const text = document.getElementById("communityMessageInput").value.trim();
+  if (!text || !joinedLocationId) return alert("You are not in a community.");
+
+  const { error } = await supabase.from("community_messages").insert([{
+    user_id: currentUser.id,
+    username: currentProfile.name,
+    location_id: joinedLocationId,
+    content: text
+  }]);
+
+  if (error) return console.error(error);
+
+  document.getElementById("communityMessageInput").value = "";
+  await loadCommunityMessages(joinedLocationId);
+}
+
+document.getElementById("sendCommunityMessageBtn").addEventListener("click", sendCommunityMessage);
+
+// ----------------------------
+// Real-time messages
+// ----------------------------
+function setupRealtimeMessages(locationId) {
+  if (messageChannel) supabase.removeChannel(messageChannel);
+
+  messageChannel = supabase
+    .channel(`community_messages_${locationId}`)
+    .on(
+      "postgres_changes",
+      { event: "INSERT", schema: "public", table: "community_messages", filter: `location_id=eq.${locationId}` },
+      payload => {
+        const container = document.getElementById("communityMessages");
+        const msg = payload.new;
+
+        const div = document.createElement("div");
+        div.classList.add("chat-message");
+        div.textContent = `${msg.username}: ${msg.content}`;
+        div.classList.add(msg.user_id === currentUser?.id ? "my-message" : "their-message");
+        container.appendChild(div);
+
+        if (container.offsetParent !== null) div.scrollIntoView({ block: "end", behavior: "auto" });
+      }
+    )
+    .subscribe();
+}
+function scrollCommunityChatToBottom() {
+  const container = document.getElementById("communityMessages");
+  if (container && container.children.length > 0) {
+    container.lastElementChild.scrollIntoView({ block: "end", behavior: "auto" });
+  }
+}
+// ----------------------------
+// Community members
+// ----------------------------
+async function showCommunityMembers(locationId) {
+  const membersList = document.getElementById("communityMembersList");
+  membersList.innerHTML = "";
+
+  const demoCard = document.getElementById("ProfileCardDemo");
+  demoCard.querySelector(".close-btn")?.addEventListener("click", () => demoCard.classList.remove("show"));
+
+  // Fetch members
+  const { data: members, error } = await supabase
+    .from("community_participants")
+    .select("user_id, name, profile_photo, email")
+    .eq("location_id", locationId);
+
+  if (error) return console.error(error);
+
+  // Fetch friends & sent requests
+  const { data: friendsData } = await supabase
+    .from("friends")
+    .select("*")
+    .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
+
+  const friends = Array.isArray(friendsData) ? friendsData : [];
+
+  const { data: sentRequests } = await supabase
+    .from("friend_requests")
+    .select("receiver_email")
+    .eq("sender_id", currentUser.id)
+    .eq("status", "pending");
+
+  members.forEach(member => {
+    const li = document.createElement("li");
+
+    const img = document.createElement("img");
+    img.src = member.profile_photo || "default.jpg";
+    img.alt = member.name;
+    img.addEventListener("click", e => {
+      e.stopPropagation();
+      demoCard.classList.add("show");
+    });
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = member.name;
+
+    li.appendChild(img);
+    li.appendChild(nameSpan);
+
+    if (member.user_id !== currentUser.id &&
+        !friends.some(f => f.user1_id === member.user_id || f.user2_id === member.user_id)) {
+
+      const btn = document.createElement("button");
+      btn.textContent = sentRequests.some(r => r.receiver_email === member.email) ? "Request Sent" : "Send Request";
+      btn.disabled = btn.textContent === "Request Sent";
+
+      btn.onclick = async () => {
+        const result = await sendRequest(member.email);
+        if (result.success) {
+          btn.textContent = "Request Sent ✅";
+          btn.disabled = true;
+        } else {
+          alert(result.message);
+        }
+      };
+      li.appendChild(btn);
+    }
+
+    membersList.appendChild(li);
+  });
+}
+
+// ----------------------------
+// Join community
+// ----------------------------
+document.getElementById("joinCommunityBtn").addEventListener("click", async () => {
+  const locationId = document.getElementById("citySelect").value;
+  if (!locationId) return;
+
+  const existing = await supabase
+    .from("community_participants")
+    .select("*")
+    .eq("user_id", currentUser.id)
+    .maybeSingle();
+
+  if (existing.data) return alert("You are already in a community!");
+
+  const locationName = `${document.getElementById("citySelect").selectedOptions[0].text}, ${document.getElementById("countrySelect").value}`;
+
+  await supabase.from("community_participants").upsert([{
+    user_id: currentUser.id,
+    location_id: locationId,
+    name: currentProfile.name,
+    profile_photo: currentProfile.profile_photo,
+    email: currentProfile.email
+  }]);
+
+  await showCommunityDashboard(locationId, locationName);
+});
+
+// ----------------------------
+// Leave community
+// ----------------------------
+document.getElementById("leaveCommunityDashboardBtn").addEventListener("click", async () => {
+  const { error } = await supabase.from("community_participants").delete().eq("user_id", currentUser.id);
+  if (error) return console.error(error);
+
+  document.getElementById("communityDashboard").style.display = "none";
+  document.getElementById("joinCommunityCard").style.display = "block";
+  document.getElementById("joinedCommunityText").textContent = "";
+  document.getElementById("leaveCommunityBtn").style.display = "none";
+  document.getElementById("joinCommunityBtn").style.display = "inline-block";
+});
+
+// ----------------------------
+// Community events
+// ----------------------------
+async function loadCommunityEvents(locationId) {
+  const { data, error } = await supabase
+    .from("community_events")
+    .select("*")
+    .eq("location_id", locationId)
+    .order("event_date", { ascending: true });
+
+  if (error) return console.error(error);
+
+  const ul = document.getElementById("communityEventsList");
+  ul.innerHTML = "";
+
+  const now = new Date();
+
+  for (const event of data) {
+    const eventDate = new Date(event.event_date);
+
+    // Delete past events
+    if (eventDate < now) {
+      await supabase.from("community_events").delete().eq("id", event.id);
+      continue;
+    }
+
+    const li = document.createElement("li");
+    li.textContent = `${eventDate.toLocaleString()} — ${event.place} — ${event.description} (by ${event.username})`;
+
+    if (event.user_id === currentUser.id) {
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "x";
+      delBtn.onclick = async () => {
+        await supabase.from("community_events").delete().eq("id", event.id);
+        await loadCommunityEvents(locationId);
+      };
+      li.appendChild(delBtn);
+    }
+
+    ul.appendChild(li);
+  }
+};
+
+async function initCommunityModule() {
+  // 1️⃣ Load locations
+  await loadLocations();
+
+  // 2️⃣ Load user community if logged in
+  if (currentUser) {
+    await loadUserCommunity(currentUser);
+  }
+
+  // 3️⃣ Setup section toggles (chat, events, etc.)
+  document.querySelectorAll('.community-section-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const content = header.nextElementSibling;
+      if (content.style.display === 'block') {
+        content.style.display = 'none';
+      } else {
+        content.style.display = 'block';
+        // Scroll chat into view if needed
+        if (content.id === 'communityChatSection') {
+          scrollCommunityChatToBottom();
+        }
+      }
+    });
+  });
+
+  // 4️⃣ Setup create event toggle
+  const createEventBtn = document.getElementById("createEventBtn");
+  const createEventInputs = document.getElementById("createEventInputs");
+  if (createEventBtn && createEventInputs) {
+    createEventBtn.addEventListener("click", () => { 
+      createEventInputs.style.display = createEventInputs.style.display === "none" ? "flex" : "none";
+      createEventInputs.style.flexDirection = "column";
+    });
+  }
+}
+
+
+const submitEventBtn = document.getElementById("submitEventBtn");
+const createEventInputs = document.getElementById("createEventInputs");
+const eventPlaceInput = document.getElementById("eventPlaceInput");
+const eventTimeInput = document.getElementById("eventTimeInput");
+const descriptionInput = document.getElementById("eventDescriptionInput");
+
+submitEventBtn.addEventListener("click", async () => {
+  const place = eventPlaceInput.value.trim();
+  const description = descriptionInput.value.trim();
+  const eventDate = eventTimeInput.value;
+
+  if (!place || !eventDate || !joinedLocationId) {
+    return alert("Please enter place, date, and ensure you are in a community.");
+  }
+
+  if (!currentUser || !currentProfile) {
+    return alert("User data not loaded. Please log in.");
+  }
+
+  const { error } = await supabase.from("community_events").insert([{
+    location_id: joinedLocationId,
+    place: place,
+    description: description,
+    event_date: eventDate,
+    user_id: currentUser.id,
+    username: currentProfile.name
+  }]);
+
+  if (error) {
+    console.error(error);
+    return alert("Failed to create event.");
+  }
+
+  // Clear inputs and hide form
+  eventPlaceInput.value = "";
+  descriptionInput.value = "";
+  eventTimeInput.value = "";
+  createEventInputs.style.display = "none";
+
+  // Reload events for the community
+  await loadCommunityEvents(joinedLocationId);
+});
+
+// ----------------------------
+// ANONYMOUS FORUM
+// ----------------------------
+
 
 
 
@@ -1966,8 +2400,8 @@ if (modal) {
   setupCourseButtons();
 //EXTRA LESSONS
 await loadRecipes();
-
-  
+//COMMUNITY
+  await initCommunityModule();
 
 
 
