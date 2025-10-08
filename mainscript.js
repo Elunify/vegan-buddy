@@ -26,8 +26,13 @@ let globalImpact = {
 };
 let currentMeals = [];
 
+// Forum/chat
+let activeBlockId = null;
+
 const goalsInputs = document.querySelectorAll('input[name="goal"]');
 const healthIssuesSection = document.getElementById("q2b");
+
+let messageSubscription = null;
 
 //--------------------------
 // HELPERS
@@ -366,29 +371,6 @@ function loadWinnersFromData() {
 }
 
 //--------------------------
-// RECIPE MODAL
-//--------------------------
-window.showRecipeModal = function (meal) {
-  document.getElementById("modalFoodName").textContent = meal.food_name || "No title";
-  document.getElementById("modalIngredients").innerHTML =
-    (meal.ingredients || "No ingredients provided").replace(/\n/g, "<br>");
-  document.getElementById("modalInstructions").innerHTML =
-    (meal.instructions || "No instructions provided").replace(/\n/g, "<br>");
-  document.getElementById("recipeModal").style.display = "flex";
-};
-
-document.getElementById("closeModal").addEventListener("click", () => {
-  document.getElementById("recipeModal").style.display = "none";
-});
-
-window.addEventListener("click", e => {
-  if (e.target.id === "recipeModal") {
-    document.getElementById("recipeModal").style.display = "none";
-  }
-});
-
-
-//--------------------------
 // GOALS / HEALTH TOGGLE
 //--------------------------
 function toggleHealthIssues() {
@@ -661,7 +643,7 @@ async function handleSubmit() {
   await updateGlobalImpact(impactIncrement);
 
   // Refresh homepage
-  const { profile, globalImpact } = await fetchAllData();
+  const { profile, globalImpact: fetchedImpact } = await fetchAllData();
   await renderProfile(profile, globalImpact);
 
   // Hide Daily Check-in, show home
@@ -876,8 +858,8 @@ quizContainer.querySelectorAll(".quiz-option").forEach((answerBtn) => {
           userData,
           userId
         );
-        const { profile, globalImpact } = await fetchAllData();
-        await renderProfile(profile, globalImpact);
+        const { profile } = await fetchAllData();
+        await renderProfile(profile);
 
         // ✅ Delay before switching back
         setTimeout(() => {
@@ -1492,8 +1474,8 @@ async function saveExtraLessonProgress() {
   currentProfile.total_xp = totalXp;
 
   // Optionally refresh profile on page
-  const { profile, globalImpact } = await fetchAllData();
-  await renderProfile(profile, globalImpact);
+  const { profile } = await fetchAllData();
+  await renderProfile(profile);
 }
 
 // Apply saved progress to DOM (no extra fetch)
@@ -2098,18 +2080,469 @@ submitEventBtn.addEventListener("click", async () => {
 // ----------------------------
 // ANONYMOUS FORUM
 // ----------------------------
+async function loadForumBlocks() {  
+  const forumMessages = document.getElementById('forumMessages');
+  if (!forumMessages) return;
+
+  forumMessages.innerHTML = '';
+  const { data: blocks, error } = await supabase
+    .from('forum_blocks')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) return console.error(error);
+
+  blocks.forEach(block => { 
+    const li = document.createElement('li');
+    li.className = 'forum-block';
+
+    const textSpan = document.createElement('span');
+    textSpan.className = 'block-text';
+    textSpan.textContent = block.content;
+    li.appendChild(textSpan);
+
+    li.addEventListener('click', () => AFopenCommentPopup(block));
+
+    if (block.user_id === currentUser.id) {
+      const delBtn = document.createElement('deletebutton');
+      delBtn.textContent = '❌';
+      delBtn.className = 'block-delete-btn';
+      delBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        await supabase.from('forum_blocks').delete().eq('id', block.id);
+        loadForumBlocks();
+      });
+      li.appendChild(delBtn);
+    }
+
+    forumMessages.appendChild(li);
+  });
+}
+
+async function AFopenCommentPopup(block) {
+  activeBlockId = block.id;
+
+  const popupBlockContent = document.getElementById('AFpopupBlockContent');
+  const popupCommentsList = document.getElementById('AFpopupCommentsList');
+  const commentPopup = document.getElementById('AFcommentPopup');
+  if (!popupBlockContent || !popupCommentsList || !commentPopup) return;
+
+  popupBlockContent.textContent = block.content;
+
+  const { data: comments, error } = await supabase
+    .from('forum_comments')
+    .select('*')
+    .eq('block_id', block.id)
+    .order('created_at', { ascending: true });
+
+  if (error) return console.error(error);
+
+  popupCommentsList.innerHTML = '';
+  comments.forEach(c => {
+    const li = document.createElement('li');
+    const isAsker = c.commenter_id === block.user_id;
+    const displayName = isAsker ? "Asker" : c.commenter_name;
+    const textSpan = document.createElement('span');
+    textSpan.innerHTML = `<strong>${displayName}:</strong> ${c.content}`;
+    li.appendChild(textSpan);
+
+    if (c.commenter_id === currentUser.id) {
+      const delBtn = document.createElement('delbutton');
+      delBtn.textContent = '❌';
+      delBtn.className = 'block-delete-btn';
+      delBtn.addEventListener('click', async () => {
+        await supabase.from('forum_comments').delete().eq('id', c.id);
+        AFopenCommentPopup(block);
+      });
+      li.appendChild(delBtn);
+    }
+
+    popupCommentsList.appendChild(li);
+  });
+
+  commentPopup.classList.remove('hidden');
+}
+
+async function submitNewComment(content, inputElement) {
+  if (!content || !activeBlockId) return;
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('id, name')
+    .eq('id', currentUser.id)
+    .single();
+
+  const commenterName = profile?.name || "Anonymous";
+
+  await supabase.from('forum_comments').insert([{
+    block_id: activeBlockId,
+    commenter_id: currentUser.id,
+    commenter_name: commenterName,
+    content
+  }]);
+
+  inputElement.value = '';
+
+  const { data: fullBlock } = await supabase
+    .from('forum_blocks')
+    .select('*')
+    .eq('id', activeBlockId)
+    .single();
+
+  AFopenCommentPopup(fullBlock);
+}
+
+//--------------------------
+// Friends + Messages
+//--------------------------
+async function sendRequest(receiverEmail) {
+  const email = receiverEmail.trim().toLowerCase();
+  if (!email) return { success: false, message: "No email provided." };
+  if (email === currentUser.email.toLowerCase()) return { success: false, message: "You cannot send a request to yourself." };
+
+  // Check for existing request
+  const { data: existing, error: checkError } = await supabase
+    .from("friend_requests")
+    .select("*")
+    .eq("sender_id", currentUser.id)
+    .eq("receiver_email", email)
+    .maybeSingle();
+  if (checkError) return { success: false, message: checkError.message };
+  if (existing) return { success: false, message: "Request already sent!" };
+
+  // Fetch profile
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("name, profile_photo")
+    .eq("id", currentUser.id)
+    .maybeSingle();
+  if (profileError) return { success: false, message: profileError.message };
+
+  // Insert request
+  const { error } = await supabase.from("friend_requests").insert([{
+    sender_id: currentUser.id,
+    receiver_email: email,
+    name: profile?.name || "Unknown",
+    profile_photo: profile?.profile_photo || "default.jpg",
+    email: currentUser.email,
+    status: "pending"
+  }]);
+  if (error) return { success: false, message: error.message };
+
+  return { success: true };
+}
+
+async function showIncomingFriendRequests() { 
+     
+  const list = document.getElementById("incomingRequestsList");
+  if (!list) return;
+  list.innerHTML = "";
+
+  const demoCard = document.getElementById("ProfileCardDemo");
+  const closeBtn = demoCard.querySelector(".close-btn");
+
+  // Close demo card when clicking X
+  closeBtn.addEventListener("click", () => {
+    demoCard.classList.remove("show");
+  });
+
+  const { data: requests, error } = await supabase
+    .from("friend_requests")
+    .select("id, sender_id, name, profile_photo, email, receiver_email, status")
+    .eq("receiver_email", currentUser.email)
+    .eq("status", "pending");
+  if (error) return console.error(error);
+
+  requests.forEach(req => {
+    const li = document.createElement("li");
+    li.className = "friend-request-item";
+
+    const img = document.createElement("img");
+    img.src = req.profile_photo || "default.jpg";
+    img.alt = req.name || "Unknown";
+
+    // Show demo profile card on avatar click
+    img.addEventListener("click", (e) => {
+      e.stopPropagation();
+      demoCard.classList.add("show");
+    });
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = req.name || "Unknown";
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+
+    // Accept
+    const acceptBtn = document.createElement("button");
+    acceptBtn.className = "accept";
+    acceptBtn.textContent = "Accept";
+    acceptBtn.onclick = async () => {
+      const { data: myProfile, error: myError } = await supabase
+        .from("profiles")
+        .select("id, name, profile_photo, email")
+        .eq("id", currentUser.id)
+        .single();
+      if (myError) return console.error(myError);
+
+      const { error: insertError } = await supabase.from("friends").insert([{
+        user1_id: req.sender_id,
+        user1_name: req.name,
+        user1_email: req.email,
+        user1_profile_photo: req.profile_photo,
+        user2_id: myProfile.id,
+        user2_name: myProfile.name,
+        user2_email: myProfile.email,
+        user2_profile_photo: myProfile.profile_photo
+      }]);
+      if (insertError) return console.error(insertError);
+
+      await supabase.from("friend_requests").delete().eq("id", req.id);
+      await showIncomingFriendRequests();
+      await showFriends("friendsList", friend => startChatWithFriend(friend));
+    };
+
+    // Decline
+    const declineBtn = document.createElement("button");
+    declineBtn.className = "decline";
+    declineBtn.textContent = "Decline";
+    declineBtn.onclick = async () => {
+      await supabase.from("friend_requests").delete().eq("id", req.id);
+      await showIncomingFriendRequests();
+    };
+
+    actions.appendChild(acceptBtn);
+    actions.appendChild(declineBtn);
+
+    li.appendChild(img);
+    li.appendChild(nameSpan);
+    li.appendChild(actions);
+
+    list.appendChild(li);
+  });
+}
+
+async function showFriends(containerId, onClickFriend) {
+  const list = document.getElementById(containerId);
+  if (!list) return;
+  list.innerHTML = "";
+
+  const { data: friendsData, error } = await supabase
+    .from("friends")
+    .select("*")
+    .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
+  if (error) return console.error(error);
+
+  const demoCard = document.getElementById("ProfileCardDemo");
+  const closeBtn = demoCard.querySelector(".close-btn");
+
+  // Close demo card when clicking X
+  closeBtn.addEventListener("click", () => {
+    demoCard.classList.remove("show");
+  });
+
+  friendsData.forEach(friendship => {
+    const friend = friendship.user1_id === currentUser.id
+      ? { id: friendship.user2_id, name: friendship.user2_name, email: friendship.user2_email, photo: friendship.user2_profile_photo }
+      : { id: friendship.user1_id, name: friendship.user1_name, email: friendship.user1_email, photo: friendship.user1_profile_photo };
+
+    const li = document.createElement("li");
+    li.className = "friend-item";
+
+    const img = document.createElement("img");
+    img.src = friend.photo || "default.jpg";
+    img.alt = friend.name;
+
+    // Show static demo card on avatar click
+    img.addEventListener("click", (e) => {
+      e.stopPropagation(); // prevent event bubbling
+      demoCard.classList.add("show");
+    });
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = friend.name || "Unknown";
+
+    const btn = document.createElement("button");
+    btn.textContent = "Message";
+    btn.className = "message";
+    btn.onclick = e => {
+      e.stopPropagation();
+      onClickFriend(friend);
+    };
+
+    li.appendChild(img);
+    li.appendChild(nameSpan);
+    li.appendChild(btn);
+
+    list.appendChild(li);
+  });
+}
+
+async function loadFriendsTab() {
+  await showIncomingFriendRequests();
+  await showFriends("friendsList", friend => startChatWithFriend(friend));
+}
+
+async function startChatWithFriend(friend) {
+  const { data: existingChats, error: chatError } = await supabase
+    .from('chats')
+    .select('*')
+    .or(
+      `and(user1_id.eq.${currentUser.id},user2_id.eq.${friend.id}),and(user1_id.eq.${friend.id},user2_id.eq.${currentUser.id})`
+    )
+    .limit(1);
+  if (chatError) return console.error(chatError);
+
+  const chatId = existingChats?.[0]?.id;
+  openChatWindow(chatId, friend);
+}
+
+async function openChatWindow(chatId, friend) {
+  window.currentChatId = chatId;
+  window.currentChatFriend = friend;
+
+  const friendsEl = document.getElementById("friends");
+  const messagesEl = document.getElementById("messages");
+  const chatListEl = document.getElementById("chatListView");
+  const chatViewEl = document.getElementById("chatView");
+
+  // Add/remove hidden class instead of changing style.display
+  // Add/remove hidden class safely
+  if (friendsEl) friendsEl.classList.add("hidden");
+  if (messagesEl) messagesEl.classList.remove("hidden");
+  if (chatListEl) chatListEl.classList.add("hidden");
+  if (chatViewEl) chatViewEl.classList.remove("hidden");
+
+  document.getElementById("chatHeader").textContent = friend.name;
+
+  if (chatId) loadMessages(chatId, friend);
+  else document.getElementById("chatMessages").innerHTML = "";
+}
+// Back arrow
+document.getElementById("backToList").addEventListener("click", () => {
+  document.getElementById("chatListView").classList.remove("hidden");
+  document.getElementById("chatView").classList.add("hidden");
+  window.currentChatId = null;
+  window.currentChatFriend = null;
+});
+
+async function loadMessages(chatId, friend) {
+  const chatContainer = document.getElementById("chatMessages");
+  if (!chatContainer) return;
+
+  const { data: messages, error } = await supabase
+    .from('messages')
+    .select('*')
+    .eq('chat_id', chatId)
+    .order('created_at', { ascending: true });
+  if (error) return console.error(error);
+
+  chatContainer.innerHTML = "";
+  messages.forEach(msg => {
+    const div = document.createElement("div");
+    div.textContent = msg.content;
+    div.className = msg.sender_id === currentUser.id ? "my-message" : "friend-message";
+    chatContainer.appendChild(div);
+  });
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+
+  if (messageSubscription) supabase.removeChannel(messageSubscription);
+
+  messageSubscription = supabase
+    .channel(`chat-${chatId}`)
+    .on('postgres_changes', {
+      event: 'INSERT',
+      schema: 'public',
+      table: 'messages',
+      filter: `chat_id=eq.${chatId}`
+    }, (payload) => {
+      const msg = payload.new;
+      const div = document.createElement("div");
+      div.textContent = msg.content;
+      div.className = msg.sender_id === currentUser.id ? "my-message" : "friend-message";
+      chatContainer.appendChild(div);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    })
+    .subscribe();
+}
 
 
+//--------------------------
+// CHAT MODULE
+//--------------------------
+async function loadChatList() {
+  const list = document.getElementById("chatListItems");
+  if (!list) return;
 
+  function renderChats(chats) {
+    list.innerHTML = "";
+    if (!chats || chats.length === 0) return;
 
+    chats.forEach(chat => {
+      const friend = chat.user1_id === currentUser.id
+        ? { id: chat.user2_id, name: chat.user2_name, photo: chat.user2_profile_photo }
+        : { id: chat.user1_id, name: chat.user1_name, photo: chat.user1_profile_photo };
 
+      const li = document.createElement("li");
+      li.style.display = "flex";
+      li.style.alignItems = "center";
+      li.style.justifyContent = "space-between";
+      li.style.padding = "0.5rem";
+      li.style.borderBottom = "1px solid #eee";
 
+      const img = document.createElement("img");
+      img.src = friend.photo || "default.jpg";
+      img.alt = friend.name;
+      img.style.width = "40px";
+      img.style.height = "40px";
+      img.style.borderRadius = "50%";
+      img.style.marginRight = "0.5rem";
 
+      const info = document.createElement("div");
+      info.style.flex = "1";
+      const nameSpan = document.createElement("div");
+      nameSpan.textContent = friend.name;
+      nameSpan.style.fontWeight = "500";
+      const lastMessage = document.createElement("div");
+      lastMessage.textContent = chat.last_message || "";
+      lastMessage.style.fontSize = "0.85rem";
+      lastMessage.style.color = "#555";
 
+      info.appendChild(nameSpan);
+      info.appendChild(lastMessage);
 
+      li.appendChild(img);
+      li.appendChild(info);
+      li.onclick = () => startChatWithFriend(friend);
 
+      list.appendChild(li);
+    });
+  }
 
+  const { data: chats, error } = await supabase
+    .from('chats')
+    .select('*')
+    .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`)
+    .order('last_message_at', { ascending: false });
 
+  if (error) return console.error("Error fetching chats:", error);
+  renderChats(chats);
+
+  supabase
+    .channel('public:chats')
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'chats' },
+      payload => {
+        const chat = payload.new;
+        if (!chat) return;
+        if (chat.user1_id === currentUser.id || chat.user2_id === currentUser.id) {
+          loadChatList();
+        }
+      }
+    )
+    .subscribe();
+}
 // ----------------------------
 // MENTORSHIP
 // ----------------------------
@@ -2329,6 +2762,20 @@ async function fetchAllLeaderboards() {
   await fetchLeaderboard('streak', 'overall-streak');
   await fetchLeaderboard('impact', 'overall-impact'); // Only three leaderboards
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //--------------------------
 // INIT
 //--------------------------
@@ -2403,11 +2850,122 @@ await loadRecipes();
 //COMMUNITY
   await initCommunityModule();
 
+// ---- Anonymous Forum & Chat Initialization ----
+    // Forum collapse toggle
+    document.querySelectorAll(".AFsection h2").forEach(header => {
+      header.addEventListener("click", () => {
+        const content = header.nextElementSibling;
+        content.style.display = content.style.display === "block" ? "none" : "block";
+      });
+    });
 
+    // Close comment popup
+    const closePopup = document.getElementById('AFclosePopup');
+    if (closePopup) closePopup.addEventListener('click', () => {
+      const commentPopup = document.getElementById('AFcommentPopup');
+      commentPopup?.classList.add('hidden');
+    });
 
+    // Submit block
+    const submitBlockBtn = document.getElementById('submitBlockBtn');
+    const blockContent = document.getElementById('blockContent');
+    if (submitBlockBtn && blockContent) {
+      submitBlockBtn.addEventListener('click', async () => {
+        const content = blockContent.value.trim();
+        if (!content) return;
+        await supabase.from('forum_blocks').insert([{ user_id: currentUser.id, content }]);
+        blockContent.value = '';
+        loadForumBlocks();
+      });
+    }
 
+    // Submit comment
+    const submitCommentBtn = document.getElementById('AFsubmitCommentBtn');
+    const newCommentInput = document.getElementById('AFnewCommentInput');
+    if (submitCommentBtn && newCommentInput) {
+      submitCommentBtn.addEventListener('click', async () => {
+        await submitNewComment(newCommentInput.value.trim(), newCommentInput);
+      });
+    }
 
+    // Load forum blocks and chats
+    await loadForumBlocks();
+    await loadChatList();
 
+//Friends + messages
+  
+// Friend request popup
+  document.getElementById("sendFriendRequestBtn")?.addEventListener("click", async () => {
+    const email = document.getElementById("friendEmailInput")?.value;
+    const result = await sendRequest(email);
+    if (!result.success) alert(result.message);
+    else {
+      alert("Friend request sent!");
+      document.getElementById("friendEmailInput").value = "";
+      searchPopup.style.display = "none";
+      await showFriends("friendsList", friend => startChatWithFriend(friend));
+      if (joinedLocationId) await showCommunityMembers(joinedLocationId);
+    }
+  });
+
+  // Back to chat list
+  document.getElementById("backToList")?.addEventListener("click", () => {
+    document.getElementById("chatListView")?.classList.remove("hidden");
+    document.getElementById("chatView")?.classList.add("hidden");
+    window.currentChatId = null;
+    window.currentChatFriend = null;
+  });
+
+  // Send message button
+  document.getElementById("sendMessageBtn")?.addEventListener("click", async () => {
+    const messageInput = document.getElementById("messageInput");
+    const text = messageInput.value.trim();
+    if (!text) return;
+    const friend = window.currentChatFriend;
+    if (!friend?.id) return console.error("No valid friend selected.");
+    try {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select("name, profile_photo")
+        .eq("id", currentUser.id)
+        .maybeSingle();
+
+      let chatId = window.currentChatId;
+
+      // Create chat if doesn't exist
+      if (!chatId) {
+        const { data: newChat } = await supabase.from('chats').insert([{
+          user1_id: currentUser.id,
+          user1_name: profile?.name || currentUser.email,
+          user1_profile_photo: profile?.profile_photo || "",
+          user2_id: friend.id,
+          user2_name: friend.name,
+          user2_profile_photo: friend.photo || "",
+          last_message: text,
+          last_message_at: new Date().toISOString()
+        }]).select().single();
+        chatId = newChat.id;
+        window.currentChatId = chatId;
+      } else {
+        await supabase.from('chats').update({
+          last_message: text,
+          last_message_at: new Date().toISOString()
+        }).eq('id', chatId);
+      }
+
+      await supabase.from('messages').insert([{
+        chat_id: chatId,
+        sender_id: currentUser.id,
+        content: text
+      }]);
+
+      messageInput.value = '';
+      loadMessages(chatId, friend);
+    } catch (err) { console.error(err); }
+  });
+
+  // Load friends & requests
+  await loadFriendsTab();
 
 //Mentorship
 await setupMentorshipUI();
