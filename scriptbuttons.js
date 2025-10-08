@@ -101,13 +101,31 @@ learnButtons.forEach(id => {
 });
 
 // Explore: Restaurants, Scan
-const exploreButtons = ['restaurants','scan'];
+const exploreButtons = ['restaurants', 'scan'];
+
 exploreButtons.forEach(id => {
   const btn = document.querySelector(`button[onclick="showSection('${id}')"]`);
   if (btn) {
     btn.addEventListener('click', () => {
       showSection(id);
-      closeDropdowns(); // close dropdown
+      closeDropdowns?.(); // close dropdowns if function exists
+
+      // 🗺️ If the clicked button is for the 'restaurants' section
+      if (id === 'restaurants') {
+        // Load Google Maps API only once
+        if (!window.mapLoaded) {
+          const script = document.createElement('script');
+          script.src =
+            'https://maps.googleapis.com/maps/api/js?key=AIzaSyAwHL9UaF4A7qSZt_qkW2QrZVnQWXeVFNs&libraries=places,marker&callback=initMap';
+          script.async = true;
+          script.defer = true;
+          document.head.appendChild(script);
+          window.mapLoaded = true;
+        } else if (typeof initMap === 'function') {
+          // If script already loaded, reinitialize map
+          initMap();
+        }
+      }
     });
   }
 });
@@ -552,30 +570,63 @@ function getDistanceMeters(loc1, loc2) {
 }
 
 function fetchRestaurants(location) {
+  if (!map) return; // make sure map exists
   const service = new google.maps.places.PlacesService(map);
   const mapResult = document.getElementById("mapResult");
 
-  service.nearbySearch({ location, radius: 5000, keyword: "vegan restaurant" }, (results, status) => {
-    if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-      map.markers.forEach(m => m.setMap(null));
-      map.markers = [];
-      results.forEach(place => {
-        const marker = createMarker(place);
-        if (marker) map.markers.push(marker);
-      });
-      mapResult.textContent = "";
-    } else {
-      mapResult.textContent = "No vegan restaurants found nearby.";
+  service.nearbySearch(
+    { location, radius: 5000, keyword: "vegan restaurant" },
+    (results, status) => {
+      if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+        // Remove old markers
+        if (map.markers) map.markers.forEach(m => m.setMap(null));
+        map.markers = [];
+
+        results.forEach(place => {
+          const marker = createMarker(place);
+          if (marker) map.markers.push(marker);
+        });
+
+        mapResult.textContent = "";
+      } else {
+        mapResult.textContent = "No vegan restaurants found nearby.";
+      }
     }
-  });
+  );
 }
 
 function createMarker(place) {
-  if (!place.geometry || !place.geometry.location) return null;
-  const marker = new google.maps.marker.AdvancedMarkerElement({ map, position: place.geometry.location, title: place.name });
-  let content = place.photos?.length > 0 ? `<img src="${place.photos[0].getUrl({ maxWidth:200,maxHeight:150 })}" style="border-radius:8px;"><br>` : '';
-  content += `<strong>${place.name}</strong><br>${place.vicinity || ''}`;
-  marker.addListener("click", () => { infowindow.setContent(content); infowindow.open(map, marker); });
+  // Safety checks
+  if (!place || !place.geometry || !place.geometry.location || !map) return null;
+
+  let marker;
+  try {
+    marker = new google.maps.marker.AdvancedMarkerElement({
+      map,
+      position: place.geometry.location,
+      title: place.name || ""
+    });
+  } catch (err) {
+    console.error("Error creating AdvancedMarkerElement:", err);
+    return null;
+  }
+
+  let content = "";
+  if (place.photos?.length > 0) {
+    try {
+      content += `<img src="${place.photos[0].getUrl({ maxWidth: 200, maxHeight: 150 })}" style="border-radius:8px;"><br>`;
+    } catch (err) {
+      console.warn("Photo could not be loaded for", place.name);
+    }
+  }
+  content += `<strong>${place.name || "Unnamed"}</strong><br>${place.vicinity || ""}`;
+
+  marker.addListener("click", () => {
+    if (!infowindow) infowindow = new google.maps.InfoWindow();
+    infowindow.setContent(content);
+    infowindow.open(map, marker);
+  });
+
   return marker;
 }
 
@@ -584,29 +635,31 @@ window.initMap = async function() {
   const mapContainer = document.getElementById("mapContainer");
 
   function setupMap(location) {
-    map = new google.maps.Map(mapContainer, { center: location, zoom: 14, mapId: "d69dd398ff7fbb3a41b37083" });
+    map = new google.maps.Map(mapContainer, {
+      center: location,
+      zoom: 14,
+      mapId: "d69dd398ff7fbb3a41b37083"
+    });
     map.markers = [];
     fetchRestaurants(location);
-
-    map.addListener("idle", () => {
-      if (fetchTimeout) clearTimeout(fetchTimeout);
-      fetchTimeout = setTimeout(() => {
-        const center = map.getCenter();
-        const currentLocation = { lat: center.lat(), lng: center.lng() };
-        if (!lastFetchLocation || getDistanceMeters(lastFetchLocation, currentLocation) > MIN_MOVE_DISTANCE) {
-          fetchRestaurants(currentLocation);
-          lastFetchLocation = currentLocation;
-        }
-      }, FETCH_INTERVAL);
-    });
   }
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
-      pos => setupMap({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-      () => setupMap({ lat: 39.4699, lng: -0.3763 }) // fallback
+      (position) => {
+        const userLocation = {
+          lat: position.coords.latitude,   // ✅ correct
+          lng: position.coords.longitude   // ✅ correct
+        };
+        setupMap(userLocation);
+      },
+      () => {
+        // fallback location if user denies geolocation
+        setupMap({ lat: 39.4699, lng: -0.3763 });
+      }
     );
   } else {
+    // fallback if geolocation not supported
     setupMap({ lat: 39.4699, lng: -0.3763 });
   }
 };
@@ -617,6 +670,7 @@ window.initMap = async function() {
 let currentTab = 'home'; // default tab
 
 function openTab(tabId) {
+  // Hide all pages
   document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
   const page = document.getElementById(tabId);
   if (page) page.classList.remove('hidden');
@@ -628,12 +682,13 @@ function openTab(tabId) {
 
   currentTab = tabId;
 
-  // Initialize scan/map if necessary
+  // Initialize scan if necessary
   if (tabId === "scan") {
     startScanBtn.classList.remove("hidden");
     scanContainer.classList.add("hidden"); // hide camera until button click
   }
-  if (tabId === "restaurants" && !map) initMap();
+
+  // 🚫 Removed: "if (tabId === 'restaurants' && !map) initMap();"
 }
 
 // --- Global click listener to stop camera on page change ---
