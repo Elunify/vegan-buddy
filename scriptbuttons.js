@@ -10,6 +10,16 @@ function showSection(sectionId) {
     }
   });
 
+  // Show top bar only for home page
+  const topBar = document.getElementById('topBar');
+  if (topBar) {
+    if (sectionId === 'home') {
+      topBar.classList.remove('hidden');
+    } else {
+      topBar.classList.add('hidden');
+    }
+  }
+
   // Close side menu if open
   const sideMenu = document.getElementById('sideMenu');
   if (sideMenu && sideMenu.classList.contains('open')) {
