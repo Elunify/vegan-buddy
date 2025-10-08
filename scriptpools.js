@@ -4484,12 +4484,12 @@ celebrity: [   // ✅ replace placeholder with real array
       quote: "I have from an early age abjured the use of meat.",
       avatar: "images/davinci.jpg"
     },
-    {
-      name: "Plato",
-      title: "Philosopher",
-      quote: "The greatness of a nation and its moral progress can be judged by the way its animals are treated.",
-      avatar: "images/plato.jpg"
-    },
+    //{
+    //  name: "Plato",
+    //  title: "Philosopher",
+    //  quote: "The greatness of a nation and its moral progress can be judged by the way its animals are treated.",
+    //  avatar: "images/plato.jpg"
+    //},
     {
       name: "Pythagoras",
       title: "Philosopher & Mathematician",
