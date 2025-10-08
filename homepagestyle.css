@@ -9,8 +9,7 @@ html, body {
     font-family: "Poppins", sans-serif;
     background: #f9f9f9;
     color: #333;
-    overflow: auto !important; /* prevent body scrolling, only content scrolls */
-    overflow-x: hidden;
+    overflow: hidden; /* prevent body scrolling, only content scrolls */
     justify-content: space-between;
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
@@ -117,11 +116,10 @@ html, body {
   width: 100%;
   background: #fff;
   z-index: 1000;
-  display: block;
+  display: flex;
   padding: 0.5rem;
   flex-direction: column;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  will-change: transform; /* force GPU compositing fix */
 }
 .top-bar-row {
   display: flex;
