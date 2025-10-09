@@ -649,6 +649,8 @@ async function handleSubmit() {
   // Hide Daily Check-in, show home
   document.getElementById("dailycheck-in").classList.add("hidden");
   document.getElementById("home").classList.remove("hidden");
+  document.getElementById("topBar").classList.remove("hidden");
+  await fetchAllLeaderboards();
 }
 
 async function updateGlobalImpact(increment) {
@@ -860,6 +862,7 @@ quizContainer.querySelectorAll(".quiz-option").forEach((answerBtn) => {
         );
         const { profile } = await fetchAllData();
         await renderProfile(profile);
+        await fetchAllLeaderboards();
 
         // ✅ Delay before switching back
         setTimeout(() => {
@@ -1476,6 +1479,7 @@ async function saveExtraLessonProgress() {
   // Optionally refresh profile on page
   const { profile } = await fetchAllData();
   await renderProfile(profile);
+  await fetchAllLeaderboards();
 }
 
 // Apply saved progress to DOM (no extra fetch)

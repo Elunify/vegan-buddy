@@ -1609,10 +1609,10 @@ export const HealthIssuesPool = {
 Heart disease doesn’t start with a heart attack — it begins silently, years earlier, inside your arteries.
 
 Your blood carries cholesterol, a waxy substance that travels in two main forms:
-- **LDL (Low-Density Lipoprotein)**: Often called “bad” cholesterol. When too much LDL circulates in your blood, it sticks to artery walls, forming plaque.
-- **HDL (High-Density Lipoprotein)**: The “good” cholesterol. HDL helps remove excess LDL from the bloodstream and transports it to the liver for disposal.
+- LDL (Low-Density Lipoprotein): Often called “bad” cholesterol. When too much LDL circulates in your blood, it sticks to artery walls, forming plaque.
+- HDL (High-Density Lipoprotein): The “good” cholesterol. HDL helps remove excess LDL from the bloodstream and transports it to the liver for disposal.
 
-The problem begins when **saturated fats** — mainly from meat, cheese, butter, and eggs — raise LDL levels. Over time, these LDL particles oxidize and damage the artery lining. 
+The problem begins when saturated fats — mainly from meat, cheese, butter, and eggs — raise LDL levels. Over time, these LDL particles oxidize and damage the artery lining. 
 The immune system responds by sending white blood cells to “clean up” the mess, but that only creates more buildup. This process, called *atherosclerosis*, narrows arteries and restricts blood flow to the heart.
 
 Plant-based foods contain **no cholesterol and very little saturated fat**, so they don’t trigger this buildup. 
@@ -4661,8 +4661,8 @@ function showRandomAvatar() {
   // 🎯 Weighted probability setup
   const weightedChars = [
     { char: "celebrity", weight: 25 },
-    { char: "Elune", weight: 25 },
-    { char: "Eluna", weight: 25 },
+    { char: "elune", weight: 25 },
+    { char: "eluna", weight: 25 },
     { char: "pet", weight: 25 }
   ];
 
