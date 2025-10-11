@@ -2983,12 +2983,3 @@ await fetchAllLeaderboards();
 //Show page after everything is loaded:
   showLoading(false);
 });
-
-
-
-
-
-
-
-
- 
