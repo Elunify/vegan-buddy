@@ -4638,6 +4638,8 @@ function getRandomPositionForChar(char, wrapperWidth, wrapperHeight) {
     case "celebrity":
       minX = leftEdge;
       maxX = 0.4 * vw - wrapperWidth;
+      // Appear higher → smaller bottom limit
+      bottomLimit = 0.35 * vh;  // limit the vertical range to upper area
     break;
     default:
       minX = leftEdge;
