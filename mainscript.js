@@ -233,38 +233,49 @@ async function renderProfile() {
     if (!updateError) profile.current_level = level;
   }
 
-  // Daily check-in
-  const checkinBtn = document.getElementById("checkinBtn");
-  const today = new Date().toISOString().split("T")[0];
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  const yesterdayStr = yesterday.toISOString().split("T")[0];
+ // --- Daily check-in logic ---
+const checkinBtn = document.getElementById("checkinBtn");
+const lessonPathBtn = document.getElementById("lessonPathBtn"); // <-- new
+const dailyCheckInSection = document.getElementById("dailycheck-in");
+const lessonPathSection = document.getElementById("lesson-path");
 
+const todayDate = new Date();
+const today = todayDate.getFullYear() + '-' +
+              String(todayDate.getMonth() + 1).padStart(2, '0') + '-' +
+              String(todayDate.getDate()).padStart(2, '0');
+
+const yesterdayDate = new Date();
+yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+const yesterdayStr = yesterdayDate.getFullYear() + '-' +
+                     String(yesterdayDate.getMonth() + 1).padStart(2, '0') + '-' +
+                     String(yesterdayDate.getDate()).padStart(2, '0');
+
+if (checkinBtn && lessonPathBtn && dailyCheckInSection && lessonPathSection) {
   if (profile.last_checkin_date === today) {
-    checkinBtn?.classList.add("done");
-    checkinBtn.textContent = "✅ Daily Check-in";
-    checkinBtn.disabled = true;
-    checkinBtn.style.cursor = "not-allowed";
+    // ✅ Already checked in today
+    checkinBtn.classList.add("hidden");        // Hide check-in button
+    lessonPathBtn.classList.remove("hidden");  // Show learning path button
+    dailyCheckInSection.classList.add("hidden");
+    lessonPathSection.classList.remove("hidden");
   } else {
-    checkinBtn?.classList.remove("done");
-    checkinBtn.textContent = "Daily Check-in";
+    // 🕓 Not checked in yet
+    checkinBtn.classList.remove("hidden");
+    lessonPathBtn.classList.add("hidden");     // Hide learning path button
+    dailyCheckInSection.classList.remove("hidden");
+    lessonPathSection.classList.add("hidden");
 
+    // Optional streak reset
     if (profile.last_checkin_date < yesterdayStr) {
       const streakSaved = await handleStreakSave(currentUser, profile, yesterdayStr);
       if (streakSaved) {
-        await supabase.from("profiles").update({ last_checkin_date: yesterdayStr }).eq("id", currentUser.id);
+        await supabase
+          .from("profiles")
+          .update({ last_checkin_date: yesterdayStr })
+          .eq("id", currentUser.id);
       }
     }
   }
-
-  // Health Solutions button
-  const healthBtn = document.getElementById("healthBtn");
-  if (profile.health_issues?.length > 0) {
-    healthBtn?.classList.remove("hidden");
-    healthBtn.textContent = "Health Solutions";
-  } else {
-    healthBtn?.classList.add("hidden");
-  }
+}
 
   // Personal impact cards
   document.getElementById('youAnimals').textContent = formatNumber(profile.animals_saved ?? 0);
@@ -650,6 +661,9 @@ async function handleSubmit() {
   document.getElementById("dailycheck-in").classList.add("hidden");
   document.getElementById("home").classList.remove("hidden");
   document.getElementById("topBar").classList.remove("hidden");
+  document.getElementById("checkinBtn")?.classList.add("hidden");
+  document.getElementById("dailycheck-in")?.classList.add("hidden");
+  document.getElementById("learn")?.classList.add("hidden");
   await fetchAllLeaderboards();
 }
 
@@ -998,6 +1012,11 @@ function renderMealItem(meal, today) {
   mealDiv.className = "meal-item";
   mealDiv.dataset.id = meal.id;
 
+  const foodNameP = document.createElement("p");
+  foodNameP.className = "food-name";
+  foodNameP.textContent = meal.food_name; // <- use food_name
+  mealDiv.appendChild(foodNameP);
+
   const img = document.createElement("img");
   img.src = meal.image_url;
   img.alt = `${meal.uploader_name}'s meal`;
@@ -1172,7 +1191,7 @@ function setupMealUploadForm() {
 
 
 // MONDAY VOTING
-async function setupMondayVoting() {
+async function setupMondayVoting(userId) {  
   const today = new Date().getDay();
   if (today !== 1) return;
 
@@ -1189,31 +1208,40 @@ async function setupMondayVoting() {
   if (uploadnote) uploadnote.style.display = "none";
   if (generalnote) generalnote.style.display = "none";
 
-  await addVotingToGallery(homeChefGallery, false);
-  await addVotingToGallery(proKitchenGallery, true);
+  await addVotingToGallery(homeChefGallery, false, userId);
+  await addVotingToGallery(proKitchenGallery, true, userId);
 }
 
-async function addVotingToGallery(gallery, isPro) {
+async function addVotingToGallery(gallery, isPro, userId) {
   if (!gallery) return;
+  if (!userId) {
+    console.error("Missing userId for voting check");
+    return;
+  }
+
   const weekStart = new Date();
   weekStart.setDate(weekStart.getDate() - weekStart.getDay() + 1);
   const weekStr = weekStart.toISOString().split("T")[0];
 
-  const { data: existingVote } = await supabase
+  const { data: existingVote, error } = await supabase
     .from("votes")
     .select("*")
-    .eq("user_id", currentUser.id)
+    .eq("user_id", userId)
     .eq("category", isPro)
     .eq("week_start_date", weekStr)
     .maybeSingle();
+
+  if (error) console.error("Vote fetch error:", error);
+
+  const alreadyVoted = !!existingVote;
 
   for (const mealDiv of gallery.querySelectorAll(".meal-item")) {
     const radio = document.createElement("input");
     radio.type = "radio";
     radio.name = `${isPro}-vote`;
     radio.value = mealDiv.dataset.id;
+    radio.disabled = alreadyVoted; // ✅ disable if already voted
     radio.style.marginRight = "5px";
-    if (existingVote) radio.disabled = true;
 
     let votesSpan = mealDiv.querySelector(".votes-span");
     if (!votesSpan) {
@@ -1237,35 +1265,37 @@ async function addVotingToGallery(gallery, isPro) {
   submitBtn.textContent = "Submit Vote";
   submitBtn.classList.add("button");
   submitBtn.style.marginTop = "10px";
-  submitBtn.disabled = !!existingVote;
+  submitBtn.disabled = alreadyVoted;
+
+  if (alreadyVoted) {
+    submitBtn.textContent = "Vote Submitted ✅";
+  }
 
   submitBtn.addEventListener("click", async () => {
     const selected = gallery.querySelector(`input[name='${isPro}-vote']:checked`);
     if (!selected) return alert("Please select a meal to vote!");
     const mealId = selected.value;
 
-    await supabase.from("votes").insert([{
-      user_id: currentUser.id,
-      meal_id: mealId,
-      category: isPro,
-      week_start_date: weekStr
-    }]);
+    await supabase.from("votes").insert([
+      { user_id: userId, meal_id: mealId, category: isPro, week_start_date: weekStr }
+    ]);
 
     const votesSpan = selected.parentElement.querySelector(".votes-span");
     let currentVotes = parseInt(votesSpan.textContent.replace("Votes: ", "")) || 0;
     currentVotes += 1;
     votesSpan.textContent = `Votes: ${currentVotes}`;
 
-    gallery.querySelectorAll("input").forEach(r => r.disabled = true);
+    gallery.querySelectorAll("input").forEach(r => (r.disabled = true));
     submitBtn.disabled = true;
+    submitBtn.textContent = "Vote Submitted ✅";
 
     await supabase.from("meals").update({ votes: currentVotes }).eq("id", mealId);
-
     alert("Vote submitted! Thank you.");
   });
 
   gallery.parentElement.appendChild(submitBtn);
 }
+
 
 
 // RECIPE MODAL CLOSE
@@ -2105,6 +2135,12 @@ async function loadForumBlocks() {
     textSpan.textContent = block.content;
     li.appendChild(textSpan);
 
+    // Add a clickable hint
+  const hintSpan = document.createElement('span');
+  hintSpan.className = 'block-hint';
+  hintSpan.textContent = '💬';
+  li.appendChild(hintSpan);
+
     li.addEventListener('click', () => AFopenCommentPopup(block));
 
     if (block.user_id === currentUser.id) {
@@ -2832,6 +2868,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     await renderProfile();
     await loadWinnersFromData();
 
+    // ✅ Wait a tick to ensure DOM is updated
+    setTimeout(async () => {
+      if (currentUser && currentUser.id) {
+        await setupMondayVoting(currentUser.id);
+      }
+    }, 300);
   } catch (err) {
     console.error("Error initializing mainpage:", err);
   }
@@ -2863,7 +2905,6 @@ setupTabs();
   setupMealUploadForm();
   setupRecipeModalClose();
   renderMeals(currentMeals);
-  await setupMondayVoting();
 
   const modal = document.getElementById("mealArtrecipeModal");
 if (modal) {
@@ -3020,6 +3061,7 @@ await checkAndToggleMentorUI();
 
 //LeaderBoards
 await fetchAllLeaderboards();
+
 
 //Show page after everything is loaded:
   showLoading(false);

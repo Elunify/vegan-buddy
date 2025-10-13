@@ -21,8 +21,8 @@ html, body {
   flex: 1 1 auto;                       /* allow growth/shrink in flex layout */
   min-height: 0;                         /* crucial for overflow-y in flex children */
   overflow-y: auto;
-  margin-top: calc(95px + env(safe-area-inset-top));
-  margin-bottom: calc(50px + env(safe-area-inset-bottom));
+  margin-top: calc(40px + env(safe-area-inset-top));
+  margin-bottom: calc(60px + env(safe-area-inset-bottom));
   padding: 1rem;
 
   /* Smooth scrolling for iOS */
@@ -39,24 +39,6 @@ html, body {
   border-radius: 4px;
 }
 .page.hidden {
-  display: none;
-}
-
-/* --- Lesson Tab / Quiz --- */
-#healthylesson-tab {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: 0;
-  overflow-y: auto;
-  background-color: #fff;
-  z-index: 100;
-                       /* FOR TESTS */    padding-bottom: 8rem;
-}
-
-#healthylesson-tab.hidden {
   display: none;
 }
 
@@ -97,52 +79,6 @@ html, body {
   flex-direction: column;
   height: 100vh;
 }
-
-/* Utility */
-.hidden { display: none !important; }
-
-/* 🔝 Top Bar */
-
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-.top-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: #fff;
-  z-index: 1000;
-  display: flex;
-  padding: 0.5rem;
-  flex-direction: column;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-.top-bar-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 0.5rem;
-  box-sizing: border-box;
-}
-.profile-wrapper {
-  width: 50px;
-  height: 50px;
-  flex: 0 0 auto;
-}
-
-.profile-photo {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #ccc;
-}
-
 .pet-photo {
   width: 100%;
   height: 100%;
@@ -163,20 +99,95 @@ html, body {
   right: -10px;
   font-size: 0.75rem;
 }
+/* Utility */
+.hidden { display: none !important; }
+
+/* 🔝 Top Bar */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  padding: 0.5rem;
+  flex-direction: column;
+}
+
+.top-bar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 0.5rem;
+  box-sizing: border-box;
+}
+
 /* ===== Counters (Center) ===== */
 .center-counters {
   display: flex;
-  justify-content: center;
+  justify-content: space-between; /* make counters fill width equally */
+  align-items: center;
   flex-grow: 1;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: bold;
+  width: 100%;
 }
-.counter {
-  flex: 0 0 auto;   /* fixed size for counters */
-  margin: 0 5%;   /* horizontal spacing between counters and neighbors */
-  white-space: nowrap;
+
+/* 🔹 XP Progress Bar */
+.level-bar {
+  width: 100%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.progress {
+  position: relative;
+  width: 100%;
+  height: 24px;
+  background: #81C784;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 40%; /* dynamic */
+  background: #2E7D32;
+  border-radius: 6px;
+  transition: width 0.5s ease;
+}
+
+#xpToNext {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.7rem;
   font-weight: bold;
-  font-size: 1.6rem;
+  color: white;
+  text-shadow: 0 0 2px rgba(0,0,0,0.3);
+  pointer-events: none;
+}
+
+/* Each counter takes equal width, content centered inside */
+.counter {
+  flex: 1;
+  text-align: center;
+  white-space: nowrap; /* keep emoji + number together */
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px; /* small space between icon and number */
+  font-weight: bold;
+  font-size: 1.3rem;
 }
 
 /* Default (active) fire */
@@ -190,78 +201,7 @@ html, body {
   filter: grayscale(100%) brightness(140%);
 }
 
-.menu-button {
-  font-size: 2.5rem;
-  cursor: pointer;
-  flex: 0 0 auto;
-  z-index: 2100; /* above overlay */
-}
 
-/* Side Menu (slide from right) */
-.side-menu {
-  position: fixed;
-  top: 60px;
-  right: 0;                  /* start from right */
-  width: 60%;               /* menu width */
-  background: white;
-  box-shadow: -2px 0 15px rgba(0,0,0,0.2); /* shadow on left */
-  border-radius: 12px 0 0 12px; /* rounded left corners */
-  overflow: hidden;
-  z-index: 2000;
-
-  /* Animation */
-  transform: translateX(100%); /* start offscreen right */
-  transition: transform 0.3s ease;
-}
-
-/* When menu is open */
-.side-menu.open {
-  transform: translateX(0);
-}
-
-/* Side Menu Buttons */
-.side-menu .menu-item {
-  width: 100%;
-  text-align: center;
-  padding: 15px 0;
-  font-size: 1.2rem;
-  line-height: 1.2;
-  border: none;
-  background: none;
-  cursor: pointer;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
-}
-
-.side-menu .menu-item:hover {
-  background: rgba(0,0,0,0.05);
-}
-
-.level-bar {
-  display: block;
-  margin-top: 2px;
-}
-.progress {
-  background: #81C784;
-  border-radius: 6px;
-  height: 8px;
-  width: 100%;
-  overflow: hidden;
-}
-.progress-fill {
-  height: 100%;
-  width: 40%;
-  background: #2E7D32;
-  border-radius: 6px;
-  transition: width 0.5s ease;
-}
-#xpToNext {
-  font-size: 0.7rem;
-  color: #2E7D32;
-  display: block;
-  margin-top: 3px;
-  margin-bottom: -5px;
-  text-align: center;
-}
 
 /* 📄 Page Sections */
 /* Page content container: between top and bottom bars */
@@ -275,92 +215,47 @@ h3 {
   font-size: 1.14rem;
 }
 
-/* Wrapper for main buttons + quick access */
-.top-buttons-wrapper {
-  display: flex;
-  flex-wrap: nowrap;       /* keep everything on one row */
-  align-items: flex-start; /* align top */
-  gap: 1rem;               /* space between main buttons and quick-access column */
-  overflow-x: auto;        /* allow horizontal scroll on small screens */
-  width: 100%;
-  padding-bottom: 0.5rem;
-}
-
-/* Main buttons container */
 .top-buttons {
   display: flex;
-  gap: 1rem;
-  flex: 1 1 auto;          /* grow to fill remaining space */
-  min-height: 4rem;            /* allow children to shrink properly */
-}
-
-/* Button text handling */
-.btn-text {
-  display: inline-block;
-  white-space: pre-line;
-  text-align: center;
-}
-
-/* Main buttons styling */
-.checkin-btn,
-.health-btn {
-  display: flex;
-  flex-direction: column;   /* icon above text */
-  align-items: center;
   justify-content: center;
-  gap: 0.2rem;
-  text-align: center;
-  
-  border: none;
-  border-radius: 12px;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Main big button */
+.button-circle.main-circle {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at top left, #6ee7b7, #10b981);
+  color: white;
   font-weight: bold;
   font-size: 1.2rem;
-  cursor: pointer;
-  padding: 0.6rem 1rem;
-  
-  flex: 1 1 0;             /* allow each button to grow equally */
-  min-width: 120px;        /* optional: prevent too small buttons */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* subtle shadow */
-}
-
-/* Button colors */
-.checkin-btn {
-  background-color: #3bb341;
-  color: white;
-}
-
-.checkin-btn.done {
-  background-color: #c3f3d4;
-  color: #2d6a4f;
-}
-
-.health-btn {
-  background-color: #f0b429;
-  color: white;
-}
-
-.health-btn.hidden {
-  display: none;
-}
-
-/* Quick access column */
-.quick-access {
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 auto;           /* do not grow */
-  gap: 0.2rem;
-}
-
-/* Quick access buttons */
-.quick-btn {
-  font-size: 1.4rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
   border: none;
-  padding: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.button-circle.main-circle:hover {
+  transform: scale(1.07);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+/* Smaller side buttons */
+.button-circle.small-circle {
+  width: 4.8rem;
+  height: 4.8rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: white;
+  font-weight: bold;
+  font-size: 0.8rem;
+  border: none;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.button-circle.small-circle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Impact cards layout */
@@ -387,6 +282,7 @@ h3 {
 }
 
 .card {
+  position: relative;
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
@@ -409,7 +305,14 @@ h3 {
 /* Pairs styling */
 .card p {
   margin: 0.4rem 0;
+  margin-bottom: -0.3rem;
   line-height: 1.15;
+}
+
+.lastPincards {
+  margin: 0.4rem 0;
+  line-height: 1.15;
+  margin-bottom: 1.2rem !important;
 }
 
 .card strong {
@@ -449,6 +352,17 @@ h3 {
   font-size: 0.85rem;
   color: #555;
   margin-top: 0.5rem;
+}
+
+.card-info {
+  position: absolute;
+  bottom: 5px;       /* distance from bottom of the card */
+  left: 50%;
+  transform: translateX(-50%); /* center horizontally */
+  font-size: 0.8rem;
+  opacity: 0.7;
+  text-align: center;
+  padding-top: 1.5rem;
 }
 
 .popup {
@@ -555,80 +469,97 @@ h3 {
 }
 
 /* 🔖 Bottom Navigation */
+/* 🔖 Bottom Navigation */
+/* 🔖 Bottom Navigation */
+/* 🔖 Bottom Navigation */
+/* 🔖 Bottom Navigation Bar */
 .bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
+  height: 60px;
   background: #fff;
-  z-index: 1000;
-  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   display: flex;
+  align-items: center;
   justify-content: space-around;
-  padding: 0.5rem 0;
+  z-index: 1000;
 }
+
+/* 🔹 General Buttons */
 .bottom-nav button {
   background: none;
   border: none;
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   cursor: pointer;
-  padding: 8px;
   border-radius: 12px;
   transition: background 0.2s;
+  padding: 6px;
 }
+
 .bottom-nav button:hover {
   background: #f1f1f1;
 }
 
-/* Dropdown wrapper */
-.dropdown {
-  position: relative;
+/* 🔹 Profile Image (same visual size as icons) */
+.profile-photo {
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 50%;
+  border: 2px solid #7ac142;
+  object-fit: cover;
 }
 
-/* Dropdown content (full width, above bottom nav) */
+/* 🔹 Dropdowns */
+.dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 🔹 Dropdown Content */
 .dropdown-content {
   display: block;
-  position: fixed;        /* fixed to viewport */
-  bottom: 60px;           /* above bottom nav */
+  position: fixed;
+  bottom: 60px;
   left: 0;
   width: 100vw;
-  max-width: 100%;
-  background: white;
+  background: #fff;
   border-radius: 12px 12px 0 0;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   overflow: hidden;
-  z-index: 2000;          /* above nav bar */
-  /* Animation */
-  transform: scaleY(0);          /* start collapsed */
-  transform-origin: bottom;      /* grow from bottom (button) */
+  z-index: 2000;
+  transform: scaleY(0);
+  transform-origin: bottom;
   opacity: 0;
-  pointer-events: none;            /* prevent clicking when closed */
+  pointer-events: none;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .dropdown-content.open {
-  transform: scaleY(1);          /* expand */
+  transform: scaleY(1);
   opacity: 1;
-  pointer-events: auto;            /* clickable only when open */
+  pointer-events: auto;
 }
 
-/* Show dropdown on hover */
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-/* Buttons inside dropdown */
+/* 🔹 Dropdown Buttons */
 .dropdown-content button {
   width: 100%;
   text-align: center;
   padding: 10px 15px;
-  font-size: 1.2rem;
-  line-height: 1.2;
+  font-size: 1.1rem;
   border: none;
   background: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  border-bottom: 1px solid rgba(0,0,0,0.1); /* subtle separator */
 }
+
+.dropdown-content button:hover {
+  background-color: #f0f0f0;
+}
+
 
 /* charactertips */
 /* charactertips */
@@ -773,11 +704,6 @@ h3 {
   /* HomePage END */
   /* HomePage END */
 
-  /* TOPBAR */
-  /* TOPBAR */
-  /* TOPBAR */
-  /* TOPBAR */
-  /* TOPBAR */
 
   .containersettings {
   height: auto; /* Let content determine height */
@@ -3994,18 +3920,6 @@ font-size: 16px;
 margin: 0 0 6px 0;
 font-size: 14px;
 color: #555;
-}
-.progress {
-height: 10px;
-background: #ddd;
-border-radius: 5px;
-overflow: hidden;
-margin-bottom: 6px;
-}
-.progress > div {
-height: 100%;
-width: 0%;
-background: #76c893;
 }
 .badge-count {
 font-size: 13px;

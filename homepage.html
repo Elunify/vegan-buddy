@@ -23,42 +23,25 @@
 
 <div id="homepageContent" style="opacity:0;">
   <!-- All homepage content here -->
-
 <div id="main-container">
-
   <div id="topBar" class="top-bar">
       <div class="top-bar-row">
-
-        <!-- Profile -->
-        <div class="profile-wrapper">
-          <img id="profilePhoto" src="https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/profile_photos/default.jpg" alt="Profile Photo" class="profile-photo" />
-       <!--   <img id="petDisplay" src="https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/pet_photos/default.jpg" class="pet-overlay" /> -->
-        </div>
-
         <!-- Level + Streak -->
         <div class="center-counters">
           <span class="counter">🌍 <span id="currentLevel">0</span></span>
-          <span class="counter" id="streak">
-            <span class="fire">🔥</span> 
-            <span id="streak-counter">0</span>
-          </span>
-        </div>
+          
 
-        <!-- Side Menu -->
-        <div id="menuButton" class="menu-button">☰</div>
-        <div id="sideMenu" class="side-menu">
-          <button class="menu-item" id="aboutUsBtn">About Us</button>
-          <button class="menu-item" id="helpusgrowBtn">Help Us Grow</button>
-      <!--     <button onclick="showSection('sources')" class="menu-item" id="sourcesBtn">Sources</button> -->
-        </div>
-      </div>
-
-      <!-- XP Progress -->
-      <div class="level-bar">
-        <div class="progress">
-          <div id="levelProgress" class="progress-fill"></div>
-        </div>
+    <!-- XP Progress -->
+    <div class="level-bar">
+      <div class="progress">
+        <div id="levelProgress" class="progress-fill"></div>
         <small id="xpToNext"> </small>
+      </div>
+    </div>
+
+          <span class="counter" id="streak"><span class="fire">🔥</span> <span id="streak-counter">0</span>
+        </span>
+        </div>
       </div>
     </div>
     <!-- 🏠 Home Content -->
@@ -67,13 +50,20 @@
     
     <!-- End Top Tabs -->
       <div class="top-buttons-wrapper">
-        <div class="top-buttons">
-        <button id="checkinBtn" class="checkin-btn"><span class="btn-text">Daily Check-in</span></button>
-        <button id="healthBtn" class="health-btn hidden"><span class="btn-text">Health Solutions</span></button>
-      </div>
+  <div class="top-buttons">
+    <!-- Left: Meal-Art -->
+    <button id="mealArtBtn" class="button button-circle small-circle">Meal-Art Contest</button>
 
- 
-    </div>
+    <!-- Center: Check-in / Learn Path -->
+    <button id="checkinBtn" class="button button-circle main-circle">Daily Check-in</button>
+    <button id="lessonPathBtn" class="button button-circle main-circle hidden">Learn Path</button>
+
+    <!-- Right: Recipes -->
+    <button id="recipesBtn" class="button button-circle small-circle">Trending Recipes</button>
+  </div>
+</div>
+
+
 
 <div class = impact-box>
   <p><span class="you">You, </span>and our <span class="community">Community</span> <br>
@@ -86,7 +76,8 @@
     <p> saved <br>
        <strong id="youAnimals">12</strong> 
        <strong id="communityAnimals">3560</strong> </p>
-    <p>animals</p>
+    <p class = "lastPincards">animals</p>
+    <div class="card-info">ℹ️</div>
   </div>
 
   <!-- Forest -->
@@ -95,7 +86,8 @@
     <p> saved <br>
        <strong id="youForest">12</strong> 
        <strong id="communityForest">3560</strong> </p>
-    <p> m² of forests</p>
+    <p class = "lastPincards"> m² of forests</p>
+    <div class="card-info">ℹ️</div>
   </div>
 
   <!-- Water -->
@@ -104,7 +96,8 @@
     <p> saved <br>
        <strong id="youWater">12</strong> 
        <strong id="communityWater">3560</strong> </p>
-    <p>L of water</p>
+    <p class = "lastPincards">L of water</p>
+    <div class="card-info">ℹ️</div>
   </div>
 
   <!-- CO₂ -->
@@ -113,7 +106,8 @@
     <p> reduced <br>
        <strong id="youCO2">12</strong> 
        <strong id="communityCO2">3560</strong> </p>
-    <p>kg of CO₂</p>
+    <p class = "lastPincards">kg of CO₂</p>
+    <div class="card-info">ℹ️</div>
   </div>
  </div>
 </div>
@@ -140,6 +134,58 @@
           </div>
         </div>
       </div>
+
+<!-- Characters -->
+ <!-- Characters -->
+  <!-- Characters -->
+   <!-- Characters -->
+<div class="avatar-row">
+  <!-- Eluna -->
+  <div class="profile-wrapper" id="elunaWrapper">
+    <img class="avatar" src="characters/eluna.png" alt="Eluna">
+    <div class="thought-toggle">💭</div>
+    <div id="elunaThought" class="thought-bubble">
+      <span>Eluna</span> says...
+      <div id="elunaTip" class="lesson-box"></div>
+      <span class="close-thought">×</span>
+    </div>
+  </div>
+
+  <!-- Elune -->
+  <div class="profile-wrapper" id="eluneWrapper">
+    <img class="avatar" src="characters/elune.png" alt="Elune">
+    <div class="thought-toggle">💭</div>
+    <div id="eluneThought" class="thought-bubble">
+      <span>Elune</span> says...
+      <div id="eluneTip" class="lesson-box"></div>
+      <span class="close-thought">×</span>
+    </div>
+  </div>
+
+  <!-- Pet -->
+  <div class="profile-wrapper" id="petWrapper">
+    <div class="avatar" id="petAvatar"></div>
+    <div class="thought-toggle">💭</div>
+    <div id="petThought" class="thought-bubble">
+      <span id="petName">Pet</span> says...
+      <div id="petTip" class="lesson-box"></div>
+      <span class="close-thought">×</span>
+    </div>
+  </div>
+
+  <!-- Celebrity -->
+<div class="profile-wrapper" id="celebrityWrapper">
+  <img class="avatar" id="celebrityAvatar" src="" alt="Celebrity Avatar">
+  <div class="thought-toggle">💭</div>
+  <div id="celebrityThought" class="thought-bubble">
+    <div id="celebrityQuote" class="lesson-box"></div>
+    <span class="close-thought">×</span>
+  </div>
+</div>
+
+</div>
+
+
   </div>  
 <!-- End Home Page-->
  <!-- End Home Page-->
@@ -325,18 +371,11 @@
         <img src="characters/eluna.png" alt="Eluna" class="buddy-portraitsupportus" />
         <div class="buddy-text">
           <strong style="font-size: 1.1em; line-height: 1.3rem;">Eluna says:</strong><br> 
-       <!--   We believe in full transparency. Every euro you donate goes directly to projects that make a real difference for animals, people, and the planet. 
-          Our organisation is non-profit, and every cent is used for impact — not profit. To keep you connected, we share regular videos on 
-          <a href="https://www.instagram.com/app.elunify/" target="_blank" rel="noopener noreferrer">Instagram</a>
-          showing exactly where your donations go. Together, we can grow something bigger than ourselves. -->
-
-          Our app is built with one goal: to inspire positive change for animals, people, and the planet. Unlike most apps, we don’t rely on ads or distractions — 
-          we focus entirely on creating a playful, meaningful experience that helps more people discover the joy and impact of this lifestyle.
-
-          By supporting us, you’re not funding profit — you’re helping keep this project alive, independent, and free from ads. 
-          Every contribution allows us to keep improving the app, adding new features, and reaching more people who want to make a difference.
-
-          Together, we’re building something bigger than ourselves — a movement for kindness, sustainability, and conscious living.
+          This app is a small, heart-driven project — it’s only me working on it, driven by the belief that together we can make a difference for animals, people, and the planet. 
+          There are no ads or corporate sponsors — just honesty, care, and a vision for a kinder world. 
+          By subscribing, donating, or simply sharing our mission, you help keep this project alive and growing. 
+          Every bit of support helps me keep improving the app and reaching more people who want to live compassionately. 
+          Follow our journey on <a href="https://www.instagram.com/app.elunify/" target="_blank"><strong>@elunify.app</strong></a> 🌱 — together, we’re building something beautiful. 
         </div>
       </div>
     </div>
@@ -425,27 +464,7 @@
   </div>
 </div>
 </div>
-
-
 </div>
-<!-- AboutUs --> 
- <!-- AboutUs --> 
-  <!-- AboutUs --> 
-   <!-- AboutUs -->   
-    <div id="aboutus" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      <div class="optionssupportus">
-      <div class="optionaboutus">
-      <h3>About us</h3>
-      <p>
-        We are a small, heart-driven initiative with one clear goal: to make a difference for animals, people, and the planet. 
-        This project is not backed by big companies — it’s personal, transparent, and honest. 
-        Right now, it’s just me working on it, but together with you, we can build a community that cares.
-        By using this app, supporting, or even just being here, you are part of something that creates real-world impact. 
-        We dream of a future where compassion grows stronger every day — and you are part of that story.
-      </p>
-     </div>
-    </div>
-  </div>
 <!-- Sources -->
  <!-- Sources -->
   <!-- Sources -->
@@ -462,82 +481,50 @@
   <!-- Main features -->   
    <!-- Main features -->   
   
-<!-- Daily Check-in -->
- <!-- Daily Check-in -->
-  <!-- Daily Check-in -->
-   <!-- Daily Check-in -->
-    <div id="dailycheck-in" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      
-    
-        <div id="quizDCI" class="boxDCI">
-            <!-- JS will insert yesterday's quiz here -->
-        </div>
+<!-- LEARN -->
+ <!-- LEARN -->
+  <!-- LEARN -->
+   <!-- LEARN -->
+<div id="learn" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(safe-area-inset-bottom, 80px);">
+  
+  <!-- DAILY CHECK-IN -->
+  <div id="dailycheck-in" class="hidden">
+    <div id="quizDCI" class="boxDCI"></div>
 
-        <div id="lessonsectionDCI" class="boxDCI">
-          <label class = "bigLabelDCI">Your lesson for today:</label>
-          <div id="dailyLessonDCI" class="lesson-boxDCI">
-          <!-- JS will insert today's lesson here -->
-          </div>
-        </div>
-    
-        <div id="mealsectionDCI" class="boxDCI">
-          <label class = "bigLabelDCI">How many plant-based meal did you have yesterday?</label>
-        
-          <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="1">I didn’t have a plant-based meal.</label>
-          <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="2">I had a few plant-based meals! </label>
-          <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="3">Most of my meals were plant-based!</label>
-          <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="4">I had a fully plant-based day! 🌱</label>
-
-        </div>
-    
-        <button class="button" id="submitBtnDCI" onclick="handleSubmit()">Submit</button>
-    
+    <div id="lessonsectionDCI" class="boxDCI">
+      <label class="bigLabelDCI">Your lesson for today:</label>
+      <div id="dailyLessonDCI" class="lesson-boxDCI"></div>
     </div>
 
-<!-- Health Issues -->
- <!-- Health Issues -->
-  <!-- Health Issues -->
-   <!-- Health Issues -->
-  <div id="healthissues" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-     
-  <h2 class = "YourHealthIssueTitle">Your Health Issues</h2>
+    <div id="mealsectionDCI" class="boxDCI">
+      <label class="bigLabelDCI">How many plant-based meals did you have yesterday?</label>
 
-  <div class="learning-path-buttons">
-    <!-- All possible health issues (initially hidden) -->
-    <button class="path-btn hidden" data-path="Heart disease">Heart disease</button>
-    <button class="path-btn hidden" data-path="High cholesterol">High cholesterol</button>
-    <button class="path-btn hidden" data-path="High blood pressure">High blood pressure</button>
-    <button class="path-btn hidden" data-path="Type 2 diabetes">Type 2 diabetes</button>
-    <button class="path-btn hidden" data-path="Obesity">Obesity</button>
-    <button class="path-btn hidden" data-path="Digestive issues">Digestive issues</button>
-    <button class="path-btn hidden" data-path="Inflammation or swelling">Inflammation or swelling</button>
-    <button class="path-btn hidden" data-path="Fatigue">Fatigue</button>
-    <button class="path-btn hidden" data-path="Cancer risk">Concerned about cancer risk</button>
+      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="1">I didn’t have a plant-based meal.</label>
+      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="2">I had a few plant-based meals!</label>
+      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="3">Most of my meals were plant-based!</label>
+      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="4">I had a fully plant-based day! 🌱</label>
+    </div>
+
+    <button class="button" id="submitBtnDCI" onclick="handleSubmit()">Submit</button>
   </div>
 
-  <!-- Courses / Lessons containers -->
-  <div class="courses">
-    <!-- one course container per health issue, initially hidden -->
-    <div class="course hidden" id="Heart disease"><h3>Heart disease</h3><ul class="lesson-list"></ul></div>
-    <div class="course hidden" id="High cholesterol"><h3>High cholesterol</h3><ul class="lesson-list"></ul></div>
-    <div class="course hidden" id="High blood pressure"><h3>High blood pressure</h3><ul class="lesson-list"></ul></div>
-    <div class="course hidden" id="Type 2 diabetes"><h3>Type 2 diabetes</h3><ul class="lesson-list"></ul></div>
-    <div class="course hidden" id="Obesity"><h3>Obesity</h3><ul class="lesson-list"></ul></div>
-    <div class="course hidden" id="Digestive issues"><h3>Digestive issues</h3><ul class="lesson-list"></ul></div>
-    <div class="course hidden" id="Inflammation or swelling"><h3>Inflammation or swelling</h3><ul class="lesson-list"></ul></div>
-    <div class="course hidden" id="Fatigue"><h3>Fatigue</h3><ul class="lesson-list"></ul></div>
-    <div class="course hidden" id="Cancer risk"><h3>Concerned about cancer risk</h3><ul class="lesson-list"></ul></div>
+  <!-- LESSON PATH (shown after daily check-in) -->
+  <div id="lesson-path" class="hidden">
+    <div class="learning-path-buttons">
+      <h2>Learn</h2>
+      <button class="path-btn" data-path="animals">For the Animals</button>
+      <button class="path-btn" data-path="earth">For the Earth</button>
+      <button class="path-btn" data-path="health">For Health</button>
+    </div>
+
+    <div class="courses">
+      <div class="course hidden" id="animals"><h3>For the Animals</h3><ul class="extralesson-list"></ul></div>
+      <div class="course hidden" id="earth"><h3>For the Earth</h3><ul class="extralesson-list"></ul></div>
+      <div class="course hidden" id="health"><h3>For Health</h3><ul class="extralesson-list"></ul></div>
+    </div>
   </div>
 </div>
 
-<!-- Hidden lesson tab -->
-<div id="healthylesson-tab" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);">
-  <button id="close-lesson">⬅ Back</button>
-  <h2 id="lesson-title"></h2>
-  <div id="lesson-content"></div>
-  <div id="quiz-container"></div>
-</div>
-  
 <!-- Meal Art Contest -->
  <!-- Meal Art Contest -->
   <!-- Meal Art Contest -->
@@ -645,39 +632,6 @@
 
 </div>
 
-<!-- Learn subsections -->
- <!-- Learn subsections -->
-  <!-- Learn subsections -->
-   <!-- Learn subsections -->
-    <div id="lessons" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      
-      <div class="learning-path-buttons">
-        <h2>Learn</h2>
-    <button class="path-btn" data-path="animals">For the Animals</button>
-    <button class="path-btn" data-path="earth">For the Earth</button>
-    <button class="path-btn" data-path="health">For Health</button>
-  </div>
-
-  <!-- Courses / Lessons containers -->
-<div class="courses">
-
-  <div class="course hidden" id="animals">
-    <h3>For the Animals</h3>
-    <ul class="extralesson-list"></ul>
-  </div>
-
-  <div class="course hidden" id="earth">
-    <h3>For the Earth</h3>
-    <ul class="extralesson-list"></ul>
-  </div>
-
-  <div class="course hidden" id="health">
-    <h3>For Health</h3>
-    <ul class="extralesson-list"></ul>
-  </div>
-
- </div>
-</div>
 
 <!-- Recipes -->
  <!-- Recipes -->
@@ -932,7 +886,7 @@
     Please share your thoughts kindly and help others grow 🧡
   </span>
 </p>
-<p>click on the topic's box to see the comments</p>
+
 <ul id="forumMessages"></ul>
 
       <div id="newBlock">
@@ -1312,99 +1266,74 @@
 
 </div>
 </div>
-
     <!-- 🔖 Bottom Navigation -->
-    <div class="bottom-nav">
-      <button onclick="showSection('home')">🏠</button>
-      <div class="dropdown">
-        <button>📖 </button>
-        <div class="dropdown-content">
-          <button onclick="showSection('lessons')">Lessons</button>
-          <button onclick="showSection('recipes')">Recipes</button>
-          <button onclick="showSection('recommendations')">Recommendations</button>
-        </div>
-      </div>
-      <div class="dropdown">
-        <button>🔍 </button>
-        <div class="dropdown-content">
-          <button onclick="showSection('restaurants')">Restaurants</button>
-          <button onclick="showSection('scan')">Scan Products</button>
-        </div>
-      </div>
-      <div class="dropdown">
-        <button>🌐 </button>
-        <div class="dropdown-content">
-          <button onclick="showSection('local')">Local Community</button>
-          <button onclick="showSection('forum')">Anonymous Forum</button>
-          <button onclick="showSection('friends')">Friends</button>
-          <button onclick="showSection('messages')">Messages</button>
-          <button onclick="showSection('mentorship')">Mentorship</button>
-        </div>
-      </div>
-      <div class="dropdown">
-        <button>🧸 </button>
-        <div class="dropdown-content">
-          <button onclick="showSection('profilecard')">Your Profile Card</button>
-          <button onclick="showSection('avatar')">Achievements</button>
-          <button onclick="showSection('shop')">Shop</button>
-          <button onclick="showSection('leaderboards')">Leaderboards</button>
-          <button onclick="showSection('challenges')">Challenges</button>
-        </div>
-      </div>
-    </div>
+    <!-- 🔖 Bottom Navigation -->
+<div class="bottom-nav">
 
-</div> 
+   <!-- 👤 Profile -->
+  <div class="dropdown">
+    <button class="profile-wrapper">
+      <img 
+        id="profilePhoto" 
+        src="https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/profile_photos/default.jpg"
+        alt="Profile Photo"
+        class="profile-photo"
+      />
+    </button>
+    <div class="dropdown-content">
+      <button onclick="showSection('settings')">Profile</button>
+      <button onclick="showSection('friends')">Friends</button>
+      <button onclick="showSection('messages')">Messages</button>
+    </div>
+  </div>
+
+  <!-- 🏠 Home -->
+  <div class="dropdown">
+    <button onclick="showSection('home')">🏠</button>
+  </div>
+
+  <!-- 🌐 Community -->
+  <div class="dropdown">
+    <button>🌐</button>
+    <div class="dropdown-content">
+      <button onclick="showSection('local')">Local Community</button>
+      <button onclick="showSection('forum')">Anonymous Forum</button>
+      <button onclick="showSection('mentorship')">Mentorship</button>
+    </div>
+  </div>
+
+  <!-- 🧸 Achievements -->
+  <div class="dropdown">
+    <button>🧸</button>
+    <div class="dropdown-content">
+      <button onclick="showSection('avatar')">Achievements</button>
+      <button onclick="showSection('shop')">Shop</button>
+      <button onclick="showSection('challenges')">Challenges</button>
+    </div>
+  </div>
+
+  <!-- ☰ Menu -->
+  <div class="dropdown">
+    <button>☰</button>
+    <div class="dropdown-content">
+      <button onclick="showSection('supportus')">About Us</button>
+      <button onclick="showSection('leaderboards')">Leaderboards</button>
+      <button onclick="showSection('restaurants')">Restaurants</button>
+      <button onclick="showSection('scan')">Scan Products</button>
+      <button onclick="showSection('recommendations')">Recommendations</button>
+    </div>
+  </div>
+
+</div>
+
+
+</div>
 <!-- End main-container -->
  <!-- End main-container -->
   <!-- End main-container -->
    <!-- End main-container -->
     <!-- End main-container -->
 
-<div class="avatar-row">
-  <!-- Eluna -->
-  <div class="profile-wrapper" id="elunaWrapper">
-    <img class="avatar" src="characters/eluna.png" alt="Eluna">
-    <div class="thought-toggle">💭</div>
-    <div id="elunaThought" class="thought-bubble">
-      <span>Eluna</span> says...
-      <div id="elunaTip" class="lesson-box"></div>
-      <span class="close-thought">×</span>
-    </div>
-  </div>
-
-  <!-- Elune -->
-  <div class="profile-wrapper" id="eluneWrapper">
-    <img class="avatar" src="characters/elune.png" alt="Elune">
-    <div class="thought-toggle">💭</div>
-    <div id="eluneThought" class="thought-bubble">
-      <span>Elune</span> says...
-      <div id="eluneTip" class="lesson-box"></div>
-      <span class="close-thought">×</span>
-    </div>
-  </div>
-
-  <!-- Pet -->
-  <div class="profile-wrapper" id="petWrapper">
-    <div class="avatar" id="petAvatar"></div>
-    <div class="thought-toggle">💭</div>
-    <div id="petThought" class="thought-bubble">
-      <span id="petName">Pet</span> says...
-      <div id="petTip" class="lesson-box"></div>
-      <span class="close-thought">×</span>
-    </div>
-  </div>
-
-  <!-- Celebrity -->
-<div class="profile-wrapper" id="celebrityWrapper">
-  <img class="avatar" id="celebrityAvatar" src="" alt="Celebrity Avatar">
-  <div class="thought-toggle">💭</div>
-  <div id="celebrityThought" class="thought-bubble">
-    <div id="celebrityQuote" class="lesson-box"></div>
-    <span class="close-thought">×</span>
-  </div>
-</div>
-
-</div>
 <!-- End homepageContent -->
  <!-- End homepageContent -->
   <!-- End homepageContent -->
@@ -1595,7 +1524,6 @@
 </div>
 
 </div> 
-
 <script type="module" src="mainscript.js"></script>
 <script type="module" src="scriptpools.js"></script>
 <script src="scriptbuttons.js"></script>

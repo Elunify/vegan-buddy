@@ -19,64 +19,26 @@ function showSection(sectionId) {
       topBar.classList.add('hidden');
     }
   }
-
-  // Close side menu if open
-  const sideMenu = document.getElementById('sideMenu');
-  if (sideMenu && sideMenu.classList.contains('open')) {
-    sideMenu.classList.remove('open');
-    document.body.classList.remove('menu-open');
-  }
 }
-
-// --- Settings Page Trigger ---
-const profileWrapper = document.querySelector('.profile-wrapper');
-if (profileWrapper) {
-  profileWrapper.addEventListener('click', () => showSection('settings'));
-}
-
-// --- Side Menu Toggle ---
-const menuButton = document.getElementById('menuButton');
-const sideMenu = document.getElementById('sideMenu');
-
-menuButton.addEventListener('click', () => {
-  sideMenu.classList.toggle('open');
-  document.body.classList.toggle('menu-open'); // overlay
-});
-
-// Optional: close menu when clicking outside
-document.body.addEventListener('click', e => {
-  if (sideMenu.classList.contains('open') && !sideMenu.contains(e.target) && e.target !== menuButton) {
-    sideMenu.classList.remove('open');
-    document.body.classList.remove('menu-open');
-  }
-});
-
-
-// --- Side Menu Buttons ---
-const helpUsGrowBtn = document.getElementById('helpusgrowBtn');
-if (helpUsGrowBtn) {
-  helpUsGrowBtn.addEventListener('click', () => showSection('supportus'));
-}
-
-const aboutUsBtn = document.getElementById('aboutUsBtn');
-if (aboutUsBtn) {
-  aboutUsBtn.addEventListener('click', () => showSection('aboutus'));
-}
-
 // --- Bottom Navigation Buttons ---
 
-//bottom navigation buttons:
-document.querySelectorAll('.dropdown > button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const dropdown = btn.nextElementSibling; // the .dropdown-content
-    const isOpen = dropdown.classList.contains('open');
+// Toggle dropdowns for all triggers (center buttons, profile, menu)
+document.querySelectorAll('.dropdown > button, .profile-wrapper, .menu-button').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const dropdown = btn.nextElementSibling;
 
-    // Close all other dropdowns
-    document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('open'));
+    if (dropdown && dropdown.classList) {
+      const isOpen = dropdown.classList.contains('open');
 
-    // Toggle current dropdown
-    if (!isOpen) {
-      dropdown.classList.add('open');
+      // Close all other dropdowns
+      document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('open'));
+
+      // Toggle this one
+      dropdown.classList.toggle('open', !isOpen);
+    } else {
+      // no dropdown (e.g., home button)
+      document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('open'));
     }
   });
 });
@@ -143,7 +105,7 @@ communityButtons.forEach(id => {
 });
 
 // Playground: Avatar, Shop, Leaderboards, Challenges
-const playgroundButtons = ['profilecard','avatar','shop','leaderboards','challenges'];
+const playgroundButtons = ['profilecard','avatar','shop','leaderboards','challenges', 'supportus'];
 playgroundButtons.forEach(id => {
   const btn = document.querySelector(`button[onclick="showSection('${id}')"]`);
   if (btn) {
@@ -181,21 +143,19 @@ if (homeBtn) {
   });
   }
 
-// --- Top buttons on main page ---
-const checkinBtn = document.getElementById('checkinBtn');
-if (checkinBtn) {
-  checkinBtn.addEventListener('click', () => showSection('dailycheck-in'));
-}
+checkinBtn.addEventListener('click', () => {
+  showSection('learn'); // Show the learn page
+  document.getElementById('dailycheck-in')?.classList.remove('hidden');
+  document.getElementById('lesson-path')?.classList.add('hidden');
+});
 
-const healthBtn = document.getElementById('healthBtn');
-if (healthBtn) {
-  healthBtn.addEventListener('click', () => showSection('healthissues'));
-}
-
-// --- Quick Access Buttons ---
-const lessonsBtn = document.getElementById('lessonsBtn');
-if (lessonsBtn) {
-  lessonsBtn.addEventListener('click', () => showSection('lessons'));
+const lessonPathBtn = document.getElementById("lessonPathBtn");
+if (lessonPathBtn) {
+  lessonPathBtn.addEventListener('click', () => {
+    showSection('learn');
+    document.getElementById('dailycheck-in')?.classList.add('hidden');
+    document.getElementById('lesson-path')?.classList.remove('hidden');
+  });
 }
 
 const recipesBtn = document.getElementById('recipesBtn');
@@ -208,6 +168,10 @@ const mealartBtn = document.querySelectorAll('.mealartBtn');
 mealartBtn.forEach(link => {
   link.style.cursor = 'pointer'; // shows it’s clickable
   link.addEventListener('click', () => showSection('mealartcontest'));
+});
+
+document.getElementById("mealArtBtn").addEventListener("click", () => {
+  showSection("mealartcontest");
 });
 
 // --- Function to open a popup and close others ---
@@ -318,32 +282,6 @@ function toggleMemberships() {
       list.style.display = "none";
     }
   }
-
-
-//  Health Lesson
-//  Health Lesson
-//  Health Lesson
-//  Health Lesson
-
-  // Back button logic
-document.getElementById("close-lesson").addEventListener("click", () => {
-  const lessonTab = document.getElementById("healthylesson-tab");
-  const mainTab = document.getElementById("healthissues");
-
-  // Hide lesson tab and show main health issues tab
-  lessonTab.classList.add("hidden");
-  mainTab.classList.remove("hidden");
-
-  // Optionally: scroll back to the course/lesson that was open
-  const openLesson = document.querySelector("#healthissues .lesson.unlocked, #healthissues .lesson.completed");
-  if (openLesson) {
-    openLesson.scrollIntoView({ behavior: "smooth", block: "center" });
-  }
-});
-
-
-
-
 
 //  Scan and Map
 //  Scan and Map
