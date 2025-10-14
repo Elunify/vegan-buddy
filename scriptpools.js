@@ -1604,7 +1604,7 @@ export const HealthIssuesPool = {
     // HEART DISEASE LESSON 1
     {
       issue: "Heart disease",
-      title: "Lesson 1: How Heart Disease Begins — The Role of LDL Cholesterol",
+      title: "Heart disease: How Heart Disease Begins — The Role of LDL Cholesterol",
       content: `
 Heart disease doesn’t start with a heart attack — it begins silently, years earlier, inside your arteries.
 
@@ -1636,7 +1636,7 @@ Every plant-based meal is a direct act of heart protection.
     // HEART DISEASE LESSON 2
     {
       issue: "Heart disease",
-      title: "Lesson 2: How Plant-Based Diets Lower LDL and Heal Arteries",
+      title: "Heart disease: How Plant-Based Diets Lower LDL and Heal Arteries",
       content: `
 When you switch to a plant-based diet, LDL levels drop — often dramatically.
 
@@ -1668,7 +1668,7 @@ In other words: your body is capable of healing itself when given the right food
     // HEART DISEASE LESSON 3
     {
       issue: "Heart disease",
-      title: "Lesson 3: The Silent Inflammation Inside Arteries",
+      title: "Heart disease: The Silent Inflammation Inside Arteries",
       content: `
 LDL buildup is only half the story — the other half is **inflammation**.
 
@@ -1700,7 +1700,7 @@ Plants are the water that puts it out.
     // HEART DISEASE LESSON 4
     {
       issue: "Heart disease",
-      title: "Lesson 4: The Hidden Power of Nitric Oxide",
+      title: "Heart disease: The Hidden Power of Nitric Oxide",
       content: `
 Inside every artery, there’s a thin layer of cells called the **endothelium**. 
 These cells produce **nitric oxide (NO)** — a molecule that tells your blood vessels to relax and expand, improving circulation and lowering blood pressure.
@@ -1727,7 +1727,7 @@ So, the next time you eat a salad — know that you’re literally expanding you
     // HEART DISEASE LESSON 5
     {
       issue: "Heart disease",
-      title: "Lesson 5: Real People, Real Recovery",
+      title: "Heart disease: Real People, Real Recovery",
       content: `
 Scientific evidence is powerful — but human stories bring it to life.
 
@@ -1756,7 +1756,7 @@ When the body receives pure, nourishing foods, it knows how to repair itself.
     // HEART DISEASE LESSON 6
     {
       issue: "Heart disease",
-      title: "Lesson 6: Beyond Diet — Movement and Stress Management",
+      title: "Heart disease: Beyond Diet — Movement and Stress Management",
       content: `
 Food is the foundation, but it’s not the whole story. 
 A healthy heart also needs movement, rest, and emotional balance.
@@ -1785,7 +1785,7 @@ You don’t need perfection. You need consistency — small actions repeated dai
     // HEART DISEASE LESSON 7
     {
       issue: "Heart disease",
-      title: "Lesson 7: Your 7-Day Heart Healing Action Plan",
+      title: "Heart disease: Your 7-Day Heart Healing Action Plan",
       content: `
 Let’s bring everything together with a simple, practical plan you can start right now.
 
@@ -1817,7 +1817,7 @@ Each plant-based choice is an act of self-love — and every heartbeat thanks yo
     // === HIGH CHOLESTEROL ===
 {
   issue: "High cholesterol",
-  title: "Lesson 1: Understanding Cholesterol — The Good, the Bad, and the Balance",
+  title: "High cholesterol: Understanding Cholesterol — The Good, the Bad, and the Balance",
   content: `
 Cholesterol itself isn’t the enemy — your body actually needs it. It’s a waxy substance used to build cells and hormones. 
 The problem arises when there’s *too much of the wrong type* in your bloodstream.
@@ -1848,7 +1848,7 @@ Within weeks, your blood test can start to reflect the change.
 
 {
   issue: "High cholesterol",
-  title: "Lesson 2: How Animal Products Affect Cholesterol Levels",
+  title: "High cholesterol: How Animal Products Affect Cholesterol Levels",
   content: `
 Animal products are the main source of **saturated fats** and **dietary cholesterol**. While your liver produces all the cholesterol your body needs, eating meat, eggs, and dairy adds much more — leading to an excess that the body struggles to eliminate.
 
@@ -1878,7 +1878,7 @@ Your body isn’t broken — it’s just waiting for you to remove what’s hold
 
 {
   issue: "High cholesterol",
-  title: "Lesson 3: The Power of Soluble Fiber",
+  title: "High cholesterol: The Power of Soluble Fiber",
   content: `
 Soluble fiber acts like a natural sponge for cholesterol. It binds to LDL particles in the intestines and carries them out of the body before they can enter your bloodstream.
 
@@ -1909,7 +1909,7 @@ Start small: add oats to breakfast, beans to lunch, and fruit to snacks. Each st
 
 {
   issue: "High cholesterol",
-  title: "Lesson 4: Replace Animal Fats with Plant Power",
+  title: "High cholesterol: Replace Animal Fats with Plant Power",
   content: `
 Replacing saturated fats with unsaturated plant fats is one of the most effective ways to lower LDL cholesterol and raise HDL (“good”) cholesterol.
 
@@ -1939,7 +1939,7 @@ It’s not about deprivation — it’s about smart replacement. Each swap suppo
 
 {
   issue: "High cholesterol",
-  title: "Lesson 5: The Role of Exercise and Lifestyle",
+  title: "High cholesterol: The Role of Exercise and Lifestyle",
   content: `
 While diet is the foundation of cholesterol balance, lifestyle habits also play a major role.
 
@@ -1966,7 +1966,7 @@ When combined with plant-based eating, these small lifestyle choices amplify you
 
 {
   issue: "High cholesterol",
-  title: "Lesson 6: Real-Life Transformations and What’s Possible",
+  title: "High cholesterol: Real-Life Transformations and What’s Possible",
   content: `
 Let’s bring this to life with real stories.
 
@@ -1992,7 +1992,7 @@ You’re not powerless. Every plant-based meal is a message to your body: *I’m
 // === HIGH BLOOD PRESSURE ===
 {
   issue: "High blood pressure",
-  title: "Lesson 1: Understanding Blood Pressure — What It Means for Your Heart",
+  title: "High blood pressure: Understanding Blood Pressure — What It Means for Your Heart",
   content: `
 Blood pressure measures the force of blood pushing against the walls of your arteries.  
 When it’s too high — called hypertension — your arteries, heart, and organs endure extra stress, increasing the risk of heart attack, stroke, and kidney disease.
@@ -2023,7 +2023,7 @@ Even modest changes — replacing bacon with beans, or cheese with avocado — c
 
 {
   issue: "High blood pressure",
-  title: "Lesson 2: Sodium — The Hidden Blood Pressure Trigger",
+  title: "High blood pressure: Sodium — The Hidden Blood Pressure Trigger",
   content: `
 Most people consume far more sodium than needed, often without realizing it.  
 Processed foods, canned soups, bread, cheese, deli meats, and restaurant meals are loaded with hidden salt.
@@ -2053,7 +2053,7 @@ Even a **reduction of 1,500–2,000 mg of sodium per day** can reduce systolic b
 
 {
   issue: "High blood pressure",
-  title: "Lesson 3: Potassium — Your Natural Blood Pressure Regulator",
+  title: "High blood pressure: Potassium — Your Natural Blood Pressure Regulator",
   content: `
 Potassium is a superhero mineral for controlling blood pressure. It helps balance the effects of sodium and relaxes arterial walls.  
 
@@ -2082,7 +2082,7 @@ Pair it with fiber-rich foods — they amplify the benefits, helping the heart a
 
 {
   issue: "High blood pressure",
-  title: "Lesson 4: Plant-Based Diets and Blood Pressure — Evidence from Studies",
+  title: "High blood pressure: Plant-Based Diets and Blood Pressure — Evidence from Studies",
   content: `
 Multiple studies show that people who adopt a **whole-food, plant-based diet** experience significant reductions in blood pressure.  
 
@@ -2110,7 +2110,7 @@ Even small daily changes, like replacing cheese with beans or fried foods with r
 
 {
   issue: "High blood pressure",
-  title: "Lesson 5: Lifestyle Beyond Food — Movement, Sleep, and Stress",
+  title: "High blood pressure: Lifestyle Beyond Food — Movement, Sleep, and Stress",
   content: `
 Diet is the cornerstone, but lifestyle amplifies results.
 
@@ -2136,7 +2136,7 @@ Combining plant-based meals with exercise, mindfulness, and quality sleep gives 
 
 {
   issue: "High blood pressure",
-  title: "Lesson 6: Small Steps, Big Impact — Your 7-Day Action Plan",
+  title: "High blood pressure: Small Steps, Big Impact — Your 7-Day Action Plan",
   content: `
 Here’s a simple 7-day plan to start lowering blood pressure naturally:
 
@@ -2164,7 +2164,7 @@ Each plant-powered choice is a step toward a stronger, healthier heart.
 // === TYPE 2 DIABETES ===
 {
   issue: "Type 2 diabetes",
-  title: "Lesson 1: Understanding Type 2 Diabetes — How Blood Sugar Works",
+  title: "Type 2 diabetes: Understanding Type 2 Diabetes — How Blood Sugar Works",
   content: `
 Type 2 diabetes occurs when your body becomes resistant to insulin, the hormone responsible for moving sugar from your blood into your cells.  
 When insulin doesn’t work efficiently, blood sugar levels rise, leading to fatigue, weight gain, and increased risk of heart disease, kidney issues, and nerve damage.
@@ -2189,7 +2189,7 @@ The good news: even small dietary changes can have a measurable effect. Replacin
 
 {
   issue: "Type 2 diabetes",
-  title: "Lesson 2: Low-Glycemic Plant Foods — Your Blood Sugar Allies",
+  title: "Type 2 diabetes: Low-Glycemic Plant Foods — Your Blood Sugar Allies",
   content: `
 Not all carbohydrates are created equal. **Low-glycemic foods** release glucose slowly, preventing spikes in blood sugar and insulin.  
 
@@ -2221,7 +2221,7 @@ Each choice teaches your body to handle glucose more efficiently, lowering long-
 
 {
   issue: "Type 2 diabetes",
-  title: "Lesson 3: The Sugar Trap — How Sweet Drinks Affect Your Body",
+  title: "Type 2 diabetes: The Sugar Trap — How Sweet Drinks Affect Your Body",
   content: `
 Sugary drinks, even “healthy” fruit juices, flood your bloodstream with glucose. This causes your pancreas to overproduce insulin, which over time leads to insulin resistance.
 
@@ -2248,7 +2248,7 @@ Real-world results: people who replaced soda and sweetened drinks with water saw
 
 {
   issue: "Type 2 diabetes",
-  title: "Lesson 4: Fiber — Your Secret Weapon Against Diabetes",
+  title: "Type 2 diabetes: Fiber — Your Secret Weapon Against Diabetes",
   content: `
 Fiber slows digestion, stabilizes blood sugar, and feeds your gut microbiome — all of which help prevent insulin spikes.
 
@@ -2277,7 +2277,7 @@ Tip: Gradually increase fiber intake to avoid digestive discomfort. Add beans to
 
 {
   issue: "Type 2 diabetes",
-  title: "Lesson 5: Weight Management and Plant-Based Nutrition",
+  title: "Type 2 diabetes: Weight Management and Plant-Based Nutrition",
   content: `
 Maintaining a healthy weight is one of the most effective ways to prevent and manage type 2 diabetes.  
 Plant-based diets are naturally lower in calories and higher in fiber, which helps control appetite and reduce body fat.
@@ -2304,7 +2304,7 @@ Every plant-based meal becomes a step toward better blood sugar control, more en
 
 {
   issue: "Type 2 diabetes",
-  title: "Lesson 6: Real-Life Stories — People Who Reversed Blood Sugar Problems",
+  title: "Type 2 diabetes: Real-Life Stories — People Who Reversed Blood Sugar Problems",
   content: `
 Dr. Neal Barnard and colleagues have shown that people who switch to a low-fat, plant-based diet can **reverse type 2 diabetes**, sometimes eliminating medications entirely.
 
@@ -2331,7 +2331,7 @@ With knowledge, small changes, and consistency, your body can regain its natural
 // === OBESITY ===
 {
   issue: "Obesity",
-  title: "Lesson 1: Understanding Obesity — More Than Just Weight",
+  title: "Obesity: Understanding Obesity — More Than Just Weight",
   content: `
 Obesity is not simply about appearance — it’s a medical condition that increases the risk of type 2 diabetes, heart disease, certain cancers, joint problems, and even mental health challenges.  
 
@@ -2356,7 +2356,7 @@ Even small, consistent dietary changes can produce measurable weight loss and im
 
 {
   issue: "Obesity",
-  title: "Lesson 2: Portion Control — Eating Mindfully",
+  title: "Obesity: Portion Control — Eating Mindfully",
   content: `
 Portion control is a simple but powerful tool in weight management.  
 
@@ -2384,7 +2384,7 @@ Remember, the goal isn’t restriction — it’s balance. You can enjoy variety
 
 {
   issue: "Obesity",
-  title: "Lesson 3: Exercise — Your Ally in Weight Management",
+  title: "Obesity: Exercise — Your Ally in Weight Management",
   content: `
 Physical activity is essential for long-term weight management and overall health.  
 
@@ -2413,7 +2413,7 @@ Studies show that people who adopt both healthy eating and regular activity are 
 
 {
   issue: "Obesity",
-  title: "Lesson 4: Reduce Processed Foods and Animal Products",
+  title: "Obesity: Reduce Processed Foods and Animal Products",
   content: `
 Processed foods and animal products are high in **saturated fats, cholesterol, and empty calories**. They often lead to overeating because they are energy-dense but not filling.  
 
@@ -2444,7 +2444,7 @@ These small changes can reduce weight gradually and improve health markers like 
 
 {
   issue: "Obesity",
-  title: "Lesson 5: Building Sustainable Habits",
+  title: "Obesity: Building Sustainable Habits",
   content: `
 Sustainable weight loss comes from **long-term habit changes**, not extreme diets or temporary fixes.  
 
@@ -2472,7 +2472,7 @@ Remember: your body responds to repeated positive actions. Over time, these habi
 
 {
   issue: "Obesity",
-  title: "Lesson 6: Success Stories — Real People, Real Change",
+  title: "Obesity: Success Stories — Real People, Real Change",
   content: `
 Many people have transformed their lives through plant-based nutrition and lifestyle changes.  
 
@@ -2496,7 +2496,7 @@ Every plant-powered choice, each small walk, and every mindful bite adds up. Cha
 // === DIGESTIVE ISSUES ===
 {
   issue: "Digestive issues",
-  title: "Lesson 1: Understanding Digestive Health — Your Gut Matters",
+  title: "Digestive issues: Understanding Digestive Health — Your Gut Matters",
   content: `
 Your digestive system is more than just a tube for food — it’s a complex ecosystem.  
 A healthy gut helps digest food efficiently, absorb nutrients, regulate the immune system, and even influence mood.
@@ -2522,7 +2522,7 @@ By making simple dietary changes — like replacing meat with beans or milk with
 
 {
   issue: "Digestive issues",
-  title: "Lesson 2: Fiber — The Digestive Hero",
+  title: "Digestive issues: Fiber — The Digestive Hero",
   content: `
 Fiber is essential for digestion. It adds bulk to stool, helps food move through the digestive tract, and feeds beneficial gut bacteria.  
 
@@ -2549,7 +2549,7 @@ Tip: Start slowly and drink plenty of water to prevent digestive discomfort as y
 
 {
   issue: "Digestive issues",
-  title: "Lesson 3: Probiotics — Feeding Your Microbiome",
+  title: "Digestive issues: Probiotics — Feeding Your Microbiome",
   content: `
 Probiotics are beneficial bacteria that support a healthy gut microbiome. A balanced microbiome helps digestion, improves immune function, and may reduce inflammation.  
 
@@ -2577,7 +2577,7 @@ Avoid over-reliance on supplements — real, whole-food sources are more effecti
 
 {
   issue: "Digestive issues",
-  title: "Lesson 4: Avoiding Gut Irritants",
+  title: "Digestive issues: Avoiding Gut Irritants",
   content: `
 Certain foods can irritate your digestive system and worsen issues like bloating, gas, or inflammation.
 
@@ -2603,7 +2603,7 @@ Even a few meals a week free from animal products and processed foods can reduce
 
 {
   issue: "Digestive issues",
-  title: "Lesson 5: Hydration and Regular Movement",
+  title: "Digestive issues: Hydration and Regular Movement",
   content: `
 Hydration is crucial for digestion. Water helps fiber move through the gut, supports nutrient absorption, and prevents constipation.  
 
@@ -2628,7 +2628,7 @@ Together, hydration and movement improve digestion, reduce bloating, and enhance
 
 {
   issue: "Digestive issues",
-  title: "Lesson 6: Real-Life Gut Improvements",
+  title: "Digestive issues: Real-Life Gut Improvements",
   content: `
 Many people notice significant improvements in digestion after switching to a plant-focused diet.  
 
@@ -2654,7 +2654,7 @@ Every plant-based meal, every glass of water, and every gentle walk supports you
 // === INFLAMMATION OR SWELLING ===
 {
   issue: "Inflammation or swelling",
-  title: "Lesson 1: Understanding Inflammation — Your Body’s Fire Alarm",
+  title: "Inflammation or swelling: Understanding Inflammation — Your Body’s Fire Alarm",
   content: `
 Inflammation is your body’s natural response to injury or infection.  
 Short-term inflammation is healthy, but **chronic inflammation** can damage tissues, trigger pain, and increase the risk of diseases such as arthritis, heart disease, and diabetes.
@@ -2679,7 +2679,7 @@ Even small dietary changes — swapping meat for beans or adding turmeric to you
 
 {
   issue: "Inflammation or swelling",
-  title: "Lesson 2: Antioxidants — Nature’s Anti-Inflammatory Agents",
+  title: "Inflammation or swelling: Antioxidants — Nature’s Anti-Inflammatory Agents",
   content: `
 Antioxidants are molecules that neutralize harmful free radicals in your body, preventing tissue damage and reducing inflammation.
 
@@ -2707,7 +2707,7 @@ Incorporate these foods daily: a handful of berries with breakfast, leafy greens
 
 {
   issue: "Inflammation or swelling",
-  title: "Lesson 3: Avoiding Inflammatory Foods",
+  title: "Inflammation or swelling: Avoiding Inflammatory Foods",
   content: `
 Certain foods trigger inflammation and oxidative stress.  
 
@@ -2740,7 +2740,7 @@ Even gradual reductions in these foods improve inflammation markers within weeks
 
 {
   issue: "Inflammation or swelling",
-  title: "Lesson 4: Omega-3s — Plant-Based Anti-Inflammatory Fats",
+  title: "Inflammation or swelling: Omega-3s — Plant-Based Anti-Inflammatory Fats",
   content: `
 Omega-3 fatty acids are essential for reducing inflammation, supporting heart health, and improving joint function.  
 
@@ -2768,7 +2768,7 @@ Incorporate omega-3s daily: add ground flaxseed to oatmeal, sprinkle chia seeds 
 
 {
   issue: "Inflammation or swelling",
-  title: "Lesson 5: Lifestyle Factors — Movement, Stress, and Sleep",
+  title: "Inflammation or swelling: Lifestyle Factors — Movement, Stress, and Sleep",
   content: `
 Diet alone isn’t enough — lifestyle plays a big role in managing inflammation.  
 
@@ -2794,7 +2794,7 @@ Combining a plant-based anti-inflammatory diet with these lifestyle habits produ
 
 {
   issue: "Inflammation or swelling",
-  title: "Lesson 6: Real-Life Anti-Inflammatory Success",
+  title: "Inflammation or swelling: Real-Life Anti-Inflammatory Success",
   content: `
 Many people report dramatic reductions in joint pain, bloating, and swelling after switching to a plant-based, anti-inflammatory lifestyle.
 
@@ -2820,7 +2820,7 @@ Every plant-based meal, daily walk, and mindful moment contributes to a calmer, 
 // === FATIGUE ===
 {
   issue: "Fatigue",
-  title: "Lesson 1: Understanding Fatigue — Why You Feel Tired",
+  title: "Fatigue: Understanding Fatigue — Why You Feel Tired",
   content: `
 Fatigue isn’t just about sleep — it can stem from poor nutrition, stress, or nutrient deficiencies.  
 A diet high in **meat, dairy, and processed foods** can lead to sluggishness because it often lacks fiber, antioxidants, and certain micronutrients, while being heavy in saturated fat.
@@ -2846,7 +2846,7 @@ By shifting to nutrient-dense plant foods, your body receives fuel it can use ef
 
 {
   issue: "Fatigue",
-  title: "Lesson 2: Nutrient-Dense Foods — Your Energy Boosters",
+  title: "Fatigue: Nutrient-Dense Foods — Your Energy Boosters",
   content: `
 Certain nutrients are critical for maintaining energy:  
 - **Iron:** Found in spinach, lentils, chickpeas — supports oxygen transport in blood  
@@ -2870,7 +2870,7 @@ Real-life results show that people replacing processed meals with nutrient-dense
 
 {
   issue: "Fatigue",
-  title: "Lesson 3: Hydration — Energy From Water",
+  title: "Fatigue: Hydration — Energy From Water",
   content: `
 Even mild dehydration can cause fatigue, reduced concentration, and headaches.  
 
@@ -2896,7 +2896,7 @@ Proper hydration helps nutrients reach your cells efficiently and keeps energy l
 
 {
   issue: "Fatigue",
-  title: "Lesson 4: Balanced Carbohydrates — Slow and Steady Energy",
+  title: "Fatigue: Balanced Carbohydrates — Slow and Steady Energy",
   content: `
 Refined carbs like white bread, pastries, and sugary snacks give quick energy spikes followed by crashes.  
 
@@ -2922,7 +2922,7 @@ Pairing these with protein and healthy fats enhances satiety and provides steady
 
 {
   issue: "Fatigue",
-  title: "Lesson 5: Lifestyle Habits to Combat Fatigue",
+  title: "Fatigue: Lifestyle Habits to Combat Fatigue",
   content: `
 Nutrition is important, but lifestyle choices amplify energy levels:  
 - **Regular sleep:** 7–9 hours allows cells to recover  
@@ -2945,7 +2945,7 @@ Combining plant-based nutrition with proper sleep, movement, and stress reductio
 
 {
   issue: "Fatigue",
-  title: "Lesson 6: Real-Life Energy Transformation",
+  title: "Fatigue: Real-Life Energy Transformation",
   content: `
 Many people notice dramatic improvements in energy after switching to a nutrient-dense, plant-based diet.  
 
@@ -2970,7 +2970,7 @@ These changes demonstrate that **fatigue is often reversible** with diet and lif
 // === CANCER RISK ===
 {
   issue: "Cancer risk",
-  title: "Lesson 1: Understanding Cancer Risk — What We Can Control",
+  title: "Cancer risk: Understanding Cancer Risk — What We Can Control",
   content: `
 Cancer is a complex disease influenced by genetics, environment, and lifestyle. While genetics are unchangeable, **diet and lifestyle choices play a huge role** in reducing risk.  
 
@@ -2994,7 +2994,7 @@ Even gradual dietary changes — like replacing one meat-based meal per day with
 
 {
   issue: "Cancer risk",
-  title: "Lesson 2: Antioxidants — Protecting Your Cells",
+  title: "Cancer risk: Antioxidants — Protecting Your Cells",
   content: `
 Antioxidants neutralize free radicals, unstable molecules that can damage DNA and increase cancer risk.  
 
@@ -3022,7 +3022,7 @@ Incorporate these foods daily: smoothies, salads, stir-fries, and roasted vegeta
 
 {
   issue: "Cancer risk",
-  title: "Lesson 3: Fiber — Your Natural Detoxifier",
+  title: "Cancer risk: Fiber — Your Natural Detoxifier",
   content: `
 Fiber plays a vital role in reducing cancer risk, particularly colorectal cancer.  
 
@@ -3048,7 +3048,7 @@ Replacing meat-heavy meals with fiber-rich plant foods can **dramatically improv
 
 {
   issue: "Cancer risk",
-  title: "Lesson 4: Avoiding Processed and Red Meats",
+  title: "Cancer risk: Avoiding Processed and Red Meats",
   content: `
 Processed and red meats contain compounds like nitrates, nitrites, and heterocyclic amines formed during cooking at high temperatures.  
 
@@ -3075,7 +3075,7 @@ Even reducing meat intake by 50% has been linked to lower cancer risk in epidemi
 
 {
   issue: "Cancer risk",
-  title: "Lesson 5: Alcohol, Sugar, and Inflammation",
+  title: "Cancer risk: Alcohol, Sugar, and Inflammation",
   content: `
 Alcohol, excessive sugar, and pro-inflammatory foods increase cancer risk by:
 - Promoting DNA damage  
@@ -3100,7 +3100,7 @@ Even small reductions — like swapping a sugary drink for water or replacing a 
 
 {
   issue: "Cancer risk",
-  title: "Lesson 6: Real-Life Cancer Prevention Success",
+  title: "Cancer risk: Real-Life Cancer Prevention Success",
   content: `
 Real-life evidence shows that adopting plant-based, nutrient-rich diets reduces cancer risk markers and improves overall health.  
 
@@ -4617,7 +4617,7 @@ function getRandomPositionForChar(char, wrapperWidth, wrapperHeight) {
 
   const leftEdge = 0.15 * vw;
   const rightEdge = 0.85 * vw - wrapperWidth;
-  const bottomLimit = 0.55 * vh; // max Y (40% from bottom)
+  let bottomLimit = 0.55 * vh; // max Y (40% from bottom)
   const topLimit = 0.10 * vh;
 
   let minX, maxX;
@@ -4691,7 +4691,7 @@ function showRandomAvatar() {
   wrapper.style.display = "block";
 
   // ✅ Call position function correctly
-  const pos = getRandomPositionForChar(
+  let pos = getRandomPositionForChar(
     char,
     wrapper.offsetWidth,
     wrapper.offsetHeight

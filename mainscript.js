@@ -396,6 +396,12 @@ function toggleHealthIssues() {
   if (!solvingChecked) {
     document.querySelectorAll('input[name="healthIssue"]').forEach(cb => cb.checked = false);
   }
+
+  const healthList = document.getElementById("healthIssuesList");
+  const healthTitle = document.getElementById("healthTitle");
+  if (!healthList || !healthTitle) return;
+
+  healthTitle.style.display = healthList.children.length === 0 ? "none" : "block";
 }
 document.querySelectorAll('input[name="goal"]').forEach(cb => cb.addEventListener("change", toggleHealthIssues));
 
@@ -492,6 +498,9 @@ async function saveProfile() {
   const { profile, globalImpact } = await fetchAllData();
   await renderProfile(profile, globalImpact);
   await initHealthPaths();
+  await renderExtraLessons();
+setupExtraLessonClicks(); // ← important for interactivity
+applyExtraLessonProgress(); // ← optional, to reflect completed lessons
 
   // Show profile view
   document.querySelector('.containeredit')?.classList.add('hidden');
@@ -1368,35 +1377,92 @@ function updateMealArtNotes(today) {
 // ----------------------------
 // EXTRA LESSONS 
 // ----------------------------
+function getHealthLessons(profile) {
+  // 1️⃣ Gather lessons from both sources
+  const healthIssuesLessons = HealthIssuesPool.health || [];
+  const extraLessons = (extralessonsData && extralessonsData.health) || [];
+  const userIssues = profile.health_issues || [];
+
+  if (userIssues.length === 0) {
+    // If user has no issues, show all general health lessons (both pools)
+    const generalHealthIssuesLessons = healthIssuesLessons.filter(l => !l.issue);
+    return [...generalHealthIssuesLessons, ...extraLessons];
+  }
+
+  // 2️⃣ Group lessons by issue
+  const lessonsByIssue = userIssues.map(issue =>
+    healthIssuesLessons.filter(lesson => lesson.issue === issue)
+  );
+
+  // 3️⃣ Interleave lessons (round-robin)
+  const interleaved = [];
+  const maxLen = Math.max(...lessonsByIssue.map(l => l.length));
+  for (let i = 0; i < maxLen; i++) {
+    lessonsByIssue.forEach(issueLessons => {
+      if (issueLessons[i]) interleaved.push(issueLessons[i]);
+    });
+  }
+
+  // 4️⃣ Add general health lessons (without issue)
+  const generalLessons = healthIssuesLessons.filter(l => !l.issue);
+
+  // 5️⃣ Add extra lessons from extralessonspool
+  const extraHealthLessons = extraLessons.filter(l => !l.issue);
+
+  // 6️⃣ Combine everything
+  return [...interleaved, ...generalLessons, ...extraHealthLessons];
+}
+
+let globalLessonsToRender = {};
+
 // Render lessons per course
-function renderExtraLessons() {
+function renderExtraLessons() { 
   if (!extralessonsData) return;
 
   Object.keys(extralessonsData).forEach(courseKey => {
-    const course = document.getElementById(courseKey);
-    if (!course) return;
+  const course = document.getElementById(courseKey);
+  if (!course) return;
 
-    const lessonList = course.querySelector(".extralesson-list");
-    if (!lessonList) return;
+  const lessonList = course.querySelector(".extralesson-list");
+  if (!lessonList) return;
+  lessonList.innerHTML = ""; // clear
 
-    lessonList.innerHTML = ""; // clear
+  let lessonsToRender = extralessonsData[courseKey];
 
-    extralessonsData[courseKey].forEach((lesson, index) => {
-      const li = document.createElement("li");
-      li.dataset.step = index + 1;
-      li.className = index === 0 ? "extralesson unlocked" : "extralesson locked";
-      li.innerHTML = `
-        <div class="extralesson-title">
-          <span class="extralesson-icon">${index === 0 ? "🟢" : "🔒"}</span>
-          ${lesson.title}
-        </div>
-        <div class="extralesson-content"></div>
-      `;
-      lessonList.appendChild(li);
-    });
-  });
+  // <-- NEW: if health, sort by user issues first
+  if (courseKey === "health" && currentProfile) {          
+    lessonsToRender = getHealthLessons(currentProfile);
+  }
+
+// ✅ Save lessons globally so setupExtraLessonClicks can access them
+    globalLessonsToRender[courseKey] = lessonsToRender;
+
+  lessonsToRender.forEach((lesson, index) => {
+  const li = document.createElement("li");
+  li.dataset.step = index + 1;
+
+  // Check if this lesson was completed before
+  if (currentProfile.completedHealthLessons?.includes(lesson.title)) {
+    li.className = "extralesson completed";
+  } else if (index === 0 || currentProfile.completedHealthLessons?.includes(lessonsToRender[index - 1].title)) {
+  li.className = "extralesson unlocked";
+  } else {
+    li.className = "extralesson locked";
+  }
+
+  li.innerHTML = `
+    <div class="extralesson-title">
+      <span class="extralesson-icon">${li.classList.contains("completed") ? "✅" : (li.classList.contains("unlocked") ? "🟢" : "🔒")}</span>
+      ${lesson.title}
+    </div>
+    <div class="extralesson-content"></div>
+  `;
+  lessonList.appendChild(li);
+});
+});
 }
 
+// Setup click handlers for lessons
 // Setup click handlers for lessons
 function setupExtraLessonClicks() {
   if (!extralessonsData) return;
@@ -1412,88 +1478,93 @@ function setupExtraLessonClicks() {
       if (!title) return;
 
       title.addEventListener("click", async () => {
-        if (lesson.classList.contains("locked")) return;
+  if (lesson.classList.contains("locked")) return;
 
-        // Close other lessons
-        lessons.forEach(l => {
-          if (l !== lesson) l.querySelector(".extralesson-content")?.classList.remove("active");
-        });
+  // Close other lessons
+  lessons.forEach(l => {
+    if (l !== lesson) l.querySelector(".extralesson-content")?.classList.remove("active");
+  });
 
-        contentContainer.classList.toggle("active");
+  contentContainer.classList.toggle("active");
 
-        // Load question if not first lesson
-        const questionObj = idx > 0 ? extralessonsData[courseId][idx - 1].question : null;
+  if (!contentContainer.innerHTML.trim()) {
+    const lessonData = globalLessonsToRender[courseId][idx];
+    const questionObj = lessonData.quiz || lessonData.question || null; // support both naming conventions
+    let innerHTML = "";
 
-        if (!contentContainer.innerHTML.trim()) {
-          let innerHTML = "";
+    // --- Show the lesson text first ---
+    innerHTML += `
+      <div class="extralesson-text" style="margin-top:0.5rem;">
+        <p>${lessonData.content}</p>
+        ${questionObj ? `<button class="start-quiz-btn">Take Quiz 🧠</button>` : `<button class="complete-btn">I have read it ✅</button>`}
+      </div>
+    `;
 
-          if (questionObj) {
-            innerHTML += `
-              <p><strong>${questionObj.text}</strong></p>
-              ${questionObj.options.map((opt, i) => `
-                <label style="display:block; margin-bottom:0.3rem;">
-                  <input type="radio" name="extraquiz-${courseId}-${idx}" value="${i}"> ${opt}
-                </label>`).join("")}
-              <button class="extraquiz-submit">Submit Answer</button>
-              <div class="extraquiz-feedback" style="margin:0.5rem 0; color:red"></div>
-            `;
-          }
+    // --- Prepare the quiz (hidden at first) ---
+    if (questionObj) {
+      innerHTML += `
+        <div class="extraquiz-section" style="display:none; margin-top:0.5rem;">
+          <p><strong>${questionObj.question || questionObj.text}</strong></p>
+          ${questionObj.options.map((opt, i) => `
+            <label style="display:block; margin-bottom:0.3rem;">
+              <input type="radio" name="extraquiz-${courseId}-${idx}" value="${i}"> ${opt}
+            </label>`).join("")}
+          <button class="extraquiz-submit">Submit Answer</button>
+          <div class="extraquiz-feedback" style="margin:0.5rem 0; color:red"></div>
+        </div>
+      `;
+    }
 
-          innerHTML += `
-            <div class="extralesson-text" style="margin-top:0.5rem; display:${questionObj ? "none" : "block"};">
-              <p>${extralessonsData[courseId][idx].content}</p>
-              <button class="complete-btn">I have read it ✅</button>
-            </div>
-          `;
+    contentContainer.innerHTML = innerHTML;
 
-          contentContainer.innerHTML = innerHTML;
-
-          // Quiz submission
-          if (questionObj) {
-            const submitBtn = contentContainer.querySelector(".extraquiz-submit");
-            const feedback = contentContainer.querySelector(".extraquiz-feedback");
-            const lessonText = contentContainer.querySelector(".extralesson-text");
-
-            submitBtn.addEventListener("click", e => {
-              e.stopPropagation();
-              const selected = contentContainer.querySelector(`input[name="extraquiz-${courseId}-${idx}"]:checked`);
-              if (!selected) { feedback.textContent = "Please select an answer!"; return; }
-              if (parseInt(selected.value) !== questionObj.correctIndex) { feedback.textContent = "Wrong answer, try again!"; return; }
-
-              feedback.textContent = "";
-              lessonText.style.display = "block";
-              submitBtn.style.display = "none";
-            });
-          }
-
-          // Complete button
-          const completeBtn = contentContainer.querySelector(".complete-btn");
-          completeBtn.addEventListener("click", async e => {
-            e.stopPropagation();
-            lesson.classList.remove("unlocked");
-            lesson.classList.add("completed");
-
-            // Save progress using global profile
-            await saveExtraLessonProgress();
-
-            // Refresh lessons immediately
-            renderExtraLessons();
-            setupExtraLessonClicks();
-            applyExtraLessonProgress();
-
-            // Scroll to next lesson
-            const nextLesson = document.querySelector(`#${CSS.escape(courseId)} .extralesson[data-step="${idx + 2}"]`);
-            if (nextLesson) nextLesson.scrollIntoView({ behavior: "smooth", block: "center" });
-
-            // Close current content
-            contentContainer.classList.remove("active");
-            contentContainer.innerHTML = "";
-          });
-        }
+    // --- When user finishes reading, start the quiz ---
+    if (questionObj) {
+      const startQuizBtn = contentContainer.querySelector(".start-quiz-btn");
+      const quizSection = contentContainer.querySelector(".extraquiz-section");
+      startQuizBtn.addEventListener("click", e => {
+        e.stopPropagation();
+        startQuizBtn.style.display = "none";
+        quizSection.style.display = "block";
       });
+
+      const submitBtn = contentContainer.querySelector(".extraquiz-submit");
+      const feedback = contentContainer.querySelector(".extraquiz-feedback");
+
+      submitBtn.addEventListener("click", e => {
+        e.stopPropagation();
+        const selected = contentContainer.querySelector(`input[name="extraquiz-${courseId}-${idx}"]:checked`);
+        if (!selected) { feedback.textContent = "Please select an answer!"; return; }
+        if (parseInt(selected.value) !== (questionObj.answer ?? questionObj.correctIndex)) {
+          feedback.textContent = "Wrong answer, try again!"; return;
+        }
+
+        feedback.textContent = "✅ Correct!";
+submitBtn.style.display = "none";
+
+// Automatically complete the lesson after 1 second
+setTimeout(async () => {
+  lesson.classList.remove("unlocked");
+  lesson.classList.add("completed");
+
+  await saveExtraLessonProgress();
+  renderExtraLessons();
+  setupExtraLessonClicks();
+  applyExtraLessonProgress();
+
+  const nextLesson = document.querySelector(`#${CSS.escape(courseId)} .extralesson[data-step="${idx + 2}"]`);
+  if (nextLesson) nextLesson.scrollIntoView({ behavior: "smooth", block: "center" });
+
+  contentContainer.classList.remove("active");
+  contentContainer.innerHTML = "";
+}, 1000);
+      });
+    }
+  }
+});
     });
   });
 }
+
 
 // Save progress using currentProfile if available
 async function saveExtraLessonProgress() {
@@ -1508,11 +1579,28 @@ async function saveExtraLessonProgress() {
   Object.keys(extralessonsData).forEach(courseId => {
     progress[courseId] = [];
     const lessons = document.querySelectorAll(`#${courseId} .extralesson`);
+
     lessons.forEach((lesson, idx) => {
       if (lesson.classList.contains("completed")) {
-        progress[courseId].push(idx + 1);
-        if (!previousProgress[courseId] || !previousProgress[courseId].includes(idx + 1)) {
+        // Use lesson title as unique identifier
+        const lessonTitle = lesson.querySelector(".extralesson-title").textContent.trim();
+        progress[courseId].push(lessonTitle);
+
+        // Only count new lessons for XP
+        if (!previousProgress[courseId] || !previousProgress[courseId].includes(lessonTitle)) {
           newLessonsCompleted++;
+
+          // If health course and lesson has an issue, track it
+          if (courseId === "health") {
+            let lessonData = (extralessonsData.health || []).find(l => l.title === lessonTitle);
+if (!lessonData) lessonData = (HealthIssuesPool.health || []).find(l => l.title === lessonTitle);
+            if (lessonData?.issue) {
+              if (!currentProfile.completedHealthIssues) currentProfile.completedHealthIssues = [];
+              if (!currentProfile.completedHealthIssues.includes(lessonData.issue)) {
+                currentProfile.completedHealthIssues.push(lessonData.issue);
+              }
+            }
+          }
         }
       }
     });
@@ -1520,15 +1608,21 @@ async function saveExtraLessonProgress() {
 
   totalXp += newLessonsCompleted * 5;
 
-  // Update profile using global supabase
+  // Update profile in Supabase
   const { error } = await supabase
     .from("profiles")
-    .update({ extra_lesson: progress, total_xp: totalXp })
+    .update({
+      extra_lesson: progress,
+      total_xp: totalXp,
+      completed_health_issues: currentProfile.completedHealthIssues || []
+    })
     .eq("id", currentProfile.id);
 
   if (error) console.error("Error saving extra lesson progress:", error);
-  else currentProfile.extra_lesson = progress;
-  currentProfile.total_xp = totalXp;
+  else {
+    currentProfile.extra_lesson = progress;
+    currentProfile.total_xp = totalXp;
+  }
 
   // Optionally refresh profile on page
   const { profile } = await fetchAllData();
@@ -1544,17 +1638,34 @@ function applyExtraLessonProgress() {
     const lessons = document.querySelectorAll(`#${courseId} .extralesson`);
     const completedLessons = currentProfile.extra_lesson[courseId] || [];
 
+    let lastCompletedIndex = -1;
+
     lessons.forEach((lesson, idx) => {
-      if (completedLessons.includes(idx + 1)) lesson.className = "extralesson completed";
-      else if (idx === 0 || completedLessons.includes(idx)) lesson.className = "extralesson unlocked";
-      else lesson.className = "extralesson locked";
+      const lessonTitle = lesson.querySelector(".extralesson-title").textContent.trim();
+
+      if (completedLessons.includes(lessonTitle)) {
+        lesson.className = "extralesson completed";
+        lastCompletedIndex = idx;
+      } else {
+        lesson.className = "extralesson locked";
+      }
 
       lesson.querySelector(".extralesson-icon").textContent =
         lesson.classList.contains("completed") ? "✅" :
         lesson.classList.contains("unlocked") ? "🟢" : "🔒";
     });
+
+    // Unlock the next lesson after the last completed one
+    if (lastCompletedIndex + 1 < lessons.length) {
+      const nextLesson = lessons[lastCompletedIndex + 1];
+      if (!nextLesson.classList.contains("completed")) {
+        nextLesson.className = "extralesson unlocked";
+        nextLesson.querySelector(".extralesson-icon").textContent = "🟢";
+      }
+    }
   });
 }
+
 
 // COURSE BUTTONS
 function setupCourseButtons() {
