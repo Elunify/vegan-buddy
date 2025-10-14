@@ -239,16 +239,22 @@ const lessonPathBtn = document.getElementById("lessonPathBtn"); // <-- new
 const dailyCheckInSection = document.getElementById("dailycheck-in");
 const lessonPathSection = document.getElementById("lesson-path");
 
-const todayDate = new Date();
-const today = todayDate.getFullYear() + '-' +
-              String(todayDate.getMonth() + 1).padStart(2, '0') + '-' +
-              String(todayDate.getDate()).padStart(2, '0');
+// Helper to format date in UTC as YYYY-MM-DD
+function getUTCDateString(date) {
+  return (
+    date.getUTCFullYear() + '-' +
+    String(date.getUTCMonth() + 1).padStart(2, '0') + '-' +
+    String(date.getUTCDate()).padStart(2, '0')
+  );
+}
 
-const yesterdayDate = new Date();
-yesterdayDate.setDate(yesterdayDate.getDate() - 1);
-const yesterdayStr = yesterdayDate.getFullYear() + '-' +
-                     String(yesterdayDate.getMonth() + 1).padStart(2, '0') + '-' +
-                     String(yesterdayDate.getDate()).padStart(2, '0');
+// Get today's and yesterday's UTC dates
+const todayUTC = new Date();
+const today = getUTCDateString(todayUTC);
+
+const yesterdayUTC = new Date();
+yesterdayUTC.setUTCDate(yesterdayUTC.getUTCDate() - 1);
+const yesterdayStr = getUTCDateString(yesterdayUTC);
 
 if (checkinBtn && lessonPathBtn && dailyCheckInSection && lessonPathSection) {
   if (profile.last_checkin_date === today) {
@@ -412,7 +418,9 @@ async function handleStreakSave(user, profile, yesterday) {
     profile.last_checkin_date = yesterday;
     alert("Streak saved by spending 10 badges!");
     return true;
-  } else {
+  }   
+  /*  
+  else  {
     const pay = confirm("You don't have enough badges. Do you want to save your streak for 1€?");
     if (pay) {
       await supabase.from("profiles").update({ last_checkin_date: yesterday }).eq("id", user.id);
@@ -427,6 +435,7 @@ async function handleStreakSave(user, profile, yesterday) {
       return false;
     }
   }
+  */
 }
 
 //--------------------------
@@ -962,6 +971,13 @@ document.getElementById('calculateImpactBtn').addEventListener('click', () => {
   document.getElementById('calcWater').textContent = waterSaved;
   document.getElementById('calcCO2').textContent = co2Saved;
 
+  // 🐾 Sentences
+  document.getElementById('calcComparison').innerHTML =
+`Every animal you spared has a heartbeat, a breath, and a story ❤️. 
+The forest you’ve protected provides enough oxygen for <span class="highlight">${Math.round(forestSaved / 20)}</span> people for a whole year 🌬️. 
+You’ve also saved enough water to fill <span class="highlight">${Math.round(waterSaved / 170)}</span> bathtubs — a small but meaningful gift to our planet 🛁. 
+And all your choices together prevented as much CO₂ as <span class="highlight">${Math.round(co2Saved / 21)}</span> trees absorb in a year 🌳.`;
+
   document.getElementById('impactResults').classList.remove('hidden');
 });
 
@@ -1192,8 +1208,8 @@ function setupMealUploadForm() {
 
 // MONDAY VOTING
 async function setupMondayVoting(userId) {  
-  const today = new Date().getDay();
-  if (today !== 1) return;
+ const todayUTC = new Date().getUTCDay(); // 0 = Sunday, 1 = Monday, etc.
+  if (todayUTC !== 1) return; // Only run on Monday (UTC)
 
   const homeChefGallery = document.getElementById("home-chef-gallery");
   const proKitchenGallery = document.getElementById("pro-kitchen-gallery");
@@ -1219,9 +1235,16 @@ async function addVotingToGallery(gallery, isPro, userId) {
     return;
   }
 
-  const weekStart = new Date();
-  weekStart.setDate(weekStart.getDate() - weekStart.getDay() + 1);
-  const weekStr = weekStart.toISOString().split("T")[0];
+  // 🗓️ Calculate the Monday of the current week in UTC
+  const nowUTC = new Date();
+  const utcDay = nowUTC.getUTCDay(); // 0 = Sunday, 1 = Monday...
+  const weekStartUTC = new Date(Date.UTC(
+    nowUTC.getUTCFullYear(),
+    nowUTC.getUTCMonth(),
+    nowUTC.getUTCDate() - utcDay + 1, // Move back to Monday
+    0, 0, 0, 0
+  ));
+  const weekStr = weekStartUTC.toISOString().split("T")[0];
 
   const { data: existingVote, error } = await supabase
     .from("votes")
@@ -1312,8 +1335,9 @@ function updateMealArtNotes(today) {
   const uploadnote = document.getElementById("uploadnote");
   const generalnote = document.getElementById("generalnote");
   const alreadyUploadedMsg = document.getElementById("alreadyUploadedMsg");
+  const todayUTC = new Date().getUTCDay(); // 0 = Sunday, 1 = Monday, etc.
 
-  if (today === 1) { // Monday — voting day
+  if (todayUTC === 1) { // Monday — voting day
     votenote?.classList.remove("hidden-meal");
     uploadBtn?.classList.add("hidden-meal");
     uploadnote?.classList.add("hidden-meal");

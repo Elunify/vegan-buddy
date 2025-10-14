@@ -373,8 +373,8 @@
           <strong style="font-size: 1.1em; line-height: 1.3rem;">Eluna says:</strong><br> 
           This app is a small, heart-driven project — it’s only me working on it, driven by the belief that together we can make a difference for animals, people, and the planet. 
           There are no ads or corporate sponsors — just honesty, care, and a vision for a kinder world. 
-          By subscribing, donating, or simply sharing our mission, you help keep this project alive and growing. 
-          Every bit of support helps me keep improving the app and reaching more people who want to live compassionately. 
+        <!--  By subscribing, donating, or simply sharing our mission, you help keep this project alive and growing. 
+          Every bit of support helps me keep improving the app and reaching more people who want to live compassionately.   -->
           Follow our journey on <a href="https://www.instagram.com/app.elunify/" target="_blank"><strong>@elunify.app</strong></a> 🌱 — together, we’re building something beautiful. 
         </div>
       </div>
@@ -1316,11 +1316,11 @@
   <div class="dropdown">
     <button>☰</button>
     <div class="dropdown-content">
-      <button onclick="showSection('supportus')">About Us</button>
       <button onclick="showSection('leaderboards')">Leaderboards</button>
       <button onclick="showSection('restaurants')">Restaurants</button>
-      <button onclick="showSection('scan')">Scan Products</button>
+    <!--  <button onclick="showSection('scan')">Scan Products</button>  -->
       <button onclick="showSection('recommendations')">Recommendations</button>
+      <button onclick="showSection('supportus')">About Us</button>
     </div>
   </div>
 
@@ -1417,11 +1417,18 @@
     </div>
 
     <div class="calculator-results hidden" id="impactResults">
-      <p>Animals saved: <span class="highlight" id="calcAnimals">0</span></p>
-      <p>Forest saved: <span class="highlight" id="calcForest">0</span> m²</p>
-      <p>Water saved: <span class="highlight" id="calcWater">0</span> liters</p>
-      <p>CO₂ reduced: <span class="highlight" id="calcCO2">0</span> kg</p>
-    </div>
+  <!-- Raw numbers -->
+  <ul class="impact-list">
+    <li>Animals saved: <span class="highlight" id="calcAnimals">0</span></li>
+    <li>Forest saved: <span class="highlight" id="calcForest">0</span> m²</li>
+    <li>Water saved: <span class="highlight" id="calcWater">0</span> liters</li>
+    <li>CO₂ reduced: <span class="highlight" id="calcCO2">0</span> kg</li>
+  </ul>
+
+  <!-- Single combined comparison paragraph -->
+  <p id="calcComparison" class="comparison-sentence"></p>
+</div>
+
   </div>
 </div>
 

@@ -105,7 +105,7 @@ communityButtons.forEach(id => {
 });
 
 // Playground: Avatar, Shop, Leaderboards, Challenges
-const playgroundButtons = ['profilecard','avatar','shop','leaderboards','challenges', 'supportus'];
+const playgroundButtons = ['profilecard','avatar','shop','leaderboards','challenges', 'supportus', 'settings'];
 playgroundButtons.forEach(id => {
   const btn = document.querySelector(`button[onclick="showSection('${id}')"]`);
   if (btn) {
