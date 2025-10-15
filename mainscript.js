@@ -2091,7 +2091,6 @@ async function sendCommunityMessage() {
   if (error) return console.error(error);
 
   document.getElementById("communityMessageInput").value = "";
-  await loadCommunityMessages(joinedLocationId);
 }
 
 document.getElementById("sendCommunityMessageBtn").addEventListener("click", sendCommunityMessage);
