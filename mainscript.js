@@ -185,14 +185,6 @@ async function renderProfile() {
     }
   });
 
-  // Streak fire icon
-  const streakFire = document.querySelector("#streak .fire");
-  const todaystreak = new Date().toISOString().split("T")[0];
-  if (profile.last_checkin_date !== todaystreak) {
-    streakFire?.classList.add("inactive");
-  } else {
-    streakFire?.classList.remove("inactive");
-  }
 
   // Counters
   const countersElements = {
@@ -248,16 +240,39 @@ function getUTCDateString(date) {
   );
 }
 
-// Get today's and yesterday's UTC dates
+// Streak fire icon
+const streakFire = document.querySelector("#streak .fire");
 const todayUTC = new Date();
-const today = getUTCDateString(todayUTC);
+const todayStr = getUTCDateString(todayUTC);
 
+// Yesterday
 const yesterdayUTC = new Date();
 yesterdayUTC.setUTCDate(yesterdayUTC.getUTCDate() - 1);
 const yesterdayStr = getUTCDateString(yesterdayUTC);
 
+if (!profile.last_checkin_date) {
+  // Never checked in yet
+  streakFire.classList.add("inactive");
+  streakFire.setAttribute("title", "Start your streak today!");
+} else if (profile.last_checkin_date === todayStr) {
+  // Checked in today
+  streakFire.classList.remove("inactive");
+  streakFire.textContent = "🔥"; // normal fire emoji
+  streakFire.setAttribute("title", "Streak active!");
+} else if (profile.last_checkin_date === yesterdayStr) {
+  // Checked in yesterday but not today
+  streakFire.classList.add("inactive");
+  streakFire.textContent = "🔥"; 
+  streakFire.setAttribute("title", "Check in today to keep your streak!");
+} else if (profile.last_checkin_date < yesterdayStr) {
+  // Missed one or more days
+  streakFire.classList.add("inactive");
+  streakFire.textContent = "⚠️🔥"; // warning + fire
+  streakFire.setAttribute("title", "You missed your streak! It will reset if you don't check in today.");
+}
+
 if (checkinBtn && lessonPathBtn && dailyCheckInSection && lessonPathSection) {
-  if (profile.last_checkin_date === today) {
+  if (profile.last_checkin_date === todayStr) {
     // ✅ Already checked in today
     checkinBtn.classList.add("hidden");        // Hide check-in button
     lessonPathBtn.classList.remove("hidden");  // Show learning path button
@@ -270,16 +285,6 @@ if (checkinBtn && lessonPathBtn && dailyCheckInSection && lessonPathSection) {
     dailyCheckInSection.classList.remove("hidden");
     lessonPathSection.classList.add("hidden");
 
-    // Optional streak reset
-    if (profile.last_checkin_date < yesterdayStr) {
-      const streakSaved = await handleStreakSave(currentUser, profile, yesterdayStr);
-      if (streakSaved) {
-        await supabase
-          .from("profiles")
-          .update({ last_checkin_date: yesterdayStr })
-          .eq("id", currentUser.id);
-      }
-    }
   }
 }
 
@@ -640,6 +645,29 @@ function calculateImpact(mealValue) {
 // top-level scope
 
 async function handleSubmit() {
+
+   // Helper to format date in UTC as YYYY-MM-DD
+function getUTCDateString(date) {
+  return (
+    date.getUTCFullYear() + '-' +
+    String(date.getUTCMonth() + 1).padStart(2, '0') + '-' +
+    String(date.getUTCDate()).padStart(2, '0')
+  );
+}
+const yesterdayUTC = new Date();
+yesterdayUTC.setUTCDate(yesterdayUTC.getUTCDate() - 1);
+const yesterdayStr = getUTCDateString(yesterdayUTC);
+    // Optional streak reset
+if (currentProfile.last_checkin_date < yesterdayStr) {
+  const streakSaved = await handleStreakSave(currentUser, currentProfile, yesterdayStr);
+  if (streakSaved) {
+    await supabase
+      .from("profiles")
+      .update({ last_checkin_date: yesterdayStr })
+      .eq("id", currentProfile.id);
+  }
+}
+
   // Quiz validation
   if (currentProfile.day_counter > 0) {
     let allAnswered = true, allCorrect = true;
