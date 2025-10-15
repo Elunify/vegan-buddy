@@ -4154,50 +4154,98 @@ font-size: 22px;
 /* Profile Card popup */
 /* Profile Card popup */
 /* Profile Card popup */
-
 .profile-card {
-  display: none; /* hidden by default */
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #fff;
-  border-radius: 12px;
-  padding: 20px;
-  width: 280px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  background: #fffefc;
+  border-radius: 1rem;
+  padding: 2rem 1.5rem;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.25);
   z-index: 1000;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+  font-family: 'Inter', sans-serif;
 }
 
-.profile-card.show {
-  display: block;
-}
-.profile-card .close-btn {
+.profile-card .close-btnProfileCard {
   position: absolute;
-  top: 8px;
-  right: 12px;
-  background: transparent;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  background: none;
   border: none;
-  font-size: 18px;
   cursor: pointer;
 }
 
-.avatar-large {
-  font-size: 48px;
-  text-align: center;
+.ProfileAvatarLarge {
+  width: 8rem;
+  height: 8rem;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  border: 3px solid #a2d65e;
+}
+
+.profile-info-row {
+  display: flex;
+  justify-content: space-around;
+  margin: 1rem 0;
+  gap: 1rem;
+}
+
+.info-item {
+  background: #f1f8f3;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 90px;
+}
+
+.info-label {
+  font-size: 0.75rem;
+  color: #4b6f50;
+  margin-bottom: 0.2rem;
+}
+
+.info-value {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #2f4f2f;
+  text-align: left;
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 1rem 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #333;
 }
 
 .achievements-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 0.5rem;
   justify-content: center;
+  margin-top: 0.5rem;
 }
 
 .achievement {
-  background: #e6f4ea;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 12px;
+  background-color: #e8f5e9;
+  padding: 0.3rem 0.7rem;
+  border-radius: 1rem;
+  font-size: 0.85rem;
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, -45%); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
+}

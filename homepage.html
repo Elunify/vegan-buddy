@@ -381,7 +381,7 @@
     </div>
   </div>
 
-  <div class="optionssupportus">
+  <!--<div class="optionssupportus">
     <div class="optionsupportus donate">
       <h3>Donate</h3>
       <p>
@@ -463,8 +463,8 @@
     </div>
   </div>
 </div>
-</div>
-</div>
+</div>  -->
+</div> 
 <!-- Sources -->
  <!-- Sources -->
   <!-- Sources -->
@@ -1514,19 +1514,30 @@
   <span>Eluna</span>
 </div>
 <!-- Demo Profile Card Popup -->
-<div id="ProfileCardDemo" class="profile-card">
-  DEMO, NOT READY YET, this card will be personalised with the current user's datas and achievements
-  <button class="close-btn">×</button>
-  <div class="ProfileAvatarLarge" style="background-image:url('characters/eluna.png'); width:7rem; height:7rem; background-size:cover; border-radius:50%; margin:auto;"></div>
-  <h2>Eluna <span class="title">Sprout Member</span></h2>
-  <p>Animals saved: 120 🐮</p>
-  <p>Streak: 15 days 🔥</p>
+<div id="ProfileCardDemo" class="profile-card hidden">
+  <button class="close-btnProfileCard">×</button>
+
+  <div class="ProfileAvatarLarge"></div>
+  <h2 class="profile-name">User Name</h2>
+
+  <!-- Info row -->
+  <div class="profile-info-row">
+    <div class="info-item">
+      <span class="info-value dietprofilecard"></span>
+    </div>
+    <div class="info-item">
+      <span class="info-value goalsprofilecard"></span>
+    </div>
+  </div>
+
+  <div class="profile-stats">
+    <span class="levelprofilecard">🌍 Level: 15</span>
+    <span class="streakprofilecard">🔥 10 days</span>
+  </div>
 
   <h3>Achievements</h3>
   <div class="achievements-list">
-    <span class="achievement">🌱 Seed Member</span>
-    <span class="achievement">🐮 Saver of Hundreds</span>
-    <span class="achievement">⭐ Daily Streak Star</span>
+    <!-- Badges dynamically inserted here -->
   </div>
 </div>
 

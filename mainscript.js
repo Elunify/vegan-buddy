@@ -487,9 +487,29 @@ async function saveProfile() {
     updates.pet_photo = await uploadFile(newPetPhotoFile, 'pet_photos', currentUser.id);
   }
 
-  // --- Update profile in Supabase ---
+  // --- Update profiles table ---
   const { error: updateError } = await supabase.from('profiles').update(updates).eq('id', currentUser.id);
   if (updateError) return console.error("Profile update error:", updateError);
+
+  // --- Update related tables ---
+  const relatedUpdates = {
+    name: updates.name,
+    profile_photo: updates.profile_photo
+  };
+
+  // Chats
+  await supabase.from('chats').update({ user1_name: relatedUpdates.name, user1_profile_photo: relatedUpdates.profile_photo }).eq('user1_id', currentUser.id);
+  await supabase.from('chats').update({ user2_name: relatedUpdates.name, user2_profile_photo: relatedUpdates.profile_photo }).eq('user2_id', currentUser.id);
+
+  // Friends
+  await supabase.from('friends').update({ user1_name: relatedUpdates.name, user1_profile_photo: relatedUpdates.profile_photo }).eq('user1_id', currentUser.id);
+  await supabase.from('friends').update({ user2_name: relatedUpdates.name, user2_profile_photo: relatedUpdates.profile_photo }).eq('user2_id', currentUser.id);
+
+  // Community participants
+  await supabase.from('community_participants').update(relatedUpdates).eq('user_id', currentUser.id);
+
+  // Mentors
+  await supabase.from('mentors').update(relatedUpdates).eq('user_id', currentUser.id);
 
   // --- Update local profile object ---
   Object.assign(currentProfile, updates);
@@ -2016,9 +2036,6 @@ async function showCommunityMembers(locationId) {
   const membersList = document.getElementById("communityMembersList");
   membersList.innerHTML = "";
 
-  const demoCard = document.getElementById("ProfileCardDemo");
-  demoCard.querySelector(".close-btn")?.addEventListener("click", () => demoCard.classList.remove("show"));
-
   // Fetch members
   const { data: members, error } = await supabase
     .from("community_participants")
@@ -2047,10 +2064,15 @@ async function showCommunityMembers(locationId) {
     const img = document.createElement("img");
     img.src = member.profile_photo || "default.jpg";
     img.alt = member.name;
-    img.addEventListener("click", e => {
-      e.stopPropagation();
-      demoCard.classList.add("show");
-    });
+
+    // ✅ Attach the user's ID to the image
+    img.dataset.userid = member.user_id;
+
+    // ✅ On click, open profile card using that ID
+  img.addEventListener("click", e => {
+    e.stopPropagation();
+    openProfile(img);
+  });
 
     const nameSpan = document.createElement("span");
     nameSpan.textContent = member.name;
@@ -2081,6 +2103,59 @@ async function showCommunityMembers(locationId) {
   });
 }
 
+async function openProfile(imgElement) {
+  const userId = imgElement.dataset.userid;
+  if (!userId) return;
+
+  // Fetch public profile data from Supabase
+  const { data, error } = await supabase
+    .from('profilecards')
+    .select('*')
+    .eq('user_id', userId)
+    .single();
+
+  if (error || !data) {
+    console.error('Error fetching profile:', error);
+    return;
+  }
+
+  // Fill the popup with user data
+  const popup = document.getElementById("ProfileCardDemo");
+  popup.querySelector(".ProfileAvatarLarge").style.backgroundImage = `url('${data.avatar_url}')`;
+  popup.querySelector(".profile-name").textContent = data.username;
+  popup.querySelector(".dietprofilecard").textContent = `🌿 ${data.diet}`;
+  // Goals (multiple)
+const goalsContainer = popup.querySelector(".goalsprofilecard");
+goalsContainer.innerHTML = '🎯 Goals:<br>'; // header
+if (Array.isArray(data.goals)) {
+  data.goals.forEach(goal => {
+    goalsContainer.innerHTML += `• ${goal}<br>`;
+  });
+} else if (data.goals) {
+  goalsContainer.innerHTML += `• ${data.goals}`;
+}
+  popup.querySelector(".levelprofilecard").textContent = `🌍 Level: ${data.level}`;
+  popup.querySelector(".streakprofilecard").textContent = `🔥 ${data.streak}`;
+
+  const achievementsList = popup.querySelector(".achievements-list");
+  achievementsList.innerHTML = "";
+  if (data.achievements && Array.isArray(data.achievements)) {
+    data.achievements.forEach(a => {
+      const span = document.createElement("span");
+      span.className = "achievement";
+      span.textContent = a;
+      achievementsList.appendChild(span);
+    });
+  }
+
+  // Show popup
+  popup.classList.remove("hidden");
+}
+
+// Close popup
+document.querySelector(".close-btnProfileCard").addEventListener("click", () => {
+  document.getElementById("ProfileCardDemo").classList.add("hidden");
+});
 // ----------------------------
 // Join community
 // ----------------------------
@@ -2413,14 +2488,6 @@ async function showIncomingFriendRequests() {
   if (!list) return;
   list.innerHTML = "";
 
-  const demoCard = document.getElementById("ProfileCardDemo");
-  const closeBtn = demoCard.querySelector(".close-btn");
-
-  // Close demo card when clicking X
-  closeBtn.addEventListener("click", () => {
-    demoCard.classList.remove("show");
-  });
-
   const { data: requests, error } = await supabase
     .from("friend_requests")
     .select("id, sender_id, name, profile_photo, email, receiver_email, status")
@@ -2436,11 +2503,14 @@ async function showIncomingFriendRequests() {
     img.src = req.profile_photo || "default.jpg";
     img.alt = req.name || "Unknown";
 
-    // Show demo profile card on avatar click
-    img.addEventListener("click", (e) => {
-      e.stopPropagation();
-      demoCard.classList.add("show");
-    });
+    // ✅ Attach the user's ID to the image
+    img.dataset.userid = req.sender_id;
+
+    // ✅ On click, open profile card using that ID
+  img.addEventListener("click", e => {
+    e.stopPropagation();
+    openProfile(img);
+  });
 
     const nameSpan = document.createElement("span");
     nameSpan.textContent = req.name || "Unknown";
@@ -2508,14 +2578,6 @@ async function showFriends(containerId, onClickFriend) {
     .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
   if (error) return console.error(error);
 
-  const demoCard = document.getElementById("ProfileCardDemo");
-  const closeBtn = demoCard.querySelector(".close-btn");
-
-  // Close demo card when clicking X
-  closeBtn.addEventListener("click", () => {
-    demoCard.classList.remove("show");
-  });
-
   friendsData.forEach(friendship => {
     const friend = friendship.user1_id === currentUser.id
       ? { id: friendship.user2_id, name: friendship.user2_name, email: friendship.user2_email, photo: friendship.user2_profile_photo }
@@ -2528,11 +2590,14 @@ async function showFriends(containerId, onClickFriend) {
     img.src = friend.photo || "default.jpg";
     img.alt = friend.name;
 
-    // Show static demo card on avatar click
-    img.addEventListener("click", (e) => {
-      e.stopPropagation(); // prevent event bubbling
-      demoCard.classList.add("show");
-    });
+    // ✅ Attach the user's ID to the image
+    img.dataset.userid = friend.id;
+
+    // ✅ On click, open profile card using that ID
+  img.addEventListener("click", e => {
+    e.stopPropagation();
+    openProfile(img);
+  });
 
     const nameSpan = document.createElement("span");
     nameSpan.textContent = friend.name || "Unknown";
@@ -2784,7 +2849,6 @@ function setupMentorshipUI() {
 }
 async function loadMentors() {
 
-
   const user = currentUser;
   if (!user) return;
 
@@ -2802,26 +2866,38 @@ async function loadMentors() {
   }
 
   mentorsList.innerHTML = "";
-  const demoCard = document.getElementById("ProfileCardDemo");
 
   const isMentor = mentors.some(m => m.user_id === user.id);
 
-  mentors.forEach(mentor => {
-    const li = document.createElement("li");
-    li.className = "mentor-item";
-    li.innerHTML = `
-      <img src="${mentor.profile_photo}" alt="${mentor.name}" class="mentor-photo">
-      <div class="mentor-info">
-        <p class="mentor-name">${mentor.name}</p>
-        <p class="mentor-years">${mentor.years_vegan} years vegan</p>
-      </div>
-      <button class="mentor-message-btn" data-id="${mentor.id}">Message</button>
-    `;
+ mentors.forEach(mentor => {
+  const li = document.createElement("li");
+  li.className = "mentor-item";
 
-    mentorsList.appendChild(li);
+  // Create HTML with data-userid attribute
+  li.innerHTML = `
+    <img 
+      src="${mentor.profile_photo || 'default.jpg'}" 
+      alt="${mentor.name}" 
+      class="mentor-photo" 
+      data-userid="${mentor.user_id}"
+    >
+    <div class="mentor-info">
+      <p class="mentor-name">${mentor.name}</p>
+      <p class="mentor-years">${mentor.years_vegan} years vegan</p>
+    </div>
+    <button class="mentor-message-btn" data-id="${mentor.id}">Message</button>
+  `;
 
-    // Avatar click shows demo
-    li.querySelector(".mentor-photo")?.addEventListener("click", () => demoCard.classList.add("show"));
+  // ✅ Select the image inside the li
+  const img = li.querySelector(".mentor-photo");
+
+  // ✅ Add click event to open profile
+  img.addEventListener("click", e => {
+    e.stopPropagation();
+    openProfile(img); // Calls your existing function
+  });
+
+  mentorsList.appendChild(li);
 
     // Message button
     const msgBtn = li.querySelector(".mentor-message-btn");
@@ -2829,8 +2905,6 @@ async function loadMentors() {
     if (isMentor) msgBtn.style.display = "none";
   });
 
-  // Close demo card button
-  demoCard.querySelector(".close-btn")?.addEventListener("click", () => demoCard.classList.remove("show"));
 }
 async function checkAndToggleMentorUI() {
   const user = currentUser;
