@@ -252,6 +252,13 @@ h3 {
   border: none;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
   transition: transform 0.2s, box-shadow 0.2s;
+
+  /* Fix text alignment */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center; /* for multi-line text */
+  line-height: 1; /* optional, keeps the text compact */
 }
 .button-circle.small-circle:hover {
   transform: scale(1.1);

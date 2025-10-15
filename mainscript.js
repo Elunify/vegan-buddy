@@ -1018,6 +1018,7 @@ And all your choices together prevented as much CO₂ as <span class="highlight"
 function showRecipeModal(meal) {
   const modal = document.getElementById("mealArtrecipeModal");
   document.getElementById("mealArtmodalFoodName").textContent = meal.food_name || "No title";
+  document.getElementById("mealArtmodalPrepTime").textContent = meal.prep_time || "N/A"; 
   document.getElementById("mealArtmodalIngredients").innerHTML = (meal.ingredients || "No ingredients provided").replace(/\n/g, "<br>");
   document.getElementById("mealArtmodalInstructions").innerHTML = (meal.instructions || "No instructions provided").replace(/\n/g, "<br>");
   modal.style.display = "flex";
@@ -1184,6 +1185,7 @@ function setupMealUploadForm() {
     if (!file) return alert("Please select a photo before submitting.");
 
     const foodName = document.getElementById("mealArtrecipeName").value.trim();
+    const mealArtPrepTime = document.getElementById("mealArtPrepTime").value.trim();
     const ingredients = document.getElementById("mealArtrecipeIngredients").value.trim();
     const instructions = document.getElementById("mealArtrecipeInstructions").value.trim();
     const recipeAvailable = !!(foodName && ingredients && instructions);
@@ -1210,6 +1212,7 @@ function setupMealUploadForm() {
         is_pro: isProCategory,
         image_url: imageUrl,
         food_name: foodName,
+        prep_time: mealArtPrepTime, 
         ingredients,
         instructions,
         recipe_available: recipeAvailable,
@@ -1708,12 +1711,28 @@ async function loadRecipes() {
 
   if (!userId) return; // user not logged in
 
-  // CALL RPC FUNCTION instead of direct table/view
-  const { data, error } = await supabase
-    .rpc("get_recipes_with_likes", { user_uuid: userId })
-    .order('like_count', { ascending: false }); 
+  // 1️⃣ Fetch full recipes table
+  const { data: recipes, error: recipesError } = await supabase
+    .from("recipes")
+    .select("*");
 
-  if (error) return console.error("Error fetching recipes:", error);
+  if (recipesError) return console.error("Error fetching recipes:", recipesError);
+
+  // 2️⃣ Fetch likes info from RPC
+  const { data: likesData, error: likesError } = await supabase
+    .rpc("get_recipes_with_likes", { user_uuid: userId });
+
+  if (likesError) return console.error("Error fetching likes:", likesError);
+
+  // 3️⃣ Merge likes info into recipes
+  const data = recipes.map(r => {
+    const likeInfo = likesData.find(l => l.id === r.id) || {};
+    return {
+      ...r,
+      like_count: likeInfo.like_count || 0,
+      liked_by_user: likeInfo.liked_by_user || false
+    };
+  });
 
   const container = document.getElementById("recipes-container");
   container.innerHTML = "";
@@ -1721,6 +1740,7 @@ async function loadRecipes() {
   const modal = document.getElementById("recipe-modal");
   const modalImg = document.getElementById("modal-img");
   const modalTitle = document.getElementById("modal-title");
+  const modalPreptime = document.getElementById("modal-preptime");
   const modalIngredients = document.getElementById("modal-ingredients");
   const modalInstructions = document.getElementById("modal-instructions");
   const closeBtn = modal.querySelector(".close-btn");
@@ -1730,6 +1750,7 @@ async function loadRecipes() {
     if (e.target === modal) modal.classList.add("hidden-modal");
   });
 
+  // 4️⃣ Render cards with merged data
   data.forEach(recipe => {
     const card = document.createElement("div");
     card.className = "recipe-card";
@@ -1739,16 +1760,15 @@ async function loadRecipes() {
       <button class="like-btn ${recipe.liked_by_user ? "liked" : "not-liked"}" data-id="${recipe.id}">
         <span class="heart-icon"></span>
         <span class="like-count">${recipe.like_count}</span>
-    </button>
+      </button>
     `;
 
-    // Add delete button if this recipe belongs to the current user
     if (recipe.user_id === userId) {
       const deleteBtn = document.createElement("button");
       deleteBtn.textContent = "x";
       deleteBtn.className = "delete-btn";
       deleteBtn.addEventListener("click", async (e) => {
-        e.stopPropagation(); // Prevent modal from opening
+        e.stopPropagation();
         if (!confirm("Are you sure you want to delete this recipe?")) return;
 
         const { error: delError } = await supabase
@@ -1757,27 +1777,23 @@ async function loadRecipes() {
           .eq("id", recipe.id);
 
         if (delError) return console.error("Delete failed:", delError);
-
-        // Optionally, delete the image from storage
         await supabase.storage.from("recipes").remove([recipe.image_url.split("/").pop()]);
-
-        // Remove card from DOM
         card.remove();
       });
 
       card.appendChild(deleteBtn);
     }
 
-    // Card click opens modal
+    // Modal click
     card.querySelector(".recipe-img, .recipe-title").addEventListener("click", () => {
       modalImg.src = recipe.image_url;
       modalTitle.textContent = recipe.title;
+      modalPreptime.innerHTML = "<strong>Preparation time:</strong> " + (recipe.prep_time || "N/A");
       modalIngredients.innerHTML = "<strong>Ingredients:</strong><br>" + recipe.ingredients;
       modalInstructions.innerHTML = "<strong>Instructions:</strong><br>" + recipe.description;
       modal.classList.remove("hidden-modal");
     });
 
-    // Like button toggle
     const likeBtn = card.querySelector(".like-btn");
     likeBtn.addEventListener("click", () => toggleLike(recipe.id, userId, likeBtn));
 
@@ -1833,6 +1849,89 @@ async function toggleLike(recipeId, userId) {
     likeBtn.disabled = false; // Re-enable after request completes
   }
 }
+
+function setupRecipeUploadForm() {
+  const recipeImageInput = document.getElementById("recipeImage");
+  const previewImg = document.getElementById("previewImg");
+  const imagePreview = document.getElementById("imagePreview");
+  const form = document.getElementById("recipeForm");
+  const uploadFeedback = document.getElementById("uploadFeedback");
+
+  // Image preview
+  recipeImageInput.addEventListener("change", e => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        previewImg.src = e.target.result;
+        imagePreview.style.display = "flex";
+      };
+      reader.readAsDataURL(file);
+    } else {
+      previewImg.src = "";
+      imagePreview.style.display = "none";
+    }
+  });
+
+  // Form submit
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const file = recipeImageInput.files[0];
+    if (!file) return alert("Please select a recipe image before submitting.");
+
+    const title = document.getElementById("recipeTitle").value.trim();
+    const prepTime = document.getElementById("recipePrepTime").value.trim();
+    const ingredients = document.getElementById("recipeIngredients").value.trim();
+    const instructions = document.getElementById("recipeInstructions").value.trim();
+
+    if (!title || !prepTime || !ingredients || !instructions) {
+      return alert("Please fill in all fields before submitting.");
+    }
+
+    // Build unique filename
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${currentUser.id}_${Date.now()}.${fileExt}`;
+    const filePath = `recipes/${fileName}`;
+
+    // Upload image to Supabase storage
+    const { error: uploadError } = await supabase.storage.from("recipes").upload(filePath, file);
+    if (uploadError) return alert("Error uploading photo: " + uploadError.message);
+
+    // Get public URL
+    const { data: publicUrlData } = supabase.storage.from("recipes").getPublicUrl(filePath);
+    const imageUrl = publicUrlData.publicUrl;
+
+    // Insert into recipes table
+    const { data: newRecipe, error: insertError } = await supabase
+      .from("recipes")
+      .insert([{
+        user_id: currentUser.id,
+        title,
+        prep_time: prepTime,
+        ingredients,
+        description: instructions,
+        image_url: imageUrl
+      }])
+      .select();
+
+    if (insertError) return alert("Error saving recipe: " + insertError.message);
+
+    alert("Recipe uploaded successfully!");
+    
+    // Reset form
+    form.reset();
+    previewImg.src = "";
+    imagePreview.style.display = "none";
+    uploadFeedback.textContent = "";
+
+    // Optionally, close the modal
+    document.getElementById("upload-recipe").classList.add("hidden-modal");
+
+    // Optionally, re-render recipes list
+    if (typeof loadRecipes === "function") loadRecipes();
+  });
+}
+
 // ----------------------------
 // COMMUNITY
 // ----------------------------
@@ -3270,6 +3369,33 @@ await checkAndToggleMentorUI();
 
 //LeaderBoards
 await fetchAllLeaderboards();
+
+// Setup the upload form
+    setupRecipeUploadForm();
+
+    // Open modal button
+    const openUploadBtn = document.getElementById("openUploadBtn");
+    const uploadModal = document.getElementById("upload-recipe");
+    const closeBtns = uploadModal.querySelectorAll(".close-btn");
+
+    // Show modal
+    openUploadBtn.addEventListener("click", () => {
+      uploadModal.classList.remove("hidden-modal");
+    });
+
+    // Hide modal with close buttons
+    closeBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        uploadModal.classList.add("hidden-modal");
+      });
+    });
+
+    // Hide modal when clicking outside content
+    window.addEventListener("click", e => {
+      if (e.target === uploadModal) {
+        uploadModal.classList.add("hidden-modal");
+      }
+    });
 
 
 //Show page after everything is loaded:

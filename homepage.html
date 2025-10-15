@@ -617,7 +617,10 @@
 
     <label for="recipeName">Recipe Name <span class="optional-label">(optional)</span></label>
     <input type="text" id="mealArtrecipeName" name="mealArtrecipeName" placeholder="E.g., Vegan Lasagna">
-
+    
+    <label for="mealArtPrepTime">Preparation Time <span class="optional-label">(optional)</span></label>
+    <input type="text" id="mealArtPrepTime" name="mealArtPrepTime" placeholder="E.g., 30 mins">
+    
     <label for="mealArtrecipeIngredients">Ingredients <span class="optional-label">(optional)</span></label>
     <textarea id="mealArtrecipeIngredients" name="mealArtrecipeIngredients" placeholder="List ingredients here..."></textarea>
 
@@ -1461,6 +1464,8 @@
   <div class="modal-content">
     <span id="mealArtcloseModal" class="close">&times;</span>
     <h3 id="mealArtmodalFoodName"></h3>
+    <h4>Preparation time:</h4>
+    <p id="mealArtmodalPrepTime"></p>
     <h4>Ingredients:</h4>
     <p id="mealArtmodalIngredients"></p>
     <h4>Instructions:</h4>
@@ -1486,6 +1491,10 @@
         <input type="text" id="recipeTitle" required>
       </label>
       <label>
+        Preparation Time:
+        <input type="text" id="recipePrepTime" placeholder="e.g., 30 mins" required>
+      </label>
+      <label>
         Ingredients:
         <textarea id="recipeIngredients" placeholder="List ingredients..." required></textarea>
       </label>
@@ -1504,6 +1513,7 @@
     <span class="close-btn">&times;</span>
     <img id="modal-img" src="" alt="" class="modal-img">
     <h2 id="modal-title"></h2>
+    <p id="modal-preptime"></p>
     <p id="modal-ingredients"></p>
     <p id="modal-instructions"></p>
   </div>

@@ -773,3 +773,26 @@ petPhotoInput.addEventListener('change', async e => {
   petPhotoPreview.src = URL.createObjectURL(file);
 });
 
+// Open upload modal
+const openUploadBtn = document.getElementById("openUploadBtn");
+const uploadModal = document.getElementById("upload-recipe");
+const closeBtns = uploadModal.querySelectorAll(".close-btn");
+
+// Show modal when button clicked
+openUploadBtn.addEventListener("click", () => {
+  uploadModal.classList.remove("hidden-modal");
+});
+
+// Hide modal when clicking close button(s)
+closeBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    uploadModal.classList.add("hidden-modal");
+  });
+});
+
+// Optional: close modal when clicking outside the modal content
+window.addEventListener("click", (e) => {
+  if (e.target === uploadModal) {
+    uploadModal.classList.add("hidden-modal");
+  }
+});
