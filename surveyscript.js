@@ -34,7 +34,7 @@ async function nextQuestion() {
         const profilePhotoFile = document.getElementById("profilePhoto").files[0];
 
         if (!name || !diet) {
-            alert("Please fill in your name and date of birth.");
+            alert("Please fill in your name and diet preference.");
             return;
         }
 
