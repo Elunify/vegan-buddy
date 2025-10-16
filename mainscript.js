@@ -519,13 +519,9 @@ async function saveProfile() {
   // --- Update local profile object ---
   Object.assign(currentProfile, updates);
 
-  // --- Reload UI ---
-  const { profile, globalImpact } = await fetchAllData();
-  await renderProfile(profile, globalImpact);
-  await initHealthPaths();
-  await renderExtraLessons();
-setupExtraLessonClicks(); // ← important for interactivity
-applyExtraLessonProgress(); // ← optional, to reflect completed lessons
+const { profile, globalImpact } = await fetchAllData();
+await renderProfile(profile, globalImpact);
+await initExtraLessons();
 
   // Show profile view
   document.querySelector('.containeredit')?.classList.add('hidden');
@@ -1428,6 +1424,24 @@ function updateMealArtNotes(today) {
 // ----------------------------
 // EXTRA LESSONS 
 // ----------------------------
+async function initExtraLessons() { 
+  // Make sure profile and extralessonsData are loaded
+  if (!currentProfile) {
+    console.warn("Cannot initialize extra lessons — profile not ready");
+    return;
+  }
+  if (!extralessonsData) {
+    console.warn("Cannot initialize extra lessons — extralessonsData not loaded");
+    return;
+  }
+
+  renderExtraLessons();
+  applyExtraLessonProgress();
+  setupExtraLessonClicks();
+  setupCourseButtons();
+
+}
+
 function getHealthLessons(profile) {
   // 1️⃣ Gather lessons from both sources
   const healthIssuesLessons = HealthIssuesPool.health || [];
@@ -1491,23 +1505,28 @@ function renderExtraLessons() {
   lessonsToRender.forEach((lesson, index) => {
   const li = document.createElement("li");
   li.dataset.step = index + 1;
+  
+  const completedLessons = currentProfile.extra_lesson?.[courseKey] || [];
 
-  // Check if this lesson was completed before
-  if (currentProfile.completedHealthLessons?.includes(lesson.title)) {
+  if (completedLessons.includes(lesson.title)) {
     li.className = "extralesson completed";
-  } else if (index === 0 || currentProfile.completedHealthLessons?.includes(lessonsToRender[index - 1].title)) {
-  li.className = "extralesson unlocked";
+  } else if (completedLessons.length === 0 && index === 0) {
+    // unlock the very first lesson if nothing done yet
+    li.className = "extralesson unlocked";
+  } else if (completedLessons.includes(lessonsToRender[index - 1]?.title)) {
+    // unlock next lesson after last completed
+    li.className = "extralesson unlocked";
   } else {
     li.className = "extralesson locked";
   }
 
   li.innerHTML = `
-    <div class="extralesson-title">
-      <span class="extralesson-icon">${li.classList.contains("completed") ? "✅" : (li.classList.contains("unlocked") ? "🟢" : "🔒")}</span>
-      ${lesson.title}
-    </div>
-    <div class="extralesson-content"></div>
-  `;
+  <div class="extralesson-title" data-title="${lesson.title}">
+    <span class="extralesson-icon">${li.classList.contains("completed") ? "✅" : (li.classList.contains("unlocked") ? "🟢" : "🔒")}</span>
+    ${lesson.title}
+  </div>
+  <div class="extralesson-content"></div>
+`;
   lessonList.appendChild(li);
 });
 });
@@ -1594,17 +1613,23 @@ submitBtn.style.display = "none";
 
 // Automatically complete the lesson after 1 second
 setTimeout(async () => {
+  // Mark current lesson completed
   lesson.classList.remove("unlocked");
   lesson.classList.add("completed");
+  lesson.querySelector(".extralesson-icon").textContent = "✅";
 
+  // Save progress
   await saveExtraLessonProgress();
-  renderExtraLessons();
-  setupExtraLessonClicks();
-  applyExtraLessonProgress();
 
+  // Unlock next lesson
   const nextLesson = document.querySelector(`#${CSS.escape(courseId)} .extralesson[data-step="${idx + 2}"]`);
-  if (nextLesson) nextLesson.scrollIntoView({ behavior: "smooth", block: "center" });
+  if (nextLesson && !nextLesson.classList.contains("completed")) {
+    nextLesson.classList.remove("locked");
+    nextLesson.classList.add("unlocked");
+    nextLesson.querySelector(".extralesson-icon").textContent = "🟢";
+  }
 
+  // Close quiz
   contentContainer.classList.remove("active");
   contentContainer.innerHTML = "";
 }, 1000);
@@ -1624,27 +1649,26 @@ async function saveExtraLessonProgress() {
   const previousProgress = currentProfile.extra_lesson || {};
   let totalXp = currentProfile.total_xp || 0;
 
-  const progress = {};
+  // Start with previous progress (merge)
+  const progress = { ...previousProgress };
   let newLessonsCompleted = 0;
 
   Object.keys(extralessonsData).forEach(courseId => {
-    progress[courseId] = [];
+    progress[courseId] = progress[courseId] || [];
     const lessons = document.querySelectorAll(`#${courseId} .extralesson`);
 
     lessons.forEach((lesson, idx) => {
       if (lesson.classList.contains("completed")) {
-        // Use lesson title as unique identifier
         const lessonTitle = lesson.querySelector(".extralesson-title").textContent.trim();
-        progress[courseId].push(lessonTitle);
-
-        // Only count new lessons for XP
-        if (!previousProgress[courseId] || !previousProgress[courseId].includes(lessonTitle)) {
+        if (!progress[courseId].includes(lessonTitle)) {
+          progress[courseId].push(lessonTitle);
           newLessonsCompleted++;
 
-          // If health course and lesson has an issue, track it
+          // Special handling for health lessons with issues
           if (courseId === "health") {
             let lessonData = (extralessonsData.health || []).find(l => l.title === lessonTitle);
-if (!lessonData) lessonData = (HealthIssuesPool.health || []).find(l => l.title === lessonTitle);
+            if (!lessonData) lessonData = (HealthIssuesPool.health || []).find(l => l.title === lessonTitle);
+
             if (lessonData?.issue) {
               if (!currentProfile.completedHealthIssues) currentProfile.completedHealthIssues = [];
               if (!currentProfile.completedHealthIssues.includes(lessonData.issue)) {
@@ -1669,13 +1693,15 @@ if (!lessonData) lessonData = (HealthIssuesPool.health || []).find(l => l.title 
     })
     .eq("id", currentProfile.id);
 
-  if (error) console.error("Error saving extra lesson progress:", error);
-  else {
+  if (error) {
+    console.error("Error saving extra lesson progress:", error);
+  } else {
+    // Update local profile object
     currentProfile.extra_lesson = progress;
     currentProfile.total_xp = totalXp;
   }
 
-  // Optionally refresh profile on page
+  // Optionally refresh leaderboard and profile info
   const { profile } = await fetchAllData();
   await renderProfile(profile);
   await fetchAllLeaderboards();
@@ -1687,33 +1713,27 @@ function applyExtraLessonProgress() {
 
   Object.keys(currentProfile.extra_lesson).forEach(courseId => {
     const lessons = document.querySelectorAll(`#${courseId} .extralesson`);
-    const completedLessons = currentProfile.extra_lesson[courseId] || [];
+    const completedLessons = (currentProfile.extra_lesson[courseId] || []).map(t => t.replace(/^✅\s*/, "").trim());
 
-    let lastCompletedIndex = -1;
+    let prevCompleted = false;
 
     lessons.forEach((lesson, idx) => {
-      const lessonTitle = lesson.querySelector(".extralesson-title").textContent.trim();
+      const lessonTitle = lesson.querySelector(".extralesson-title")?.dataset.title;
 
       if (completedLessons.includes(lessonTitle)) {
         lesson.className = "extralesson completed";
-        lastCompletedIndex = idx;
+        lesson.querySelector(".extralesson-icon").textContent = "✅";
+        prevCompleted = true;
+      } else if (prevCompleted || idx === 0) {
+        // Unlock next lesson if previous is completed OR it's the first lesson
+        lesson.className = "extralesson unlocked";
+        lesson.querySelector(".extralesson-icon").textContent = "🟢";
+        prevCompleted = false; // only unlock, not mark as completed
       } else {
         lesson.className = "extralesson locked";
+        lesson.querySelector(".extralesson-icon").textContent = "🔒";
       }
-
-      lesson.querySelector(".extralesson-icon").textContent =
-        lesson.classList.contains("completed") ? "✅" :
-        lesson.classList.contains("unlocked") ? "🟢" : "🔒";
     });
-
-    // Unlock the next lesson after the last completed one
-    if (lastCompletedIndex + 1 < lessons.length) {
-      const nextLesson = lessons[lastCompletedIndex + 1];
-      if (!nextLesson.classList.contains("completed")) {
-        nextLesson.className = "extralesson unlocked";
-        nextLesson.querySelector(".extralesson-icon").textContent = "🟢";
-      }
-    }
   });
 }
 
@@ -3199,8 +3219,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     //pageload
   showLoading(true);
   try {
-    await fetchAllData();
-    await renderProfile();
+    await fetchAllData(); // loads currentProfile
+    await renderProfile(); 
+    await initExtraLessons(); // now progress is available
     await loadWinnersFromData();
 
     // ✅ Wait a tick to ensure DOM is updated
@@ -3249,24 +3270,8 @@ if (modal) {
   const today = new Date().getDay();
   updateMealArtNotes(today);
 
-//EXTRA LESSONS
-// Ensure extralessonsData and currentProfile are already loaded
-  if (!extralessonsData) {
-    console.warn("extralessonsData not loaded yet!");
-    return;
-  }
-  if (!currentProfile) {
-    console.warn("currentProfile not available yet!");
-    return;
-  }
-  // Render lessons and apply existing progress
-  renderExtraLessons();
-  applyExtraLessonProgress();
-  // Setup click handlers for lessons
-  setupExtraLessonClicks();
-  // Setup course buttons
-  setupCourseButtons();
-//EXTRA LESSONS
+
+//Recipes
 await loadRecipes();
 //COMMUNITY
   await initCommunityModule();
