@@ -507,31 +507,6 @@ function getDistanceMeters(loc1, loc2) {
   return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-function setupMap(location) {
-  map = new google.maps.Map(mapContainer, {
-    center: location,
-    zoom: 14,
-    mapId: "d69dd398ff7fbb3a41b37083"
-  });
-  map.markers = [];
-
-  // Initial fetch
-  fetchRestaurants(location);
-
-  // Listen for map movement
-  google.maps.event.addListener(map, 'idle', () => {
-    const center = map.getCenter();
-    const newLocation = { lat: center.lat(), lng: center.lng() };
-
-    if (!lastFetchLocation || getDistanceMeters(lastFetchLocation, newLocation) > MIN_MOVE_DISTANCE) {
-      if (fetchTimeout) clearTimeout(fetchTimeout);
-      fetchTimeout = setTimeout(() => {
-        fetchRestaurants(newLocation);
-        lastFetchLocation = newLocation;
-      }, FETCH_INTERVAL);
-    }
-  });
-}
 
 function fetchRestaurants(location) {
   if (!map) return; // make sure map exists
@@ -598,6 +573,9 @@ window.initMap = async function() {
   infowindow = new google.maps.InfoWindow();
   const mapContainer = document.getElementById("mapContainer");
 
+  // =======================
+  // ENHANCED setupMap FUNCTION
+  // =======================
   function setupMap(location) {
     map = new google.maps.Map(mapContainer, {
       center: location,
@@ -605,15 +583,38 @@ window.initMap = async function() {
       mapId: "d69dd398ff7fbb3a41b37083"
     });
     map.markers = [];
+
+    // Initial restaurant fetch
     fetchRestaurants(location);
+    lastFetchLocation = location; // store current center for distance checks
+
+    // Listen for map movement and refetch after stop
+    google.maps.event.addListener(map, 'idle', () => {
+      const center = map.getCenter();
+      const newLocation = { lat: center.lat(), lng: center.lng() };
+
+      // Only refetch if user moved far enough
+      if (!lastFetchLocation || getDistanceMeters(lastFetchLocation, newLocation) > MIN_MOVE_DISTANCE) {
+        if (fetchTimeout) clearTimeout(fetchTimeout);
+
+        // Wait a moment to prevent spam while dragging
+        fetchTimeout = setTimeout(() => {
+          fetchRestaurants(newLocation);
+          lastFetchLocation = newLocation;
+        }, FETCH_INTERVAL);
+      }
+    });
   }
 
+  // =======================
+  // INITIALIZATION
+  // =======================
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const userLocation = {
-          lat: position.coords.latitude,   // ✅ correct
-          lng: position.coords.longitude   // ✅ correct
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
         };
         setupMap(userLocation);
       },
@@ -627,6 +628,7 @@ window.initMap = async function() {
     setupMap({ lat: 39.4699, lng: -0.3763 });
   }
 };
+
 
 // =======================
 // TAB SWITCHING
