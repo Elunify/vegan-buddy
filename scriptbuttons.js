@@ -144,6 +144,7 @@ if (homeBtn) {
   }
 
 checkinBtn.addEventListener('click', () => {
+  initDailyCheckin();
   showSection('learn'); // Show the learn page
   document.getElementById('dailycheck-in')?.classList.remove('hidden');
   document.getElementById('lesson-path')?.classList.add('hidden');

@@ -251,12 +251,12 @@
 
         <label for="profileDietSelect"><strong>Diet:</strong></label>
   <select id="profileDietSelect">
-    <option value="vegan">Vegan</option>
-    <option value="intransition">In Transition</option>
-    <option value="vegetarian">Vegetarian</option>
-    <option value="pescatarian">Pescatarian</option>
+    <option value="Vegan">Vegan</option>
+    <option value="InTransition">In Transition</option>
+    <option value="Vegetarian">Vegetarian</option>
+    <option value="Pescatarian">Pescatarian</option>
     <option value="Flexitarian">Flexitarian</option>
-    <option value="omnivore">Omnivore</option>
+    <option value="Omnivore">Omnivore</option>
   </select>
           </div>
         </div>
@@ -510,17 +510,19 @@
 
   <!-- LESSON PATH (shown after daily check-in) -->
   <div id="lesson-path" class="hidden">
+    <div class="learning-path-head">
+      <h2>Learn</h2> 
     <div class="learning-path-buttons">
-      <h2>Learn</h2>
       <button class="path-btn" data-path="animals">For the Animals</button>
       <button class="path-btn" data-path="earth">For the Earth</button>
       <button class="path-btn" data-path="health">For Health</button>
     </div>
-
+    </div>
+    
     <div class="courses">
-      <div class="course hidden" id="animals"><h3>For the Animals</h3><ul class="extralesson-list"></ul></div>
-      <div class="course hidden" id="earth"><h3>For the Earth</h3><ul class="extralesson-list"></ul></div>
-      <div class="course hidden" id="health"><h3>For Health</h3><ul class="extralesson-list"></ul></div>
+      <div class="course hidden" id="animals"><ul class="extralesson-list"></ul></div>
+      <div class="course hidden" id="earth"><ul class="extralesson-list"></ul></div>
+      <div class="course hidden" id="health"><ul class="extralesson-list"></ul></div>
     </div>
   </div>
 </div>

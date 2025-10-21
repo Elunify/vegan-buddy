@@ -7,7 +7,7 @@ const supabaseUrl = 'https://pqrgvelzxmtdqrofxujx.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBxcmd2ZWx6eG10ZHFyb2Z4dWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxMTc0ODAsImV4cCI6MjA3MTY5MzQ4MH0.s8JZLDdzIS1wBLln0Zs3LK_9BHelUcbRhyAC_0-5sos';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-import { DailyCheckInPool } from './scriptpools.js';
+import { LessonsByIndex } from './scriptpools.js';
 import { HealthIssuesPool } from './scriptpools.js';
 import { extralessonsData } from './scriptpools.js';
 
@@ -550,40 +550,167 @@ let todayGoal = null;
 let todayLessonIndex = 0;
 let todayLesson = null;
 
-// ------------------
-// 1️⃣ Get today's lesson from currentProfile
-// ------------------
-function getTodaysLessonFromProfile(profile) {
-  if (!profile.goals || !Array.isArray(profile.goals) || profile.goals.length === 0) {
-    profile.goals = Object.keys(DailyCheckInPool.goals);
+// Starting points for each diet
+const dietStartIndex = {
+  "Protecting animals & animal welfare": {
+    omnivore: 1,
+    vegetarian: 31,
+    vegan: 61
+  },
+  "Caring for the environment & fighting climate change": {
+    omnivore: 1001,
+    vegetarian: 1031,
+    vegan: 1061
+  },
+  "Healthy living & wellness": {
+    omnivore: 2001,
+    vegetarian: 2031,
+    vegan: 2061
+  },
+  "Boosting my performance as an athlete": {
+    omnivore: 3001,
+    vegetarian: 3011,
+    vegan: 3021
   }
+};
 
-  const validGoals = profile.goals.filter(goal => DailyCheckInPool.goals[goal]?.length > 0);
-  if (validGoals.length === 0) throw new Error("User has no valid goals with lessons.");
-
-  const index = profile.day_counter % validGoals.length;
-  todayGoal = validGoals[index];
-  todayLessonIndex = profile.goal_progress?.[todayGoal] ?? 0;
-
-  const lessonsForGoal = DailyCheckInPool.goals[todayGoal];
-  todayLesson = lessonsForGoal && lessonsForGoal.length > 0 
-    ? lessonsForGoal[todayLessonIndex] 
-    : Object.values(DailyCheckInPool.goals).flat()[profile.day_counter % Object.values(DailyCheckInPool.goals).flat().length];
-
-  return { todayGoal, todayLessonIndex, todayLesson };
+// Map actual diet preference to lesson group
+function getLessonDietGroup(diet) {
+  switch (diet) {
+    case "Vegan":
+    case "InTransition":
+      return "vegan";
+    case "Omnivore":
+      return "omnivore";
+    case "Vegetarian":
+    case "Pescatarian":
+    case "Flexitarian":
+      return "vegetarian";
+    default:
+      return "omnivore"; // fallback
+  }
 }
 
 // ------------------
-// 2️⃣ Render today's lesson
+// 1️⃣ Get today's lesson from currentProfile (index-based)
+// ------------------
+// Example usage inside getTodaysLessonFromProfile
+function getTodaysLessonFromProfile(profile) {
+  const defaultGoalOrder = [
+    "Protecting animals & animal welfare",
+    "Caring for the environment & fighting climate change",
+    "Healthy living & wellness",
+    "Boosting my performance as an athlete"
+  ];
+
+  const normalize = s => (s || "").toString().trim().toLowerCase();
+
+  // ✅ Filter to only goals the user selected
+  let availableGoals;
+  if (Array.isArray(profile.goals) && profile.goals.length > 0) {
+    const selectedNorm = profile.goals.map(g => normalize(g));
+    availableGoals = defaultGoalOrder.filter(g => selectedNorm.includes(normalize(g)));
+  } else {
+    availableGoals = defaultGoalOrder.slice();
+  }
+
+  // ✅ Rotate only through selected goals
+  const todayGoalIndex = (profile.day_counter || 0) % availableGoals.length;
+  const todayGoal = availableGoals[todayGoalIndex];
+
+  // ✅ Determine diet group and order
+  const allowedDiets = ["omnivore", "vegetarian", "vegan"];
+  const lessonDiet = getLessonDietGroup(profile.diet_preference).toLowerCase();
+
+  // ✅ Get start index for this goal & diet
+  const startIndex = (
+    dietStartIndex[todayGoal] &&
+    dietStartIndex[todayGoal][lessonDiet]
+  ) ? parseInt(dietStartIndex[todayGoal][lessonDiet], 10)
+    : 1;
+
+  // ✅ Get all lessons for the goal (any diet)
+  const allGoalLessons = Object.entries(LessonsByIndex)
+    .filter(([id, lesson]) => normalize(lesson.goal) === normalize(todayGoal))
+    .sort((a, b) => parseInt(a[0], 10) - parseInt(b[0], 10));
+
+  if (!allGoalLessons.length) {
+    console.warn("⚠️ No lessons found for goal:", todayGoal);
+    return { todayGoal, todayLessonId: null, todayLesson: null };
+  }
+
+  // ✅ Completed lessons
+  const completed = (profile.completed_lessons || [])
+    .map(n => parseInt(n, 10))
+    .filter(n => !isNaN(n));
+
+  // ✅ Find the next lesson starting from the user's diet group
+  let todayLessonId = null;
+  let todayLesson = null;
+
+  for (let [id, lesson] of allGoalLessons) {
+    const numericId = parseInt(id, 10);
+    const lessonDietLower = (lesson.diet || "").toLowerCase();
+
+    if (numericId >= startIndex && !completed.includes(numericId)) {
+      const currentDietIndex = allowedDiets.indexOf(lessonDiet);
+      const lessonDietIndex = allowedDiets.indexOf(lessonDietLower);
+      if (lessonDietIndex >= currentDietIndex) {
+        todayLessonId = numericId;
+        todayLesson = lesson;
+        break;
+      }
+    }
+  }
+
+  // ✅ If all lessons are done, repeat vegan section
+  if (!todayLesson) {
+    // Find vegan lessons for this goal
+    const veganLessons = allGoalLessons.filter(([id, lesson]) => (lesson.diet || "").toLowerCase() === "vegan");
+    if (veganLessons.length > 0) {
+      const [firstVeganId, firstVeganLesson] = veganLessons[0];
+      todayLessonId = parseInt(firstVeganId);
+      todayLesson = firstVeganLesson;
+    } else {
+      // Fallback: just take first lesson of the goal
+      const [firstId, firstLesson] = allGoalLessons[0];
+      todayLessonId = parseInt(firstId);
+      todayLesson = firstLesson;
+    }
+  }
+
+  return { todayGoal, todayLessonId, todayLesson };
+}
+
+
+// ------------------
+// 2️⃣ Initialize Daily Check-in
+// ------------------
+window.initDailyCheckin = function() {
+  const result = getTodaysLessonFromProfile(currentProfile);
+  todayGoal = result.todayGoal;
+  todayLessonIndex = result.todayLessonId;
+  todayLesson = result.todayLesson;
+
+  renderTodaysLesson();
+  renderYesterdaysQuiz(currentProfile);
+}
+
+// ------------------
+// 3️⃣ Render today's lesson
 // ------------------
 function renderTodaysLesson() {
+  if (!todayLesson) {
+    document.getElementById("dailyLessonDCI").innerHTML = "<p>Lesson not found. Please check your profile.</p>";
+    return;
+  }
   document.getElementById("dailyLessonDCI").innerHTML = `
     <p class="lesson-text">${todayLesson.lesson}</p>
   `;
 }
 
 // ------------------
-// 3️⃣ Render yesterday's quiz
+// 4️⃣ Render yesterday's quiz
 // ------------------
 function renderYesterdaysQuiz(profile) {
   const quizContainer = document.getElementById("quizDCI");
@@ -595,11 +722,16 @@ function renderYesterdaysQuiz(profile) {
     return;
   }
 
-  const { goal, lessonIndex } = profile.last_lesson;
-  let quiz = DailyCheckInPool.goals[goal][lessonIndex].quiz;
+  const lastLessonId = profile.last_lesson.lessonId;
+  const lessonData = LessonsByIndex[lastLessonId];
 
-  // Ensure it's always an array
-  yesterdayQuiz = Array.isArray(quiz) ? quiz : [quiz];
+  if (!lessonData || !lessonData.quiz) {
+    quizContainer.style.display = "none";
+    yesterdayQuiz = [];
+    return;
+  }
+
+  yesterdayQuiz = Array.isArray(lessonData.quiz) ? lessonData.quiz : [lessonData.quiz];
 
   quizContainer.style.display = "block";
   quizContainer.innerHTML = `<label class="bigLabelDCI">Last lesson's quiz:</label>`;
@@ -635,34 +767,37 @@ function calculateImpact(mealValue) {
   };
 }
 
-// ------------------
-// 5️⃣ Update profile & global impact
-// ------------------
-// top-level scope
-
 async function handleSubmit() {
 
-   // Helper to format date in UTC as YYYY-MM-DD
-function getUTCDateString(date) {
-  return (
-    date.getUTCFullYear() + '-' +
-    String(date.getUTCMonth() + 1).padStart(2, '0') + '-' +
-    String(date.getUTCDate()).padStart(2, '0')
-  );
+  const { todayGoal, todayLessonId, todayLesson } = getTodaysLessonFromProfile(currentProfile);
+
+if (!todayLesson) {
+  return alert("No lesson found for today!");
 }
-const yesterdayUTC = new Date();
-yesterdayUTC.setUTCDate(yesterdayUTC.getUTCDate() - 1);
-const yesterdayStr = getUTCDateString(yesterdayUTC);
-    // Optional streak reset
-if (currentProfile.last_checkin_date < yesterdayStr) {
-  const streakSaved = await handleStreakSave(currentUser, currentProfile, yesterdayStr);
-  if (streakSaved) {
-    await supabase
-      .from("profiles")
-      .update({ last_checkin_date: yesterdayStr })
-      .eq("id", currentProfile.id);
+
+  // Helper to format date in UTC as YYYY-MM-DD
+  function getUTCDateString(date) {
+    return (
+      date.getUTCFullYear() + '-' +
+      String(date.getUTCMonth() + 1).padStart(2, '0') + '-' +
+      String(date.getUTCDate()).padStart(2, '0')
+    );
   }
-}
+
+  const yesterdayUTC = new Date();
+  yesterdayUTC.setUTCDate(yesterdayUTC.getUTCDate() - 1);
+  const yesterdayStr = getUTCDateString(yesterdayUTC);
+
+  // Optional streak reset
+  if (currentProfile.last_checkin_date < yesterdayStr) {
+    const streakSaved = await handleStreakSave(currentUser, currentProfile, yesterdayStr);
+    if (streakSaved) {
+      await supabase
+        .from("profiles")
+        .update({ last_checkin_date: yesterdayStr })
+        .eq("id", currentProfile.id);
+    }
+  }
 
   // Quiz validation
   if (currentProfile.day_counter > 0) {
@@ -689,8 +824,19 @@ if (currentProfile.last_checkin_date < yesterdayStr) {
   currentProfile.day_counter += 1;
   currentProfile.streak = (currentProfile.streak || 0) + 1;
   currentProfile.total_xp = (currentProfile.total_xp || 0) + 30;
-  currentProfile.goal_progress = { ...currentProfile.goal_progress, [todayGoal]: (todayLessonIndex + 1) % DailyCheckInPool.goals[todayGoal].length };
-  currentProfile.last_lesson = { goal: todayGoal, lessonIndex: todayLessonIndex };
+
+  // Store progress using lesson index from LessonsByIndex
+  if (!currentProfile.lesson_progress) currentProfile.lesson_progress = [];
+  if (!currentProfile.completed_lessons) currentProfile.completed_lessons = [];
+
+  if (!currentProfile.completed_lessons.includes(todayLessonId)) {
+  currentProfile.completed_lessons.push(todayLessonId);
+  currentProfile.lesson_progress.push(todayLessonId);
+}
+
+// Save last lesson using the lesson ID
+currentProfile.last_lesson = { goal: todayGoal, lessonId: todayLessonId };
+
   currentProfile.animals_saved = (currentProfile.animals_saved || 0) + impactIncrement.animals_saved;
   currentProfile.forest_saved = (currentProfile.forest_saved || 0) + impactIncrement.forest_saved;
   currentProfile.water_saved = (currentProfile.water_saved || 0) + impactIncrement.water_saved;
@@ -699,7 +845,11 @@ if (currentProfile.last_checkin_date < yesterdayStr) {
   currentProfile.badge = (currentProfile.badge || 0) + badgeIncrement;
 
   // Update Supabase
-  const { error: updateError } = await supabase.from("profiles").update(currentProfile).eq("id", currentProfile.id);
+  const { error: updateError } = await supabase
+    .from("profiles")
+    .update(currentProfile)
+    .eq("id", currentProfile.id);
+
   if (updateError) return console.error("Profile update failed:", updateError);
 
   // Update globalImpact locally
@@ -1437,11 +1587,37 @@ async function initExtraLessons() {
 
   renderExtraLessons();
   applyExtraLessonProgress();
+  scrollToFirstUndoneLesson();
   setupExtraLessonClicks();
   setupCourseButtons();
 
 }
 
+function scrollToFirstUndoneLesson() {
+  const visibleList = document.querySelector(".course:not(.hidden) .extralesson-list");
+  if (!visibleList) return;
+
+  const allLessons = Array.from(visibleList.querySelectorAll("li"));
+  const firstUndoneIndex = allLessons.findIndex(li => !li.classList.contains("completed"));
+  if (firstUndoneIndex === -1) return; // all completed
+
+  // Scroll to two lessons before the first undone lesson
+  const scrollToIndex = Math.max(firstUndoneIndex - 2, 0);
+  const targetLesson = allLessons[scrollToIndex];
+
+  if (!targetLesson) return;
+
+  // Calculate offset relative to the container
+  const containerTop = visibleList.getBoundingClientRect().top;
+  const lessonTop = targetLesson.getBoundingClientRect().top;
+  const currentScroll = visibleList.scrollTop;
+
+  const offset = lessonTop - containerTop - 16; // 16px padding or adjust
+  visibleList.scrollTo({
+    top: currentScroll + offset,
+    behavior: "smooth"
+  });
+}
 function getHealthLessons(profile) {
   // 1️⃣ Gather lessons from both sources
   const healthIssuesLessons = HealthIssuesPool.health || [];
@@ -1744,7 +1920,11 @@ function setupCourseButtons() {
     btn.addEventListener("click", () => {
       const path = btn.dataset.path;
       document.querySelectorAll(".course").forEach(c => c.classList.add("hidden"));
-      document.getElementById(path)?.classList.remove("hidden");
+      const newCourse = document.getElementById(path);
+      if (newCourse) {
+        newCourse.classList.remove("hidden");
+        scrollToFirstUndoneLesson(); // scroll for new tab
+      }
     });
   });
 }

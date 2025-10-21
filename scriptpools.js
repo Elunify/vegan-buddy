@@ -4,8 +4,1307 @@
 // ====== DailyCheckIn ======
 // ====== DailyCheckIn ======
 
+// =======================
+// LESSONS BY INDEX
+// =======================
+export const LessonsByIndex = {
+
+// --------------------------
+// Animal welfare - Omnivore (30 lessons)
+// --------------------------
+
+1: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+     lesson: "Farm animals like cows, pigs, and chickens are living beings with emotions and social bonds, much like the pets we love. Understanding their lives is the first step toward empathy.",
+     quiz: { question: "Which of these animals can form friendships similar to dogs?", options: ["Cows", "Snakes", "Goldfish"], answer: "Cows" } },
+
+2: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+     lesson: "Cows are known to form strong friendships and even grieve when separated from their companions. Their emotional depth often surprises those who meet them.",
+     quiz: { question: "Do cows show emotions like sadness or affection?", options: ["Yes", "No"], answer: "Yes" } },
+
+3: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+     lesson: "Most pigs are as intelligent as 3-year-old human children. They can solve puzzles, recognize names, and enjoy playing games.",
+     quiz: { question: "What makes pigs unique among farm animals?", options: ["Their intelligence", "Their color", "Their fur"], answer: "Their intelligence" } },
+
+4: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+     lesson: "Chickens are surprisingly intelligent — they can count, dream, and even communicate with over 30 different vocalizations.",
+     quiz: { question: "Can chickens recognize up to 100 individual faces?", options: ["Yes", "No"], answer: "Yes" } },
+
+5: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+     lesson: "Fish experience pain and stress, yet they are often excluded from animal welfare laws. The fishing industry catches billions annually, mostly as bycatch.",
+     quiz: { question: "Do fish have pain receptors?", options: ["Yes", "No"], answer: "Yes" } },
+
+6: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+     lesson: "In factory farms, animals are often confined in small cages or sheds where they cannot move freely — a system designed for profit, not comfort.",
+     quiz: { question: "Why are factory farms controversial?", options: ["They reduce pollution", "They restrict animal movement", "They increase biodiversity"], answer: "They restrict animal movement" } },
+
+7: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+     lesson: "Male chicks in the egg industry are often killed because they don’t lay eggs and aren’t profitable for meat — an ethical issue often hidden from consumers.",
+     quiz: { question: "Why are male chicks killed in the egg industry?", options: ["They don’t lay eggs", "They are unhealthy", "They are too noisy"], answer: "They don’t lay eggs" } },
+
+8: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+     lesson: "Dairy cows are kept pregnant most of their lives to produce milk. Their calves are usually taken away shortly after birth, causing distress for both.",
+     quiz: { question: "Why are calves separated from their mothers in dairy farms?", options: ["To collect milk for sale", "For health reasons", "To protect them from predators"], answer: "To collect milk for sale" } },
+
+9: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+     lesson: "Slaughterhouse workers often experience psychological trauma from repetitive killing — a hidden human cost of industrial meat production.",
+     quiz: { question: "What kind of stress do slaughterhouse workers often face?", options: ["Physical fatigue", "Psychological trauma", "Financial stress"], answer: "Psychological trauma" } },
+
+10: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Label terms like 'free-range' or 'humane' don’t always guarantee good welfare. These animals may still face crowding, mutilation, or early death.",
+      quiz: { question: "Do ‘free-range’ labels always ensure cruelty-free farming?", options: ["Yes", "No"], answer: "No" } },
+
+11: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Over 70 billion land animals are killed yearly for food. Reducing animal product consumption can drastically lower this number.",
+      quiz: { question: "How many land animals are killed for food each year globally?", options: ["70 billion", "7 million", "700 million"], answer: "70 billion" } },
+
+12: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Animals often suffer in the transport process — traveling long distances without food, water, or rest before slaughter.",
+      quiz: { question: "What is a major welfare issue during animal transport?", options: ["Lack of rest and water", "Too much space", "Overfeeding"], answer: "Lack of rest and water" } },
+
+13: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Fish farming (aquaculture) often leads to disease, pollution, and the suffering of billions of animals in crowded tanks.",
+      quiz: { question: "What is a common issue in fish farming?", options: ["Overcrowding", "Low oxygen levels", "Both"], answer: "Both" } },
+
+14: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Octopuses are highly intelligent and emotional, yet they are now being farmed — a practice scientists warn is deeply unethical.",
+      quiz: { question: "Why do scientists oppose octopus farming?", options: ["It’s expensive", "Octopuses are intelligent", "It’s unprofitable"], answer: "Octopuses are intelligent" } },
+
+15: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Animals raised for food rarely reach their natural lifespan — most live only a fraction of it before being slaughtered.",
+      quiz: { question: "Do farm animals typically live out their natural lifespans?", options: ["No", "Yes"], answer: "No" } },
+
+16: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Many farm animals are selectively bred to grow unnaturally fast, leading to health issues like joint pain and organ failure.",
+      quiz: { question: "Why are some chickens unable to walk in factory farms?", options: ["They grow too fast", "They lack sunlight", "They are overfed"], answer: "They grow too fast" } },
+
+17: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Antibiotics are often given to animals to prevent disease in crowded farms, which contributes to antibiotic resistance in humans.",
+      quiz: { question: "Why is antibiotic use in factory farms a concern?", options: ["It causes resistance in humans", "It improves meat taste", "It’s expensive"], answer: "It causes resistance in humans" } },
+
+18: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Animal farming contributes significantly to deforestation and habitat loss, threatening countless wild species.",
+      quiz: { question: "What major environmental problem is linked to animal farming?", options: ["Urbanization", "Deforestation", "Plastic waste"], answer: "Deforestation" } },
+
+19: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Many animals, like pigs and cows, show signs of empathy — they comfort others in distress, similar to humans.",
+      quiz: { question: "Can pigs and cows show empathy?", options: ["Yes", "No"], answer: "Yes" } },
+
+20: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Animal welfare improvements, like reducing meat intake or buying plant-based options, can save lives and reduce suffering.",
+      quiz: { question: "What simple action helps reduce animal suffering?", options: ["Eating more plants", "Buying more meat", "Using more dairy"], answer: "Eating more plants" } },
+
+21: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Documentaries and investigations have helped expose the hidden realities of industrial farming, leading to growing awareness.",
+      quiz: { question: "What has raised awareness about factory farms?", options: ["Advertisements", "Documentaries", "Social media challenges"], answer: "Documentaries" } },
+
+22: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Animal welfare laws vary globally, and many countries still lack protections for farmed species.",
+      quiz: { question: "Do all countries have strong animal welfare laws?", options: ["No", "Yes"], answer: "No" } },
+
+23: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Choosing plant-based meals once or twice a week can prevent dozens of animal deaths over a lifetime.",
+      quiz: { question: "Does reducing meat even slightly make a difference?", options: ["Yes", "No"], answer: "Yes" } },
+
+24: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Animals used in cosmetics testing endure pain and distress; cruelty-free products are widely available alternatives.",
+      quiz: { question: "What label should you look for to avoid animal testing?", options: ["Organic", "Cruelty-Free", "Handmade"], answer: "Cruelty-Free" } },
+
+25: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Modern science recognizes that all vertebrates and some invertebrates experience pain and suffering.",
+      quiz: { question: "Do lobsters and crabs feel pain?", options: ["Yes", "No"], answer: "Yes" } },
+
+26: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Animal agriculture is one of the leading causes of species extinction due to land and resource use.",
+      quiz: { question: "Which industry contributes most to species loss?", options: ["Tech industry", "Animal agriculture", "Tourism"], answer: "Animal agriculture" } },
+
+27: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Understanding animal welfare isn’t about guilt — it’s about awareness and making informed choices.",
+      quiz: { question: "Is awareness the first step toward compassionate choices?", options: ["Yes", "No"], answer: "Yes" } },
+
+28: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Eating less meat can also improve your health and support ethical food systems.",
+      quiz: { question: "Does reducing meat benefit both animals and humans?", options: ["Yes", "No"], answer: "Yes" } },
+
+29: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Each person’s small choices create collective impact — compassion spreads one meal at a time.",
+      quiz: { question: "Can one person’s diet influence overall demand?", options: ["Yes", "No"], answer: "Yes" } },
+
+30: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
+      lesson: "Awareness of animal lives can deepen our connection with nature and inspire kinder choices daily.",
+      quiz: { question: "What does learning about animals often lead to?", options: ["More empathy", "Less interest", "More confusion"], answer: "More empathy" } },
+
+
+// --------------------------
+// Animal welfare - Vegetarian (31–60)
+// --------------------------
+
+31: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Many vegetarians stop eating meat to reduce harm, but may not know that the dairy and egg industries still cause animal suffering.",
+     quiz: { question: "Which two industries still involve animal suffering?", options: ["Fruit and vegetable", "Dairy and egg", "Grain and legume"], answer: "Dairy and egg" } },
+
+32: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "In the dairy industry, cows are repeatedly impregnated and their calves are taken away, often within a day of birth.",
+     quiz: { question: "Why are calves separated from dairy cows?", options: ["To collect milk for humans", "For medical reasons", "To protect them from predators"], answer: "To collect milk for humans" } },
+
+33: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "The bond between a cow and her calf is incredibly strong. Both mother and baby often cry for days after separation.",
+     quiz: { question: "Do cows grieve when separated from their calves?", options: ["Yes", "No"], answer: "Yes" } },
+
+34: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "In egg production, most hens live in cramped barns or cages, with little space to spread their wings or express natural behavior.",
+     quiz: { question: "What do egg-laying hens often lack in their environment?", options: ["Water", "Space and stimulation", "Light"], answer: "Space and stimulation" } },
+
+35: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Even 'free-range' or 'cage-free' systems can involve painful mutilations, such as beak trimming, to prevent pecking in stressful conditions.",
+     quiz: { question: "What painful practice is common even in cage-free systems?", options: ["Beak trimming", "Tattooing", "Tail clipping"], answer: "Beak trimming" } },
+
+36: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Male chicks, unable to lay eggs, are killed at birth in nearly all egg production systems — including free-range and organic.",
+     quiz: { question: "What happens to male chicks in egg production?", options: ["They are killed at birth", "They are raised for eggs", "They are sent to sanctuaries"], answer: "They are killed at birth" } },
+
+37: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Dairy cows’ bodies are pushed to their limits — producing many times the milk they naturally would for a calf.",
+     quiz: { question: "Modern dairy cows produce how much more milk than natural levels?", options: ["About the same", "Up to 10x more", "Half as much"], answer: "Up to 10x more" } },
+
+38: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "When dairy cows are no longer productive, they are typically slaughtered for cheap beef or pet food.",
+     quiz: { question: "What happens to most dairy cows when milk production declines?", options: ["They are slaughtered", "They retire naturally", "They are kept as pets"], answer: "They are slaughtered" } },
+
+39: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "By choosing plant-based milks like oat, soy, or almond, vegetarians can avoid supporting the dairy industry’s animal suffering.",
+     quiz: { question: "Which option avoids animal harm?", options: ["Oat milk", "Cow’s milk"], answer: "Oat milk" } },
+
+40: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Egg substitutes like flaxseed, chickpea flour, and tofu scramble are nutritious and cruelty-free alternatives.",
+     quiz: { question: "Which of these can replace eggs in cooking?", options: ["Flaxseed", "Beef", "Butter"], answer: "Flaxseed" } },
+
+41: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Some sanctuaries rescue former dairy and egg animals, allowing them to live naturally and freely for the first time.",
+     quiz: { question: "What do animal sanctuaries provide?", options: ["Zoos", "Safe homes for rescued animals", "Petting attractions"], answer: "Safe homes for rescued animals" } },
+
+42: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Visiting or supporting animal sanctuaries helps connect people emotionally with the animals behind food products.",
+     quiz: { question: "What’s a good way to connect with rescued animals?", options: ["Visiting sanctuaries", "Watching ads", "Eating animal products"], answer: "Visiting sanctuaries" } },
+
+43: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Many vegetarians feel emotional conflict upon learning about dairy and egg production. Awareness is the first step toward compassionate action.",
+     quiz: { question: "What’s a natural reaction to learning about animal suffering?", options: ["Empathy", "Anger", "Denial"], answer: "Empathy" } },
+
+44: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Farmed animals are often treated as commodities rather than sentient beings, even in small-scale or local farms.",
+     quiz: { question: "How are animals often seen in the food industry?", options: ["As companions", "As commodities", "As teachers"], answer: "As commodities" } },
+
+45: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Small, local, or organic farms can still involve slaughter and separation. Welfare standards may be higher, but suffering still exists.",
+     quiz: { question: "Do small farms completely eliminate animal suffering?", options: ["No", "Yes"], answer: "No" } },
+
+46: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Animals don’t need to die for us to eat well — there are abundant plant sources of protein, calcium, and iron.",
+     quiz: { question: "Which nutrient can be found in plants?", options: ["Protein", "Only in meat", "None"], answer: "Protein" } },
+
+47: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "The global demand for dairy contributes to deforestation and water waste, similar to the meat industry’s impact.",
+     quiz: { question: "What resource does dairy production consume heavily?", options: ["Metal", "Water", "Plastic"], answer: "Water" } },
+
+48: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Every vegetarian meal reduces animal suffering and environmental harm — small actions add up to major impact.",
+     quiz: { question: "Does each vegetarian meal make a difference?", options: ["Yes", "No"], answer: "Yes" } },
+
+49: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Many dairy cows have infected udders from over-milking, a condition called mastitis that causes severe pain.",
+     quiz: { question: "What is mastitis?", options: ["Udder infection", "Milk shortage", "Digestive problem"], answer: "Udder infection" } },
+
+50: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Calf separation isn’t just emotional — it causes health issues for both mother and baby due to stress and weakened immunity.",
+     quiz: { question: "What effect does calf separation have?", options: ["Stress and health problems", "No effect", "Happiness"], answer: "Stress and health problems" } },
+
+51: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Modern egg production breeds hens to lay far more eggs than natural, leading to exhaustion and organ failure.",
+     quiz: { question: "Why do egg-laying hens suffer from health problems?", options: ["They lay unnaturally many eggs", "They live too long", "They eat too little"], answer: "They lay unnaturally many eggs" } },
+
+52: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Some countries are banning cruel practices like chick culling and battery cages — a sign of growing compassion worldwide.",
+     quiz: { question: "Which industry practice is being banned in some places?", options: ["Chick culling", "Milking", "Fishing"], answer: "Chick culling" } },
+
+53: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Vegetarians who learn about dairy ethics often choose to take one more step — exploring a vegan lifestyle.",
+     quiz: { question: "What’s a common next step after vegetarianism?", options: ["Veganism", "Carnism", "Fasting"], answer: "Veganism" } },
+
+54: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Transitioning slowly to plant-based milk, cheese, or yogurt alternatives makes the change easy and enjoyable.",
+     quiz: { question: "What’s an easy first vegan swap?", options: ["Fish", "Plant-based milk", "Eggs"], answer: "Plant-based milk" } },
+
+55: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "More restaurants and stores offer plant-based options than ever — a reflection of growing compassion and awareness.",
+     quiz: { question: "What trend shows rising compassion for animals?", options: ["Plant-based options", "Hunting licenses"], answer: "Plant-based options" } },
+
+56: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Learning about animal behavior — like cows’ curiosity and pigs’ joy — helps us see them as individuals, not food.",
+     quiz: { question: "What emotion do pigs show when playing?", options: ["Fear", "Joy", "Anger"], answer: "Joy" } },
+
+57: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "The more we empathize with animals, the harder it becomes to justify industries that harm them.",
+     quiz: { question: "What feeling makes it harder to support exploitation?", options: ["Empathy", "Anger", "Disinterest"], answer: "Empathy" } },
+
+58: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Choosing compassion over convenience shapes not only what we eat but who we become as individuals.",
+     quiz: { question: "What does compassionate eating influence?", options: ["Our character",  "Nothing", "Only our diet"], answer: "Our character" } },
+
+59: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Animals don’t need our perfection — just our willingness to care and make better choices step by step.",
+     quiz: { question: "What do animals need from us?", options: ["Care and awareness", "Perfection", "Money"], answer: "Care and awareness" } },
+
+60: { goal: "Protecting animals & animal welfare", diet: "vegetarian",
+     lesson: "Every compassionate choice inspires others. Your example can help more animals than you’ll ever meet.",
+     quiz: { question: "What can your personal example do?", options: ["Inspire others", "Do nothing", "Confuse people"], answer: "Inspire others" } },
+
+// --------------------------
+// Animal welfare - Vegan (61–90)
+// --------------------------
+
+61: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Veganism is more than a diet — it’s an ethical stance that avoids exploiting animals in all forms, from food to clothing and entertainment.",
+     quiz: { question: "What does veganism aim to avoid?", options: ["Animal exploitation", "Exercise", "Processed food"], answer: "Animal exploitation" } },
+
+62: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Leather, wool, and silk industries involve animal suffering too. Choosing plant-based or synthetic materials reduces harm beyond food choices.",
+     quiz: { question: "Which clothing materials often involve animal use?", options: ["Leather and wool", "Cotton and linen"], answer: "Leather and wool" } },
+
+63: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Zoos and aquariums often claim to protect animals, but many keep them in confinement, preventing natural behavior and causing stress.",
+     quiz: { question: "Why do many zoos harm animal welfare?", options: ["Confinement and stress", "Freedom and care"], answer: "Confinement and stress" } },
+
+64: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Circuses and marine parks still exploit animals for entertainment. Public demand for ethical shows helps end these practices.",
+     quiz: { question: "What helps reduce animal use in entertainment?", options: ["Buying more tickets", "Public demand for ethical shows"], answer: "Public demand for ethical shows" } },
+
+65: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Being vegan doesn’t mean being perfect — it means doing your best to minimize harm. Compassion includes yourself, too.",
+     quiz: { question: "Who deserves compassion besides animals?", options: ["Yourself", "No one", "Only vegans"], answer: "Yourself" } },
+
+66: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Advocacy can take many forms — sharing food, educating others, volunteering, or simply living by example.",
+     quiz: { question: "Which of these is a form of advocacy?", options: ["Living by example", "Forcing others"], answer: "Living by example" } },
+
+67: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "When people question your choices, responding with kindness instead of anger opens the door for understanding.",
+     quiz: { question: "What response encourages dialogue?", options: ["Kindness", "Anger"], answer: "Kindness" } },
+
+68: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Many people resist veganism not because they don’t care, but because they fear change or judgment. Empathy helps reach them.",
+     quiz: { question: "Why do many people resist veganism?", options: ["Hatred for animals", "Fear of change", ], answer: "Fear of change" } },
+
+69: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Veganism challenges deep cultural habits. Remember that most of us were taught to eat animals before we could question it.",
+     quiz: { question: "When do most people learn to eat animals?", options: ["In childhood", "As adults"], answer: "In childhood" } },
+
+70: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Psychologists call the mental divide between loving pets and eating animals 'cognitive dissonance.' Recognizing it helps bridge compassion.",
+     quiz: { question: "What is the term for moral conflict about animals?", options: ["Empathy gap", "Cognitive dissonance"], answer: "Cognitive dissonance" } },
+
+71: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Social pressure can make veganism challenging, especially in non-vegan environments. Preparing responses helps reduce stress.",
+     quiz: { question: "What helps in handling social pressure?", options: ["Prepared responses", "Avoiding everyone"], answer: "Prepared responses" } },
+
+72: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Joining vegan communities, online or locally, can give support, friendship, and inspiration when motivation fades.",
+     quiz: { question: "How can vegans stay motivated?", options: ["Arguing with others", "Joining communities"], answer: "Joining communities" } },
+
+73: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Animals express emotions just like us — joy, fear, grief, and curiosity. Seeing them as individuals strengthens empathy.",
+     quiz: { question: "What emotions can animals feel?", options: ["Joy and grief", "None"], answer: "Joy and grief" } },
+
+74: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Rescued animals often show remarkable healing when treated with love — proof of their emotional depth and trust.",
+     quiz: { question: "What helps rescued animals recover emotionally?", options: ["Isolation", "Love and care"], answer: "Love and care" } },
+
+75: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Learning about animal intelligence — like pigs solving puzzles or crows using tools — deepens respect for their minds.",
+     quiz: { question: "Which animals use tools?", options: ["Crows", "Sheep"], answer: "Crows" } },
+
+76: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Even in vegan living, mistakes happen — reading labels wrong, or discovering hidden animal ingredients. Progress, not perfection, matters.",
+     quiz: { question: "What matters most in veganism?", options: [ "Perfection", "Progress"], answer: "Progress" } },
+
+77: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Veganism connects personal ethics with global justice — reducing suffering, climate impact, and hunger all at once.",
+     quiz: { question: "What global issues does veganism address?", options: ["Fashion trends", "Suffering and climate change"], answer: "Suffering and climate change" } },
+
+78: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Many world religions include compassion for all beings. Veganism can align with spiritual or moral values of kindness.",
+     quiz: { question: "Which value do many religions share with veganism?", options: [ "Competition", "Compassion"], answer: "Compassion" } },
+
+79: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Documentaries like 'Dominion' and 'Cowspiracy' reveal hidden realities — but it’s okay to watch at your own pace.",
+     quiz: { question: "Should you force yourself to watch graphic content?", options: ["No", "Yes"], answer: "No" } },
+
+80: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Vegan outreach can be creative — cooking demos, art, writing, or tech projects that inspire curiosity instead of guilt.",
+     quiz: { question: "What kind of outreach is most effective?", options: ["Aggressive", "Creative and kind"], answer: "Creative and kind" } },
+
+81: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Some people return to animal products due to social isolation or convenience, not lack of ethics. Support helps them reconnect.",
+     quiz: { question: "What helps people stay vegan long-term?", options: ["Shame", "Support and community"], answer: "Support and community" } },
+
+82: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Veganism is a journey. Your understanding and empathy deepen over time, just like any practice of compassion.",
+     quiz: { question: "How does empathy change over time?", options: ["It deepens with practice", "It fades"], answer: "It deepens with practice" } },
+
+83: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Learning to communicate effectively — listening first, speaking calmly — makes advocacy more impactful and respectful.",
+     quiz: { question: "What improves vegan communication?", options: [ "Interrupting", "Listening and calmness"], answer: "Listening and calmness" } },
+
+84: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Veganism overlaps with other justice movements — such as sustainability, feminism, and anti-racism — through shared compassion.",
+     quiz: { question: "What connects veganism to other justice causes?", options: ["Compassion", "Competition"], answer: "Compassion" } },
+
+85: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Supporting vegan brands, farmers, and startups helps accelerate positive change in the economy.",
+     quiz: { question: "What effect does supporting vegan businesses have?", options: ["No effect", "Accelerates change" ], answer: "Accelerates change" } },
+
+86: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Activism can also mean self-care — recharging, meditating, and staying kind to yourself to avoid burnout.",
+     quiz: { question: "What prevents activist burnout?", options: ["Self-care", "Overworking"], answer: "Self-care" } },
+
+87: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Art, writing, and music can communicate compassion beyond words — touching hearts more than arguments ever could.",
+     quiz: { question: "What form of expression can spread compassion?", options: ["Art", "Arguments"], answer: "Art" } },
+
+88: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Gratitude helps sustain long-term motivation — for the animals saved, the earth healed, and the peace you create within.",
+     quiz: { question: "What emotion supports long-term motivation?", options: [ "Guilt", "Gratitude"], answer: "Gratitude" } },
+
+89: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Staying humble reminds us we were once learners too. Every person who asks a question is beginning their journey.",
+     quiz: { question: "What mindset helps in vegan advocacy?", options: ["Superiority", "Humility"], answer: "Humility" } },
+
+90: { goal: "Protecting animals & animal welfare", diet: "vegan",
+     lesson: "Veganism is love in action — compassion extended beyond species, woven into everyday choices that shape a kinder world.",
+     quiz: { question: "What is veganism ultimately about?", options: ["Love and compassion", "Rules and labels"], answer: "Love and compassion" } },
+
+
+
+
+  // --------------------------
+  // Environment - Omnivore (1001–1030)
+  // --------------------------
+  1001: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Climate change is driven by greenhouse gases like CO₂ and methane. Animal agriculture is one of the largest global contributors.",
+      quiz: { question: "Which gas is heavily emitted by cattle?", options: ["Carbon monoxide", "Methane", "Oxygen"], answer: "Methane" } },
+
+  1002: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Producing meat requires large amounts of land for grazing and growing animal feed, often leading to deforestation.",
+      quiz: { question: "What is a major cause of deforestation?", options: ["Growing soy for livestock", "Urban expansion", "Solar farms"], answer: "Growing soy for livestock" } },
+
+  1003: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Water use in meat production is extremely high. Producing one kilogram of beef can require over 15,000 liters of water.",
+      quiz: { question: "Which food uses the most water?", options: ["Rice", "Beef", "Potatoes"], answer: "Beef" } },
+
+  1004: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Food waste is responsible for nearly 8% of global greenhouse gas emissions. Reducing waste can help slow warming.",
+      quiz: { question: "What percentage of global emissions come from wasted food?", options: ["8%", "2%", "20%"], answer: "8%" } },
+
+  1005: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Animal manure releases nitrous oxide, a greenhouse gas almost 300 times more potent than CO₂.",
+      quiz: { question: "Which gas is linked to animal manure?", options: ["Nitrous oxide", "Hydrogen", "Helium"], answer: "Nitrous oxide" } },
+
+  1006: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Forests are natural carbon sinks. Deforestation for animal feed reduces Earth’s ability to absorb CO₂.",
+      quiz: { question: "What do forests primarily store?", options: ["Water", "Carbon", "Heat"], answer: "Carbon" } },
+
+  1007: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Meat production creates pollution from fertilizers, pesticides, and animal waste that flow into rivers and oceans.",
+      quiz: { question: "What is the main source of water pollution in livestock farming?", options: ["Animal waste", "Solar energy", "Fish"], answer: "Animal waste" } },
+
+  1008: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "The transport and refrigeration of meat contribute to emissions too, even after the animals are slaughtered.",
+      quiz: { question: "What stage still contributes to emissions?", options: ["Refrigeration", "Consumption", "Packaging"], answer: "Refrigeration" } },
+
+  1009: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Switching one beef meal per week to a plant-based alternative can save over 300 kg of CO₂ per year.",
+      quiz: { question: "Replacing beef with plants once a week saves about:", options: ["300 kg CO₂/year", "30 kg CO₂/year", "3 kg CO₂/year"], answer: "300 kg CO₂/year" } },
+
+  1010: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Animal farming uses 77% of global agricultural land while providing only 18% of calories consumed.",
+      quiz: { question: "What percentage of farmland is used for animal agriculture?", options: ["77%", "50%", "20%"], answer: "77%" } },
+
+  1011: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Overfishing and fish farms also damage ocean ecosystems, releasing waste and antibiotics into marine environments.",
+      quiz: { question: "Which practice harms ocean ecosystems?", options: ["Overfishing", "Algae farming", "Sailing"], answer: "Overfishing" } },
+
+  1012: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Livestock feed production causes habitat loss for countless species, contributing to biodiversity decline.",
+      quiz: { question: "What is a side effect of livestock feed production?", options: ["Habitat loss", "Urban sprawl", "Renewable energy"], answer: "Habitat loss" } },
+
+  1013: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Plastic packaging in the meat industry also adds to environmental waste, polluting soil and water.",
+      quiz: { question: "Which sector uses lots of single-use plastic?", options: ["Meat packaging", "Textiles", "Education"], answer: "Meat packaging" } },
+
+  1014: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Even small dietary changes have a big effect — the more plant-based meals you eat, the lower your carbon footprint becomes.",
+      quiz: { question: "What reduces your carbon footprint most?", options: ["Eating more plant-based meals", "Buying bottled water", "Driving less"], answer: "Eating more plant-based meals" } },
+
+  1015: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Climate-friendly eating is about progress, not perfection. Even partial shifts make a measurable difference.",
+      quiz: { question: "What matters most for the climate?", options: ["Progress", "Perfection", "Nothing"], answer: "Progress" } },
+
+  1016: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Reducing red meat lowers water use, emissions, and heart disease risk — a win for both planet and people.",
+      quiz: { question: "Which benefit is NOT from red meat reduction?", options: ["Increased emissions", "Better health", "Water conservation"], answer: "Increased emissions" } },
+
+  1017: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Many plant foods, like beans and lentils, are nitrogen-fixing — they enrich the soil naturally instead of depleting it.",
+      quiz: { question: "What do nitrogen-fixing plants do?", options: ["Enrich the soil", "Pollute water", "Raise methane"], answer: "Enrich the soil" } },
+
+  1018: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Meat-heavy diets require massive transport networks. Local, plant-based diets lower emissions significantly.",
+      quiz: { question: "What reduces emissions most?", options: ["Eating local plants", "Importing meat", "Using plastic bags"], answer: "Eating local plants" } },
+
+  1019: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Animal agriculture emits more greenhouse gases than the entire transport sector combined.",
+      quiz: { question: "Which sector emits more GHGs?", options: ["Animal farming", "Aviation", "Shipping"], answer: "Animal farming" } },
+
+  1020: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Our food choices directly affect forests, oceans, air, and water. The most powerful environmental tool is your plate.",
+      quiz: { question: "What is your most powerful environmental tool?", options: ["Your plate", "Your phone", "Your car"], answer: "Your plate" } },
+  1021: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Air pollution from burning fossil fuels to produce fertilizers contributes to respiratory diseases and acid rain.",
+      quiz: { question: "What environmental issue is linked to fertilizer production?", options: ["Acid rain", "Ozone recovery", "Water desalination"], answer: "Acid rain" } },
+
+  1022: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Cattle release methane through digestion (enteric fermentation), making them a major source of greenhouse gases.",
+      quiz: { question: "How do cows release methane?", options: ["Through digestion", "Through sweat", "Through hooves"], answer: "Through digestion" } },
+
+  1023: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Reducing demand for animal products slows deforestation in tropical areas like the Amazon rainforest.",
+      quiz: { question: "What helps protect the Amazon?", options: ["Eating fewer animal products", "Buying more meat", "Cutting more trees"], answer: "Eating fewer animal products" } },
+
+  1024: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Feeding animals with grains instead of humans creates inefficiency — most calories are lost in conversion to meat.",
+      quiz: { question: "Why is meat production inefficient?", options: ["Energy is lost when feeding animals grains", "Animals grow too fast", "Grains are too nutritious"], answer: "Energy is lost when feeding animals grains" } },
+
+  1025: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Diets rich in plants reduce agricultural pressure, helping restore wildlife habitats.",
+      quiz: { question: "What helps restore wildlife habitats?", options: ["Plant-based diets", "High meat demand", "Chemical fertilizers"], answer: "Plant-based diets" } },
+
+  1026: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Sustainable eating means choosing foods that are grown with minimal water, energy, and land use.",
+      quiz: { question: "Which food choice is most sustainable?", options: ["Foods grown with minimal resources", "Imported exotic meat", "Packaged snacks"], answer: "Foods grown with minimal resources" } },
+
+  1027: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Local, seasonal foods reduce transport emissions and support biodiversity.",
+      quiz: { question: "What helps lower transport emissions?", options: ["Eating local, seasonal foods", "Buying imported meat", "Using more packaging"], answer: "Eating local, seasonal foods" } },
+
+  1028: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Many farmers are transitioning to regenerative agriculture, which rebuilds soil and captures carbon.",
+      quiz: { question: "What is the main goal of regenerative farming?", options: ["Rebuilding soil and capturing carbon", "Producing more meat", "Using more fertilizer"], answer: "Rebuilding soil and capturing carbon" } },
+
+  1029: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "A climate-friendly lifestyle combines food, transport, and energy choices that work together to lower emissions.",
+      quiz: { question: "Which combination helps the climate most?", options: ["Food, transport, and energy choices", "More online shopping", "Increased animal farming"], answer: "Food, transport, and energy choices" } },
+
+  1030: { goal: "Caring for the environment & fighting climate change", diet: "omnivore",
+      lesson: "Choosing plant-based meals even a few times per week creates measurable, lasting impact for the planet.",
+      quiz: { question: "How can you help the planet right now?", options: ["Eat more plant-based meals", "Buy more meat", "Ignore climate news"], answer: "Eat more plant-based meals" } },
+
+
+  // --------------------------
+  // Environment - Vegetarian (1031–1060)
+  // --------------------------
+
+  1031: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "You’ve already reduced your footprint by avoiding meat. Next, we can explore dairy and eggs — both are significant sources of emissions.",
+      quiz: { question: "Which vegetarian food has a high carbon footprint?", options: ["Cheese", "Lentils", "Carrots"], answer: "Cheese" } },
+
+  1032: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Dairy cows produce methane and require large amounts of feed and water. Plant-based milks are often much more sustainable.",
+      quiz: { question: "Which milk usually has the lowest footprint?", options: ["Oat milk", "Cow’s milk", "Goat milk"], answer: "Oat milk" } },
+
+  1033: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Egg production generates waste and emissions, particularly from feed crops and manure decomposition.",
+      quiz: { question: "What causes emissions in egg production?", options: ["Feed crops and manure", "Packaging", "Transportation"], answer: "Feed crops and manure" } },
+
+  1034: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Switching to plant-based yogurt and cheese alternatives can reduce both methane and water use.",
+      quiz: { question: "What benefit do plant-based dairy alternatives provide?", options: ["Lower methane and water use", "Higher emissions", "More deforestation"], answer: "Lower methane and water use" } },
+
+  1035: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Most dairy comes from intensive systems that rely on feed imports, linking them to deforestation abroad.",
+      quiz: { question: "What connects dairy farming to deforestation?", options: ["Imported animal feed", "Local grazing only", "Rainfall changes"], answer: "Imported animal feed" } },
+    1036: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Transporting refrigerated dairy products uses energy and increases emissions. Choosing local or plant-based options reduces that footprint.",
+      quiz: { question: "What increases emissions in dairy transport?", options: ["Refrigeration", "Packaging size", "Store layout"], answer: "Refrigeration" } },
+
+  1037: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Organic farming for plant-based foods avoids synthetic fertilizers, which release nitrous oxide — a potent greenhouse gas.",
+      quiz: { question: "Which gas is emitted from synthetic fertilizers?", options: ["Nitrous oxide", "Oxygen", "Methane"], answer: "Nitrous oxide" } },
+
+  1038: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Plant-based proteins such as lentils, beans, and peas enrich the soil by fixing nitrogen, reducing the need for fertilizers.",
+      quiz: { question: "What is a benefit of legumes for the environment?", options: ["They fix nitrogen in the soil", "They require chemical fertilizer", "They consume more water"], answer: "They fix nitrogen in the soil" } },
+
+  1039: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Switching from dairy-heavy diets to soy or oat alternatives can save hundreds of liters of water per person each week.",
+      quiz: { question: "How can you save water through diet?", options: ["Choosing soy or oat milk", "Drinking more coffee", "Eating more cheese"], answer: "Choosing soy or oat milk" } },
+
+  1040: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "When buying packaged plant foods, recyclable or compostable packaging helps reduce plastic waste entering oceans.",
+      quiz: { question: "Which type of packaging is most eco-friendly?", options: ["Compostable packaging", "Plastic film", "Aluminum"], answer: "Compostable packaging" } },
+
+  1041: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Greenhouse gases are not just about CO₂ — methane and nitrous oxide from livestock have stronger warming effects per molecule.",
+      quiz: { question: "Which gas is more potent than CO₂?", options: ["Methane", "Oxygen", "Hydrogen"], answer: "Methane" } },
+
+  1042: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Agriculture uses over 70% of global freshwater. Reducing demand for animal products helps free water for natural ecosystems.",
+      quiz: { question: "How much freshwater does agriculture use globally?", options: ["Over 70%", "About 25%", "Less than 10%"], answer: "Over 70%" } },
+
+  1043: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Plant-based agriculture can support pollinators by promoting wildflower borders and reducing pesticide use.",
+      quiz: { question: "What helps pollinators thrive?", options: ["Wildflower borders", "Increased pesticide use", "Monocultures"], answer: "Wildflower borders" } },
+
+  1044: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Switching to renewable energy sources on farms — such as solar panels — reduces emissions from food production.",
+      quiz: { question: "Which energy source is renewable?", options: ["Solar power", "Coal", "Diesel"], answer: "Solar power" } },
+
+  1045: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Even plant-based foods have different impacts — lentils, beans, and peas tend to have the lowest carbon footprints.",
+      quiz: { question: "Which food has the lowest carbon footprint?", options: ["Lentils", "Cheese", "Butter"], answer: "Lentils" } },
+
+  1046: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Buying in bulk reduces packaging waste and transport emissions since fewer trips and containers are needed.",
+      quiz: { question: "What’s an eco-friendly shopping habit?", options: ["Buying in bulk", "Buying single-use packs", "Frequent car trips"], answer: "Buying in bulk" } },
+
+  1047: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Composting food scraps returns nutrients to the soil and prevents methane formation in landfills.",
+      quiz: { question: "Why is composting beneficial?", options: ["It prevents methane from forming", "It increases landfill volume", "It removes topsoil"], answer: "It prevents methane from forming" } },
+
+  1048: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Urban gardens and rooftop farms help cool cities and shorten food supply chains, reducing emissions.",
+      quiz: { question: "What is one benefit of rooftop gardens?", options: ["Cooling cities", "Increasing concrete surfaces", "Using more energy"], answer: "Cooling cities" } },
+
+  1049: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Cooking at home reduces packaging waste and allows control over ingredients, helping lower your environmental footprint.",
+      quiz: { question: "What’s a benefit of home cooking?", options: ["Less packaging waste", "More transportation", "Higher emissions"], answer: "Less packaging waste" } },
+
+  1050: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Seasonal eating means less storage time, lower refrigeration needs, and fewer imports, saving energy overall.",
+      quiz: { question: "Why is seasonal eating eco-friendly?", options: ["It saves energy", "It uses more fertilizers", "It requires more imports"], answer: "It saves energy" } },
+
+  1051: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Biodiversity loss is accelerated by monocultures grown for animal feed — shifting toward diverse plant crops helps preserve ecosystems.",
+      quiz: { question: "What farming method protects biodiversity?", options: ["Diverse plant crops", "Large monocultures", "Chemical farming"], answer: "Diverse plant crops" } },
+
+  1052: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Local farmers’ markets reduce packaging and transportation emissions while strengthening community ties.",
+      quiz: { question: "Why visit farmers’ markets?", options: ["To reduce packaging and emissions", "To buy imported goods", "To support fast food"], answer: "To reduce packaging and emissions" } },
+
+  1053: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Reducing food waste is one of the simplest ways to fight climate change — wasted food means wasted land, water, and energy.",
+      quiz: { question: "Why is food waste harmful?", options: ["It wastes resources", "It increases biodiversity", "It helps soil quality"], answer: "It wastes resources" } },
+
+  1054: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "By focusing on nutrient-dense foods rather than volume, we can eat less overall and lower our environmental footprint.",
+      quiz: { question: "What’s a benefit of nutrient-dense foods?", options: ["Smaller environmental footprint", "Higher emissions", "More packaging"], answer: "Smaller environmental footprint" } },
+
+  1055: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Switching to whole foods cuts down on industrial processing — one of the hidden sources of emissions in modern diets.",
+      quiz: { question: "Why are whole foods better for the planet?", options: ["They require less processing", "They use more packaging", "They spoil faster"], answer: "They require less processing" } },
+
+  1056: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Every plant-based meal replaces a high-impact meal, helping slow climate change through daily choices.",
+      quiz: { question: "What does each plant-based meal do?", options: ["Reduces emissions", "Increases water waste", "Adds methane"], answer: "Reduces emissions" } },
+
+  1057: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Climate-friendly diets can inspire others — collective change amplifies the effect beyond individual actions.",
+      quiz: { question: "What makes sustainable eating more powerful?", options: ["Inspiring collective change", "Eating alone", "Ignoring others"], answer: "Inspiring collective change" } },
+
+  1058: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Governments and businesses are responding to growing plant-based demand by supporting greener supply chains.",
+      quiz: { question: "What drives greener supply chains?", options: ["Plant-based demand", "More livestock farms", "Ignoring climate goals"], answer: "Plant-based demand" } },
+
+  1059: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Reducing dairy and eggs further strengthens your environmental impact, moving closer to a fully sustainable lifestyle.",
+      quiz: { question: "What’s the next step toward sustainability?", options: ["Reducing dairy and eggs", "Eating more cheese", "Buying imported foods"], answer: "Reducing dairy and eggs" } },
+
+  1060: { goal: "Caring for the environment & fighting climate change", diet: "vegetarian",
+      lesson: "Every sustainable choice adds up. Transitioning fully to a plant-based lifestyle can halve your personal food emissions.",
+      quiz: { question: "How much can plant-based diets reduce food emissions?", options: ["Up to 50%", "About 5%", "None at all"], answer: "Up to 50%" } },
+  
+  // -------------------------------
+  // Environment & Climate – Vegan
+  // -------------------------------
+  1061: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Veganism minimizes emissions not only from food but also from byproducts like leather, wool, and animal-based cosmetics.",
+      quiz: { question: "Which industries add to emissions beyond food?", options: ["Leather and wool", "Electronics", "Construction"], answer: "Leather and wool" } },
+
+  1062: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Plant-based diets require up to 75% less farmland, freeing space for reforestation and wildlife restoration.",
+      quiz: { question: "What can reforestation help achieve?", options: ["Restoring wildlife habitats", "Increasing desertification", "Raising temperatures"], answer: "Restoring wildlife habitats" } },
+
+  1063: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Methane from livestock is one of the most potent greenhouse gases. Removing animal agriculture drastically reduces it.",
+      quiz: { question: "Which gas is heavily reduced by eliminating animal farming?", options: ["Methane", "Oxygen", "Carbon monoxide"], answer: "Methane" } },
+
+  1064: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Choosing locally grown, organic vegan foods lowers transport emissions and supports sustainable agriculture.",
+      quiz: { question: "Why choose local vegan foods?", options: ["Lower transport emissions", "Higher packaging waste", "Longer storage times"], answer: "Lower transport emissions" } },
+
+  1065: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Deforestation for livestock feed is a major threat to biodiversity. Vegan diets directly reduce this demand.",
+      quiz: { question: "What causes most agricultural deforestation?", options: ["Feed crops for livestock", "Fruit farming", "Urban gardening"], answer: "Feed crops for livestock" } },
+
+  1066: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Seaweed and algae farming can absorb CO₂ and replace animal-based products like fish oil or gelatin sustainably.",
+      quiz: { question: "What’s a sustainable alternative to fish oil?", options: ["Algae", "Corn syrup", "Soy sauce"], answer: "Algae" } },
+
+  1067: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Completely plant-based diets can cut global food-related emissions by up to 70%, according to major climate studies.",
+      quiz: { question: "How much could global emissions drop with plant-based diets?", options: ["Up to 70%", "10%", "25%"], answer: "Up to 70%" } },
+
+  1068: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Veganism aligns with a circular economy: using renewable inputs and minimizing waste through full lifecycle thinking.",
+      quiz: { question: "What does a circular economy aim to do?", options: ["Reduce waste", "Increase production", "Expand consumption"], answer: "Reduce waste" } },
+
+  1069: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Switching from cow leather to plant-based or recycled alternatives reduces water use and eliminates toxic tanning chemicals.",
+      quiz: { question: "Why is vegan leather eco-friendly?", options: ["It avoids toxic tanning", "It uses more water", "It’s made from animal hide"], answer: "It avoids toxic tanning" } },
+
+  1070: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Palm oil, though plant-based, can harm rainforests. Choosing certified sustainable or palm-free options helps protect ecosystems.",
+      quiz: { question: "What’s a sustainable palm oil choice?", options: ["Certified sustainable palm oil", "Unregulated palm oil", "Animal fat substitutes"], answer: "Certified sustainable palm oil" } },
+
+  1071: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Upcycling old materials — from clothes to jars — reduces demand for new production, saving energy and emissions.",
+      quiz: { question: "What does upcycling do?", options: ["Reduces waste", "Increases emissions", "Consumes more energy"], answer: "Reduces waste" } },
+
+  1072: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Reducing frozen and heavily processed foods lowers packaging waste and refrigeration emissions.",
+      quiz: { question: "Why avoid heavily processed foods?", options: ["To reduce packaging and energy use", "To increase shelf life", "To support plastic use"], answer: "To reduce packaging and energy use" } },
+
+  1073: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Supporting rewilding projects helps restore natural ecosystems and absorb CO₂ naturally.",
+      quiz: { question: "What’s the goal of rewilding?", options: ["Restoring natural ecosystems", "Expanding cities", "Building farms"], answer: "Restoring natural ecosystems" } },
+
+  1074: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Vegan agriculture can integrate permaculture — a design system that mimics nature’s cycles for sustainability.",
+      quiz: { question: "What does permaculture focus on?", options: ["Mimicking nature’s systems", "Maximizing yields through chemicals", "Industrial monocultures"], answer: "Mimicking nature’s systems" } },
+
+  1075: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "The fewer animal products we consume, the more land becomes available for carbon-sequestering forests.",
+      quiz: { question: "What happens when we eat fewer animal products?", options: ["More land for forests", "Less CO₂ absorption", "More desertification"], answer: "More land for forests" } },
+
+  1076: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Vegan diets often promote minimalism — consuming consciously and focusing on needs over trends.",
+      quiz: { question: "What principle aligns with minimalism?", options: ["Consuming consciously", "Buying impulsively", "Following fast fashion"], answer: "Consuming consciously" } },
+
+  1077: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Community gardens and food cooperatives strengthen local food systems and reduce dependency on industrial agriculture.",
+      quiz: { question: "What’s a benefit of community gardens?", options: ["Stronger local food systems", "Higher transport emissions", "Less biodiversity"], answer: "Stronger local food systems" } },
+
+  1078: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Reducing travel-related emissions through vegan tourism — supporting plant-based local restaurants and eco-lodges — encourages sustainable travel.",
+      quiz: { question: "What supports vegan tourism?", options: ["Eco-lodges and plant-based restaurants", "Cruises and imported meat", "Fast food chains"], answer: "Eco-lodges and plant-based restaurants" } },
+
+  1079: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Educating others about the climate benefits of veganism helps multiply your positive impact.",
+      quiz: { question: "How can you multiply your impact?", options: ["Educate others", "Ignore awareness", "Increase waste"], answer: "Educate others" } },
+
+  1080: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Supporting plant-based businesses helps grow the green economy, creating jobs that align with sustainability goals.",
+      quiz: { question: "How do vegan businesses help the planet?", options: ["They support a green economy", "They increase fossil fuel use", "They depend on deforestation"], answer: "They support a green economy" } },
+
+  1081: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Carbon offsetting through reforestation or renewable energy projects can balance out unavoidable emissions.",
+      quiz: { question: "What’s carbon offsetting?", options: ["Balancing emissions through green projects", "Producing more CO₂", "Ignoring emissions"], answer: "Balancing emissions through green projects" } },
+
+  1082: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Zero-waste lifestyles align naturally with vegan ethics — both aim to minimize harm and resource depletion.",
+      quiz: { question: "What’s a shared goal of veganism and zero waste?", options: ["Minimizing harm", "Maximizing profit", "Encouraging waste"], answer: "Minimizing harm" } },
+
+  1083: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Replacing single-use items with reusables — bottles, bags, straws — significantly lowers plastic pollution.",
+      quiz: { question: "What reduces plastic pollution?", options: ["Reusable items", "Single-use plastics", "Styrofoam"], answer: "Reusable items" } },
+
+  1084: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Composting and growing your own herbs or vegetables close the sustainability loop and connect you with nature.",
+      quiz: { question: "What’s a benefit of home gardening?", options: ["Connecting with nature", "Increasing waste", "Using more chemicals"], answer: "Connecting with nature" } },
+
+  1085: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Vegan activism — online or offline — raises awareness about climate-friendly eating and policy change.",
+      quiz: { question: "What’s the goal of vegan activism?", options: ["Raise awareness for sustainability", "Promote fast fashion", "Increase meat demand"], answer: "Raise awareness for sustainability" } },
+
+  1086: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Joining reforestation or clean-up events allows you to make a tangible difference in your local environment.",
+      quiz: { question: "How can you directly help the environment?", options: ["Joining clean-up events", "Buying bottled water", "Using more fuel"], answer: "Joining clean-up events" } },
+
+  1087: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Reading climate science books or documentaries keeps you informed and motivated to take consistent action.",
+      quiz: { question: "What keeps you motivated for climate action?", options: ["Learning and awareness", "Ignoring the problem", "Misinformation"], answer: "Learning and awareness" } },
+
+  1088: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Participating in policy discussions and supporting green initiatives strengthens systemic change.",
+      quiz: { question: "What creates lasting environmental change?", options: ["Systemic policy support", "Individual inaction", "Industrial growth"], answer: "Systemic policy support" } },
+
+  1089: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Living a low-impact lifestyle — consuming less, reusing more, and valuing experiences — makes sustainability feel natural.",
+      quiz: { question: "What defines a low-impact lifestyle?", options: ["Consuming less and reusing more", "Buying frequently", "Driving everywhere"], answer: "Consuming less and reusing more" } },
+
+  1090: { goal: "Caring for the environment & fighting climate change", diet: "vegan",
+      lesson: "Veganism is a lifelong environmental commitment — each meal, product, and habit helps heal the planet over time.",
+      quiz: { question: "What makes veganism powerful for the planet?", options: ["Consistency over time", "Short-term change", "Ignoring habits"], answer: "Consistency over time" } },
+
+// --------------------------
+// Healthy living & wellness – Omnivore
+// --------------------------
+
+2001: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Basics of balanced nutrition: proteins, carbs, fats, vitamins, and minerals are essential for health.",
+    quiz: { question: "Which nutrient is essential for building muscles?", options: ["Protein", "Sugar", "Salt"], answer: "Protein" } },
+
+2002: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Hydration is key: water supports digestion, circulation, and detoxification.",
+    quiz: { question: "How much water is recommended daily?", options: ["2 liters", "500 ml", "5 liters"], answer: "2 liters" } },
+
+2003: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Moderate exercise improves heart health, strengthens muscles, and reduces stress.",
+    quiz: { question: "Which activity strengthens the heart?", options: ["Cardio exercise", "Watching TV", "Sleeping"], answer: "Cardio exercise" } },
+
+2004: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Sleep is vital for recovery, brain function, and hormone regulation.",
+    quiz: { question: "What happens with chronic sleep deprivation?", options: ["Decreased immunity", "Improved energy", "Better focus"], answer: "Decreased immunity" } },
+
+2005: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Mindful eating encourages enjoying meals slowly, reducing overeating and improving digestion.",
+    quiz: { question: "What is mindful eating?", options: ["Eating slowly and paying attention", "Eating while watching TV", "Skipping meals"], answer: "Eating slowly and paying attention" } },
+
+2006: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Limiting processed foods and added sugar reduces inflammation and supports long-term health.",
+    quiz: { question: "Which should be limited for better health?", options: ["Added sugar", "Fruits", "Vegetables"], answer: "Added sugar" } },
+
+2007: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Regular physical activity helps maintain a healthy weight and boosts mood through endorphin release.",
+    quiz: { question: "What hormone improves mood during exercise?", options: ["Endorphin", "Insulin", "Cortisol"], answer: "Endorphin" } },
+
+2008: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Whole foods—like grains, vegetables, and lean meats—provide essential nutrients without additives.",
+    quiz: { question: "Which is considered a whole food?", options: ["Brown rice", "Chips", "Soda"], answer: "Brown rice" } },
+
+2009: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Managing stress through meditation, breathing exercises, or hobbies improves mental and physical health.",
+    quiz: { question: "Which reduces stress effectively?", options: ["Meditation", "Ignoring problems", "Excess caffeine"], answer: "Meditation" } },
+
+2010: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Regular check-ups and preventive care catch potential issues early, improving long-term outcomes.",
+    quiz: { question: "Why are preventive check-ups important?", options: ["Early detection of issues", "To waste time", "They are unnecessary"], answer: "Early detection of issues" } },
+
+2011: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Fiber from fruits, vegetables, and whole grains aids digestion and keeps blood sugar stable.",
+    quiz: { question: "Which nutrient helps with digestion?", options: ["Fiber", "Saturated fat", "Sodium"], answer: "Fiber" } },
+
+2012: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Moderate caffeine consumption can boost focus, but excess may disrupt sleep and increase anxiety.",
+    quiz: { question: "Excess caffeine can cause?", options: ["Insomnia", "Better sleep", "Calmness"], answer: "Insomnia" } },
+
+2013: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Healthy fats, like omega-3s in fish and nuts, support brain function and cardiovascular health.",
+    quiz: { question: "Which food is high in omega-3?", options: ["Salmon", "White bread", "Candy"], answer: "Salmon" } },
+
+2014: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Strength training increases muscle mass, bone density, and metabolic rate.",
+    quiz: { question: "What does strength training improve?", options: ["Bone density", "Hair color", "Vision"], answer: "Bone density" } },
+
+2015: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Exposure to sunlight provides vitamin D, which is essential for bones and immune function.",
+    quiz: { question: "Which vitamin comes from sunlight?", options: ["Vitamin D", "Vitamin C", "Vitamin B12"], answer: "Vitamin D" } },
+
+2016: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Portion control helps maintain a healthy weight and prevents overeating.",
+    quiz: { question: "Why is portion control important?", options: ["Maintain weight", "Eat more than needed", "Skip meals"], answer: "Maintain weight" } },
+
+2017: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Hydrating before, during, and after exercise prevents fatigue and supports performance.",
+    quiz: { question: "When should you hydrate for exercise?", options: ["Before, during, after", "Never", "Only before"], answer: "Before, during, after" } },
+
+2018: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Eating a variety of foods ensures a wide range of nutrients and reduces deficiencies.",
+    quiz: { question: "Why eat a variety of foods?", options: ["To get all nutrients", "For monotony", "To gain weight"], answer: "To get all nutrients" } },
+
+2019: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Avoiding smoking and excessive alcohol improves cardiovascular and liver health.",
+    quiz: { question: "What should you avoid for heart and liver health?", options: ["Smoking and excess alcohol", "Water", "Exercise"], answer: "Smoking and excess alcohol" } },
+
+2020: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Mind-body practices like yoga or tai chi enhance flexibility, reduce stress, and support mindfulness.",
+    quiz: { question: "Which practice improves mind-body connection?", options: ["Yoga", "Watching TV", "Fast food"], answer: "Yoga" } },
+
+2021: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Keeping a food journal helps identify patterns, allergies, or habits affecting health.",
+    quiz: { question: "What does a food journal help with?", options: ["Track habits and allergies", "Track spending", "Track sleep only"], answer: "Track habits and allergies" } },
+
+2022: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Regular movement breaks during work or study reduce fatigue and improve circulation.",
+    quiz: { question: "Why take movement breaks?", options: ["Reduce fatigue", "Increase stress", "Lose focus"], answer: "Reduce fatigue" } },
+
+2023: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Consuming antioxidant-rich foods like berries and dark leafy greens protects cells from damage.",
+    quiz: { question: "Which foods are rich in antioxidants?", options: ["Berries", "White bread", "Soft drinks"], answer: "Berries" } },
+
+2024: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Gut health is supported by fermented foods like yogurt, kefir, or kombucha, improving digestion and immunity.",
+    quiz: { question: "Which improves gut health?", options: ["Fermented foods", "Candy", "Chips"], answer: "Fermented foods" } },
+
+2025: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Eating slowly and chewing thoroughly improves digestion and absorption of nutrients.",
+    quiz: { question: "Why chew food thoroughly?", options: ["Better digestion", "For speed", "To avoid tasting"], answer: "Better digestion" } },
+
+2026: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Regular stretching reduces muscle tension, improves posture, and prevents injuries.",
+    quiz: { question: "What does stretching prevent?", options: ["Injuries", "Hunger", "Sleepiness"], answer: "Injuries" } },
+
+2027: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Healthy snacks like nuts, fruits, or seeds stabilize energy between meals.",
+    quiz: { question: "Which is a healthy snack?", options: ["Almonds", "Candy bar", "Chips"], answer: "Almonds" } },
+
+2028: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Posture awareness reduces strain on muscles and joints, especially during prolonged sitting.",
+    quiz: { question: "Why maintain good posture?", options: ["Prevent strain", "Improve fashion", "Increase fatigue"], answer: "Prevent strain" } },
+
+2029: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Regular exposure to nature lowers stress, improves mood, and boosts mental clarity.",
+    quiz: { question: "How does nature exposure help?", options: ["Reduces stress", "Increases fatigue", "Worsens focus"], answer: "Reduces stress" } },
+
+2030: { goal: "Healthy living & wellness", diet: "omnivore",
+    lesson: "Consistency is key: small daily habits build a foundation for lifelong health.",
+    quiz: { question: "What is essential for lasting health?", options: ["Consistent daily habits", "Occasional extreme efforts", "Ignoring health"], answer: "Consistent daily habits" } },
+
+// --------------------------
+// Healthy living & wellness – Vegetarian
+// --------------------------
+
+2031: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Vegetarian nutrition basics: combining plant proteins, vegetables, grains, and dairy for a balanced diet.",
+    quiz: { question: "Which combination provides complete protein?", options: ["Rice and beans", "Potatoes only", "Bread only"], answer: "Rice and beans" } },
+
+2032: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Calcium sources for vegetarians include dairy, fortified plant milks, tofu, and leafy greens.",
+    quiz: { question: "Which is a good calcium source?", options: ["Fortified almond milk", "Candy", "Soda"], answer: "Fortified almond milk" } },
+
+2033: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Iron is important for energy; plant sources include legumes, spinach, and pumpkin seeds.",
+    quiz: { question: "Which is high in iron?", options: ["Spinach", "Rice crackers", "Milk"], answer: "Spinach" } },
+
+2034: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Vitamin B12 is mostly found in animal products; vegetarians may need fortified foods or supplements.",
+    quiz: { question: "Which is a B12 source for vegetarians?", options: ["Fortified cereal", "Apple", "Rice"], answer: "Fortified cereal" } },
+
+2035: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Healthy fats, such as those from nuts, seeds, and olive oil, support heart and brain health.",
+    quiz: { question: "Which provides healthy fats?", options: ["Walnuts", "Chips", "Candy"], answer: "Walnuts" } },
+
+2036: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Plant-based proteins like beans, lentils, and tofu help maintain muscle and energy levels.",
+    quiz: { question: "Which is a good plant protein?", options: ["Lentils", "Bread", "Milk chocolate"], answer: "Lentils" } },
+
+2037: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Fiber-rich diets improve digestion and stabilize blood sugar, important for vegetarians eating more grains and legumes.",
+    quiz: { question: "Which is high in fiber?", options: ["Chickpeas", "White rice", "Candy"], answer: "Chickpeas" } },
+
+2038: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Hydration is still essential; water and herbal teas support digestion and overall wellness.",
+    quiz: { question: "What is best for hydration?", options: ["Water", "Soda", "Energy drinks"], answer: "Water" } },
+
+2039: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Regular exercise helps manage weight, supports mental health, and strengthens muscles.",
+    quiz: { question: "Which improves physical and mental health?", options: ["Exercise", "Sitting all day", "Overeating"], answer: "Exercise" } },
+
+2040: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Sleep and rest are vital for recovery, hormone balance, and energy levels.",
+    quiz: { question: "What is crucial for recovery?", options: ["Sleep", "Skipping meals", "Stress"], answer: "Sleep" } },
+
+2041: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Mindful eating encourages awareness of hunger and fullness cues, preventing overeating.",
+    quiz: { question: "Mindful eating helps with?", options: ["Prevent overeating", "Ignore hunger", "Eat faster"], answer: "Prevent overeating" } },
+
+2042: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Vitamin C from fruits and vegetables supports immunity and enhances iron absorption from plant sources.",
+    quiz: { question: "Which vitamin enhances iron absorption?", options: ["Vitamin C", "Vitamin D", "Vitamin B12"], answer: "Vitamin C" } },
+
+2043: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Moderate caffeine can boost alertness, but excess may affect sleep quality.",
+    quiz: { question: "Too much caffeine causes?", options: ["Insomnia", "Relaxation", "Better sleep"], answer: "Insomnia" } },
+
+2044: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Regular stretching improves flexibility, posture, and reduces risk of injury during physical activity.",
+    quiz: { question: "Stretching helps prevent?", options: ["Injuries", "Weight gain", "Fatigue"], answer: "Injuries" } },
+
+2045: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Healthy snacks, like fruits, nuts, and yogurt, provide energy and nutrients between meals.",
+    quiz: { question: "Which is a healthy snack?", options: ["Greek yogurt", "Chips", "Candy bar"], answer: "Greek yogurt" } },
+
+2046: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Consuming fermented foods, like yogurt or kefir, supports gut health and immunity.",
+    quiz: { question: "Which supports gut health?", options: ["Yogurt", "White bread", "Chips"], answer: "Yogurt" } },
+
+2047: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Antioxidants in colorful fruits and vegetables protect cells from damage and reduce inflammation.",
+    quiz: { question: "Which is rich in antioxidants?", options: ["Blueberries", "Potato chips", "Soda"], answer: "Blueberries" } },
+
+2048: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Mind-body practices like yoga or tai chi enhance flexibility, reduce stress, and increase mindfulness.",
+    quiz: { question: "Which practice improves mindfulness?", options: ["Yoga", "Watching TV", "Fast food"], answer: "Yoga" } },
+
+2049: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Tracking your meals helps identify patterns, nutritional gaps, and areas for improvement.",
+    quiz: { question: "Why track meals?", options: ["Identify gaps", "Ignore nutrition", "Eat faster"], answer: "Identify gaps" } },
+
+2050: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Regular movement breaks prevent stiffness, improve circulation, and reduce fatigue during sedentary activities.",
+    quiz: { question: "Why take movement breaks?", options: ["Reduce stiffness", "Increase fatigue", "Ignore posture"], answer: "Reduce stiffness" } },
+
+2051: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Eating a variety of vegetables and grains ensures sufficient nutrients and reduces deficiencies.",
+    quiz: { question: "Why eat a variety of vegetables?", options: ["Nutrient diversity", "Monotony", "Flavor only"], answer: "Nutrient diversity" } },
+
+2052: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Moderate alcohol consumption supports liver health and reduces negative health impacts.",
+    quiz: { question: "Excess alcohol affects?", options: ["Liver", "Muscles", "Hair"], answer: "Liver" } },
+
+2053: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Posture awareness reduces strain on muscles and joints, especially during prolonged sitting or desk work.",
+    quiz: { question: "Good posture prevents?", options: ["Muscle strain", "Weight gain", "Fatigue"], answer: "Muscle strain" } },
+
+2054: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Sunlight exposure provides vitamin D, important for bone health and immune function.",
+    quiz: { question: "Vitamin D comes from?", options: ["Sunlight", "Water", "Spinach"], answer: "Sunlight" } },
+
+2055: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Consistency in daily habits builds a foundation for long-term health and well-being.",
+    quiz: { question: "What builds long-term health?", options: ["Consistent habits", "Occasional extremes", "Skipping meals"], answer: "Consistent habits" } },
+
+2056: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Regular cardiovascular activity boosts heart health, lung capacity, and overall energy.",
+    quiz: { question: "Cardio improves?", options: ["Heart health", "Hair color", "Vision"], answer: "Heart health" } },
+
+2057: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Mindful breathing and meditation reduce stress, improve focus, and support mental well-being.",
+    quiz: { question: "Meditation helps with?", options: ["Stress reduction", "Fatigue increase", "Poor focus"], answer: "Stress reduction" } },
+
+2058: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Eating slowly allows better digestion and awareness of hunger cues.",
+    quiz: { question: "Why eat slowly?", options: ["Better digestion", "To eat more", "For boredom"], answer: "Better digestion" } },
+
+2059: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Plant-based meals can be tasty and fulfilling while reducing environmental impact.",
+    quiz: { question: "Plant-based meals help?", options: ["Reduce environmental impact", "Increase CO₂", "Cause hunger"], answer: "Reduce environmental impact" } },
+
+2060: { goal: "Healthy living & wellness", diet: "vegetarian",
+    lesson: "Maintaining a balanced vegetarian diet ensures energy, wellness, and long-term health.",
+    quiz: { question: "Balanced vegetarian diet ensures?", options: ["Energy and health", "Fatigue", "Illness"], answer: "Energy and health" } },
+
+// --------------------------
+// Healthy living & wellness – Vegan
+// --------------------------
+2061: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Vegan nutrition basics: combining grains, legumes, vegetables, nuts, and seeds for complete protein.",
+    quiz: { question: "Which combination provides complete protein?", options: ["Rice and beans", "Potatoes", "Lettuce"], answer: "Rice and beans" } },
+
+2062: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Vitamin B12 is essential for vegans; supplementation or fortified foods are recommended.",
+    quiz: { question: "How do vegans get B12?", options: ["Fortified foods or supplements", "Fruits", "Nuts"], answer: "Fortified foods or supplements" } },
+
+2063: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Iron from plant sources like lentils, beans, and spinach should be paired with vitamin C for better absorption.",
+    quiz: { question: "Vitamin C helps absorb?", options: ["Iron", "Calcium", "Protein"], answer: "Iron" } },
+
+2064: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Omega-3 fatty acids support heart and brain health; sources include flaxseeds, chia seeds, and walnuts.",
+    quiz: { question: "Which provides omega-3 for vegans?", options: ["Chia seeds", "Rice", "Potatoes"], answer: "Chia seeds" } },
+
+2065: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Calcium is important for bones; plant sources include fortified plant milks, tofu, almonds, and leafy greens.",
+    quiz: { question: "Which is a good vegan calcium source?", options: ["Fortified almond milk", "Apple", "Rice"], answer: "Fortified almond milk" } },
+
+2066: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Protein variety helps meet amino acid needs; mix legumes, grains, nuts, and seeds daily.",
+    quiz: { question: "Why mix plant proteins?", options: ["Complete amino acids", "For flavor", "To digest faster"], answer: "Complete amino acids" } },
+
+2067: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Fiber-rich vegan diets aid digestion, reduce cholesterol, and stabilize blood sugar.",
+    quiz: { question: "Which is high in fiber?", options: ["Chickpeas", "White bread", "Candy"], answer: "Chickpeas" } },
+
+2068: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Hydration is crucial; water, herbal teas, and fruit-infused water help maintain wellness.",
+    quiz: { question: "Best hydration source?", options: ["Water", "Soda", "Energy drink"], answer: "Water" } },
+
+2069: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Vegan athletes need protein timing around workouts; legumes, tofu, and nut butter are excellent options.",
+    quiz: { question: "Best post-workout vegan protein?", options: ["Tofu", "Potatoes", "Candy"], answer: "Tofu" } },
+
+2070: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Micronutrients like zinc and iodine are important; sources include seeds, seaweed, and fortified foods.",
+    quiz: { question: "Which provides vegan iodine?", options: ["Seaweed", "Rice", "Beans"], answer: "Seaweed" } },
+
+2071: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Mindful eating enhances nutrient absorption and prevents overeating.",
+    quiz: { question: "Mindful eating helps?", options: ["Prevent overeating", "Eat faster", "Ignore hunger"], answer: "Prevent overeating" } },
+
+2072: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Plant-based antioxidants from colorful fruits and vegetables protect cells and reduce inflammation.",
+    quiz: { question: "Which is high in antioxidants?", options: ["Blueberries", "Potato chips", "Soda"], answer: "Blueberries" } },
+
+2073: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Prolonged standing or sitting can strain muscles; regular movement improves circulation.",
+    quiz: { question: "Why move regularly?", options: ["Improve circulation", "Increase fatigue", "Lose energy"], answer: "Improve circulation" } },
+
+2074: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Plant-based sources of calcium and vitamin D support strong bones and reduce osteoporosis risk.",
+    quiz: { question: "Vitamin D supports?", options: ["Bone health", "Hair growth", "Vision"], answer: "Bone health" } },
+
+2075: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Sleep and recovery are critical for energy, mood, and metabolic health.",
+    quiz: { question: "Sleep supports?", options: ["Energy and mood", "Fatigue", "Cravings"], answer: "Energy and mood" } },
+
+2076: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Cardiovascular activity supports heart and lung function and complements plant-based diets.",
+    quiz: { question: "Cardio benefits?", options: ["Heart and lungs", "Hair", "Vision"], answer: "Heart and lungs" } },
+
+2077: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Strength training helps maintain muscle mass on a vegan diet; combine with protein-rich foods.",
+    quiz: { question: "Strength training helps?", options: ["Maintain muscle", "Lose vitamins", "Gain fat"], answer: "Maintain muscle" } },
+
+2078: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Vegan omega-3s and antioxidants together support heart, brain, and eye health.",
+    quiz: { question: "Which supports brain health?", options: ["Flaxseed", "Potato chips", "Sugar"], answer: "Flaxseed" } },
+
+2079: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Meal prepping and planning helps ensure balanced vegan meals and reduces reliance on processed foods.",
+    quiz: { question: "Meal prepping ensures?", options: ["Balanced meals", "Skipping nutrients", "Eating snacks only"], answer: "Balanced meals" } },
+
+2080: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Hydrating with water-rich fruits and vegetables adds extra vitamins and minerals.",
+    quiz: { question: "Water-rich foods provide?", options: ["Vitamins and hydration", "Sugar", "Fat"], answer: "Vitamins and hydration" } },
+
+2081: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Supplementation of B12 and possibly iodine ensures nutrient sufficiency on a strict vegan diet.",
+    quiz: { question: "Vegans need B12 from?", options: ["Supplements or fortified foods", "Fruits", "Legumes"], answer: "Supplements or fortified foods" } },
+
+2082: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Variety in fruits, vegetables, grains, and legumes ensures all micronutrients are met.",
+    quiz: { question: "Why eat a variety?", options: ["All micronutrients", "Only calories", "Just taste"], answer: "All micronutrients" } },
+
+2083: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Regular stretching and yoga improve flexibility, reduce tension, and support overall wellness.",
+    quiz: { question: "Stretching improves?", options: ["Flexibility", "Vision", "Hair growth"], answer: "Flexibility" } },
+
+2084: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Mindfulness and meditation support stress reduction and mental clarity.",
+    quiz: { question: "Meditation helps with?", options: ["Stress reduction", "Fatigue", "Weight gain"], answer: "Stress reduction" } },
+
+2085: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Consistent sleep, meal times, and activity routines improve energy and metabolism.",
+    quiz: { question: "Consistency improves?", options: ["Energy and metabolism", "Stress", "Fatigue"], answer: "Energy and metabolism" } },
+
+2086: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Plant-based sources of zinc, selenium, and iodine are important for immune and thyroid function.",
+    quiz: { question: "Which supports thyroid?", options: ["Seaweed", "Rice", "Potatoes"], answer: "Seaweed" } },
+
+2087: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Fiber and plant proteins together maintain healthy digestion and stable blood sugar.",
+    quiz: { question: "Fiber + protein helps?", options: ["Digestion and blood sugar", "Fat gain", "Dehydration"], answer: "Digestion and blood sugar" } },
+
+2088: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Plant-based diets reduce saturated fat intake and support cardiovascular health.",
+    quiz: { question: "Vegan diet reduces?", options: ["Saturated fat", "Protein", "Calcium"], answer: "Saturated fat" } },
+
+2089: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Mindful grocery shopping encourages nutrient-dense, eco-friendly, and budget-conscious choices.",
+    quiz: { question: "Mindful shopping encourages?", options: ["Nutrient-dense foods", "Sugar snacks", "Fast food"], answer: "Nutrient-dense foods" } },
+
+2090: { goal: "Healthy living & wellness", diet: "vegan",
+    lesson: "Sustaining a balanced vegan diet long-term ensures vitality, wellness, and disease prevention.",
+    quiz: { question: "Balanced vegan diet ensures?", options: ["Vitality and wellness", "Fatigue", "Illness"], answer: "Vitality and wellness" } },
+
+
+// --------------------------
+// Boosting my performance as an athlete – Omnivore
+// --------------------------
+
+3001: { goal: "Boosting my performance as an athlete", diet: "omnivore",
+    lesson: "Understanding macronutrients: proteins, carbs, and fats for athletic performance.",
+    quiz: { question: "Which macronutrient builds muscle?", options: ["Protein", "Carbs", "Fat"], answer: "Protein" } },
+
+3002: { goal: "Boosting my performance as an athlete", diet: "omnivore",
+    lesson: "Carbohydrates provide energy for endurance and high-intensity workouts.",
+    quiz: { question: "Best energy source for exercise?", options: ["Carbohydrates", "Protein", "Fat"], answer: "Carbohydrates" } },
+
+3003: { goal: "Boosting my performance as an athlete", diet: "omnivore",
+    lesson: "Fats are essential for hormone production and long-term energy storage.",
+    quiz: { question: "Which helps hormone production?", options: ["Fats", "Carbs", "Protein"], answer: "Fats" } },
+
+3004: { goal: "Boosting my performance as an athlete", diet: "omnivore",
+    lesson: "Hydration strategies for training: water and electrolyte balance.",
+    quiz: { question: "What helps maintain hydration?", options: ["Water and electrolytes", "Protein shakes", "Vitamins"], answer: "Water and electrolytes" } },
+
+3005: { goal: "Boosting my performance as an athlete", diet: "omnivore",
+    lesson: "Pre-workout nutrition tips to optimize energy and focus.",
+    quiz: { question: "Best pre-workout meal?", options: ["Carbs and protein", "Fat only", "Sugar only"], answer: "Carbs and protein" } },
+
+3006: { goal: "Boosting my performance as an athlete", diet: "omnivore",
+    lesson: "Post-workout recovery: protein intake and glycogen replenishment.",
+    quiz: { question: "Post-workout recovery includes?", options: ["Protein and carbs", "Fats only", "Vitamins only"], answer: "Protein and carbs" } },
+
+3007: { goal: "Boosting my performance as an athlete", diet: "omnivore",
+    lesson: "Importance of rest and sleep for muscle recovery and performance.",
+    quiz: { question: "Sleep supports?", options: ["Muscle recovery", "Energy loss", "Fat gain"], answer: "Muscle recovery" } },
+
+3008: { goal: "Boosting my performance as an athlete", diet: "omnivore",
+    lesson: "Strength training principles: progressive overload and proper form.",
+    quiz: { question: "Progressive overload improves?", options: ["Muscle strength", "Flexibility", "Fatigue"], answer: "Muscle strength" } },
+
+3009: { goal: "Boosting my performance as an athlete", diet: "omnivore",
+    lesson: "Cardiovascular training: benefits for heart, lungs, and stamina.",
+    quiz: { question: "Cardio improves?", options: ["Heart and lungs", "Muscle mass", "Flexibility"], answer: "Heart and lungs" } },
+
+3010: { goal: "Boosting my performance as an athlete", diet: "omnivore",
+    lesson: "Tracking progress: importance of monitoring workouts and nutrition.",
+    quiz: { question: "Why track workouts?", options: ["To improve performance", "To eat more", "To rest less"], answer: "To improve performance" } },
+
+// --------------------------
+// Boosting my performance as an athlete – Vegetarian
+// --------------------------
+
+3011: { goal: "Boosting my performance as an athlete", diet: "vegetarian",
+    lesson: "Vegetarian protein sources: eggs, dairy, legumes, and soy for muscle growth.",
+    quiz: { question: "Which vegetarian protein source is complete?", options: ["Soy", "Potatoes", "Rice"], answer: "Soy" } },
+
+3012: { goal: "Boosting my performance as an athlete", diet: "vegetarian",
+    lesson: "Carbs and energy: whole grains and starchy vegetables fuel workouts.",
+    quiz: { question: "Good carb source?", options: ["Quinoa", "Cheese", "Butter"], answer: "Quinoa" } },
+
+3013: { goal: "Boosting my performance as an athlete", diet: "vegetarian",
+    lesson: "Fats for hormones and energy: nuts, seeds, and avocados.",
+    quiz: { question: "Which provides healthy fats?", options: ["Avocado", "Egg white", "Rice"], answer: "Avocado" } },
+
+3014: { goal: "Boosting my performance as an athlete", diet: "vegetarian",
+    lesson: "Iron and vitamin C pairing to optimize vegetarian athlete performance.",
+    quiz: { question: "Pair iron with?", options: ["Vitamin C", "Calcium", "Fat"], answer: "Vitamin C" } },
+
+3015: { goal: "Boosting my performance as an athlete", diet: "vegetarian",
+    lesson: "Hydration strategies: water, coconut water, and herbal drinks.",
+    quiz: { question: "Hydration helps?", options: ["Energy and recovery", "Muscle loss", "Fat gain"], answer: "Energy and recovery" } },
+
+3016: { goal: "Boosting my performance as an athlete", diet: "vegetarian",
+    lesson: "Pre- and post-workout nutrition with eggs, yogurt, or legumes.",
+    quiz: { question: "Post-workout recovery?", options: ["Protein + carbs", "Fats only", "Sugar only"], answer: "Protein + carbs" } },
+
+3017: { goal: "Boosting my performance as an athlete", diet: "vegetarian",
+    lesson: "Strength and cardio balance: improve muscle mass and endurance.",
+    quiz: { question: "Balance improves?", options: ["Strength + endurance", "Flexibility only", "Diet"], answer: "Strength + endurance" } },
+
+3018: { goal: "Boosting my performance as an athlete", diet: "vegetarian",
+    lesson: "Importance of micronutrients: B12, calcium, and zinc for vegetarians.",
+    quiz: { question: "Vegetarian B12 source?", options: ["Supplements", "Fruits", "Rice"], answer: "Supplements" } },
+
+3019: { goal: "Boosting my performance as an athlete", diet: "vegetarian",
+    lesson: "Recovery methods: stretching, foam rolling, and adequate sleep.",
+    quiz: { question: "Best recovery methods?", options: ["Stretching and sleep", "Sugar intake", "Skipping meals"], answer: "Stretching and sleep" } },
+
+3020: { goal: "Boosting my performance as an athlete", diet: "vegetarian",
+    lesson: "Tracking progress: using logs for strength, cardio, and diet.",
+    quiz: { question: "Tracking helps?", options: ["Performance improvement", "Fat gain", "Ignore health"], answer: "Performance improvement" } },
+
+// --------------------------
+// Boosting my performance as an athlete – Vegan
+// --------------------------
+
+3021: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Vegan protein: legumes, tofu, tempeh, and seitan for building muscle.",
+    quiz: { question: "Complete vegan protein?", options: ["Tempeh", "Potatoes", "Rice"], answer: "Tempeh" } },
+
+3022: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Carbs for energy: whole grains, fruits, and starchy vegetables.",
+    quiz: { question: "Best vegan carb source?", options: ["Oats", "Nuts", "Tofu"], answer: "Oats" } },
+
+3023: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Healthy fats: avocados, nuts, seeds, and flaxseed oil.",
+    quiz: { question: "Which is a healthy fat?", options: ["Flaxseed oil", "Rice", "Spinach"], answer: "Flaxseed oil" } },
+
+3024: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Micronutrients: B12, iron, iodine, and zinc supplementation for vegans.",
+    quiz: { question: "Vegan B12 source?", options: ["Supplement", "Rice", "Potatoes"], answer: "Supplement" } },
+
+3025: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Hydration strategies: water, coconut water, and herbal teas.",
+    quiz: { question: "Hydration is important for?", options: ["Performance", "Sugar intake", "Fat gain"], answer: "Performance" } },
+
+3026: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Pre-workout meals: tofu, legumes, whole grains for sustained energy.",
+    quiz: { question: "Good vegan pre-workout meal?", options: ["Tofu + grains", "Candy", "Rice only"], answer: "Tofu + grains" } },
+
+3027: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Post-workout recovery: plant proteins plus carbs replenish glycogen and aid muscle repair.",
+    quiz: { question: "Post-workout vegan recovery?", options: ["Legumes + grains", "Fruit only", "Rice only"], answer: "Legumes + grains" } },
+
+3028: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Strength training for vegans: focus on progressive overload and sufficient protein.",
+    quiz: { question: "Strength training improves?", options: ["Muscle growth", "Energy loss", "Fat gain"], answer: "Muscle growth" } },
+
+3029: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Cardio training: improve stamina, heart and lung efficiency.",
+    quiz: { question: "Cardio benefits?", options: ["Stamina and heart health", "Muscle gain only", "Flexibility"], answer: "Stamina and heart health" } },
+
+3030: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Recovery strategies: sleep, stretching, foam rolling, and balanced vegan nutrition.",
+    quiz: { question: "Best recovery?", options: ["Sleep + stretching + nutrition", "Sugar only", "Skipping meals"], answer: "Sleep + stretching + nutrition" } },
+
+3031: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Periodization: plan training cycles for strength, endurance, and rest.",
+    quiz: { question: "Periodization helps?", options: ["Optimize training cycles", "Eat less", "Ignore rest"], answer: "Optimize training cycles" } },
+
+3032: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Supplements for vegan athletes: B12, creatine, iron, and omega-3.",
+    quiz: { question: "Vegan supplement for energy?", options: ["Creatine", "Sugar", "Rice"], answer: "Creatine" } },
+
+3033: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Meal timing: balance protein and carbs before and after workouts.",
+    quiz: { question: "Meal timing helps?", options: ["Recovery and energy", "Fat gain", "Ignore hunger"], answer: "Recovery and energy" } },
+
+3034: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Mental resilience: visualization, goal-setting, and focus improve performance.",
+    quiz: { question: "Mental resilience helps?", options: ["Performance", "Diet", "Rest"], answer: "Performance" } },
+
+3035: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Cross-training: incorporate different exercise types to prevent overuse injuries.",
+    quiz: { question: "Cross-training prevents?", options: ["Injuries", "Fat gain", "Energy loss"], answer: "Injuries" } },
+
+3036: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Endurance tips: carbohydrate loading and hydration strategies for long workouts.",
+    quiz: { question: "Endurance energy source?", options: ["Carbs", "Protein only", "Fats only"], answer: "Carbs" } },
+
+3037: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Injury recovery: rest, nutrition, and gentle mobility exercises speed healing.",
+    quiz: { question: "Best injury recovery?", options: ["Rest + nutrition", "Ignore it", "High-intensity training"], answer: "Rest + nutrition" } },
+
+3038: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Heart health for vegan athletes: omega-3, antioxidants, and cardiovascular training.",
+    quiz: { question: "Supports heart health?", options: ["Omega-3 + cardio", "Sugar", "Salt"], answer: "Omega-3 + cardio" } },
+
+3039: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Long-term performance: consistency in training, nutrition, and recovery builds sustainable results.",
+    quiz: { question: "Long-term performance requires?", options: ["Consistency", "Sugar only", "Skipping meals"], answer: "Consistency" } },
+
+3040: { goal: "Boosting my performance as an athlete", diet: "vegan",
+    lesson: "Monitoring metrics: heart rate, strength, and endurance help adjust vegan training plans.",
+    quiz: { question: "Monitoring helps?", options: ["Adjust training", "Eat more", "Rest less"], answer: "Adjust training" } },
+};
+
+
+
+
 // 1️⃣ Define lessons for each survey answer
 export const DailyCheckInPool = {
+  vegan: {
   goals: {
     "Protecting animals & animal welfare": [
       {
@@ -1592,6 +2891,39 @@ export const DailyCheckInPool = {
 // ✅ Add more lessons here in the future
   ]
  }
+ },
+ vegetarian: { 
+  goals: { 
+    "Protecting animals & animal welfare": [
+      ],
+    "Caring for the environment & fighting climate change": [
+      ],
+    "Healthy living & wellness": [
+      ],
+    "Boosting my performance as an athlete": [
+    ]    
+  } 
+},
+
+ omnivore: {
+  goals: { 
+    "Protecting animals & animal welfare": [
+      ],
+    "Caring for the environment & fighting climate change": [
+      ],
+    "Healthy living & wellness": [
+      ],
+    "Boosting my performance as an athlete": [
+    ] 
+  }
+ }
+};
+
+// Flow order
+const dietFlow = {
+  omnivore: ["omnivore", "vegetarian", "vegan"],
+  vegetarian: ["vegetarian", "vegan"],
+  vegan: ["vegan"]
 };
 
 //------ Health issues -------
