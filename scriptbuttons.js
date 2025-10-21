@@ -507,6 +507,32 @@ function getDistanceMeters(loc1, loc2) {
   return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
+function setupMap(location) {
+  map = new google.maps.Map(mapContainer, {
+    center: location,
+    zoom: 14,
+    mapId: "d69dd398ff7fbb3a41b37083"
+  });
+  map.markers = [];
+
+  // Initial fetch
+  fetchRestaurants(location);
+
+  // Listen for map movement
+  google.maps.event.addListener(map, 'idle', () => {
+    const center = map.getCenter();
+    const newLocation = { lat: center.lat(), lng: center.lng() };
+
+    if (!lastFetchLocation || getDistanceMeters(lastFetchLocation, newLocation) > MIN_MOVE_DISTANCE) {
+      if (fetchTimeout) clearTimeout(fetchTimeout);
+      fetchTimeout = setTimeout(() => {
+        fetchRestaurants(newLocation);
+        lastFetchLocation = newLocation;
+      }, FETCH_INTERVAL);
+    }
+  });
+}
+
 function fetchRestaurants(location) {
   if (!map) return; // make sure map exists
   const service = new google.maps.places.PlacesService(map);
