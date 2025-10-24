@@ -225,6 +225,10 @@
 <div id="healthTitle" class="section-titlesettings">Health Issues</div>
 <ul id="healthIssuesList" class="details-listsettings"></ul>
 
+<!-- ✅ Move Achievements here -->
+  <div class="section-titlesettings">Achievements</div>
+  <div id="AchievementsListSettings" class="details-listsettings"></div>
+
     <div class="profile-sectionsettings">
         <img id="petPhotoprofile" class="pet-photosettings" src="defaultPet.jpg" alt="Pet Photo">
         <div class="profile-infosettings">
@@ -518,7 +522,7 @@
       <button class="path-btn" data-path="health">For Health</button>
     </div>
     </div>
-    
+
     <div class="courses">
       <div class="course hidden" id="animals"><ul class="extralesson-list"></ul></div>
       <div class="course hidden" id="earth"><ul class="extralesson-list"></ul></div>
@@ -1058,75 +1062,13 @@
  <!-- Achievements -->
   <!-- Achievements -->
    <!-- Achievements -->
-    <div id="avatar" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      
-      Demo page - NOT WORKING SECTION
-    
+<div id="avatar" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
+         
       <section id="AchievementsInfo">
 <p>Earn achievements to unlock special titles that appear next to your name and are visible to the community. You can proudly display these rewards on your profile card to show off your progress and impact.</p>
 </section>
 
-
-<section id="AchievementsList">
-
-<div class="Achievement">
-<div class="symbol">🐮</div>
-<h4>Saver of Hundreds of Animals</h4>
-<p>Unlocked when your counter reaches 100 saved animals.</p>
-</div>
-
-<div class="Achievement">
-<div class="symbol">🤝</div>
-<h4>Buddy Helper</h4>
-<p>Helped another user start their vegan journey.</p>
-</div>
-
-<div class="Achievement">
-<div class="symbol">🏡</div>
-<h4>Local Hero</h4>
-<p>Participated in a local vegan meetup or event.</p>
-</div>
-
-<div class="Achievement">
-<div class="symbol">⭐</div>
-<h4>Special Symbol</h4>
-<p>Extra unlockable symbols and pictures to decorate your card.</p>
-</div>
-
-<div class="Achievement">
-<div class="symbol">🌱</div>
-<h4>Seed Member</h4>
-<p>Unlocked with subscription — your journey begins.</p>
-</div>
-
-
-<div class="Achievement">
-<div class="symbol">🌿</div>
-<h4>Sprout Member</h4>
-<p>Unlocked after growing your streak — shows your progress.</p>
-</div>
-
-
-<div class="Achievement">
-<div class="symbol">🌳</div>
-<h4>Tree Member</h4>
-<p>Unlocked after reaching a strong milestone.</p>
-</div>
-
-
-<div class="Achievement">
-<div class="symbol">🌲</div>
-<h4>Forest Member</h4>
-<p>Unlocked as you become a major contributor.</p>
-</div>
-
-
-<div class="Achievement">
-<div class="symbol">🌍</div>
-<h4>Earth Guardian Member</h4>
-<p>The highest member tier — show it off with pride.</p>
-</div>
-</section>
+<section id="AchievementsList"></section>
     
     </div>
 
@@ -1134,55 +1076,43 @@
  <!-- Shop -->
   <!-- Shop -->
    <!-- Shop -->
-    <div id="shop" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-
-       Demo page - NOT WORKING SECTION
-
-       <section id="ShopWallet">
-<div class="badge-count">
-<div class="badge-icon">10</div>
-<span>Your Badges: 24</span>
-</div>
-</section>
-
-
-<section id="ShopMethods">
-<h3>How to get badges</h3>
-<ul>
-<li>Watch an ad → +1 badge per ad</li>
-<li>Buy badges → 10 badges = €1</li>
-<li>Daily check-in & complete challenges</li>
-</ul>
-</section>
-
-
-<section id="ShopProducts">
-<div class="ShopProduct">
-<h4>Streak Freezer</h4>
-<div class="price">10 badges</div>
-<p>Protect your streak for one missed day.</p>
-<button disabled>Buy</button>
-</div>
-
-
-<div class="ShopProduct">
-<h4>Double XP (24h)</h4>
-<div class="price">15 badges</div>
-<p>All progress counts double for 24 hours.</p>
-<button disabled>Buy</button>
-</div>
-
-
-<div class="ShopProduct">
-<h4>Visual Sanctuary</h4>
-<div class="price">50 badges</div>
-<p>See the animals you saved in a personal sanctuary view.</p>
-<button disabled>Buy</button>
-</div>
-</section>
-
-
+    <div id="shop" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px); padding-bottom: 8rem;"> 
+       
+      <!-- 🪙 Wallet section -->
+  <section id="ShopWallet">
+    <div class="badge-count">
+      <div class="badge-icon">🏅</div>
+      <span id="badge-countshop">Your Badges: 0</span>
     </div>
+  </section>
+
+  <!-- 🌱 How to get badges -->
+  <section id="ShopMethods">
+    <h3>How to get badges</h3>
+    <ul>
+      <li>Watch an ad → +1 badge per ad</li>
+      <li>Complete vegan challenges</li>
+      <li>Keep your plant-based streak alive 🌿</li>
+    </ul>
+  </section>
+
+  <!-- 🛍️ Product list -->
+  <section id="ShopProducts"></section>
+</div>
+
+<div id="shopModal" class="modal hidden">
+  <div class="modal-content">
+    <h3 id="shopModalTitle"></h3>
+    <div id="shopModalBody"></div>
+    <div class="modal-buttons">
+      <button id="shopModalConfirm">Confirm</button>
+      <button id="shopModalCancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
 
 <!-- LeaderBoards -->
  <!-- LeaderBoards -->
@@ -1224,52 +1154,80 @@
    <!-- Challenges -->
     <div id="challenges" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
       
-<div class="challenge-list">
+<div class="challenge-list" id="daily-challenges">
 
-  Demo page - NOT WORKING SECTION
+  <div class="challenge-card" id="daily-xp-challenge">
+    <h3>Daily Challenge — Earn 50 XP</h3>
+    <p>Complete your daily goal by earning 50 XP today through lessons and activities.</p>
+    
+    <div class="reward">
+      🏅 Reward: +3 Badges
+    </div>
+    
+    <div class="progress">
+      <div id="daily-xp-progress" style="width:0%"></div>
+    </div>
 
-<div class="challenge-card">
-<h3>🌱 Fully Plant-Based Month</h3>
-<p>Check in each day that you had a fully plant-based day. Fill 30 slots to finish the month.</p>
-<div class="progress"><div style="width:60%"></div></div>
-<div class="badge-count">Badges: 12</div>
-<button>Check in</button>
+    <div class="badge-count" id="daily-xp-text">Progress: 0 / 50 XP</div>
+    <button id="daily-xp-claim" disabled>Claim Reward</button>
+  </div>
+
+  <div class="challenge-card" id="learnChallenge">
+  <h3>📚 Learn Something New</h3>
+  <p>Complete a new lesson in every path today:</p>
+  <ul>
+    <li>Animal: <span id="animalStatus">❌</span></li>
+    <li>Earth: <span id="earthStatus">❌</span></li>
+    <li>Health: <span id="healthStatus">❌</span></li>
+  </ul>
+  <div class="progress"><div id="learnProgress" style="width:0%"></div></div>
+  <div class="reward">Reward: 🏅 +3 Badges</div>
+  <button id="learnClaimBtn" disabled>Claim Reward</button>
 </div>
 
-
-<div class="challenge-card">
-<h3>🤝 Find 10 Friends</h3>
-<p>Invite friends to join Vegan Buddies. Each accepted invite counts toward the goal.</p>
-<div class="progress"><div style="width:40%"></div></div>
-<button>Invite</button>
+<div class="challenge-card" id="mindfulChallenge">
+  <h3>🧘 Take Care of Yourself</h3>
+  <p>Take 5 minutes for self-care. Meditate, stretch, or take a walk — the goal is to clear your mind, relax, and take deep, calm breaths.</p>
+  <div class="reward">Reward: 🏅 +5 Badge</div>
+  <button id="mindfulStartBtn">Start 5-Minute Timer</button>
+  <div id="mindfulTimer" style="margin-top:10px;font-weight:bold;"></div>
+  <button id="mindfulClaimBtn" disabled>Claim Reward</button>
 </div>
 
+<div class="challenge-card" id="encourageChallenge">
+  <h3>💖 Encourage Someone</h3>
+  <p>Send a kind message to encourage a friend today!</p>
 
-<div class="challenge-card">
-<h3>🎨 Meal-Art Contest — 5x Streak</h3>
-<p>Participate in five contests in a row. Keep your streak alive to win creative rewards.</p>
-<div class="progress"><div style="width:60%"></div></div>
-<div class="badge-count">Streak: 3</div>
-<button>Enter Contest</button>
+  <!-- Friend selector -->
+  <label for="friendSelect" style="display:block;margin-top:5px;">Choose a friend:</label>
+  <select id="friendSelect" style="width:100%;margin-bottom:5px;">
+    <option value="" disabled selected>Select a friend</option>
+    <!-- Friends will be dynamically loaded here -->
+  </select>
+
+   <!-- User message with fixed template --> 
+    <label for="encourageMessage" style="display:block;margin-top:5px;">Your message:</label>
+
+  <!-- Message template display -->
+  <div style="margin:5px 0; font-size:14px; color:#555;">
+    "I've chosen you to encourage in my daily challenge.
+  </div>
+
+  <!-- User message input -->
+  <textarea id="encourageMessage" placeholder="[your message]" style="width:100%;height:80px;margin-bottom:5px;"></textarea>
+
+  <!-- Template ending -->
+  <div style="margin:5px 0; font-size:14px; color:#555;">
+    Keep going 🌱"
+  </div>
+
+  <div class="reward">Reward: 🏅 +2 Badge</div>
+  <button id="sendEncourageBtn">Send Message</button>
+  <button id="encourageClaimBtn" disabled>Claim Reward</button>
 </div>
 
-
-<div class="challenge-card">
-<h3>🌍 Increase Impact — Invite a Friend</h3>
-<p>Invite friends — when they log their first plant-based day, your impact increases together.</p>
-<div class="progress"><div style="width:25%"></div></div>
-<button>Invite</button>
 </div>
 
-
-<div class="challenge-card">
-<h3>🎁 Monthly Mystery Box</h3>
-<p>Complete small missions across the month. Collect 5 mission points and open a mystery box.</p>
-<div class="progress"><div style="width:40%"></div></div>
-<button>Complete Mission</button>
-</div>
-
-</div>
 </div>
     <!-- 🔖 Bottom Navigation -->
     <!-- 🔖 Bottom Navigation -->

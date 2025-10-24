@@ -761,8 +761,10 @@ h3 {
         gap: 2%;
         flex-wrap: nowrap;
         margin-bottom: 2%;
+        width: 100%;
     }
     .profile-photosettings, .pet-photosettings {
+        flex: 0 0 40%; 
         width: 40%;
         height: 40%;
         margin-top: 5%;
@@ -772,6 +774,7 @@ h3 {
         object-fit: cover;
         border: 3px solid #3bb341;
         background: #ddd;
+        aspect-ratio: 1 / 1;
     }
     .pet-photosettings {
       margin-bottom: 4%;
@@ -4107,49 +4110,143 @@ cursor: not-allowed;
 /* Achievements */
 /* Achievements */
 
+/* ===== Achievements Page Styling ===== */
 #AchievementsInfo {
-margin: 20px;
-background: #fff;
-padding: 12px;
-border-radius: 8px;
-box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background: #f7faf7;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #345534;
+  font-size: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
-#AchievementsInfo p {
-margin: 0;
-font-size: 14px;
-color: #555;
-}
+
 #AchievementsList {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-gap: 16px;
-margin: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
+
+/* Each achievement card */
 .Achievement {
-background: #fff;
-padding: 14px;
-border-radius: 8px;
-box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 16px;
+  border-radius: 14px;
+  background: #f0f8f3;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
+  transition: transform 0.15s ease, background 0.3s ease;
 }
-.Achievement h4 {
-margin: 10px 0 6px;
+
+.Achievement:hover {
+  transform: translateY(-2px);
 }
-.Achievement p {
-font-size: 13px;
-color: #666;
-margin: 0 0 8px;
-}
+
+/* Symbol (emoji) */
 .symbol {
-width: 50px;
-height: 50px;
-margin: 0 auto 8px;
-border-radius: 50%;
-display: flex;
-align-items: center;
-justify-content: center;
-background: #cdeccd;
-font-size: 22px;
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+/* Title + description */
+.Achievement h4 {
+  font-size: 1.1rem;
+  margin: 0;
+  color: #245a30;
+}
+
+.Achievement p {
+  margin: 6px 0 0;
+  color: #456f45;
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+/* Locked achievements */
+.Achievement.locked {
+  opacity: 0.75;
+  background: #f3f5f3;
+  border: 1px dashed #a4bca4;
+}
+
+.Achievement.locked:hover {
+  background: #eef7ee;
+}
+
+/* Unlocked achievements */
+.Achievement.unlocked {
+  background: #e6f7ec;
+  border: 1px solid #8fd694;
+  box-shadow: 0 0 0 2px rgba(143, 214, 148, 0.2);
+}
+
+/* Unlock button */
+.unlock-btn {
+  margin-top: 10px;
+  padding: 6px 12px;
+  background-color: #8fd694;
+  border: none;
+  border-radius: 8px;
+  color: #1f421f;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.unlock-btn:hover {
+  background-color: #7acb85;
+}
+
+/* Unlocked badge */
+.unlocked-badge {
+  margin-top: 10px;
+  display: inline-block;
+  background: #d3f7d9;
+  color: #2f8132;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  align-self: flex-start;
+}
+
+/* Progress text */
+.progressAch {
+  font-size: 0.9rem;
+  margin-top: 6px;
+  color: #355f35;
+  display: flex;              /* enables flexbox */
+  align-items: center;        /* vertical centering */
+  justify-content: center;    /* horizontal centering */
+  height: 24px;               /* optional: give it height so it centers nicely */
+  text-align: center;         /* fallback for multiline text */
+}
+
+/* Progress bar visual */
+.progressAch-bar-container {
+  width: 100%;
+  height: 8px;
+  background: #d9e8d9;
+  border-radius: 10px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.progressAch-bar {
+  height: 100%;
+  background: #8fd694;
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+/* Locked text */
+.locked-text {
+  margin-top: 8px;
+  color: #888;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 /* Profile Card */
@@ -4314,4 +4411,177 @@ font-size: 22px;
 @keyframes fadeIn {
   from { opacity: 0; transform: translate(-50%, -45%); }
   to { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+
+/* ====== Shop Page ====== */
+/* ====== Shop Page ====== */
+/* ====== Shop Page ====== */
+/* ====== Shop Page ====== */
+
+#shop {
+  background: #f7faf7;
+  padding: 20px;
+  border-radius: 16px;
+  color: #345534;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Wallet section */
+#ShopWallet {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.badge-count {
+  display: flex;
+  align-items: center;
+  background: #e9f7ec;
+  border: 1px solid #a9d8b2;
+  border-radius: 12px;
+  padding: 10px 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.badge-icon {
+  font-size: 1.8rem;
+  margin-right: 10px;
+}
+
+/* How to get badges */
+#ShopMethods {
+  background: #f0f8f3;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+#ShopMethods h3 {
+  margin-bottom: 10px;
+  color: #245a30;
+}
+
+#ShopMethods ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+#ShopMethods li {
+  margin-bottom: 6px;
+  color: #456f45;
+}
+
+/* Shop products */
+#ShopProducts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ShopProduct {
+  background: #f0f8f3;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+  transition: transform 0.15s ease, background 0.3s ease, opacity 0.3s ease;
+}
+
+.ShopProduct:hover {
+  transform: translateY(-2px);
+}
+
+.ShopProduct h4 {
+  color: #245a30;
+  margin: 0 0 6px;
+  font-size: 1.1rem;
+}
+
+.ShopProduct .price {
+  color: #2f6a2f;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.ShopProduct p {
+  color: #456f45;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+
+/* Buy button */
+.ShopProduct button {
+  padding: 8px 16px;
+  background: #8fd694;
+  border: none;
+  border-radius: 8px;
+  color: #1f421f;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.ShopProduct button:hover {
+  background: #7acb85;
+  transform: scale(1.05);
+}
+
+.ShopProduct button:disabled {
+  background: #b5dcb8;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Fade-out animation when purchased */
+.ShopProduct.fade-out {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+
+.mentor-photo-frame {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+/* Only apply frame layering when the mentor actually has one */
+.mentor-photo-frame.has-frame {
+  background-size: cover, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.community-member-photo-frame {
+  display: inline-block;
+  overflow: hidden;
+}
+.member-name {
+  margin-left: 8px;
+  font-weight: 500;
+}
+
+.friend-photo-frame, .community-member-photo-frame, .mentor-photo-frame {
+  display: inline-block;
+  overflow: hidden;
+}
+.friend-name, .member-name, .mentor-name {
+  margin-left: 8px;
+  font-weight: 500;
+}
+
+.reward {
+  margin: 6px 0;
+  color: #4caf50;
+  font-weight: 500;
 }

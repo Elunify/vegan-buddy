@@ -123,10 +123,59 @@ async function renderProfile() {
   if (!profile) return;
 
   // Profile photo
-  ["profilePhoto", "profilePhotoprofile", "profilePhotoPreview"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el && profile.profile_photo) el.src = profile.profile_photo;
-  });
+  ["profilePhoto"].forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  const parent = el.parentElement;
+  const hasFrame = profile.frame && profile.frame.trim() !== "";
+
+  // Create a div to replace the img
+  const div = document.createElement("div");
+  div.className = "profile-photo"; // keep all existing CSS
+
+  // Set background image (frame over photo)
+  div.style.backgroundImage = hasFrame
+    ? `url('${profile.frame}'), url('${profile.profile_photo || 'default.jpg'}')`
+    : `url('${profile.profile_photo || 'default.jpg'}')`;
+
+  // Background sizing and position
+  div.style.backgroundSize = hasFrame ? "contain, cover" : "cover";
+  div.style.backgroundPosition = "center";
+  div.style.backgroundRepeat = "no-repeat";
+  div.style.width = el.offsetWidth + "px";
+  div.style.height = el.offsetHeight + "px";
+
+  // Replace the <img> with this div
+  parent.replaceChild(div, el);
+});
+
+// Profile photo
+  ["profilePhotoprofile", "profilePhotoPreview"].forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  const parent = el.parentElement;
+  const hasFrame = profile.frame && profile.frame.trim() !== "";
+
+  // Create a div to replace the img
+  const div = document.createElement("div");
+  div.className = "profile-photosettings"; // keep all existing CSS
+
+  // Set background image (frame over photo)
+  div.style.backgroundImage = hasFrame
+    ? `url('${profile.frame}'), url('${profile.profile_photo || 'default.jpg'}')`
+    : `url('${profile.profile_photo || 'default.jpg'}')`;
+
+  // Background sizing and position
+  div.style.backgroundSize = hasFrame ? "contain, cover" : "cover";
+  div.style.backgroundPosition = "center";
+  div.style.backgroundRepeat = "no-repeat";
+
+  // Replace the <img> with this div
+  parent.replaceChild(div, el);
+});
+  
 
   // Name & Diet
   document.getElementById("profileName").textContent = profile.name || "-";
@@ -452,6 +501,24 @@ async function handleStreakSave(user, profile, yesterday) {
 //--------------------------
 // CHANGE PROFILE
 //--------------------------
+async function displayAchievementsSettings(userId) {
+  const { data, error } = await supabase
+    .from('profilecards')
+    .select('achievements')
+    .eq('user_id', userId)
+    .single();
+
+  const container = document.getElementById("AchievementsListSettings");
+  if (!container) return;
+
+  if (error) {
+    console.error("Error fetching achievements:", error);
+    container.innerHTML = "<p>No achievements yet.</p>";
+    return;
+  }
+
+  populateAchievements(container, data.achievements);
+}
 
 // --- SAVE PROFILE ---
 async function saveProfile() {
@@ -818,12 +885,13 @@ if (!todayLesson) {
   if (!mealAnswer) return alert("Please select your diet from yesterday!");
   const mealValue = parseInt(mealAnswer.value);
   const impactIncrement = calculateImpact(mealValue);
-  const badgeIncrement = mealValue === 4 ? 1 : 0;
+  const badgeIncrement = mealValue === 4 ? 5 : 0;
 
   // Update currentProfile
   currentProfile.day_counter += 1;
   currentProfile.streak = (currentProfile.streak || 0) + 1;
   currentProfile.total_xp = (currentProfile.total_xp || 0) + 30;
+  currentProfile.xp_today = (currentProfile.xp_today || 0) + 30;
 
   // Store progress using lesson index from LessonsByIndex
   if (!currentProfile.lesson_progress) currentProfile.lesson_progress = [];
@@ -1353,10 +1421,18 @@ function setupMealUploadForm() {
   });
 
   // Form submit
-  form.addEventListener("submit", async e => {
-    e.preventDefault();
+  // Form submit
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+
+  // Prevent double-click submission
+  const submitBtn = form.querySelector("button[type='submit']");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Uploading...";
+
+  try {
     const file = mealPhotoInput.files[0];
-    if (!file) return alert("Please select a photo before submitting.");
+    if (!file) throw new Error("Please select a photo before submitting.");
 
     const foodName = document.getElementById("mealArtrecipeName").value.trim();
     const mealArtPrepTime = document.getElementById("mealArtPrepTime").value.trim();
@@ -1370,7 +1446,7 @@ function setupMealUploadForm() {
     const filePath = `${isProCategory ? 'pro' : 'home'}/${fileName}`;
 
     const { error: uploadError } = await supabase.storage.from("meal-uploads").upload(filePath, file);
-    if (uploadError) return alert("Error uploading photo: " + uploadError.message);
+    if (uploadError) throw new Error("Error uploading photo: " + uploadError.message);
 
     const { data: publicUrlData } = supabase.storage.from("meal-uploads").getPublicUrl(filePath);
     const imageUrl = publicUrlData.publicUrl;
@@ -1394,7 +1470,7 @@ function setupMealUploadForm() {
       }])
       .select();
 
-    if (mealError) return alert("Error saving meal: " + mealError.message);
+    if (mealError) throw new Error("Error saving meal: " + mealError.message);
 
     alert("Meal uploaded successfully!");
     renderMeals([...currentMeals, newMeals[0]]);
@@ -1408,7 +1484,14 @@ function setupMealUploadForm() {
     document.getElementById("MealArtUploadContent").classList.add("hidden-meal");
     document.getElementById("mealArtContestSmall").classList.remove("hidden-meal");
     document.querySelector(".main-tab[data-tab='participants']")?.click();
-  });
+  } catch (err) {
+    alert(err.message);
+  } finally {
+    // Re-enable the submit button no matter what happens
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit";
+  }
+});
 }
 
 
@@ -1819,45 +1902,49 @@ setTimeout(async () => {
 
 
 // Save progress using currentProfile if available
-async function saveExtraLessonProgress() {
+async function saveExtraLessonProgress() { 
   if (!currentProfile) return;
 
   const previousProgress = currentProfile.extra_lesson || {};
   let totalXp = currentProfile.total_xp || 0;
+  let xptoday = currentProfile.xp_today || 0;
 
   // Start with previous progress (merge)
   const progress = { ...previousProgress };
   let newLessonsCompleted = 0;
 
-  Object.keys(extralessonsData).forEach(courseId => {
-    progress[courseId] = progress[courseId] || [];
-    const lessons = document.querySelectorAll(`#${courseId} .extralesson`);
+  for (const courseId of Object.keys(extralessonsData)) { 
+  progress[courseId] = progress[courseId] || [];
+  const lessons = document.querySelectorAll(`#${courseId} .extralesson`);
 
-    lessons.forEach((lesson, idx) => {
-      if (lesson.classList.contains("completed")) {
-        const lessonTitle = lesson.querySelector(".extralesson-title").textContent.trim();
-        if (!progress[courseId].includes(lessonTitle)) {
-          progress[courseId].push(lessonTitle);
-          newLessonsCompleted++;
+  for (const lesson of lessons) {
+    if (lesson.classList.contains("completed")) {  
+      const lessonTitle = lesson.querySelector(".extralesson-title").textContent.trim();
+      if (!progress[courseId].includes(lessonTitle)) {
+        progress[courseId].push(lessonTitle);
+        newLessonsCompleted++;
 
-          // Special handling for health lessons with issues
-          if (courseId === "health") {
-            let lessonData = (extralessonsData.health || []).find(l => l.title === lessonTitle);
-            if (!lessonData) lessonData = (HealthIssuesPool.health || []).find(l => l.title === lessonTitle);
+        markLessonComplete(currentProfile.id, courseId);
 
-            if (lessonData?.issue) {
-              if (!currentProfile.completedHealthIssues) currentProfile.completedHealthIssues = [];
-              if (!currentProfile.completedHealthIssues.includes(lessonData.issue)) {
-                currentProfile.completedHealthIssues.push(lessonData.issue);
-              }
+        // Special handling for health lessons
+        if (courseId === "health") {
+          let lessonData = (extralessonsData.health || []).find(l => l.title === lessonTitle);
+          if (!lessonData) lessonData = (HealthIssuesPool.health || []).find(l => l.title === lessonTitle);
+
+          if (lessonData?.issue) {
+            if (!currentProfile.completedHealthIssues) currentProfile.completedHealthIssues = [];
+            if (!currentProfile.completedHealthIssues.includes(lessonData.issue)) {
+              currentProfile.completedHealthIssues.push(lessonData.issue);
             }
           }
         }
       }
-    });
-  });
+    }
+  }
+}
 
   totalXp += newLessonsCompleted * 5;
+  xptoday += newLessonsCompleted * 5;
 
   // Update profile in Supabase
   const { error } = await supabase
@@ -1865,6 +1952,7 @@ async function saveExtraLessonProgress() {
     .update({
       extra_lesson: progress,
       total_xp: totalXp,
+      xp_today: xptoday,
       completed_health_issues: currentProfile.completedHealthIssues || []
     })
     .eq("id", currentProfile.id);
@@ -2365,7 +2453,7 @@ async function showCommunityMembers(locationId) {
   // Fetch members
   const { data: members, error } = await supabase
     .from("community_participants")
-    .select("user_id, name, profile_photo, email")
+    .select("user_id, name, title, profile_photo, frame, email")
     .eq("location_id", locationId);
 
   if (error) return console.error(error);
@@ -2387,24 +2475,38 @@ async function showCommunityMembers(locationId) {
   members.forEach(member => {
     const li = document.createElement("li");
 
-    const img = document.createElement("img");
-    img.src = member.profile_photo || "default.jpg";
-    img.alt = member.name;
+    const hasFrame = member.frame && member.frame.trim() !== "";
+const imgDiv = document.createElement("div");
+imgDiv.className = "community-member-photo-frame";
+imgDiv.dataset.userid = member.user_id;
 
-    // ✅ Attach the user's ID to the image
-    img.dataset.userid = member.user_id;
+imgDiv.style.backgroundImage = hasFrame
+  ? `url('${member.frame}'), url('${member.profile_photo || 'default.jpg'}')`
+  : `url('${member.profile_photo || 'default.jpg'}')`;
+
+imgDiv.style.backgroundSize = hasFrame ? "contain, cover" : "cover";
+imgDiv.style.backgroundPosition = "center";
+imgDiv.style.backgroundRepeat = "no-repeat";
+imgDiv.style.width = "60px";  // or your preferred size
+imgDiv.style.height = "60px";
+imgDiv.style.borderRadius = "50%";
+imgDiv.style.cursor = "pointer";
 
     // ✅ On click, open profile card using that ID
-  img.addEventListener("click", e => {
+  imgDiv.addEventListener("click", e => {
     e.stopPropagation();
-    openProfile(img);
+    openProfile(imgDiv);
   });
 
     const nameSpan = document.createElement("span");
-    nameSpan.textContent = member.name;
 
-    li.appendChild(img);
-    li.appendChild(nameSpan);
+// Add title right next to the name if it exists
+nameSpan.textContent = member.title
+  ? `${member.name}, ${member.title}`
+  : member.name;
+
+li.appendChild(imgDiv);
+li.appendChild(nameSpan);
 
     if (member.user_id !== currentUser.id &&
         !friends.some(f => f.user1_id === member.user_id || f.user2_id === member.user_id)) {
@@ -2448,7 +2550,24 @@ async function openProfile(imgElement) {
   // Fill the popup with user data
   const popup = document.getElementById("ProfileCardDemo");
   popup.querySelector(".ProfileAvatarLarge").style.backgroundImage = `url('${data.avatar_url}')`;
-  popup.querySelector(".profile-name").textContent = data.username;
+
+  const avatarDiv = popup.querySelector(".ProfileAvatarLarge");
+
+if (data.frame && data.frame.trim() !== "") {
+  avatarDiv.style.backgroundImage = `url('${data.frame}'), url('${data.avatar_url}')`;
+  avatarDiv.style.backgroundSize = "contain, cover";
+  avatarDiv.style.backgroundPosition = "center, center";
+  avatarDiv.style.backgroundRepeat = "no-repeat, no-repeat";
+} else {
+  avatarDiv.style.backgroundImage = `url('${data.avatar_url}')`;
+  avatarDiv.style.backgroundSize = "cover";
+  avatarDiv.style.backgroundPosition = "center";
+  avatarDiv.style.backgroundRepeat = "no-repeat";
+}
+
+  popup.querySelector(".profile-name").textContent = data.title
+  ? `${data.username}, ${data.title}`
+  : data.username;
   popup.querySelector(".dietprofilecard").textContent = `🌿 ${data.diet}`;
   // Goals (multiple)
 const goalsContainer = popup.querySelector(".goalsprofilecard");
@@ -2464,15 +2583,7 @@ if (Array.isArray(data.goals)) {
   popup.querySelector(".streakprofilecard").textContent = `🔥 ${data.streak}`;
 
   const achievementsList = popup.querySelector(".achievements-list");
-  achievementsList.innerHTML = "";
-  if (data.achievements && Array.isArray(data.achievements)) {
-    data.achievements.forEach(a => {
-      const span = document.createElement("span");
-      span.className = "achievement";
-      span.textContent = a;
-      achievementsList.appendChild(span);
-    });
-  }
+  populateAchievements(achievementsList, data.achievements);
 
   // Show popup
   popup.classList.remove("hidden");
@@ -2503,6 +2614,8 @@ document.getElementById("joinCommunityBtn").addEventListener("click", async () =
     user_id: currentUser.id,
     location_id: locationId,
     name: currentProfile.name,
+    title: currentProfile.title,
+    frame: currentProfile.frame,
     profile_photo: currentProfile.profile_photo,
     email: currentProfile.email
   }]);
@@ -2546,9 +2659,23 @@ async function loadCommunityEvents(locationId) {
 
     // Delete past events
     if (eventDate < now) {
-      await supabase.from("community_events").delete().eq("id", event.id);
-      continue;
-    }
+  // Increment the events_organized counter for the creator
+  if (event.user_id) {
+    const { error: updateError } = await supabase
+      .from("achievements_data")
+      .update({
+        events_organized: supabase.raw('events_organized + 1'),
+        updated_at: new Date()
+      })
+      .eq('user_id', event.user_id);
+
+    if (updateError) console.error("Error updating events_organized:", updateError);
+  }
+
+  // Delete the past event
+  await supabase.from("community_events").delete().eq("id", event.id);
+  continue;
+}
 
     const li = document.createElement("li");
     li.textContent = `${eventDate.toLocaleString()} — ${event.place} — ${event.description} (by ${event.username})`;
@@ -2789,7 +2916,7 @@ async function sendRequest(receiverEmail) {
   // Fetch profile
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
-    .select("name, profile_photo")
+    .select("name, title, profile_photo, frame")
     .eq("id", currentUser.id)
     .maybeSingle();
   if (profileError) return { success: false, message: profileError.message };
@@ -2799,7 +2926,9 @@ async function sendRequest(receiverEmail) {
     sender_id: currentUser.id,
     receiver_email: email,
     name: profile?.name || "Unknown",
+    title: profile?.title || "",
     profile_photo: profile?.profile_photo || "default.jpg",
+    frame: profile?.frame || "",
     email: currentUser.email,
     status: "pending"
   }]);
@@ -2816,7 +2945,7 @@ async function showIncomingFriendRequests() {
 
   const { data: requests, error } = await supabase
     .from("friend_requests")
-    .select("id, sender_id, name, profile_photo, email, receiver_email, status")
+    .select("id, sender_id, name, title, profile_photo, frame, email, receiver_email, status")
     .eq("receiver_email", currentUser.email)
     .eq("status", "pending");
   if (error) return console.error(error);
@@ -2825,21 +2954,33 @@ async function showIncomingFriendRequests() {
     const li = document.createElement("li");
     li.className = "friend-request-item";
 
-    const img = document.createElement("img");
-    img.src = req.profile_photo || "default.jpg";
-    img.alt = req.name || "Unknown";
+    const hasFrame = req.frame && req.frame.trim() !== "";
+const imgDiv = document.createElement("div");
+imgDiv.className = "friend-photo-frame"; // same class for all avatars
+imgDiv.dataset.userid = req.sender_id;
 
-    // ✅ Attach the user's ID to the image
-    img.dataset.userid = req.sender_id;
+imgDiv.style.backgroundImage = hasFrame
+  ? `url('${req.frame}'), url('${req.profile_photo || 'default.jpg'}')`
+  : `url('${req.profile_photo || 'default.jpg'}')`;
 
-    // ✅ On click, open profile card using that ID
-  img.addEventListener("click", e => {
-    e.stopPropagation();
-    openProfile(img);
-  });
+imgDiv.style.backgroundSize = hasFrame ? "contain, cover" : "cover";
+imgDiv.style.backgroundPosition = "center";
+imgDiv.style.backgroundRepeat = "no-repeat";
+imgDiv.style.width = "60px";   // adjust as needed
+imgDiv.style.height = "60px";
+imgDiv.style.borderRadius = "50%";
+imgDiv.style.cursor = "pointer";
+
+// Add click event to open profile
+imgDiv.addEventListener("click", e => {
+  e.stopPropagation();
+  openProfile(imgDiv);
+});
 
     const nameSpan = document.createElement("span");
-    nameSpan.textContent = req.name || "Unknown";
+nameSpan.textContent = req.title
+  ? `${req.name}, ${req.title}`
+  : req.name;
 
     const actions = document.createElement("div");
     actions.className = "actions";
@@ -2851,7 +2992,7 @@ async function showIncomingFriendRequests() {
     acceptBtn.onclick = async () => {
       const { data: myProfile, error: myError } = await supabase
         .from("profiles")
-        .select("id, name, profile_photo, email")
+        .select("id, name, title, profile_photo, frame, email")
         .eq("id", currentUser.id)
         .single();
       if (myError) return console.error(myError);
@@ -2859,12 +3000,16 @@ async function showIncomingFriendRequests() {
       const { error: insertError } = await supabase.from("friends").insert([{
         user1_id: req.sender_id,
         user1_name: req.name,
+        user1_title: req.title,
         user1_email: req.email,
         user1_profile_photo: req.profile_photo,
+        user1_frame: req.frame,
         user2_id: myProfile.id,
         user2_name: myProfile.name,
+        user2_title: myProfile.title,
         user2_email: myProfile.email,
-        user2_profile_photo: myProfile.profile_photo
+        user2_profile_photo: myProfile.profile_photo,
+        user2_frame: myProfile.frame
       }]);
       if (insertError) return console.error(insertError);
 
@@ -2885,7 +3030,7 @@ async function showIncomingFriendRequests() {
     actions.appendChild(acceptBtn);
     actions.appendChild(declineBtn);
 
-    li.appendChild(img);
+    li.appendChild(imgDiv);
     li.appendChild(nameSpan);
     li.appendChild(actions);
 
@@ -2906,27 +3051,52 @@ async function showFriends(containerId, onClickFriend) {
 
   friendsData.forEach(friendship => {
     const friend = friendship.user1_id === currentUser.id
-      ? { id: friendship.user2_id, name: friendship.user2_name, email: friendship.user2_email, photo: friendship.user2_profile_photo }
-      : { id: friendship.user1_id, name: friendship.user1_name, email: friendship.user1_email, photo: friendship.user1_profile_photo };
+  ? { 
+      id: friendship.user2_id, 
+      name: friendship.user2_name, 
+      title: friendship.user2_title, 
+      email: friendship.user2_email, 
+      photo: friendship.user2_profile_photo,
+      frame: friendship.user2_frame // <-- include frame
+    }
+  : { 
+      id: friendship.user1_id, 
+      name: friendship.user1_name, 
+      title: friendship.user1_title,
+      email: friendship.user1_email, 
+      photo: friendship.user1_profile_photo,
+      frame: friendship.user1_frame // <-- include frame
+    };
 
     const li = document.createElement("li");
     li.className = "friend-item";
 
-    const img = document.createElement("img");
-    img.src = friend.photo || "default.jpg";
-    img.alt = friend.name;
+    const hasFrame = friend.frame && friend.frame.trim() !== "";
+const imgDiv = document.createElement("div");
+imgDiv.className = "friend-photo-frame";
+imgDiv.dataset.userid = friend.id;
 
-    // ✅ Attach the user's ID to the image
-    img.dataset.userid = friend.id;
+imgDiv.style.backgroundImage = hasFrame
+  ? `url('${friend.frame}'), url('${friend.photo || 'default.jpg'}')`
+  : `url('${friend.photo || 'default.jpg'}')`;
 
-    // ✅ On click, open profile card using that ID
-  img.addEventListener("click", e => {
-    e.stopPropagation();
-    openProfile(img);
-  });
+imgDiv.style.backgroundSize = hasFrame ? "contain, cover" : "cover";
+imgDiv.style.backgroundPosition = "center";
+imgDiv.style.backgroundRepeat = "no-repeat";
+imgDiv.style.width = "60px";
+imgDiv.style.height = "60px";
+imgDiv.style.borderRadius = "50%";
+imgDiv.style.cursor = "pointer";
+
+imgDiv.addEventListener("click", e => {
+  e.stopPropagation();
+  openProfile(imgDiv);
+});
 
     const nameSpan = document.createElement("span");
-    nameSpan.textContent = friend.name || "Unknown";
+    nameSpan.textContent = friend.title
+  ? `${friend.name}, ${friend.title}`
+  : friend.name || "Unknown";
 
     const btn = document.createElement("button");
     btn.textContent = "Message";
@@ -2936,7 +3106,7 @@ async function showFriends(containerId, onClickFriend) {
       onClickFriend(friend);
     };
 
-    li.appendChild(img);
+    li.appendChild(imgDiv);
     li.appendChild(nameSpan);
     li.appendChild(btn);
 
@@ -3152,7 +3322,9 @@ function setupMentorshipUI() {
       const { error } = await supabase.from("mentors").insert({
         user_id: user.id,
         name: profile.name,
+        title: profile.title,
         profile_photo: profile.profile_photo || "",
+        frame: profile.frame,
         email: profile.email,
         years_vegan: parseInt(years, 10)
       });
@@ -3183,7 +3355,7 @@ async function loadMentors() {
 
   const { data: mentors, error } = await supabase
     .from("mentors")
-    .select("id, user_id, name, profile_photo, years_vegan");
+    .select("id, user_id, name, title, profile_photo, frame, years_vegan");
 
   if (error) {
     console.error(error);
@@ -3199,37 +3371,42 @@ async function loadMentors() {
   const li = document.createElement("li");
   li.className = "mentor-item";
 
-  // Create HTML with data-userid attribute
+  const hasFrame = mentor.frame && mentor.frame.trim() !== "";
+
   li.innerHTML = `
-    <img 
-      src="${mentor.profile_photo || 'default.jpg'}" 
-      alt="${mentor.name}" 
-      class="mentor-photo" 
+    <div 
+      class="mentor-photo-frame ${hasFrame ? 'has-frame' : ''}" 
       data-userid="${mentor.user_id}"
-    >
+      style="
+  background-image: ${hasFrame
+    ? `url('${mentor.frame}'), url('${mentor.profile_photo || 'default.jpg'}')`
+    : `url('${mentor.profile_photo || 'default.jpg'}')`};
+  background-size: ${hasFrame ? 'contain, cover' : 'cover'};
+  background-position: center;
+  background-repeat: no-repeat;
+"
+    ></div>
     <div class="mentor-info">
-      <p class="mentor-name">${mentor.name}</p>
+      <p class="mentor-name">${mentor.title ? `${mentor.name}, ${mentor.title}` : mentor.name}</p>
       <p class="mentor-years">${mentor.years_vegan} years vegan</p>
     </div>
     <button class="mentor-message-btn" data-id="${mentor.id}">Message</button>
   `;
 
-  // ✅ Select the image inside the li
-  const img = li.querySelector(".mentor-photo");
-
-  // ✅ Add click event to open profile
+  // Handle profile click
+  const img = li.querySelector(".mentor-photo-frame");
   img.addEventListener("click", e => {
     e.stopPropagation();
-    openProfile(img); // Calls your existing function
+    openProfile(img);
   });
 
   mentorsList.appendChild(li);
 
-    // Message button
-    const msgBtn = li.querySelector(".mentor-message-btn");
-    msgBtn.addEventListener("click", () => startChatWithMentor(mentor));
-    if (isMentor) msgBtn.style.display = "none";
-  });
+  // Hide message button if user is a mentor
+  const msgBtn = li.querySelector(".mentor-message-btn");
+  msgBtn.addEventListener("click", () => startChatWithMentor(mentor));
+  if (isMentor) msgBtn.style.display = "none";
+});
 
 }
 async function checkAndToggleMentorUI() {
@@ -3380,14 +3557,645 @@ async function fetchAllLeaderboards() {
 }
 
 
+//--------------------------
+//--------------------------
+// PLAYGROUND
+//--------------------------
+//--------------------------
+
+// Display achievements
+function populateAchievements(container, achievements) {
+  container.innerHTML = "";
+  if (!achievements || !Array.isArray(achievements) || achievements.length === 0) {
+    container.innerHTML = "<p>No achievements yet.</p>";
+    return;
+  }
+
+  achievements.forEach(a => {
+    const span = document.createElement("span");
+    span.className = "achievement";
+    span.textContent = a;
+    container.appendChild(span);
+  });
+}
+
+// Define all possible achievements and their unlock conditions
+const allAchievements = [
+  { 
+    symbol: "🐮", 
+    name: "Saver of Hundreds of Animals", 
+    description: "Unlocked when your counter reaches 100 saved animals.", 
+    key: "animals_saved", 
+    goal: 100 
+  },
+ // { 
+ //   symbol: "🤝", 
+ //   name: "A decent mentor", 
+ //   description: "Earn a rating 4 or higher", 
+ //   key: "mentor_rating", 
+ //   goal: 4 
+ // },
+  { 
+    symbol: "🏡", 
+    name: "Local Hero", 
+    description: "Organised a local event.", 
+    key: "events_organized", 
+    goal: 1 
+  },
+  { 
+    symbol: "🥗", 
+    name: "An expert vegan chef", 
+    description: "Win a meal-art contest!", 
+    key: "meal_art_wins", 
+    goal: 1 
+  }
+];
+
+// Display dynamic achievements with progress and add-to-profile button
+async function displayAchievementsPage() {
+  if (!currentUser || !currentProfile) return;
+
+  const userId = currentUser.id;
+  const container = document.getElementById("AchievementsList");
+  container.innerHTML = "";
+
+  // 1️⃣ Fetch stats from achievements_data
+  const { data: stats, error: statsError } = await supabase
+    .from("achievements_data")
+    .select("animals_saved, mentor_rating, events_organized, meal_art_wins")
+    .eq("user_id", userId)
+    .single();
+
+  if (statsError) {
+    console.error("Error fetching stats:", statsError);
+    return;
+  }
+
+  // 2️⃣ Get unlocked achievements from currentProfile
+  const unlocked = Array.isArray(currentProfile.achievements) ? currentProfile.achievements : [];
+
+  // 3️⃣ Loop through all possible achievements
+  allAchievements.forEach(a => {
+    const value = stats?.[a.key] || 0;
+    const isUnlocked = value >= a.goal;
+    const isAdded = unlocked.includes(a.name);
+
+    const div = document.createElement("div");
+    div.className = "Achievement " + (isUnlocked ? "unlocked" : "locked");
+
+    const symbol = document.createElement("div");
+    symbol.className = "symbol";
+    symbol.textContent = a.symbol;
+
+    const title = document.createElement("h4");
+    title.textContent = a.name;
+
+    const desc = document.createElement("p");
+    desc.textContent = a.description;
+
+    const progressAch = document.createElement("div");
+    progressAch.className = "progressAch";
+    progressAch.textContent = `${Math.min(value, a.goal)} / ${a.goal}`;
+
+    // Optional progress bar
+    const barContainer = document.createElement("div");
+    barContainer.className = "progressAch-bar-container";
+    const bar = document.createElement("div");
+    bar.className = "progressAch-bar";
+    bar.style.width = `${Math.min((value / a.goal) * 100, 100)}%`;
+    barContainer.appendChild(bar);
+
+    div.appendChild(symbol);
+    div.appendChild(title);
+    div.appendChild(desc);
+    div.appendChild(progressAch);
+    div.appendChild(barContainer);
+
+    // Add button or badge
+    const action = document.createElement("div");
+    if (isAdded) {
+      action.className = "unlocked-badge";
+      action.textContent = "🌟 Added to your profile";
+    } else if (isUnlocked) {
+      const button = document.createElement("button");
+      button.textContent = "Add to your achievements";
+      button.className = "unlock-btn";
+      button.onclick = async () => {
+        await addAchievementToProfile(userId, a.name);
+        // Update currentProfile locally to avoid refetching
+        currentProfile.achievements.push(a.name);
+        displayAchievementsPage(); // Refresh display
+      };
+      action.appendChild(button);
+    } else {
+      const lockText = document.createElement("span");
+      lockText.className = "locked-text";
+      lockText.textContent = "🔒 Locked";
+      action.appendChild(lockText);
+    }
+
+    div.appendChild(action);
+    container.appendChild(div);
+  });
+}
+
+// Adds a new achievement to profiles table (jsonb array)
+async function addAchievementToProfile(userId, newAchievement) {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("achievements")
+    .eq("id", userId)
+    .single();
+
+  if (error) return console.error("Error fetching user achievements:", error);
+
+  let achievements = Array.isArray(data.achievements) ? data.achievements : [];
+
+  if (!achievements.includes(newAchievement)) {
+    achievements.push(newAchievement);
+
+    const { error: updateError } = await supabase
+      .from("profiles")
+      .update({ achievements })
+      .eq("id", userId);
+
+    if (updateError) console.error("Error updating achievements:", updateError);
+  }
+}
+
+// --------------------------------
+// SHOP
+// --------------------------------
+async function setupShop() {
+  if (!currentUser || !currentProfile) await fetchAllData();
+
+  const badgeSpan = document.getElementById("badge-countshop");
+  const shopContainer = document.getElementById("ShopProducts");
+
+  badgeSpan.textContent = `Your Badges: ${currentProfile.badge || 0}`;
+
+  const shopItems = [
+    { id: "xpbox", name: "📦 XP Box", price: 20, description: "Gain +80 XP instantly." },
+    { id: "title", name: "🏷️ Title", price: 50, description: "Display one of your unlocked achievements as a title next to your name." },
+    { id: "profile-decoration", name: "🌸 Profile Picture Frame", price: 70, description: "Add a frame around your profile picture." }
+  ];
+
+  const availableItems = shopItems;
+
+  shopContainer.innerHTML = "";
+  availableItems.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "ShopProduct";
+    card.innerHTML = `
+      <h4>${item.name}</h4>
+      <div class="price">Price: ${item.price} Badges</div>
+      <p>${item.description}</p>
+      <button data-id="${item.id}">Buy</button>
+    `;
+    shopContainer.appendChild(card);
+  });
+
+  // Buy button handler
+  shopContainer.addEventListener("click", async e => {
+    if (!e.target.matches("button")) return;
+
+    const productId = e.target.dataset.id;
+    const product = shopItems.find(p => p.id === productId);
+    if (!product) return alert("Product not found.");
+
+    const modal = document.getElementById("shopModal");
+    const modalTitle = document.getElementById("shopModalTitle");
+    const modalBody = document.getElementById("shopModalBody");
+    const confirmBtn = document.getElementById("shopModalConfirm");
+    const cancelBtn = document.getElementById("shopModalCancel");
+
+    modal.classList.remove("hidden");
+    cancelBtn.onclick = () => modal.classList.add("hidden");
+
+    modalTitle.textContent = product.name;
+    modalBody.innerHTML = "";
+
+    // Setup modal content
+    if (product.id === "xpbox") {
+      modalBody.innerHTML = `Do you want to purchase 80 XP for ${product.price} badges?`;
+    } else if (product.id === "title") {
+      const achievements = currentProfile.achievements || [];
+      modalBody.innerHTML = "";
+      const clearLabel = document.createElement("label");
+      clearLabel.innerHTML = `<input type="radio" name="shopChoice" value="">Clear title`;
+      modalBody.appendChild(clearLabel);
+      achievements.forEach(a => {
+        const label = document.createElement("label");
+        label.innerHTML = `<input type="radio" name="shopChoice" value="${a}">${a}`;
+        modalBody.appendChild(label);
+      });
+    } else if (product.id === "profile-decoration") {
+      modalBody.innerHTML = `<p>Select a frame to apply:</p><div id="frameOptions">Loading frames...</div>`;
+      const frameOptionsDiv = document.getElementById("frameOptions");
+      const frameUrls = [
+        'https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/frames/frame3.png',
+        'https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/frames/frame4.png'
+      ];
+      frameOptionsDiv.innerHTML = "";
+      frameUrls.forEach((url, index) => {
+        const label = document.createElement("label");
+        label.style.display = "block";
+        label.style.marginBottom = "8px";
+        label.innerHTML = `
+          <input type="radio" name="shopChoice" value="${url}" ${index === 0 ? "checked" : ""}>
+          <img src="${url}" alt="Frame ${index + 1}" style="width:80px; height:auto; margin-left:8px;">
+        `;
+        frameOptionsDiv.appendChild(label);
+      });
+    }
+
+    // Separate functions for each product
+    const buyXPBox = async () => {
+      if (currentProfile.badge < product.price) return alert("Not enough badges!");
+      currentProfile.badge -= product.price;
+      currentProfile.total_xp += 80;
+      const { error } = await supabase.from("profiles").update({
+        badge: currentProfile.badge,
+        total_xp: currentProfile.total_xp
+      }).eq("id", currentUser.id);
+      if (error) return alert("Purchase failed: " + error.message);
+      alert("Purchase successful!");
+      badgeSpan.textContent = `Your Badges: ${currentProfile.badge}`;
+      renderProfile();
+      modal.classList.add("hidden");
+    };
+
+    const buyTitle = async () => {
+      if (currentProfile.badge < product.price) return alert("Not enough badges!");
+      const selected = modalBody.querySelector('input[name="shopChoice"]:checked')?.value || null;
+      currentProfile.badge -= product.price;
+      currentProfile.title = selected ? `a ${selected}` : null;
+      const { error } = await supabase.from("profiles").update({
+        badge: currentProfile.badge,
+        title: currentProfile.title
+      }).eq("id", currentUser.id);
+      if (error) return alert("Purchase failed: " + error.message);
+      alert("Purchase successful!");
+      badgeSpan.textContent = `Your Badges: ${currentProfile.badge}`;
+      renderProfile();
+      modal.classList.add("hidden");
+    };
+
+    const buyFrame = async () => {
+      if (currentProfile.badge < product.price) return alert("Not enough badges!");
+      const selected = modalBody.querySelector('input[name="shopChoice"]:checked')?.value;
+      if (!selected) return alert("Please select a frame!");
+      currentProfile.badge -= product.price;
+      currentProfile.frame = selected;
+      const { error } = await supabase.from("profiles").update({
+        badge: currentProfile.badge,
+        frame: currentProfile.frame
+      }).eq("id", currentUser.id);
+      if (error) return alert("Purchase failed: " + error.message);
+      alert("Purchase successful!");
+      badgeSpan.textContent = `Your Badges: ${currentProfile.badge}`;
+      renderProfile();
+      modal.classList.add("hidden");
+    };
+
+    // Assign the right confirm handler
+    confirmBtn.onclick = () => {
+      if (product.id === "xpbox") buyXPBox();
+      else if (product.id === "title") buyTitle();
+      else if (product.id === "profile-decoration") buyFrame();
+    };
+  });
+}
 
 
+//--------------------------
+// Challenges
+//--------------------------
 
+// 🕒 Helper functions for UTC-based daily checks
+function getTodayUTC() {
+  return new Date().toISOString().slice(0, 10);
+}
+function isClaimed(key) {
+  return localStorage.getItem(key) === getTodayUTC();
+}
+function markClaimed(key) {
+  localStorage.setItem(key, getTodayUTC());
+}
 
+// 🏆 Helper: Add badges
+async function addBadges(userId, amount) {
+  const { data: profile, error } = await supabase
+    .from("profiles")
+    .select("badge")
+    .eq("id", userId)
+    .single();
 
+  if (error) return console.error(error);
 
+  const newCount = (profile?.badge || 0) + amount;
 
+  await supabase
+    .from("profiles")
+    .update({ badge: newCount })
+    .eq("id", userId);
+}
 
+// ---------------------------
+// 🔥 DAILY XP CHALLENGE
+// ---------------------------
+async function loadDailyXpChallenge(userId) {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("xp_today, badge")
+    .eq("id", userId)
+    .single();
+
+  if (error) return console.error(error);
+
+  const xpToday = data?.xp_today || 0;
+  const goal = 50;
+  const progressPercent = Math.min((xpToday / goal) * 100, 100);
+
+  document.getElementById("daily-xp-progress").style.width = `${progressPercent}%`;
+  document.getElementById("daily-xp-text").textContent = `Progress: ${xpToday} / ${goal} XP`;
+
+  const btn = document.getElementById("daily-xp-claim");
+  if (isClaimed("dailyXpChallenge")) {
+    btn.disabled = true;
+    btn.textContent = "Reward Claimed 🎉";
+    return;
+  }
+
+  btn.disabled = xpToday < goal;
+  btn.textContent = xpToday >= goal ? "🎁 Claim Reward (+3 Badges)" : "Keep Going";
+}
+
+document.getElementById("daily-xp-claim").addEventListener("click", async () => {
+  await addBadges(currentProfile.id, 3);
+  markClaimed("dailyXpChallenge");
+  alert("🎉 You earned +3 badges for completing today’s challenge!");
+  const btn = document.getElementById("daily-xp-claim");
+  btn.disabled = true;
+  btn.textContent = "Reward Claimed 🎉";
+  loadDailyXpChallenge();
+});
+
+// ---------------------------
+// 📚 LEARN SOMETHING NEW
+// ---------------------------
+async function checkLearnProgress(userId) {
+  const today = new Date().toISOString().slice(0, 10);
+  let { data: row, error } = await supabase
+    .from("lessons_daily")
+    .select("*")
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (error && error.code === "PGRST116") row = null;
+
+  const animalDone = row?.animal || false;
+  const earthDone = row?.earth || false;
+  const healthDone = row?.health || false;
+
+  document.getElementById("animalStatus").textContent = animalDone ? "✅" : "❌";
+  document.getElementById("earthStatus").textContent = earthDone ? "✅" : "❌";
+  document.getElementById("healthStatus").textContent = healthDone ? "✅" : "❌";
+
+  const progress = ([animalDone, earthDone, healthDone].filter(Boolean).length / 3) * 100;
+  document.getElementById("learnProgress").style.width = `${progress}%`;
+
+  const btn = document.getElementById("learnClaimBtn");
+  btn.disabled = !animalDone || !earthDone || !healthDone || isClaimed("learnChallenge");
+}
+
+async function markLessonComplete(userId, courseID) {
+  const today = new Date().toISOString().slice(0, 10);
+
+  const updateData = { user_id: userId };
+  if (courseID === "animals") updateData.animal = true;
+  if (courseID === "earth") updateData.earth = true;
+  if (courseID === "health") updateData.health = true;
+
+  await supabase.from("lessons_daily").upsert(updateData, { onConflict: ["user_id"], merge: true });
+
+  checkLearnProgress(userId);
+}
+
+document.getElementById("learnClaimBtn").addEventListener("click", async () => {
+  await addBadges(currentProfile.id, 3);
+  markClaimed("learnChallenge");
+  alert("🎉 You earned +3 Badges!");
+  loadLessonChallenge();
+});
+
+function loadLessonChallenge() {
+  const btn = document.getElementById("learnClaimBtn");
+
+  if (isClaimed("learnChallenge")) {
+    btn.disabled = true;
+    btn.textContent = "Reward Claimed 🌸";
+  } else {
+    // Check if all lessons are done
+    const animalDone = document.getElementById("animalStatus").textContent === "✅";
+    const earthDone = document.getElementById("earthStatus").textContent === "✅";
+    const healthDone = document.getElementById("healthStatus").textContent === "✅";
+
+    btn.disabled = !(animalDone && earthDone && healthDone);
+    btn.textContent = "Claim Reward";
+  }
+}
+
+// ---------------------------
+// 🧘 MINDFUL MOMENT
+// ---------------------------
+let mindfulTimer;
+document.getElementById("mindfulStartBtn").addEventListener("click", () => {
+  let timeLeft = 5 * 60;
+  const display = document.getElementById("mindfulTimer");
+  document.getElementById("mindfulStartBtn").disabled = true;
+
+  mindfulTimer = setInterval(() => {
+    const mins = Math.floor(timeLeft / 60);
+    const secs = timeLeft % 60;
+    display.textContent = `${mins}:${secs.toString().padStart(2, "0")}`;
+    if (timeLeft <= 0) {
+      clearInterval(mindfulTimer);
+      display.textContent = "✅ Done!";
+      const btn = document.getElementById("mindfulClaimBtn");
+      btn.disabled = isClaimed("mindfulChallenge");
+      if (!isClaimed("mindfulChallenge")) btn.disabled = false;
+    }
+    timeLeft--;
+  }, 1000);
+});
+
+document.getElementById("mindfulClaimBtn").addEventListener("click", async () => {
+  await addBadges(currentProfile.id, 5);
+  markClaimed("mindfulChallenge");
+  alert("🧘 You earned +5 Badge!");
+  loadMindfulMoment();
+});
+
+function loadMindfulMoment() {
+  const btn = document.getElementById("mindfulClaimBtn");
+  const startBtn = document.getElementById("mindfulStartBtn");
+
+  if (isClaimed("mindfulChallenge")) {
+    btn.disabled = true;
+    btn.textContent = "Reward Claimed 🌸";
+    startBtn.disabled = true;
+  } else {
+    btn.disabled = true; // only enabled after completing countdown
+    startBtn.disabled = false;
+    btn.textContent = "Start Timer to Claim";
+  }
+}
+
+// ---------------------------
+// 💖 ENCOURAGE SOMEONE
+// ---------------------------
+async function loadFriendSelect(currentProfileid) {
+  const select = document.getElementById("friendSelect");
+  if (!select) return;
+
+  select.innerHTML = `<option value="" disabled selected>Select a friend</option>`;
+
+  try {
+    const { data: friendsData, error } = await supabase
+      .from("friends")
+      .select("user1_id, user2_id, user1_name, user2_name")
+      .or(`user1_id.eq.${currentProfileid},user2_id.eq.${currentProfileid}`);
+
+    if (error) throw error;
+
+    const friends = friendsData
+      .map(f => {
+        if (f.user1_id === currentProfileid) return { id: f.user2_id, name: f.user2_name };
+        if (f.user2_id === currentProfileid) return { id: f.user1_id, name: f.user1_name };
+        return null;
+      })
+      .filter(Boolean);
+
+    if (friends.length === 0) {
+      const option = document.createElement("option");
+      option.value = "";
+      option.disabled = true;
+      option.textContent = "No friends yet, look for friends in the community";
+      select.appendChild(option);
+    } else {
+      friends.forEach(f => {
+        const option = document.createElement("option");
+        option.value = f.id;
+        option.textContent = f.name;
+        select.appendChild(option);
+      });
+    }
+  } catch (err) {
+    console.error("Error loading friends:", err);
+    const option = document.createElement("option");
+    option.value = "";
+    option.disabled = true;
+    option.textContent = "Failed to load friends";
+    select.appendChild(option);
+  }
+}
+
+document.getElementById("sendEncourageBtn").addEventListener("click", async () => {
+  const msgInput = document.getElementById("encourageMessage");
+  const friendSelect = document.getElementById("friendSelect");
+  const friendId = friendSelect.value;
+
+  if (!friendId) return alert("Please select a friend 👥");
+  const msg = msgInput.value.trim();
+  if (!msg) return alert("Please write your message 💬");
+
+  const finalMessage = `I've chosen you to encourage as my daily challenge.\n\n${msg}\n\nKeep going! 🌱`;
+
+  try {
+    // 3️⃣ Fetch all chats where current user is either user1 or user2
+    const { data: chatsData, error: fetchError } = await supabase
+      .from("chats")
+      .select("*")
+      .or(`user1_id.eq.${currentProfile.id},user2_id.eq.${currentProfile.id}`);
+
+    if (fetchError) throw fetchError;
+
+    // 4️⃣ Check if a chat with this friend exists
+    let chat = chatsData.find(
+      c => (c.user1_id === currentProfile.id && c.user2_id === friendId) ||
+           (c.user2_id === currentProfile.id && c.user1_id === friendId)
+    );
+
+    let chatId;
+
+    if (chat) {
+      chatId = chat.id;
+      await supabase
+        .from("chats")
+        .update({ last_message: finalMessage, last_message_at: new Date() })
+        .eq("id", chatId);
+    } else {
+      const { data: newChat, error: insertError } = await supabase
+        .from("chats")
+        .insert([{
+          user1_id: currentProfile.id,
+          user2_id: friendId,
+          user1_name: currentProfile.name,
+          user2_name: friendSelect.selectedOptions[0].text,
+          last_message: finalMessage,
+          last_message_at: new Date()
+        }])
+        .select()
+        .single();
+
+      if (insertError) throw insertError;
+      chatId = newChat.id;
+    }
+
+    const { error: msgError } = await supabase.from("messages").insert([{
+      chat_id: chatId,
+      sender_id: currentProfile.id,
+      content: finalMessage,
+      created_at: new Date()
+    }]);
+
+    if (msgError) throw msgError;
+
+    document.getElementById("encourageClaimBtn").disabled = false;
+    alert("Message sent 💖 You can now claim your reward!");
+    msgInput.value = "";
+
+  } catch (err) {
+    console.error("Error sending encouragement message:", err);
+    alert("Failed to send message. Please try again.");
+  }
+});
+
+document.getElementById("encourageClaimBtn").addEventListener("click", async () => {
+  await addBadges(currentProfile.id, 2);
+  markClaimed("encourageChallenge");
+  alert("🌸 You earned +2 Badge!");
+  loadEncourageChallenge();
+});
+
+function loadEncourageChallenge() {
+  const btn = document.getElementById("encourageClaimBtn");
+  const sendBtn = document.getElementById("sendEncourageBtn");
+  const startMindfulBtn = document.getElementById("mindfulStartBtn");
+
+  if (isClaimed("encourageChallenge")) {
+    btn.disabled = true;
+    btn.textContent = "Reward Claimed 🌸";
+    sendBtn.disabled = true;
+    startMindfulBtn.disabled = true;
+  } else {
+    btn.disabled = true; // only enabled after sending a message
+    btn.textContent = "Send Message to Claim";
+    sendBtn.disabled = false;
+    startMindfulBtn.disabled = false;
+  }
+}
 
 
 
@@ -3408,8 +4216,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     setTimeout(async () => {
       if (currentUser && currentUser.id) {
         await setupMondayVoting(currentUser.id);
+        await displayAchievementsSettings(currentUser.id);
       }
     }, 300);
+
   } catch (err) {
     console.error("Error initializing mainpage:", err);
   }
@@ -3608,6 +4418,31 @@ await fetchAllLeaderboards();
         uploadModal.classList.add("hidden-modal");
       }
     });
+
+    // Achievements
+    if (currentUser && currentUser.id) {
+    displayAchievementsPage(currentUser.id);
+  }
+    // Shop
+    if (currentUser && currentUser.id) {
+    setupShop(currentUser.id);
+  }
+
+    // Challenges
+    if (currentUser && currentUser.id) {
+    loadDailyXpChallenge(currentUser.id);
+    loadEncourageChallenge();
+    loadMindfulMoment();
+    loadLessonChallenge();
+    checkLearnProgress(currentUser.id);
+    loadFriendSelect(currentUser.id);
+
+  // Disable claim buttons if already claimed today
+  ["dailyXpChallenge","learnChallenge","mindfulChallenge","encourageChallenge"].forEach(id=>{
+    const btn = document.querySelector(`#${id} button[id$='ClaimBtn']`);
+    if(btn && isClaimed(id)) btn.disabled=true;
+  });
+  }
 
 
 //Show page after everything is loaded:
