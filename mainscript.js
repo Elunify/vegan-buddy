@@ -4110,7 +4110,7 @@ document.getElementById("sendEncourageBtn").addEventListener("click", async () =
   const msg = msgInput.value.trim();
   if (!msg) return alert("Please write your message 💬");
 
-  const finalMessage = `I've chosen you to encourage as my daily challenge.\n\n${msg}\n\nKeep going! 🌱`;
+  const finalMessage = `I've chosen you to encourage in my daily challenge.\n\n${msg}\n\nKeep going! 🌱`;
 
   try {
     // 3️⃣ Fetch all chats where current user is either user1 or user2
