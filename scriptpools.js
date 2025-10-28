@@ -2190,11 +2190,6 @@ answer: "Carbohydrates"
 
 
 
-
-
-
-
-
 //------ extraLessons -------
 //------ extraLessons -------
 //------ extraLessons -------

@@ -3795,7 +3795,9 @@ async function setupShop() {
       const frameOptionsDiv = document.getElementById("frameOptions");
       const frameUrls = [
         'https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/frames/frame3.png',
-        'https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/frames/frame4.png'
+        'https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/frames/frame4.png',
+        'https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/frames/frame5.png',
+        'https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/frames/frame6.png',
       ];
       frameOptionsDiv.innerHTML = "";
       frameUrls.forEach((url, index) => {
