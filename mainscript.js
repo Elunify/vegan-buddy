@@ -621,23 +621,23 @@ let todayLesson = null;
 const dietStartIndex = {
   "Protecting animals & animal welfare": {
     omnivore: 1,
-    vegetarian: 31,
-    vegan: 61
+    vegetarian: 21,
+    vegan: 41
   },
   "Caring for the environment & fighting climate change": {
     omnivore: 1001,
-    vegetarian: 1031,
-    vegan: 1061
+    vegetarian: 1021,
+    vegan: 1041
   },
   "Healthy living & wellness": {
     omnivore: 2001,
-    vegetarian: 2031,
-    vegan: 2061
+    vegetarian: 2021,
+    vegan: 2041
   },
   "Boosting my performance as an athlete": {
     omnivore: 3001,
     vegetarian: 3011,
-    vegan: 3021
+    vegan: 3016
   }
 };
 
@@ -945,6 +945,7 @@ currentProfile.last_lesson = { goal: todayGoal, lessonId: todayLessonId };
   document.getElementById("dailycheck-in")?.classList.add("hidden");
   document.getElementById("learn")?.classList.add("hidden");
   await fetchAllLeaderboards();
+  await displayAchievementsPage();
 }
 
 async function updateGlobalImpact(increment) {
@@ -3583,7 +3584,7 @@ function populateAchievements(container, achievements) {
 const allAchievements = [
   { 
     symbol: "🐮", 
-    name: "Saver of Hundreds of Animals", 
+    name: "Animal Saver", 
     description: "Unlocked when your counter reaches 100 saved animals.", 
     key: "animals_saved", 
     goal: 100 
@@ -3604,7 +3605,7 @@ const allAchievements = [
   },
   { 
     symbol: "🥗", 
-    name: "An expert vegan chef", 
+    name: "Expert Vegan Chef", 
     description: "Win a meal-art contest!", 
     key: "meal_art_wins", 
     goal: 1 
@@ -3736,8 +3737,8 @@ async function setupShop() {
 
   const shopItems = [
     { id: "xpbox", name: "📦 XP Box", price: 20, description: "Gain +80 XP instantly." },
-    { id: "title", name: "🏷️ Title", price: 50, description: "Display one of your unlocked achievements as a title next to your name." },
-    { id: "profile-decoration", name: "🌸 Profile Picture Frame", price: 70, description: "Add a frame around your profile picture." }
+    { id: "title", name: "🏷️ Title", price: 50, description: "Set one of your unlocked achievements as a title next to your name." },
+    { id: "profile-decoration", name: "🌸 Profile Picture Frame", price: 70, description: "Set a frame around your profile picture." }
   ];
 
   const availableItems = shopItems;
@@ -3829,7 +3830,7 @@ async function setupShop() {
       if (currentProfile.badge < product.price) return alert("Not enough badges!");
       const selected = modalBody.querySelector('input[name="shopChoice"]:checked')?.value || null;
       currentProfile.badge -= product.price;
-      currentProfile.title = selected ? `a ${selected}` : null;
+      currentProfile.title = selected ? `the ${selected}` : null;
       const { error } = await supabase.from("profiles").update({
         badge: currentProfile.badge,
         title: currentProfile.title

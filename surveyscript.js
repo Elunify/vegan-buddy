@@ -124,14 +124,14 @@ function showBuddyIntro() {
     const name = answers.profileName || "friend";
 
     const elunaSpeech = `Hi ${name}! I'm Eluna. 
-I care deeply about animals, nature, self-care and spirituality. 
-My goal is to reduce every injustice in our world. 
+I'm passionate about health, nutrition, and improving physical and mental performance. 
+I believe that conscious living and balance are the keys to a fulfilled life. 
 Let me introduce my twin brother, Elune:`;
 
     const eluneSpeech = `Hey ${name}! I’m Elune. 
-I'm more interested in climate change, doing sports, living healthy and nutritioning. 
-My goal is to live my life the most conscious, rational and logical way. 
-With my sister I'll be here for you and we'll give you useful tips, and we'll guide you through your adventure!`;
+I care deeply about animals, nature, and our planet. 
+My goal is to protect every living being and fight against climate change. 
+Together with my sister, we'll be here for you — guiding you, inspiring you, and helping you make a real difference!`;
 
     document.getElementById("q4").classList.add("active");
 
