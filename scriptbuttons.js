@@ -63,34 +63,34 @@ learnButtons.forEach(id => {
 });
 
 // Explore: Restaurants, Scan
-const exploreButtons = ['restaurants', 'scan'];
+//const exploreButtons = ['restaurants', 'scan'];
 
-exploreButtons.forEach(id => {
-  const btn = document.querySelector(`button[onclick="showSection('${id}')"]`);
-  if (btn) {
-    btn.addEventListener('click', () => {
-      showSection(id);
-      closeDropdowns?.(); // close dropdowns if function exists
+//exploreButtons.forEach(id => {
+//  const btn = document.querySelector(`button[onclick="showSection('${id}')"]`);
+//  if (btn) {
+//    btn.addEventListener('click', () => {
+//      showSection(id);
+//     closeDropdowns?.(); // close dropdowns if function exists
 
       // 🗺️ If the clicked button is for the 'restaurants' section
-      if (id === 'restaurants') {
+//      if (id === 'restaurants') {
         // Load Google Maps API only once
-        if (!window.mapLoaded) {
-          const script = document.createElement('script');
-          script.src =
-            'https://maps.googleapis.com/maps/api/js?key=AIzaSyAwHL9UaF4A7qSZt_qkW2QrZVnQWXeVFNs&libraries=places,marker&callback=initMap';
-          script.async = true;
-          script.defer = true;
-          document.head.appendChild(script);
-          window.mapLoaded = true;
-        } else if (typeof initMap === 'function') {
+//        if (!window.mapLoaded) {
+//          const script = document.createElement('script');
+//          script.src =
+//            'https://maps.googleapis.com/maps/api/js?key=AIzaSyAwHL9UaF4A7qSZt_qkW2QrZVnQWXeVFNs&libraries=places,marker&callback=initMap';
+//          script.async = true;
+//          script.defer = true;
+//          document.head.appendChild(script);
+//          window.mapLoaded = true;
+//        } else if (typeof initMap === 'function') {
           // If script already loaded, reinitialize map
-          initMap();
-        }
-      }
-    });
-  }
-});
+//          initMap();
+//        }
+//      }
+//    });
+//  }
+// });
 
 // Community: Local, Events, Forum, Friends, Mentorship, Success
 const communityButtons = ['local','forum','friends','messages','mentorship'];
@@ -569,7 +569,7 @@ function createMarker(place) {
 
   return marker;
 }
-
+/*
 window.initMap = async function() {
   infowindow = new google.maps.InfoWindow();
   const mapContainer = document.getElementById("mapContainer");
@@ -630,7 +630,6 @@ window.initMap = async function() {
   }
 };
 
-
 // =======================
 // TAB SWITCHING
 // =======================
@@ -674,6 +673,8 @@ const mapBtn = document.getElementById("mapBtn");
 
 if (scanBtn) scanBtn.addEventListener('click', () => openTab("scan"));
 if (mapBtn) mapBtn.addEventListener('click', () => openTab("restaurants"));
+
+*/
 
 // Friends -->
 // Friends -->
