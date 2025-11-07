@@ -164,7 +164,7 @@ answer: "It causes stress for both mother and calf"
 },
 18: {  
   goal: "Protecting animals & animal welfare",  diet: "omnivore",  
-  lesson: "Some people ask if killing plants is the same as killing animals. Science shows that plants don’t have a brain or central nervous system, so they don’t feel pain the way animals do.  But there’s another important fact: around 77% of global agricultural land is used for livestock, while farm animals provide only about **18% of the world’s calories and 37% of its protein. This means most of the land and crops are used inefficiently, to feed animals instead of people.  By adopting a plant-based diet, we can use far less land and still feed everyone, while sparing both animals and plants. Reflecting on this helps us see how our choices shape the planet and the lives of others.",  
+  lesson: "Some people ask if killing plants is the same as killing animals. Science shows that plants don’t have a brain or central nervous system, so they don’t feel pain the way animals do. But there’s another important fact: around 77% of global agricultural land is used for livestock, while farm animals provide only about 18% of the world’s calories and 37% of its protein. This means most of the land and crops are used inefficiently, to feed animals instead of people. By adopting a plant-based diet, we can use far less land and still feed everyone, while sparing both animals and plants. Reflecting on this helps us see how our choices shape the planet and the lives of others.",  
   quiz: {  
     question: "What percentage of global agricultural land is used for livestock?",  
     options: ["36%", "50%", "77%", "90%"],  
@@ -173,7 +173,7 @@ answer: "It causes stress for both mother and calf"
 },
 19: {  
   goal: "Protecting animals & animal welfare",  diet: "omnivore",  
-  lesson: "When we think of monkeys swinging through trees, sea turtles gliding in the ocean, or dolphins playing freely in the waves, we picture a healthy, thriving planet. But much of the natural world these animals depend on is disappearing — largely because of animal agriculture.  About 77% of global agricultural land is used for livestock grazing or feed production, which drives deforestation in rainforests like the Amazon, where countless monkeys and other species lose their homes. Runoff from animal farms pollutes rivers and seas, harming marine life like turtles and dolphins. Every meal we choose has an impact far beyond our plate. We can help protect wild animals and the places they call home.",  
+  lesson: "When we think of monkeys swinging through trees, sea turtles gliding in the ocean, or dolphins playing freely in the waves, we picture a healthy, thriving planet. But much of the natural world these animals depend on is disappearing — largely because of animal agriculture. About 77% of global agricultural land is used for livestock grazing or feed production, which drives deforestation in rainforests like the Amazon, where countless monkeys and other species lose their homes. Runoff from animal farms pollutes rivers and seas, harming marine life like turtles and dolphins. Every meal we choose has an impact far beyond our plate. We can help protect wild animals and the places they call home.",  
   quiz: {  
     question: "How does animal agriculture harm wild animals like monkeys, turtles, and dolphins?",  
     options: [  
@@ -188,7 +188,7 @@ answer: "It causes stress for both mother and calf"
 20: {  
   goal: "Protecting animals & animal welfare",  
   diet: "omnivore",  
-  lesson: "Most of us can agree that animals have feelings, unique personalities, and the ability to think and experience joy or fear. They are innocent, vulnerable, and, just like us, they want to live. Knowing this, an important question arises: Do I want to be someone who contributes to the exploitation of weaker, sentient beings—or someone who chooses compassion instead?",  
+  lesson: "Most of us can agree that animals have feelings, unique personalities, and the ability to think and experience joy or fear. They are innocent, vulnerable, and, just like us, they want to live. Knowing this, an important question arises: Do I want to be someone who contributes to the exploitation of weaker, sentient beings — or someone who chooses compassion instead?",  
   quiz: {  
     question: "What does yesterday's lesson encourage us to reflect on?",  
     options: [  
@@ -221,7 +221,7 @@ answer: "Profit vs. the intrinsic value of an individual animal’s life"
 },
 22: {
 goal: "Protecting animals & animal welfare", diet: "vegetarian",
-lesson: "In our society, animals are often treated as products rather than living beings. The price of meat, dairy, or eggs reflects only the cost of production, transport, and sale—not the suffering, confinement, or shortened lives of the animals themselves. Their sacrifices—the stress, pain, and loss of freedom—are invisible in monetary terms. By reducing our consumption of animal products or choosing plant-based alternatives, we recognize that animals are sentient beings whose lives have intrinsic value, far beyond any price tag placed on them.",
+lesson: "In our society, animals are often treated as products rather than living beings. The price of meat, dairy, or eggs reflects only the cost of production, transport, and sale — not the suffering, confinement, or shortened lives of the animals themselves. Their sacrifices — the stress, pain, and loss of freedom — are invisible in monetary terms. By reducing our consumption of animal products or choosing plant-based alternatives, we recognize that animals are sentient beings whose lives have intrinsic value, far beyond any price tag placed on them.",
 quiz: {
 question: "What does the price of animal products fail to account for?",
 options: [
@@ -235,7 +235,7 @@ answer: "The suffering and loss of freedom experienced by animals"
 },
 23: {  
   goal: "Protecting animals & animal welfare", diet: "vegetarian",  
-  lesson: "Many farm animals live their entire lives in confined spaces. For example, cows often spend most of their lives indoors, standing on hard floors with limited room to move. Mother pigs on factory farms are kept in 'gestation crates' so small they cannot even turn around. Hens are frequently packed into cages where each bird has about the space of an A4 sheet of paper—less than 600 square centimeters. These conditions prevent natural behaviors like walking freely, nursing, or even stretching their wings. By reducing our consumption of animal-based products, we can directly reduce the number of animals living and suffering in such environments.",  
+  lesson: "Many farm animals live their entire lives in confined spaces. For example, cows often spend most of their lives indoors, standing on hard floors with limited room to move. Mother pigs on factory farms are kept in 'gestation crates' so small they cannot even turn around. Hens are frequently packed into cages where each bird has about the space of an A4 sheet of paper — less than 600 square centimeters. These conditions prevent natural behaviors like walking freely, nursing, or even stretching their wings. By reducing our consumption of animal-based products, we can directly reduce the number of animals living and suffering in such environments.",  
   quiz: {  
     question: "How much space does a hen typically have in a battery cage?",  
     options: ["Around the size of an A4 sheet of paper", "About 2 square meters", "A full open yard", "Half a room"],  
@@ -318,7 +318,7 @@ answer: "It prioritizes human profit over animal health and natural life"
 },
 30: {
 goal: "Protecting animals & animal welfare", diet: "vegetarian",
-lesson: "When thinking about animal suffering, one question often arises: what is worse—killing an animal or forcing it to live its life in extreme confinement and suffering? Many philosophers and animal ethicists argue that while death ends suffering, the prolonged experience of living in harmful conditions, unable to express natural behaviors or enjoy a life worth living, can be far worse. Factory farms often subject animals to this second scenario: they live their entire lives in cramped, stressful environments and endure suffering daily until they are slaughtered.",
+lesson: "When thinking about animal suffering, one question often arises: what is worse — killing an animal or forcing it to live its life in extreme confinement and suffering? Many philosophers and animal ethicists argue that while death ends suffering, the prolonged experience of living in harmful conditions, unable to express natural behaviors or enjoy a life worth living, can be far worse. Factory farms often subject animals to this second scenario: they live their entire lives in cramped, stressful environments and endure suffering daily until they are slaughtered.",
 quiz: {
 question: "Which scenario is often considered worse for an animal?",
 options: [
@@ -388,7 +388,7 @@ answer: "They cannot lay eggs and are considered unprofitable"
 },
 35: {
 goal: "Protecting animals & animal welfare", diet: "vegetarian",
-lesson: "Imagine being born into the farming industry—would you rather be male or female? Male animals, like calves or chicks, are often considered 'unnecessary' and may be killed shortly after birth or raised under harsh conditions. Female animals, meanwhile, are forced into cycles of exploitation: repeatedly bred, confined, and separated from their offspring, all while their natural behaviors are restricted until they are eventually slaughtered. This question encourages us to reflect on the limited choices and suffering imposed on farmed animals.",
+lesson: "Imagine being born into the farming industry — would you rather be male or female? Male animals, like calves or chicks, are often considered 'unnecessary' and may be killed shortly after birth or raised under harsh conditions. Female animals, meanwhile, are forced into cycles of exploitation: repeatedly bred, confined, and separated from their offspring, all while their natural behaviors are restricted until they are eventually slaughtered. This question encourages us to reflect on the limited choices and suffering imposed on farmed animals.",
 quiz: {
 question: "In the farming industry, what are typical fates of male and female animals?",
 options: [
@@ -541,7 +541,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
 },
 46: {
   goal: "Protecting animals & animal welfare", diet: "vegan",
-  lesson: "Some people argue that animals aren’t equal to humans. It’s unclear what makes humans inherently superior. We accept differences in intelligence and abilities among people, yet pigs—one of the smartest animals on Earth—are still raised for food. In fact, in all ways that truly matter, humans and animals are the same: we share the same fears, feelings, and capacity to suffer. This is what counts ethically.",
+  lesson: "Some people argue that animals aren’t equal to humans. It’s unclear what makes humans inherently superior. We accept differences in intelligence and abilities among people, yet pigs — one of the smartest animals on Earth — are still raised for food. In fact, in all ways that truly matter, humans and animals are the same: we share the same fears, feelings, and capacity to suffer. This is what counts ethically.",
   quiz: {
     question: "Why are humans and animals considered equal in important ways?",
     options: [
@@ -554,7 +554,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
 },
 47: {  
   goal: "Protecting animals & animal welfare", diet: "vegan",
-  lesson: "Some people claim that plants have feelings. Science shows that plants don’t have a brain or central nervous system, so they don’t feel pain the way animals do.  But there’s another important fact: around 77% of global agricultural land is used for livestock, while farm animals provide only about **18% of the world’s calories and 37% of its protein. This means most of the land and crops are used inefficiently, to feed animals instead of people.  By adopting a plant-based diet, we can use far less land and still feed everyone, while sparing both animals and plants. Reflecting on this helps us see how our choices shape the planet and the lives of others.",  
+  lesson: "Some people claim that plants have feelings. Science shows that plants don’t have a brain or central nervous system, so they don’t feel pain the way animals do.  But there’s another important fact: around 77% of global agricultural land is used for livestock, while farm animals provide only about 18% of the world’s calories and 37% of its protein. This means most of the land and crops are used inefficiently, to feed animals instead of people. By adopting a plant-based diet, we can use far less land and still feed everyone, while sparing both animals and plants. Reflecting on this helps us see how our choices shape the planet and the lives of others.",  
   quiz: {  
     question: "What percentage of global agricultural land is used for livestock?",  
     options: ["36%", "50%", "77%", "90%"],  
@@ -576,7 +576,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
 }, 
 49: {
   goal: "Protecting animals & animal welfare", diet: "vegan",
-  lesson: "Humans dominate 36% of all mammals on Earth. This includes livestock, pets, and urban-adapted species. The remaining mammals are mostly farm animals (60%) and only 4% are truly wild. This shows how little space is left for wildlife and how human activity has reshaped mammal populations globally.",
+  lesson: "Most mammals on Earth today are not wild animals. When we look at the total biomass of mammals, about 60% are farmed animals like cows and pigs. Humans make up another 36%. That leaves only 4% as truly wild mammals.",
   quiz: {
     question: "What percentage of mammals are truly wild?",
     options: ["4%", "36%", "60%"],
@@ -655,8 +655,43 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
     answer: "12"
   }
 },
+58: {
+  goal: "Protecting animals & recognizing hidden suffering in clothing", diet: "vegan",
+  lesson: "Many people strongly oppose wearing fur, because it is seen as cruel to kill animals for fashion. However, we often ignore that leather, wool, and down also come from animals who suffer. Leather typically comes from cows raised and killed in the meat and dairy industry, wool often comes from sheep who undergo painful shearing and breeding practices, and down is taken from ducks and geese who are plucked or slaughtered. The main difference is not the animal's experience, but our cultural habits and what we were taught to see as 'normal.'",
+  quiz: {
+    question: "Which of these clothing materials can involve animal suffering?",
+    options: ["Leather", "Wool", "Down", "All of the above"],
+    answer: "All of the above"
+  }
+},
+59: {
+  goal: "Understanding animal captivity in entertainment", diet: "vegan",
+  lesson: "Circuses and many traditional zoos keep animals in environments that cannot meet their physical and emotional needs. Wild animals such as elephants, lions, or dolphins are used to living in large natural spaces, forming social groups, exploring, and making choices. In circuses, they are often trained using fear, punishment, and confinement, spending most of their time in cages or transport trucks. Even when the animals are fed and kept alive, their freedom, autonomy, and social lives are taken away. Choosing not to support these industries encourages the shift toward sanctuaries and conservation efforts that truly protect animals.",
+  quiz: {
+    question: "Why is it better to avoid supporting circuses and certain zoos?",
+    options: [
+      "Because animals in these industries are often confined and cannot express natural behaviors",
+      "Because animals enjoy performing tricks",
+      "Because zoos are always focused on conservation"
+    ],
+    answer: "Because animals in these industries are often confined and cannot express natural behaviors"
+  }
+},
+60: {
+  goal: "Choosing ethical products", diet: "vegan",
+  lesson: "A product can be labeled “vegan” and still not be cruelty-free. “Vegan” means it does not contain animal ingredients, but it does not guarantee that the product or its ingredients were not tested on animals. Some brands remove animal products for marketing, while still supporting animal testing through suppliers or distribution in countries that require testing. To avoid this, look for products that are both labeled 'vegan' and 'cruelty-free.' Certifications like the Leaping Bunny, PETA Cruelty-Free, or Vegan Society logo help confirm that no animal ingredients or animal testing were involved.",
+  quiz: {
+    question: "What is the difference between 'vegan' and 'cruelty-free' on a product label?",
+    options: [
+      "'Vegan' means no animal ingredients, 'cruelty-free' means no animal testing",
+      "They mean the same thing",
+      "'Cruelty-free' means no animal ingredients"
+    ],
+    answer: "'Vegan' means no animal ingredients, 'cruelty-free' means no animal testing"
+  }
+},
 
-// continue until lesson 100
+// continue
 
 
 
@@ -813,7 +848,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
 1014: {
   goal: "Caring for the environment & fighting climate change",
   diet: "omnivore",
-  lesson: "Soy production has a big environmental impact, but most of it is not used directly for human consumption. Around **77% of global soy** is grown to feed livestock like cattle, pigs, and chickens. This demand drives deforestation, especially in the Amazon and Cerrado regions, releases large amounts of CO₂, and threatens biodiversity.",
+  lesson: "Soy production has a big environmental impact, but most of it is not used directly for human consumption. Around 77% of global soy is grown to feed livestock like cattle, pigs, and chickens. This demand drives deforestation, especially in the Amazon and Cerrado regions, releases large amounts of CO₂, and threatens biodiversity.",
   quiz: {
     question: "What percentage of global soy production is used to feed farm animals?",
     options: ["About 50%", "About 77%", "About 90%"],
@@ -837,15 +872,15 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
 1016: {
   goal: "Caring for the environment & fighting climate change",
   diet: "omnivore",
-  lesson: "The biomass of large land mammals today is extremely unbalanced. Humans make up about 36% of the total mammalian biomass, livestock accounts for around 62%, and all wild mammals combined represent only about 2%. This shows how human activities, especially industrial agriculture, dominate the planet and leave very little room for wild species. Restoring balance requires reducing livestock demand, rewilding, and supporting sustainable land use.",
+  lesson: "The biomass of large land mammals today is extremely unbalanced. Humans make up about 36% of the total mammalian biomass, livestock accounts for around 60%, and all wild mammals combined represent only about 4%. This shows how human activities, especially industrial agriculture, dominate the planet and leave very little room for wild species. Restoring balance requires reducing livestock demand, rewilding, and supporting sustainable land use.",
   quiz: {
     question: "What percentage of the total mammalian biomass is made up by humans and livestock combined?",
     options: [
       "About 50%",
-      "About 98%",
+      "About 96%",
       "About 70%"
     ],
-    answer: "About 98%"
+    answer: "About 96%"
   }
 },
 1017: {
@@ -943,12 +978,12 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
     answer: "7%" 
   } 
 },
-  1026: {
+1026: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegetarian",
-  lesson: "Producing 1 kilogram of eggs emits about 2.7 kg of CO₂-equivalent emissions, which is lower than beef but higher than most plant-based foods. For instance, producing 1 kilogram of lentils emits less than 1 kg of CO₂. Additionally, egg production requires substantial land and water resources. Free-range systems necessitate approximately 1 hectare of land per 2,500 hens, and producing a dozen eggs consumes about 53 liters of water. In contrast, plant-based alternatives like tofu have a much smaller environmental impact, using less land and water while emitting fewer greenhouse gases.",
+  lesson: "Producing 1 kg of beef emits about 60 kg of CO₂-equivalent and uses around 15,400 liters of water, making it one of the most resource-intensive foods. In comparison, producing 1 kg of eggs emits about 4.2 kg of CO₂-equivalent, uses roughly 3,300 liters of water, and requires about 7.9 m² of land. Meanwhile, lentils are one of the most environmentally efficient protein sources: producing 1 kg of lentils emits only about 0.9 kg of CO₂-equivalent, uses around 1.4 m² of land, and requires approximately 1,250 liters of irrigation water, which is much lower than animal products.",
   quiz: {
-    question: "Which has a lower environmental impact per kilogram?",
+    question: "Which food has the lowest environmental impact per kilogram?",
     options: ["Eggs", "Lentils", "Beef"],
     answer: "Lentils"
   }
@@ -1042,11 +1077,10 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
     options: ["50,000", "300,000", "1,000,000"],
     answer: "300,000"
   }
-},
-1036: {
+},1036: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegetarian",
-  lesson: "Oceans play a crucial role in regulating the climate. They absorb about 25–30% of human CO₂ emissions and store more heat than the atmosphere, slowing global warming. Phytoplankton alone captures roughly 50 billion tons of CO₂ each year through photosynthesis. However, overfishing, pollution, and warming waters reduce the oceans’ capacity to store carbon, making climate change worse. Protecting marine ecosystems helps maintain this natural CO₂ sink.",
+  lesson: "Oceans play a crucial role in regulating the climate. They absorb about 25–30% of human CO₂ emissions and store more heat than the atmosphere, slowing global warming. Phytoplankton alone captures roughly 50 billion tons of CO₂ each year through photosynthesis. However, in some regions, phytoplankton populations have declined significantly — for example, in Narragansett Bay, USA, biomass decreased by about 49% between 1968 and 2019—reducing the ocean’s capacity to store carbon.",
   quiz: {
     question: "Approximately what percentage of human CO₂ emissions do oceans absorb?",
     options: ["10–15%", "25–30%", "50–60%"],
@@ -1184,17 +1218,21 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
 1048: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegan",
-  lesson: "Bottom trawling and other destructive fishing methods damage the ocean floor, destroy habitats, and wipe out slow-growing species. These practices reduce biodiversity and destabilize marine ecosystems, making it harder for oceans to recover.",
+  lesson: "Bottom trawling is a fishing method where large, heavy nets are dragged along the ocean floor to catch fish and shrimp. These nets scrape and crush everything in their path, including coral reefs, seagrass beds, and slow-growing bottom-dwelling species. About 15% of the world’s continental shelf is affected by bottom trawling. This destruction releases stored carbon from sediments, kills countless marine organisms, and permanently damages habitats, making it one of the most environmentally harmful fishing practices.",
   quiz: {
-    question: "Which effect do destructive fishing methods like bottom trawling have?",
-    options: ["Increase fish populations","Destroy habitats and reduce biodiversity", "Help coral growth"],
-    answer: "Destroy habitats and reduce biodiversity"
+    question: "Why is bottom trawling considered highly destructive?",
+    options: [
+      "It selectively catches only large fish",
+      "It scrapes the ocean floor, destroying habitats and releasing carbon",
+      "It uses too much fuel"
+    ],
+    answer: "It scrapes the ocean floor, destroying habitats and releasing carbon"
   }
 },
 1049: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegan",
-  lesson: "Oceans act as a major carbon sink, absorbing about 30% of CO₂ emissions. When biodiversity declines, the ability of oceans to store carbon effectively decreases, accelerating climate change and reducing the health of marine ecosystems.",
+  lesson: "Oceans act as a major carbon sink, absorbing about 25–30% of human CO₂ emissions. Phytoplankton alone captures roughly 50 billion tons of CO₂ each year through photosynthesis. However, in some regions, phytoplankton populations have declined significantly — for example, in Narragansett Bay, USA, biomass decreased by about 49% between 1968 and 2019 — reducing the ocean’s ability to store carbon and harming marine ecosystems.",
   quiz: {
     question: "How does declining ocean biodiversity affect CO₂ absorption?",
     options: ["Increases carbon storage", "Has no effect","Reduces the ocean's ability to store carbon"],
@@ -1221,8 +1259,98 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
     answer: "Pasture and feed crops for animals"
   }
 },
+1052: {
+  goal: "Caring for the environment & fighting climate change",
+  diet: "vegan",
+  lesson: "Animal agriculture produces massive amounts of manure, which can run off into rivers and oceans. This nutrient pollution causes algal blooms, oxygen-depleted dead zones, and damages aquatic ecosystems. For example, the Gulf of Mexico dead zone covers up to 22,000 km² in some years due to agricultural runoff.",
+  quiz: {
+    question: "What is one major effect of manure runoff from livestock?",
+    options: ["Increases fish populations", "Causes algal blooms and dead zones", "Purifies rivers"],
+    answer: "Causes algal blooms and dead zones"
+  }
+},
+1053: {
+  goal: "Caring for the environment & fighting climate change",
+  diet: "vegan",
+  lesson: "Producing 1 kg of beef requires about 25 times more land than producing 1 kg of lentils. Animal agriculture uses around 77% of global farmland but provides only 18% of calories, showing extreme land inefficiency. Shifting to a plant-based diet could free up billions of hectares for forests and wildlife.",
+  quiz: {
+    question: "Why is animal agriculture considered land-inefficient?",
+    options: ["It produces fewer calories per hectare than plants", "Animals need no land", "It grows more food than needed"],
+    answer: "It produces fewer calories per hectare than plants"
+  }
+},
+1054: {
+  goal: "Caring for the environment & fighting climate change",
+  diet: "vegan",
+  lesson: "Overfishing and fish farming harm oceans. Wild-caught fish often involve bycatch — accidentally killing turtles, dolphins, and seabirds. Bottom trawling destroys seafloor habitats, while intensive fish farms can pollute water with waste and chemicals. These practices reduce biodiversity and compromise ocean health.",
+  quiz: {
+    question: "What is a major problem with overfishing and fish farming?",
+    options: ["They improve ocean biodiversity", "They cause bycatch and habitat destruction", "They reduce greenhouse gases"],
+    answer: "They cause bycatch and habitat destruction"
+  }
+},
+1055: {
+  goal: "Caring for the environment & fighting climate change",
+  diet: "vegan",
+  lesson: "Greenhouse gas emissions vary greatly between foods. Producing 1 kg of beef emits around 60 kg CO₂-eq, 1 kg of eggs emits ~4.2 kg CO₂-eq, while 1 kg of lentils emits only ~0.9 kg CO₂-eq. Plant-based proteins have a much lower environmental footprint, making diet choices a powerful way to reduce climate impact.",
+  quiz: {
+    question: "Which food has the lowest greenhouse gas emissions per kilogram?",
+    options: ["Beef", "Eggs", "Lentils"],
+    answer: "Lentils"
+  }
+},
+1056: {
+  goal: "Caring for the environment & fighting climate change",
+  diet: "vegan",
+  lesson: "Abandoned or lost fishing gear, also called “ghost gear,” is a major source of ocean plastic. About 46% of ocean plastic comes from fishing nets, lines, and traps. This debris entangles marine life, damages coral reefs, and persists in the environment for decades, harming biodiversity and marine ecosystems.",
+  quiz: {
+    question: "What percentage of ocean plastic comes from abandoned or lost fishing gear?",
+    options: ["10%", "46%", "75%"],
+    answer: "46%"
+  }
+},
+1057: {
+  goal: "Caring for the environment & fighting climate change",
+  diet: "vegan",
+  lesson: "By switching to a vegan diet, your land use can be reduced by about 76% compared to an average omnivorous diet. This is because animal agriculture uses most of the world’s farmland while providing fewer calories. The land you save could be returned to forests and wildlife, restoring ecosystems.",
+  quiz: {
+    question: "How much can your land use be reduced by going vegan?",
+    options: ["10%", "50%", "76%", "90%"],
+    answer: "76%"
+  }
+},
+1058: {
+  goal: "Caring for the environment & fighting climate change",
+  diet: "vegan",
+  lesson: "Adopting a plant-based diet can cut your water footprint by roughly 50% compared to a typical omnivorous diet. Producing plant-based foods requires far less irrigation water than producing meat and dairy, helping protect freshwater resources worldwide.",
+  quiz: {
+    question: "Approximately how much can your water use decrease by eating a vegan diet?",
+    options: ["10%", "25%", "50%", "75%"],
+    answer: "50%"
+  }
+},
+1059: {
+  goal: "Caring for the environment & fighting climate change",
+  diet: "vegan",
+  lesson: "Switching to a vegan diet can lower your diet-related greenhouse gas emissions by around 50–55%. For example, producing 1 kg of beef emits ~60 kg CO₂-eq, while 1 kg of lentils emits only ~0.9 kg. Over a year, this reduction is equivalent to eliminating several long car trips or short flights.",
+  quiz: {
+    question: "How much can your greenhouse gas emissions be reduced by adopting a vegan diet?",
+    options: ["10%", "25%", "50–55%", "80%"],
+    answer: "50–55%"
+  }
+},
+1060: {
+  goal: "Caring for the environment & fighting climate change",
+  diet: "vegan",
+  lesson: "Eating a plant-based diet reduces energy use and pollution from animal farming. Overall, your diet-related energy footprint can drop by roughly 30–40%, because producing plants requires less fuel for feed, transport, and housing animals, and produces less water pollution from manure and fertilizers.",
+  quiz: {
+    question: "By how much can your diet-related energy footprint decrease by going vegan?",
+    options: ["10–15%", "20–25%", "30–40%", "50–60%"],
+    answer: "30–40%"
+  }
+},
 
-// continue until 1100
+// continue
 
 
 
@@ -1268,9 +1396,9 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
 2004: {
   goal: "Healthy living & wellness",
   diet: "omnivore",
-  lesson: "How does cholesterol change if you adopt a vegan diet? When you stop eating meat and dairy, your cholesterol levels often drop naturally. That’s because plant foods contain zero cholesterol and are typically low in saturated fats. Instead, they’re rich in fiber, which helps remove excess cholesterol from your body. Over time, this can support a healthier heart and better circulation.",
+  lesson: "Adopting a vegan diet often lowers LDL (‘bad’) cholesterol because plant foods contain no cholesterol and are low in saturated fats. At the same time, plant foods are rich in fiber, which helps remove excess cholesterol from your body. Healthy fats from nuts, seeds, and avocado can support HDL (‘good’) cholesterol, helping maintain a balanced and heart-friendly lipid profile.",
   quiz: {
-    question: "Why does a plant-based diet often lower cholesterol levels?",
+    question: "Why does a plant-based diet often lower LDL (‘bad’) cholesterol?",
     options: [
       "Plant foods contain no cholesterol and less saturated fat",
       "Plant foods increase cholesterol production",
@@ -1475,7 +1603,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
 2021: {
   goal: "Healthy living & wellness",
   diet: "vegetarian",
-  lesson: "How do meat, dairy, and plant foods compare from a health perspective? Meat and dairy both provide protein and essential nutrients — meat is a good source of iron and B vitamins, dairy provides calcium and vitamin B12. However, both can contain saturated fat and, in processed forms, added salt or sugar. Plant foods, like legumes, nuts, seeds, and whole grains, are naturally high in protein, fiber, vitamins, and minerals, while being low in saturated fat. Balancing animal foods with a variety of plant-based foods supports heart health, digestion, and overall wellness.",
+  lesson: "How do meat, dairy, and plant foods compare from a health perspective? Meat and dairy both provide protein and essential nutrients — meat is a good source of iron and B vitamins, dairy provides calcium and vitamin B12. However, both can contain saturated fat and, in processed forms, added salt or sugar. Plant foods, like legumes, nuts, seeds, and whole grains, are naturally high in protein, fiber, vitamins, and minerals, while being low in saturated fat.",
   quiz: {
     question: "Which type of food provides protein and essential nutrients but is low in saturated fat?",
     options: [
@@ -1809,7 +1937,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
 2046: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "Some people think they 'need meat' because their body is different, but all humans share the same digestive system, teeth, and gut microbiota. We are not naturally carnivores or herbivores—our anatomy is adapted for a mostly plant-based diet. With a variety of plant foods, humans can get all the nutrients they need for strength, energy, and overall health, regardless of individual differences.",
+  lesson: "Some people think they 'need meat' because their body is different, but all humans share the same digestive system, teeth, and gut microbiota. We are not naturally carnivores or herbivores — our anatomy is adapted for a mostly plant-based diet. With a variety of plant foods, humans can get all the nutrients they need for strength, energy, and overall health, regardless of individual differences.",
   quiz: {
     question: "Why don’t some humans need meat to get nutrients?",
     options: ["Because our digestive system is the same for all humans and can process plants for all nutrients", "Because some people are natural carnivores", "Because meat is the only source of protein"],
@@ -1849,9 +1977,9 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
 2050: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "Over the last 50 years, global consumption of meat and dairy has increased dramatically. Coinciding with this rise, rates of heart disease, type 2 diabetes, and obesity have surged worldwide, suggesting a strong correlation between diet and modern chronic illnesses.",
+  lesson: "Over the last ~60 years, global production of meat has increased by about 403% (from 1961 to 2020), and milk and milk products by about 167%. At the same time, chronic illnesses have surged: the number of adults with diabetes has more than quadrupled since 1980 (from ~108 million to over 537 million). Meanwhile, global obesity prevalence among adults more than doubled between 1990 and 2022 (from ~6%–8% to ~14%–18% in many regions). These parallel trends suggest a strong correlation between rising consumption of meat and dairy and increases in heart disease, type 2 diabetes, and obesity worldwide.",
   quiz: {
-    question: "What trend coincided with increased meat and dairy consumption over the last 50 years?",
+    question: "What trend coincided with increased meat and dairy consumption over the last decades?",
     options: ["Rise in chronic diseases like diabetes and heart disease", "Decline in obesity", "Decrease in cancer rates"],
     answer: "Rise in chronic diseases like diabetes and heart disease"
   }
@@ -1879,7 +2007,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
 2053: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "Blue Zones—regions where people live exceptionally long lives—primarily eat plant-based diets rich in vegetables, legumes, and whole grains. The arrival of fast, meat-heavy foods has eroded these traditional diets, contributing to rising rates of chronic disease and shorter lifespans.",
+  lesson: "Blue Zones — regions where people live exceptionally long lives — primarily eat plant-based diets rich in vegetables, legumes, and whole grains. The arrival of fast, meat-heavy foods has eroded these traditional diets, contributing to rising rates of chronic disease and shorter lifespans.",
   quiz: {
     question: "What type of diet is common in Blue Zones?",
     options: ["Plant-based with vegetables and legumes", "Fast-food and meat-heavy", "High sugar and processed snacks"],
@@ -1909,7 +2037,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
 2056: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "The human body can handle only small amounts of saturated fat and LDL cholesterol. Excess consumption from meat and dairy—like in cheese, which can contain 6–8g of saturated fat per 30g slice—raises blood cholesterol and increases heart disease risk.",
+  lesson: "The human body can handle only small amounts of saturated fat and LDL cholesterol. Excess consumption from meat and dairy — like in cheese, which can contain 6–8g of saturated fat per 30g slice — raises blood cholesterol and increases heart disease risk.",
   quiz: {
     question: "Why is high intake of cheese a concern?",
     options: ["It contains high saturated fat, raising LDL cholesterol", "It provides too much fiber", "It reduces energy levels"],
@@ -1957,7 +2085,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
   }
 },
 
-// continue until 2100
+// continue
 
 
 
@@ -1997,7 +2125,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
 3004: { 
   goal: "Boosting my performance as an athlete", 
   diet: "omnivore",
-  lesson: "Plant-based foods are generally easier to digest than large amounts of meat. They are rich in fiber and water, which support gut health and smooth digestion. When the body spends less energy on breaking down heavy animal products, more energy is available for training and performance. This can lead to **better stamina, quicker recovery, and more consistent energy levels** during workouts.",
+  lesson: "Plant-based foods are generally easier to digest than large amounts of meat. They are rich in fiber and water, which support gut health and smooth digestion. When the body spends less energy on breaking down heavy animal products, more energy is available for training and performance. This can lead to better stamina, quicker recovery, and more consistent energy levels during workouts.",
   quiz: { 
     question: "Why can plant-based foods provide more energy for sports?", 
     options: ["They instantly increase muscle size", "They are easier to digest, so the body uses less energy on digestion", "They replace the need for carbohydrates"], 
@@ -2028,7 +2156,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
 3007: { 
   goal: "Boosting my performance as an athlete", 
   diet: "omnivore",
-  lesson: "Many athletes notice changes in performance within a few days to weeks of switching to a plant-based diet, depending on what they were eating before and how well they plan their meals. \n\n- **Immediate (3–7 days):** Some report feeling lighter, less bloated, and more energetic during training sessions.\n- **Short-term (2–4 weeks):** Improved recovery, less muscle soreness, and better digestion are often noticed.\n- **Medium-term (1–3 months):** Enhanced stamina, faster endurance, and sometimes better sleep quality appear. \n\nAthletes who plan their plant-based diet carefully with sufficient protein, complex carbs, and healthy fats tend to see positive changes faster. Tracking workouts and recovery helps identify improvements objectively.",
+  lesson: "Many athletes notice changes in performance within a few days to weeks of switching to a plant-based diet, depending on what they were eating before and how well they plan their meals. \n\n- Immediate (3–7 days): Some report feeling lighter, less bloated, and more energetic during training sessions.\n- Short-term (2–4 weeks): Improved recovery, less muscle soreness, and better digestion are often noticed.\n- Medium-term (1–3 months): Enhanced stamina, faster endurance, and sometimes better sleep quality appear. \n\nAthletes who plan their plant-based diet carefully with sufficient protein, complex carbs, and healthy fats tend to see positive changes faster. Tracking workouts and recovery helps identify improvements objectively.",
   quiz: { 
     question: "When do many athletes notice initial changes after switching to a plant-based diet?", 
     options: ["6 months", "3–7 days", "1 year"], 
@@ -2125,68 +2253,232 @@ answer: "Combine legumes, grains, nuts, and seeds"
 // Boosting my performance as an athlete – Vegan
 // --------------------------
 3016: {
-goal: "Boosting my performance as an athlete",
-diet: "vegetarian/vegan",
-lesson: "When we exercise, our bodies need energy. The primary source of energy comes from carbohydrates, which are broken down into glucose to fuel muscles. Fats provide a slower, longer-lasting energy source, and protein is mainly used for repair and recovery rather than energy. Calories measure the total energy from all these sources, but the body prefers carbohydrates first during high-intensity activity. Understanding this helps athletes plan meals and snacks to optimize performance and recovery.",
-quiz: {
-question: "What is the body’s first choice for energy during high-intensity exercise?",
-options: ["Carbohydrates", "Fats", "Protein"],
-answer: "Carbohydrates"
-}
+  goal: "Boosting my performance as an athlete",
+  diet: "vegan",
+  lesson: "During high-intensity exercise, your muscles rely on glycogen—stored carbohydrates—for energy. If glycogen runs low, fatigue hits quickly. Vegan diets are naturally rich in carbohydrate-dense foods like oats, rice, potatoes, bananas, and dates. Most athletes benefit from 4–7 g of carbohydrates per kg of body weight per day. This keeps glycogen stores full so you can train harder and bounce back faster.",
+  quiz: {
+    question: "What fuel does your body rely on most during high-intensity exercise?",
+    options: ["Glycogen (stored carbohydrates)", "Protein", "Water"],
+    answer: "Glycogen (stored carbohydrates)"
+  }
 },
+
 3017: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "Plant-based athletes often recover faster due to high antioxidant intake from fruits, vegetables, and nuts. Antioxidants combat exercise-induced oxidative stress, reducing muscle soreness and supporting faster recovery.",
+  lesson: "Recovery is faster on a plant-based diet because plant foods are rich in antioxidants like vitamin C, vitamin E, and polyphenols. These compounds reduce exercise-induced inflammation, leading to less soreness and quicker muscle repair. Studies show plant-based athletes have up to 30% lower inflammation markers compared to omnivores. This means more consistent training and fewer ‘off’ days.",
   quiz: {
-    question: "Why do plant-based athletes recover faster?",
-    options: ["High antioxidant intake reduces muscle soreness", "Lower protein intake slows recovery", "Fewer carbs improve performance"],
-    answer: "High antioxidant intake reduces muscle soreness"
+    question: "Why do antioxidants help athletes recover faster?",
+    options: [
+      "They increase soreness",
+      "They block muscle growth",
+      "They reduce inflammation from exercise"
+    ],
+    answer: "They reduce inflammation from exercise"
   }
 },
+
 3018: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "Vegan protein sources such as lentils, beans, tofu, tempeh, and quinoa provide all essential amino acids when eaten in combination throughout the day, supporting muscle growth and repair.",
+  lesson: "Athletes need around 1.4–2.0 g of protein per kg of body weight daily for muscle repair. Lentils, tofu, seitan, beans, soy milk, tempeh, and quinoa provide high-quality protein. When eaten throughout the day, plant proteins supply all essential amino acids. Many athletes spread protein across meals (~20–30g per meal) for best recovery.",
   quiz: {
-    question: "Which plant foods provide complete amino acids when combined?",
-    options: ["Candy and soda", "Lentils, beans, tofu, tempeh, quinoa", "White bread only"],
-    answer: "Lentils, beans, tofu, tempeh, quinoa"
+    question: "How much protein do most athletes need per day?",
+    options: ["1.4–2.0g per kg body weight", "0.5g per kg", "4g per kg"],
+    answer: "1.4–2.0g per kg body weight"
   }
 },
+
 3019: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "Iron is critical for endurance athletes to transport oxygen efficiently. Plant-based sources include lentils, beans, spinach, pumpkin seeds, and fortified cereals. Pairing with vitamin C-rich foods improves absorption.",
+  lesson: "Iron transports oxygen to your muscles. Low iron can cause fatigue, breathlessness, and weaker performance. Lentils, beans, tofu, spinach, and pumpkin seeds are strong plant sources. Pairing iron-rich foods with vitamin C (e.g., citrus, bell peppers, strawberries) can increase absorption by up to 3x.",
   quiz: {
-    question: "How can plant-based athletes optimize iron absorption?",
-    options: ["Eat iron alone", "Iron isn’t important","Pair iron-rich foods with vitamin C"],
+    question: "How can plant-based athletes improve iron absorption?",
+    options: ["Eat iron alone", "Pair iron-rich foods with vitamin C", "Avoid greens"],
     answer: "Pair iron-rich foods with vitamin C"
   }
 },
+
 3020: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "Omega-3 fatty acids from flaxseeds, chia seeds, walnuts, and algae oil reduce inflammation, support cardiovascular health, and enhance joint mobility for athletes.",
+  lesson: "Omega-3 fatty acids help reduce inflammation and support joint and heart health. Plant-based omega-3s are found in flaxseeds, chia seeds, walnuts, hemp seeds, and algae oil. Algae oil is especially useful for athletes, since it contains DHA and EPA—the same heart-protective fats found in fish, but without the toxins or microplastics.",
   quiz: {
-    question: "What do plant-based omega-3s support in athletes?",
-    options: ["Reduce inflammation and support joints", "Increase inflammation", "No effect on performance"],
-    answer: "Reduce inflammation and support joints"
+    question: "Which plant-based omega-3 source contains DHA/EPA?",
+    options: ["Algae oil", "Olive oil", "Corn oil"],
+    answer: "Algae oil"
   }
 },
+
 3021: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "Adequate carbohydrate intake from whole grains, fruits, and vegetables fuels endurance performance, maintains glycogen stores, and prevents fatigue during high-intensity exercise.",
+  lesson: "Calcium and vitamin D support bone strength and injury prevention. Fortified plant milks, tofu, almonds, sesame seeds, and leafy greens provide calcium. Vitamin D comes from sunlight or supplements. Many plant-based athletes aim for 600–1000mg calcium and 800–2000 IU vitamin D per day, especially during intense training phases.",
   quiz: {
-    question: "Why are carbohydrates important for athletes?",
-    options: ["Slow down recovery", "Fuel performance and maintain glycogen", "Not necessary"],
-    answer: "Fuel performance and maintain glycogen"
+    question: "What do calcium and vitamin D help prevent?",
+    options: ["Muscle cramps only", "Bone injuries and stress fractures", "Dehydration"],
+    answer: "Bone injuries and stress fractures"
   }
 },
-};
 
-// continue until 3050
+3022: {
+  goal: "Boosting my performance as an athlete",
+  diet: "vegan",
+  lesson: "Beetroot is naturally high in nitrates, which increase nitric oxide production. This widens blood vessels, improving oxygen delivery to muscles. Studies show beet juice can boost endurance by 15–20%. A glass of beet juice 2–3 hours before training can improve stamina.",
+  quiz: {
+    question: "How does beetroot improve athletic performance?",
+    options: ["Enhances oxygen delivery to muscles", "Reduces blood flow", "Has no effect"],
+    answer: "Enhances oxygen delivery to muscles"
+  }
+},
+
+3023: {
+  goal: "Boosting my performance as an athlete",
+  diet: "vegan",
+  lesson: "Hydration affects strength, speed, and focus. Fruits and vegetables like oranges, cucumbers, watermelon, and leafy greens provide water and natural electrolytes. Coconut water can also help replace electrolytes after sweating. For long sessions, combine water + carbs + salt to keep energy stable.",
+  quiz: {
+    question: "Why are plant foods useful for hydration?",
+    options: ["They remove minerals", "They cause dehydration", "They contain water and electrolytes",],
+    answer: "They contain water and electrolytes"
+  }
+},
+
+3024: {
+  goal: "Boosting my performance as an athlete",
+  diet: "vegan",
+  lesson: "A healthy gut improves digestion, nutrient absorption, mood, immune strength, and energy levels. Plant-based diets are naturally rich in prebiotic fibers that support a diverse gut microbiome. This helps athletes recover better, feel lighter, and perform with more consistency.",
+  quiz: {
+    question: "What does prebiotic fiber help support?",
+    options: ["Muscle dehydration", "A healthy gut microbiome", "Increased inflammation"],
+    answer: "A healthy gut microbiome"
+  }
+},
+
+3025: {
+  goal: "Boosting my performance as an athlete",
+  diet: "vegan",
+  lesson: "Many elite athletes thrive on plant-based diets: ultramarathoner Scott Jurek, bodybuilder Nimai Delgado, tennis champion Novak Djokovic, and sprinter Carl Lewis. They report faster recovery, improved endurance, and clearer mental focus. Their success proves performance does not depend on animal products.",
+  quiz: {
+    question: "What benefit do many plant-based athletes report?",
+    options: ["Faster recovery and improved endurance", "Lower performance", "No advantage"],
+    answer: "Faster recovery and improved endurance"
+  }
+},
+
+3026: {
+  goal: "Boosting my performance as an athlete",
+  diet: "vegan",
+  lesson: "Because plant-based diets are naturally lower in saturated fat and higher in fiber, many athletes find it easier to maintain a lean body mass. Less excess weight means less stress on joints, faster speed, and improved agility.",
+  quiz: {
+    question: "How can a vegan diet benefit body composition?",
+    options: ["Causes rapid weight gain", "Helps maintain lean mass and reduce joint stress", "Leads to muscle loss"],
+    answer: "Helps maintain lean mass and reduce joint stress"
+  }
+},
+
+3027: {
+  goal: "Boosting my performance as an athlete",
+  diet: "vegan",
+  lesson: "During long workouts, fiber-rich foods release energy slowly and steadily. This prevents blood sugar crashes and keeps endurance stable. Examples of good pre-training slow-release carbs include oats, whole grain pasta, sweet potatoes, bananas, and dates.",
+  quiz: {
+    question: "How does fiber support endurance?",
+    options: ["Causes quick exhaustion", "Blocks energy", "Stabilizes blood sugar and provides steady energy",],
+    answer: "Stabilizes blood sugar and provides steady energy"
+  }
+},
+
+3028: {
+  goal: "Boosting my performance as an athlete",
+  diet: "vegan",
+  lesson: "Chronic inflammation slows recovery and increases injury risk. A plant-based diet lowers inflammation markers like CRP (C-reactive protein). Studies show plant-eaters often have 20–30% lower CRP levels than meat-eaters. This means quicker recovery and more training days per week.",
+  quiz: {
+    question: "What does lower inflammation help athletes do?",
+    options: ["Recover faster and train more consistently", "Recover slower", "Stop training"],
+    answer: "Recover faster and train more consistently"
+  }
+},
+
+3029: {
+  goal: "Boosting my performance as an athlete",
+  diet: "vegan",
+  lesson: "Cardiovascular endurance depends heavily on blood vessel health. Diets high in saturated fat can stiffen arteries and reduce blood flow. Plant-based diets help keep arteries flexible and clear, improving oxygen delivery to muscles.",
+  quiz: {
+    question: "How does a plant-based diet support cardiovascular endurance?",
+    options: ["Keeps arteries flexible and improves blood flow", "Reduces oxygen delivery", "Increases stiffness in arteries"],
+    answer: "Keeps arteries flexible and improves blood flow"
+  }
+},
+
+3030: {
+  goal: "Boosting my performance as an athlete",
+  diet: "vegan",
+  lesson: "Some athletes think they need meat for strength. But muscle growth depends on training intensity, total protein, and calorie intake — not protein source. Vegan bodybuilders like Patrik Baboumian and Torre Washington have built elite-level strength fully powered by plants.",
+  quiz: {
+    question: "What truly determines muscle growth?",
+    options: ["Eating meat specifically", "Training + protein + calories", "Low carb intake"],
+    answer: "Training + protein + calories"
+  }
+},
+
+3031: {
+  goal: "Boosting my performance as an athlete",
+  diet: "vegan",
+  lesson: "Post-workout meals should include protein (20–30g) plus carbohydrates to refill glycogen. Great options: tofu stir-fry with rice, lentil pasta with veggies, or a smoothie with soy milk + oats + berries + chia seeds. This combo accelerates recovery and muscle repair.",
+  quiz: {
+    question: "What should a good post-workout meal include?",
+    options: ["Protein only", "Carbohydrates + protein", "Only fats"],
+    answer: "Carbohydrates + protein"
+  }
+},
+
+3032: {
+  goal: "Boosting my performance as an athlete",
+  diet: "vegan",
+  lesson: "Sleep is one of the biggest performance boosters. Plant-based diets can improve sleep quality because they're rich in magnesium and tryptophan, nutrients that calm the nervous system. Better sleep = stronger training days.",
+  quiz: {
+    question: "How can plant foods support sleep and recovery?",
+    options: ["They prevent sleep", "They are rich in calming minerals", "They increase stress hormones"],
+    answer: "They are rich in calming minerals"
+  }
+},
+
+3033: {
+  goal: "Boosting my performance as an athlete",
+  diet: "vegan",
+  lesson: "Plant proteins are often easier to digest than heavy animal proteins, meaning less bloating during training. Smooth digestion leads to better comfort and better athletic performance — especially for runners, cyclists, and fighters.",
+  quiz: {
+    question: "Why might plant proteins support better training comfort?",
+    options: ["They are easier to digest", "They cause bloating", "They slow metabolism"],
+    answer: "They are easier to digest"
+  }
+},
+
+3034: {
+  goal: "Boosting my performance as an athlete",
+  diet: "vegan",
+  lesson: "Training consistency is one of the biggest predictors of performance. Because plant-based diets support faster recovery, lower inflammation, and better energy stability, athletes can train more days per week — leading to steady, long-term improvement.",
+  quiz: {
+    question: "What is one major advantage of faster recovery?",
+    options: ["More injuries", "Less training", "More consistent training"],
+    answer: "More consistent training"
+  }
+},
+
+3035: {
+  goal: "Boosting my performance as an athlete",
+  diet: "vegan",
+  lesson: "Athletic success is not built in one day — it’s built across thousands of small choices. Eating plants supports your body every single day: better recovery, cleaner fuel, steadier energy, and clearer focus. Over time, these benefits add up into real performance gains.",
+  quiz: {
+    question: "What drives long-term athletic improvement?",
+    options: ["Healthy daily habits over time", "Occasional intense workouts", "One special supplement"],
+    answer: "Healthy daily habits over time"
+  }
+}
+
+// continue
+
+};
 
 
 //------ extraLessons -------
@@ -2225,7 +2517,7 @@ export const extralessonsData = {
 },
   {
   title: "Hidden Reality",
-  content: "Would you be able to kill an animal yourself? Most people never have to face that question, because meat is presented to us in clean packaging — neatly cut, labeled, and far removed from the living being it once was. This polished presentation makes it easier to eat meat without thinking about what truly happens behind the scenes. But is this comfort a sign of normality, or a shared illusion that keeps us disconnected from the real consequences of our choices?",
+  content: "Would you kill an animal yourself? Most people never have to face that question, because meat is presented to us in clean packaging — neatly cut, labeled, and far removed from the living being it once was. This polished presentation makes it easier to eat meat without thinking about what truly happens behind the scenes. But is this comfort a sign of normality, or a shared illusion that keeps us disconnected from the real consequences of our choices?",
   question: {
     text: "What does the sanitized presentation of meat encourage us to do?",
     options: [
@@ -2407,7 +2699,7 @@ export const extralessonsData = {
 },
 {
   title: "Land and Livestock",
-  content: "Some people wonder if killing plants is the same as killing animals. Science shows that plants don’t have a brain or central nervous system, so they don’t experience pain like animals do. Another important fact is that around 77% of global agricultural land is used to raise livestock, even though farm animals provide only about 18% of the world’s calories and 37% of its protein. This means most land and crops are used inefficiently to feed animals instead of people.",
+  content: "Some people wonder if killing plants is the same as killing animals. Science shows that plants don’t have a brain or central nervous system, so they don’t experience pain like animals do. Another important fact is that around 77% of global agricultural land is used to raise livestock, even though farm animals provide only about 18% of the world’s calories and 37% of its protein. This means most plants are used inefficiently to feed animals instead of people.",
   question: {
     text: "What percentage of global agricultural land is used for livestock?",
     options: [
@@ -2807,7 +3099,7 @@ export const extralessonsData = {
   },
   {
     title: "Ethical Equality",
-    content: "Some argue animals aren’t equal to humans. However, humans accept differences in abilities among people, yet pigs—highly intelligent animals—are still raised for food. Ethically, humans and animals are the same in what matters: both experience fears, feelings, and suffering.",
+    content: "Some argue animals aren’t equal to humans. However, humans accept differences in abilities among people, yet pigs — highly intelligent animals — are still raised for food. Ethically, humans and animals are the same in what matters: both experience fears, feelings, and suffering.",
     question: {
       text: "Why are humans and animals considered equal in important ways?",
       options: [
@@ -2975,10 +3267,10 @@ export const extralessonsData = {
   },
   {
     title: "Mammalian Biomass Imbalance",
-    content: "Large land mammal biomass is dominated by humans (36%) and livestock (62%), leaving wild mammals with only 2%. Industrial agriculture heavily shapes the planet and reduces space for wild species, highlighting the need for rewilding and sustainable land use.",
+    content: "Large land mammal biomass is dominated by humans (36%) and livestock (60%), leaving wild mammals with only 4%. Industrial agriculture heavily shapes the planet and reduces space for wild species, highlighting the need for rewilding and sustainable land use.",
     question: {
       text: "What percentage of the total mammalian biomass is made up by humans and livestock combined?",
-      options: ["About 50%", "About 98%", "About 70%"],
+      options: ["About 50%", "About 96%", "About 70%"],
       correctIndex: 1
     }
   },
@@ -3005,14 +3297,14 @@ export const extralessonsData = {
     }
   },
   {
-    title: "Plastic Ghost Gear",
-    content: "Lost or abandoned fishing gear, known as ghost gear, contributes 8–10% of marine plastic pollution. Each year, at least 640,000 tonnes enter oceans, trapping marine life and harming 66% of marine mammal species, 50% of seabirds, and all sea turtles. Sustainable fishing and gear management are essential to protect marine ecosystems.",
-    question: {
-      text: "Approximately what percentage of global marine plastic pollution comes from fishing gear?",
-      options: ["About 5%", "About 8–10%", "About 25%"],
-      correctIndex: 1
-    }
-  },
+  title: "Ghost Nets in the Ocean",
+  content: "A huge part of the ocean’s plastic problem comes from abandoned fishing nets, known as ghost nets. In the Great Pacific Garbage Patch — the world’s largest floating collection of trash — almost 46% of the plastic by weight is made up of these fishing nets. These nets can drift for decades, trapping fish, dolphins, turtles, and other animals. Reducing seafood consumption helps reduce the demand for industrial fishing, which is the source of most ghost nets.",
+  question: {
+    text: "In the Great Pacific Garbage Patch, what percentage of plastic (by weight) comes from abandoned fishing nets?",
+    options: ["About 5%", "About 20%", "Almost 46%"],
+    correctIndex: 2
+  }
+},
   {
     title: "Soy Production Impact",
     content: "Most soy (77%) is grown to feed livestock, not humans. This demand drives deforestation, releases CO₂, and threatens biodiversity. Shifting to plant-based consumption can reduce environmental impacts significantly.",
@@ -3280,15 +3572,6 @@ export const extralessonsData = {
   }
 },
 {
-  title: "Ghost Nets and Ocean Plastic",
-  content: "Around 46% of ocean plastic comes from abandoned or lost fishing gear, which entangles marine life and causes long-lasting ecosystem damage.",
-  question: {
-    text: "What percentage of ocean plastic comes from fishing gear?",
-    options: ["10%", "75%", "Around 46%"],
-    correctIndex: 2
-  }
-},
-{
   title: "Land Freed by Plant-Based Diets",
   content: "Shifting to a mostly plant-based diet could free up around 70% of agricultural land currently used for livestock and feed crops. Returning this land to nature could restore habitats, boost biodiversity, and allow wildlife to recover.",
   question: {
@@ -3340,11 +3623,11 @@ export const extralessonsData = {
  health: [
   {
   title: "Plant-Based Diets and Heart Health",
-  content: "A plant-based diet can naturally lower cholesterol because plant foods contain no cholesterol and are typically low in saturated fats. Instead, they are rich in fiber, which helps remove excess cholesterol from the body. Over time, this supports better circulation, reduces the risk of plaque buildup in arteries, and promotes a healthier heart. Fruits, vegetables, whole grains, and legumes work together to maintain arterial flexibility and cardiovascular resilience.",
+  content: "A plant-based diet can naturally lower LDL cholesterol — often called 'bad' cholesterol — because plant foods contain no dietary cholesterol and are usually low in saturated fats. High LDL levels can lead to plaque buildup in the arteries, narrowing them over time. Plant foods are also rich in soluble fiber, which helps remove excess LDL cholesterol from the bloodstream. By eating more fruits, vegetables, whole grains, legumes, nuts, and seeds, you support smoother blood flow, healthier arteries, and better long-term heart health.",
   question: {
-    text: "Why does a plant-based diet often lower cholesterol levels?",
+    text: "Why does a plant-based diet often lower LDL ('bad') cholesterol?",
     options: [
-      "Plant foods contain no cholesterol and less saturated fat",
+      "Plant foods contain no dietary cholesterol and are lower in saturated fats",
       "Plant foods increase cholesterol production",
       "Plant foods are high in trans fats"
     ],
@@ -3733,7 +4016,7 @@ export const extralessonsData = {
 },
 {
   title: "Humans Don’t Need Meat",
-  content: "All humans share the same digestive system, teeth, and gut microbiota. We are not naturally carnivores or herbivores—our anatomy is adapted for a mostly plant-based diet. With a variety of plant foods, humans can get all the nutrients they need for strength, energy, and overall health, regardless of individual differences.",
+  content: "All humans share the same digestive system, teeth, and gut microbiota. We are not naturally carnivores or herbivores — our anatomy is adapted for a mostly plant-based diet. With a variety of plant foods, humans can get all the nutrients they need for strength, energy, and overall health, regardless of individual differences.",
   question: {
     text: "Why don’t some humans need meat to get nutrients?",
     options: [
@@ -3777,24 +4060,15 @@ export const extralessonsData = {
 },
 {
   title: "Meat, Dairy, and Chronic Disease",
-  content: "Over the last 50 years, global consumption of meat and dairy has increased dramatically. Coinciding with this rise, rates of heart disease, type 2 diabetes, and obesity have surged worldwide, suggesting a strong correlation between diet and modern chronic illnesses.",
+  content: "Global meat consumption has more than doubled in the last 50 years — from about 23 kg per person per year in 1961 to over 45 kg today. Dairy production has also increased by more than 50% over the same period. During this time, global obesity rates have nearly tripled (since 1975), and type 2 diabetes prevalence has doubled (from around 4.7% in 1980 to about 9.3% today). Heart disease remains the leading cause of death worldwide, linked closely to high intake of saturated fats and processed meats. These trends show a clear connection between rising meat and dairy consumption and the increase in modern chronic diseases.",
   question: {
-    text: "What trend coincided with increased meat and dairy consumption over the last 50 years?",
+    text: "What trend coincided with the rise in global meat and dairy consumption?",
     options: [
-      "Rise in chronic diseases like diabetes and heart disease",
-      "Decline in obesity",
-      "Decrease in cancer rates"
+      "Increase in chronic diseases like obesity, diabetes, and heart disease",
+      "Decline in obesity rates",
+      "Decrease in global diabetes rates"
     ],
     correctIndex: 0
-  }
-},
-{
-  title: "Milk and Bone Health",
-  content: "Although milk contains calcium, digesting milk protein can cause the body to use more calcium than it provides. High dairy consumption does not necessarily strengthen bones and may even affect bone health negatively.",
-  question: {
-    text: "Does milk always strengthen bones?",
-    options: ["Yes, always", "No, it can cause net calcium loss", "Only if drunk with sugar"],
-    correctIndex: 1
   }
 },
 {
@@ -3822,28 +4096,6 @@ export const extralessonsData = {
     text: "What is one key difference between plant and meat protein?",
     options: ["Meat proteins are cholesterol-free", "Plant proteins contain no cholesterol", "Plant proteins lack amino acids"],
     correctIndex: 1
-  }
-},
-{
-  title: "Diet and Major Global Diseases",
-  content: "Heart disease, stroke, diabetes, and certain cancers are among the top causes of death globally. Diets high in meat and dairy significantly increase the risk of these diseases by raising LDL cholesterol, promoting inflammation, and affecting insulin sensitivity.",
-  question: {
-    text: "Which dietary factor contributes to major global diseases?",
-    options: ["Eating more vegetables", "Exercising regularly", "High meat and dairy consumption"],
-    correctIndex: 2
-  }
-},
-{
-  title: "Saturated Fat from Cheese",
-  content: "The human body can handle only small amounts of saturated fat and LDL cholesterol. Excess consumption from meat and dairy—like in cheese, which can contain 6–8g of saturated fat per 30g slice—raises blood cholesterol and increases heart disease risk.",
-  question: {
-    text: "Why is high intake of cheese a concern?",
-    options: [
-      "It contains high saturated fat, raising LDL cholesterol",
-      "It provides too much fiber",
-      "It reduces energy levels"
-    ],
-    correctIndex: 0
   }
 },
 {
@@ -3895,82 +4147,41 @@ export const extralessonsData = {
 // ---------------------------
 const characterTips = {
   elune: [
-    "Dairy calves are separated from mothers—plant milk makes a difference 🥛🌱",
-    "Cows in factory farms often never see grass or open fields.",
-    "Mother pigs are kept in crates so small they can’t even turn around.",
-    "Chickens raised for meat grow so fast their legs often break under them.",
-    "Egg-laying hens live in cages the size of an A4 paper sheet.",
-    "Fishing nets don’t just catch fish — they trap dolphins, turtles, and seabirds too.",
-    "Every year, thousands of dolphins suffocate after getting tangled in fishing nets.",
-    "Dolphins are often killed as ‘bycatch’ — an industry term for accidental victims.",
-    "Sea turtles drown when trapped in nets, unable to reach the surface for air.",
-    "Many whales carry heavy fishing gear for years, suffering constant pain.",
-    "We kill 80 billion animals yearly — if it were humans, extinction in 17 days.",
-
     "Fun fact: pigs are actually more intelligent than dogs!",
     "Dolphins give themselves names using unique whistles.",
     "Dolphins work together to care for injured friends.",
-    "By protecting cows, you help preserve gentle, social animals with rich emotions.",
     "Turkeys love affection and can purr when they’re happy!",
-    "Some fish use tools and can recognize themselves in mirrors.",
-    "Fish feel pain and stress — just like land animals do.",
-    "Every animal wants to live, just like us 🐮🐷🐔",
     "Protecting forests means protecting animal homes 🌳",
     "Cows have best friends — and they get stressed when separated.",
 
-
     "Imagine a world where no animal suffers—you're building it! 🌍",
     "You are the reason an animal sees tomorrow!",
-    "With every kind action, you protect someone who cannot speak for themselves.",
     "By caring, you turn empathy into real change for animals.",
     "Every plant-based meal is a hug to the planet and its creatures.",
-    "Your actions today ripple into a brighter future for all animals.",
-    "Thanks to you, someone is free to live and flourish.",
     "You are creating a world where kindness is the norm.",
-    "Each conscious choice makes suffering optional, not inevitable.",
     "Because of you, a life is lived, not taken.",
     "Your compassion is stronger than any industry of cruelty.",
-    "Every act of kindness makes the world safer for the voiceless.",
+    "Every act of kindness makes the world safer.",
     "You are part of the solution — a hero for every animal.",
-    "The animals you protect today will thank you in ways you’ll never see — but feel.",
-    "Every small step toward compassion changes the story for thousands of lives.",
     "Your choices matter more than you realize — they save lives. 💛",
     "Imagine the joy of a world where no creature lives in fear — you make it possible. 🌟",
     "Each plant-based meal is a victory for animals. 🥦",
     "Your empathy is a superpower — use it to protect the voiceless. 🦸",
-    "Because of your choices, someone can play, explore, and be free. 🐇",
-    "Every act of kindness counts — one life at a time. 🐾",
     "You’re shaping a future where compassion wins. 🌈",
     "A world without animal suffering begins with you. 🌍",
-    "Your care creates safe spaces for animals every day. 💚",
-    "Plant-based choices = lives saved. It’s that simple. 🌱",
     "Even small changes ripple into massive kindness. 🌊",
     "With every thoughtful choice, you fight cruelty. ⚡",
-    "You are the voice for those who cannot speak. 🗣️",
-    "Every conscious meal is a step toward a brighter, gentler world. 🌞",
-    "Your compassion today builds hope for tomorrow. ✨",
-    "You are a guardian for the innocent. 🛡️",
-    "One meal, one choice, one life saved — you are amazing! 💛",
     "Your actions give freedom a chance to flourish. 🌿",
     "Each kind choice is a victory against cruelty. 🏆",
     "You are creating a world worth living for, for every creature. 🌍",
     "Every thoughtful act for animals multiplies kindness. 💫",
-    "You hold the power to change lives — one compassionate choice at a time. 🌱",
     "Every life you protect matters — and you matter to them. 💛",
     "Your compassion can turn fear into freedom. 🕊️",
     "Imagine the smiles of animals living without fear — that’s your impact. 🐶",
     "By caring, you create a world full of hope and joy. 🌈",
-    "Your everyday choices have extraordinary power. ⚡",
-    "The kindness you show today echoes through countless lives. 🌊",
-    "You are a hero for animals — simple as that. 🦸",
-    "Every act of empathy builds a gentler world. 💛",
-    "Plant-based choices = love in action. 🌱",
-    "You are proof that small actions can make big changes. ✨",
-    "Each life you protect is a victory for compassion. 🐾",
     "You are making the world brighter, one kind choice at a time. 🌞",
     "Thanks to you, more animals get to live, explore, and play. 🐇",
-    "Every kind choice is a ripple in the ocean of compassion. 🌊",
-    "Your empathy shapes the world into a safer place for the voiceless. 💚"
+    "Every kind choice is a ripple in the ocean of compassion. 🌊"
 
   ],
   eluna: [
@@ -3986,9 +4197,6 @@ const characterTips = {
 "Animal agriculture uses 70% of global freshwater for meat and dairy production.",
 "Polluted oceans threaten the food supply of billions of people.",
 "Rising CO₂ levels make oceans more acidic, threatening coral reefs.",
-"Waste from meat and dairy farms contaminates rivers and lakes.",
-"Climate change is a major factor in the increasing spread of diseases.",
-"Industrial farming contributes to biodiversity loss — thousands of species are disappearing.",
 
 
 "Meat-free meals are linked to lower cholesterol and better heart health.",
@@ -4001,16 +4209,11 @@ const characterTips = {
 "Choosing to walk, bike, or use public transport reduces CO₂ emissions. 🚲",
 "Planting trees can restore habitats and fight climate change. 🌳",
 "Eating more plants supports your heart, your body, and the Earth. ❤️",
-"Switching to a plant-based diet is one of the fastest ways to reduce your footprint. 🌎",
-"Composting at home returns nutrients to the soil naturally. 🌱",
 "Sustainable fashion and recycled materials reduce pollution and save lives. 👕",
-"Many companies are switching to plant-based products — change is spreading fast. 🌱",
 "Plant-based diets can reduce heart disease, diabetes, and obesity. ❤️",
 "Small daily actions add up — every choice matters. ✨",
 "Eating more seasonal vegetables reduces emissions and supports farmers. 🥦",
 "Planting a single tree can capture hundreds of kilograms of CO₂ over its life. 🌳",
-"Every clean river and beach is a victory for wildlife. 🐢",
-"Choosing cruelty-free products protects animals and the environment. 🐾",
 "Reducing food waste saves money, energy, and lives. 🥗",
 "Eating a variety of plants supports both your health and biodiversity. 🌾",
 "Every kind choice creates a ripple of positive change. 🌊",
@@ -4026,9 +4229,7 @@ const characterTips = {
     "Happiness multiplies when you give it away.",
 "Patience is love in action.",
 "A gentle word can change someone’s entire day.",
-"Kindness is contagious — spread it freely.",
 "Sharing love is never wasted — it always returns.",
-"Every creature deserves respect, including you.",
 "Small acts of care create big ripples in the world.",
 "Compassion starts with noticing someone’s needs.",
 "Your warmth makes others feel safe and valued.",

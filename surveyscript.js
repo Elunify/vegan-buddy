@@ -81,7 +81,7 @@ async function nextQuestion() {
         const petNameInput = document.getElementById("petname").value.trim();
         const petPhotoFile = document.getElementById("petPhotoUpload").files[0];
         // Pet photo upload handled by change event; if skipped, answers.petPhoto stays null
-        answers.petName = petNameInput || "Toad";
+        answers.petName = petNameInput || "Winnie";
         saveAnswers();
 
         switchStep(currentEl, "q4");

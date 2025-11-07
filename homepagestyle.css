@@ -3067,6 +3067,7 @@ textarea {
 /* Members */
 
 /* Community Members List */
+/* Community Members List */
 #communityMembersList {
   list-style: none;
   padding: 0;
@@ -3080,25 +3081,36 @@ textarea {
   padding: 0.5rem;
   border-radius: 8px;
   background-color: #f9f9f9;
-  gap: 0.5rem; /* spacing between image, name, button */
+  gap: 0.8rem;
 }
 
-#communityMembersList li img {
-  width: 4rem;
-  height: 4rem;
+.community-member-photo-frame {
+  flex-shrink: 0;
+  width: 4rem !important;
+  height: 4rem !important;
   border-radius: 50%;
-  object-fit: cover; /* ensures the image doesn't stretch */
+  background-size: cover;
+  background-position: center;
+}
+
+.community-member-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.3rem;
 }
 
 #communityMembersList li span {
   font-weight: 500;
-  font-size: 1.5rem;
-  flex: 1; /* takes up remaining space so button is at end */
+  font-size: 1rem;
+  white-space: normal;   /* allows wrapping */
+  overflow-wrap: break-word; /* breaks very long names safely */
+  max-width: 200px; /* optional: prevents it from pushing layout */
 }
 
 #communityMembersList li button {
   padding: 0.4rem 0.8rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
   border-radius: 8px;
   border: 1px solid #ccc;
   background-color: #fff;
@@ -3110,7 +3122,6 @@ textarea {
   background-color: #007bff;
   color: white;
 }
-
 
 
 /* Anonymous Forum */

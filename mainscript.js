@@ -946,6 +946,7 @@ currentProfile.last_lesson = { goal: todayGoal, lessonId: todayLessonId };
   document.getElementById("learn")?.classList.add("hidden");
   await fetchAllLeaderboards();
   await displayAchievementsPage();
+  await loadDailyXpChallenge(currentProfile.id);
 }
 
 async function updateGlobalImpact(increment) {
@@ -2477,43 +2478,42 @@ async function showCommunityMembers(locationId) {
     const li = document.createElement("li");
 
     const hasFrame = member.frame && member.frame.trim() !== "";
-const imgDiv = document.createElement("div");
-imgDiv.className = "community-member-photo-frame";
-imgDiv.dataset.userid = member.user_id;
+    const imgDiv = document.createElement("div");
+    imgDiv.className = "community-member-photo-frame";
+    imgDiv.dataset.userid = member.user_id;
 
-imgDiv.style.backgroundImage = hasFrame
-  ? `url('${member.frame}'), url('${member.profile_photo || 'default.jpg'}')`
-  : `url('${member.profile_photo || 'default.jpg'}')`;
+    imgDiv.style.backgroundImage = hasFrame
+      ? `url('${member.frame}'), url('${member.profile_photo}')`
+      : `url('${member.profile_photo}')`;
 
-imgDiv.style.backgroundSize = hasFrame ? "contain, cover" : "cover";
-imgDiv.style.backgroundPosition = "center";
-imgDiv.style.backgroundRepeat = "no-repeat";
-imgDiv.style.width = "60px";  // or your preferred size
-imgDiv.style.height = "60px";
-imgDiv.style.borderRadius = "50%";
-imgDiv.style.cursor = "pointer";
+    imgDiv.style.backgroundSize = hasFrame ? "contain, cover" : "cover";
+    imgDiv.style.backgroundPosition = "center";
+    imgDiv.style.backgroundRepeat = "no-repeat";
+    imgDiv.style.cursor = "pointer";
 
-    // ✅ On click, open profile card using that ID
-  imgDiv.addEventListener("click", e => {
-    e.stopPropagation();
-    openProfile(imgDiv);
-  });
+    imgDiv.addEventListener("click", e => {
+      e.stopPropagation();
+      openProfile(imgDiv);
+    });
 
     const nameSpan = document.createElement("span");
+    nameSpan.textContent = member.title
+      ? `${member.name}, ${member.title}`
+      : member.name;
 
-// Add title right next to the name if it exists
-nameSpan.textContent = member.title
-  ? `${member.name}, ${member.title}`
-  : member.name;
+    // ✅ Right side container (name + button)
+    const rightSide = document.createElement("div");
+    rightSide.className = "community-member-info";
+    rightSide.appendChild(nameSpan);
 
-li.appendChild(imgDiv);
-li.appendChild(nameSpan);
-
-    if (member.user_id !== currentUser.id &&
-        !friends.some(f => f.user1_id === member.user_id || f.user2_id === member.user_id)) {
-
+    if (
+      member.user_id !== currentUser.id &&
+      !friends.some(f => f.user1_id === member.user_id || f.user2_id === member.user_id)
+    ) {
       const btn = document.createElement("button");
-      btn.textContent = sentRequests.some(r => r.receiver_email === member.email) ? "Request Sent" : "Send Request";
+      btn.textContent = sentRequests.some(r => r.receiver_email === member.email)
+        ? "Request Sent"
+        : "Send Request";
       btn.disabled = btn.textContent === "Request Sent";
 
       btn.onclick = async () => {
@@ -2525,9 +2525,12 @@ li.appendChild(nameSpan);
           alert(result.message);
         }
       };
-      li.appendChild(btn);
+
+      rightSide.appendChild(btn);
     }
 
+    li.appendChild(imgDiv);
+    li.appendChild(rightSide);
     membersList.appendChild(li);
   });
 }
@@ -3518,6 +3521,9 @@ function renderLeaderboard(ulId, data, type) {
         return `<li>${index + 1}. ${user.name} 💫 – XP: ${user.total_xp}, (Level ${user.level})</li>`;
       case 'impact':
         return `<li>${index + 1}. ${user.name} 🌿 – ${user.animals_saved || 0} animals, ${user.water_saved || 0}L water, ${user.forest_saved || 0} trees, ${user.co2_saved || 0}kg CO₂</li>`;
+      case 'badge':
+        return `<li>${index + 1}. ${user.name}  – 🏅 ${user.badge} </li>`;
+      
       default:
         return `<li>${index + 1}. ${user.name}</li>`;
     }
@@ -3534,6 +3540,9 @@ async function fetchLeaderboard(leaderboardType, ulId, limitCount = 10) {
       break;
     case 'impact':      // <-- use 'impact' here
       rpcName = 'get_leaderboard_impact';
+      break;
+    case 'badge':      // <-- use 'impact' here
+      rpcName = 'get_leaderboard_badge';
       break;
     default:            // streak / other
       rpcName = 'get_leaderboard';
@@ -3554,7 +3563,8 @@ async function fetchLeaderboard(leaderboardType, ulId, limitCount = 10) {
 async function fetchAllLeaderboards() {
   await fetchLeaderboard('xp', 'overall-level');
   await fetchLeaderboard('streak', 'overall-streak');
-  await fetchLeaderboard('impact', 'overall-impact'); // Only three leaderboards
+  await fetchLeaderboard('impact', 'overall-impact');
+  await fetchLeaderboard('badge', 'overall-badge'); 
 }
 
 
