@@ -3991,7 +3991,7 @@ document.getElementById("daily-xp-claim").addEventListener("click", async () => 
   btn.disabled = true;
   btn.textContent = "Reward Claimed 🎉";
   loadDailyXpChallenge();
-  await fetchAllData();
+  await setupShop();
   await renderProfile();
 });
 
@@ -4041,7 +4041,7 @@ document.getElementById("learnClaimBtn").addEventListener("click", async () => {
   markClaimed("learnChallenge");
   alert("🎉 You earned +3 Badges!");
   loadLessonChallenge();
-  await fetchAllData();
+  await setupShop()();
   await renderProfile();
 });
 
@@ -4091,7 +4091,7 @@ document.getElementById("mindfulClaimBtn").addEventListener("click", async () =>
   markClaimed("mindfulChallenge");
   alert("🧘 You earned +5 Badge!");
   loadMindfulMoment();
-  await fetchAllData();
+  await setupShop()();
   await renderProfile();
 });
 
@@ -4235,7 +4235,7 @@ document.getElementById("encourageClaimBtn").addEventListener("click", async () 
   markClaimed("encourageChallenge");
   alert("🌸 You earned +2 Badge!");
   loadEncourageChallenge();
-  await fetchAllData();
+  await setupShop()();
   await renderProfile();
 });
 
@@ -4251,7 +4251,7 @@ function loadEncourageChallenge() {
     startMindfulBtn.disabled = true;
   } else {
     btn.disabled = true; // only enabled after sending a message
-    btn.textContent = "Send Message to Claim";
+    btn.textContent = "Claim Reward";
     sendBtn.disabled = false;
     startMindfulBtn.disabled = false;
   }
