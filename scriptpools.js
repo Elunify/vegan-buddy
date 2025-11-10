@@ -4181,7 +4181,31 @@ const characterTips = {
     "By caring, you create a world full of hope and joy. 🌈",
     "You are making the world brighter, one kind choice at a time. 🌞",
     "Thanks to you, more animals get to live, explore, and play. 🐇",
-    "Every kind choice is a ripple in the ocean of compassion. 🌊"
+    "Every kind choice is a ripple in the ocean of compassion. 🌊",
+
+  // ✅ Ingredient linked tips
+    `Have you tried <span class="ingredient-link" onclick="openIngredient('tofu')">Tofu</span>? It absorbs flavor like magic! 🍲`,
+    `Want something chewy and hearty? Try <span class="ingredient-link" onclick="openIngredient('seitan')">Seitan</span> 😋`,
+    `Feeling cozy? <span class="ingredient-link" onclick="openIngredient('lentils')">Lentils</span> bring warmth and nutrition 💛`,
+    `Looking for something filling? <span class="ingredient-link" onclick="openIngredient('beans')">Beans</span> are perfect! 🌱`,
+    `Try <span class="ingredient-link" onclick="openIngredient('tempeh')">Tempeh</span> — your gut will thank you! 😊`,
+    `<span class="ingredient-link" onclick="openIngredient('chickpeas')">Chickpeas</span> are tiny plant heroes! 🧡`,
+    `Need pure protein power? <span class="ingredient-link" onclick="openIngredient('peaProtein')">Pea Protein</span> is here 💪`,
+    `Craving a creamy latte? <span class="ingredient-link" onclick="openIngredient('soyMilk')">Soy Milk</span> has your back ☕✨`,
+    `On a budget? <span class="ingredient-link" onclick="openIngredient('texturizedSoy')">Texturized Soy</span> works wonders ✨`,
+    `Did you know <span class="ingredient-link" onclick="openIngredient('broccoli')">Broccoli</span> is packed with fiber, vitamin C, and calcium while being low in calories? 🥦`,
+
+    `Have you tried <span class="ingredient-link" onclick="openIngredient('tofu')">Tofu</span>? It absorbs flavor like magic! 🍲`,
+    `Want something chewy and hearty? Try <span class="ingredient-link" onclick="openIngredient('seitan')">Seitan</span> 😋`,
+    `Feeling cozy? <span class="ingredient-link" onclick="openIngredient('lentils')">Lentils</span> bring warmth and nutrition 💛`,
+    `Looking for something filling? <span class="ingredient-link" onclick="openIngredient('beans')">Beans</span> are perfect! 🌱`,
+    `Try <span class="ingredient-link" onclick="openIngredient('tempeh')">Tempeh</span> — your gut will thank you! 😊`,
+    `<span class="ingredient-link" onclick="openIngredient('chickpeas')">Chickpeas</span> are tiny plant heroes! 🧡`,
+    `Need pure protein power? <span class="ingredient-link" onclick="openIngredient('peaProtein')">Pea Protein</span> is here 💪`,
+    `Craving a creamy latte? <span class="ingredient-link" onclick="openIngredient('soyMilk')">Soy Milk</span> has your back ☕✨`,
+    `On a budget? <span class="ingredient-link" onclick="openIngredient('texturizedSoy')">Texturized Soy</span> works wonders ✨`,
+    `Did you know <span class="ingredient-link" onclick="openIngredient('broccoli')">Broccoli</span> is packed with fiber, vitamin C, and calcium while being low in calories? 🥦`
+
 
   ],
   eluna: [
@@ -4219,7 +4243,28 @@ const characterTips = {
 "Every kind choice creates a ripple of positive change. 🌊",
 "Every small reduction in waste helps preserve oceans and rivers. 🐠",
 
+  // ✅ Ingredient linked sustainability tips
+    `Replacing meat with <span class="ingredient-link" onclick="openIngredient('tofu')">Tofu</span> saves massive water resources.`,
+    `<span class="ingredient-link" onclick="openIngredient('seitan')">Seitan</span> uses only a fraction of land needed for beef.`,
+    `A meal with <span class="ingredient-link" onclick="openIngredient('lentils')">Lentils</span> has a much lower carbon footprint.`,
+    `<span class="ingredient-link" onclick="openIngredient('beans')">Beans</span> nourish the soil instead of depleting it.`,
+    `<span class="ingredient-link" onclick="openIngredient('tempeh')">Tempeh</span> promotes gut biodiversity.`,
+    `<span class="ingredient-link" onclick="openIngredient('chickpeas')">Chickpeas</span> naturally enrich farmland.`,
+    `<span class="ingredient-link" onclick="openIngredient('peaProtein')">Pea Protein</span> has lower CO₂ impact than whey.`,
+    `<span class="ingredient-link" onclick="openIngredient('soyMilk')">Soy Milk</span> requires far less land and water than dairy.`,
+    `<span class="ingredient-link" onclick="openIngredient('texturizedSoy')">Texturized Soy</span> avoids the emissions of chicken farming.`,
+    `Swap some meat for <span class="ingredient-link" onclick="openIngredient('broccoli')">Broccoli</span> — nutrient-rich and eco-friendly! 🌱`,
 
+    `Replacing meat with <span class="ingredient-link" onclick="openIngredient('tofu')">Tofu</span> saves massive water resources.`,
+    `<span class="ingredient-link" onclick="openIngredient('seitan')">Seitan</span> uses only a fraction of land needed for beef.`,
+    `A meal with <span class="ingredient-link" onclick="openIngredient('lentils')">Lentils</span> has a much lower carbon footprint.`,
+    `<span class="ingredient-link" onclick="openIngredient('beans')">Beans</span> nourish the soil instead of depleting it.`,
+    `<span class="ingredient-link" onclick="openIngredient('tempeh')">Tempeh</span> promotes gut biodiversity.`,
+    `<span class="ingredient-link" onclick="openIngredient('chickpeas')">Chickpeas</span> naturally enrich farmland.`,
+    `<span class="ingredient-link" onclick="openIngredient('peaProtein')">Pea Protein</span> has lower CO₂ impact than whey.`,
+    `<span class="ingredient-link" onclick="openIngredient('soyMilk')">Soy Milk</span> requires far less land and water than dairy.`,
+    `<span class="ingredient-link" onclick="openIngredient('texturizedSoy')">Texturized Soy</span> avoids the emissions of chicken farming.`,
+    `Swap some meat for <span class="ingredient-link" onclick="openIngredient('broccoli')">Broccoli</span> — nutrient-rich and eco-friendly! 🌱`
 
   ],
   pet: [
@@ -4328,6 +4373,7 @@ celebrity: [   // ✅ replace placeholder with real array
     }
   ]
 };
+
 /*
 Ariana Grande – Singer and Actress
 “I’m a firm believer in eating a full plant-based, whole food diet that can expand your life length and make you an all-around happier person.” 
@@ -4399,7 +4445,23 @@ St. Francis of Assisi
 Albert Schweitzer – Theologian & Philosopher
 “The ethical treatment of animals is the most humane and noble test of civilization.”
 */
+//--------------------------
+// Ingredient Modal
+//--------------------------
+function openIngredient(key) {
+  const item = ingredientInfo[key];
+  if (!item) return;
 
+  document.getElementById("ingredientName").textContent = item.name;
+  document.getElementById("ingredientDescription").textContent = item.description;
+  document.getElementById("ingredientNutrition").textContent = item.nutrition;
+
+  document.getElementById("ingredientModal").classList.remove("hidden");
+}
+
+document.getElementById("closeIngredientModal").onclick = () => {
+  document.getElementById("ingredientModal").classList.add("hidden");
+};
 
 // Track last shown timestamp (single for all characters)
 let lastShown = parseInt(localStorage.getItem("lastShownTime"), 10) || 0; // timestamp of last tip shown
@@ -4524,7 +4586,24 @@ function showRandomAvatar() {
     avatarImg.src = celeb.avatar;
   } else {
     const tips = characterTips[char];
-    tipBox.textContent = tips[Math.floor(Math.random() * tips.length)];
+    const randomTip = tips[Math.floor(Math.random() * tips.length)];
+    tipBox.innerHTML = randomTip;
+
+    // 🔹 Make ingredient links clickable
+    tipBox.querySelectorAll(".ingredient-link").forEach(link => {
+      link.onclick = (e) => {
+        e.stopPropagation();
+        // Extract the key from the original onclick
+        const keyMatch = link.getAttribute("onclick").match(/'(\w+)'/);
+        if (keyMatch) {
+          const key = keyMatch[1];
+          openIngredient(key);
+        }
+        // Close the bubble
+        bubble.classList.remove("visible");
+        wrapper.remove();
+      };
+    });
   }
 
   const avatars = wrapper.querySelectorAll(
@@ -6087,4 +6166,153 @@ Prevention is powerful, and your daily choices truly matter. Let’s make each m
   }
 }
 ]
+};
+
+//------ Ingredients -------
+//------ Ingredients -------
+//------ Ingredients -------
+//------ Ingredients -------
+
+const ingredientInfo = {
+  tofu: {
+    name: "Tofu",
+    description: "Tofu is perfect to replace eggs in many dishes. Mild in flavor, it absorbs spices well, making it very versatile.",
+    nutrition: `
+      <table>
+        <tr><th>Nutrient</th><th>Tofu</th><th>Egg</th></tr>
+        <tr><td>Calories</td><td>76 kcal / 100g</td><td>155 kcal / 100g</td></tr>
+        <tr><td>Protein</td><td>8 g</td><td>13 g</td></tr>
+        <tr><td>Cholesterol</td><td>0 mg</td><td>373 mg</td></tr>
+        <tr><td>Calcium</td><td>350 mg</td><td>56 mg</td></tr>
+        <tr><td>Fat</td><td>4 g</td><td>11 g</td></tr>
+      </table>
+    `
+  },
+  seitan: {
+    name: "Seitan",
+    description: "Seitan is a chewy, meat-like wheat protein perfect to replace chicken or beef in recipes.",
+    nutrition: `
+      <table>
+        <tr><th>Nutrient</th><th>Seitan</th><th>Chicken Breast</th></tr>
+        <tr><td>Calories</td><td>120 kcal / 100g</td><td>165 kcal / 100g</td></tr>
+        <tr><td>Protein</td><td>25 g</td><td>31 g</td></tr>
+        <tr><td>Cholesterol</td><td>0 mg</td><td>85 mg</td></tr>
+        <tr><td>Iron</td><td>4 mg</td><td>1 mg</td></tr>
+        <tr><td>Fat</td><td>1.9 g</td><td>3.6 g</td></tr>
+      </table>
+    `
+  },
+  lentils: {
+  name: "Lentils",
+  description: "Lentils are a protein-packed legume, perfect to replace ground beef in stews, chili, and other hearty dishes.",
+  nutrition: `
+    <table>
+      <tr><th>Nutrient</th><th>Lentils (dry)</th><th>Ground Beef</th></tr>
+      <tr><td>Calories</td><td>353 kcal / 100g dry</td><td>250 kcal / 100g</td></tr>
+      <tr><td>Protein</td><td>25 g</td><td>26 g</td></tr>
+      <tr><td>Cholesterol</td><td>0 mg</td><td>89 mg</td></tr>
+      <tr><td>Fiber</td><td>11 g</td><td>0 g</td></tr>
+      <tr><td>Iron</td><td>7.5 mg</td><td>2.6 mg</td></tr>
+    </table>
+    <p><em>Note: Protein and calories reduce after cooking due to water absorption, but lentils remain a hearty plant-based option.</em></p>
+  `
+},
+  beans: {
+  name: "Soybeans",
+  description: "Soybeans are incredibly high in protein, perfect to replace beef in meals like chili or stir-fries.",
+  nutrition: `
+    <table>
+      <tr><th>Nutrient</th><th>Soybeans</th><th>Beef</th></tr>
+      <tr><td>Calories</td><td>446 kcal / 100g dry</td><td>250 kcal / 100g</td></tr>
+      <tr><td>Protein</td><td>36 g</td><td>26 g</td></tr>
+      <tr><td>Cholesterol</td><td>0 mg</td><td>89 mg</td></tr>
+      <tr><td>Fiber</td><td>9 g</td><td>0 g</td></tr>
+      <tr><td>Iron</td><td>15.7 mg</td><td>2.6 mg</td></tr>
+    </table>
+  `
+},
+  tempeh: {
+    name: "Tempeh",
+    description: "Tempeh is fermented soy, perfect to replace bacon or other processed meats with extra gut benefits.",
+    nutrition: `
+    <table>
+      <tr><th>Nutrient</th><th>Tempeh (per 200 kcal)</th><th>Bacon (per 200 kcal)</th></tr>
+      <tr><td>Protein</td><td>19 g</td><td>13.6 g</td></tr>
+      <tr><td>Cholesterol</td><td>0 mg</td><td>33 mg</td></tr>
+      <tr><td>Fat</td><td>11 g</td><td>15.5 g</td></tr>
+      <tr><td>Fiber</td><td>1.5 g</td><td>0 g</td></tr>
+    </table>
+    <p><em>Comparison based on equal caloric intake (200 kcal) for a fairer nutritional perspective.</em></p>
+  `
+  },
+  chickpeas: {
+    name: "Chickpeas",
+    description: "Chickpeas are ideal for replacing chicken or tuna in salads and stews, with plant-based protein and fiber.",
+    nutrition: `
+      <table>
+        <tr><th>Nutrient</th><th>Chickpeas</th><th>Chicken</th></tr>
+        <tr><td>Calories</td><td>164 kcal / 100g cooked</td><td>165 kcal / 100g</td></tr>
+        <tr><td>Protein</td><td>7 g</td><td>31 g</td></tr>
+        <tr><td>Cholesterol</td><td>0 mg</td><td>85 mg</td></tr>
+        <tr><td>Fiber</td><td>7.6 g</td><td>0 g</td></tr>
+        <tr><td>Iron</td><td>2.9 mg</td><td>1 mg</td></tr>
+      </table>
+    `
+  },
+  peaProtein: {
+  name: "Pea Protein",
+  description: "Pea protein is a great alternative to whey or eggs for shakes and recipes, complete in essential amino acids.",
+  nutrition: `
+    <table>
+      <tr><th>Nutrient</th><th>Pea Protein (per 30g scoop)</th><th>Egg (1 large, ~50g)</th></tr>
+      <tr><td>Calories</td><td>120 kcal</td><td>70 kcal</td></tr>
+      <tr><td>Protein</td><td>20–25 g</td><td>6 g</td></tr>
+      <tr><td>Cholesterol</td><td>0 mg</td><td>186 mg</td></tr>
+      <tr><td>Calcium</td><td>50 mg</td><td>28 mg</td></tr>
+      <tr><td>Fat</td><td>1 g</td><td>5 g</td></tr>
+    </table>
+  `
+},
+  soyMilk: {
+    name: "Soy Milk",
+    description: "Soy milk is a perfect dairy alternative, ideal to replace cow's milk in drinks and cereals.",
+    nutrition: `
+      <table>
+        <tr><th>Nutrient</th><th>Soy Milk</th><th>Cow Milk</th></tr>
+        <tr><td>Calories</td><td>33 kcal / 100ml</td><td>64 kcal / 100ml</td></tr>
+        <tr><td>Protein</td><td>3 g</td><td>3.5 g</td></tr>
+        <tr><td>Cholesterol</td><td>0 mg</td><td>14 mg</td></tr>
+        <tr><td>Calcium</td><td>120 mg</td><td>120 mg</td></tr>
+        <tr><td>Fat</td><td>1.5 g</td><td>3.6 g</td></tr>
+      </table>
+    `
+  },
+  texturizedSoy: {
+    name: "Texturized Soy (TVP)",
+    description: "TVP is a high-protein meat replacement, perfect for ground beef in burgers, tacos, or chili.",
+    nutrition: `
+      <table>
+        <tr><th>Nutrient</th><th>Texturized Soy</th><th>Beef</th></tr>
+        <tr><td>Calories</td><td>200 kcal / 100g dry</td><td>250 kcal / 100g</td></tr>
+        <tr><td>Protein</td><td>50 g</td><td>26 g</td></tr>
+        <tr><td>Cholesterol</td><td>0 mg</td><td>89 mg</td></tr>
+        <tr><td>Iron</td><td>9 mg</td><td>2.6 mg</td></tr>
+        <tr><td>Fat</td><td>1 g</td><td>15 g</td></tr>
+      </table>
+    `
+  },
+  broccoli: {
+  name: "Broccoli",
+  description: "Broccoli is a super nutrient-rich vegetable, packed with vitamins and minerals, perfect to add to any meal. Here's how it compares calorie-for-calorie with beef:",
+  nutrition: `
+    <table>
+      <tr><th>Nutrient</th><th>Broccoli (~150 kcal)</th><th>Beef (~150 kcal)</th></tr>
+      <tr><td>Protein</td><td>12 g</td><td>13 g</td></tr>
+      <tr><td>Fiber</td><td>20 g</td><td>0 g</td></tr>
+      <tr><td>Vitamin C</td><td>810 mg</td><td>0 mg</td></tr>
+      <tr><td>Calcium</td><td>150 mg</td><td>18 mg</td></tr>
+      <tr><td>Iron</td><td>5 mg</td><td>6 mg</td></tr>
+    </table>
+  `
+}
 };

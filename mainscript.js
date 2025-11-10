@@ -947,6 +947,35 @@ currentProfile.last_lesson = { goal: todayGoal, lessonId: todayLessonId };
   await fetchAllLeaderboards();
   await displayAchievementsPage();
   await loadDailyXpChallenge(currentProfile.id);
+
+  
+if (currentProfile.day_counter === 1 ) {
+  showProgressSuggestion(
+    "Well done! You can keep learning in the Learn Path or get extra rewards in Daily Challenges!",
+    currentProfile.pet_photo
+  );
+  } else if (currentProfile.day_counter === 2) {
+  showProgressSuggestion(
+     `Well done! Have you checked out our meal-art contest and trending recipes already?`,
+    currentProfile.pet_photo
+  );
+  } else if (currentProfile.day_counter === 3) {
+  showProgressSuggestion(
+     `Well done! Are you already a member of your local community? 🤩`,
+    currentProfile.pet_photo
+  );
+  } else if (currentProfile.day_counter < 10 && currentProfile.xp_today >= 50) {
+  showProgressSuggestion(
+     `Well done! Your XP daily challenge is done, claim your reward in the playground section!`,
+    currentProfile.pet_photo
+  );
+  } else if (currentProfile.day_counter < 5 && currentProfile.xp_today < 50) {
+    const xp_left = 50 - currentProfile.xp_today;
+  showProgressSuggestion(
+     `Well done! You need ${xp_left} more XP to complete your daily challenge!`,
+    currentProfile.pet_photo
+  );
+  } 
 }
 
 async function updateGlobalImpact(increment) {
@@ -1966,7 +1995,12 @@ async function saveExtraLessonProgress() {
     currentProfile.extra_lesson = progress;
     currentProfile.total_xp = totalXp;
   }
-
+  if (xptoday === 50 ) {
+  showProgressSuggestion(
+    "You've completed your daily XP challenge! Claim your reward in the playground section!",
+    currentProfile.pet_photo
+  );
+  }
   // Optionally refresh leaderboard and profile info
   const { profile } = await fetchAllData();
   await renderProfile(profile);
@@ -3729,7 +3763,12 @@ async function addAchievementToProfile(userId, newAchievement) {
       .from("profiles")
       .update({ achievements })
       .eq("id", userId);
+      
+      fetchAllData();
+      await renderProfile();
+      await displayAchievementsSettings(userId);
 
+      
     if (updateError) console.error("Error updating achievements:", updateError);
   }
 }
@@ -3906,7 +3945,7 @@ async function addBadges(userId, amount) {
 
   if (error) return console.error(error);
 
-  const newCount = (profile?.badge || 0) + amount;
+  const newCount = (profile?.badge) + amount;
 
   await supabase
     .from("profiles")
@@ -3952,6 +3991,8 @@ document.getElementById("daily-xp-claim").addEventListener("click", async () => 
   btn.disabled = true;
   btn.textContent = "Reward Claimed 🎉";
   loadDailyXpChallenge();
+  await fetchAllData();
+  await renderProfile();
 });
 
 // ---------------------------
@@ -4000,6 +4041,8 @@ document.getElementById("learnClaimBtn").addEventListener("click", async () => {
   markClaimed("learnChallenge");
   alert("🎉 You earned +3 Badges!");
   loadLessonChallenge();
+  await fetchAllData();
+  await renderProfile();
 });
 
 function loadLessonChallenge() {
@@ -4048,6 +4091,8 @@ document.getElementById("mindfulClaimBtn").addEventListener("click", async () =>
   markClaimed("mindfulChallenge");
   alert("🧘 You earned +5 Badge!");
   loadMindfulMoment();
+  await fetchAllData();
+  await renderProfile();
 });
 
 function loadMindfulMoment() {
@@ -4190,6 +4235,8 @@ document.getElementById("encourageClaimBtn").addEventListener("click", async () 
   markClaimed("encourageChallenge");
   alert("🌸 You earned +2 Badge!");
   loadEncourageChallenge();
+  await fetchAllData();
+  await renderProfile();
 });
 
 function loadEncourageChallenge() {
@@ -4209,6 +4256,38 @@ function loadEncourageChallenge() {
     startMindfulBtn.disabled = false;
   }
 }
+
+function showProgressSuggestion(message, petPhotoUrl) {
+  const banner = document.createElement("div");
+  banner.className = "toast-suggestion";
+
+  // Pet image
+  const petImg = document.createElement("img");
+  petImg.src = petPhotoUrl || "default-pet.jpg";
+  petImg.alt = "Pet";
+  petImg.className = "toast-pet";
+  
+  // Message
+  const textSpan = document.createElement("span");
+  textSpan.textContent = message;
+
+  banner.appendChild(petImg);
+  banner.appendChild(textSpan);
+  document.body.appendChild(banner);
+
+  // Trigger slide-in after next tick
+  requestAnimationFrame(() => {
+    banner.classList.add("show");
+  });
+
+  // Auto-hide after 6 seconds
+  setTimeout(() => {
+    banner.classList.remove("show");
+    banner.classList.add("fade-out");
+    setTimeout(() => banner.remove(), 600);
+  }, 6000);
+}
+
 
 
 
@@ -4460,4 +4539,46 @@ await fetchAllLeaderboards();
 
 //Show page after everything is loaded:
   showLoading(false);
+
+
+// ✅ Suggest achievements if applicable
+setTimeout(async () => {
+  await checkAchievementSuggestions();
+}, 1000);
+
+  async function checkAchievementSuggestions() {
+  if (!currentProfile?.id) return;
+
+  // Get achievements_data row
+  const { data, error } = await supabase
+    .from("achievements_data")
+    .select("events_organized, meal_art_wins")
+    .eq("user_id", currentProfile.id)
+    .single();
+
+  if (error) {
+    console.error("Error fetching achievements_data:", error);
+    return;
+  }
+
+  // Ensure achievements list exists
+  const achievementsList = currentProfile.achievements || [];
+
+  // ---- EVENT ORGANISER ACHIEVEMENT ----
+  if (data.events_organized >= 1 && !achievementsList.includes("Local Hero")) {
+    showProgressSuggestion(
+      "🎉 You hosted your first event! Open Achievements to add your badge!",
+      currentProfile.pet_photo
+    );
+  }
+
+  // ---- MEAL ART WIN ACHIEVEMENT ----
+  if (data.meal_art_wins >= 1 && !achievementsList.includes("Expert Vegan Chef")) {
+    showProgressSuggestion(
+      "🍽️ Your Meal Art won! Congratulations! Claim your achievement in your profile!",
+      currentProfile.pet_photo
+    );
+  }
+}
+
 });
