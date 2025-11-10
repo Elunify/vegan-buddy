@@ -4041,7 +4041,7 @@ document.getElementById("learnClaimBtn").addEventListener("click", async () => {
   markClaimed("learnChallenge");
   alert("🎉 You earned +3 Badges!");
   loadLessonChallenge();
-  await setupShop()();
+  await setupShop();
   await renderProfile();
 });
 
@@ -4091,7 +4091,7 @@ document.getElementById("mindfulClaimBtn").addEventListener("click", async () =>
   markClaimed("mindfulChallenge");
   alert("🧘 You earned +5 Badge!");
   loadMindfulMoment();
-  await setupShop()();
+  await setupShop();
   await renderProfile();
 });
 
@@ -4235,7 +4235,7 @@ document.getElementById("encourageClaimBtn").addEventListener("click", async () 
   markClaimed("encourageChallenge");
   alert("🌸 You earned +2 Badge!");
   loadEncourageChallenge();
-  await setupShop()();
+  await setupShop();
   await renderProfile();
 });
 
