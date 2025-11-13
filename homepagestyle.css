@@ -21,8 +21,8 @@ html, body {
   flex: 1 1 auto;                       /* allow growth/shrink in flex layout */
   min-height: 0;                         /* crucial for overflow-y in flex children */
   overflow-y: auto;
-  margin-top: calc(40px + env(safe-area-inset-top));
-  margin-bottom: calc(60px + env(safe-area-inset-bottom));
+  margin-top: calc(40px );
+  margin-bottom: calc(60px );
   padding: 1rem;
 
   /* Smooth scrolling for iOS */
@@ -526,6 +526,7 @@ h3 {
   border-radius: 12px;
   transition: background 0.2s;
   padding: 6px;
+  padding-bottom: 0px;
 }
 
 .bottom-nav button:hover {
