@@ -1292,8 +1292,14 @@ textarea {
   display: block;
   margin: auto;
   margin-bottom: 2rem;
+  margin-top: 0.3rem;
 }
 
+#submitAndSupportBtnDCI{
+  display: block;
+  margin: auto;
+  margin-bottom: 0.3rem;
+}
 
 
 /* ---------- Health Learning Paths ---------- */

@@ -3951,7 +3951,158 @@ async function addBadges(userId, amount) {
     .from("profiles")
     .update({ badge: newCount })
     .eq("id", userId);
+
+  await setupShop();
+  await renderProfile();
 }
+
+
+// ---------------------------
+// Watch ads
+// ---------------------------
+
+// Config
+const DAILY_CAP = 50;
+const SESSION_CAP = 25;
+const MIN_INTERVAL_MS = 20_000; // 20s
+const BADGES_PER_AD = 2;
+
+let sessionAdCount = 0;
+const storage = localStorage;
+
+// Your Rewarded Ad ID
+const REWARDED_AD_ID = "ca-app-pub-XXXXXXXXXXXXXXXX/ZZZZZZZZZZ";
+
+// Helper functions
+function todayKey() {
+  return 'adBadge_' + new Date().toISOString().slice(0,10);
+}
+
+function loadAdCount() {
+  return parseInt(storage.getItem(todayKey()) || '0', 10);
+}
+
+function saveAdCount(count) {
+  storage.setItem(todayKey(), count);
+}
+
+function loadLastAdTime() {
+  return parseInt(storage.getItem('lastAdAt') || '0', 10);
+}
+
+function saveLastAdTime(ts) {
+  storage.setItem('lastAdAt', ts);
+}
+
+// -------------------- AdMob Reward Function --------------------
+let showAdMobReward;
+
+// If we are on a native platform (Capacitor), use the real RewardAd
+if (window.Capacitor && Capacitor.isNativePlatform()) {
+  import('capacitor-admob').then(({ RewardAd }) => {
+    showAdMobReward = async function() {
+      const rewarded = new RewardAd({ adId: REWARDED_AD_ID });
+      await rewarded.load();
+
+      return new Promise((resolve, reject) => {
+        rewarded.show();
+
+        rewarded.addListener("onAdReward", () => resolve("earned-reward"));
+        rewarded.addListener("onAdDismiss", () => reject("dismissed-no-reward"));
+        rewarded.addListener("onAdFailedToLoad", () => reject("failed-to-load"));
+      });
+    }
+  });
+} else {
+  // Web fallback: simulate reward without crashing
+  showAdMobReward = async function() {
+    console.log("Web fallback: ad simulated, reward given");
+    return Promise.resolve("earned-reward-web");
+  }
+}
+
+// -------------------- Badge Reward Function --------------------
+async function addBadgesSafe(userId, amount) {
+  const { data: profile, error } = await supabase
+    .from("profiles")
+    .select("badge")
+    .eq("id", userId)
+    .single();
+
+  if (error) return console.error(error);
+
+  const newCount = (profile?.badge || 0) + amount;
+
+  await supabase
+    .from("profiles")
+    .update({ badge: newCount })
+    .eq("id", userId);
+
+  await setupShop();
+  await renderProfile();
+}
+
+// -------------------- Main Click Handler --------------------
+async function handleWatchAdClick() {
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
+  if (profileError || !profile) return;
+
+  const userId = profile.id;
+
+  let dailyCount = loadAdCount();
+  if (dailyCount >= DAILY_CAP) {
+    alert(`You've reached the daily limit of ${DAILY_CAP}.`);
+    return;
+  }
+
+  if (sessionAdCount >= SESSION_CAP) {
+    alert(`You've reached the session limit of ${SESSION_CAP}.`);
+    return;
+  }
+
+  const lastAdAt = loadLastAdTime();
+  const now = Date.now();
+  if (now - lastAdAt < MIN_INTERVAL_MS) {
+    const wait = Math.ceil((MIN_INTERVAL_MS - (now - lastAdAt))/1000);
+    alert(`Please wait ${wait} seconds before watching another ad.`);
+    return;
+  }
+
+  try {
+    await showAdMobReward();
+
+    await addBadgesSafe(userId, BADGES_PER_AD);
+
+    dailyCount++;
+    sessionAdCount++;
+    saveAdCount(dailyCount);
+    saveLastAdTime(Date.now());
+
+    alert(`You earned +${BADGES_PER_AD} badges! (Today: ${dailyCount}/${DAILY_CAP})`);
+
+  } catch (err) {
+    console.warn("Ad failed or no reward:", err);
+    alert("No ad available right now. Try again later.");
+  }
+}
+
+// -------------------- Attach to Buttons --------------------
+document.querySelectorAll('.watchAdBtn').forEach(btn => {
+  btn.addEventListener('click', handleWatchAdClick);
+});
+
+const submitAndSupportBtn = document.getElementById('submitAndSupportBtnDCI');
+
+submitAndSupportBtn.addEventListener('click', async () => {
+  const success = await handleSubmit();
+  if (success) handleWatchAdClick();
+});
+
 
 // ---------------------------
 // 🔥 DAILY XP CHALLENGE
@@ -3991,8 +4142,6 @@ document.getElementById("daily-xp-claim").addEventListener("click", async () => 
   btn.disabled = true;
   btn.textContent = "Reward Claimed 🎉";
   loadDailyXpChallenge();
-  await setupShop();
-  await renderProfile();
 });
 
 // ---------------------------
@@ -4041,8 +4190,6 @@ document.getElementById("learnClaimBtn").addEventListener("click", async () => {
   markClaimed("learnChallenge");
   alert("🎉 You earned +3 Badges!");
   loadLessonChallenge();
-  await setupShop();
-  await renderProfile();
 });
 
 function loadLessonChallenge() {
@@ -4091,8 +4238,6 @@ document.getElementById("mindfulClaimBtn").addEventListener("click", async () =>
   markClaimed("mindfulChallenge");
   alert("🧘 You earned +5 Badge!");
   loadMindfulMoment();
-  await setupShop();
-  await renderProfile();
 });
 
 function loadMindfulMoment() {
@@ -4235,8 +4380,6 @@ document.getElementById("encourageClaimBtn").addEventListener("click", async () 
   markClaimed("encourageChallenge");
   alert("🌸 You earned +2 Badge!");
   loadEncourageChallenge();
-  await setupShop();
-  await renderProfile();
 });
 
 function loadEncourageChallenge() {
