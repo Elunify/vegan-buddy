@@ -19,7 +19,7 @@ html, body {
 
 .page {
   flex: 1 1 auto;                       /* allow growth/shrink in flex layout */
-  min-height: 0;                         /* crucial for overflow-y in flex children */
+  min-height: 100vh;                         /* crucial for overflow-y in flex children */
   overflow-y: auto;
   margin-top: calc(40px );
   margin-bottom: calc(60px );
