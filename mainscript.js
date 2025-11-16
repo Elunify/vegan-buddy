@@ -4000,8 +4000,8 @@ const storage = localStorage;
 
 // Your Rewarded Ad ID
 // Test Ad IDs
-const ANDROID_REWARDED_AD_ID = "ca-app-pub-3940256099942544/5224354917";
-const IOS_REWARDED_AD_ID     = "ca-app-pub-3940256099942544/5224354917";
+const ANDROID_REWARDED_AD_ID = "ca-app-pub-6636103250467802/8482598049";
+const IOS_REWARDED_AD_ID     = "ca-app-pub-6636103250467802/8482598049";
 
 // Helper functions
 function todayKey() {
