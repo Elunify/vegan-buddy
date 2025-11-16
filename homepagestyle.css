@@ -1,40 +1,30 @@
-/* Reset & layout */
 html, body {
-    display: flex;              /* needed for flex layout */
-    flex-direction: column;
-    height: 100%;               /* avoid 100vh issues in WebView */
+    height: 100%;               /* avoid 100vh issues */
     margin: 0;
     padding: 0;
     font-family: "Poppins", sans-serif;
     background: #f9f9f9;
     color: #333;
-    justify-content: flex-start; /* allow natural flow */
-    overflow: hidden;            /* prevent body scrolling; .page handles scrolling */
+    overflow: visible;          /* let children handle scrolling */
 }
 
 #main-container {
     display: flex;
     flex-direction: column;
-    flex: 1 1 auto;           /* fill available space */
-    min-height: 0;             /* crucial for flex children scroll */
+    height: 100%;               /* fill viewport height */
 }
 
 .page {
-    flex: 1 1 auto;           /* allow growth/shrink in flex layout */
-    min-height: 0;            /* crucial for overflow-y in flex children */
-    overflow-y: auto;         /* enable page scrolling */
-    margin-top: calc(40px);
-    margin-bottom: calc(60px);
+    flex: 1 1 auto;
+    overflow-y: auto;           /* enable scrolling */
     padding: 1rem;
+    /* Remove margin-top/bottom in WebView; use padding inside top/bottom instead */
+    padding-top: 50px;
 
-    /* Smooth scrolling for iOS */
-    -webkit-overflow-scrolling: touch;
-
-    /* Test padding */
-    padding-bottom: 8rem;
+    -webkit-overflow-scrolling: touch; /* smooth scrolling iOS */
 }
 
-/* Optional: smooth scrollbar */
+/* Scrollbar */
 .page::-webkit-scrollbar {
     width: 8px;
 }
@@ -43,7 +33,6 @@ html, body {
     border-radius: 4px;
 }
 
-/* Utility */
 .hidden { display: none !important; }
 
 .button{
