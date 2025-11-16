@@ -838,9 +838,7 @@ async function handleSubmit() {
 
   const { todayGoal, todayLessonId, todayLesson } = getTodaysLessonFromProfile(currentProfile);
 
-if (!todayLesson) {
-  return alert("No lesson found for today!");
-}
+if (!todayLesson) { alert("No lesson found for today!"); return false; }
 
   // Helper to format date in UTC as YYYY-MM-DD
   function getUTCDateString(date) {
@@ -876,13 +874,13 @@ if (!todayLesson) {
       else if (selected.value !== q.answer) allCorrect = false;
     });
 
-    if (!allAnswered) return alert("Please answer all quiz questions!");
-    if (!allCorrect) return alert("Some answers are incorrect. Try again!");
+    if (!allAnswered) { alert("Please answer all quiz questions!"); return false; }
+    if (!allCorrect) { alert("Some answers are incorrect. Try again!"); return false; }
   }
 
   // Meal selection
   const mealAnswer = document.querySelector('input[name="mealsDCI"]:checked');
-  if (!mealAnswer) return alert("Please select your diet from yesterday!");
+  if (!mealAnswer) { alert("Please select your diet from yesterday!"); return false; }
   const mealValue = parseInt(mealAnswer.value);
   const impactIncrement = calculateImpact(mealValue);
   const badgeIncrement = mealValue === 4 ? 5 : 0;
@@ -976,6 +974,7 @@ if (currentProfile.day_counter === 1 ) {
     currentProfile.pet_photo
   );
   } 
+  return true;
 }
 
 async function updateGlobalImpact(increment) {
@@ -4076,7 +4075,7 @@ async function handleWatchAdClick() {
   // Get the currently logged in user
   const { data: { user }, error: userError } = await supabase.auth.getUser();
   if (userError || !user) return alert("User not logged in");
-  
+
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("*")
@@ -4133,7 +4132,15 @@ const submitAndSupportBtn = document.getElementById('submitAndSupportBtnDCI');
 
 submitAndSupportBtn.addEventListener('click', async () => {
   const success = await handleSubmit();
-  if (success) handleWatchAdClick();
+  if (success) {
+    try {
+      await handleWatchAdClick(); // ✅ await to catch errors
+    } catch (err) {
+      console.error("Reward ad failed:", err);
+    }
+  } else {
+    console.warn("Submit failed — not showing ad");
+  }
 });
 
 
