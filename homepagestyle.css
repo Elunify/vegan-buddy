@@ -21,10 +21,6 @@ html, body {
   margin-bottom: calc(60px );
   padding: 1rem;
 
-  min-height: 50px;           /* VERY small, just so it doesn’t fully disappear */
-  background: rgba(255, 0, 0, 0.3);  /* semi-transparent red to see it */
-  border: 3px dashed blue;    /* visible border for debugging */
-  
   /* Smooth scrolling for iOS */
   -webkit-overflow-scrolling: touch;
 
@@ -37,6 +33,10 @@ html, body {
 .page::-webkit-scrollbar-thumb {
   background: rgba(0,0,0,0.2);
   border-radius: 4px;
+}
+.page.hidden {
+  display: block !important;
+  opacity: 1 !important;
 }
 
 .button{
