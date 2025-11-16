@@ -4065,7 +4065,8 @@ async function addBadgesSafe(userId, amount) {
     .from("profiles")
     .update({ badge: newCount })
     .eq("id", userId);
-
+ 
+  await fetchAllData()
   await setupShop();
   await renderProfile();
 }
