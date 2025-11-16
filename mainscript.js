@@ -4000,7 +4000,7 @@ let sessionAdCount = 0;
 const storage = localStorage;
 
 // Your Rewarded Ad ID
-const REWARDED_AD_ID = "ca-app-pub-XXXXXXXXXXXXXXXX/ZZZZZZZZZZ";
+const REWARDED_AD_ID = "ca-app-pub-3940256099942544/5224354917";
 
 // Helper functions
 function todayKey() {
@@ -4073,6 +4073,10 @@ async function addBadgesSafe(userId, amount) {
 
 // -------------------- Main Click Handler --------------------
 async function handleWatchAdClick() {
+  // Get the currently logged in user
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError || !user) return alert("User not logged in");
+  
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("*")
