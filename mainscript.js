@@ -3999,7 +3999,9 @@ let sessionAdCount = 0;
 const storage = localStorage;
 
 // Your Rewarded Ad ID
-const REWARDED_AD_ID = "ca-app-pub-3940256099942544/5224354917";
+// Test Ad IDs
+const ANDROID_REWARDED_AD_ID = "ca-app-pub-3940256099942544/5224354917";
+const IOS_REWARDED_AD_ID     = "ca-app-pub-3940256099942544/5224354917";
 
 // Helper functions
 function todayKey() {
@@ -4023,27 +4025,25 @@ function saveLastAdTime(ts) {
 }
 
 // -------------------- AdMob Reward Function --------------------
-let showAdMobReward;
-
-// If we are on a native platform (Capacitor), use the real RewardAd
-if (window.Capacitor && Capacitor.isNativePlatform()) {
-  import('capacitor-admob').then(({ RewardAd }) => {
-    showAdMobReward = async function() {
-      const rewarded = new RewardAd({ adId: REWARDED_AD_ID });
-      await rewarded.load();
-
-      return new Promise((resolve, reject) => {
-        rewarded.show();
-
-        rewarded.addListener("onAdReward", () => resolve("earned-reward"));
-        rewarded.addListener("onAdDismiss", () => reject("dismissed-no-reward"));
-        rewarded.addListener("onAdFailedToLoad", () => reject("failed-to-load"));
+// -------------------- Show Ad Function --------------------
+async function showAdMobReward() {
+  // Check for Capacitor native platform
+  if (window.Capacitor && Capacitor.isNativePlatform()) {
+    try {
+      // iOS and Android both use the native bridge now
+      await new Promise((resolve, reject) => {
+        // Call Kotlin bridge
+        window.NativeBridge.showRewardedAd();
+        // Since reward is handled natively, resolve immediately
+        resolve("earned-reward-native");
       });
+      return "earned-reward-native";
+    } catch (err) {
+      console.warn("Native ad error:", err);
+      throw err;
     }
-  });
-} else {
-  // Web fallback: simulate reward without crashing
-  showAdMobReward = async function() {
+  } else {
+    // Web fallback: simulate reward
     console.log("Web fallback: ad simulated, reward given");
     return Promise.resolve("earned-reward-web");
   }
@@ -4115,7 +4115,7 @@ async function handleWatchAdClick() {
     saveAdCount(dailyCount);
     saveLastAdTime(Date.now());
 
-    alert(`You earned +${BADGES_PER_AD} badges! (Today: ${dailyCount}/${DAILY_CAP})`);
+    alert(`You earned +${BADGES_PER_AD} badges!`);
 
   } catch (err) {
     console.warn("Ad failed or no reward:", err);
