@@ -3989,7 +3989,10 @@ async function addBadges(userId, amount) {
 // Watch ads
 // ---------------------------
 
-// Config
+// ---------------------------
+// Watch ads
+// ---------------------------
+
 const DAILY_CAP = 50;
 const SESSION_CAP = 25;
 const MIN_INTERVAL_MS = 20_000; // 20s
@@ -3998,10 +4001,8 @@ const BADGES_PER_AD = 2;
 let sessionAdCount = 0;
 const storage = localStorage;
 
-// Your Rewarded Ad ID
-// Test Ad IDs
-const ANDROID_REWARDED_AD_ID = "ca-app-pub-6636103250467802/8482598049";
-const IOS_REWARDED_AD_ID     = "ca-app-pub-6636103250467802/8482598049";
+// Your Rewarded Ad ID (for web fallback)
+const WEB_REWARD_AMOUNT = BADGES_PER_AD;
 
 // Helper functions
 function todayKey() {
@@ -4024,32 +4025,24 @@ function saveLastAdTime(ts) {
   storage.setItem('lastAdAt', ts);
 }
 
-// -------------------- AdMob Reward Function --------------------
-// -------------------- Show Ad Function --------------------
+// -------------------- Reward Ad --------------------
 async function showAdMobReward() {
-  // Check for Capacitor native platform
   if (window.Capacitor && Capacitor.isNativePlatform()) {
-    try {
-      // iOS and Android both use the native bridge now
-      await new Promise((resolve, reject) => {
-        // Call Kotlin bridge
-        window.NativeBridge.showRewardedAd();
-        // Since reward is handled natively, resolve immediately
-        resolve("earned-reward-native");
-      });
-      return "earned-reward-native";
-    } catch (err) {
-      console.warn("Native ad error:", err);
-      throw err;
-    }
+    // ✅ Native bridge will call Kotlin, JS waits for reward callback
+    return new Promise((resolve) => {
+      window.onRewardEarned = (amount) => {
+        resolve(amount);
+      };
+      window.NativeBridge.showRewardedAd();
+    });
   } else {
-    // Web fallback: simulate reward
+    // Web fallback
     console.log("Web fallback: ad simulated, reward given");
-    return Promise.resolve("earned-reward-web");
+    return Promise.resolve(WEB_REWARD_AMOUNT);
   }
 }
 
-// -------------------- Badge Reward Function --------------------
+// -------------------- Badge Reward --------------------
 async function addBadgesSafe(userId, amount) {
   const { data: profile, error } = await supabase
     .from("profiles")
@@ -4065,15 +4058,13 @@ async function addBadgesSafe(userId, amount) {
     .from("profiles")
     .update({ badge: newCount })
     .eq("id", userId);
- 
-  await fetchAllData()
+
   await setupShop();
   await renderProfile();
 }
 
 // -------------------- Main Click Handler --------------------
 async function handleWatchAdClick() {
-  // Get the currently logged in user
   const { data: { user }, error: userError } = await supabase.auth.getUser();
   if (userError || !user) return alert("User not logged in");
 
@@ -4088,36 +4079,26 @@ async function handleWatchAdClick() {
   const userId = profile.id;
 
   let dailyCount = loadAdCount();
-  if (dailyCount >= DAILY_CAP) {
-    alert(`You've reached the daily limit of ${DAILY_CAP}.`);
-    return;
-  }
-
-  if (sessionAdCount >= SESSION_CAP) {
-    alert(`You've reached the session limit of ${SESSION_CAP}.`);
-    return;
-  }
+  if (dailyCount >= DAILY_CAP) return alert(`Daily limit reached: ${DAILY_CAP}`);
+  if (sessionAdCount >= SESSION_CAP) return alert(`Session limit reached: ${SESSION_CAP}`);
 
   const lastAdAt = loadLastAdTime();
   const now = Date.now();
   if (now - lastAdAt < MIN_INTERVAL_MS) {
     const wait = Math.ceil((MIN_INTERVAL_MS - (now - lastAdAt))/1000);
-    alert(`Please wait ${wait} seconds before watching another ad.`);
-    return;
+    return alert(`Please wait ${wait} seconds before watching another ad.`);
   }
 
   try {
-    await showAdMobReward();
-
-    await addBadgesSafe(userId, BADGES_PER_AD);
+    const reward = await showAdMobReward(); // wait until reward is earned
+    await addBadgesSafe(userId, reward);
 
     dailyCount++;
     sessionAdCount++;
     saveAdCount(dailyCount);
     saveLastAdTime(Date.now());
 
-    alert(`You earned +${BADGES_PER_AD} badges!`);
-
+    alert(`You earned +${reward} badges!`);
   } catch (err) {
     console.warn("Ad failed or no reward:", err);
     alert("No ad available right now. Try again later.");
