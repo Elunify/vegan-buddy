@@ -34,10 +34,6 @@ html, body {
   background: rgba(0,0,0,0.2);
   border-radius: 4px;
 }
-.page.hidden {
-  display: block !important;
-  opacity: 1 !important;
-}
 
 .button{
   background-color: #3bb341; /* green */
