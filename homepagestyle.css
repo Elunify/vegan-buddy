@@ -1,39 +1,50 @@
-
-/* Reset */
+/* Reset & layout */
 html, body {
-    display: flex;              /* needed for justify-content */
+    display: flex;              /* needed for flex layout */
     flex-direction: column;
-    height: 100vh;
+    height: 100%;               /* avoid 100vh issues in WebView */
     margin: 0;
     padding: 0;
     font-family: "Poppins", sans-serif;
     background: #f9f9f9;
     color: #333;
-    overflow: hidden; /* prevent body scrolling, only content scrolls */
-    justify-content: space-between;
+    justify-content: flex-start; /* allow natural flow */
+    overflow: hidden;            /* prevent body scrolling; .page handles scrolling */
+}
+
+#main-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;           /* fill available space */
+    min-height: 0;             /* crucial for flex children scroll */
 }
 
 .page {
-  flex: 1 1 auto;                       /* allow growth/shrink in flex layout */
-  min-height: 100vh;                         /* crucial for overflow-y in flex children */
-  overflow-y: auto;
-  margin-top: calc(40px );
-  margin-bottom: calc(60px );
-  padding: 1rem;
+    flex: 1 1 auto;           /* allow growth/shrink in flex layout */
+    min-height: 0;            /* crucial for overflow-y in flex children */
+    overflow-y: auto;         /* enable page scrolling */
+    margin-top: calc(40px);
+    margin-bottom: calc(60px);
+    padding: 1rem;
 
-  /* Smooth scrolling for iOS */
-  -webkit-overflow-scrolling: touch;
+    /* Smooth scrolling for iOS */
+    -webkit-overflow-scrolling: touch;
 
-                         /* FOR TESTS */    padding-bottom: 8rem;
+    /* Test padding */
+    padding-bottom: 8rem;
 }
-/* Optional: smooth scrolling */
+
+/* Optional: smooth scrollbar */
 .page::-webkit-scrollbar {
-  width: 8px;
+    width: 8px;
 }
 .page::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.2);
-  border-radius: 4px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 4px;
 }
+
+/* Utility */
+.hidden { display: none !important; }
 
 .button{
   background-color: #3bb341; /* green */
@@ -92,8 +103,6 @@ html, body {
   right: -10px;
   font-size: 0.75rem;
 }
-/* Utility */
-.hidden { display: none !important; }
 
 /* 🔝 Top Bar */
 
