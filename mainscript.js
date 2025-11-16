@@ -2685,7 +2685,10 @@ async function loadCommunityEvents(locationId) {
     .eq("location_id", locationId)
     .order("event_date", { ascending: true });
 
-  if (error) return console.error(error);
+  if (error) {
+    console.error("Error loading community events:", error);
+    return;
+  }
 
   const ul = document.getElementById("communityEventsList");
   ul.innerHTML = "";
@@ -2695,42 +2698,68 @@ async function loadCommunityEvents(locationId) {
   for (const event of data) {
     const eventDate = new Date(event.event_date);
 
-    // Delete past events
+    // ----------------------------
+    // DELETE PAST EVENTS
+    // ----------------------------
     if (eventDate < now) {
-  // Increment the events_organized counter for the creator
-  if (event.user_id) {
-    const { error: updateError } = await supabase
-      .from("achievements_data")
-      .update({
-        events_organized: supabase.raw('events_organized + 1'),
-        updated_at: new Date()
-      })
-      .eq('user_id', event.user_id);
+      // Increment events_organized count
+      if (event.user_id) {
+        // SAFE INCREMENT: read old value, then update +1
+        const { data: achievementData, error: readError } = await supabase
+          .from("achievements_data")
+          .select("events_organized")
+          .eq("user_id", event.user_id)
+          .maybeSingle();
 
-    if (updateError) console.error("Error updating events_organized:", updateError);
-  }
+        if (readError) console.error("Read error:", readError);
 
-  // Delete the past event
-  await supabase.from("community_events").delete().eq("id", event.id);
-  continue;
-}
+        if (achievementData) {
+          const newCount = (achievementData.events_organized || 0) + 1;
 
+          const { error: updateError } = await supabase
+            .from("achievements_data")
+            .update({
+              events_organized: newCount,
+              updated_at: new Date()
+            })
+            .eq("user_id", event.user_id);
+
+          if (updateError) console.error("Update error:", updateError);
+        }
+      }
+
+      // Delete past event
+      const { error: delError } = await supabase
+        .from("community_events")
+        .delete()
+        .eq("id", event.id);
+
+      if (delError) console.error("Delete error:", delError);
+
+      continue;
+    }
+
+    // ----------------------------
+    // DISPLAY FUTURE EVENTS
+    // ----------------------------
     const li = document.createElement("li");
     li.textContent = `${eventDate.toLocaleString()} — ${event.place} — ${event.description} (by ${event.username})`;
 
+    // Add delete button only for the event creator
     if (event.user_id === currentUser.id) {
       const delBtn = document.createElement("button");
       delBtn.textContent = "x";
       delBtn.onclick = async () => {
         await supabase.from("community_events").delete().eq("id", event.id);
-        await loadCommunityEvents(locationId);
+        await loadCommunityEvents(locationId); // reload UI
       };
       li.appendChild(delBtn);
     }
 
     ul.appendChild(li);
   }
-};
+}
+
 
 async function initCommunityModule() {
   // 1️⃣ Load locations
