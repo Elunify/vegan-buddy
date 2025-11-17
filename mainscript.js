@@ -2577,7 +2577,8 @@ async function showCommunityMembers(locationId) {
   const { data: businesses, error: bizError } = await supabase
     .from("local_businesses")
     .select("*")
-    .eq("community_id", locationId);
+    .eq("community_id", locationId)
+    .order("priority", { ascending: false });;
 
   if (bizError) {
     console.error("Error loading local businesses:", bizError);
