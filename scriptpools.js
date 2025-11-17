@@ -4453,8 +4453,8 @@ function openIngredient(key) {
   if (!item) return;
 
   document.getElementById("ingredientName").textContent = item.name;
-  document.getElementById("ingredientDescription").textContent = item.description;
-  document.getElementById("ingredientNutrition").textContent = item.nutrition;
+  document.getElementById("ingredientDescription").innerHTML = item.description;
+  document.getElementById("ingredientNutrition").innerHTML = item.nutrition;
 
   document.getElementById("ingredientModal").classList.remove("hidden");
 }
