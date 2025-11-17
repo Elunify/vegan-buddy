@@ -1,5 +1,14 @@
 // Function to hide all pages and show the selected one
+// --- TAB HISTORY SYSTEM (very small and simple) ---
+let tabHistory = [];
+let currentTab = "home";
+
+// Override showSection to store history
 function showSection(sectionId) {
+  if (currentTab !== sectionId) {
+    tabHistory.push(currentTab);   // save previous tab
+    currentTab = sectionId;
+  }
   // Get all elements with class "page"
   const pages = document.querySelectorAll('.page');
   pages.forEach(page => {
@@ -21,6 +30,15 @@ function showSection(sectionId) {
   }
 }
 // --- Bottom Navigation Buttons ---
+// Called from Android when BACK button is pressed
+window.onAndroidBackPressed = function () {
+  if (tabHistory.length > 0) {
+    const previousTab = tabHistory.pop();
+    showSection(previousTab);
+    return true;  // JS handled the back press
+  }
+  return false;   // No more history → let Android close the app
+};
 
 // Toggle dropdowns for all triggers (center buttons, profile, menu)
 document.querySelectorAll('.dropdown > button, .profile-wrapper, .menu-button').forEach(btn => {
