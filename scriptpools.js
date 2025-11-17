@@ -554,7 +554,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
 },
 47: {  
   goal: "Protecting animals & animal welfare", diet: "vegan",
-  lesson: "Some people claim that plants have feelings. Science shows that plants don’t have a brain or central nervous system, so they don’t feel pain the way animals do.  But there’s another important fact: around 77% of global agricultural land is used for livestock, while farm animals provide only about 18% of the world’s calories and 37% of its protein. This means most of the land and crops are used inefficiently, to feed animals instead of people. By adopting a plant-based diet, we can use far less land and still feed everyone, while sparing both animals and plants. Reflecting on this helps us see how our choices shape the planet and the lives of others.",  
+  lesson: "Some people claim that plants have feelings. Science shows that plants don’t have a brain or central nervous system, so they don’t feel pain the way animals do.  But there’s another important fact: around 77% of global agricultural land is used for livestock, while farm animals provide only about 18% of the world’s calories and 37% of its protein. This means most of the land and crops are used inefficiently, to feed animals instead of people.",  
   quiz: {  
     question: "What percentage of global agricultural land is used for livestock?",  
     options: ["36%", "50%", "77%", "90%"],  

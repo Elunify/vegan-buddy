@@ -1,12 +1,15 @@
 // Function to hide all pages and show the selected one
-// --- TAB HISTORY SYSTEM (very small and simple) ---
+// --- TAB HISTORY SYSTEM (fixed) ---
 let tabHistory = [];
 let currentTab = "home";
 
-// Override showSection to store history
+// Show a section
 function showSection(sectionId) {
   if (currentTab !== sectionId) {
-    tabHistory.push(currentTab);   // save previous tab
+    // Only push currentTab if it's not the same as last in history
+    if (tabHistory[tabHistory.length - 1] !== currentTab) {
+      tabHistory.push(currentTab);   // save previous tab
+    }
     currentTab = sectionId;
   }
   // Get all elements with class "page"
@@ -34,6 +37,7 @@ function showSection(sectionId) {
 window.onAndroidBackPressed = function () {
   if (tabHistory.length > 0) {
     const previousTab = tabHistory.pop();
+    currentTab = previousTab; // Update currentTab BEFORE calling showSection to prevent pushing currentTab again
     showSection(previousTab);
     return true;  // JS handled the back press
   }

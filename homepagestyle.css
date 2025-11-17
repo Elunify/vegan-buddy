@@ -19,7 +19,8 @@ html, body {
     overflow-y: auto;           /* enable scrolling */
     padding: 1rem;
     /* Remove margin-top/bottom in WebView; use padding inside top/bottom instead */
-    padding-top: 50px;
+    padding-top: 1rem;
+    padding-bottom: 70px;
 
     -webkit-overflow-scrolling: touch; /* smooth scrolling iOS */
 }
@@ -206,6 +207,9 @@ h3 {
   justify-content: center;
   align-items: center;
   gap: 1.5rem;
+}
+.top-buttons-wrapper {
+  padding-top:40px;
 }
 
 /* Main big button */
