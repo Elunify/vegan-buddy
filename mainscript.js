@@ -2566,6 +2566,49 @@ async function showCommunityMembers(locationId) {
     li.appendChild(rightSide);
     membersList.appendChild(li);
   });
+
+  
+  // ----------------------------
+  // FETCH LOCAL BUSINESSES
+  // ----------------------------
+  const localBusinessesContainer = document.getElementById("localBusinessesList");
+  localBusinessesContainer.innerHTML = ""; // clear previous
+
+  const { data: businesses, error: bizError } = await supabase
+    .from("local_businesses")
+    .select("*")
+    .eq("community_id", locationId);
+
+  if (bizError) {
+    console.error("Error loading local businesses:", bizError);
+    localBusinessesContainer.innerHTML = "<p>Unable to load local businesses.</p>";
+    return;
+  }
+
+  if (businesses.length === 0) {
+    localBusinessesContainer.innerHTML = "<p>No local businesses yet.</p>";
+    return;
+  }
+
+  businesses.forEach(biz => {
+    const bizDiv = document.createElement("div");
+    bizDiv.style.display = "flex";
+    bizDiv.style.alignItems = "center";
+    bizDiv.style.gap = "1rem";
+    bizDiv.style.border = "1px solid #ddd";
+    bizDiv.style.padding = "0.5rem";
+    bizDiv.style.borderRadius = "6px";
+
+    bizDiv.innerHTML = `
+      <img src="${biz.picture_url}" alt="${biz.name}" style="width:60px; height:60px; object-fit:cover; border-radius:6px;">
+      <div>
+        <p style="margin:0; font-weight:bold;">${biz.name}</p>
+        <a href="${biz.maps_link}" target="_blank" style="color:#007bff; text-decoration:underline;">${biz.address}</a>
+      </div>
+    `;
+
+    localBusinessesContainer.appendChild(bizDiv);
+  });
 }
 
 async function openProfile(imgElement) {
