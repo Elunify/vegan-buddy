@@ -4578,11 +4578,23 @@ await loadRecipes();
     });
 
     // Close comment popup
-    const closePopup = document.getElementById('AFclosePopup');
-    if (closePopup) closePopup.addEventListener('click', () => {
-      const commentPopup = document.getElementById('AFcommentPopup');
-      commentPopup?.classList.add('hidden');
-    });
+const closePopup = document.getElementById('AFclosePopup');
+const commentPopup = document.getElementById('AFcommentPopup');
+
+if (closePopup && commentPopup) {
+  // Close on X button
+  closePopup.addEventListener('click', () => {
+    commentPopup.classList.add('hidden');
+  });
+
+  // Close when clicking outside the popup content
+  commentPopup.addEventListener('click', (event) => {
+    // Check if click target is the overlay itself, not inner content
+    if (event.target === commentPopup) {
+      commentPopup.classList.add('hidden');
+    }
+  });
+}
 
     // Submit block
     const submitBlockBtn = document.getElementById('submitBlockBtn');
