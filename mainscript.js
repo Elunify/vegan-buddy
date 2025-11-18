@@ -44,10 +44,10 @@ function showLoading(isLoading) {
 
   if (isLoading) {
     loader.style.display = "flex";
-    content.style.opacity = "0";
+    content.style.visibility = "hidden";   // changed
   } else {
     loader.style.display = "none";
-    content.style.opacity = "1";
+    content.style.visibility = "visible";  // changed
   }
 }
 
