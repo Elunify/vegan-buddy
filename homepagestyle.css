@@ -378,6 +378,7 @@ h3 {
 
 /* Inner popup content — fixed, like profile-card */
 .popup-content {
+  position: fixed;           /* critical: fixed to avoid WebView viewport issues */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -386,7 +387,7 @@ h3 {
   border-radius: 12px;
   width: 90%;
   max-width: 400px;
-  max-height: 90vh;          /* inner scroll if content too tall */
+  max-height: 90%;          /* inner scroll if content too tall */
   overflow-y: auto;
   text-align: center;
   z-index: 3100;             /* above overlay */
