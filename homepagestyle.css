@@ -1564,7 +1564,7 @@ h2 {
   margin-top: 0.5rem;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 8rem - 4.5rem); /* total viewport minus header + buttons */
+  height: calc(100% - 8rem - 4.5rem); /* total viewport minus header + buttons */
 }
 
 .course h3 {
