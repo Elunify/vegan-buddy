@@ -378,7 +378,6 @@ h3 {
 
 /* Inner popup content — fixed, like profile-card */
 .popup-content {
-  position: fixed;           /* critical: fixed to avoid WebView viewport issues */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
