@@ -193,6 +193,17 @@ mealartBtn.forEach(link => {
   link.addEventListener('click', () => showSection('mealartcontest'));
 });
 
+const uploadContainer = document.getElementById("MealArtUploadContent");
+const mainContest = document.getElementById("mealArtContestSmall");
+const mealArtbackBtn = document.getElementById("mealArtBackBtn");
+
+
+// Go back to contest view
+mealArtbackBtn.addEventListener("click", () => {
+      document.getElementById("mealArtContestSmall").classList.remove("hidden-meal");
+      document.getElementById("MealArtUploadContent").classList.add("hidden-meal");
+});
+
 document.getElementById("mealArtBtn").addEventListener("click", () => {
   showSection("mealartcontest");
 });
@@ -290,6 +301,12 @@ Object.keys(mealArtMap).forEach(id => {
 const editBtn = document.querySelector('.editprofile');
 const containerSettings = document.querySelector('.containersettings');
 const containerEdit = document.querySelector('.containeredit');
+const backtoprofileBtn = document.getElementById("backtoprofileBtn");
+
+backtoprofileBtn.addEventListener("click", () => {
+  containerEdit.classList.add("hidden");
+  containerSettings.classList.remove("hidden");
+});
 
 editBtn.addEventListener('click', (e) => {
   e.preventDefault(); // prevent default link navigation

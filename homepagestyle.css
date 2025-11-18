@@ -439,7 +439,16 @@ h3 {
   text-decoration: underline; /* make it link-like */
   transition: color 0.2s;
 }
-
+.mealArtback-button {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
 .mealartBtn:hover {
   color: #1a5fbf;           /* darker on hover */
 }
@@ -816,7 +825,16 @@ h3 {
     margin:auto;
     margin-bottom: 5%;
 }
-
+.backtoprofile-button {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
 .editprofile button {
   background-color: #3bb341; /* green */
   color: white;
