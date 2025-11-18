@@ -2287,7 +2287,6 @@ h2 {
   background-color: #c0392b;
 }
 
-
 .modal {
   position: fixed;
   z-index: 999;
@@ -2308,6 +2307,11 @@ h2 {
   border-radius: 10px;
   width: 90%;
   max-width: 500px;
+
+  /* 🔹 Fix for Android WebView */
+  max-height: 90%;         /* relative to parent modal height */
+  overflow-y: auto;        /* scroll if content too tall */
+
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
