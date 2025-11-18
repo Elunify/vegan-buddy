@@ -1952,7 +1952,7 @@ h2 {
   padding: 20px 25px;
   max-width: 400px;
   width: 90%;
-  max-height: 80vh;
+  max-height: 80%;
   overflow-y: auto;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   position: relative;
@@ -3286,12 +3286,19 @@ textarea {
   border-radius: 12px;
   width: 90%;
   max-width: 500px;
-  max-height: 80%;
+
+  /* 🔹 fix WebView height */
+  max-height: 80%;       /* relative to parent */
   overflow-y: auto;
+
+  /* remove relative if not needed for close button */
   position: relative;
+
   font-size: 1.25rem;
   font-weight: 700;
   padding: 1rem;
+
+  text-align: center;    /* optional, improves layout */
 }
 
 #AFpopupblockContent{
