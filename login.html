@@ -306,8 +306,8 @@ document.getElementById("forgotPasswordLink").addEventListener("click", async (e
       reset_link: resetLink
     });
 
-    setStatus("Password reset email sent! Check your inbox (or spam).", "green");
-
+    setTimeout(() => window.location.href = "reset-password.html", 1500);
+    
   } catch (err) {
     console.error("Forgot password error:", err);
     setStatus("Something went wrong. Try again later.");
