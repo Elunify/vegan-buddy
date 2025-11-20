@@ -300,19 +300,19 @@ document.getElementById("forgotPasswordLink").addEventListener("click", async (e
     }
 
     // Send email via EmailJS
-const resetLink = `https://vegan-buddy.vercel.app/reset-password.html?email=${encodeURIComponent(email)}&code=${code}`;
+// Send code via EmailJS (just the code, no link)
 await emailjs.send("service_50i8a3q", "template_0qmhcvi", {
   user_email: email,
-  reset_link: resetLink
+  reset_code: code,
 });
 
 // Show success message
-setStatus("Password reset email sent! Check your inbox (or spam).", "green");
+setStatus("Password reset code sent! Check your inbox (or spam).", "green");
 
-// Redirect to reset-password.html after 1.5 seconds
+// Redirect to reset-password.html and pass email in URL
 setTimeout(() => {
-  window.location.href = resetLink; // includes email and code in URL
-}, 1500);
+  window.location.href = `reset-password.html?email=${encodeURIComponent(email)}`;
+}, 2500);
 
   } catch (err) {
     console.error("Forgot password error:", err);
