@@ -292,7 +292,7 @@ document.getElementById("forgotPasswordLink").addEventListener("click", async (e
     // Save code in password_resets table
     const { error: dbError } = await supabase
       .from("password_resets")
-      .upsert([{ email, code, created_at: nowIso, used: false }], { onConflict: 'email' });
+      .insert([{ email, code, created_at: nowIso, used: false }], { onConflict: 'email' });
 
     if (dbError) {
       console.error("DB save error:", dbError);
@@ -306,7 +306,7 @@ document.getElementById("forgotPasswordLink").addEventListener("click", async (e
       reset_link: resetLink
     });
 
-    setTimeout(() => window.location.href = "resetlink", 1500);
+    setTimeout(() => window.location.href = resetlink, 1000);
     
   } catch (err) {
     console.error("Forgot password error:", err);
