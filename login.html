@@ -261,33 +261,6 @@ document.getElementById('verifyCodeBtn').addEventListener('click', async () => {
 });
 
 // ------------------ forgot password ------------------
-async function sendPasswordResetCode(email) {
-  const code = generateCode();
-  const nowIso = new Date().toISOString();
-
-  const { error: dbError } = await supabase
-    .from("password_resets")
-    .upsert([{ email, code, created_at: nowIso, used: false }]);
-
-  if (dbError) {
-    console.error("DB save error:", dbError);
-    return setStatus("Failed to create reset request. Try again later.");
-  }
-
-  try {
-    await emailjs.send("service_50i8a3q", "template_0qmhcvi", {
-      user_email: email,
-      reset_code: code
-    });
-
-    return true;
-  } catch (err) {
-    console.error("EmailJS reset send error:", err);
-    setStatus("Failed to send reset email. Try again later.");
-    return false;
-  }
-}
-
 document.getElementById("forgotPasswordLink").addEventListener("click", async (e) => {
   e.preventDefault();
   setStatus("");
@@ -295,21 +268,37 @@ document.getElementById("forgotPasswordLink").addEventListener("click", async (e
   const email = document.getElementById("signEmail").value.trim();
   if (!email) return setStatus("Please enter your email");
 
-  // check if account exists
-  const { data: existingProfile } = await supabase
-    .from("profiles")
-    .select("id")
-    .eq("email", email)
-    .maybeSingle();
+  try {
+    // Check if profile exists
+    const { data: existingProfile, error: profileError } = await supabase
+      .from("profiles")
+      .select("id")
+      .eq("email", email)
+      .maybeSingle();
 
-  if (!existingProfile) return setStatus("No account found with this email");
+    if (profileError) {
+      console.error("Profile lookup error:", profileError);
+      return setStatus("Something went wrong. Try again later.");
+    }
 
-  // send reset code
-  const sent = await sendPasswordResetCode(email);
-  if (sent) {
-    setStatus("Password reset code sent! Check your inbox.", "green");
-    window.tempResetEmail = email; // store email for next step
-    window.location.href = `reset-password.html?email=${encodeURIComponent(email)}`;
+    if (!existingProfile) {
+      return setStatus("No account found with this email");
+    }
+
+    // Request Supabase password reset (magic link)
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: "https://vegan-buddy.vercel.app/reset-password.html",
+    });
+
+    if (error) {
+      console.error("Supabase resetPasswordForEmail error:", error);
+      return setStatus("Failed to send reset email. Try again later.");
+    }
+
+    setStatus("Password reset email sent! Check your inbox (or spam).", "green");
+  } catch (err) {
+    console.error("Forgot password error:", err);
+    setStatus("Something went wrong. Try again later.");
   }
 });
 
