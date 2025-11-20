@@ -285,17 +285,29 @@ document.getElementById("forgotPasswordLink").addEventListener("click", async (e
       return setStatus("No account found with this email");
     }
 
-    // Request Supabase password reset (magic link)
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: "https://vegan-buddy.vercel.app/reset-password.html",
-    });
+    // Generate 6-digit code
+    const code = generateCode();
+    const nowIso = new Date().toISOString();
 
-    if (error) {
-      console.error("Supabase resetPasswordForEmail error:", error);
-      return setStatus("Failed to send reset email. Try again later.");
+    // Save code in password_resets table
+    const { error: dbError } = await supabase
+      .from("password_resets")
+      .upsert([{ email, code, created_at: nowIso, used: false }], { onConflict: 'email' });
+
+    if (dbError) {
+      console.error("DB save error:", dbError);
+      return setStatus("Failed to create reset request. Try again later.");
     }
 
+    // Send email via EmailJS
+    const resetLink = `https://vegan-buddy.vercel.app/reset-password.html?email=${encodeURIComponent(email)}&code=${code}`;
+    await emailjs.send("service_50i8a3q", "template_0qmhcvi", {
+      user_email: email,
+      reset_link: resetLink
+    });
+
     setStatus("Password reset email sent! Check your inbox (or spam).", "green");
+
   } catch (err) {
     console.error("Forgot password error:", err);
     setStatus("Something went wrong. Try again later.");
