@@ -267,7 +267,7 @@ async function sendPasswordResetCode(email) {
 
   const { error: dbError } = await supabase
     .from("password_resets")
-    .insert([{ email, code, created_at: nowIso, used: false }]);
+    .upsert([{ email, code, created_at: nowIso, used: false }]);
 
   if (dbError) {
     console.error("DB save error:", dbError);
@@ -280,7 +280,6 @@ async function sendPasswordResetCode(email) {
       reset_code: code
     });
 
-    document.getElementById("resetCodeSection").style.display = "block";
     return true;
   } catch (err) {
     console.error("EmailJS reset send error:", err);
