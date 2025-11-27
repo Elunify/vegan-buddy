@@ -2495,7 +2495,7 @@ async function showCommunityMembers(locationId) {
   // Fetch members
   const { data: members, error } = await supabase
     .from("community_participants")
-    .select("user_id, name, title, profile_photo, frame")
+    .select("user_id, name, title, profile_photo, frame, friend_code")
     .eq("location_id", locationId);
 
   if (error) return console.error(error);
@@ -2704,7 +2704,8 @@ document.getElementById("joinCommunityBtn").addEventListener("click", async () =
     name: currentProfile.name,
     title: currentProfile.title,
     frame: currentProfile.frame,
-    profile_photo: currentProfile.profile_photo
+    profile_photo: currentProfile.profile_photo,
+    friend_code: currentProfile.friend_code
   }]);
 
   await showCommunityDashboard(locationId, locationName);
@@ -4694,6 +4695,8 @@ async function checkForumComments(supabase, currentUserId) {
 
 // -------------- LOCAL EVENTS ON LOAD --------------
 async function checkLocalEvents(supabase, locationId) {
+  
+  if (!locationId) return; // <-- prevent the bad request
   const lastSeen = notificationState.lastSeenLocal;
 
   const { data } = await supabase
