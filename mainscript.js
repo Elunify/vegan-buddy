@@ -2510,7 +2510,7 @@ async function showCommunityMembers(locationId) {
 
   const { data: sentRequests } = await supabase
     .from("friend_requests")
-    .select("receiver_id")
+    .select("receiver_friend_code")
     .eq("sender_id", currentUser.id)
     .eq("status", "pending");
 
@@ -2551,7 +2551,7 @@ async function showCommunityMembers(locationId) {
       !friends.some(f => f.user1_id === member.user_id || f.user2_id === member.user_id)
     ) {
       const btn = document.createElement("button");
-      btn.textContent = sentRequests.some(r => r.receiver_id === member.user_id)
+      btn.textContent = sentRequests.some(r => r.receiver_friend_code === member.friend_code)
         ? "Request Sent"
         : "Send Request";
       btn.disabled = btn.textContent === "Request Sent";
@@ -3067,7 +3067,7 @@ async function showIncomingFriendRequests() {
   const { data: requests, error } = await supabase
     .from("friend_requests")
     .select("id, sender_id, name, title, profile_photo, frame, sender_friend_code, receiver_friend_code, status")
-    .eq("receiver_friend_code", currentUser.friend_code)
+    .eq("receiver_friend_code", currentProfile.friend_code)
     .eq("status", "pending");
 
   if (error) return console.error(error);
