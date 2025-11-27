@@ -228,16 +228,10 @@ document.getElementById('verifyCodeBtn').addEventListener('click', async () => {
     // ✅ Code correctness check
     if (codeData.code !== inputCode) return setStatus("Incorrect code");
 
-    // ------------------ Delete the verification row immediately ------------------
-  const { error: deleteError } = await supabase
-    .from("email_verifications")
-    .delete()
-    .eq("id", codeData.id);
-
-  if (deleteError) {
-    console.error("Failed to delete verification row:", deleteError);
-    return setStatus("Could not complete verification securely.");
-  }
+    // Mark the code as verified
+    await supabase.from("email_verifications")
+      .update({ verified: true })
+      .eq("id", codeData.id);
 
     // ------------------ Create Supabase user (no confirmation email) ------------------
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
