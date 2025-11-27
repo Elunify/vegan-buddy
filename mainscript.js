@@ -2557,7 +2557,7 @@ async function showCommunityMembers(locationId) {
       btn.disabled = btn.textContent === "Request Sent";
 
       btn.onclick = async () => {
-        const result = await sendRequest(member.user_id);
+        const result = await sendRequest(member.friend_code);
         if (result.success) {
           btn.textContent = "Request Sent ✅";
           btn.disabled = true;
@@ -3011,7 +3011,6 @@ async function submitNewComment(content, inputElement) {
 
   AFopenCommentPopup(fullBlock);
 }
-
 async function sendRequest(receiverCode) {
   const friend_code = receiverCode.trim().toLowerCase();
   if (!friend_code) return { success: false, message: "No code provided." };
@@ -3020,31 +3019,37 @@ async function sendRequest(receiverCode) {
     return { success: false, message: "You cannot send a request to yourself." };
   }
 
-  // Lookup receiver by friend code in community_participants
+  // ------------------------------
+  // Lookup receiver in profilecards
+  // ------------------------------
   const { data: receiverProfile, error: receiverError } = await supabase
-    .from("community_participants")
-    .select("user_id")
+    .from("profilecards")
+    .select("user_id, friend_code")
     .eq("friend_code", friend_code)
     .maybeSingle();
 
   if (receiverError) return { success: false, message: receiverError.message };
+  if (!receiverProfile) return { success: false, message: "User not found." };
 
-  // receiver_id is null if the user is not a participant
-  const receiver_id = receiverProfile?.user_id || null;
+  const receiver_id = receiverProfile.user_id;
 
-  // Check for existing request (by friend code OR receiver_id)
+  // ------------------------------
+  // Check for existing friend request
+  // ------------------------------
   const { data: existing, error: checkError } = await supabase
     .from("friend_requests")
     .select("*")
-    .or(`receiver_friend_code.eq.${friend_code},receiver_id.eq.${receiver_id}`)
     .eq("sender_id", currentUser.id)
+    .eq("receiver_id", receiver_id)
     .maybeSingle();
 
   if (checkError) return { success: false, message: checkError.message };
   if (existing) return { success: false, message: "Request already sent!" };
 
+  // ------------------------------
   // Fetch sender profile
-  const { data: profile, error: profileError } = await supabase
+  // ------------------------------
+  const { data: senderProfile, error: profileError } = await supabase
     .from("profiles")
     .select("name, title, profile_photo, frame, friend_code")
     .eq("id", currentUser.id)
@@ -3052,33 +3057,37 @@ async function sendRequest(receiverCode) {
 
   if (profileError) return { success: false, message: profileError.message };
 
-  // Insert request with receiver_id if exists, else null
-  const { error } = await supabase.from("friend_requests").insert([{
+  // ------------------------------
+  // Insert new friend request
+  // ------------------------------
+  const { error: insertError } = await supabase.from("friend_requests").insert([{
     sender_id: currentUser.id,
-    receiver_id: receiver_id,          // null if not a participant
+    receiver_id: receiver_id,
     receiver_friend_code: friend_code,
-    name: profile?.name || "Unknown",
-    title: profile?.title || "",
-    profile_photo: profile?.profile_photo || "default.jpg",
-    frame: profile?.frame || "",
-    sender_friend_code: profile?.friend_code || null,
+    name: senderProfile?.name || "Unknown",
+    title: senderProfile?.title || "",
+    profile_photo: senderProfile?.profile_photo || "default.jpg",
+    frame: senderProfile?.frame || "",
+    sender_friend_code: senderProfile?.friend_code || null,
     status: "pending"
   }]);
 
-  if (error) return { success: false, message: error.message };
+  if (insertError) return { success: false, message: insertError.message };
 
   return { success: true };
 }
+
 
 async function showIncomingFriendRequests() { 
   const list = document.getElementById("incomingRequestsList");
   if (!list) return;
   list.innerHTML = "";
 
+  // Fetch all pending requests for current user
   const { data: requests, error } = await supabase
     .from("friend_requests")
     .select("id, sender_id, name, title, profile_photo, frame, sender_friend_code, receiver_friend_code, receiver_id, status")
-    .or(`receiver_id.eq.${currentProfile.id},receiver_friend_code.eq.${currentProfile.friend_code}`)
+    .eq("receiver_id", currentProfile.id)   // always defined
     .eq("status", "pending");
 
   if (error) return console.error(error);
@@ -3123,17 +3132,13 @@ async function showIncomingFriendRequests() {
     acceptBtn.textContent = "Accept";
 
     acceptBtn.onclick = async () => {
-
-      // Fetch my profile including my friend_code
       const { data: myProfile, error: myError } = await supabase
         .from("profiles")
         .select("id, name, title, profile_photo, frame, friend_code")
         .eq("id", currentUser.id)
         .single();
-
       if (myError) return console.error(myError);
 
-      // Insert into friends table (no emails now)
       const { error: insertError } = await supabase.from("friends").insert([{
         user1_id: req.sender_id,
         user1_name: req.name,
@@ -3149,10 +3154,8 @@ async function showIncomingFriendRequests() {
         user2_profile_photo: myProfile.profile_photo,
         user2_frame: myProfile.frame
       }]);
-
       if (insertError) return console.error(insertError);
 
-      // Remove request
       await supabase.from("friend_requests").delete().eq("id", req.id);
 
       // Refresh lists
@@ -3179,6 +3182,7 @@ async function showIncomingFriendRequests() {
     list.appendChild(li);
   });
 }
+
 
 
 async function showFriends(containerId, onClickFriend) {
