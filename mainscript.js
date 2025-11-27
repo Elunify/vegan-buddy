@@ -113,6 +113,7 @@ async function fetchAllData() {
   return { profile, impact, meals };
 }
 
+
 //--------------------------
 // PROFILE RENDERING
 //--------------------------
@@ -375,6 +376,12 @@ if (checkinBtn && lessonPathBtn && dailyCheckInSection && lessonPathSection) {
 
   renderPet(petDisplay);
   renderPet(petAvatar);
+  
+// When opening the friend request popup
+const myCodeDiv = document.getElementById("myfriendcode");
+if (myCodeDiv && currentProfile?.friend_code) {
+  myCodeDiv.textContent = currentProfile.friend_code;
+}
 
   return profile;
 }
@@ -2488,7 +2495,7 @@ async function showCommunityMembers(locationId) {
   // Fetch members
   const { data: members, error } = await supabase
     .from("community_participants")
-    .select("user_id, name, title, profile_photo, frame, email")
+    .select("user_id, name, title, profile_photo, frame")
     .eq("location_id", locationId);
 
   if (error) return console.error(error);
@@ -2503,7 +2510,7 @@ async function showCommunityMembers(locationId) {
 
   const { data: sentRequests } = await supabase
     .from("friend_requests")
-    .select("receiver_email")
+    .select("receiver_id")
     .eq("sender_id", currentUser.id)
     .eq("status", "pending");
 
@@ -2544,13 +2551,13 @@ async function showCommunityMembers(locationId) {
       !friends.some(f => f.user1_id === member.user_id || f.user2_id === member.user_id)
     ) {
       const btn = document.createElement("button");
-      btn.textContent = sentRequests.some(r => r.receiver_email === member.email)
+      btn.textContent = sentRequests.some(r => r.receiver_id === member.user_id)
         ? "Request Sent"
         : "Send Request";
       btn.disabled = btn.textContent === "Request Sent";
 
       btn.onclick = async () => {
-        const result = await sendRequest(member.email);
+        const result = await sendRequest(member.user_id);
         if (result.success) {
           btn.textContent = "Request Sent ✅";
           btn.disabled = true;
@@ -2697,8 +2704,7 @@ document.getElementById("joinCommunityBtn").addEventListener("click", async () =
     name: currentProfile.name,
     title: currentProfile.title,
     frame: currentProfile.frame,
-    profile_photo: currentProfile.profile_photo,
-    email: currentProfile.email
+    profile_photo: currentProfile.profile_photo
   }]);
 
   await showCommunityDashboard(locationId, locationName);
@@ -3008,56 +3014,61 @@ async function submitNewComment(content, inputElement) {
 //--------------------------
 // Friends + Messages
 //--------------------------
-async function sendRequest(receiverEmail) {
-  const email = receiverEmail.trim().toLowerCase();
-  if (!email) return { success: false, message: "No email provided." };
-  if (email === currentUser.email.toLowerCase()) return { success: false, message: "You cannot send a request to yourself." };
+async function sendRequest(receiverCode) {
+  const friend_code = receiverCode.trim().toLowerCase();
+  if (!friend_code) return { success: false, message: "No code provided." };
+
+  if (friend_code === currentUser.friend_code?.toLowerCase()) {
+    return { success: false, message: "You cannot send a request to yourself." };
+  }
 
   // Check for existing request
   const { data: existing, error: checkError } = await supabase
     .from("friend_requests")
     .select("*")
     .eq("sender_id", currentUser.id)
-    .eq("receiver_email", email)
+    .eq("receiver_friend_code", friend_code)
     .maybeSingle();
+
   if (checkError) return { success: false, message: checkError.message };
   if (existing) return { success: false, message: "Request already sent!" };
 
-  // Fetch profile
+  // Fetch sender profile
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
-    .select("name, title, profile_photo, frame")
+    .select("name, title, profile_photo, frame, friend_code")
     .eq("id", currentUser.id)
     .maybeSingle();
+
   if (profileError) return { success: false, message: profileError.message };
 
   // Insert request
   const { error } = await supabase.from("friend_requests").insert([{
     sender_id: currentUser.id,
-    receiver_email: email,
+    receiver_friend_code: friend_code,
     name: profile?.name || "Unknown",
     title: profile?.title || "",
     profile_photo: profile?.profile_photo || "default.jpg",
     frame: profile?.frame || "",
-    email: currentUser.email,
+    sender_friend_code: profile?.friend_code || null,
     status: "pending"
   }]);
+
   if (error) return { success: false, message: error.message };
 
   return { success: true };
 }
-
 async function showIncomingFriendRequests() { 
-     
   const list = document.getElementById("incomingRequestsList");
   if (!list) return;
   list.innerHTML = "";
 
   const { data: requests, error } = await supabase
     .from("friend_requests")
-    .select("id, sender_id, name, title, profile_photo, frame, email, receiver_email, status")
-    .eq("receiver_email", currentUser.email)
+    .select("id, sender_id, name, title, profile_photo, frame, sender_friend_code, receiver_friend_code, status")
+    .eq("receiver_friend_code", currentUser.friend_code)
     .eq("status", "pending");
+
   if (error) return console.error(error);
 
   requests.forEach(req => {
@@ -3065,32 +3076,31 @@ async function showIncomingFriendRequests() {
     li.className = "friend-request-item";
 
     const hasFrame = req.frame && req.frame.trim() !== "";
-const imgDiv = document.createElement("div");
-imgDiv.className = "friend-photo-frame"; // same class for all avatars
-imgDiv.dataset.userid = req.sender_id;
+    const imgDiv = document.createElement("div");
+    imgDiv.className = "friend-photo-frame";
+    imgDiv.dataset.userid = req.sender_id;
 
-imgDiv.style.backgroundImage = hasFrame
-  ? `url('${req.frame}'), url('${req.profile_photo || 'default.jpg'}')`
-  : `url('${req.profile_photo || 'default.jpg'}')`;
+    imgDiv.style.backgroundImage = hasFrame
+      ? `url('${req.frame}'), url('${req.profile_photo || 'default.jpg'}')`
+      : `url('${req.profile_photo || 'default.jpg'}')`;
 
-imgDiv.style.backgroundSize = hasFrame ? "contain, cover" : "cover";
-imgDiv.style.backgroundPosition = "center";
-imgDiv.style.backgroundRepeat = "no-repeat";
-imgDiv.style.width = "60px";   // adjust as needed
-imgDiv.style.height = "60px";
-imgDiv.style.borderRadius = "50%";
-imgDiv.style.cursor = "pointer";
+    imgDiv.style.backgroundSize = hasFrame ? "contain, cover" : "cover";
+    imgDiv.style.backgroundPosition = "center";
+    imgDiv.style.backgroundRepeat = "no-repeat";
+    imgDiv.style.width = "60px";
+    imgDiv.style.height = "60px";
+    imgDiv.style.borderRadius = "50%";
+    imgDiv.style.cursor = "pointer";
 
-// Add click event to open profile
-imgDiv.addEventListener("click", e => {
-  e.stopPropagation();
-  openProfile(imgDiv);
-});
+    imgDiv.addEventListener("click", e => {
+      e.stopPropagation();
+      openProfile(imgDiv);
+    });
 
     const nameSpan = document.createElement("span");
-nameSpan.textContent = req.title
-  ? `${req.name}, ${req.title}`
-  : req.name;
+    nameSpan.textContent = req.title
+      ? `${req.name}, ${req.title}`
+      : req.name;
 
     const actions = document.createElement("div");
     actions.className = "actions";
@@ -3099,31 +3109,41 @@ nameSpan.textContent = req.title
     const acceptBtn = document.createElement("button");
     acceptBtn.className = "accept";
     acceptBtn.textContent = "Accept";
+
     acceptBtn.onclick = async () => {
+
+      // Fetch my profile including my friend_code
       const { data: myProfile, error: myError } = await supabase
         .from("profiles")
-        .select("id, name, title, profile_photo, frame, email")
+        .select("id, name, title, profile_photo, frame, friend_code")
         .eq("id", currentUser.id)
         .single();
+
       if (myError) return console.error(myError);
 
+      // Insert into friends table (no emails now)
       const { error: insertError } = await supabase.from("friends").insert([{
         user1_id: req.sender_id,
         user1_name: req.name,
         user1_title: req.title,
-        user1_email: req.email,
+        user1_friend_code: req.sender_friend_code,
         user1_profile_photo: req.profile_photo,
         user1_frame: req.frame,
+
         user2_id: myProfile.id,
         user2_name: myProfile.name,
         user2_title: myProfile.title,
-        user2_email: myProfile.email,
+        user2_friend_code: myProfile.friend_code,
         user2_profile_photo: myProfile.profile_photo,
         user2_frame: myProfile.frame
       }]);
+
       if (insertError) return console.error(insertError);
 
+      // Remove request
       await supabase.from("friend_requests").delete().eq("id", req.id);
+
+      // Refresh lists
       await showIncomingFriendRequests();
       await showFriends("friendsList", friend => startChatWithFriend(friend));
     };
@@ -3148,6 +3168,7 @@ nameSpan.textContent = req.title
   });
 }
 
+
 async function showFriends(containerId, onClickFriend) {
   const list = document.getElementById(containerId);
   if (!list) return;
@@ -3165,7 +3186,6 @@ async function showFriends(containerId, onClickFriend) {
       id: friendship.user2_id, 
       name: friendship.user2_name, 
       title: friendship.user2_title, 
-      email: friendship.user2_email, 
       photo: friendship.user2_profile_photo,
       frame: friendship.user2_frame // <-- include frame
     }
@@ -3173,7 +3193,6 @@ async function showFriends(containerId, onClickFriend) {
       id: friendship.user1_id, 
       name: friendship.user1_name, 
       title: friendship.user1_title,
-      email: friendship.user1_email, 
       photo: friendship.user1_profile_photo,
       frame: friendship.user1_frame // <-- include frame
     };
@@ -3272,7 +3291,7 @@ document.getElementById("backToList").addEventListener("click", () => {
   window.currentChatFriend = null;
 });
 
-async function loadMessages(chatId, friend) {
+async function loadMessages(chatId) {
   const chatContainer = document.getElementById("chatMessages");
   if (!chatContainer) return;
 
@@ -3435,7 +3454,7 @@ function setupMentorshipUI() {
         title: profile.title,
         profile_photo: profile.profile_photo || "",
         frame: profile.frame,
-        email: profile.email,
+        friend_code: profile.friend_code,
         years_vegan: parseInt(years, 10)
       });
 
@@ -4628,13 +4647,13 @@ async function subscribeToMessages(supabase, currentUserId) {
 }
 
 // -------------- FRIEND REQUESTS ON LOAD --------------
-async function checkFriendRequests(supabase, userEmail) {
+async function checkFriendRequests(supabase, currentFriendCode) {
   const lastSeen = notificationState.lastSeenFriends; // ISO string or null
 
   let query = supabase
     .from("friend_requests")
     .select("*")
-    .eq("receiver_email", userEmail)
+    .eq("receiver_friend_code", currentFriendCode)
     .eq("status", "pending");
 
   if (lastSeen) {
@@ -4690,14 +4709,14 @@ async function checkLocalEvents(supabase, locationId) {
 }
 
 // -------------- INIT (call this AFTER supabase client is created) --------------
-async function initNotifications(supabase, currentUserId, userEmail, locationId) {
+async function initNotifications(supabase, currentUserId, friendcode, locationId) {
   loadNotificationState();
 
   // realtime: messages
   subscribeToMessages(supabase, currentUserId);
 
   // fetch-on-load:
-  checkFriendRequests(supabase, userEmail);
+  checkFriendRequests(supabase, friendcode);
   checkForumComments(supabase, currentUserId);
   checkLocalEvents(supabase, locationId);
 }
@@ -4846,8 +4865,8 @@ if (closePopup && commentPopup) {
   
 // Friend request popup
   document.getElementById("sendFriendRequestBtn")?.addEventListener("click", async () => {
-    const email = document.getElementById("friendEmailInput")?.value;
-    const result = await sendRequest(email);
+    const friend_code = document.getElementById("friendEmailInput")?.value;
+    const result = await sendRequest(friend_code);
     if (!result.success) alert(result.message);
     else {
       alert("Friend request sent!");
@@ -4906,6 +4925,7 @@ if (closePopup && commentPopup) {
       await supabase.from('messages').insert([{
         chat_id: chatId,
         sender_id: currentUser.id,
+        receiver_id: friend.id,
         content: text
       }]);
 
@@ -5025,4 +5045,19 @@ setTimeout(async () => {
   }
 }
 
+// On page load (and you can repeat periodically if needed)
+await supabase
+  .from('user_status')
+  .upsert(
+    { user_id: currentUser.id, app_open: true }, // upsert needs primary key
+    { onConflict: ['user_id'] } // ensure it updates if user exists
+  );
+
+});
+
+// On page unload
+window.addEventListener('beforeunload', () => {
+  const url = 'https://Elunify.functions.supabase.co/updateAppStatus';
+  const data = JSON.stringify({ user_id: currentUser.id, app_open: false });
+  navigator.sendBeacon(url, data);
 });
