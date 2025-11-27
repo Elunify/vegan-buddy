@@ -3016,48 +3016,17 @@ async function submitNewComment(content, inputElement) {
 // Friends + Messages
 //--------------------------
 async function sendRequest(receiverCode) {
-  const friend_code = receiverCode.trim().toLowerCase();
-  if (!friend_code) return { success: false, message: "No code provided." };
+  if (!receiverCode) return { success: false, message: "No code provided." };
 
-  if (friend_code === currentUser.friend_code?.toLowerCase()) {
-    return { success: false, message: "You cannot send a request to yourself." };
+  try {
+    await supabase.rpc("send_friend_request", {
+      sender_id: currentUser.id,
+      receiver_code: receiverCode.trim().toLowerCase()
+    });
+    return { success: true };
+  } catch (error) {
+    return { success: false, message: error.message };
   }
-
-  // Check for existing request
-  const { data: existing, error: checkError } = await supabase
-    .from("friend_requests")
-    .select("*")
-    .eq("sender_id", currentUser.id)
-    .eq("receiver_friend_code", friend_code)
-    .maybeSingle();
-
-  if (checkError) return { success: false, message: checkError.message };
-  if (existing) return { success: false, message: "Request already sent!" };
-
-  // Fetch sender profile
-  const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("name, title, profile_photo, frame, friend_code")
-    .eq("id", currentUser.id)
-    .maybeSingle();
-
-  if (profileError) return { success: false, message: profileError.message };
-
-  // Insert request
-  const { error } = await supabase.from("friend_requests").insert([{
-    sender_id: currentUser.id,
-    receiver_friend_code: friend_code,
-    name: profile?.name || "Unknown",
-    title: profile?.title || "",
-    profile_photo: profile?.profile_photo || "default.jpg",
-    frame: profile?.frame || "",
-    sender_friend_code: profile?.friend_code || null,
-    status: "pending"
-  }]);
-
-  if (error) return { success: false, message: error.message };
-
-  return { success: true };
 }
 async function showIncomingFriendRequests() { 
   const list = document.getElementById("incomingRequestsList");
@@ -3066,8 +3035,8 @@ async function showIncomingFriendRequests() {
 
   const { data: requests, error } = await supabase
     .from("friend_requests")
-    .select("id, sender_id, name, title, profile_photo, frame, sender_friend_code, receiver_friend_code, status")
-    .eq("receiver_friend_code", currentProfile.friend_code)
+    .select("id, sender_id, name, title, profile_photo, frame, sender_friend_code, receiver_friend_code, receiver_id, status")
+    .eq("receiver_id", currentProfile.id)
     .eq("status", "pending");
 
   if (error) return console.error(error);
