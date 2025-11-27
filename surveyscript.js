@@ -271,7 +271,17 @@ async function saveProfile() {
   const defaultProfileUrl = "https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/profile_photos/default.jpg";
   const defaultPetUrl     = "https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/pet_photos/default.jpg";
 
+  function generateFriendCode(length = 6) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let code = '';
+  for (let i = 0; i < length; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return code;
+}
+
   try {
+    const friendCode = generateFriendCode();
 
     const { data, error } = await supabase
       .from('profiles')
@@ -303,7 +313,9 @@ async function saveProfile() {
     goal_progress: answers.goals?.reduce((acc, goal) => {
         acc[goal] = 0; // start each goal at lesson index 0
         return acc;
-    }, {})
+    }, {}), 
+     // --- Friend code ---
+      friend_code: friendCode
       })
       .eq('id', user.id)           // ensure only their own row is updated
       .select();                   // return the updated row
