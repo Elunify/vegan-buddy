@@ -115,13 +115,31 @@ learnButtons.forEach(id => {
 // });
 
 // Community: Local, Events, Forum, Friends, Mentorship, Success
-const communityButtons = ['local','forum','friends','messages','mentorship'];
+const communityButtons = ['local','forum', 'mentorship'];
 communityButtons.forEach(id => {
   const btn = document.querySelector(`button[onclick="showSection('${id}')"]`);
   if (btn) {
     btn.addEventListener('click', () => {
       showSection(id);
+      clearSectionNotifications(id);      // clear notifications for this section
       closeDropdowns(); // close dropdown
+    });
+  }
+});
+
+// Sections that should clear notifications when clicked
+const notifySections = ['friends', 'messages'];
+
+notifySections.forEach(section => {
+  const btn = document.querySelector(`button[onclick="showSection('${section}')"]`);
+  
+  if (btn) {
+    btn.addEventListener('click', (event) => {
+      event.preventDefault(); // just to be safe
+
+      clearSectionNotifications(section);  // 👉 clear notifications
+      showSection(section);                // 👉 open section
+      closeDropdowns();                    // optional: close menu
     });
   }
 });

@@ -4501,6 +4501,226 @@ function showProgressSuggestion(message, petPhotoUrl) {
 
 
 
+/* notifications.js
+ *
+ * Requires:
+ *  - a global `supabase` client instance
+ *  - a global `currentUser` object { id, email, location_id }
+ *
+ * Edit the table/column names below if your schema differs.
+ */
+
+// -------------- NOTIFICATION STATE --------------
+const notificationState = {
+  messages: false,
+  friendRequests: false,
+  forumComments: false,
+  localEvents: false,
+
+  lastSeenFriends: null,   
+  lastSeenForum: null,
+  lastSeenLocal: null,
+};
+
+// -------------- DOM ELEMENTS --------------
+const dots = {
+  profile: document.getElementById("profileDot"),
+  messages: document.getElementById("messagesDot"),
+  friends: document.getElementById("friendRequestsDot"),
+
+  communityMain: document.getElementById("communityDot"),
+  communityLocal: document.getElementById("LocalDot"),
+  communityForum: document.getElementById("ForumDot"),
+};
+
+// -------------- SAVE / LOAD STATE --------------
+function loadNotificationState() {
+  const saved = localStorage.getItem("notificationState");
+  if (saved) Object.assign(notificationState, JSON.parse(saved));
+  updateDots();
+}
+
+function saveNotificationState() {
+  localStorage.setItem("notificationState", JSON.stringify(notificationState));
+}
+
+// -------------- UPDATE DOTS IN UI --------------
+function updateDots() {
+  // Messages
+  dots.messages.style.display = notificationState.messages ? "inline-block" : "none";
+
+  // Friend Requests
+  dots.friends.style.display = notificationState.friendRequests ? "inline-block" : "none";
+
+  // Profile = messages OR friendRequests
+  dots.profile.style.display =
+    notificationState.messages || notificationState.friendRequests
+      ? "inline-block"
+      : "none";
+
+  // Forum Comments
+  dots.communityForum.style.display = notificationState.forumComments ? "inline-block" : "none";
+
+  // Local Events
+  dots.communityLocal.style.display = notificationState.localEvents ? "inline-block" : "none";
+
+  // Main Community Dot = any community alert
+  dots.communityMain.style.display =
+    notificationState.forumComments || notificationState.localEvents
+      ? "inline-block"
+      : "none";
+}
+
+// -------------- NOTIFICATION TRIGGERS --------------
+function notify(type) {
+  notificationState[type] = true;
+  saveNotificationState();
+  updateDots();
+}
+
+function clearNotification(type) {
+  notificationState[type] = false;
+  saveNotificationState();
+  updateDots();
+}
+
+// -------------- CLEAR WHEN USER OPENS THE SECTION --------------
+window.clearSectionNotifications = function (section) {
+  const now = new Date().toISOString();
+
+  if (section === "messages") clearNotification("messages");
+
+  if (section === "friends") {
+    clearNotification("friendRequests");
+    notificationState.lastSeenFriends = now;
+  }
+
+  if (section === "forum") {
+    clearNotification("forumComments");
+    notificationState.lastSeenForum = now;
+  }
+
+  if (section === "local") {
+    clearNotification("localEvents");
+    notificationState.lastSeenLocal = now;
+  }
+
+  saveNotificationState();
+};
+
+// -------------- SUPABASE REALTIME: MESSAGES --------------
+async function subscribeToMessages(supabase, currentUserId) {
+  supabase
+    .channel("messages")
+    .on(
+      "postgres_changes",
+      { event: "INSERT", schema: "public", table: "messages" },
+      (payload) => {
+        const message = payload.new;
+
+        // A message belongs to a chat with user
+        if (message.chat_id && message.sender_id !== currentUserId) {
+          notify("messages");
+        }
+      }
+    )
+    .subscribe();
+}
+
+// -------------- FRIEND REQUESTS ON LOAD --------------
+async function checkFriendRequests(supabase, userEmail) {
+  const lastSeen = notificationState.lastSeenFriends; // ISO string or null
+
+  let query = supabase
+    .from("friend_requests")
+    .select("*")
+    .eq("receiver_email", userEmail)
+    .eq("status", "pending");
+
+  if (lastSeen) {
+    query = query.gt("created_at", lastSeen); // only requests after last seen
+  }
+
+  const { data } = await query;
+
+  if (data && data.length > 0) {
+    notify("friendRequests");
+  }
+}
+
+// -------------- FORUM COMMENTS ON LOAD --------------
+async function checkForumComments(supabase, currentUserId) {
+  const lastSeen = notificationState.lastSeenForum;
+
+  const { data } = await supabase
+    .from("forum_comments")
+    .select("created_at, block_id")
+    .in(
+      "block_id",
+      (
+        await supabase
+          .from("forum_blocks")
+          .select("id")
+          .eq("user_id", currentUserId)
+      ).data?.map((b) => b.id) || []
+    );
+
+  if (!data || data.length === 0) return;
+
+  // Only notify if new comments exist after last seen
+  const hasNew = data.some((c) => !lastSeen || c.created_at > lastSeen);
+
+  if (hasNew) notify("forumComments");
+}
+
+// -------------- LOCAL EVENTS ON LOAD --------------
+async function checkLocalEvents(supabase, locationId) {
+  const lastSeen = notificationState.lastSeenLocal;
+
+  const { data } = await supabase
+    .from("community_events")
+    .select("created_at")
+    .eq("location_id", locationId);
+
+  if (!data || data.length === 0) return;
+
+  const hasNew = data.some((e) => !lastSeen || e.created_at > lastSeen);
+
+  if (hasNew) notify("localEvents");
+}
+
+// -------------- INIT (call this AFTER supabase client is created) --------------
+async function initNotifications(supabase, currentUserId, userEmail, locationId) {
+  loadNotificationState();
+
+  // realtime: messages
+  subscribeToMessages(supabase, currentUserId);
+
+  // fetch-on-load:
+  checkFriendRequests(supabase, userEmail);
+  checkForumComments(supabase, currentUserId);
+  checkLocalEvents(supabase, locationId);
+}
+
+window.initNotifications = initNotifications;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //--------------------------
 // INIT
@@ -4758,6 +4978,8 @@ await fetchAllLeaderboards();
   });
   }
 
+    // MARK WITH  DOTS
+  initNotifications(supabase, currentUser.id, currentUser.email, joinedLocationId);
 
 //Show page after everything is loaded:
   showLoading(false);

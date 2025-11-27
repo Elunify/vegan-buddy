@@ -1247,12 +1247,24 @@
         src="https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/profile_photos/default.jpg"
         alt="Profile Photo"
         class="profile-photo"
-      />
+      /> 
+      <span class="red-dot" id="profileDot"></span>
     </button>
     <div class="dropdown-content">
       <button onclick="showSection('settings')">Profile</button>
-      <button onclick="showSection('friends')">Friends</button>
-      <button onclick="showSection('messages')">Messages</button>
+      <button onclick="showSection('friends')">
+  <span class="btn-label">
+    Friends
+    <span class="red-dot" id="friendRequestsDot"></span>
+  </span>
+</button>
+
+<button onclick="showSection('messages')">
+  <span class="btn-label">
+    Messages
+    <span class="red-dot" id="messagesDot"></span>
+  </span>
+</button>
     </div>
   </div>
 
@@ -1263,10 +1275,21 @@
 
   <!-- 🌐 Community -->
   <div class="dropdown">
-    <button>🌐</button>
+    <button>🌐 <span class="red-dot" id="communityDot"></span> </button>
     <div class="dropdown-content">
-      <button onclick="showSection('local')">Local Community</button>
-      <button onclick="showSection('forum')">Anonymous Forum</button>
+      <button onclick="showSection('local')">
+  <span class="btn-label">
+    Local Community
+    <span class="red-dot" id="LocalDot"></span>
+  </span>
+</button>
+
+<button onclick="showSection('forum')">
+  <span class="btn-label">
+    Anonymous Forum
+    <span class="red-dot" id="ForumDot"></span>
+  </span>
+</button>
       <button onclick="showSection('mentorship')">Mentorship</button>
     </div>
   </div>
