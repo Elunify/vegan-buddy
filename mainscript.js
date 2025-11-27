@@ -3011,6 +3011,7 @@ async function submitNewComment(content, inputElement) {
 
   AFopenCommentPopup(fullBlock);
 }
+
 async function sendRequest(receiverCode) {
   const friend_code = receiverCode.trim().toLowerCase();
   if (!friend_code) return { success: false, message: "No code provided." };
@@ -4923,7 +4924,7 @@ if (closePopup && commentPopup) {
       if (!chatId) {
         const { data: newChat } = await supabase.from('chats').insert([{
           user1_id: currentUser.id,
-          user1_name: profile?.name || currentUser.email,
+          user1_name: profile?.name,
           user1_profile_photo: profile?.profile_photo || "",
           user2_id: friend.id,
           user2_name: friend.name,
@@ -5017,7 +5018,7 @@ await fetchAllLeaderboards();
   }
 
     // MARK WITH  DOTS
-  initNotifications(supabase, currentUser.id, currentUser.email, joinedLocationId);
+  initNotifications(supabase, currentUser.id, currentProfile.friend_code, joinedLocationId);
 
 //Show page after everything is loaded:
   showLoading(false);
