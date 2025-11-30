@@ -4107,6 +4107,21 @@ function saveLastAdTime(ts) {
 
 // -------------------- Reward Ad --------------------
 async function showAdMobReward() {
+if (window.ReactNativeWebView) {
+    return new Promise((resolve) => {
+      // Set a global function to catch reward from Expo
+      window.onRewardEarned = (amount) => {
+        resolve(amount);
+      };
+      // Send a message to Expo WebView
+      window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'showRewardedAd' }));
+    });
+  } else {
+    console.log("Web fallback: ad simulated, reward given");
+    return Promise.resolve(WEB_REWARD_AMOUNT);
+  }
+
+/*
   if (window.Capacitor && Capacitor.isNativePlatform()) {
     // ✅ Native bridge will call Kotlin, JS waits for reward callback
     return new Promise((resolve) => {
@@ -4120,6 +4135,7 @@ async function showAdMobReward() {
     console.log("Web fallback: ad simulated, reward given");
     return Promise.resolve(WEB_REWARD_AMOUNT);
   }
+*/
 }
 
 // -------------------- Badge Reward --------------------
@@ -5073,6 +5089,24 @@ await supabase
   );
 
 });
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    supabase.from('user_status').upsert({ user_id: currentUser.id, app_open: false });
+  } else {
+    supabase.from('user_status').upsert({ user_id: currentUser.id, app_open: true });
+  }
+});
+
+
+// Heartbeat to prevent false freezing info
+setInterval(() => {
+  supabase.from('user_status').upsert({
+    user_id: currentUser.id,
+    app_open: !document.hidden,
+    last_seen: new Date().toISOString()
+  });
+}, 60000);
 
 // On page unload
 window.addEventListener('beforeunload', () => {
