@@ -5,22 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  
-<script type="module">
-    import { supabase } from "./supabaseClient.js";
-
-  emailjs.init("_BvHMRNPejeC7Wsha");
-
-  document.getElementById("signInBtn").addEventListener("click", async () => {
-    const email = document.getElementById("signEmail").value;
-    const password = document.getElementById("signPassword").value;
-
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) return alert("Login failed: " + error.message);
-
-    window.location.href = "homepage.html";
-      });
-</script>
 
 </head>
 <body>
@@ -90,28 +74,22 @@ document.getElementById("backToLoginBtn").addEventListener("click", () => {
 
 // ------------------ Login ------------------
 document.getElementById("signInBtn").addEventListener("click", async () => {
-  setStatus("");
-  const email = document.getElementById("signEmail").value.trim();
-  const password = document.getElementById("signPassword").value.trim();
-  if (!email || !password) return setStatus("Please enter both email and password");
+    const email = document.getElementById("signEmail").value;
+    const password = document.getElementById("signPassword").value;
 
-  try {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) return alert("Login failed: " + error.message);
 
-    if (error) {
-      console.warn("Login error:", error); // keep console clean but visible for debugging
-      // Always return generic error for security
-      return setStatus("Invalid email or password");
-    }
+    // send user_id to Expo app if inside WebView
+if (window.ReactNativeWebView && data.user) {
+  window.ReactNativeWebView.postMessage(JSON.stringify({
+    type: 'userInfo',
+    user_id: data.user.id
+  }));
+}
 
-    setStatus("Login successful!", "green");
     window.location.href = "homepage.html";
-
-  } catch (err) {
-    console.error("Login error:", err);
-    setStatus("Something went wrong. Try again later.");
-  }
-});
+      });
 
 // ------------------ Generate 6-digit code ------------------
 function generateCode(length = 6) {
@@ -246,6 +224,15 @@ document.getElementById('verifyCodeBtn').addEventListener('click', async () => {
       password: tempPassword
     });
     if (signInError) return setStatus(signInError.message);
+
+    
+// send user_id to Expo app if inside WebView
+if (window.ReactNativeWebView && signUpData.user) {
+  window.ReactNativeWebView.postMessage(JSON.stringify({
+    type: 'userInfo',
+    user_id: signUpData.user.id
+  }));
+}
 
     // ------------------ Clear temporary storage ------------------
     tempEmail = "";

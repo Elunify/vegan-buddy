@@ -315,7 +315,9 @@ async function saveProfile() {
         return acc;
     }, {}), 
      // --- Friend code ---
-      friend_code: friendCode
+      friend_code: friendCode,
+      // --- survey completed ---
+      survey_completed: true
       })
       .eq('id', user.id)           // ensure only their own row is updated
       .select();                   // return the updated row
