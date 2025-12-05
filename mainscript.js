@@ -1,7 +1,12 @@
 //--------------------------
 // SUPABASE
 //--------------------------
-import { supabase } from './supabaseClient';
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+// --- Initialize Supabase ---
+const supabaseUrl = 'https://pqrgvelzxmtdqrofxujx.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBxcmd2ZWx6eG10ZHFyb2Z4dWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxMTc0ODAsImV4cCI6MjA3MTY5MzQ4MH0.s8JZLDdzIS1wBLln0Zs3LK_9BHelUcbRhyAC_0-5sos';
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 import { LessonsByIndex } from './scriptpools.js';
 import { HealthIssuesPool } from './scriptpools.js';
@@ -4103,19 +4108,24 @@ function saveLastAdTime(ts) {
 
 // -------------------- Reward Ad --------------------
 async function showAdMobReward() {
-if (window.ReactNativeWebView) {
+  // Native app (React Native WebView)
+  if (window.ReactNativeWebView) {
     return new Promise((resolve) => {
-      // Set a global function to catch reward from Expo
       window.onRewardEarned = (amount) => {
         resolve(amount);
       };
-      // Send a message to Expo WebView
-      window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'showRewardedAd' }));
+
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({ type: "showRewardedAd" })
+      );
     });
-  } else {
-    console.log("Web fallback: ad simulated, reward given");
-    return Promise.resolve(WEB_REWARD_AMOUNT);
   }
+
+  // Web fallback
+  console.log("Web fallback: ad simulated, reward given");
+  return Promise.resolve(WEB_REWARD_AMOUNT);
+}
+
 
 /*
   if (window.Capacitor && Capacitor.isNativePlatform()) {
@@ -4132,7 +4142,7 @@ if (window.ReactNativeWebView) {
     return Promise.resolve(WEB_REWARD_AMOUNT);
   }
 */
-}
+
 
 // -------------------- Badge Reward --------------------
 async function addBadgesSafe(userId, amount) {
