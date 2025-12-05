@@ -1,7 +1,7 @@
 //--------------------------
 // SUPABASE
 //--------------------------
-import { supabase } from './dist/supabaseClient.mjs';
+import { supabase } from './supabaseClient.mjs';
 
 import { LessonsByIndex } from './scriptpools.js';
 import { HealthIssuesPool } from './scriptpools.js';
