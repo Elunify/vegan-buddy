@@ -1,7 +1,7 @@
 //--------------------------
 // SUPABASE
 //--------------------------
-import { supabase } from './supabaseClient.js';
+import { supabase } from './supabaseClientWeb.js';
 
 import { LessonsByIndex } from './scriptpools.js';
 import { HealthIssuesPool } from './scriptpools.js';
@@ -4103,26 +4103,6 @@ function saveLastAdTime(ts) {
 
 // -------------------- Reward Ad --------------------
 async function showAdMobReward() {
-  // Native app (React Native WebView)
-  if (window.ReactNativeWebView) {
-    return new Promise((resolve) => {
-      window.onRewardEarned = (amount) => {
-        resolve(amount);
-      };
-
-      window.ReactNativeWebView.postMessage(
-        JSON.stringify({ type: "showRewardedAd" })
-      );
-    });
-  }
-
-  // Web fallback
-  console.log("Web fallback: ad simulated, reward given");
-  return Promise.resolve(WEB_REWARD_AMOUNT);
-}
-
-
-/*
   if (window.Capacitor && Capacitor.isNativePlatform()) {
     // ✅ Native bridge will call Kotlin, JS waits for reward callback
     return new Promise((resolve) => {
@@ -4136,7 +4116,7 @@ async function showAdMobReward() {
     console.log("Web fallback: ad simulated, reward given");
     return Promise.resolve(WEB_REWARD_AMOUNT);
   }
-*/
+}
 
 
 // -------------------- Badge Reward --------------------
