@@ -5063,8 +5063,7 @@ setTimeout(async () => {
 
 });
 
-// On page load (and you can repeat periodically if needed)
-if (currentUser) {
+// On page load (and you can repeat periodically if needed
   setInterval(async () => {
     await supabase
       .from('user_status')
@@ -5074,4 +5073,3 @@ if (currentUser) {
         last_seen: new Date().toISOString(),
       }, { onConflict: ['user_id'] });
   }, 60_000); // update every 60s
-}
