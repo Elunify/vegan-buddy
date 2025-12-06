@@ -5061,6 +5061,14 @@ setTimeout(async () => {
   }
 }
 
+await supabase
+      .from('user_status')
+      .upsert({
+        user_id: currentUser.id,
+        app_open: true,
+        last_seen: new Date().toISOString(),
+      }, { onConflict: ['user_id'] });
+      
 });
 
 // On page load (and you can repeat periodically if needed
