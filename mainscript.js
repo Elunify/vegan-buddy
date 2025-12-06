@@ -5061,37 +5061,17 @@ setTimeout(async () => {
   }
 }
 
+});
+
 // On page load (and you can repeat periodically if needed)
-await supabase
-  .from('user_status')
-  .upsert(
-    { user_id: currentUser.id, app_open: true }, // upsert needs primary key
-    { onConflict: ['user_id'] } // ensure it updates if user exists
-  );
-
-});
-
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden) {
-    supabase.from('user_status').upsert({ user_id: currentUser.id, app_open: false });
-  } else {
-    supabase.from('user_status').upsert({ user_id: currentUser.id, app_open: true });
-  }
-});
-
-
-// Heartbeat to prevent false freezing info
-setInterval(() => {
-  supabase.from('user_status').upsert({
-    user_id: currentUser.id,
-    app_open: !document.hidden,
-    last_seen: new Date().toISOString()
-  });
-}, 60000);
-
-// On page unload
-window.addEventListener('beforeunload', () => {
-  const url = 'https://Elunify.functions.supabase.co/updateAppStatus';
-  const data = JSON.stringify({ user_id: currentUser.id, app_open: false });
-  navigator.sendBeacon(url, data);
-});
+if (currentUser) {
+  setInterval(async () => {
+    await supabase
+      .from('user_status')
+      .upsert({
+        user_id: currentUser.id,
+        app_open: true,
+        last_seen: new Date().toISOString(),
+      }, { onConflict: ['user_id'] });
+  }, 60_000); // update every 60s
+}
