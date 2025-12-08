@@ -4550,6 +4550,7 @@ const notificationState = {
   forumComments: false,
   localEvents: false,
 
+  lastSeenMessages: null, // ← added
   lastSeenFriends: null,   
   lastSeenForum: null,
   lastSeenLocal: null,
@@ -4621,7 +4622,10 @@ function clearNotification(type) {
 window.clearSectionNotifications = function (section) {
   const now = new Date().toISOString();
 
-  if (section === "messages") clearNotification("messages");
+  if (section === "messages") {
+  clearNotification("messages");
+  notificationState.lastSeenMessages = new Date().toISOString();
+}
 
   if (section === "friends") {
     clearNotification("friendRequests");
@@ -4658,6 +4662,25 @@ async function subscribeToMessages(supabase, currentUserId) {
       }
     )
     .subscribe();
+}
+// -------------- MESSAGES ON LOAD --------------
+async function checkMessages(supabase, currentUserId) {
+  const lastSeen = notificationState.lastSeenMessages; // we'll add this
+
+  let query = supabase
+    .from("messages")
+    .select("created_at, chat_id, sender_id")
+    .neq("sender_id", currentUserId); // only messages from others
+
+  if (lastSeen) {
+    query = query.gt("created_at", lastSeen); // only messages after last seen
+  }
+
+  const { data } = await query;
+
+  if (data && data.length > 0) {
+    notify("messages");
+  }
 }
 
 // -------------- FRIEND REQUESTS ON LOAD --------------
@@ -4732,6 +4755,7 @@ async function initNotifications(supabase, currentUserId, friendcode, locationId
   subscribeToMessages(supabase, currentUserId);
 
   // fetch-on-load:
+  checkMessages(supabase, currentUserId); // ← added
   checkFriendRequests(supabase, friendcode);
   checkForumComments(supabase, currentUserId);
   checkLocalEvents(supabase, locationId);
