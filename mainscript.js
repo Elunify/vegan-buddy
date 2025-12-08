@@ -5116,3 +5116,36 @@ await sendTokenToAndroid();
   NativeBridge.sendUserToken(token);
 }
 
+// Detect device type
+function getDeviceType() {
+  const ua = navigator.userAgent || navigator.vendor || window.opera;
+
+  if (/android/i.test(ua)) return "android";
+  if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return "ios";
+  return "web";
+}
+
+async function insertDeviceRow(deviceToken = null) {
+  const { data } = await supabase.auth.getSession();
+  if (!data.session) return;
+
+  const userId = data.session.user.id;
+  const deviceType = getDeviceType();
+
+  const { error } = await supabase
+    .from('user_tokens')
+    .upsert({
+      user_id: userId,
+      device_token: deviceToken,
+      device_type: deviceType,
+    }, { onConflict: ['user_id'] });
+
+  if (error) {
+    console.error("Failed to insert/update row:", error);
+  } else {
+    console.log("Row upserted successfully!");
+  }
+}
+
+// Call it on page load
+insertDeviceRow();
