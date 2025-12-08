@@ -5068,7 +5068,8 @@ await supabase
         app_open: true,
         last_seen: new Date().toISOString(),
       }, { onConflict: ['user_id'] });
-      
+
+await sendTokenToAndroid();
 });
 
 // On page load (and you can repeat periodically if needed
@@ -5081,3 +5082,13 @@ await supabase
         last_seen: new Date().toISOString(),
       }, { onConflict: ['user_id'] });
   }, 60_000); // update every 60s
+
+  async function sendTokenToAndroid() {
+  const { data } = await supabase.auth.getSession();
+  if (!data.session) return;
+
+  const token = data.session.access_token;
+
+  NativeBridge.sendUserToken(token);
+}
+
