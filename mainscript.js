@@ -5094,6 +5094,7 @@ await supabase
       }, { onConflict: ['user_id'] });
 
 await sendTokenToAndroid();
+
 });
 
 // On page load (and you can repeat periodically if needed
@@ -5114,6 +5115,10 @@ await sendTokenToAndroid();
   const token = data.session.access_token;
 
   NativeBridge.sendUserToken(token);
+}
+
+function onAndroidTokenReceived(fcmToken) {
+  insertDeviceRow(fcmToken);
 }
 
 // Detect device type
@@ -5147,5 +5152,3 @@ async function insertDeviceRow(deviceToken = null) {
   }
 }
 
-// Call it on page load
-insertDeviceRow();
