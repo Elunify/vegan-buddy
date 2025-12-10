@@ -5120,6 +5120,9 @@ await sendTokenToAndroid();
 
 function onAndroidTokenReceived(fcmToken) {
   insertDeviceRow(fcmToken);
+  alert("FCM token received: " + fcmToken); // <-- popup to notify
+  // or for debugging in console:
+  console.log("FCM token received:", fcmToken);
 }
 
 // Detect device type
