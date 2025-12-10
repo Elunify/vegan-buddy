@@ -2007,6 +2007,7 @@ async function saveExtraLessonProgress() {
   const { profile } = await fetchAllData();
   await renderProfile(profile);
   await fetchAllLeaderboards();
+  await loadDailyXpChallenge(currentUser.id);
 }
 
 // Apply saved progress to DOM (no extra fetch)
