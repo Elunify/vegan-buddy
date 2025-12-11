@@ -5127,6 +5127,7 @@ function getDeviceType() {
   return "web";
 }
 
+
 window.insertDeviceRow = async function(token) {
   try {
     // Get session asynchronously
