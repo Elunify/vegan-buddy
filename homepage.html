@@ -1552,23 +1552,5 @@
 <script type="module" src="scriptpools.js"></script>
 <script src="scriptbuttons.js"></script>
 
-
-<script>
-  window.onAndroidTokenReceived = async function(token) {
-
-  // Wait for Supabase to be initialized
-  while (!window.supabase || !supabaseReady) {
-    await new Promise(r => setTimeout(r, 200));
-  }
-
-  if (typeof insertDeviceRow === "function") {
-      insertDeviceRow(token);
-    } else {
-      alert("insertDeviceRow is not defined yet!");
-    }
-};
-</script>
-
-
 </body>
 </html>

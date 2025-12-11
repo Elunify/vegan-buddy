@@ -5131,7 +5131,9 @@ function getDeviceType() {
 }
 
 
-export async function insertDeviceRow(token) { alert("js function runs")
+// --- insertDeviceRow function ---
+async function insertDeviceRow(token) {
+  alert("insertDeviceRow function called with token:\n" + token);
   try {
     // Get session asynchronously
     const { data, error: sessionError } = await supabase.auth.getSession();
@@ -5152,11 +5154,14 @@ export async function insertDeviceRow(token) { alert("js function runs")
 
     const { error: insertError } = await supabase
       .from('user_tokens')
-      .upsert({
-        user_id: userId,
-        device_token: token,
-        device_type: deviceType,
-      }, { onConflict: ['user_id'] });
+      .upsert(
+        {
+          user_id: userId,
+          device_token: token,
+          device_type: deviceType,
+        },
+        { onConflict: ['user_id'] }
+      );
 
     if (insertError) {
       alert("Failed to insert/update row: " + insertError.message);
@@ -5171,5 +5176,23 @@ export async function insertDeviceRow(token) { alert("js function runs")
   }
 }
 
-
+// --- expose globally for HTML/native bridge ---
 window.insertDeviceRow = insertDeviceRow;
+
+// --- onAndroidTokenReceived function ---
+window.onAndroidTokenReceived = async function(token) {
+  alert("onAndroidTokenReceived called with token:\n" + token);
+
+  // Wait until Supabase is initialized
+  while (!window.supabase || !window.supabaseReady) {
+    console.log("Waiting for Supabase to initialize...");
+    await new Promise((r) => setTimeout(r, 200));
+  }
+
+  if (typeof insertDeviceRow === "function") {
+    insertDeviceRow(token);
+  } else {
+    alert("insertDeviceRow is not defined yet!");
+    console.error("insertDeviceRow is undefined at the moment of call!");
+  }
+};
