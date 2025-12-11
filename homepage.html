@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <script>
+  window.onAndroidTokenReceived = window.onAndroidTokenReceived || function(token) {
+    try {
+      console.log("onAndroidTokenReceived called with:", token);
+      // temporary debug popup
+      alert("FCM token received: " + token);
+      // call your existing logic if defined:
+      if (typeof insertDeviceRow === 'function') insertDeviceRow(token);
+    } catch (e) {
+      console.error("onAndroidTokenReceived error:", e);
+      // If desired, call the native bridge to report error:
+      if (window.NativeBridge && window.NativeBridge.logError) {
+        window.NativeBridge.logError(e.toString());
+      }
+    }
+  };
+</script>
+
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>MainPage</title>
