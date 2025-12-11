@@ -5178,11 +5178,18 @@ async function insertDeviceRow(token) {
 
 // --- onAndroidTokenReceived function ---
 window.onAndroidTokenReceived = async function(token) {
-alert("bazdmeg")
+
   // Wait until Supabase is initialized
-  while (!window.supabase || !window.supabaseReady) {
-    await new Promise((r) => setTimeout(r, 200));
-  }
+  const maxWait = 10000; // 10s
+let waited = 0;
+while ((!window.supabase || !window.supabaseReady) && waited < maxWait) {
+  await new Promise((r) => setTimeout(r, 200));
+  waited += 200;
+}
+if (!window.supabase || !window.supabaseReady) {
+  alert("Supabase not ready after 10s!");
+  return;
+}
 
     insertDeviceRow(token);
 };
