@@ -1,20 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<script>
-  window.onAndroidTokenReceived = async function(token) {
-alert("html function runs: " + token)
-  // Wait for Supabase to be initialized
-  while (!window.supabase || !supabaseReady) {
-    await new Promise(r => setTimeout(r, 200));
-  }
-
-  insertDeviceRow(token);
-};
-</script>
-
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>MainPage</title>
@@ -1565,6 +1551,20 @@ alert("html function runs: " + token)
 <script type="module" src="mainscript.js"></script>
 <script type="module" src="scriptpools.js"></script>
 <script src="scriptbuttons.js"></script>
+
+
+<script>
+  window.onAndroidTokenReceived = async function(token) {
+
+  // Wait for Supabase to be initialized
+  while (!window.supabase || !supabaseReady) {
+    await new Promise(r => setTimeout(r, 200));
+  }
+
+  insertDeviceRow(token);
+};
+</script>
+
 
 </body>
 </html>
