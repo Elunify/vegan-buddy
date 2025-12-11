@@ -4,7 +4,7 @@
 
 <script>
   window.onAndroidTokenReceived = async function(token) {
-
+alert("html function runs: " + token)
   // Wait for Supabase to be initialized
   while (!window.supabase || !supabaseReady) {
     await new Promise(r => setTimeout(r, 200));

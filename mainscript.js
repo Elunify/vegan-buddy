@@ -5115,7 +5115,10 @@ await sendTokenToAndroid();
 
   const token = data.session.access_token;
 
-  NativeBridge.sendUserToken(token);
+// Fallback: only call NativeBridge if it exists
+  if (typeof NativeBridge !== 'undefined' && NativeBridge.sendUserToken) {
+    NativeBridge.sendUserToken(token);
+  }
 }
 
 // Detect device type
@@ -5128,7 +5131,7 @@ function getDeviceType() {
 }
 
 
-window.insertDeviceRow = async function(token) {
+window.insertDeviceRow = async function(token) { alert("js function runs")
   try {
     // Get session asynchronously
     const { data, error: sessionError } = await supabase.auth.getSession();
