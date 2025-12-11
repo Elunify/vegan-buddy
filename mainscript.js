@@ -5118,13 +5118,6 @@ await sendTokenToAndroid();
   NativeBridge.sendUserToken(token);
 }
 
-function onAndroidTokenReceived(fcmToken) {
-  insertDeviceRow(fcmToken);
-  alert("FCM token received: " + fcmToken); // <-- popup to notify
-  // or for debugging in console:
-  console.log("FCM token received:", fcmToken);
-}
-
 // Detect device type
 function getDeviceType() {
   const ua = navigator.userAgent || navigator.vendor || window.opera;
@@ -5134,18 +5127,18 @@ function getDeviceType() {
   return "web";
 }
 
-async function insertDeviceRow(deviceToken = null) {
-  const { data } = await supabase.auth.getSession();
+window.insertDeviceRow = function(token) {
+  const { data } = supabase.auth.getSession();
   if (!data.session) return;
 
   const userId = data.session.user.id;
   const deviceType = getDeviceType();
 
-  const { error } = await supabase
+  const { error } = supabase
     .from('user_tokens')
     .upsert({
       user_id: userId,
-      device_token: deviceToken,
+      device_token: token,
       device_type: deviceType,
     }, { onConflict: ['user_id'] });
 
