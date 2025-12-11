@@ -5131,8 +5131,6 @@ function getDeviceType() {
 }
 
 
-window.insertDeviceRow = insertDeviceRow;
-
 export async function insertDeviceRow(token) { alert("js function runs")
   try {
     // Get session asynchronously
@@ -5173,3 +5171,5 @@ export async function insertDeviceRow(token) { alert("js function runs")
   }
 }
 
+
+window.insertDeviceRow = insertDeviceRow;
