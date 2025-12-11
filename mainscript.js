@@ -5176,23 +5176,13 @@ async function insertDeviceRow(token) {
   }
 }
 
-// --- expose globally for HTML/native bridge ---
-window.insertDeviceRow = insertDeviceRow;
-
 // --- onAndroidTokenReceived function ---
 window.onAndroidTokenReceived = async function(token) {
-  alert("onAndroidTokenReceived called with token:\n" + token);
 
   // Wait until Supabase is initialized
   while (!window.supabase || !window.supabaseReady) {
-    console.log("Waiting for Supabase to initialize...");
     await new Promise((r) => setTimeout(r, 200));
   }
 
-  if (typeof insertDeviceRow === "function") {
     insertDeviceRow(token);
-  } else {
-    alert("insertDeviceRow is not defined yet!");
-    console.error("insertDeviceRow is undefined at the moment of call!");
-  }
 };
