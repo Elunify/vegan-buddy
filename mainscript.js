@@ -5131,7 +5131,9 @@ function getDeviceType() {
 }
 
 
-window.insertDeviceRow = async function(token) { alert("js function runs")
+window.insertDeviceRow = insertDeviceRow;
+
+export async function insertDeviceRow(token) { alert("js function runs")
   try {
     // Get session asynchronously
     const { data, error: sessionError } = await supabase.auth.getSession();
