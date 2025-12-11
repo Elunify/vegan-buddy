@@ -5133,19 +5133,14 @@ function getDeviceType() {
 
 // --- insertDeviceRow function ---
 async function insertDeviceRow(token) {
-  alert("insertDeviceRow function called with token:\n" + token);
   try {
     // Get session asynchronously
     const { data, error: sessionError } = await supabase.auth.getSession();
     if (sessionError) {
-      alert("Error getting session: " + sessionError.message);
-      console.error("Error getting session:", sessionError);
       return;
     }
 
     if (!data.session) {
-      alert("No active user session found!");
-      console.log("No session");
       return;
     }
 
@@ -5162,17 +5157,8 @@ async function insertDeviceRow(token) {
         },
         { onConflict: ['user_id'] }
       );
-
-    if (insertError) {
-      alert("Failed to insert/update row: " + insertError.message);
-      console.error("Failed to insert/update row:", insertError);
-    } else {
-      alert("Row upserted successfully!");
-      console.log("Row upserted successfully!");
-    }
   } catch (e) {
     alert("Unexpected error: " + e.message);
-    console.error("Unexpected error:", e);
   }
 }
 
