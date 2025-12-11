@@ -5127,25 +5127,43 @@ function getDeviceType() {
   return "web";
 }
 
-window.insertDeviceRow = function(token) {
-  const { data } = supabase.auth.getSession();
-  if (!data.session) return;
+window.insertDeviceRow = async function(token) {
+  try {
+    // Get session asynchronously
+    const { data, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError) {
+      alert("Error getting session: " + sessionError.message);
+      console.error("Error getting session:", sessionError);
+      return;
+    }
 
-  const userId = data.session.user.id;
-  const deviceType = getDeviceType();
+    if (!data.session) {
+      alert("No active user session found!");
+      console.log("No session");
+      return;
+    }
 
-  const { error } = supabase
-    .from('user_tokens')
-    .upsert({
-      user_id: userId,
-      device_token: token,
-      device_type: deviceType,
-    }, { onConflict: ['user_id'] });
+    const userId = data.session.user.id;
+    const deviceType = getDeviceType();
 
-  if (error) {
-    console.error("Failed to insert/update row:", error);
-  } else {
-    console.log("Row upserted successfully!");
+    const { error: insertError } = await supabase
+      .from('user_tokens')
+      .upsert({
+        user_id: userId,
+        device_token: token,
+        device_type: deviceType,
+      }, { onConflict: ['user_id'] });
+
+    if (insertError) {
+      alert("Failed to insert/update row: " + insertError.message);
+      console.error("Failed to insert/update row:", insertError);
+    } else {
+      alert("Row upserted successfully!");
+      console.log("Row upserted successfully!");
+    }
+  } catch (e) {
+    alert("Unexpected error: " + e.message);
+    console.error("Unexpected error:", e);
   }
 }
 
