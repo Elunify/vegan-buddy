@@ -3,6 +3,30 @@
 const nextBtn = document.getElementById("nextBtn");
 nextBtn.addEventListener("click", nextQuestion);
 
+// --- INPUT VALIDATION ---
+
+const nameInput = document.getElementById('profileName');
+const charCount = document.getElementById('nameCharCount');
+
+  nameInput.addEventListener('input', () => {
+    const length = nameInput.value.length;
+    charCount.textContent = `${length}/15`;
+  });
+
+
+const petInput = document.getElementById('petname');
+const petCharCount = document.getElementById('petNameCharCount');
+
+  petInput.addEventListener('input', () => {
+    const length = petInput.value.length;
+    petCharCount.textContent = `${length}/15`;
+  });
+
+
+
+
+// --- FLOW ---
+
 let currentStep = 1; // start at step 1 (profile info)
 
 // --- Clear previous answers on init ---
@@ -37,6 +61,12 @@ async function nextQuestion() {
             alert("Please fill in your name and diet preference.");
             return;
         }
+
+        // Check name length (short text max 15 chars)
+    if (name.length > 15) {
+        alert("Your username is too long. Maximum 15 characters allowed.");
+        return; // stop proceeding to next step
+    }
 
         answers.profileName = name;
         answers.diet = diet;
@@ -80,6 +110,13 @@ async function nextQuestion() {
     if (currentStep === 3) {
         const petNameInput = document.getElementById("petname").value.trim();
         const petPhotoFile = document.getElementById("petPhotoUpload").files[0];
+
+        // Validate pet name length (short text max 15 chars)
+    if (petNameInput.length > 15) {
+        alert("Your pet's name is too long. Maximum 15 characters allowed.");
+        return; // stop proceeding to next step
+    }
+
         // Pet photo upload handled by change event; if skipped, answers.petPhoto stays null
         answers.petName = petNameInput || "Winnie";
         saveAnswers();

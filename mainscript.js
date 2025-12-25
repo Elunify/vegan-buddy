@@ -932,7 +932,7 @@ currentProfile.last_lesson = { goal: todayGoal, lessonId: todayLessonId };
   document.getElementById('communityWater').textContent   = formatNumber(Math.round(globalImpact.water_saved || 0));
   document.getElementById('communityCO2').textContent     = formatNumber(Math.round(globalImpact.co2_saved || 0));
 
-  await updateGlobalImpact(impactIncrement);
+  // await updateGlobalImpact(impactIncrement);
 
   // Refresh homepage
   const { profile, globalImpact: fetchedImpact } = await fetchAllData();

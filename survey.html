@@ -18,11 +18,12 @@
 
   <!-- Step 1 – Profile Info -->
   <div class="question active" id="q1">
-    <label class="bigLabel">Profile Information</label>
+    <label class="bigLabel">Create your profile</label>
 
-    <label class="smallLabel">Name:</label>
+    <label class="smallLabel">Username:</label>
     <div class="dob-container">
-      <input type="text" id="profileName" placeholder="Your name">
+      <input type="text" id="profileName" placeholder="Your name" maxlength="15">
+      <small id="nameCharCount">0/15</small>
     </div>
 
     <label class="smallLabel">Which best describes your diet?</label>
@@ -114,7 +115,10 @@
   <div class="question" id="q3">
     <label class="bigLabel">Pick a pet!</label>
     <label class="smallLabel">Name your pet:</label>
-    <input type="text" id="petname" placeholder="Pet's name">
+    <div class="dob-container">
+      <input type="text" id="petname" placeholder="Pet's name" maxlength="15">
+      <small id="petNameCharCount">0/15</small>
+    </div>
 
     <label for="petPhotoUpload" class="file-btn">Upload a pet photo</label>
     <input type="file" id="petPhotoUpload" accept="image/*" />
