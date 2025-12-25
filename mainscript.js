@@ -5094,142 +5094,46 @@ window.onAndroidTokenReceived = function(token) {
 // --- VALIDATION ---
 // --- VALIDATION ---
 
-// Profile Name counter
-const profileName = document.getElementById('profileNameInput');
-const profileNameCount = document.getElementById('profileNameCharCount');
+// Helper function to attach a live character counter
+function attachCharCounter(inputId, counterId, maxLength, warningThreshold = 0.9) {
+  const input = document.getElementById(inputId);
+  const counter = document.getElementById(counterId);
 
-profileName.addEventListener('input', () => {
-  const length = profileName.value.length;
-  profileNameCount.textContent = `${length}/15`;
-  profileNameCount.style.color = length >= 13 ? 'red' : 'black';
-});
+  if (!input || !counter) return;
 
-profileName.addEventListener('blur', () => {
-  profileName.value = profileName.value.trim();
-});
+  function updateCounter() {
+    const length = input.value.length;
+    counter.textContent = `${length}/${maxLength}`;
+    counter.style.color = length >= maxLength * warningThreshold ? 'red' : 'black';
+  }
 
-// Pet Name counter
-const petName = document.getElementById('petNameInput');
-const petNameCount = document.getElementById('petNameCharCount');
+  // Update live while typing
+  input.addEventListener('input', updateCounter);
+  // Trim spaces when leaving the field
+  input.addEventListener('blur', () => {
+    input.value = input.value.trim();
+    updateCounter();
+  });
 
-petName.addEventListener('input', () => {
-  const length = petName.value.length;
-  petNameCount.textContent = `${length}/15`;
-  petNameCount.style.color = length >= 13 ? 'red' : 'black';
-});
+  // Initialize counter
+  updateCounter();
+}
 
-petName.addEventListener('blur', () => {
-  petName.value = petName.value.trim();
-});
+// --- Profile & Pet Names ---
+attachCharCounter('profileNameInput', 'profileNameCharCount', 15);
+attachCharCounter('petNameInput', 'petNameCharCount', 15);
 
-// Ingredients counter
-const ingredientsInput = document.getElementById('mealArtrecipeIngredients');
-const ingredientsCount = document.getElementById('ingredientsCharCount');
+// --- Ingredients & Instructions ---
+attachCharCounter('mealArtrecipeIngredients', 'ingredientsCharCount', 1000);
+attachCharCounter('mealArtrecipeInstructions', 'instructionsCharCount', 1000);
+attachCharCounter('recipeIngredients', 'recipeIngredientsCounter', 1000);
+attachCharCounter('recipeInstructions', 'recipeInstructionsCounter', 1000);
 
-ingredientsInput.addEventListener('input', () => {
-  const length = ingredientsInput.value.length;
-  ingredientsCount.textContent = `${length}/1000`;
-  ingredientsCount.style.color = length >= 900 ? 'red' : 'black';
-});
+// --- Messages & Comments ---
+attachCharCounter('messageInput', 'messageCharCount', 1000);
+attachCharCounter('blockContent', 'blockContentCounter', 1000);
+attachCharCounter('AFnewCommentInput', 'AFnewCommentCounter', 1000);
+attachCharCounter('communityMessageInput', 'communityMessageCounter', 1000);
 
-ingredientsInput.addEventListener('blur', () => {
-  ingredientsInput.value = ingredientsInput.value.trim();
-});
-
-// Instructions counter
-const instructionsInput = document.getElementById('mealArtrecipeInstructions');
-const instructionsCount = document.getElementById('instructionsCharCount');
-
-instructionsInput.addEventListener('input', () => {
-  const length = instructionsInput.value.length;
-  instructionsCount.textContent = `${length}/1000`;
-  instructionsCount.style.color = length >= 900 ? 'red' : 'black';
-});
-
-instructionsInput.addEventListener('blur', () => {
-  instructionsInput.value = instructionsInput.value.trim();
-});
-
-// Message input counter
-const messageInput = document.getElementById('messageInput');
-const messageCount = document.getElementById('messageCharCount');
-
-messageInput.addEventListener('input', () => {
-  const length = messageInput.value.length;
-  messageCount.textContent = `${length}/1000`;
-  messageCount.style.color = length >= 900 ? 'red' : 'black';
-});
-
-messageInput.addEventListener('blur', () => {
-  messageInput.value = messageInput.value.trim();
-});
-
-// Ingredients counter (separate from mealArt)
-const recipeIngredients = document.getElementById('recipeIngredients');
-const recipeIngredientsCounter = document.getElementById('recipeIngredientsCounter');
-
-recipeIngredients.addEventListener('input', () => {
-  const length = recipeIngredients.value.length;
-  recipeIngredientsCounter.textContent = `${length}/1000`;
-  recipeIngredientsCounter.style.color = length >= 900 ? 'red' : 'black';
-});
-
-recipeIngredients.addEventListener('blur', () => {
-  recipeIngredients.value = recipeIngredients.value.trim();
-});
-
-// Instructions counter (separate from mealArt)
-const recipeInstructions = document.getElementById('recipeInstructions');
-const recipeInstructionsCounter = document.getElementById('recipeInstructionsCounter');
-
-recipeInstructions.addEventListener('input', () => {
-  const length = recipeInstructions.value.length;
-  recipeInstructionsCounter.textContent = `${length}/1000`;
-  recipeInstructionsCounter.style.color = length >= 900 ? 'red' : 'black';
-});
-
-recipeInstructions.addEventListener('blur', () => {
-  recipeInstructions.value = recipeInstructions.value.trim();
-});
-
-// Block content counter
-const blockContent = document.getElementById('blockContent');
-const blockContentCounter = document.getElementById('blockContentCounter');
-
-blockContent.addEventListener('input', () => {
-  const length = blockContent.value.length;
-  blockContentCounter.textContent = `${length}/1000`;
-  blockContentCounter.style.color = length >= 900 ? 'red' : 'black';
-});
-
-blockContent.addEventListener('blur', () => {
-  blockContent.value = blockContent.value.trim();
-});
-
-// Comment input counter
-const AFnewCommentInput = document.getElementById('AFnewCommentInput');
-const AFnewCommentCounter = document.getElementById('AFnewCommentCounter');
-
-AFnewCommentInput.addEventListener('input', () => {
-  const length = AFnewCommentInput.value.length;
-  AFnewCommentCounter.textContent = `${length}/1000`;
-  AFnewCommentCounter.style.color = length >= 900 ? 'red' : 'black';
-});
-
-AFnewCommentInput.addEventListener('blur', () => {
-  AFnewCommentInput.value = AFnewCommentInput.value.trim();
-});
-
-// Event description counter
-const eventDescriptionInput = document.getElementById('eventDescriptionInput');
-const eventDescriptionCounter = document.getElementById('eventDescriptionCounter');
-
-eventDescriptionInput.addEventListener('input', () => {
-  const length = eventDescriptionInput.value.length;
-  eventDescriptionCounter.textContent = `${length}/300`;
-  eventDescriptionCounter.style.color = length >= 270 ? 'red' : 'black';
-});
-
-eventDescriptionInput.addEventListener('blur', () => {
-  eventDescriptionInput.value = eventDescriptionInput.value.trim();
-});
+// --- Event description ---
+attachCharCounter('eventDescriptionInput', 'eventDescriptionCounter', 300, 0.9);
