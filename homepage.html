@@ -242,6 +242,14 @@
   <div class="containeredit hidden">
     <h1 class="settingsh1">Edit My Profile</h1>
 
+
+
+
+
+
+
+
+
         <button id="backtoprofileBtn" class="backtoprofile-button">⬅</button>
     <!-- Profile Info -->
       <div class="profile-sectionsettings">
@@ -250,8 +258,11 @@
 
         <div class="profile-infoedit">
           <div class="info-itemsettings">
-        <label for="profileNameInput"><strong>Name:</strong></label>
-        <input type="text" id="profileNameInput" placeholder="Enter your name">
+        <label for="profileNameInput"><strong>Username:</strong></label>
+        <div class="dob-container">
+          <input type="text" id="profileNameInput" placeholder="Enter your name" maxlength="15">
+          <small id="profileNameCharCount">0/15</small>
+        </div>
         </div>
           <div class="info-itemsettings">
 
@@ -350,7 +361,10 @@
         <div class="profile-infoedit">
           <div class="info-itemsettings">
         <label for="petNameInput"><strong>Pet Name:</strong></label>
-        <input type="text" id="petNameInput" placeholder="Enter pet name">
+        <div class="dob-container">
+          <input type="text" id="petNameInput" placeholder="Enter pet name" maxlength="15">
+          <small id="petNameCharCount">0/15</small>
+        </div>
         </div>
           <div class="info-itemsettings">
             <input type="file" id="petPhotoUpload" accept="image/*" style="display: none;">
@@ -553,7 +567,7 @@
   <button id="uploadBtn" class="locked hidden-meal" data-unlock="🔓 Unlock at Lvl 10">Upload My Meal</button>
   
   <p class="uploadnote hidden-meal" id="uploadnote">
-    <a href="mailto:elunify.app@gmail.com">Restaurants: Request Pro Kitchen access — no level needed!</a>
+    <a href="mailto:elunify.app@gmail.com">Restaurants: Request Pro Kitchen access</a>
   </p>
   
   <p class="votenote hidden-meal" id="votenote">It's a vote day! Pick your favorite!</p>
@@ -631,11 +645,15 @@
     <label for="mealArtPrepTime">Preparation Time <span class="optional-label">(optional)</span></label>
     <input type="text" id="mealArtPrepTime" name="mealArtPrepTime" placeholder="E.g., 30 mins">
     
+    <!-- Ingredients -->
     <label for="mealArtrecipeIngredients">Ingredients <span class="optional-label">(optional)</span></label>
-    <textarea id="mealArtrecipeIngredients" name="mealArtrecipeIngredients" placeholder="List ingredients here..."></textarea>
+    <textarea id="mealArtrecipeIngredients" name="mealArtrecipeIngredients" placeholder="List ingredients here..." maxlength="1000"></textarea>
+    <small id="ingredientsCharCount">0/1000</small>
 
+    <!-- Instructions -->
     <label for="mealArtrecipeInstructions">Instructions <span class="optional-label">(optional)</span></label>
-    <textarea id="mealArtrecipeInstructions" name="mealArtrecipeInstructions" placeholder="Write instructions here..."></textarea>
+    <textarea id="mealArtrecipeInstructions" name="mealArtrecipeInstructions" placeholder="Write instructions here..." maxlength="1000"></textarea>
+    <small id="instructionsCharCount">0/1000</small>
 
     <button class= "button" id="sbmtMealArtBtn" type="submit">Submit Meal</button>
   </form>
@@ -839,9 +857,15 @@
     <div class="community-section-header">Community Chat ▼</div>
     <div class="community-section-content" id="communityChatSection">
       <div id="communityMessages" class="chat-box"></div>
-      <input type="text" id="communityMessageInput" placeholder="Type a message...">
-      <button id="sendCommunityMessageBtn">Send</button>
+  
+    <div class="chat-input-container">
+      <input type="text" id="communityMessageInput" placeholder="Type a message..." maxlength="1000">
+      <small id="communityMessageCounter">0/1000</small>
     </div>
+  
+    <button id="sendCommunityMessageBtn">Send</button>
+  </div>
+
   </div>
 
   <div class="community-section">
@@ -857,7 +881,10 @@
       
       <div id="createEventInputs" style="display:none; margin-top:0.5rem;">
         <input type="text" id="eventPlaceInput" placeholder="Event place" />
-        <input type="text" id="eventDescriptionInput" placeholder="Description" />
+        <div class="event-description-container">
+          <input type="text" id="eventDescriptionInput" placeholder="Description" maxlength="300" />
+          <small id="eventDescriptionCounter">0/300</small>
+        </div>
         <input type="datetime-local" id="eventTimeInput" />
     <button id="submitEventBtn">Submit Event</button>
       </div>
@@ -933,10 +960,11 @@
 
 <ul id="forumMessages"></ul>
 
-      <div id="newBlock">
-    <textarea id="blockContent" placeholder="Open a topic anonymously..." rows="3"></textarea>
-    <button id="submitBlockBtn">Submit</button>
-      </div>
+<div id="newBlock">
+  <textarea id="blockContent" placeholder="Open a topic anonymously..." rows="3" maxlength="1000"></textarea>
+  <small id="blockContentCounter">0/1000</small>
+  <button id="submitBlockBtn">Submit</button>
+</div>
       
         </div>
     </section>
@@ -947,8 +975,13 @@
     <span id="AFclosePopup" class="close">&times;</span>
     <div id="AFpopupBlockContent"></div>
     <ul id="AFpopupCommentsList"></ul>
-    <input type="text" id="AFnewCommentInput" placeholder="Write your comment...">
-    <button class = "button" id="AFsubmitCommentBtn">Comment</button>
+
+    <div class="comment-input-container">
+      <input type="text" id="AFnewCommentInput" placeholder="Write your comment..." maxlength="1000">
+      <small id="AFnewCommentCounter">0/1000</small>
+    </div>
+    
+    <button class="button" id="AFsubmitCommentBtn">Comment</button>
   </div>
 </div>
 
@@ -1001,7 +1034,8 @@
         </div>
         <div class="chat-messages" id="chatMessages"></div>
         <div class="chat-input">
-          <input type="text" id="messageInput" placeholder="Type a message...">
+          <input type="text" id="messageInput" placeholder="Type a message..." maxlength="1000">
+          <small id="messageCharCount">0/1000</small>
           <button id="sendMessageBtn">Send</button>
         </div>
       </div>
@@ -1483,14 +1517,20 @@
         Preparation Time:
         <input type="text" id="recipePrepTime" placeholder="e.g., 30 mins" required>
       </label>
+      <!-- Ingredients -->
       <label>
         Ingredients:
-        <textarea id="recipeIngredients" placeholder="List ingredients..." required></textarea>
+        <textarea id="recipeIngredients" placeholder="List ingredients..." maxlength="1000" required></textarea>
       </label>
+      <small id="recipeIngredientsCounter">0/1000</small>
+
+      <!-- Instructions -->
       <label>
         Instructions:
-        <textarea id="recipeInstructions" placeholder="Step by step instructions..." required></textarea>
+        <textarea id="recipeInstructions" placeholder="Step by step instructions..." maxlength="1000" required></textarea>
       </label>
+      <small id="recipeInstructionsCounter">0/1000</small>
+
       <button type="submit">Upload Recipe</button>
     </form>
     <div id="uploadFeedback" style="margin-top:10px;"></div>

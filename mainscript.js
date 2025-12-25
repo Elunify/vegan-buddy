@@ -921,19 +921,6 @@ currentProfile.last_lesson = { goal: todayGoal, lessonId: todayLessonId };
 
   if (updateError) return console.error("Profile update failed:", updateError);
 
-  // Update globalImpact locally
-  Object.keys(impactIncrement).forEach(key => {
-    globalImpact[key] = (globalImpact[key] || 0) + impactIncrement[key];
-  });
-
-  // Update global impact UI immediately
-  document.getElementById('communityAnimals').textContent = formatNumber(Math.round(globalImpact.animals_saved || 0));
-  document.getElementById('communityForest').textContent  = formatNumber(Math.round(globalImpact.forest_saved || 0));
-  document.getElementById('communityWater').textContent   = formatNumber(Math.round(globalImpact.water_saved || 0));
-  document.getElementById('communityCO2').textContent     = formatNumber(Math.round(globalImpact.co2_saved || 0));
-
-  // await updateGlobalImpact(impactIncrement);
-
   // Refresh homepage
   const { profile, globalImpact: fetchedImpact } = await fetchAllData();
   await renderProfile(profile, globalImpact);
@@ -978,30 +965,6 @@ if (currentProfile.day_counter === 1 ) {
   );
   } 
   return true;
-}
-
-async function updateGlobalImpact(increment) {
-  if (!currentGlobalImpact || !currentGlobalImpact.id) return;
-
-  // Calculate new totals
-  const updatedImpact = {
-    animals_saved: (currentGlobalImpact.animals_saved || 0) + (increment.animals_saved || 0),
-    forest_saved:  (currentGlobalImpact.forest_saved || 0)  + (increment.forest_saved || 0),
-    water_saved:   (currentGlobalImpact.water_saved || 0)   + (increment.water_saved || 0),
-    co2_saved:     (currentGlobalImpact.co2_saved || 0)     + (increment.co2_saved || 0)
-  };
-
-  const { error } = await supabase
-    .from("global_impact")
-    .update(updatedImpact)
-    .eq("id", currentGlobalImpact.id);
-
-  if (error) {
-    console.error("Failed to update global impact:", error);
-  } else {
-    // Update top-level variable so UI can read the new totals immediately
-    currentGlobalImpact = { ...currentGlobalImpact, ...updatedImpact };
-  }
 }
 
 //--------------------------
@@ -2744,47 +2707,6 @@ async function loadCommunityEvents(locationId) {
 
   for (const event of data) {
     const eventDate = new Date(event.event_date);
-
-    // ----------------------------
-    // DELETE PAST EVENTS
-    // ----------------------------
-    if (eventDate < now) {
-      // Increment events_organized count
-      if (event.user_id) {
-        // SAFE INCREMENT: read old value, then update +1
-        const { data: achievementData, error: readError } = await supabase
-          .from("achievements_data")
-          .select("events_organized")
-          .eq("user_id", event.user_id)
-          .maybeSingle();
-
-        if (readError) console.error("Read error:", readError);
-
-        if (achievementData) {
-          const newCount = (achievementData.events_organized || 0) + 1;
-
-          const { error: updateError } = await supabase
-            .from("achievements_data")
-            .update({
-              events_organized: newCount,
-              updated_at: new Date()
-            })
-            .eq("user_id", event.user_id);
-
-          if (updateError) console.error("Update error:", updateError);
-        }
-      }
-
-      // Delete past event
-      const { error: delError } = await supabase
-        .from("community_events")
-        .delete()
-        .eq("id", event.id);
-
-      if (delError) console.error("Delete error:", delError);
-
-      continue;
-    }
 
     // ----------------------------
     // DISPLAY FUTURE EVENTS
@@ -5166,3 +5088,148 @@ async function insertDeviceRow(token) {
 window.onAndroidTokenReceived = function(token) {
   insertDeviceRow(token);
 };
+
+
+
+// --- VALIDATION ---
+// --- VALIDATION ---
+
+// Profile Name counter
+const profileName = document.getElementById('profileNameInput');
+const profileNameCount = document.getElementById('profileNameCharCount');
+
+profileName.addEventListener('input', () => {
+  const length = profileName.value.length;
+  profileNameCount.textContent = `${length}/15`;
+  profileNameCount.style.color = length >= 13 ? 'red' : 'black';
+});
+
+profileName.addEventListener('blur', () => {
+  profileName.value = profileName.value.trim();
+});
+
+// Pet Name counter
+const petName = document.getElementById('petNameInput');
+const petNameCount = document.getElementById('petNameCharCount');
+
+petName.addEventListener('input', () => {
+  const length = petName.value.length;
+  petNameCount.textContent = `${length}/15`;
+  petNameCount.style.color = length >= 13 ? 'red' : 'black';
+});
+
+petName.addEventListener('blur', () => {
+  petName.value = petName.value.trim();
+});
+
+// Ingredients counter
+const ingredientsInput = document.getElementById('mealArtrecipeIngredients');
+const ingredientsCount = document.getElementById('ingredientsCharCount');
+
+ingredientsInput.addEventListener('input', () => {
+  const length = ingredientsInput.value.length;
+  ingredientsCount.textContent = `${length}/1000`;
+  ingredientsCount.style.color = length >= 900 ? 'red' : 'black';
+});
+
+ingredientsInput.addEventListener('blur', () => {
+  ingredientsInput.value = ingredientsInput.value.trim();
+});
+
+// Instructions counter
+const instructionsInput = document.getElementById('mealArtrecipeInstructions');
+const instructionsCount = document.getElementById('instructionsCharCount');
+
+instructionsInput.addEventListener('input', () => {
+  const length = instructionsInput.value.length;
+  instructionsCount.textContent = `${length}/1000`;
+  instructionsCount.style.color = length >= 900 ? 'red' : 'black';
+});
+
+instructionsInput.addEventListener('blur', () => {
+  instructionsInput.value = instructionsInput.value.trim();
+});
+
+// Message input counter
+const messageInput = document.getElementById('messageInput');
+const messageCount = document.getElementById('messageCharCount');
+
+messageInput.addEventListener('input', () => {
+  const length = messageInput.value.length;
+  messageCount.textContent = `${length}/1000`;
+  messageCount.style.color = length >= 900 ? 'red' : 'black';
+});
+
+messageInput.addEventListener('blur', () => {
+  messageInput.value = messageInput.value.trim();
+});
+
+// Ingredients counter (separate from mealArt)
+const recipeIngredients = document.getElementById('recipeIngredients');
+const recipeIngredientsCounter = document.getElementById('recipeIngredientsCounter');
+
+recipeIngredients.addEventListener('input', () => {
+  const length = recipeIngredients.value.length;
+  recipeIngredientsCounter.textContent = `${length}/1000`;
+  recipeIngredientsCounter.style.color = length >= 900 ? 'red' : 'black';
+});
+
+recipeIngredients.addEventListener('blur', () => {
+  recipeIngredients.value = recipeIngredients.value.trim();
+});
+
+// Instructions counter (separate from mealArt)
+const recipeInstructions = document.getElementById('recipeInstructions');
+const recipeInstructionsCounter = document.getElementById('recipeInstructionsCounter');
+
+recipeInstructions.addEventListener('input', () => {
+  const length = recipeInstructions.value.length;
+  recipeInstructionsCounter.textContent = `${length}/1000`;
+  recipeInstructionsCounter.style.color = length >= 900 ? 'red' : 'black';
+});
+
+recipeInstructions.addEventListener('blur', () => {
+  recipeInstructions.value = recipeInstructions.value.trim();
+});
+
+// Block content counter
+const blockContent = document.getElementById('blockContent');
+const blockContentCounter = document.getElementById('blockContentCounter');
+
+blockContent.addEventListener('input', () => {
+  const length = blockContent.value.length;
+  blockContentCounter.textContent = `${length}/1000`;
+  blockContentCounter.style.color = length >= 900 ? 'red' : 'black';
+});
+
+blockContent.addEventListener('blur', () => {
+  blockContent.value = blockContent.value.trim();
+});
+
+// Comment input counter
+const AFnewCommentInput = document.getElementById('AFnewCommentInput');
+const AFnewCommentCounter = document.getElementById('AFnewCommentCounter');
+
+AFnewCommentInput.addEventListener('input', () => {
+  const length = AFnewCommentInput.value.length;
+  AFnewCommentCounter.textContent = `${length}/1000`;
+  AFnewCommentCounter.style.color = length >= 900 ? 'red' : 'black';
+});
+
+AFnewCommentInput.addEventListener('blur', () => {
+  AFnewCommentInput.value = AFnewCommentInput.value.trim();
+});
+
+// Event description counter
+const eventDescriptionInput = document.getElementById('eventDescriptionInput');
+const eventDescriptionCounter = document.getElementById('eventDescriptionCounter');
+
+eventDescriptionInput.addEventListener('input', () => {
+  const length = eventDescriptionInput.value.length;
+  eventDescriptionCounter.textContent = `${length}/300`;
+  eventDescriptionCounter.style.color = length >= 270 ? 'red' : 'black';
+});
+
+eventDescriptionInput.addEventListener('blur', () => {
+  eventDescriptionInput.value = eventDescriptionInput.value.trim();
+});
