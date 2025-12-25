@@ -3577,16 +3577,16 @@ function renderLeaderboard(ulId, data, type) {
   ul.innerHTML = data.map((user, index) => {
     switch(type) {
       case 'streak':
-        return `<li>${index + 1}. ${user.name} 🌱 – ${user.streak} days</li>`;
+        return `<li>${index + 1}. ${user.username} 🌱 – ${user.streak} days</li>`;
       case 'xp':
-        return `<li>${index + 1}. ${user.name} 💫 – XP: ${user.total_xp}, (Level ${user.level})</li>`;
+        return `<li>${index + 1}. ${user.username} 💫 – XP: ${user.total_xp}, (Level ${user.level})</li>`;
       case 'impact':
-        return `<li>${index + 1}. ${user.name} 🌿 – ${user.animals_saved || 0} animals, ${user.water_saved || 0}L water, ${user.forest_saved || 0} trees, ${user.co2_saved || 0}kg CO₂</li>`;
+        return `<li>${index + 1}. ${user.username} 🌿 – ${user.animals_saved || 0} animals, ${user.water_saved || 0}L water, ${user.forest_saved || 0} trees, ${user.co2_saved || 0}kg CO₂</li>`;
       case 'badge':
-        return `<li>${index + 1}. ${user.name}  – 🏅 ${user.badge} </li>`;
+        return `<li>${index + 1}. ${user.username}  – 🏅 ${user.badge} </li>`;
       
       default:
-        return `<li>${index + 1}. ${user.name}</li>`;
+        return `<li>${index + 1}. ${user.username}</li>`;
     }
   }).join('');
 }
