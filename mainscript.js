@@ -2740,29 +2740,63 @@ async function loadCommunityEvents(locationId) {
 };
     li.appendChild(participantBtn);
 
-    // ----------------------------
-    // SIGN UP / UNREGISTER BUTTON
-    // ----------------------------
+// ----------------------------
+// SIGN UP / UNREGISTER BUTTON
+// ----------------------------
 const isCreator = event.user_id === currentUser.id;
+
+// Check if the current user is already participating
 const isParticipating = participants.some(p => p.user_id === currentUser.id);
 
 if (!isCreator) {
   const signupBtn = document.createElement("button");
   signupBtn.textContent = isParticipating ? "Unregister" : "Sign Up";
+
   signupBtn.onclick = async () => {
-    if (isParticipating) {
-      await supabase
-        .from("event_participants")
-        .delete()
-        .eq("event_id", event.id)
-        .eq("user_id", currentUser.id);
-    } else { console.log(event.id, currentUser.id, currentUser.username);
-      await supabase
-        .from("event_participants")
-        .insert([{ event_id: event.id, user_id: currentUser.id, username: currentUser.username }]);
+    if (!event.id) return alert("Event ID not found.");
+    if (!currentUser || !currentUser.id || !currentProfile || !currentProfile.name) {
+      return alert("User data not loaded.");
     }
-    await loadCommunityEvents(locationId);
+
+    try {
+      if (isParticipating) {
+        // Remove participation
+        const { error: deleteError } = await supabase
+          .from("event_participants")
+          .delete()
+          .eq("event_id", event.id)
+          .eq("user_id", currentUser.id);
+
+        if (deleteError) throw deleteError;
+      } else {
+        // Prevent duplicate insertion by checking first
+        const { data: existing } = await supabase
+          .from("event_participants")
+          .select("*")
+          .eq("event_id", event.id)
+          .eq("user_id", currentUser.id);
+
+        if (existing.length === 0) {
+          const { error: insertError } = await supabase
+            .from("event_participants")
+            .insert([{
+              event_id: event.id,
+              user_id: currentUser.id,
+              username: currentProfile.name
+            }]);
+          if (insertError) throw insertError;
+        }
+      }
+
+      // Reload events to update UI
+      await loadCommunityEvents(locationId);
+
+    } catch (err) {
+      console.error("Error updating participation:", err);
+      alert("Failed to update participation. Check console for details.");
+    }
   };
+
   li.appendChild(signupBtn);
 }
 
