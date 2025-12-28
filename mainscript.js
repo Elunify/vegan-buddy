@@ -4702,18 +4702,7 @@ window.initNotifications = initNotifications;
 
 
 
-// After loading existing messages
-function initChat() {
-  // Render your messages here
-  messagesData.forEach(msg => {
-    const msgDiv = document.createElement('div');
-    msgDiv.classList.add(msg.isMine ? 'my-message' : 'friend-message');
-    msgDiv.textContent = msg.text;
-    chatMessages.appendChild(msgDiv); // append for initial load
-  });
-// Force scroll to bottom
-  scrollChatToBottom();
-}
+
 //--------------------------
 // INIT
 //--------------------------
@@ -5028,8 +5017,6 @@ await supabase
 
 await sendTokenToAndroid();
 
-// Call this after DOM is ready and messages are inserted
-await initChat();
 });
 
 // On page load (and you can repeat periodically if needed
@@ -5149,3 +5136,5 @@ attachCharCounter('communityMessageInput', 'communityMessageCounter', 1000);
 
 // --- Event description ---
 attachCharCounter('eventDescriptionInput', 'eventDescriptionCounter', 300, 0.9);
+
+

@@ -2959,7 +2959,6 @@ textarea {
   border-radius: 12px;
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
   flex: 1; /* fill available space */
-  max-height: 60dvh; /* adjust dynamically for mobile keyboard */
   min-height: 10rem;
   transition: max-height 0.2s ease;
 }
@@ -3566,7 +3565,7 @@ textarea {
 /* === Messages Tab === */
 #messages {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   height: 90%; 
   font-family: Arial, sans-serif;
   box-sizing: border-box;

@@ -140,9 +140,19 @@ notifySections.forEach(section => {
       clearSectionNotifications(section);  // 👉 clear notifications
       showSection(section);                // 👉 open section
       closeDropdowns();                    // optional: close menu
+
+      // 🔑 CRITICAL: run chat layout AFTER messages becomes visible
+      if (section === 'messages') {
+        onMessagesTabOpened();
+        }
     });
   }
 });
+function onMessagesTabOpened() {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => updateChatLayout(true));
+  });
+}
 
 // Playground: Avatar, Shop, Leaderboards, Challenges
 const playgroundButtons = ['profilecard','avatar','shop','leaderboards','challenges', 'supportus', 'settings'];
@@ -885,48 +895,51 @@ window.addEventListener("click", (e) => {
 });
 
 
+
+const bottomNavHeight = 50;
+const chatView = document.getElementById('chatView');
 const chatMessages = document.getElementById('chatMessages');
-const chatInput = document.querySelector('.chat-input');
-const bottomNavHeight = 50; // px
 
-function updateChatLayout() {
-  const viewportHeight = window.visualViewport ? window.visualViewport.height : document.documentElement.clientHeight;
-  const inputHeight = chatInput.offsetHeight;
-  const chatTop = chatMessages.getBoundingClientRect().top;
-
-  const availableHeight = viewportHeight - chatTop - inputHeight - bottomNavHeight;
-  chatMessages.style.maxHeight = `${availableHeight}px`;
-
-  // Stick to bottom
-  setTimeout(() => {
-    chatMessages.scrollTo({ top: 0, behavior: 'auto' });
-  }, 50);
+function isAtBottom() {
+  return (
+    chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight
+    < 20
+  );
 }
 
-// Initial layout
-updateChatLayout();
+function scrollToBottom(force = false) {
+  if (force || isAtBottom()) {
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+}
 
-// Handle viewport changes (keyboard open/close)
+function updateChatLayout(forceScroll = false) {
+  const viewportHeight = window.visualViewport
+    ? window.visualViewport.height
+    : window.innerHeight;
+
+  const availableHeight = viewportHeight - bottomNavHeight;
+
+  chatView.style.height = `${availableHeight}px`;
+
+  requestAnimationFrame(() => scrollToBottom(forceScroll));
+}
+
 if (window.visualViewport) {
-  window.visualViewport.addEventListener('resize', updateChatLayout);
+  window.visualViewport.addEventListener('resize', () => {
+    updateChatLayout(false);
+  });
 } else {
-  window.addEventListener('resize', updateChatLayout);
+  window.addEventListener('resize', () => {
+    updateChatLayout(false);
+  });
 }
 
-// Input focus (keyboard)
-chatInput.addEventListener('focus', () => {
-  setTimeout(updateChatLayout, 50);
-});
+function addMessage(text) {
+  const div = document.createElement('div');
+  div.className = 'my-message';
+  div.textContent = text;
+  chatMessages.appendChild(div);
 
-// Sending message
-document.getElementById('sendMessageBtn').addEventListener('click', () => {
-  const msgDiv = document.createElement('div');
-  msgDiv.classList.add('my-message');
-  msgDiv.textContent = chatInput.value;
-
-  chatMessages.prepend(msgDiv); // column-reverse
-  chatInput.value = '';
-  document.getElementById('messageCharCount').textContent = '0/1000';
-
-  setTimeout(updateChatLayout, 50);
-});
+  scrollToBottom(true);
+}
