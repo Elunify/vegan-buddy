@@ -2756,7 +2756,7 @@ if (!isCreator) {
         .delete()
         .eq("event_id", event.id)
         .eq("user_id", currentUser.id);
-    } else {
+    } else { console.log(event.id, currentUser.id, currentUser.username);
       await supabase
         .from("event_participants")
         .insert([{ event_id: event.id, user_id: currentUser.id, username: currentUser.username }]);
