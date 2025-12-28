@@ -885,53 +885,48 @@ window.addEventListener("click", (e) => {
 });
 
 
-const messages = document.getElementById('messages');
 const chatMessages = document.getElementById('chatMessages');
 const chatInput = document.querySelector('.chat-input');
-const bottomNavHeight = 30; // px, adjust if your nav has larger nav bar
+const bottomNavHeight = 50; // px
 
-function resizeChat() {
-  // Use visualViewport if available, fallback to document height
+function updateChatLayout() {
   const viewportHeight = window.visualViewport ? window.visualViewport.height : document.documentElement.clientHeight;
-  
   const inputHeight = chatInput.offsetHeight;
   const chatTop = chatMessages.getBoundingClientRect().top;
 
   const availableHeight = viewportHeight - chatTop - inputHeight - bottomNavHeight;
   chatMessages.style.maxHeight = `${availableHeight}px`;
 
-  // Stick to bottom after layout update
+  // Stick to bottom
   setTimeout(() => {
-    chatMessages.scrollTo({ top: 0, behavior: 'auto' }); // column-reverse: 0 = bottom
+    chatMessages.scrollTo({ top: 0, behavior: 'auto' });
   }, 50);
 }
 
-// Initial resize
-resizeChat();
+// Initial layout
+updateChatLayout();
 
-// Resize when keyboard opens/closes
+// Handle viewport changes (keyboard open/close)
 if (window.visualViewport) {
-  window.visualViewport.addEventListener('resize', resizeChat);
+  window.visualViewport.addEventListener('resize', updateChatLayout);
 } else {
-  window.addEventListener('resize', resizeChat);
+  window.addEventListener('resize', updateChatLayout);
 }
 
-// Focus event for input (keyboard opened)
+// Input focus (keyboard)
 chatInput.addEventListener('focus', () => {
-  setTimeout(resizeChat, 50); // small delay to let keyboard push input up
+  setTimeout(updateChatLayout, 50);
 });
 
-// Auto-scroll when sending a message
+// Sending message
 document.getElementById('sendMessageBtn').addEventListener('click', () => {
   const msgDiv = document.createElement('div');
   msgDiv.classList.add('my-message');
   msgDiv.textContent = chatInput.value;
 
-  chatMessages.prepend(msgDiv);
+  chatMessages.prepend(msgDiv); // column-reverse
   chatInput.value = '';
   document.getElementById('messageCharCount').textContent = '0/1000';
 
-  setTimeout(() => {
-    chatMessages.scrollTo({ top: 0, behavior: 'smooth' });
-  }, 50);
+  setTimeout(updateChatLayout, 50);
 });
