@@ -3567,7 +3567,7 @@ textarea {
 #messages {
   display: flex;
   flex-direction: column-reverse;
-  height: 94dvh; /* adapts to mobile keyboard */
+  height: 90%; 
   font-family: Arial, sans-serif;
   box-sizing: border-box;
   padding: 0.5rem;

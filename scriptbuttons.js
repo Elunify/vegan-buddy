@@ -884,13 +884,15 @@ window.addEventListener("click", (e) => {
   }
 });
 
+
 const messages = document.getElementById('messages');
 const chatMessages = document.getElementById('chatMessages');
 const chatInput = document.querySelector('.chat-input');
-const bottomNavHeight = 20; // adjust if your nav is larger
+const bottomNavHeight = 20; // px
 
 function resizeChat() {
-  const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  // Use document.documentElement.clientHeight for WebView reliability
+  const viewportHeight = document.documentElement.clientHeight;
   const inputHeight = chatInput.offsetHeight;
   const chatTop = chatMessages.getBoundingClientRect().top;
 
@@ -904,21 +906,16 @@ function resizeChat() {
 // Initial resize
 resizeChat();
 
-// Resize when keyboard opens/closes or viewport changes
-if (window.visualViewport) {
-  window.visualViewport.addEventListener('resize', resizeChat);
-} else {
-  window.addEventListener('resize', resizeChat);
-}
+// Resize when viewport changes (keyboard open/close)
+window.addEventListener('resize', resizeChat);
 
 // Auto-scroll on sending a message
 document.getElementById('sendMessageBtn').addEventListener('click', () => {
-  // Example: create message div
   const msgDiv = document.createElement('div');
   msgDiv.classList.add('my-message');
   msgDiv.textContent = document.getElementById('messageInput').value;
-  
-  chatMessages.prepend(msgDiv); // because column-reverse
+
+  chatMessages.prepend(msgDiv);
   chatMessages.scrollTo({ top: 0, behavior: 'smooth' });
 
   document.getElementById('messageInput').value = '';
