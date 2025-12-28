@@ -885,23 +885,14 @@ window.addEventListener("click", (e) => {
 });
 
 
-const messagesContainer = document.getElementById('messages');
-const chatMessages = document.querySelector('.chat-messages');
-const chatInput = document.querySelector('.chat-input');
-
-function resizeChat() {
-  const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-  const inputHeight = chatInput.offsetHeight;
-  const topOffset = chatMessages.getBoundingClientRect().top;
-  chatMessages.style.maxHeight = `${vh - topOffset - inputHeight - 10}px`;
+function setMessagesHeight() {
+  const messages = document.getElementById('messages');
+  const vh = window.innerHeight; // use innerHeight for WebView compatibility
+  messages.style.height = `${vh}px`;
 }
 
-// Initial resize
-resizeChat();
+// Run on load
+setMessagesHeight();
 
-// Resize when keyboard opens/closes
-if (window.visualViewport) {
-  window.visualViewport.addEventListener('resize', resizeChat);
-} else {
-  window.addEventListener('resize', resizeChat);
-}
+// Update on resize (keyboard open/close)
+window.addEventListener('resize', setMessagesHeight);
