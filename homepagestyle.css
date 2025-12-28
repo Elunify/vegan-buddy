@@ -3562,11 +3562,12 @@ textarea {
 /* === Messages Tab === */
 /* === Messages Tab === */
 /* === Messages Tab === */
-/* === Messages Tab === *//* === Messages Tab === */
+/* === Messages Tab === */
+/* === Messages Tab === */
 #messages {
   display: flex;
   flex-direction: column;
-  height: 94vh; /* adapts to mobile keyboard */
+  height: 94dvh; /* adapts to mobile keyboard */
   font-family: Arial, sans-serif;
   box-sizing: border-box;
   padding: 0.5rem;

@@ -883,3 +883,25 @@ window.addEventListener("click", (e) => {
     uploadModal.classList.add("hidden-modal");
   }
 });
+
+
+const messagesContainer = document.getElementById('messages');
+const chatMessages = document.querySelector('.chat-messages');
+const chatInput = document.querySelector('.chat-input');
+
+function resizeChat() {
+  const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  const inputHeight = chatInput.offsetHeight;
+  const topOffset = chatMessages.getBoundingClientRect().top;
+  chatMessages.style.maxHeight = `${vh - topOffset - inputHeight - 10}px`;
+}
+
+// Initial resize
+resizeChat();
+
+// Resize when keyboard opens/closes
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', resizeChat);
+} else {
+  window.addEventListener('resize', resizeChat);
+}
