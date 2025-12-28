@@ -888,36 +888,50 @@ window.addEventListener("click", (e) => {
 const messages = document.getElementById('messages');
 const chatMessages = document.getElementById('chatMessages');
 const chatInput = document.querySelector('.chat-input');
-const bottomNavHeight = 20; // px
+const bottomNavHeight = 30; // px, adjust if your nav has larger nav bar
 
 function resizeChat() {
-  // Use document.documentElement.clientHeight for WebView reliability
-  const viewportHeight = document.documentElement.clientHeight;
+  // Use visualViewport if available, fallback to document height
+  const viewportHeight = window.visualViewport ? window.visualViewport.height : document.documentElement.clientHeight;
+  
   const inputHeight = chatInput.offsetHeight;
   const chatTop = chatMessages.getBoundingClientRect().top;
 
   const availableHeight = viewportHeight - chatTop - inputHeight - bottomNavHeight;
   chatMessages.style.maxHeight = `${availableHeight}px`;
 
-  // Stick to bottom
-  chatMessages.scrollTo({ top: 0, behavior: 'auto' });
+  // Stick to bottom after layout update
+  setTimeout(() => {
+    chatMessages.scrollTo({ top: 0, behavior: 'auto' }); // column-reverse: 0 = bottom
+  }, 50);
 }
 
 // Initial resize
 resizeChat();
 
-// Resize when viewport changes (keyboard open/close)
-window.addEventListener('resize', resizeChat);
+// Resize when keyboard opens/closes
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', resizeChat);
+} else {
+  window.addEventListener('resize', resizeChat);
+}
 
-// Auto-scroll on sending a message
+// Focus event for input (keyboard opened)
+chatInput.addEventListener('focus', () => {
+  setTimeout(resizeChat, 50); // small delay to let keyboard push input up
+});
+
+// Auto-scroll when sending a message
 document.getElementById('sendMessageBtn').addEventListener('click', () => {
   const msgDiv = document.createElement('div');
   msgDiv.classList.add('my-message');
-  msgDiv.textContent = document.getElementById('messageInput').value;
+  msgDiv.textContent = chatInput.value;
 
   chatMessages.prepend(msgDiv);
-  chatMessages.scrollTo({ top: 0, behavior: 'smooth' });
-
-  document.getElementById('messageInput').value = '';
+  chatInput.value = '';
   document.getElementById('messageCharCount').textContent = '0/1000';
+
+  setTimeout(() => {
+    chatMessages.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 50);
 });
