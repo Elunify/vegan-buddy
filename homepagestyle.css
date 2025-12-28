@@ -3566,8 +3566,8 @@ textarea {
 /* === Messages Tab === */
 #messages {
   display: flex;
-  flex-direction: column;
-  height: 90dvh; /* adapts to mobile keyboard */
+  flex-direction: column-reverse;
+  height: 94dvh; /* adapts to mobile keyboard */
   font-family: Arial, sans-serif;
   box-sizing: border-box;
   padding: 0.5rem;

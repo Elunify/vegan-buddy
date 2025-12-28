@@ -884,15 +884,43 @@ window.addEventListener("click", (e) => {
   }
 });
 
+const messages = document.getElementById('messages');
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.querySelector('.chat-input');
+const bottomNavHeight = 20; // adjust if your nav is larger
 
-function setMessagesHeight() {
-  const messages = document.getElementById('messages');
-  const vh = window.innerHeight; // use innerHeight for WebView compatibility
-  messages.style.height = `${vh}px`;
+function resizeChat() {
+  const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  const inputHeight = chatInput.offsetHeight;
+  const chatTop = chatMessages.getBoundingClientRect().top;
+
+  const availableHeight = viewportHeight - chatTop - inputHeight - bottomNavHeight;
+  chatMessages.style.maxHeight = `${availableHeight}px`;
+
+  // Stick to bottom
+  chatMessages.scrollTo({ top: 0, behavior: 'auto' });
 }
 
-// Run on load
-setMessagesHeight();
+// Initial resize
+resizeChat();
 
-// Update on resize (keyboard open/close)
-window.addEventListener('resize', setMessagesHeight);
+// Resize when keyboard opens/closes or viewport changes
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', resizeChat);
+} else {
+  window.addEventListener('resize', resizeChat);
+}
+
+// Auto-scroll on sending a message
+document.getElementById('sendMessageBtn').addEventListener('click', () => {
+  // Example: create message div
+  const msgDiv = document.createElement('div');
+  msgDiv.classList.add('my-message');
+  msgDiv.textContent = document.getElementById('messageInput').value;
+  
+  chatMessages.prepend(msgDiv); // because column-reverse
+  chatMessages.scrollTo({ top: 0, behavior: 'smooth' });
+
+  document.getElementById('messageInput').value = '';
+  document.getElementById('messageCharCount').textContent = '0/1000';
+});
