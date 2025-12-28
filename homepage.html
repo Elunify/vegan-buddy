@@ -1020,36 +1020,47 @@
  <!-- Messages -->
   <!-- Messages -->
    <!-- Messages -->
-<div id="messages" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      <h2>Messages</h2>
-    <div class="messages-container">
-      <div id="chatListView">
-        <div class="chat-list-header"><h3>Chats</h3></div>
-        <ul id="chatListItems"></ul>
-      </div>
-      <div id="chatView" class = "hidden">
-        <div class="chat-header">
-          <span id="backToList" class="back-arrow">⬅️</span>
-          <span id="chatHeader">Chat</span>
-        </div>
-        <div class="chat-messages" id="chatMessages"></div>
-        <div class="chat-input">
-          <input type="text" id="messageInput" placeholder="Type a message..." maxlength="1000">
-          <small id="messageCharCount">0/1000</small>
-          <button id="sendMessageBtn">Send</button>
-        </div>
-      </div>
+<!-- Messages -->
+<div id="messages" class="page hidden" 
+     style="padding-top: env(safe-area-inset-top, 30px); padding-bottom: env(safe-area-inset-bottom, 20px);">
+  <h2>Messages</h2>
+
+  <div class="messages-container">
+    <!-- Chat List -->
+    <div id="chatListView">
+      <div class="chat-list-header"><h3>Chats</h3></div>
+      <ul id="chatListItems"></ul>
     </div>
 
+    <!-- Chat View -->
+    <div id="chatView" class="hidden">
+      <div class="chat-header">
+        <span id="backToList" class="back-arrow">⬅️</span>
+        <span id="chatHeader">Chat</span>
+      </div>
+
+      <!-- Messages -->
+      <div class="chat-messages" id="chatMessages"></div>
+
+      <!-- Input -->
+      <div class="chat-input">
+        <input type="text" id="messageInput" placeholder="Type a message..." maxlength="1000">
+        <small id="messageCharCount">0/1000</small>
+        <button id="sendMessageBtn">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Chat Popup -->
   <div id="newChatPopup" class="hidden">
-  <div class="popup-content">
-    <span id="closePopup" class="close">&times;</span>
-    <h3>Select a friend to message</h3>
-    <ul id="friendsListPopup"></ul>
+    <div class="popup-content">
+      <span id="closePopup" class="close">&times;</span>
+      <h3>Select a friend to message</h3>
+      <ul id="friendsListPopup"></ul>
+    </div>
   </div>
 </div>
 
-</div>
 
 <!-- Mentorship -->
  <!-- Mentorship -->
