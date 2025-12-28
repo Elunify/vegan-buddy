@@ -733,21 +733,20 @@ function getTodaysLessonFromProfile(profile) {
     }
   }
 
-  // ✅ If all lessons are done, repeat vegan section
-  if (!todayLesson) {
-    // Find vegan lessons for this goal
-    const veganLessons = allGoalLessons.filter(([id, lesson]) => (lesson.diet || "").toLowerCase() === "vegan");
-    if (veganLessons.length > 0) {
-      const [firstVeganId, firstVeganLesson] = veganLessons[0];
-      todayLessonId = parseInt(firstVeganId);
-      todayLesson = firstVeganLesson;
-    } else {
-      // Fallback: just take first lesson of the goal
-      const [firstId, firstLesson] = allGoalLessons[0];
-      todayLessonId = parseInt(firstId);
-      todayLesson = firstLesson;
-    }
+  // ✅ If all lessons are done, pick a random lesson from this goal (any diet)
+if (!todayLesson) {
+  const randomPool = allGoalLessons;
+
+  if (randomPool.length > 0) {
+    const [randomId, randomLesson] =
+      randomPool[Math.floor(Math.random() * randomPool.length)];
+
+    todayLessonId = parseInt(randomId, 10);
+    todayLesson = randomLesson;
+  } else {
+    console.warn("⚠️ No lessons available for random fallback:", todayGoal);
   }
+}
 
   return { todayGoal, todayLessonId, todayLesson };
 }
@@ -2689,38 +2688,93 @@ document.getElementById("leaveCommunityDashboardBtn").addEventListener("click", 
 // Community events
 // ----------------------------
 async function loadCommunityEvents(locationId) {
-  const { data, error } = await supabase
+  // 1️⃣ Fetch all events
+  const { data: events, error: eventsError } = await supabase
     .from("community_events")
     .select("*")
     .eq("location_id", locationId)
     .order("event_date", { ascending: true });
 
-  if (error) {
-    console.error("Error loading community events:", error);
+  if (eventsError) {
+    console.error("Error loading community events:", eventsError);
     return;
   }
+
+  // 2️⃣ Fetch all participants for events at once
+  const { data: allParticipants, error: participantsError } = await supabase
+    .from("event_participants")
+    .select("*")
+    .in("event_id", events.map(e => e.id)); // fetch participants only for the events we have
+
+  if (participantsError) {
+    console.error("Error loading participants:", participantsError);
+  }
+
+  // 3️⃣ Map participants by event_id for fast lookup
+  const participantsByEvent = {};
+  allParticipants.forEach(p => {
+    if (!participantsByEvent[p.event_id]) participantsByEvent[p.event_id] = [];
+    participantsByEvent[p.event_id].push(p);
+  });
 
   const ul = document.getElementById("communityEventsList");
   ul.innerHTML = "";
 
   const now = new Date();
 
-  for (const event of data) {
+  for (const event of events) {
     const eventDate = new Date(event.event_date);
-
-    // ----------------------------
-    // DISPLAY FUTURE EVENTS
-    // ----------------------------
     const li = document.createElement("li");
     li.textContent = `${eventDate.toLocaleString()} — ${event.place} — ${event.description} (by ${event.username})`;
 
-    // Add delete button only for the event creator
+    const participants = participantsByEvent[event.id] || [];
+    const participantCount = participants.length;
+
+    // ----------------------------
+    // PARTICIPANTS BUTTON
+    // ----------------------------
+    const participantBtn = document.createElement("button");
+    participantBtn.textContent = `${participantCount} participant${participantCount !== 1 ? "s" : ""}`; // pluralize correctly
+    participantBtn.onclick = () => {
+  showParticipantsPopup(event.place, participants);
+};
+    li.appendChild(participantBtn);
+
+    // ----------------------------
+    // SIGN UP / UNREGISTER BUTTON
+    // ----------------------------
+const isCreator = event.user_id === currentUser.id;
+const isParticipating = participants.some(p => p.user_id === currentUser.id);
+
+if (!isCreator) {
+  const signupBtn = document.createElement("button");
+  signupBtn.textContent = isParticipating ? "Unregister" : "Sign Up";
+  signupBtn.onclick = async () => {
+    if (isParticipating) {
+      await supabase
+        .from("event_participants")
+        .delete()
+        .eq("event_id", event.id)
+        .eq("user_id", currentUser.id);
+    } else {
+      await supabase
+        .from("event_participants")
+        .insert([{ event_id: event.id, user_id: currentUser.id, username: currentUser.username }]);
+    }
+    await loadCommunityEvents(locationId);
+  };
+  li.appendChild(signupBtn);
+}
+
+    // ----------------------------
+    // DELETE BUTTON (only for creator)
+    // ----------------------------
     if (event.user_id === currentUser.id) {
       const delBtn = document.createElement("button");
       delBtn.textContent = "x";
       delBtn.onclick = async () => {
         await supabase.from("community_events").delete().eq("id", event.id);
-        await loadCommunityEvents(locationId); // reload UI
+        await loadCommunityEvents(locationId);
       };
       li.appendChild(delBtn);
     }
@@ -2728,7 +2782,6 @@ async function loadCommunityEvents(locationId) {
     ul.appendChild(li);
   }
 }
-
 
 async function initCommunityModule() {
   // 1️⃣ Load locations
@@ -2786,29 +2839,136 @@ submitEventBtn.addEventListener("click", async () => {
     return alert("User data not loaded. Please log in.");
   }
 
-  const { error } = await supabase.from("community_events").insert([{
-    location_id: joinedLocationId,
-    place: place,
-    description: description,
-    event_date: eventDate,
-    user_id: currentUser.id,
-    username: currentProfile.name
-  }]);
+  // 1️⃣ Insert the new event
+  const { data: newEvent, error: eventError } = await supabase
+    .from("community_events")
+    .insert([{
+      location_id: joinedLocationId,
+      place: place,
+      description: description,
+      event_date: eventDate,
+      user_id: currentUser.id,
+      username: currentProfile.name
+    }])
+    .select()
+    .single(); // get the inserted event back
 
-  if (error) {
-    console.error(error);
+  if (eventError) {
+    console.error(eventError);
     return alert("Failed to create event.");
   }
 
-  // Clear inputs and hide form
+  // 2️⃣ Insert creator into event_participants
+  const { error: participantError } = await supabase
+    .from("event_participants")
+    .insert([{
+      event_id: newEvent.id,
+      user_id: currentUser.id,
+      username: currentProfile.name
+    }]);
+
+  if (participantError) {
+    console.error(participantError);
+    return alert("Failed to add creator as participant.");
+  }
+
+  // 3️⃣ Clear inputs and hide form
   eventPlaceInput.value = "";
   descriptionInput.value = "";
   eventTimeInput.value = "";
   createEventInputs.style.display = "none";
 
-  // Reload events for the community
+  // 4️⃣ Reload events for the community
   await loadCommunityEvents(joinedLocationId);
 });
+
+async function showParticipantsPopup(eventPlace, participants) {
+  // participants: array of { user_id } from event_participants
+
+  // 1️⃣ Fetch all profilecards for these participants
+  const userIds = participants.map(p => p.user_id);
+  const { data: profiles, error } = await supabase
+    .from("profilecards")
+    .select("*")
+    .in("user_id", userIds);
+
+  if (error) {
+    console.error("Error fetching participant profiles:", error);
+    return;
+  }
+
+  // 2️⃣ Create overlay
+  const overlay = document.createElement("div");
+  overlay.classList.add("eventpopup-overlay");
+
+  // 3️⃣ Create popup content
+  const popup = document.createElement("div");
+  popup.classList.add("eventpopup-content");
+
+  // 4️⃣ Build participant list
+  const ul = document.createElement("ul");
+  ul.style.listStyle = "none";
+  ul.style.padding = "0";
+  ul.style.margin = "0";
+
+  profiles.forEach(profile => {
+    const li = document.createElement("li");
+    li.className = "participant-item";
+    li.dataset.userid = profile.user_id;
+
+    const hasFrame = profile.frame && profile.frame.trim() !== "";
+
+    const imgDiv = document.createElement("div");
+    imgDiv.className = "participant-avatar";
+    imgDiv.dataset.userid = profile.user_id;
+
+    imgDiv.style.backgroundImage = hasFrame
+      ? `url('${profile.frame}'), url('${profile.profile_photo || profile.avatar_url || "default-avatar.png"}')`
+      : `url('${profile.profile_photo || profile.avatar_url || "default-avatar.png"}')`;
+
+    imgDiv.style.backgroundSize = hasFrame ? "contain, cover" : "cover";
+    imgDiv.style.backgroundPosition = hasFrame ? "center, center" : "center";
+    imgDiv.style.backgroundRepeat = hasFrame ? "no-repeat, no-repeat" : "no-repeat";
+    imgDiv.style.width = "60px";
+    imgDiv.style.height = "60px";
+    imgDiv.style.borderRadius = "50%";
+    imgDiv.style.cursor = "pointer";
+
+    // ✅ Use existing openProfile function
+    imgDiv.addEventListener("click", e => {
+      e.stopPropagation();
+      openProfile(imgDiv);
+    });
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = profile.title
+      ? `${profile.username}, ${profile.title}`
+      : profile.username || "Unknown";
+
+    const rightSide = document.createElement("div");
+    rightSide.className = "participant-info";
+    rightSide.appendChild(nameSpan);
+
+    li.appendChild(imgDiv);
+    li.appendChild(rightSide);
+    ul.appendChild(li);
+  });
+
+  popup.innerHTML = `<h3>Participants for ${eventPlace}</h3>`;
+  popup.appendChild(ul);
+
+  const closeBtn = document.createElement("button");
+  closeBtn.className = "eventclose-popup";
+  closeBtn.textContent = "Close";
+  closeBtn.onclick = () => overlay.remove();
+  popup.appendChild(closeBtn);
+
+  overlay.appendChild(popup);
+  document.body.appendChild(overlay);
+
+  // Optional: click outside to close
+  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+}
 
 // ----------------------------
 // ANONYMOUS FORUM
