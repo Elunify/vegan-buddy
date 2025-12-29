@@ -1696,6 +1696,7 @@ function scrollToFirstUndoneLesson() {
     behavior: "smooth"
   });
 }
+
 function getHealthLessons(profile) {
   // 1️⃣ Gather lessons from both sources
   const healthIssuesLessons = HealthIssuesPool.health || [];
@@ -1739,54 +1740,51 @@ function renderExtraLessons() {
   if (!extralessonsData) return;
 
   Object.keys(extralessonsData).forEach(courseKey => {
-  const course = document.getElementById(courseKey);
-  if (!course) return;
+    const course = document.getElementById(courseKey);
+    if (!course) return;
 
-  const lessonList = course.querySelector(".extralesson-list");
-  if (!lessonList) return;
-  lessonList.innerHTML = ""; // clear
+    const lessonList = course.querySelector(".extralesson-list");
+    if (!lessonList) return;
+    lessonList.innerHTML = "";
 
-  let lessonsToRender = extralessonsData[courseKey];
+    let lessonsToRender = extralessonsData[courseKey];
 
-  // <-- NEW: if health, sort by user issues first
-  if (courseKey === "health" && currentProfile) {          
-    lessonsToRender = getHealthLessons(currentProfile);
-  }
+    if (courseKey === "health" && currentProfile) {          
+      lessonsToRender = getHealthLessons(currentProfile);
+    }
 
-// ✅ Save lessons globally so setupExtraLessonClicks can access them
     globalLessonsToRender[courseKey] = lessonsToRender;
 
-  lessonsToRender.forEach((lesson, index) => {
-  const li = document.createElement("li");
-  li.dataset.step = index + 1;
-  
-  const completedLessons = currentProfile.extra_lesson?.[courseKey] || [];
+    lessonsToRender.forEach((lesson, index) => {
+      const li = document.createElement("li");
+      li.dataset.step = index + 1;
 
-  if (completedLessons.includes(lesson.title)) {
-    li.className = "extralesson completed";
-  } else if (completedLessons.length === 0 && index === 0) {
-    // unlock the very first lesson if nothing done yet
-    li.className = "extralesson unlocked";
-  } else if (completedLessons.includes(lessonsToRender[index - 1]?.title)) {
-    // unlock next lesson after last completed
-    li.className = "extralesson unlocked";
-  } else {
-    li.className = "extralesson locked";
-  }
+      const completedLessons = currentProfile.extra_lesson?.[courseKey] || [];
 
-  li.innerHTML = `
-  <div class="extralesson-title" data-title="${lesson.title}">
-    <span class="extralesson-icon">${li.classList.contains("completed") ? "✅" : (li.classList.contains("unlocked") ? "🟢" : "🔒")}</span>
-    ${lesson.title}
-  </div>
-  <div class="extralesson-content"></div>
-`;
-  lessonList.appendChild(li);
-});
-});
+      if (completedLessons.includes(lesson.title)) {
+        li.className = "extralesson completed";
+      } else if (index === 0 || completedLessons.includes(lessonsToRender[index - 1]?.title)) {
+        li.className = "extralesson unlocked";
+      } else {
+        li.className = "extralesson locked";
+      }
+
+      li.innerHTML = `
+        <div class="extralesson-title" data-title="${lesson.title}">
+          <span class="extralesson-icon">
+            ${li.classList.contains("completed") ? "✅" : (li.classList.contains("unlocked") ? "🟢" : "🔒")}
+          </span>
+          ${lesson.title}
+        </div>
+        <div class="extralesson-content"></div>
+      `;
+
+      lessonList.appendChild(li);
+    });
+  });
 }
 
-// Setup click handlers for lessons
+
 // Setup click handlers for lessons
 function setupExtraLessonClicks() {
   if (!extralessonsData) return;
@@ -1796,105 +1794,101 @@ function setupExtraLessonClicks() {
     if (!course) return;
 
     const lessons = course.querySelectorAll(".extralesson");
+
     lessons.forEach((lesson, idx) => {
       const contentContainer = lesson.querySelector(".extralesson-content");
-      const title = lesson.querySelector(".extralesson-title");
-      if (!title) return;
+      const titleEl = lesson.querySelector(".extralesson-title");
+      if (!titleEl) return;
 
-      title.addEventListener("click", async () => {
-  if (lesson.classList.contains("locked")) return;
+      titleEl.addEventListener("click", async () => {
+        if (lesson.classList.contains("locked")) return;
 
-  // Close other lessons
-  lessons.forEach(l => {
-    if (l !== lesson) l.querySelector(".extralesson-content")?.classList.remove("active");
-  });
+        lessons.forEach(l => {
+          if (l !== lesson) {
+            l.querySelector(".extralesson-content")?.classList.remove("active");
+          }
+        });
 
-  contentContainer.classList.toggle("active");
+        contentContainer.classList.toggle("active");
+        if (contentContainer.innerHTML.trim()) return;
 
-  if (!contentContainer.innerHTML.trim()) {
-    const lessonData = globalLessonsToRender[courseId][idx];
-    const questionObj = lessonData.quiz || lessonData.question || null; // support both naming conventions
-    let innerHTML = "";
+        const rawLessonData = globalLessonsToRender[courseId]?.[idx];
+        const lessonData = resolveLessonData(courseId, rawLessonData);
 
-    // --- Show the lesson text first ---
-    innerHTML += `
-      <div class="extralesson-text" style="margin-top:0.5rem;">
-        <p>${lessonData.content}</p>
-        ${questionObj ? `<button class="start-quiz-btn">Take Quiz 🧠</button>` : `<button class="complete-btn">I have read it ✅</button>`}
-      </div>
-    `;
-
-    // --- Prepare the quiz (hidden at first) ---
-    if (questionObj) {
-      innerHTML += `
-        <div class="extraquiz-section" style="display:none; margin-top:0.5rem;">
-          <p><strong>${questionObj.question || questionObj.text}</strong></p>
-          ${questionObj.options.map((opt, i) => `
-            <label style="display:block; margin-bottom:0.3rem;">
-              <input type="radio" name="extraquiz-${courseId}-${idx}" value="${i}"> ${opt}
-            </label>`).join("")}
-          <button class="extraquiz-submit">Submit Answer</button>
-          <div class="extraquiz-feedback" style="margin:0.5rem 0; color:red"></div>
-        </div>
-      `;
-    }
-
-    contentContainer.innerHTML = innerHTML;
-
-    // --- When user finishes reading, start the quiz ---
-    if (questionObj) {
-      const startQuizBtn = contentContainer.querySelector(".start-quiz-btn");
-      const quizSection = contentContainer.querySelector(".extraquiz-section");
-      startQuizBtn.addEventListener("click", e => {
-        e.stopPropagation();
-        startQuizBtn.style.display = "none";
-        quizSection.style.display = "block";
-      });
-
-      const submitBtn = contentContainer.querySelector(".extraquiz-submit");
-      const feedback = contentContainer.querySelector(".extraquiz-feedback");
-
-      submitBtn.addEventListener("click", e => {
-        e.stopPropagation();
-        const selected = contentContainer.querySelector(`input[name="extraquiz-${courseId}-${idx}"]:checked`);
-        if (!selected) { feedback.textContent = "Please select an answer!"; return; }
-        if (parseInt(selected.value) !== (questionObj.answer ?? questionObj.correctIndex)) {
-          feedback.textContent = "Wrong answer, try again!"; return;
+        if (!lessonData) {
+          console.warn("Lesson data unresolved:", courseId, idx);
+          return;
         }
 
-        feedback.textContent = "✅ Correct!";
-submitBtn.style.display = "none";
+        const questionObj = lessonData.question || lessonData.quiz || null;
 
-// Automatically complete the lesson after 1 second
-setTimeout(async () => {
-  // Mark current lesson completed
-  lesson.classList.remove("unlocked");
-  lesson.classList.add("completed");
-  lesson.querySelector(".extralesson-icon").textContent = "✅";
+        let html = `
+          <div class="extralesson-text">
+            <p>${lessonData.content}</p>
+            ${questionObj ? `<button class="start-quiz-btn">Take Quiz 🧠</button>` : ""}
+          </div>
+        `;
 
-  // Save progress
-  await saveExtraLessonProgress();
+        if (questionObj) {
+          html += `
+            <div class="extraquiz-section" style="display:none;">
+              <p><strong>${questionObj.text}</strong></p>
+              ${questionObj.options.map((opt, i) => `
+                <label>
+                  <input type="radio" name="quiz-${courseId}-${idx}" value="${i}">
+                  ${opt}
+                </label>
+              `).join("")}
+              <button class="extraquiz-submit">Submit</button>
+              <div class="extraquiz-feedback"></div>
+            </div>
+          `;
+        }
 
-  // Unlock next lesson
-  const nextLesson = document.querySelector(`#${CSS.escape(courseId)} .extralesson[data-step="${idx + 2}"]`);
-  if (nextLesson && !nextLesson.classList.contains("completed")) {
-    nextLesson.classList.remove("locked");
-    nextLesson.classList.add("unlocked");
-    nextLesson.querySelector(".extralesson-icon").textContent = "🟢";
-  }
+        contentContainer.innerHTML = html;
 
-  // Close quiz
-  contentContainer.classList.remove("active");
-  contentContainer.innerHTML = "";
-}, 1000);
+        if (!questionObj) return;
+
+        const startBtn = contentContainer.querySelector(".start-quiz-btn");
+        const quiz = contentContainer.querySelector(".extraquiz-section");
+
+        startBtn.onclick = e => {
+          e.stopPropagation();
+          startBtn.style.display = "none";
+          quiz.style.display = "block";
+        };
+
+        const submit = quiz.querySelector(".extraquiz-submit");
+        const feedback = quiz.querySelector(".extraquiz-feedback");
+
+        submit.onclick = async e => {
+          e.stopPropagation();
+          const selected = quiz.querySelector("input:checked");
+          if (!selected) {
+            feedback.textContent = "Choose an answer!";
+            return;
+          }
+
+          if (+selected.value !== questionObj.correctIndex) {
+            feedback.textContent = "Try again!";
+            return;
+          }
+
+          feedback.textContent = "✅ Correct!";
+
+          setTimeout(async () => {
+            lesson.classList.remove("unlocked");
+            lesson.classList.add("completed");
+            lesson.querySelector(".extralesson-icon").textContent = "✅";
+            await saveExtraLessonProgress();
+            contentContainer.classList.remove("active");
+            contentContainer.innerHTML = "";
+          }, 800);
+        };
       });
-    }
-  }
-});
     });
   });
 }
-
 
 // Save progress using currentProfile if available
 async function saveExtraLessonProgress() { 
@@ -1909,34 +1903,34 @@ async function saveExtraLessonProgress() {
   let newLessonsCompleted = 0;
 
   for (const courseId of Object.keys(extralessonsData)) { 
-  progress[courseId] = progress[courseId] || [];
-  const lessons = document.querySelectorAll(`#${courseId} .extralesson`);
+    progress[courseId] = progress[courseId] || [];
+    const lessons = document.querySelectorAll(`#${courseId} .extralesson`);
 
-  for (const lesson of lessons) {
-    if (lesson.classList.contains("completed")) {  
-      const lessonTitle = lesson.querySelector(".extralesson-title").textContent.trim();
-      if (!progress[courseId].includes(lessonTitle)) {
-        progress[courseId].push(lessonTitle);
-        newLessonsCompleted++;
+    for (const lesson of lessons) {
+      if (lesson.classList.contains("completed")) {  
+        const lessonTitle = lesson.querySelector(".extralesson-title").textContent.trim();
+        if (!progress[courseId].includes(lessonTitle)) {
+          progress[courseId].push(lessonTitle);
+          newLessonsCompleted++;
 
-        markLessonComplete(currentProfile.id, courseId);
+          markLessonComplete(currentProfile.id, courseId);
 
-        // Special handling for health lessons
-        if (courseId === "health") {
-          let lessonData = (extralessonsData.health || []).find(l => l.title === lessonTitle);
-          if (!lessonData) lessonData = (HealthIssuesPool.health || []).find(l => l.title === lessonTitle);
+          // Special handling for health lessons
+          if (courseId === "health") {
+            let lessonData = (extralessonsData.health || []).find(l => l.title === lessonTitle);
+            if (!lessonData) lessonData = (HealthIssuesPool.health || []).find(l => l.title === lessonTitle);
 
-          if (lessonData?.issue) {
-            if (!currentProfile.completedHealthIssues) currentProfile.completedHealthIssues = [];
-            if (!currentProfile.completedHealthIssues.includes(lessonData.issue)) {
-              currentProfile.completedHealthIssues.push(lessonData.issue);
+            if (lessonData?.issue) {
+              if (!currentProfile.completedHealthIssues) currentProfile.completedHealthIssues = [];
+              if (!currentProfile.completedHealthIssues.includes(lessonData.issue)) {
+                currentProfile.completedHealthIssues.push(lessonData.issue);
+              }
             }
           }
         }
       }
     }
   }
-}
 
   totalXp += newLessonsCompleted * 5;
   xptoday += newLessonsCompleted * 5;
@@ -1959,12 +1953,14 @@ async function saveExtraLessonProgress() {
     currentProfile.extra_lesson = progress;
     currentProfile.total_xp = totalXp;
   }
-  if (xptoday === 50 ) {
-  showProgressSuggestion(
-    "You've completed your daily XP challenge! Claim your reward in the playground section!",
-    currentProfile.pet_photo
-  );
+
+  if (xptoday === 50) {
+    showProgressSuggestion(
+      "You've completed your daily XP challenge! Claim your reward in the playground section!",
+      currentProfile.pet_photo
+    );
   }
+
   // Optionally refresh leaderboard and profile info
   const { profile } = await fetchAllData();
   await renderProfile(profile);
@@ -1990,18 +1986,28 @@ function applyExtraLessonProgress() {
         lesson.querySelector(".extralesson-icon").textContent = "✅";
         prevCompleted = true;
       } else if (prevCompleted || idx === 0) {
-        // Unlock next lesson if previous is completed OR it's the first lesson
         lesson.className = "extralesson unlocked";
         lesson.querySelector(".extralesson-icon").textContent = "🟢";
-        prevCompleted = false; // only unlock, not mark as completed
+        prevCompleted = false;
       } else {
         lesson.className = "extralesson locked";
         lesson.querySelector(".extralesson-icon").textContent = "🔒";
       }
     });
+
+    // --- Unlock review lesson if all normal lessons completed ---
+    const lessonList = document.querySelector(`#${courseId} .extralesson-list`);
+    const reviewLessonLi = lessonList.querySelector(".review-lesson");
+    const normalLessons = lessonList.querySelectorAll(".extralesson:not(.review-lesson)");
+    const allNormalCompleted = Array.from(normalLessons).every(l => l.classList.contains("completed"));
+
+    if (reviewLessonLi && allNormalCompleted) {
+      reviewLessonLi.classList.remove("locked");
+      reviewLessonLi.classList.add("unlocked");
+      reviewLessonLi.querySelector(".extralesson-icon").textContent = "🟢";
+    }
   });
 }
-
 
 // COURSE BUTTONS
 function setupCourseButtons() {
@@ -2017,6 +2023,22 @@ function setupCourseButtons() {
     });
   });
 }
+
+function resolveLessonData(courseId, rawLessonData) {
+  if (!rawLessonData) return null;
+
+  if (rawLessonData.type !== "review") {
+    return rawLessonData;
+  }
+
+  const pool = (globalLessonsToRender[courseId] || [])
+    .filter(l => l.type !== "review");
+
+  if (!pool.length) return null;
+
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
 
 // ----------------------------
 // RECIPES
@@ -4141,42 +4163,6 @@ async function setupShop() {
 }
 
 
-//--------------------------
-// Challenges
-//--------------------------
-
-// 🕒 Helper functions for UTC-based daily checks
-function getTodayUTC() {
-  return new Date().toISOString().slice(0, 10);
-}
-function isClaimed(key) {
-  return localStorage.getItem(key) === getTodayUTC();
-}
-function markClaimed(key) {
-  localStorage.setItem(key, getTodayUTC());
-}
-
-// 🏆 Helper: Add badges
-async function addBadges(userId, amount) {
-  const { data: profile, error } = await supabase
-    .from("profiles")
-    .select("badge")
-    .eq("id", userId)
-    .single();
-
-  if (error) return console.error(error);
-
-  const newCount = (profile?.badge) + amount;
-
-  await supabase
-    .from("profiles")
-    .update({ badge: newCount })
-    .eq("id", userId);
-
-  await setupShop();
-  await renderProfile();
-}
-
 
 // ---------------------------
 // Watch ads
@@ -4321,6 +4307,62 @@ submitAndSupportBtn.addEventListener('click', async () => {
 });
 
 
+//--------------------------
+// Challenges
+//--------------------------
+
+function todayUTC() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+// ---------------------------
+// 🏁 Daily challenge helpers (Supabase)
+// ---------------------------
+async function isClaimed(userId, challenge) {
+  const { data } = await supabase
+    .from("daily_challenge_claims")
+    .select("claimed_date")
+    .eq("user_id", userId)
+    .eq("challenge", challenge)
+    .eq("claimed_date", todayUTC())
+    .maybeSingle();
+
+  return !!data;
+}
+
+async function markClaimed(userId, challenge) {
+  const { error } = await supabase
+    .from("daily_challenge_claims")
+    .insert({
+      user_id: userId,
+      challenge,
+      claimed_date: todayUTC()
+    });
+
+  if (error) throw error;
+}
+
+// 🏆 Helper: Add badges
+async function addBadges(userId, amount) {
+  const { data: profile, error } = await supabase
+    .from("profiles")
+    .select("badge")
+    .eq("id", userId)
+    .single();
+
+  if (error) return console.error(error);
+
+  const newCount = (profile?.badge) + amount;
+
+  await supabase
+    .from("profiles")
+    .update({ badge: newCount })
+    .eq("id", userId);
+
+  await setupShop();
+  await renderProfile();
+}
+
 // ---------------------------
 // 🔥 DAILY XP CHALLENGE
 // ---------------------------
@@ -4341,7 +4383,9 @@ async function loadDailyXpChallenge(userId) {
   document.getElementById("daily-xp-text").textContent = `Progress: ${xpToday} / ${goal} XP`;
 
   const btn = document.getElementById("daily-xp-claim");
-  if (isClaimed("dailyXpChallenge")) {
+  const claimed = await isClaimed(currentUser.id, "daily_xp");
+
+  if (claimed) {
     btn.disabled = true;
     btn.textContent = "Reward Claimed 🎉";
     return;
@@ -4352,27 +4396,29 @@ async function loadDailyXpChallenge(userId) {
 }
 
 document.getElementById("daily-xp-claim").addEventListener("click", async () => {
-  await addBadges(currentProfile.id, 3);
-  markClaimed("dailyXpChallenge");
+  await addBadges(currentUser.id, 3);
+  await markClaimed(currentUser.id, "daily_xp");
+
   alert("🎉 You earned +3 badges for completing today’s challenge!");
+
   const btn = document.getElementById("daily-xp-claim");
   btn.disabled = true;
   btn.textContent = "Reward Claimed 🎉";
-  loadDailyXpChallenge();
+
+  loadDailyXpChallenge(currentUser.id);
+  
 });
 
 // ---------------------------
 // 📚 LEARN SOMETHING NEW
 // ---------------------------
 async function checkLearnProgress(userId) {
-  const today = new Date().toISOString().slice(0, 10);
-  let { data: row, error } = await supabase
+  const { data: row } = await supabase
     .from("lessons_daily")
     .select("*")
     .eq("user_id", userId)
+    .eq("date", todayUTC())
     .maybeSingle();
-
-  if (error && error.code === "PGRST116") row = null;
 
   const animalDone = row?.animal || false;
   const earthDone = row?.earth || false;
@@ -4386,33 +4432,55 @@ async function checkLearnProgress(userId) {
   document.getElementById("learnProgress").style.width = `${progress}%`;
 
   const btn = document.getElementById("learnClaimBtn");
-  btn.disabled = !animalDone || !earthDone || !healthDone || isClaimed("learnChallenge");
+  const claimed = await isClaimed(currentUser.id, "learn");
+
+  btn.disabled = !animalDone || !earthDone || !healthDone || claimed;
 }
 
 async function markLessonComplete(userId, courseID) {
-  const today = new Date().toISOString().slice(0, 10);
+  if (!userId) return console.error("No user ID provided");
 
-  const updateData = { user_id: userId };
+  // Ensure date is in 'YYYY-MM-DD' format
+  const today = todayUTC(); // should return string like '2025-12-29'
+
+  const updateData = {
+    user_id: userId,
+    date: today
+  };
+
   if (courseID === "animals") updateData.animal = true;
   if (courseID === "earth") updateData.earth = true;
   if (courseID === "health") updateData.health = true;
 
-  await supabase.from("lessons_daily").upsert(updateData, { onConflict: ["user_id"], merge: true });
+  try {
+    const { data, error } = await supabase
+      .from("lessons_daily")
+      .upsert([updateData], { onConflict: ["user_id", "date"] }); // Note: array
 
+    if (error) {
+      console.error("Failed to mark lesson complete:", error);
+    } 
+  } catch (err) {
+    console.error("Unexpected error:", err);
+  }
+
+  // Optional: update progress in your app
   checkLearnProgress(userId);
 }
 
 document.getElementById("learnClaimBtn").addEventListener("click", async () => {
-  await addBadges(currentProfile.id, 3);
-  markClaimed("learnChallenge");
+  await addBadges(currentUser.id, 3);
+  await markClaimed(currentUser.id, "learn");
+
   alert("🎉 You earned +3 Badges!");
   loadLessonChallenge();
 });
 
-function loadLessonChallenge() {
+async function loadLessonChallenge() {
   const btn = document.getElementById("learnClaimBtn");
+  const claimed = await isClaimed(currentUser.id, "learn");
 
-  if (isClaimed("learnChallenge")) {
+  if (claimed) {
     btn.disabled = true;
     btn.textContent = "Reward Claimed 🌸";
   } else {
@@ -4427,50 +4495,88 @@ function loadLessonChallenge() {
 }
 
 // ---------------------------
-// 🧘 MINDFUL MOMENT
+// 🧘 MINDFUL MOMENT (Popup Version)
 // ---------------------------
-let mindfulTimer;
-document.getElementById("mindfulStartBtn").addEventListener("click", () => {
-  let timeLeft = 5 * 60;
-  const display = document.getElementById("mindfulTimer");
-  document.getElementById("mindfulStartBtn").disabled = true;
+async function loadMindfulPopupState(userId) {
+  const claimed = await isClaimed(currentUser.id, "mindful");
+  const startBtn = document.getElementById("mindfulStartBtn");
+  startBtn.disabled = claimed;
 
-  mindfulTimer = setInterval(() => {
+  if (claimed) {
+    startBtn.textContent = "Done today"; // ✅ only if already claimed
+  } else {
+    startBtn.textContent = "Start 5-Minute Timer"; // normal text
+  }
+}
+
+
+let mindfulTimer;
+let timeLeft = 0;
+
+const popup = document.getElementById("mindfulPopup");
+const closeBtn = document.getElementById("mindfulCloseBtn");
+const startBtn = document.getElementById("mindfulStartBtn");
+const timerDisplay = document.getElementById("mindfulPopupTimer");
+const rewardBtn = document.getElementById("mindfulPopupRewardBtn");
+
+startBtn.addEventListener("click", () => {
+  // Reset time
+  timeLeft = 5 * 60; // 5 minutes
+  timerDisplay.textContent = "5:00";
+  rewardBtn.style.display = "none";
+
+  // Show popup
+  popup.style.display = "flex";
+
+  // Start countdown
+  startBtn.disabled = true; // prevent multiple timers
+  if (mindfulTimer) clearInterval(mindfulTimer);
+
+  mindfulTimer = setInterval(async () => {
     const mins = Math.floor(timeLeft / 60);
     const secs = timeLeft % 60;
-    display.textContent = `${mins}:${secs.toString().padStart(2, "0")}`;
-    if (timeLeft <= 0) {
-      clearInterval(mindfulTimer);
-      display.textContent = "✅ Done!";
-      const btn = document.getElementById("mindfulClaimBtn");
-      btn.disabled = isClaimed("mindfulChallenge");
-      if (!isClaimed("mindfulChallenge")) btn.disabled = false;
-    }
+    timerDisplay.textContent = `${mins}:${secs.toString().padStart(2, "0")}`;
+
+  if (timeLeft <= 0) {
+  clearInterval(mindfulTimer);
+  timerDisplay.style.display = "none";
+  closeBtn.style.display = "none"; // hide close button
+
+  // Append message without breaking the reward button
+  const msg = document.createElement("p");
+  msg.textContent = "🎉 Congratulations, you completed your daily challenge! Take your reward.";
+  document.getElementById("mindfulPopupBody").appendChild(msg);
+
+  rewardBtn.style.display = "inline-block";
+}
+
     timeLeft--;
   }, 1000);
 });
 
-document.getElementById("mindfulClaimBtn").addEventListener("click", async () => {
-  await addBadges(currentProfile.id, 5);
-  markClaimed("mindfulChallenge");
-  alert("🧘 You earned +5 Badge!");
-  loadMindfulMoment();
+// Close popup resets the timer
+closeBtn.addEventListener("click", () => {
+  clearInterval(mindfulTimer);
+  timerDisplay.style.display = "inline";
+  rewardBtn.style.display = "none";
+  popup.style.display = "none";
+  startBtn.disabled = false;
 });
 
-function loadMindfulMoment() {
-  const btn = document.getElementById("mindfulClaimBtn");
-  const startBtn = document.getElementById("mindfulStartBtn");
-
-  if (isClaimed("mindfulChallenge")) {
-    btn.disabled = true;
-    btn.textContent = "Reward Claimed 🌸";
-    startBtn.disabled = true;
-  } else {
-    btn.disabled = true; // only enabled after completing countdown
-    startBtn.disabled = false;
-    btn.textContent = "Start Timer to Claim";
+// Reward button claims the badge and closes popup
+rewardBtn.addEventListener("click", async () => {
+  try {
+    await addBadges(currentUser.id, 5);
+    await markClaimed(currentUser.id, "mindful");
+    alert("🧘 You earned +5 Badge!");
+    popup.style.display = "none";
+    startBtn.disabled = true; // already claimed
+    startBtn.textContent = "Done today"; // ✅ change button text
+  } catch (err) {
+    console.error("Reward claim failed:", err);
+    alert("Something went wrong claiming your reward.");
   }
-}
+});
 
 // ---------------------------
 // 💖 ENCOURAGE SOMEONE
@@ -4593,24 +4699,27 @@ document.getElementById("sendEncourageBtn").addEventListener("click", async () =
 });
 
 document.getElementById("encourageClaimBtn").addEventListener("click", async () => {
-  await addBadges(currentProfile.id, 2);
-  markClaimed("encourageChallenge");
+  await addBadges(currentUser.id, 2);
+  await markClaimed(currentUser.id, "encourage");
+
   alert("🌸 You earned +2 Badge!");
   loadEncourageChallenge();
 });
 
-function loadEncourageChallenge() {
+async function loadEncourageChallenge() {
   const btn = document.getElementById("encourageClaimBtn");
   const sendBtn = document.getElementById("sendEncourageBtn");
   const startMindfulBtn = document.getElementById("mindfulStartBtn");
 
-  if (isClaimed("encourageChallenge")) {
+  const claimed = await isClaimed(currentUser.id, "encourage");
+
+  if (claimed) {
     btn.disabled = true;
     btn.textContent = "Reward Claimed 🌸";
     sendBtn.disabled = true;
     startMindfulBtn.disabled = true;
   } else {
-    btn.disabled = true; // only enabled after sending a message
+    btn.disabled = true;
     btn.textContent = "Claim Reward";
     sendBtn.disabled = false;
     startMindfulBtn.disabled = false;
@@ -4880,6 +4989,30 @@ async function initNotifications(supabase, currentUserId, friendcode, locationId
 
 window.initNotifications = initNotifications;
 
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  if (confirm("Are you sure you want to log out?")) {
+    logoutUser();
+  }
+});
+
+async function logoutUser() {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error("Logout failed:", error.message);
+    alert("Something went wrong while logging out.");
+    return;
+  }
+
+  // 🔥 Clear app state
+  localStorage.clear();
+  sessionStorage.clear();
+
+  // Optional: hard reload to reset JS state
+  window.location.href = "index.html";
+}
+
+
 
 
 
@@ -5142,16 +5275,23 @@ await fetchAllLeaderboards();
     if (currentUser && currentUser.id) {
     loadDailyXpChallenge(currentUser.id);
     loadEncourageChallenge();
-    loadMindfulMoment();
+    loadMindfulPopupState(currentUser.id);
     loadLessonChallenge();
     checkLearnProgress(currentUser.id);
     loadFriendSelect(currentUser.id);
 
-  // Disable claim buttons if already claimed today
-  ["dailyXpChallenge","learnChallenge","mindfulChallenge","encourageChallenge"].forEach(id=>{
-    const btn = document.querySelector(`#${id} button[id$='ClaimBtn']`);
-    if(btn && isClaimed(id)) btn.disabled=true;
-  });
+  const challenges = [
+  { key: "daily_xp", btnId: "daily-xp-claim" },
+  { key: "learn", btnId: "learnClaimBtn" },
+  { key: "mindful", btnId: "mindfulStartBtn" },
+  { key: "encourage", btnId: "encourageClaimBtn" }
+];
+
+for (const c of challenges) {
+  const claimed = await isClaimed(currentUser.id, c.key);
+  const btn = document.getElementById(c.btnId);
+  if (btn && claimed) btn.disabled = true;
+}
   }
 
     // MARK WITH  DOTS

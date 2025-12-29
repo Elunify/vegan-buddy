@@ -3177,6 +3177,12 @@ export const extralessonsData = {
     }
   },
 //More Lessons here
+
+{
+  title: "🔄 Review a Lesson",
+  type: "review",
+  content: "Review a previous lesson and earn extra XP!"
+}
 ],
 
   earth: [
@@ -3615,9 +3621,15 @@ export const extralessonsData = {
     options: ["Urban expansion only", "Natural causes", "Pasture and feed crops for animals"],
     correctIndex: 2
   }
-}
+},
 // more lessons here
 
+
+{
+  title: "🔄 Review a Lesson",
+  type: "review",
+  content: "Review a previous lesson and earn extra XP!"
+}
 ],
 
  health: [
@@ -4137,8 +4149,15 @@ export const extralessonsData = {
     ],
     correctIndex: 1
   }
-}
+},
 //more lessons
+
+
+{
+  title: "🔄 Review a Lesson",
+  type: "review",
+  content: "Review a previous lesson and earn extra XP!"
+}
 ]
 };
 

@@ -237,6 +237,9 @@
         </div>
     </div>
     <a href="#" class="editprofile"> <button>Edit profile</button></a>
+<div class="profile-actions-secondary">
+  <button id="logoutBtn" class="logout-btn">Log out</button>
+</div>
   </div>
 
   <div class="containeredit hidden">
@@ -1241,7 +1244,16 @@
   <div class="reward">Reward: 🏅 +5 Badge</div>
   <button id="mindfulStartBtn">Start 5-Minute Timer</button>
   <div id="mindfulTimer" style="margin-top:10px;font-weight:bold;"></div>
-  <button id="mindfulClaimBtn" disabled>Claim Reward</button>
+  <!-- Mindful Moment Popup -->
+<div id="mindfulPopup" class="popup" style="display:none;">
+  <div class="popup-content">
+    <span id="mindfulCloseBtn" class="popup-close">&times;</span>
+    <div id="mindfulPopupBody">
+      <p>Time left: <span id="mindfulPopupTimer">5:00</span></p>
+      <button id="mindfulPopupRewardBtn" style="display:none;">Claim Reward 🏅 +5 Badges</button>
+    </div>
+  </div>
+</div>
 </div>
 
 <div class="challenge-card" id="encourageChallenge">
