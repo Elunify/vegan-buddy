@@ -18,6 +18,25 @@ function showSection(sectionId) {
   document.querySelectorAll('.page').forEach(page => {
     page.id === sectionId ? page.classList.remove('hidden') : page.classList.add('hidden');
   });
+  // Show/hide all pages
+  document.querySelectorAll('.page').forEach(page => {
+    if (page.id === sectionId) {
+      page.classList.remove('hidden');
+
+      // ✅ Special cases
+      if (sectionId === 'mealartcontest') {
+        const contestContent = document.getElementById("mealArtContestSmall");
+        if (contestContent) contestContent.classList.remove("hidden-meal");
+      }
+      if (sectionId === 'mealArtUploadTab') {
+        const uploadContent = document.getElementById("MealArtUploadContent");
+        if (uploadContent) uploadContent.classList.remove("hidden-meal");
+      }
+
+    } else {
+      page.classList.add('hidden');
+    }
+  });
 
   // Top bar only visible on home
   const topBar = document.getElementById('topBar');
@@ -123,15 +142,15 @@ const mealArtUploadPage = document.getElementById("mealArtUploadTab");
 const mealArtUploadContent = document.getElementById("MealArtUploadContent");
 
 function openMealArtContest() {
-  showSection("mealartcontest"); // ✅ uses showSection
   const contestContent = document.getElementById("mealArtContestSmall");
   if (contestContent) contestContent.classList.remove("hidden-meal");
+  showSection("mealartcontest"); // ✅ uses showSection
 }
 
 function openMealArtUpload() {
-  showSection("mealArtUploadTab"); // ✅ uses showSection
   const uploadContent = document.getElementById("MealArtUploadContent");
   if (uploadContent) uploadContent.classList.remove("hidden-meal");
+  showSection("mealArtUploadTab"); // ✅ uses showSection
 }
 
 // Contest page buttons

@@ -5405,6 +5405,10 @@ await supabase
 
 await sendTokenToAndroid();
 
+// Keep all popups hidden initially
+  document.querySelectorAll('.popuptrick').forEach(el => {
+    el.classList.remove('popupinit-hidden');
+  });
 });
 
 // On page load (and you can repeat periodically if needed
