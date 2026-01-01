@@ -557,11 +557,11 @@ function displayProduct(product) {
 // SCAN BUTTON CLICK
 // =======================
 // Scan button
-startScanBtn.addEventListener("click", () => {
-  startScanBtn.classList.add("hidden");
-  scanContainer.classList.remove("hidden");
-  startCameraWithTimeout();
-});
+//startScanBtn.addEventListener("click", () => {
+//  startScanBtn.classList.add("hidden");
+//  scanContainer.classList.remove("hidden");
+//  startCameraWithTimeout();
+//});
 
 // =======================
 // MAP FUNCTIONS

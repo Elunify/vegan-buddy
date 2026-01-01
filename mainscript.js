@@ -4680,11 +4680,12 @@ document.getElementById("sendEncourageBtn").addEventListener("click", async () =
     }
 
     const { error: msgError } = await supabase.from("messages").insert([{
-      chat_id: chatId,
-      sender_id: currentProfile.id,
-      content: finalMessage,
-      created_at: new Date()
-    }]);
+  chat_id: chatId,
+  sender_id: currentProfile.id,
+  receiver_id: friendId, // ✅ REQUIRED
+  content: finalMessage,
+  created_at: new Date()
+}]);
 
     if (msgError) throw msgError;
 
