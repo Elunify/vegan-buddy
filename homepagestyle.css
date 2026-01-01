@@ -4825,3 +4825,13 @@ cursor: not-allowed;
 #LocalDot { }
 
 */
+
+
+.button.danger {
+  background-color: #c0392b;
+  color: white;
+}
+
+.button.danger:hover {
+  background-color: #a93226;
+}

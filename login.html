@@ -48,7 +48,15 @@
 <p id="statusMsg"></p>
 
 <script type="module">
-  import { supabase } from "./supabaseClient.mjs";
+import { supabase } from "./supabaseClient.mjs";
+
+async function clearSession() {
+  await supabase.auth.signOut(); // clears Supabase session
+  localStorage.clear();
+  sessionStorage.clear();
+}
+
+clearSession();
   
 const statusMsg = document.getElementById("statusMsg");
 emailjs.init("_BvHMRNPejeC7Wsha");

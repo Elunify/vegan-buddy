@@ -5014,6 +5014,59 @@ async function logoutUser() {
 }
 
 
+//DELETE PROFILE
+//DELETE PROFILE
+//DELETE PROFILE
+//DELETE PROFILE
+
+const deleteProfileBtn = document.getElementById("deleteProfileBtn");
+
+deleteProfileBtn.addEventListener("click", async () => {
+  // First confirmation
+  const firstConfirm = confirm(
+    "⚠️ Are you sure you want to delete your profile?\n\nThis will permanently remove your account, profile, messages, friends, and all related data."
+  );
+
+  if (!firstConfirm) return;
+
+  // Second confirmation (stronger)
+  const secondConfirm = confirm(
+    "🚨 This action is IRREVERSIBLE.\n\nOnce deleted, your data cannot be recovered.\n\nDo you REALLY want to continue?"
+  );
+
+  if (!secondConfirm) return;
+
+  // Optional: disable button to prevent double-click
+  deleteProfileBtn.disabled = true;
+  deleteProfileBtn.textContent = "Deleting account…";
+
+  try {
+    const { error } = await supabase.functions.invoke("delete-user");
+
+    if (error) {
+      console.error("Delete error:", error);
+      alert("❌ Failed to delete account. Please try again.");
+      deleteProfileBtn.disabled = false;
+      deleteProfileBtn.textContent = "🗑️ Delete Profile";
+      return;
+    }
+
+    // Clean up client state
+    await supabase.auth.signOut();
+    localStorage.clear();
+    sessionStorage.clear();
+
+    // Redirect to landing / login
+    window.location.href = "login.html";
+
+  } catch (err) {
+    console.error(err);
+    alert("❌ Unexpected error while deleting account.");
+    deleteProfileBtn.disabled = false;
+    deleteProfileBtn.textContent = "🗑️ Delete Profile";
+  }
+});
+
 
 
 
