@@ -103,7 +103,7 @@ communityDropdown.forEach(id => {
 });
 
 // 4️⃣ Playground dropdown: Achievements, Shop, Challenges
-const playgroundDropdown = ['profilecard','avatar','shop','leaderboards','challenges','supportus','settings'];
+const playgroundDropdown = ['shop','leaderboards','challenges'];
 playgroundDropdown.forEach(id => {
   const btn = document.querySelector(`button[onclick="showSection('${id}')"]`);
   if (btn) btn.addEventListener('click', () => {
@@ -113,7 +113,7 @@ playgroundDropdown.forEach(id => {
 });
 
 // 5️⃣ ETC dropdown: Leaderboards, Recommendations, About us, Sources
-const etcDropdown = ['leaderboards','recommendations','aboutus','sources'];
+const etcDropdown = ['recommendations', 'subscriptions', 'sources', 'aboutus', 'contactus'];
 etcDropdown.forEach(id => {
   const btn = document.querySelector(`button[onclick="showSection('${id}')"]`);
   if (btn) btn.addEventListener('click', () => {
@@ -401,6 +401,27 @@ window.addEventListener("click", (e) => {
     uploadModal.classList.add("hidden-modal");
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

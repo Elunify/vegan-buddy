@@ -5349,7 +5349,126 @@ async function blockUser() {
 
 
 
+const kitchenopenBtn = document.getElementById("openProKitchenPopup");
+const kitchencloseBtn = document.getElementById("closeProKitchenPopup");
+const kitchenpopup = document.getElementById("proKitchenPopup");
+const kitchensendBtn = document.getElementById("sendProKitchenRequest");
 
+kitchenopenBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  kitchenpopup.classList.remove("hidden");
+});
+
+kitchencloseBtn.addEventListener("click", () => {
+  kitchenpopup.classList.add("hidden");
+});
+
+kitchensendBtn.addEventListener("click", async () => {
+  const message = document.getElementById("proKitchenMessage").value.trim();
+  if (!message) {
+    alert("Please tell us a little about yourself.");
+    return;
+  }
+
+  const { error } = await supabase
+    .from("contact_messages")
+    .insert({
+      user_id: currentUser.id,
+      email: currentUser.email,
+      subject: "ProKitchenAccess",
+      message
+    });
+
+  if (error) {
+    console.error(error);
+    alert("Something went wrong. Please try again.");
+    return;
+  }
+
+  document.getElementById("proKitchenMessage").value = "";
+  kitchenpopup.classList.add("hidden");
+  alert("Request sent! We'll get back to you soon 😊");
+});
+
+// --- Local Business Popup ---
+const openLocalBtn = document.getElementById("openLocalBusinessPopup");
+const closeLocalBtn = document.getElementById("closeLocalBusinessPopup");
+const localPopup = document.getElementById("localBusinessPopup");
+const sendLocalBtn = document.getElementById("sendLocalBusinessRequest");
+
+openLocalBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  localPopup.classList.remove("hidden");
+});
+
+closeLocalBtn.addEventListener("click", () => {
+  localPopup.classList.add("hidden");
+});
+
+sendLocalBtn.addEventListener("click", async () => {
+  const message = document.getElementById("localBusinessMessage").value.trim();
+  if (!message) {
+    alert("Please tell us a bit about your business.");
+    return;
+  }
+
+  const { error } = await supabase
+    .from("contact_messages")
+    .insert({
+      user_id: currentUser.id,
+      email: currentUser.email,
+      subject: "NewLocalPartner",
+      message
+    });
+
+  if (error) {
+    console.error(error);
+    alert("Something went wrong. Please try again.");
+    return;
+  }
+
+  document.getElementById("localBusinessMessage").value = "";
+  localPopup.classList.add("hidden");
+  alert("Request sent! We'll contact you soon 😊");
+});
+
+const sendContactBtn = document.getElementById("sendContactMessage");
+
+sendContactBtn.addEventListener("click", async () => {
+  const subject = document.getElementById("contactSubject").value.trim();
+  const message = document.getElementById("contactMessage").value.trim();
+
+  if (!subject) {
+    alert("Please select a subject.");
+    return;
+  }
+
+  if (!message) {
+    alert("Please write your message.");
+    return;
+  }
+
+  const { error } = await supabase
+    .from("contact_messages")
+    .insert({
+      user_id: currentUser.id,
+      email: currentUser.email,
+      subject,
+      message
+    });
+
+  if (error) {
+    console.error(error);
+    alert("Something went wrong. Please try again.");
+    return;
+  }
+
+  // Clear inputs
+  document.getElementById("contactSubject").value = "";
+  document.getElementById("contactMessage").value = "";
+
+  alert("We have received your message and will contact you shortly. Thank you!");
+});
 
 
 

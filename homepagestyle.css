@@ -4939,3 +4939,34 @@ cursor: not-allowed;
 .popupinit-hidden {
   display: none !important;  /* !important ensures no flash */
 }
+
+.contactus-container h2 {
+  margin-bottom: 0.5rem;
+}
+
+.contactus-container p {
+  margin-bottom: 1rem;
+}
+
+.contactus-container label {
+  font-weight: bold;
+}
+
+.contactus-container select,
+.contactus-container textarea,
+.contactus-container button {
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.contactus-container button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.contactus-container button:hover {
+  background-color: #0056b3;
+}
