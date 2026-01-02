@@ -2924,6 +2924,11 @@ textarea {
   font-size: 1rem;
   line-height: 1.4rem;
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+
+  /* New properties to fix long words */
+  word-wrap: break-word;   /* legacy but still works */
+  overflow-wrap: break-word; /* modern property */
+  word-break: break-word;  /* alternative, may help in some browsers */
 }
 
 /* Message bubbles */
@@ -3393,6 +3398,11 @@ textarea {
   position: relative;
   font-size: 1.2rem;
   font-weight: bold;
+
+  /* New properties to fix long words */
+  word-wrap: break-word;   /* legacy but still works */
+  overflow-wrap: break-word; /* modern property */
+  word-break: break-word;  /* alternative, may help in some browsers */
 }
 
 #blockContent{
@@ -3720,6 +3730,11 @@ textarea {
   display: flex;
   flex-direction: column;
   background-color: #fff;
+  
+  /* New properties to fix long words */
+  word-wrap: break-word;   /* legacy but still works */
+  overflow-wrap: break-word; /* modern property */
+  word-break: break-word;  /* alternative, may help in some browsers */
 }
 
 /* Header */

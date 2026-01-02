@@ -2179,6 +2179,7 @@ function setupRecipeUploadForm() {
   const imagePreview = document.getElementById("imagePreview");
   const form = document.getElementById("recipeForm");
   const uploadFeedback = document.getElementById("uploadFeedback");
+  const submitBtn = form.querySelector('button[type="submit"]');
 
   // Image preview
   recipeImageInput.addEventListener("change", e => {
@@ -2198,19 +2199,26 @@ function setupRecipeUploadForm() {
 
   // Form submit
   form.addEventListener("submit", async e => {
-    e.preventDefault();
-    const file = recipeImageInput.files[0];
-    if (!file) return alert("Please select a recipe image before submitting.");
+  e.preventDefault();
+  if (!submitBtn) return;
 
-    const title = document.getElementById("recipeTitle").value.trim();
-    const prepTime = document.getElementById("recipePrepTime").value.trim();
-    const ingredients = document.getElementById("recipeIngredients").value.trim();
-    const instructions = document.getElementById("recipeInstructions").value.trim();
+  const file = recipeImageInput.files[0];
+  if (!file) return alert("Please select a recipe image before submitting.");
 
-    if (!title || !prepTime || !ingredients || !instructions) {
-      return alert("Please fill in all fields before submitting.");
-    }
+  const title = document.getElementById("recipeTitle").value.trim();
+  const prepTime = document.getElementById("recipePrepTime").value.trim();
+  const ingredients = document.getElementById("recipeIngredients").value.trim();
+  const instructions = document.getElementById("recipeInstructions").value.trim();
 
+  if (!title || !prepTime || !ingredients || !instructions) {
+    return alert("Please fill in all fields before submitting.");
+  }
+
+  // --- DISABLE BUTTON AFTER VALIDATION ---
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Uploading...";
+
+  try {
     // Build unique filename
     const fileExt = file.name.split('.').pop();
     const fileName = `${currentUser.id}_${Date.now()}.${fileExt}`;
@@ -2218,14 +2226,14 @@ function setupRecipeUploadForm() {
 
     // Upload image to Supabase storage
     const { error: uploadError } = await supabase.storage.from("recipes").upload(filePath, file);
-    if (uploadError) return alert("Error uploading photo: " + uploadError.message);
+    if (uploadError) throw new Error("Error uploading photo: " + uploadError.message);
 
     // Get public URL
     const { data: publicUrlData } = supabase.storage.from("recipes").getPublicUrl(filePath);
     const imageUrl = publicUrlData.publicUrl;
 
     // Insert into recipes table
-    const { data: newRecipe, error: insertError } = await supabase
+    const { error: insertError } = await supabase
       .from("recipes")
       .insert([{
         user_id: currentUser.id,
@@ -2234,13 +2242,12 @@ function setupRecipeUploadForm() {
         ingredients,
         description: instructions,
         image_url: imageUrl
-      }])
-      .select();
+      }]);
 
-    if (insertError) return alert("Error saving recipe: " + insertError.message);
+    if (insertError) throw new Error("Error saving recipe: " + insertError.message);
 
     alert("Recipe uploaded successfully!");
-    
+
     // Reset form
     form.reset();
     previewImg.src = "";
@@ -2252,7 +2259,15 @@ function setupRecipeUploadForm() {
 
     // Optionally, re-render recipes list
     if (typeof loadRecipes === "function") loadRecipes();
-  });
+
+  } catch (err) {
+    alert(err.message); // show any error to the user
+  } finally {
+    // Re-enable the button regardless of success or failure
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit";
+  }
+});
 }
 
 // ----------------------------
@@ -2401,6 +2416,7 @@ async function loadCommunityMessages(locationId) {
 // Send community message
 // ----------------------------
 async function sendCommunityMessage() {
+  const input = document.getElementById("communityMessageInput");
   const text = document.getElementById("communityMessageInput").value.trim();
   if (!text || !joinedLocationId) return alert("You are not in a community.");
 
@@ -2414,6 +2430,7 @@ async function sendCommunityMessage() {
   if (error) return console.error(error);
 
   document.getElementById("communityMessageInput").value = "";
+  input.resetCounter();
 }
 
 document.getElementById("sendCommunityMessageBtn").addEventListener("click", sendCommunityMessage);
@@ -3121,6 +3138,7 @@ async function submitNewComment(content, inputElement) {
   }]);
 
   inputElement.value = '';
+  inputElement.resetCounter();
 
   const { data: fullBlock } = await supabase
     .from('forum_blocks')
@@ -5161,6 +5179,7 @@ if (closePopup && commentPopup) {
         if (!content) return;
         await supabase.from('forum_blocks').insert([{ user_id: currentUser.id, content }]);
         blockContent.value = '';
+        if (blockContent.resetCounter) blockContent.resetCounter();
         loadForumBlocks();
       });
     }
@@ -5202,54 +5221,76 @@ if (closePopup && commentPopup) {
     window.currentChatFriend = null;
   });
 
-  // Send message button
-  document.getElementById("sendMessageBtn")?.addEventListener("click", async () => {
-    const messageInput = document.getElementById("messageInput");
-    const text = messageInput.value.trim();
-    if (!text) return;
-    const friend = window.currentChatFriend;
-    if (!friend?.id) return console.error("No valid friend selected.");
-    try {
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select("name, profile_photo")
-        .eq("id", currentUser.id)
-        .maybeSingle();
+  // Helper function to create a trimmed preview for chat list
+function makePreview(text, maxLength = 50) {
+  if (!text) return "";
+  return text.length > maxLength ? text.slice(0, maxLength) + '…' : text;
+}
 
-      let chatId = window.currentChatId;
+// Send message button
+document.getElementById("sendMessageBtn")?.addEventListener("click", async () => {
+  const messageInput = document.getElementById("messageInput");
+  const text = messageInput.value.trim();
+  if (!text) return;
 
-      // Create chat if doesn't exist
-      if (!chatId) {
-        const { data: newChat } = await supabase.from('chats').insert([{
-          user1_id: currentUser.id,
-          user1_name: profile?.name,
-          user1_profile_photo: profile?.profile_photo || "",
-          user2_id: friend.id,
-          user2_name: friend.name,
-          user2_profile_photo: friend.photo || "",
-          last_message: text,
-          last_message_at: new Date().toISOString()
-        }]).select().single();
-        chatId = newChat.id;
-        window.currentChatId = chatId;
-      } else {
-        await supabase.from('chats').update({
-          last_message: text,
-          last_message_at: new Date().toISOString()
-        }).eq('id', chatId);
-      }
+  const friend = window.currentChatFriend;
+  if (!friend?.id) return console.error("No valid friend selected.");
 
-      await supabase.from('messages').insert([{
-        chat_id: chatId,
-        sender_id: currentUser.id,
-        receiver_id: friend.id,
-        content: text
-      }]);
+  try {
+    // Get current user's profile info
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select("name, profile_photo")
+      .eq("id", currentUser.id)
+      .maybeSingle();
 
-      messageInput.value = '';
-      loadMessages(chatId, friend);
-    } catch (err) { console.error(err); }
-  });
+    let chatId = window.currentChatId;
+
+    // Create a preview message for last_message column
+    const previewMessage = makePreview(text, 200); // adjust 200 to your column limit
+
+    // Create chat if it doesn't exist
+    if (!chatId) {
+      const { data: newChat } = await supabase.from('chats').insert([{
+        user1_id: currentUser.id,
+        user1_name: profile?.name,
+        user1_profile_photo: profile?.profile_photo || "",
+        user2_id: friend.id,
+        user2_name: friend.name,
+        user2_profile_photo: friend.photo || "",
+        last_message: previewMessage,
+        last_message_at: new Date().toISOString()
+      }]).select().single();
+
+      chatId = newChat.id;
+      window.currentChatId = chatId;
+    } else {
+      // Update existing chat
+      await supabase.from('chats').update({
+        last_message: previewMessage,
+        last_message_at: new Date().toISOString()
+      }).eq('id', chatId);
+    }
+
+    // Insert full message into messages table
+    await supabase.from('messages').insert([{
+      chat_id: chatId,
+      sender_id: currentUser.id,
+      receiver_id: friend.id,
+      content: text
+    }]);
+
+    // Clear input and reset counter
+    messageInput.value = '';
+    if (messageInput.resetCounter) messageInput.resetCounter();
+
+    // Reload messages
+    loadMessages(chatId, friend);
+
+  } catch (err) {
+    console.error(err);
+  }
+});
 
   // Load friends & requests
   await loadFriendsTab();
@@ -5460,20 +5501,37 @@ window.onAndroidTokenReceived = function(token) {
 // --- VALIDATION ---
 
 // Helper function to attach a live character counter
-function attachCharCounter(inputId, counterId, maxLength, warningThreshold = 0.9) {
+// Helper function to attach a live character counter
+function attachCharCounter(inputId, counterId, maxLength, warningThreshold = 0.9, showThreshold = 0.7) {
   const input = document.getElementById(inputId);
   const counter = document.getElementById(counterId);
 
   if (!input || !counter) return;
 
+  // Hide counter by default
+  counter.style.display = 'none';
+
   function updateCounter() {
     const length = input.value.length;
     counter.textContent = `${length}/${maxLength}`;
+
+    if (length === 0) {
+      // Hide counter if input is empty
+      counter.style.display = 'none';
+    } else if (length >= maxLength * showThreshold) {
+      // Show counter if above showThreshold
+      counter.style.display = 'inline';
+    } else {
+      counter.style.display = 'none';
+    }
+
+    // Color if near limit
     counter.style.color = length >= maxLength * warningThreshold ? 'red' : 'black';
   }
 
   // Update live while typing
   input.addEventListener('input', updateCounter);
+
   // Trim spaces when leaving the field
   input.addEventListener('blur', () => {
     input.value = input.value.trim();
@@ -5482,7 +5540,14 @@ function attachCharCounter(inputId, counterId, maxLength, warningThreshold = 0.9
 
   // Initialize counter
   updateCounter();
+
+  // Optional: reset counter manually (e.g., after sending message)
+  input.resetCounter = function() {
+    input.value = '';
+    updateCounter();
+  };
 }
+
 
 // --- Profile & Pet Names ---
 attachCharCounter('profileNameInput', 'profileNameCharCount', 15);
