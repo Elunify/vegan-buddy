@@ -4287,10 +4287,10 @@ const characterTips = {
 
   ],
   pet: [
-    "Be kind to every kind — and don’t forget to be kind to yourself too!",
-    "Love grows when shared 💚",
-    "Every small act of care shapes who you are.",
-    "Happiness multiplies when you give it away.",
+"Be kind to every kind — and don’t forget to be kind to yourself too!",
+"Love grows when shared 💚",
+"Every small act of care shapes who you are.",
+"Happiness multiplies when you give it away.",
 "Patience is love in action.",
 "A gentle word can change someone’s entire day.",
 "Sharing love is never wasted — it always returns.",

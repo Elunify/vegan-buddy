@@ -482,23 +482,6 @@ async function handleStreakSave(user, profile, yesterday) {
     alert("Streak saved by spending 10 badges!");
     return true;
   }   
-  /*  
-  else  {
-    const pay = confirm("You don't have enough badges. Do you want to save your streak for 1€?");
-    if (pay) {
-      await supabase.from("profiles").update({ last_checkin_date: yesterday }).eq("id", user.id);
-      profile.last_checkin_date = yesterday;
-      alert("Redirecting to payment...");
-      return true;
-    } else {
-      alert("Your streak will reset.");
-      await supabase.from("profiles").update({ streak: 0, last_checkin_date: yesterday }).eq("id", user.id);
-      profile.streak = 0;
-      profile.last_checkin_date = yesterday;
-      return false;
-    }
-  }
-  */
 }
 
 //--------------------------
@@ -856,7 +839,7 @@ if (!todayLesson) { alert("No lesson found for today!"); return false; }
   const yesterdayStr = getUTCDateString(yesterdayUTC);
 
   // Optional streak reset
-  if (currentProfile.last_checkin_date < yesterdayStr) {
+  if (currentProfile.last_checkin_date < yesterdayStr && currentProfile.streak > 5) {
     const streakSaved = await handleStreakSave(currentUser, currentProfile, yesterdayStr);
     if (streakSaved) {
       await supabase
@@ -1881,6 +1864,7 @@ function setupExtraLessonClicks() {
             lesson.classList.add("completed");
             lesson.querySelector(".extralesson-icon").textContent = "✅";
             await saveExtraLessonProgress();
+            await applyExtraLessonProgress();
             contentContainer.classList.remove("active");
             contentContainer.innerHTML = "";
           }, 800);
@@ -4759,16 +4743,6 @@ function showProgressSuggestion(message, petPhotoUrl) {
 }
 
 
-
-
-/* notifications.js
- *
- * Requires:
- *  - a global `supabase` client instance
- *  - a global `currentUser` object { id, email, location_id }
- *
- * Edit the table/column names below if your schema differs.
- */
 
 // -------------- NOTIFICATION STATE --------------
 const notificationState = {

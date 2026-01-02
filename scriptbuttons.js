@@ -79,6 +79,7 @@ profileDropdown.forEach(id => {
   if (btn) btn.addEventListener('click', () => {
     showSection(id);
     closeDropdowns();
+    clearSectionNotifications(id); 
     if (id === 'messages') onMessagesTabOpened();
   });
 });
