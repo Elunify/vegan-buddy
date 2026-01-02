@@ -73,6 +73,21 @@ function formatNumber(value) {
   return value.toString();
 }
 
+async function getBlockedUserIds(supabase, currentUserId) { 
+  const { data, error } = await supabase
+    .from("user_blocks")
+    .select("blocked_id")
+    .eq("blocker_id", currentUserId);
+
+  if (error) {
+    console.error("Error fetching blocked users:", error);
+    return [];
+  }
+
+  return data.map(row => row.blocked_id);
+}
+let blockedUserIds = [];
+
 //--------------------------
 // FETCH DATA
 //--------------------------
@@ -4989,6 +5004,12 @@ async function subscribeToMessages(supabase, currentUserId) {
       (payload) => {
         const message = payload.new;
 
+        // Ignore own messages
+        if (message.sender_id === currentUserId) return;
+
+        // Ignore blocked users
+        if (blockedUserIds.includes(message.sender_id)) return;
+
         // A message belongs to a chat with user
         if (message.chat_id && message.sender_id !== currentUserId) {
           notify("messages");
@@ -4999,23 +5020,33 @@ async function subscribeToMessages(supabase, currentUserId) {
 }
 // -------------- MESSAGES ON LOAD --------------
 async function checkMessages(supabase, currentUserId) {
-  const lastSeen = notificationState.lastSeenMessages; // we'll add this
+  const lastSeen = notificationState.lastSeenMessages;
 
   let query = supabase
     .from("messages")
     .select("created_at, chat_id, sender_id")
-    .neq("sender_id", currentUserId); // only messages from others
+    .neq("sender_id", currentUserId);
 
   if (lastSeen) {
-    query = query.gt("created_at", lastSeen); // only messages after last seen
+    query = query.gt("created_at", lastSeen);
   }
 
-  const { data } = await query;
+  const { data, error } = await query;
+  if (error) {
+    console.error("Error checking messages:", error);
+    return;
+  }
 
-  if (data && data.length > 0) {
+  // Filter out blocked senders
+  const unblockedMessages = data.filter(
+    msg => !blockedUserIds.includes(msg.sender_id)
+  );
+
+  if (unblockedMessages.length > 0) {
     notify("messages");
   }
 }
+
 
 // -------------- FRIEND REQUESTS ON LOAD --------------
 async function checkFriendRequests(supabase, currentFriendCode) {
@@ -5341,6 +5372,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await initExtraLessons(); // now progress is available
     await loadWinnersFromData();
 
+
     // ✅ Wait a tick to ensure DOM is updated
     setTimeout(async () => {
       if (currentUser && currentUser.id) {
@@ -5352,6 +5384,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (err) {
     console.error("Error initializing mainpage:", err);
   }
+
+    blockedUserIds = await getBlockedUserIds(supabase, currentUser.id);
 
   //dailycheckin
 
