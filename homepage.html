@@ -1004,6 +1004,16 @@
       <div class="chat-header">
         <span id="backToList" class="back-arrow">⬅️</span>
         <span id="chatHeader">Chat</span>
+
+        <!-- Single action button -->
+  <div class="chat-actions">
+    <span id="actionButton">⋮</span>
+    <div id="chatdropdownMenu" class="chatdropdown-menu">
+      <div id="deleteChatBtn" class="chatdropdown-item">Clear Chat</div>
+      <div id="blockUserBtn" class="chatdropdown-item">Block User</div>
+    </div>
+  </div>
+
       </div>
 
       <!-- Messages -->
@@ -1568,6 +1578,14 @@
     <h2 id="ingredientName"></h2>
     <p id="ingredientDescription"></p>
     <p id="ingredientNutrition"></p>
+  </div>
+</div>
+<!-- Confirmation popup -->
+<div id="confirmationPopup" class="confirmation-popup hidden">
+  <p id="confirmationMessage"></p>
+  <div class="confirmation-buttons">
+    <button id="confirmBtn">Confirm</button>
+    <button id="cancelBtn">Cancel</button>
   </div>
 </div>
 

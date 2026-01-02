@@ -3445,45 +3445,140 @@ document.getElementById("backToList").addEventListener("click", () => {
   window.currentChatFriend = null;
 });
 
+
+
 async function loadMessages(chatId) {
   const chatContainer = document.getElementById("chatMessages");
   if (!chatContainer) return;
 
-  const { data: messages, error } = await supabase
+  const { data: chatRows, error: chatError } = await supabase
+  .from('chats')
+  .select('*')
+  .eq('id', chatId)
+  .limit(1);
+
+if (chatError) return console.error("Error fetching chat:", chatError);
+if (!chatRows?.length) return console.error("Chat not found");
+
+const chat = chatRows[0];
+
+// If current user is user1, friend is user2; otherwise friend is user1
+const friend = chat.user1_id === currentUser.id
+  ? { id: chat.user2_id, name: chat.user2_name, photo: chat.user2_profile_photo }
+  : { id: chat.user1_id, name: chat.user1_name, photo: chat.user1_profile_photo };
+
+  // 1. Check if current user has blocked this friend
+  const { data: blockData, error: blockError } = await supabase
+    .from('user_blocks')
+    .select('*')
+    .eq('blocker_id', currentUser.id)
+    .eq('blocked_id', friend.id)
+    .limit(1);
+  if (blockError) return console.error("Error fetching block info:", blockError);
+
+  const isBlocked = blockData.length > 0;
+  const blockTime = isBlocked ? blockData[0].created_at : null;
+
+  // 2. Hide/show Block User button in dropdown
+  const blockBtn = document.getElementById("blockUserBtn");
+  if (blockBtn) {
+    if (isBlocked) blockBtn.classList.add("hidden");
+    else blockBtn.classList.remove("hidden");
+  }
+
+  // 3. Fetch messages (if blocked, only before block timestamp)
+  let messageQuery = supabase
     .from('messages')
     .select('*')
-    .eq('chat_id', chatId)
-    .order('created_at', { ascending: true });
-  if (error) return console.error(error);
+    .eq('chat_id', chatId);
 
+  if (isBlocked) {
+    messageQuery = messageQuery.lt('created_at', blockTime);
+  }
+
+  const { data: messages, error: messagesError } = await messageQuery.order('created_at', { ascending: true });
+  if (messagesError) return console.error("Error fetching messages:", messagesError);
+
+  // 4. Render messages
   chatContainer.innerHTML = "";
   messages.forEach(msg => {
     const div = document.createElement("div");
     div.textContent = msg.content;
     div.className = msg.sender_id === currentUser.id ? "my-message" : "friend-message";
+    div.dataset.senderId = msg.sender_id; // optional: helps with block filtering
     chatContainer.appendChild(div);
   });
   chatContainer.scrollTop = chatContainer.scrollHeight;
 
-  if (messageSubscription) supabase.removeChannel(messageSubscription);
+  // 5. Handle input section & blocked notice
+  const inputSection = document.querySelector(".chat-input");
+  let blockedNotice = document.getElementById("blockedNotice");
 
-  messageSubscription = supabase
-    .channel(`chat-${chatId}`)
-    .on('postgres_changes', {
-      event: 'INSERT',
-      schema: 'public',
-      table: 'messages',
-      filter: `chat_id=eq.${chatId}`
-    }, (payload) => {
-      const msg = payload.new;
-      const div = document.createElement("div");
-      div.textContent = msg.content;
-      div.className = msg.sender_id === currentUser.id ? "my-message" : "friend-message";
-      chatContainer.appendChild(div);
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-    })
-    .subscribe();
+  if (!blockedNotice) {
+    // create blocked notice if it doesn't exist
+    blockedNotice = document.createElement("div");
+    blockedNotice.id = "blockedNotice";
+    blockedNotice.style.padding = "1rem";
+    blockedNotice.style.textAlign = "center";
+    blockedNotice.style.backgroundColor = "#ffe6e6";
+    blockedNotice.style.borderTop = "1px solid #ccc";
+    blockedNotice.innerHTML = `You've blocked this user. <button id="unblockBtn">Unblock</button>`;
+    if (inputSection && inputSection.parentNode) {
+  inputSection.parentNode.insertBefore(blockedNotice, inputSection.nextSibling);
 }
+  }
+
+  if (isBlocked) {
+    if (inputSection) inputSection.classList.add("hidden");
+    blockedNotice.classList.remove("hidden");
+
+    // 6. Setup unblock button
+    const unblockBtn = document.getElementById("unblockBtn");
+    unblockBtn.onclick = async () => {
+      const { error } = await supabase
+        .from('user_blocks')
+        .delete()
+        .eq('blocker_id', currentUser.id)
+        .eq('blocked_id', friend.id);
+      if (error) return console.error("Error unblocking user:", error.message);
+
+      // Reload chat and chat list after unblock
+      loadMessages(chatId);
+      loadChatList();
+    };
+  } else {
+    if (inputSection) inputSection.classList.remove("hidden");
+    blockedNotice.classList.add("hidden");
+  }
+
+  // 7. Setup real-time subscription (only if not blocked)
+  if (messageSubscription) {
+  await supabase.removeChannel(messageSubscription);
+  messageSubscription = null;
+}
+  if (!isBlocked) {
+    messageSubscription = supabase
+      .channel(`chat-${chatId}`)
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'messages',
+        filter: `chat_id=eq.${chatId}`
+      }, (payload) => {
+        const msg = payload.new;
+        // ignore messages from blocked user (optional safety)
+        if (msg.sender_id === friend.id && isBlocked) return;
+
+        const div = document.createElement("div");
+        div.textContent = msg.content;
+        div.className = msg.sender_id === currentUser.id ? "my-message" : "friend-message";
+        chatContainer.appendChild(div);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      })
+      .subscribe();
+  }
+}
+
 
 
 //--------------------------
@@ -3492,6 +3587,15 @@ async function loadMessages(chatId) {
 async function loadChatList() {
   const list = document.getElementById("chatListItems");
   if (!list) return;
+
+  // 1. Fetch blocked users first
+  const { data: blockedUsersData, error: blockedError } = await supabase
+    .from('user_blocks')
+    .select('blocked_id')
+    .eq('blocker_id', currentUser.id);
+  if (blockedError) return console.error("Error fetching blocked users:", blockedError);
+
+  const blockedIds = blockedUsersData.map(b => b.blocked_id);
 
   function renderChats(chats) {
     list.innerHTML = "";
@@ -3523,7 +3627,18 @@ async function loadChatList() {
       nameSpan.textContent = friend.name;
       nameSpan.style.fontWeight = "500";
       const lastMessage = document.createElement("div");
-      lastMessage.textContent = chat.last_message || "";
+
+    // 2. Check if this friend is blocked
+      if (blockedIds.includes(friend.id)) {
+        lastMessage.textContent = "Blocked user";
+      } else {
+        let preview = chat.last_message || "";
+        if (preview.length > 25) {
+          preview = preview.slice(0, 25) + "...";
+        }
+        lastMessage.textContent = preview;
+      }
+
       lastMessage.style.fontSize = "0.85rem";
       lastMessage.style.color = "#555";
 
@@ -5060,8 +5175,146 @@ deleteProfileBtn.addEventListener("click", async () => {
 });
 
 
+//CLEAR AND BLOCK CHAT
+const actionButton = document.getElementById("actionButton");
+const dropdownMenu = document.getElementById("chatdropdownMenu");
+const deleteChatBtn = document.getElementById("deleteChatBtn");
+const blockUserBtn = document.getElementById("blockUserBtn");
+
+const confirmationPopup = document.getElementById("confirmationPopup");
+const confirmationMessage = document.getElementById("confirmationMessage");
+const confirmBtn = document.getElementById("confirmBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+
+let currentAction = null;
 
 
+// Toggle dropdown
+actionButton.addEventListener("click", (e) => {
+  e.stopPropagation();
+  dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+});
+
+// Close dropdown if clicked outside
+document.addEventListener("click", () => {
+  dropdownMenu.style.display = "none";
+});
+
+// Clear Chat clicked
+deleteChatBtn.addEventListener("click", () => {
+  dropdownMenu.style.display = "none";
+  currentAction = "delete";
+  confirmationMessage.textContent = "Are you sure you want to clear the chat? It clears for everyone.";
+  confirmationPopup.classList.remove("hidden");
+});
+
+// Block User clicked
+blockUserBtn.addEventListener("click", () => {
+  dropdownMenu.style.display = "none";
+  currentAction = "block";
+  confirmationMessage.textContent = "Are you sure you want to block this user? Blocked users won’t be notified, but you won’t receive their messages until you unblock them.";
+  confirmationPopup.classList.remove("hidden");
+});
+
+// Cancel confirmation
+cancelBtn.addEventListener("click", () => {
+  confirmationPopup.classList.add("hidden");
+  currentAction = null;
+});
+
+// Confirm action
+confirmBtn.addEventListener("click", () => {
+  if (currentAction === "delete") {
+    deleteCurrentChat();
+  } else if (currentAction === "block") {
+    blockUser();
+  }
+  confirmationPopup.classList.add("hidden");
+  currentAction = null;
+});
+
+async function deleteCurrentChat() {
+  if (!window.currentChatFriend) return console.error("No friend selected");
+
+  try {
+    // 1. Fetch the chat ID between current user and friend
+    const { data: existingChats, error: chatError } = await supabase
+      .from('chats')
+      .select('*')
+      .or(
+        `and(user1_id.eq.${currentUser.id},user2_id.eq.${window.currentChatFriend.id}),and(user1_id.eq.${window.currentChatFriend.id},user2_id.eq.${currentUser.id})`
+      )
+      .limit(1);
+
+    if (chatError) throw chatError;
+
+    const chatId = existingChats?.[0]?.id;
+    if (!chatId) return console.error("Chat not found");
+
+    // 2. Delete all messages for this chat
+    const { error: deleteError } = await supabase
+      .from('messages')
+      .delete()
+      .eq('chat_id', chatId);
+    if (deleteError) throw deleteError;
+
+    // 3. Reset last_message in chats table
+    const { error: updateError } = await supabase
+      .from('chats')
+      .update({ last_message: '' })
+      .eq('id', chatId);
+    if (updateError) throw updateError;
+
+    // Optional: reload chat list and close chat window
+    loadChatList();
+    document.getElementById("chatListView").classList.remove("hidden");
+    document.getElementById("chatView").classList.add("hidden");
+    window.currentChatFriend = null;
+
+  } catch (error) {
+    console.error("Error deleting chat:", error.message);
+  }
+}
+
+async function blockUser() {
+  const chatId = window.currentChatId;
+  if (!chatId) return console.error("No active chat");
+
+  try {
+    // 1. Fetch chat to determine the other user
+    const { data: chatRows, error: chatError } = await supabase
+      .from('chats')
+      .select('*')
+      .eq('id', chatId)
+      .limit(1);
+
+    if (chatError) throw chatError;
+    if (!chatRows?.length) throw new Error("Chat not found");
+
+    const chat = chatRows[0];
+
+    // 2. Determine friend ID
+    const blockedUserId =
+      chat.user1_id === currentUser.id ? chat.user2_id : chat.user1_id;
+
+    // 3. Insert block
+    const { error: insertError } = await supabase
+      .from('user_blocks')
+      .insert({
+        blocker_id: currentUser.id,
+        blocked_id: blockedUserId
+      });
+
+    if (insertError) throw insertError;
+
+    // 4. Reload UI
+    loadChatList();
+    loadMessages(chatId);
+
+  } catch (error) {
+    console.error("Error blocking user:", error.message);
+  }
+}
 
 
 
@@ -5222,7 +5475,7 @@ if (closePopup && commentPopup) {
   });
 
   // Helper function to create a trimmed preview for chat list
-function makePreview(text, maxLength = 50) {
+function makePreview(text, maxLength = 20) {
   if (!text) return "";
   return text.length > maxLength ? text.slice(0, maxLength) + '…' : text;
 }
@@ -5247,7 +5500,7 @@ document.getElementById("sendMessageBtn")?.addEventListener("click", async () =>
     let chatId = window.currentChatId;
 
     // Create a preview message for last_message column
-    const previewMessage = makePreview(text, 200); // adjust 200 to your column limit
+    const previewMessage = makePreview(text, 20); // adjust 200 to your column limit
 
     // Create chat if it doesn't exist
     if (!chatId) {
