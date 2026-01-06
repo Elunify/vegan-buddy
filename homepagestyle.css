@@ -1848,7 +1848,7 @@ h2 {
 }
 
 .recipe-card {
-  position: relative; /* needed for absolute positioning of delete button */
+  position: relative;
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -1858,12 +1858,12 @@ h2 {
   flex-direction: column;
   transition: transform 0.2s, box-shadow 0.2s;
 }
-
+/*
 .recipe-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
-
+*/
 .recipe-img {
   width: 100%;
   aspect-ratio: 1 / 1;

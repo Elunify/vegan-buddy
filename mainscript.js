@@ -1,3 +1,4 @@
+//#region INIT
 //--------------------------
 // SUPABASE
 //--------------------------
@@ -31,64 +32,6 @@ const healthIssuesSection = document.getElementById("q2b");
 let messageSubscription = null;
 
 //--------------------------
-// HELPERS
-//--------------------------
-function showLoading(isLoading) {
-  const loader = document.getElementById("loading");
-  const content = document.getElementById("homepageContent");
-  if (!loader || !content) return;
-
-  if (isLoading) {
-    loader.style.display = "flex";
-    content.style.visibility = "hidden";   // changed
-  } else {
-    loader.style.display = "none";
-    content.style.visibility = "visible";  // changed
-  }
-}
-
-function toArray(value) {
-  return Array.isArray(value) ? value : Object.values(value || []);
-}
-
-function getLevelFromXP(totalXP) {
-  let level = 1;
-  let xpNeededForNext = 100;
-  let xpLeft = totalXP;
-
-  while (xpLeft >= xpNeededForNext && level < 100) {
-    xpLeft -= xpNeededForNext;
-    level++;
-    xpNeededForNext = Math.floor(xpNeededForNext * 1.05);
-  }
-
-  return { level, xpTowardsNextLevel: xpLeft, xpNeededForNextLevel: xpNeededForNext };
-}
-
-function formatNumber(value) {
-  value = Math.round(value);
-  if (value >= 1_000_000_000) return (value / 1_000_000_000).toFixed(1) + 'B';
-  if (value >= 1_000_000) return (value / 1_000_000).toFixed(1) + 'M';
-  if (value >= 1_000) return (value / 1_000).toFixed(1) + 'k';
-  return value.toString();
-}
-
-async function getBlockedUserIds(supabase, currentUserId) { 
-  const { data, error } = await supabase
-    .from("user_blocks")
-    .select("blocked_id")
-    .eq("blocker_id", currentUserId);
-
-  if (error) {
-    console.error("Error fetching blocked users:", error);
-    return [];
-  }
-
-  return data.map(row => row.blocked_id);
-}
-let blockedUserIds = [];
-
-//--------------------------
 // FETCH DATA
 //--------------------------
 async function fetchAllData() {
@@ -100,7 +43,12 @@ async function fetchAllData() {
   // 2️⃣ Fetch profile
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
-    .select("*")
+    .select(`id, profile_photo, frame, pet_name, pet_photo, streak,
+      animals_saved, forest_saved, water_saved, co2_saved, total_xp, current_level,
+      last_checkin_date, goals, health_issues, badge, day_counter, goal_progress,
+      is_pro, diet_preference, last_lesson, health_progress, extra_lesson,
+      completed_health_issues, lesson_progress, achievements, title,
+      bought_items, xp_today, friend_code, survey_completed, name`)
     .eq("id", user.id)
     .single();
   if (profileError) return console.error("Error fetching profile:", profileError);
@@ -109,7 +57,7 @@ async function fetchAllData() {
   // 3️⃣ Fetch global impact (single row)
   const { data: impact, error: impactError } = await supabase
     .from("global_impact")
-    .select("*")
+    .select("animals_saved, forest_saved, water_saved, co2_saved")
     .single();
   if (impactError) return console.error("Error fetching global impact:", impactError);
   currentGlobalImpact = impact; // assign fetched row to top-level variable
@@ -458,6 +406,129 @@ function loadWinnersFromData() {
     }
   }
 }
+//#endregion
+
+//#region HELPERS
+//--------------------------
+// HELPERS
+//--------------------------
+async function addXP(amount) {
+  if (typeof amount !== "number" || amount <= 0) return;
+
+  if (!currentUser) {
+    console.error("No current user ID found.");
+    return;
+  }
+
+  try {
+    const { data, error } = await supabase.rpc("add_xp", {
+  user_id: currentUser.id,
+  xp_amount: amount
+}).single();
+
+if (error) throw error;
+
+
+    if (error) throw error;
+
+    // ✅ USE UPDATED DATA FROM SUPABASE
+    const totalXP = data.total_xp ?? 0;
+
+    const levelData = getLevelFromXP(totalXP);
+    const { level, xpTowardsNextLevel, xpNeededForNextLevel } = levelData;
+
+    // Update level text
+    document.getElementById("currentLevel").textContent =
+      data.current_level ?? level;
+
+    const countersElements = {
+    levelProgress: document.getElementById('levelProgress'),
+    currentLevelEl: document.getElementById("currentLevel")
+  };
+
+    // Progress bar
+    if (countersElements.levelProgress) {
+      if (level >= 100) {
+        countersElements.levelProgress.style.display = "none";
+      } else {
+        countersElements.levelProgress.style.display = "block";
+        const progressPercent =
+          (xpTowardsNextLevel / xpNeededForNextLevel) * 100;
+
+        countersElements.levelProgress.style.width =
+          Math.min(progressPercent, 100) + "%";
+
+        countersElements.currentLevelEl.textContent = level;
+      }
+    }
+
+    // ✅ XP remaining to next level
+    const xpRemaining =
+      xpNeededForNextLevel - xpTowardsNextLevel;
+
+    document.getElementById("xpToNext").textContent =
+      `${xpRemaining} XP to next level`;
+
+  } catch (err) {
+    console.error("Error updating XP:", err);
+  }
+}
+
+function showLoading(isLoading) {
+  const loader = document.getElementById("loading");
+  const content = document.getElementById("homepageContent");
+  if (!loader || !content) return;
+
+  if (isLoading) {
+    loader.style.display = "flex";
+    content.style.visibility = "hidden";   // changed
+  } else {
+    loader.style.display = "none";
+    content.style.visibility = "visible";  // changed
+  }
+}
+
+function toArray(value) {
+  return Array.isArray(value) ? value : Object.values(value || []);
+}
+
+function getLevelFromXP(totalXP) {
+  let level = 1;
+  let xpNeededForNext = 100;
+  let xpLeft = totalXP;
+
+  while (xpLeft >= xpNeededForNext && level < 100) {
+    xpLeft -= xpNeededForNext;
+    level++;
+    xpNeededForNext = Math.floor(xpNeededForNext * 1.05);
+  }
+
+  return { level, xpTowardsNextLevel: xpLeft, xpNeededForNextLevel: xpNeededForNext };
+}
+
+function formatNumber(value) {
+  value = Math.round(value);
+  if (value >= 1_000_000_000) return (value / 1_000_000_000).toFixed(1) + 'B';
+  if (value >= 1_000_000) return (value / 1_000_000).toFixed(1) + 'M';
+  if (value >= 1_000) return (value / 1_000).toFixed(1) + 'k';
+  return value.toString();
+}
+
+async function getBlockedUserIds(supabase, currentUserId) { 
+  const { data, error } = await supabase
+    .from("user_blocks")
+    .select("blocked_id")
+    .eq("blocker_id", currentUserId);
+
+  if (error) {
+    console.error("Error fetching blocked users:", error);
+    return [];
+  }
+
+  return data.map(row => row.blocked_id);
+}
+let blockedUserIds = [];
+
 
 //--------------------------
 // GOALS / HEALTH TOGGLE
@@ -499,115 +570,604 @@ async function handleStreakSave(user, profile, yesterday) {
   }   
 }
 
-//--------------------------
-// CHANGE PROFILE
-//--------------------------
-async function displayAchievementsSettings(userId) {
-  const { data, error } = await supabase
-    .from('profilecards')
-    .select('achievements')
-    .eq('user_id', userId)
-    .single();
 
-  const container = document.getElementById("AchievementsListSettings");
-  if (!container) return;
+async function addBadges(userId, amount) {
+  // Use currentProfile directly
+  const currentCount = currentProfile.badge ?? 0;
+  const newCount = currentCount + amount;
+
+  // 1️⃣ Update local profile
+  currentProfile.badge = newCount;
+
+  // 2️⃣ Update UI immediately
+  const badgeShopEl = document.getElementById("badge-countshop");
+  if (badgeShopEl) badgeShopEl.textContent = `Your Badges: ${newCount}`;
+
+  const badgeProfileEl = document.getElementById("badgeprofile");
+  if (badgeProfileEl) badgeProfileEl.textContent = newCount;
+
+  // 3️⃣ Update in Supabase
+  const { error: updateError } = await supabase
+    .from("profiles")
+    .update({ badge: newCount })
+    .eq("id", userId);
+
+  if (updateError) return console.error("Error updating badges:", updateError);
+
+  // 4️⃣ Optional: refresh leaderboard
+  await fetchLeaderboard('badge', 'overall-badge');
+}
+
+
+function showProgressSuggestion(message, petPhotoUrl) {
+  const banner = document.createElement("div");
+  banner.className = "toast-suggestion";
+
+  // Pet image
+  const petImg = document.createElement("img");
+  petImg.src = petPhotoUrl || "default-pet.jpg";
+  petImg.alt = "Pet";
+  petImg.className = "toast-pet";
+  
+  // Message
+  const textSpan = document.createElement("span");
+  textSpan.textContent = message;
+
+  banner.appendChild(petImg);
+  banner.appendChild(textSpan);
+  document.body.appendChild(banner);
+
+  // Trigger slide-in after next tick
+  requestAnimationFrame(() => {
+    banner.classList.add("show");
+  });
+
+  // Auto-hide after 6 seconds
+  setTimeout(() => {
+    banner.classList.remove("show");
+    banner.classList.add("fade-out");
+    setTimeout(() => banner.remove(), 600);
+  }, 6000);
+}
+
+
+// Helper function to attach a live character counter
+function attachCharCounter(inputId, counterId, maxLength, warningThreshold = 0.9, showThreshold = 0.7) {
+  const input = document.getElementById(inputId);
+  const counter = document.getElementById(counterId);
+
+  if (!input || !counter) return;
+
+  // Hide counter by default
+  counter.style.display = 'none';
+
+  function updateCounter() {
+    const length = input.value.length;
+    counter.textContent = `${length}/${maxLength}`;
+
+    if (length === 0) {
+      // Hide counter if input is empty
+      counter.style.display = 'none';
+    } else if (length >= maxLength * showThreshold) {
+      // Show counter if above showThreshold
+      counter.style.display = 'inline';
+    } else {
+      counter.style.display = 'none';
+    }
+
+    // Color if near limit
+    counter.style.color = length >= maxLength * warningThreshold ? 'red' : 'black';
+  }
+
+  // Update live while typing
+  input.addEventListener('input', updateCounter);
+
+  // Trim spaces when leaving the field
+  input.addEventListener('blur', () => {
+    input.value = input.value.trim();
+    updateCounter();
+  });
+
+  // Initialize counter
+  updateCounter();
+
+  // Optional: reset counter manually (e.g., after sending message)
+  input.resetCounter = function() {
+    input.value = '';
+    updateCounter();
+  };
+}
+
+
+// --- Profile & Pet Names ---
+attachCharCounter('profileNameInput', 'profileNameCharCount', 15);
+attachCharCounter('petNameInput', 'petNameCharCount', 15);
+
+// --- Ingredients & Instructions ---
+attachCharCounter('mealArtrecipeIngredients', 'ingredientsCharCount', 1000);
+attachCharCounter('mealArtrecipeInstructions', 'instructionsCharCount', 1000);
+attachCharCounter('recipeIngredients', 'recipeIngredientsCounter', 1000);
+attachCharCounter('recipeInstructions', 'recipeInstructionsCounter', 1000);
+
+// --- Messages & Comments ---
+attachCharCounter('messageInput', 'messageCharCount', 1000);
+attachCharCounter('blockContent', 'blockContentCounter', 1000);
+attachCharCounter('AFnewCommentInput', 'AFnewCommentCounter', 1000);
+attachCharCounter('communityMessageInput', 'communityMessageCounter', 1000);
+
+// --- Event description ---
+attachCharCounter('eventDescriptionInput', 'eventDescriptionCounter', 300, 0.9);
+//#endregion
+
+//#region MEALART
+//--------------------------
+// MEALART
+//--------------------------
+
+function showRecipeModal(meal) {
+  const modal = document.getElementById("mealArtrecipeModal");
+  document.getElementById("mealArtmodalFoodName").textContent = meal.food_name || "No title";
+  document.getElementById("mealArtmodalPrepTime").textContent = meal.prep_time || "N/A"; 
+  document.getElementById("mealArtmodalIngredients").innerHTML = (meal.ingredients || "No ingredients provided").replace(/\n/g, "<br>");
+  document.getElementById("mealArtmodalInstructions").innerHTML = (meal.instructions || "No instructions provided").replace(/\n/g, "<br>");
+  modal.style.display = "flex";
+}
+
+function closeRecipeModal() {
+  const modal = document.getElementById("mealArtrecipeModal");
+  modal.style.display = "none";
+}
+
+
+// TAB HANDLER
+function setupTabs() {
+  const tabs = document.querySelectorAll(".main-tab");
+  const tabContents = document.querySelectorAll(".main-tab-content");
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      tabContents.forEach(c => c.style.display = "none");
+      const content = document.getElementById(tab.dataset.tab);
+      if (content) content.style.display = "block";
+    });
+  });
+  tabs[0]?.click();
+}
+
+
+// MEAL RENDERING
+function renderMealItem(meal, today) {
+  const homeChefGallery = document.getElementById("home-chef-gallery");
+  const proKitchenGallery = document.getElementById("pro-kitchen-gallery");
+  const homeChefWinners = document.getElementById("home-chef-winners");
+  const proKitchenWinners = document.getElementById("pro-kitchen-winners");
+
+  const mealDiv = document.createElement("div");
+  mealDiv.className = "meal-item";
+  mealDiv.dataset.id = meal.id;
+
+  const foodNameP = document.createElement("p");
+  foodNameP.className = "food-name";
+  foodNameP.textContent = meal.food_name; // <- use food_name
+  mealDiv.appendChild(foodNameP);
+
+  const img = document.createElement("img");
+  img.src = meal.image_url;
+  img.alt = `${meal.uploader_name}'s meal`;
+
+  const nameP = document.createElement("p");
+  nameP.textContent = meal.uploader_name;
+
+  const recipeSpan = document.createElement("span");
+  recipeSpan.className = "recipe-label";
+  recipeSpan.textContent = meal.recipe_available ? "Recipe available" : "No recipe";
+  if (meal.recipe_available) {
+    recipeSpan.classList.add("recipe-available");
+    recipeSpan.addEventListener("click", () => showRecipeModal(meal));
+  }
+
+  mealDiv.append(img, nameP, recipeSpan);
+
+  // Delete button for own meal
+  if (meal.user_id === currentUser.id && !meal.is_winner && today !== 1) {
+    const delBtn = document.createElement("button");
+    delBtn.className = "delete-meal-btn";
+    delBtn.textContent = "Delete";
+    delBtn.addEventListener("click", async () => {
+  if (!confirm("Are you sure you want to delete this meal?")) return;
+
+  // 1️⃣ Delete DB row
+  const { error } = await supabase
+    .from("meals")
+    .delete()
+    .eq("id", meal.id);
 
   if (error) {
-    console.error("Error fetching achievements:", error);
-    container.innerHTML = "<p>No achievements yet.</p>";
+    alert("Error deleting meal: " + error.message);
     return;
   }
 
-  populateAchievements(container, data.achievements);
+  // 2️⃣ Delete image from storage
+  if (meal.image_url) {
+    const filePath = getStoragePathFromPublicUrl(
+      meal.image_url,
+      "meal_uploads"
+    );
+
+    if (filePath) {
+      const { error: storageError } =
+        await supabase.storage.from("meal_uploads").remove([filePath]);
+
+      if (storageError) {
+        console.error("Meal image delete failed:", storageError);
+      }
+    }
+  }
+
+  // 3️⃣ Update UI
+  mealDiv.remove();
+
+  const uploadBtn = document.getElementById("uploadBtn");
+  if (uploadBtn) uploadBtn.style.display = "block";
+
+  const alreadyUploadedMsg = document.getElementById("alreadyUploadedMsg");
+  if (alreadyUploadedMsg) alreadyUploadedMsg.style.display = "none";
+
+  fetchAllData();
+});
+    mealDiv.appendChild(delBtn);
+  }
+
+  // Image popup
+  img.addEventListener("click", () => {
+    const popup = document.getElementById("mealPopup");
+    const popupImg = document.getElementById("popupMealImage");
+    popupImg.src = img.src;
+    popup.classList.remove("hidden");
+  });
+
+  // Append to gallery
+  if (meal.is_winner) {
+    (meal.is_pro ? proKitchenWinners : homeChefWinners).appendChild(mealDiv);
+  } else {
+    (meal.is_pro ? proKitchenGallery : homeChefGallery).appendChild(mealDiv);
+  }
 }
 
-// --- SAVE PROFILE ---
-async function saveProfile() {
-  if (!currentUser || !currentProfile) {
-    console.error("User not loaded yet");
+function renderMeals(meals) {
+  const today = new Date().getDay();
+  const galleries = [
+    document.getElementById("home-chef-gallery"),
+    document.getElementById("pro-kitchen-gallery"),
+    document.getElementById("home-chef-winners"),
+    document.getElementById("pro-kitchen-winners")
+  ].filter(el => el); // <-- remove nulls
+
+  galleries.forEach(el => el.innerHTML = "");
+
+  meals.forEach(meal => renderMealItem(meal, today));
+}
+
+
+// UPLOAD BUTTON & FORM
+function setupUploadButton() {
+  const uploadBtn = document.getElementById("uploadBtn");
+  if (!uploadBtn) return;
+
+  uploadBtn.addEventListener("click", () => {
+    if (!uploadBtn.classList.contains("locked")) {
+      document.getElementById("mealArtContestSmall").classList.add("hidden-meal");
+      document.getElementById("MealArtUploadContent").classList.remove("hidden-meal");
+    }
+  });
+}
+
+function setupMealUploadForm() {
+  const mealPhotoInput = document.getElementById("mealPhoto");
+  const previewImage = document.getElementById("mealArtpreviewImage");
+  const photoPreview = document.getElementById("mealArtphotoPreview");
+  const form = document.getElementById("mealUploadForm");
+  const uploadBtn = document.getElementById("uploadBtn");
+
+  // Photo preview
+  mealPhotoInput.addEventListener("change", e => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        previewImage.src = e.target.result;
+        photoPreview.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    } else {
+      previewImage.src = "";
+      photoPreview.style.display = "none";
+    }
+  });
+
+  // Form submit
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+
+  // Prevent double-click submission
+  const submitBtn = form.querySelector("button[type='submit']");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Uploading...";
+
+  try {
+    let file = mealPhotoFile;
+    if (!file) throw new Error("Please select a photo before submitting.");
+
+    // --- Resize the image here ---
+    file = await resizeImage(file, 600, 0.7, 'image/webp');
+    mealPhotoFile = file;
+
+    const foodName = document.getElementById("mealArtrecipeName").value.trim();
+    const mealArtPrepTime = document.getElementById("mealArtPrepTime").value.trim();
+    const ingredients = document.getElementById("mealArtrecipeIngredients").value.trim();
+    const instructions = document.getElementById("mealArtrecipeInstructions").value.trim();
+    const recipeAvailable = !!(foodName && ingredients && instructions);
+
+    const isProCategory = currentProfile.is_pro === true;
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${currentUser.id}_${Date.now()}.${fileExt}`;
+    const filePath = `${isProCategory ? 'pro' : 'home'}/${fileName}`;
+
+    const { error: uploadError } = await supabase.storage.from("meal-uploads").upload(filePath, file);
+    if (uploadError) throw new Error("Error uploading photo: " + uploadError.message);
+
+    const { data: publicUrlData } = supabase.storage.from("meal-uploads").getPublicUrl(filePath);
+    const imageUrl = publicUrlData.publicUrl;
+
+    const weekStartDate = new Date();
+    weekStartDate.setDate(weekStartDate.getDate() - weekStartDate.getDay() + 1);
+
+    const { data: newMeals, error: mealError } = await supabase
+      .from("meals")
+      .insert([{
+        user_id: currentUser.id,
+        uploader_name: currentProfile.name || "Anonymous",
+        is_pro: isProCategory,
+        image_url: imageUrl,
+        food_name: foodName,
+        prep_time: mealArtPrepTime, 
+        ingredients,
+        instructions,
+        recipe_available: recipeAvailable,
+        week_start_date: weekStartDate.toISOString().split('T')[0]
+      }])
+      .select();
+
+    if (mealError) throw new Error("Error saving meal: " + mealError.message);
+
+    await addXP(6);
+    alert("Meal uploaded successfully!");
+    renderMeals([...currentMeals, newMeals[0]]);
+    currentMeals.push(newMeals[0]);
+
+    uploadBtn.style.display = "none";
+    document.getElementById("alreadyUploadedMsg").style.display = "block";
+    form.reset();
+    previewImage.src = "";
+    photoPreview.style.display = "none";
+    document.getElementById("MealArtUploadContent").classList.add("hidden-meal");
+    document.getElementById("mealArtContestSmall").classList.remove("hidden-meal");
+    document.querySelector(".main-tab[data-tab='participants']")?.click();
+  } catch (err) {
+    alert(err.message);
+  } finally {
+    // Re-enable the submit button no matter what happens
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit";
+  }
+});
+}
+
+
+// MONDAY VOTING
+async function setupMondayVoting(userId) {  
+ const todayUTC = new Date().getUTCDay(); // 0 = Sunday, 1 = Monday, etc.
+  if (todayUTC !== 1) return; // Only run on Monday (UTC)
+
+  const homeChefGallery = document.getElementById("home-chef-gallery");
+  const proKitchenGallery = document.getElementById("pro-kitchen-gallery");
+  const votenote = document.getElementById("votenote");
+  if (votenote) votenote.style.display = "block";
+
+  const uploadBtn = document.getElementById("uploadBtn");
+  if (uploadBtn) uploadBtn.style.display = "none";
+
+  const uploadnote = document.getElementById("uploadnote");
+  const generalnote = document.getElementById("generalnote");
+  if (uploadnote) uploadnote.style.display = "none";
+  if (generalnote) generalnote.style.display = "none";
+
+  await addVotingToGallery(homeChefGallery, false, userId);
+  await addVotingToGallery(proKitchenGallery, true, userId);
+}
+
+async function addVotingToGallery(gallery, isPro, userId) {
+  if (!gallery) return;
+  if (!userId) {
+    console.error("Missing userId for voting check");
     return;
   }
 
-  const updates = {};
+  // 🗓️ Calculate the Monday of the current week in UTC
+  const nowUTC = new Date();
+  const utcDay = nowUTC.getUTCDay(); // 0 = Sunday, 1 = Monday...
+  const weekStartUTC = new Date(Date.UTC(
+    nowUTC.getUTCFullYear(),
+    nowUTC.getUTCMonth(),
+    nowUTC.getUTCDate() - utcDay + 1, // Move back to Monday
+    0, 0, 0, 0
+  ));
+  const weekStr = weekStartUTC.toISOString().split("T")[0];
 
-  // Name
-  updates.name = document.getElementById('profileNameInput').value || null;
+  const { data: existingVote, error } = await supabase
+    .from("votes")
+    .select("id", { head: true })
+    .eq("user_id", userId)
+    .eq("category", isPro)
+    .eq("week_start_date", weekStr)
+    .maybeSingle();
 
-  // Diet Preference
-  updates.diet_preference = document.getElementById('profileDietSelect').value || null;
+  if (error) console.error("Vote fetch error:", error);
 
-  // Goals
-  const selectedGoals = Array.from(document.querySelectorAll('input[name="goal"]:checked')).map(cb => cb.value);
-  updates.goals = selectedGoals.length ? selectedGoals : null;
+  const alreadyVoted = !!existingVote;
 
-  // Health Issues
-  const solvingChecked = selectedGoals.includes("Solving health issues");
-  const selectedHealth = solvingChecked
-    ? Array.from(document.querySelectorAll('input[name="healthIssue"]:checked')).map(cb => cb.value)
-    : [];
-  updates.health_issues = selectedHealth.length ? selectedHealth : null;
+  for (const mealDiv of gallery.querySelectorAll(".meal-item")) {
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = `${isPro}-vote`;
+    radio.value = mealDiv.dataset.id;
+    radio.disabled = alreadyVoted; // ✅ disable if already voted
+    radio.style.marginRight = "5px";
 
-  // Pet name
-  updates.pet_name = document.getElementById('petNameInput').value || null;
+    let votesSpan = mealDiv.querySelector(".votes-span");
+    if (!votesSpan) {
+      votesSpan = document.createElement("span");
+      votesSpan.classList.add("votes-span");
+      votesSpan.style.marginLeft = "10px";
+      mealDiv.appendChild(votesSpan);
+    }
 
-  // --- Handle Profile Photo ---
-  if (newProfilePhotoFile) {
-    updates.profile_photo = await uploadFile(newProfilePhotoFile, 'profile_photos', currentUser.id);
+    const { data: mealData } = await supabase
+      .from("meals")
+      .select("votes")
+      .eq("id", mealDiv.dataset.id)
+      .single();
+    votesSpan.textContent = `Votes: ${mealData?.votes || 0}`;
+
+    mealDiv.prepend(radio);
   }
 
-  // --- Handle Pet Photo ---
-  if (newPetPhotoFile) {
-    updates.pet_photo = await uploadFile(newPetPhotoFile, 'pet_photos', currentUser.id);
+  const submitBtn = document.createElement("button");
+  submitBtn.textContent = "Submit Vote";
+  submitBtn.classList.add("button");
+  submitBtn.style.marginTop = "10px";
+  submitBtn.disabled = alreadyVoted;
+
+  if (alreadyVoted) {
+    submitBtn.textContent = "Vote Submitted ✅";
   }
 
-  // --- Update profiles table ---
-  const { error: updateError } = await supabase.from('profiles').update(updates).eq('id', currentUser.id);
-  if (updateError) return console.error("Profile update error:", updateError);
+  submitBtn.addEventListener("click", async () => {
+    const selected = gallery.querySelector(`input[name='${isPro}-vote']:checked`);
+    if (!selected) return alert("Please select a meal to vote!");
+    const mealId = selected.value;
 
-  // --- Update related tables ---
-  const relatedUpdates = {
-    name: updates.name,
-    profile_photo: updates.profile_photo
-  };
+    await supabase.from("votes").insert([
+      { user_id: userId, meal_id: mealId, category: isPro, week_start_date: weekStr }
+    ]);
 
-  // Chats
-  await supabase.from('chats').update({ user1_name: relatedUpdates.name, user1_profile_photo: relatedUpdates.profile_photo }).eq('user1_id', currentUser.id);
-  await supabase.from('chats').update({ user2_name: relatedUpdates.name, user2_profile_photo: relatedUpdates.profile_photo }).eq('user2_id', currentUser.id);
+    const votesSpan = selected.parentElement.querySelector(".votes-span");
+    let currentVotes = parseInt(votesSpan.textContent.replace("Votes: ", "")) || 0;
+    currentVotes += 1;
+    votesSpan.textContent = `Votes: ${currentVotes}`;
 
-  // Friends
-  await supabase.from('friends').update({ user1_name: relatedUpdates.name, user1_profile_photo: relatedUpdates.profile_photo }).eq('user1_id', currentUser.id);
-  await supabase.from('friends').update({ user2_name: relatedUpdates.name, user2_profile_photo: relatedUpdates.profile_photo }).eq('user2_id', currentUser.id);
+    gallery.querySelectorAll("input").forEach(r => (r.disabled = true));
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Vote Submitted ✅";
 
-  // Community participants
-  await supabase.from('community_participants').update(relatedUpdates).eq('user_id', currentUser.id);
+    await supabase.from("meals").update({ votes: currentVotes }).eq("id", mealId);
+    alert("Vote submitted! Thank you.");
+  });
 
-  // Mentors
-  await supabase.from('mentors').update(relatedUpdates).eq('user_id', currentUser.id);
-
-  // --- Update local profile object ---
-  Object.assign(currentProfile, updates);
-
-const { profile, globalImpact } = await fetchAllData();
-await renderProfile(profile, globalImpact);
-await initExtraLessons();
-
-  // Show profile view
-  document.querySelector('.containeredit')?.classList.add('hidden');
-  document.querySelector('.containersettings')?.classList.remove('hidden');
+  gallery.parentElement.appendChild(submitBtn);
 }
 
-// --- Helper: upload file ---
-async function uploadFile(file, bucket, userId) {
-  const timestamp = Date.now();
-  const fileName = `${userId}/${file.name.split('.')[0]}-${timestamp}.${file.name.split('.').pop()}`;
-  const { data, error } = await supabase.storage.from(bucket).upload(fileName, file, { upsert: true });
-  if (error) throw error;
-  return supabase.storage.from(bucket).getPublicUrl(fileName).data.publicUrl;
+
+
+// RECIPE MODAL CLOSE
+function setupRecipeModalClose() {
+  document.getElementById("mealArtcloseModal").addEventListener("click", closeRecipeModal);
+  window.addEventListener("click", e => {
+    if (e.target.id === "mealArtrecipeModal") closeRecipeModal();
+  });
 }
 
-// Attach save button
-document.getElementById('saveBtn')?.addEventListener('click', saveProfile);
+function updateMealArtNotes(today) {
+  const uploadBtn = document.getElementById("uploadBtn");
+  const votenote = document.getElementById("votenote");
+  const uploadnote = document.getElementById("uploadnote");
+  const generalnote = document.getElementById("generalnote");
+  const alreadyUploadedMsg = document.getElementById("alreadyUploadedMsg");
+  const todayUTC = new Date().getUTCDay(); // 0 = Sunday, 1 = Monday, etc.
 
+  if (todayUTC === 1) { // Monday — voting day
+    votenote?.classList.remove("hidden-meal");
+    uploadBtn?.classList.add("hidden-meal");
+    uploadnote?.classList.add("hidden-meal");
+    generalnote?.classList.add("hidden-meal");
+  } else { // Tuesday-Sunday — upload day
+    votenote?.classList.add("hidden-meal");
+    uploadBtn?.classList.remove("hidden-meal");
+    generalnote?.classList.remove("hidden-meal");
+
+    // Show uploadnote only for non-pro
+    if (!currentProfile.is_pro) {
+      uploadnote?.classList.remove("hidden-meal");
+    } else {
+      uploadnote?.classList.add("hidden-meal");
+    }
+
+    // Check if user already uploaded
+    if (currentMeals.some(m => m.user_id === currentUser.id && !m.is_winner)) {
+      uploadBtn?.classList.add("hidden-meal");
+      alreadyUploadedMsg?.classList.remove("hidden-meal");
+      uploadnote?.classList.add("hidden-meal");
+    } else {
+      alreadyUploadedMsg?.classList.add("hidden-meal");
+    }
+  }
+}
+
+const kitchenopenBtn = document.getElementById("openProKitchenPopup");
+const kitchencloseBtn = document.getElementById("closeProKitchenPopup");
+const kitchenpopup = document.getElementById("proKitchenPopup");
+const kitchensendBtn = document.getElementById("sendProKitchenRequest");
+
+kitchenopenBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  kitchenpopup.classList.remove("hidden");
+});
+
+kitchencloseBtn.addEventListener("click", () => {
+  kitchenpopup.classList.add("hidden");
+});
+
+kitchensendBtn.addEventListener("click", async () => {
+  const message = document.getElementById("proKitchenMessage").value.trim();
+  if (!message) {
+    alert("Please tell us a little about yourself.");
+    return;
+  }
+
+  const { error } = await supabase
+    .from("contact_messages")
+    .insert({
+      user_id: currentUser.id,
+      email: currentUser.email,
+      subject: "ProKitchenAccess",
+      message
+    });
+
+  if (error) {
+    console.error(error);
+    alert("Something went wrong. Please try again.");
+    return;
+  }
+
+  document.getElementById("proKitchenMessage").value = "";
+  kitchenpopup.classList.add("hidden");
+  alert("Request sent! We'll get back to you soon 😊");
+});
+
+//#endregion
+
+//#region DAILY CHECKIN
 //--------------------------
 // DAILY CHECKIN
 //--------------------------
@@ -888,8 +1448,7 @@ if (!todayLesson) { alert("No lesson found for today!"); return false; }
   // Update currentProfile
   currentProfile.day_counter += 1;
   currentProfile.streak = (currentProfile.streak || 0) + 1;
-  currentProfile.total_xp = (currentProfile.total_xp || 0) + 30;
-  currentProfile.xp_today = (currentProfile.xp_today || 0) + 30;
+  await addXP(20);
 
   // Store progress using lesson index from LessonsByIndex
   if (!currentProfile.lesson_progress) currentProfile.lesson_progress = [];
@@ -963,7 +1522,9 @@ if (currentProfile.day_counter === 1 ) {
   } 
   return true;
 }
+//#endregion
 
+//#region LEARNPATH
 //--------------------------
 // HEALTH LESSONS
 //--------------------------
@@ -1172,479 +1733,6 @@ quizContainer.querySelectorAll(".quiz-option").forEach((answerBtn) => {
 });   
     });
   });
-}
-
-
-//--------------------------
-// COMPARISON
-//--------------------------
-
-// Constants for comparisons
-const sheetsPerTree = 8000;
-const forestAreaPerTree = 10; // m²
-const showerWaterUse = 65; // liters
-const co2PerCarHour = 10; // kg
-
-function injectComparisonSentences(profile) {
-  const animals = Math.round(profile.animals_saved || 0);
-  const forest  = Math.round(profile.forest_saved || 0);
-  const water   = Math.round(profile.water_saved || 0);
-  const co2     = Math.round(profile.co2_saved || 0);
-
-  // Calculate equivalents
-  const treesSaved = forest / forestAreaPerTree;
-  const paperEquivalent = Math.round(treesSaved * sheetsPerTree);
-  const showerEquivalent = Math.round(water / showerWaterUse);
-  const carTimeEquivalent = (co2 / co2PerCarHour).toFixed(1);
-
-  // Inject into separate blocks with highlighted values
-document.getElementById("animalsSentence").innerHTML =
-  `Because of you, <span class="highlight">${animals}</span> animals are safe — imagine them as happy friends roaming, swimming, and enjoying life freely!`;
-
-document.getElementById("forestSentence").innerHTML =
-  `With your choices, you’ve protected <span class="highlight">${forest}</span> m² of forest — that’s like saving <span class="highlight">${paperEquivalent}</span> sheets of paper from ever being used!`;
-
-document.getElementById("waterSentence").innerHTML =
-  `By choosing plant-based meals, you’ve saved <span class="highlight">${water}</span> liters of water — enough for <span class="highlight">${showerEquivalent}</span> refreshing showers!`;
-
-document.getElementById("co2Sentence").innerHTML =
-  `Your actions cut down <span class="highlight">${co2}</span> kg of CO₂ emissions — the same as avoiding <span class="highlight">${carTimeEquivalent}</span> hours of car travel!`;
-}
-
-
-document.getElementById('calculateImpactBtn').addEventListener('click', () => {
-  const years = parseInt(document.getElementById('years').value) || 0;
-  const months = parseInt(document.getElementById('months').value) || 0;
-  const totalMonths = years * 12 + months;
-
-  // Impact per month constants
-  const animalsSavedPerMonth = 21;
-  const forestSavedPerMonth = 15; // m²
-  const waterSavedPerMonth = 2000; // liters
-  const co2SavedPerMonth = 120; // kg
-
-  // Calculate total impact
-  const animalsSaved = animalsSavedPerMonth * totalMonths;
-  const forestSaved = forestSavedPerMonth * totalMonths;
-  const waterSaved = waterSavedPerMonth * totalMonths;
-  const co2Saved = co2SavedPerMonth * totalMonths;
-
-  // Inject results and show container
-  document.getElementById('calcAnimals').textContent = animalsSaved;
-  document.getElementById('calcForest').textContent = forestSaved;
-  document.getElementById('calcWater').textContent = waterSaved;
-  document.getElementById('calcCO2').textContent = co2Saved;
-
-  // 🐾 Sentences
-  document.getElementById('calcComparison').innerHTML =
-`Every animal you spared has a heartbeat, a breath, and a story ❤️. 
-The forest you’ve protected provides enough oxygen for <span class="highlight">${Math.round(forestSaved / 20)}</span> people for a whole year 🌬️. 
-You’ve also saved enough water to fill <span class="highlight">${Math.round(waterSaved / 170)}</span> bathtubs — a small but meaningful gift to our planet 🛁. 
-And all your choices together prevented as much CO₂ as <span class="highlight">${Math.round(co2Saved / 21)}</span> trees absorb in a year 🌳.`;
-
-  document.getElementById('impactResults').classList.remove('hidden');
-});
-
-
-//--------------------------
-// MEALART
-//--------------------------
-
-function showRecipeModal(meal) {
-  const modal = document.getElementById("mealArtrecipeModal");
-  document.getElementById("mealArtmodalFoodName").textContent = meal.food_name || "No title";
-  document.getElementById("mealArtmodalPrepTime").textContent = meal.prep_time || "N/A"; 
-  document.getElementById("mealArtmodalIngredients").innerHTML = (meal.ingredients || "No ingredients provided").replace(/\n/g, "<br>");
-  document.getElementById("mealArtmodalInstructions").innerHTML = (meal.instructions || "No instructions provided").replace(/\n/g, "<br>");
-  modal.style.display = "flex";
-}
-
-function closeRecipeModal() {
-  const modal = document.getElementById("mealArtrecipeModal");
-  modal.style.display = "none";
-}
-
-
-// TAB HANDLER
-function setupTabs() {
-  const tabs = document.querySelectorAll(".main-tab");
-  const tabContents = document.querySelectorAll(".main-tab-content");
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      tabs.forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-      tabContents.forEach(c => c.style.display = "none");
-      const content = document.getElementById(tab.dataset.tab);
-      if (content) content.style.display = "block";
-    });
-  });
-  tabs[0]?.click();
-}
-
-
-// MEAL RENDERING
-function renderMealItem(meal, today) {
-  const homeChefGallery = document.getElementById("home-chef-gallery");
-  const proKitchenGallery = document.getElementById("pro-kitchen-gallery");
-  const homeChefWinners = document.getElementById("home-chef-winners");
-  const proKitchenWinners = document.getElementById("pro-kitchen-winners");
-
-  const mealDiv = document.createElement("div");
-  mealDiv.className = "meal-item";
-  mealDiv.dataset.id = meal.id;
-
-  const foodNameP = document.createElement("p");
-  foodNameP.className = "food-name";
-  foodNameP.textContent = meal.food_name; // <- use food_name
-  mealDiv.appendChild(foodNameP);
-
-  const img = document.createElement("img");
-  img.src = meal.image_url;
-  img.alt = `${meal.uploader_name}'s meal`;
-
-  const nameP = document.createElement("p");
-  nameP.textContent = meal.uploader_name;
-
-  const recipeSpan = document.createElement("span");
-  recipeSpan.className = "recipe-label";
-  recipeSpan.textContent = meal.recipe_available ? "Recipe available" : "No recipe";
-  if (meal.recipe_available) {
-    recipeSpan.classList.add("recipe-available");
-    recipeSpan.addEventListener("click", () => showRecipeModal(meal));
-  }
-
-  mealDiv.append(img, nameP, recipeSpan);
-
-  // Delete button for own meal
-  if (meal.user_id === currentUser.id && !meal.is_winner && today !== 1) {
-    const delBtn = document.createElement("button");
-    delBtn.className = "delete-meal-btn";
-    delBtn.textContent = "Delete";
-    delBtn.addEventListener("click", async () => {
-      if (!confirm("Are you sure you want to delete this meal?")) return;
-
-      const { error } = await supabase.from("meals").delete().eq("id", meal.id);
-      if (error) {
-        alert("Error deleting meal: " + error.message);
-      } else {
-        mealDiv.remove();
-        const uploadBtn = document.getElementById("uploadBtn");
-        if (uploadBtn) uploadBtn.style.display = "block";
-        const alreadyUploadedMsg = document.getElementById("alreadyUploadedMsg");
-        if (alreadyUploadedMsg) alreadyUploadedMsg.style.display = "none";
-      }
-      fetchAllData();
-    });
-    mealDiv.appendChild(delBtn);
-  }
-
-  // Image popup
-  img.addEventListener("click", () => {
-    const popup = document.getElementById("mealPopup");
-    const popupImg = document.getElementById("popupMealImage");
-    popupImg.src = img.src;
-    popup.classList.remove("hidden");
-  });
-
-  // Append to gallery
-  if (meal.is_winner) {
-    (meal.is_pro ? proKitchenWinners : homeChefWinners).appendChild(mealDiv);
-  } else {
-    (meal.is_pro ? proKitchenGallery : homeChefGallery).appendChild(mealDiv);
-  }
-}
-
-function renderMeals(meals) {
-  const today = new Date().getDay();
-  const galleries = [
-    document.getElementById("home-chef-gallery"),
-    document.getElementById("pro-kitchen-gallery"),
-    document.getElementById("home-chef-winners"),
-    document.getElementById("pro-kitchen-winners")
-  ].filter(el => el); // <-- remove nulls
-
-  galleries.forEach(el => el.innerHTML = "");
-
-  meals.forEach(meal => renderMealItem(meal, today));
-}
-
-
-// UPLOAD BUTTON & FORM
-function setupUploadButton() {
-  const uploadBtn = document.getElementById("uploadBtn");
-  if (!uploadBtn) return;
-
-  uploadBtn.addEventListener("click", () => {
-    if (!uploadBtn.classList.contains("locked")) {
-      document.getElementById("mealArtContestSmall").classList.add("hidden-meal");
-      document.getElementById("MealArtUploadContent").classList.remove("hidden-meal");
-    }
-  });
-
-  // Unlock if pro or level >= 10
-  if (currentProfile.is_pro || (currentProfile.current_level || 0) >= 1) {                      // ---- BLOCK HERE IF YOU WANT
-    uploadBtn.classList.remove("locked");
-    uploadBtn.removeAttribute("data-unlock");
-    uploadBtn.style.pointerEvents = "auto";
-    uploadBtn.style.opacity = "1";
-  }
-}
-
-function setupMealUploadForm() {
-  const mealPhotoInput = document.getElementById("mealPhoto");
-  const previewImage = document.getElementById("mealArtpreviewImage");
-  const photoPreview = document.getElementById("mealArtphotoPreview");
-  const form = document.getElementById("mealUploadForm");
-  const uploadBtn = document.getElementById("uploadBtn");
-
-  // Photo preview
-  mealPhotoInput.addEventListener("change", e => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        previewImage.src = e.target.result;
-        photoPreview.style.display = "block";
-      };
-      reader.readAsDataURL(file);
-    } else {
-      previewImage.src = "";
-      photoPreview.style.display = "none";
-    }
-  });
-
-  // Form submit
-  // Form submit
-form.addEventListener("submit", async e => {
-  e.preventDefault();
-
-  // Prevent double-click submission
-  const submitBtn = form.querySelector("button[type='submit']");
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Uploading...";
-
-  try {
-    const file = mealPhotoInput.files[0];
-    if (!file) throw new Error("Please select a photo before submitting.");
-
-    const foodName = document.getElementById("mealArtrecipeName").value.trim();
-    const mealArtPrepTime = document.getElementById("mealArtPrepTime").value.trim();
-    const ingredients = document.getElementById("mealArtrecipeIngredients").value.trim();
-    const instructions = document.getElementById("mealArtrecipeInstructions").value.trim();
-    const recipeAvailable = !!(foodName && ingredients && instructions);
-
-    const isProCategory = currentProfile.is_pro === true;
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${currentUser.id}_${Date.now()}.${fileExt}`;
-    const filePath = `${isProCategory ? 'pro' : 'home'}/${fileName}`;
-
-    const { error: uploadError } = await supabase.storage.from("meal-uploads").upload(filePath, file);
-    if (uploadError) throw new Error("Error uploading photo: " + uploadError.message);
-
-    const { data: publicUrlData } = supabase.storage.from("meal-uploads").getPublicUrl(filePath);
-    const imageUrl = publicUrlData.publicUrl;
-
-    const weekStartDate = new Date();
-    weekStartDate.setDate(weekStartDate.getDate() - weekStartDate.getDay() + 1);
-
-    const { data: newMeals, error: mealError } = await supabase
-      .from("meals")
-      .insert([{
-        user_id: currentUser.id,
-        uploader_name: currentProfile.name || "Anonymous",
-        is_pro: isProCategory,
-        image_url: imageUrl,
-        food_name: foodName,
-        prep_time: mealArtPrepTime, 
-        ingredients,
-        instructions,
-        recipe_available: recipeAvailable,
-        week_start_date: weekStartDate.toISOString().split('T')[0]
-      }])
-      .select();
-
-    if (mealError) throw new Error("Error saving meal: " + mealError.message);
-
-    alert("Meal uploaded successfully!");
-    renderMeals([...currentMeals, newMeals[0]]);
-    currentMeals.push(newMeals[0]);
-
-    uploadBtn.style.display = "none";
-    document.getElementById("alreadyUploadedMsg").style.display = "block";
-    form.reset();
-    previewImage.src = "";
-    photoPreview.style.display = "none";
-    document.getElementById("MealArtUploadContent").classList.add("hidden-meal");
-    document.getElementById("mealArtContestSmall").classList.remove("hidden-meal");
-    document.querySelector(".main-tab[data-tab='participants']")?.click();
-  } catch (err) {
-    alert(err.message);
-  } finally {
-    // Re-enable the submit button no matter what happens
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Submit";
-  }
-});
-}
-
-
-// MONDAY VOTING
-async function setupMondayVoting(userId) {  
- const todayUTC = new Date().getUTCDay(); // 0 = Sunday, 1 = Monday, etc.
-  if (todayUTC !== 1) return; // Only run on Monday (UTC)
-
-  const homeChefGallery = document.getElementById("home-chef-gallery");
-  const proKitchenGallery = document.getElementById("pro-kitchen-gallery");
-  const votenote = document.getElementById("votenote");
-  if (votenote) votenote.style.display = "block";
-
-  const uploadBtn = document.getElementById("uploadBtn");
-  if (uploadBtn) uploadBtn.style.display = "none";
-
-  const uploadnote = document.getElementById("uploadnote");
-  const generalnote = document.getElementById("generalnote");
-  if (uploadnote) uploadnote.style.display = "none";
-  if (generalnote) generalnote.style.display = "none";
-
-  await addVotingToGallery(homeChefGallery, false, userId);
-  await addVotingToGallery(proKitchenGallery, true, userId);
-}
-
-async function addVotingToGallery(gallery, isPro, userId) {
-  if (!gallery) return;
-  if (!userId) {
-    console.error("Missing userId for voting check");
-    return;
-  }
-
-  // 🗓️ Calculate the Monday of the current week in UTC
-  const nowUTC = new Date();
-  const utcDay = nowUTC.getUTCDay(); // 0 = Sunday, 1 = Monday...
-  const weekStartUTC = new Date(Date.UTC(
-    nowUTC.getUTCFullYear(),
-    nowUTC.getUTCMonth(),
-    nowUTC.getUTCDate() - utcDay + 1, // Move back to Monday
-    0, 0, 0, 0
-  ));
-  const weekStr = weekStartUTC.toISOString().split("T")[0];
-
-  const { data: existingVote, error } = await supabase
-    .from("votes")
-    .select("*")
-    .eq("user_id", userId)
-    .eq("category", isPro)
-    .eq("week_start_date", weekStr)
-    .maybeSingle();
-
-  if (error) console.error("Vote fetch error:", error);
-
-  const alreadyVoted = !!existingVote;
-
-  for (const mealDiv of gallery.querySelectorAll(".meal-item")) {
-    const radio = document.createElement("input");
-    radio.type = "radio";
-    radio.name = `${isPro}-vote`;
-    radio.value = mealDiv.dataset.id;
-    radio.disabled = alreadyVoted; // ✅ disable if already voted
-    radio.style.marginRight = "5px";
-
-    let votesSpan = mealDiv.querySelector(".votes-span");
-    if (!votesSpan) {
-      votesSpan = document.createElement("span");
-      votesSpan.classList.add("votes-span");
-      votesSpan.style.marginLeft = "10px";
-      mealDiv.appendChild(votesSpan);
-    }
-
-    const { data: mealData } = await supabase
-      .from("meals")
-      .select("votes")
-      .eq("id", mealDiv.dataset.id)
-      .single();
-    votesSpan.textContent = `Votes: ${mealData?.votes || 0}`;
-
-    mealDiv.prepend(radio);
-  }
-
-  const submitBtn = document.createElement("button");
-  submitBtn.textContent = "Submit Vote";
-  submitBtn.classList.add("button");
-  submitBtn.style.marginTop = "10px";
-  submitBtn.disabled = alreadyVoted;
-
-  if (alreadyVoted) {
-    submitBtn.textContent = "Vote Submitted ✅";
-  }
-
-  submitBtn.addEventListener("click", async () => {
-    const selected = gallery.querySelector(`input[name='${isPro}-vote']:checked`);
-    if (!selected) return alert("Please select a meal to vote!");
-    const mealId = selected.value;
-
-    await supabase.from("votes").insert([
-      { user_id: userId, meal_id: mealId, category: isPro, week_start_date: weekStr }
-    ]);
-
-    const votesSpan = selected.parentElement.querySelector(".votes-span");
-    let currentVotes = parseInt(votesSpan.textContent.replace("Votes: ", "")) || 0;
-    currentVotes += 1;
-    votesSpan.textContent = `Votes: ${currentVotes}`;
-
-    gallery.querySelectorAll("input").forEach(r => (r.disabled = true));
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Vote Submitted ✅";
-
-    await supabase.from("meals").update({ votes: currentVotes }).eq("id", mealId);
-    alert("Vote submitted! Thank you.");
-  });
-
-  gallery.parentElement.appendChild(submitBtn);
-}
-
-
-
-// RECIPE MODAL CLOSE
-function setupRecipeModalClose() {
-  document.getElementById("mealArtcloseModal").addEventListener("click", closeRecipeModal);
-  window.addEventListener("click", e => {
-    if (e.target.id === "mealArtrecipeModal") closeRecipeModal();
-  });
-}
-
-function updateMealArtNotes(today) {
-  const uploadBtn = document.getElementById("uploadBtn");
-  const votenote = document.getElementById("votenote");
-  const uploadnote = document.getElementById("uploadnote");
-  const generalnote = document.getElementById("generalnote");
-  const alreadyUploadedMsg = document.getElementById("alreadyUploadedMsg");
-  const todayUTC = new Date().getUTCDay(); // 0 = Sunday, 1 = Monday, etc.
-
-  if (todayUTC === 1) { // Monday — voting day
-    votenote?.classList.remove("hidden-meal");
-    uploadBtn?.classList.add("hidden-meal");
-    uploadnote?.classList.add("hidden-meal");
-    generalnote?.classList.add("hidden-meal");
-  } else { // Tuesday-Sunday — upload day
-    votenote?.classList.add("hidden-meal");
-    uploadBtn?.classList.remove("hidden-meal");
-    generalnote?.classList.remove("hidden-meal");
-
-    // Show uploadnote only for non-pro
-    if (!currentProfile.is_pro) {
-      uploadnote?.classList.remove("hidden-meal");
-    } else {
-      uploadnote?.classList.add("hidden-meal");
-    }
-
-    // Check if user already uploaded
-    if (currentMeals.some(m => m.user_id === currentUser.id && !m.is_winner)) {
-      uploadBtn?.classList.add("hidden-meal");
-      alreadyUploadedMsg?.classList.remove("hidden-meal");
-      uploadnote?.classList.add("hidden-meal");
-    } else {
-      alreadyUploadedMsg?.classList.add("hidden-meal");
-    }
-  }
 }
 
 // ----------------------------
@@ -1931,16 +2019,12 @@ async function saveExtraLessonProgress() {
     }
   }
 
-  totalXp += newLessonsCompleted * 5;
-  xptoday += newLessonsCompleted * 5;
 
   // Update profile in Supabase
   const { error } = await supabase
     .from("profiles")
     .update({
       extra_lesson: progress,
-      total_xp: totalXp,
-      xp_today: xptoday,
       completed_health_issues: currentProfile.completedHealthIssues || []
     })
     .eq("id", currentProfile.id);
@@ -1950,7 +2034,7 @@ async function saveExtraLessonProgress() {
   } else {
     // Update local profile object
     currentProfile.extra_lesson = progress;
-    currentProfile.total_xp = totalXp;
+    await addXP(5);
   }
 
   if (xptoday === 50) {
@@ -1960,12 +2044,10 @@ async function saveExtraLessonProgress() {
     );
   }
 
-  // Optionally refresh leaderboard and profile info
-  const { profile } = await fetchAllData();
-  await renderProfile(profile);
-  await fetchAllLeaderboards();
+  await fetchLeaderboard('xp', 'overall-level');
   await loadDailyXpChallenge(currentUser.id);
 }
+
 
 // Apply saved progress to DOM (no extra fetch)
 function applyExtraLessonProgress() {
@@ -2038,7 +2120,9 @@ function resolveLessonData(courseId, rawLessonData) {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
+//#endregion
 
+//#region RECIPES
 // ----------------------------
 // RECIPES
 // ----------------------------
@@ -2052,7 +2136,7 @@ async function loadRecipes() {
   // 1️⃣ Fetch full recipes table
   const { data: recipes, error: recipesError } = await supabase
     .from("recipes")
-    .select("*");
+    .select("id, user_id, title, description, image_url, created_at, ingredients, prep_time");
 
   if (recipesError) return console.error("Error fetching recipes:", recipesError);
 
@@ -2106,18 +2190,37 @@ async function loadRecipes() {
       deleteBtn.textContent = "x";
       deleteBtn.className = "delete-btn";
       deleteBtn.addEventListener("click", async (e) => {
-        e.stopPropagation();
-        if (!confirm("Are you sure you want to delete this recipe?")) return;
+  e.stopPropagation();
+  if (!confirm("Are you sure you want to delete this recipe?")) return;
 
-        const { error: delError } = await supabase
-          .from("recipes")
-          .delete()
-          .eq("id", recipe.id);
+  // 1️⃣ Delete DB row first
+  const { error: delError } = await supabase
+    .from("recipes")
+    .delete()
+    .eq("id", recipe.id);
 
-        if (delError) return console.error("Delete failed:", delError);
-        await supabase.storage.from("recipes").remove([recipe.image_url.split("/").pop()]);
-        card.remove();
-      });
+  if (delError) {
+    console.error("Delete failed:", delError);
+    return;
+  }
+
+  // 2️⃣ Delete image from storage
+  if (recipe.image_url) {
+    const filePath = getStoragePathFromPublicUrl(recipe.image_url, "recipes");
+
+    if (filePath) {
+      const { error: storageError } =
+        await supabase.storage.from("recipes").remove([filePath]);
+
+      if (storageError) {
+        console.error("Storage delete failed:", storageError);
+      }
+    }
+  }
+
+  // 3️⃣ Remove card from UI
+  card.remove();
+});
 
       card.appendChild(deleteBtn);
     }
@@ -2139,6 +2242,12 @@ async function loadRecipes() {
   });
 }
 
+function getStoragePathFromPublicUrl(publicUrl, bucket) {
+  const marker = `/storage/v1/object/public/${bucket}/`;
+  const index = publicUrl.indexOf(marker);
+  if (index === -1) return null;
+  return publicUrl.substring(index + marker.length);
+}
 
 // Toggle like function
 async function toggleLike(recipeId, userId) {
@@ -2152,7 +2261,7 @@ async function toggleLike(recipeId, userId) {
   try {
     const { data: existingLikes, error } = await supabase
       .from("recipe_likes")
-      .select("*")
+      .select("id, recipe_id, user_id")
       .eq("recipe_id", recipeId)
       .eq("user_id", userId);
 
@@ -2184,7 +2293,7 @@ async function toggleLike(recipeId, userId) {
   } catch (err) {
     console.error(err);
   } finally {
-    likeBtn.disabled = false; // Re-enable after request completes
+    likeBtn.disabled = false; 
   }
 }
 
@@ -2217,8 +2326,12 @@ function setupRecipeUploadForm() {
   e.preventDefault();
   if (!submitBtn) return;
 
-  const file = recipeImageInput.files[0];
+  let file = mealPhotoFile; 
   if (!file) return alert("Please select a recipe image before submitting.");
+
+  // --- Resize the image here ---
+    file = await resizeImage(file, 600, 0.7, 'image/webp');
+    mealPhotoFile = file;
 
   const title = document.getElementById("recipeTitle").value.trim();
   const prepTime = document.getElementById("recipePrepTime").value.trim();
@@ -2229,68 +2342,1057 @@ function setupRecipeUploadForm() {
     return alert("Please fill in all fields before submitting.");
   }
 
-  // --- DISABLE BUTTON AFTER VALIDATION ---
   submitBtn.disabled = true;
   submitBtn.textContent = "Uploading...";
 
   try {
-    // Build unique filename
     const fileExt = file.name.split('.').pop();
     const fileName = `${currentUser.id}_${Date.now()}.${fileExt}`;
     const filePath = `recipes/${fileName}`;
 
-    // Upload image to Supabase storage
-    const { error: uploadError } = await supabase.storage.from("recipes").upload(filePath, file);
-    if (uploadError) throw new Error("Error uploading photo: " + uploadError.message);
+    const { error: uploadError } =
+      await supabase.storage.from("recipes").upload(filePath, file);
+    if (uploadError) throw uploadError;
 
-    // Get public URL
-    const { data: publicUrlData } = supabase.storage.from("recipes").getPublicUrl(filePath);
-    const imageUrl = publicUrlData.publicUrl;
+    const { data } =
+      supabase.storage.from("recipes").getPublicUrl(filePath);
 
-    // Insert into recipes table
     const { error: insertError } = await supabase
       .from("recipes")
-      .insert([{
+      .insert({
         user_id: currentUser.id,
         title,
         prep_time: prepTime,
         ingredients,
         description: instructions,
-        image_url: imageUrl
-      }]);
+        image_url: data.publicUrl
+      });
 
-    if (insertError) throw new Error("Error saving recipe: " + insertError.message);
+    if (insertError) throw insertError;
 
     alert("Recipe uploaded successfully!");
+    await addXP(2);
 
-    // Reset form
     form.reset();
-    previewImg.src = "";
-    imagePreview.style.display = "none";
-    uploadFeedback.textContent = "";
+    mealPhotoFile = null; 
+    mealPhotoPreview.src = "";
+    mealPhotoPreview.style.display = "none";
 
-    // Optionally, close the modal
-    document.getElementById("upload-recipe").classList.add("hidden-modal");
+    document.getElementById("upload-recipe")
+      .classList.add("hidden-modal");
 
-    // Optionally, re-render recipes list
     if (typeof loadRecipes === "function") loadRecipes();
 
   } catch (err) {
-    alert(err.message); // show any error to the user
+    alert(err.message);
   } finally {
-    // Re-enable the button regardless of success or failure
     submitBtn.disabled = false;
     submitBtn.textContent = "Submit";
   }
 });
 }
+//#endregion
 
+//#region COMPARISON
+//--------------------------
+// COMPARISON
+//--------------------------
+
+// Constants for comparisons
+const sheetsPerTree = 8000;
+const forestAreaPerTree = 10; // m²
+const showerWaterUse = 65; // liters
+const co2PerCarHour = 10; // kg
+
+function injectComparisonSentences(profile) {
+  const animals = Math.round(profile.animals_saved || 0);
+  const forest  = Math.round(profile.forest_saved || 0);
+  const water   = Math.round(profile.water_saved || 0);
+  const co2     = Math.round(profile.co2_saved || 0);
+
+  // Calculate equivalents
+  const treesSaved = forest / forestAreaPerTree;
+  const paperEquivalent = Math.round(treesSaved * sheetsPerTree);
+  const showerEquivalent = Math.round(water / showerWaterUse);
+  const carTimeEquivalent = (co2 / co2PerCarHour).toFixed(1);
+
+  // Inject into separate blocks with highlighted values
+document.getElementById("animalsSentence").innerHTML =
+  `Because of you, <span class="highlight">${animals}</span> animals are safe — imagine them as happy friends roaming, swimming, and enjoying life freely!`;
+
+document.getElementById("forestSentence").innerHTML =
+  `With your choices, you’ve protected <span class="highlight">${forest}</span> m² of forest — that’s like saving <span class="highlight">${paperEquivalent}</span> sheets of paper from ever being used!`;
+
+document.getElementById("waterSentence").innerHTML =
+  `By choosing plant-based meals, you’ve saved <span class="highlight">${water}</span> liters of water — enough for <span class="highlight">${showerEquivalent}</span> refreshing showers!`;
+
+document.getElementById("co2Sentence").innerHTML =
+  `Your actions cut down <span class="highlight">${co2}</span> kg of CO₂ emissions — the same as avoiding <span class="highlight">${carTimeEquivalent}</span> hours of car travel!`;
+}
+
+
+document.getElementById('calculateImpactBtn').addEventListener('click', () => {
+  const years = parseInt(document.getElementById('years').value) || 0;
+  const months = parseInt(document.getElementById('months').value) || 0;
+  const totalMonths = years * 12 + months;
+
+  // Impact per month constants
+  const animalsSavedPerMonth = 21;
+  const forestSavedPerMonth = 15; // m²
+  const waterSavedPerMonth = 2000; // liters
+  const co2SavedPerMonth = 120; // kg
+
+  // Calculate total impact
+  const animalsSaved = animalsSavedPerMonth * totalMonths;
+  const forestSaved = forestSavedPerMonth * totalMonths;
+  const waterSaved = waterSavedPerMonth * totalMonths;
+  const co2Saved = co2SavedPerMonth * totalMonths;
+
+  // Inject results and show container
+  document.getElementById('calcAnimals').textContent = animalsSaved;
+  document.getElementById('calcForest').textContent = forestSaved;
+  document.getElementById('calcWater').textContent = waterSaved;
+  document.getElementById('calcCO2').textContent = co2Saved;
+
+  // 🐾 Sentences
+  document.getElementById('calcComparison').innerHTML =
+`Every animal you spared has a heartbeat, a breath, and a story ❤️. 
+The forest you’ve protected provides enough oxygen for <span class="highlight">${Math.round(forestSaved / 20)}</span> people for a whole year 🌬️. 
+You’ve also saved enough water to fill <span class="highlight">${Math.round(waterSaved / 170)}</span> bathtubs — a small but meaningful gift to our planet 🛁. 
+And all your choices together prevented as much CO₂ as <span class="highlight">${Math.round(co2Saved / 21)}</span> trees absorb in a year 🌳.`;
+
+  document.getElementById('impactResults').classList.remove('hidden');
+});
+//#endregion
+
+//#region PROFILE
+
+//--------------------------
+// CHANGE PROFILE
+//--------------------------
+async function displayAchievementsSettings(userId) {
+  const { data, error } = await supabase
+    .from('profilecards')
+    .select('achievements')
+    .eq('user_id', userId)
+    .single();
+
+  const container = document.getElementById("AchievementsListSettings");
+  if (!container) return;
+
+  if (error) {
+    console.error("Error fetching achievements:", error);
+    container.innerHTML = "<p>No achievements yet.</p>";
+    return;
+  }
+
+  populateAchievements(container, data.achievements);
+}
+
+// --- SAVE PROFILE ---
+async function saveProfile() {
+  if (!currentUser || !currentProfile) {
+    console.error("User not loaded yet");
+    return;
+  }
+
+  const updates = {};
+
+  // Name
+  updates.name = document.getElementById('profileNameInput').value || null;
+
+  // Diet Preference
+  updates.diet_preference = document.getElementById('profileDietSelect').value || null;
+
+  // Goals
+  const selectedGoals = Array.from(document.querySelectorAll('input[name="goal"]:checked')).map(cb => cb.value);
+  updates.goals = selectedGoals.length ? selectedGoals : null;
+
+  // Health Issues
+  const solvingChecked = selectedGoals.includes("Solving health issues");
+  const selectedHealth = solvingChecked
+    ? Array.from(document.querySelectorAll('input[name="healthIssue"]:checked')).map(cb => cb.value)
+    : [];
+  updates.health_issues = selectedHealth.length ? selectedHealth : null;
+
+  // Pet name
+  updates.pet_name = document.getElementById('petNameInput').value || null;
+
+  // --- Handle Profile Photo ---
+  if (newProfilePhotoFile) {
+    await deleteFileByPublicUrl('profile_photos',currentProfile.profile_photo);
+    updates.profile_photo = await uploadFile(newProfilePhotoFile, 'profile_photos', currentUser.id);
+  }
+
+  // --- Handle Pet Photo ---
+  if (newPetPhotoFile) {
+    await deleteFileByPublicUrl('pet_photos',currentProfile.pet_photo);
+    updates.pet_photo = await uploadFile(newPetPhotoFile, 'pet_photos', currentUser.id);
+  }
+
+  // --- Update profiles table ---
+  const { error: updateError } = await supabase.from('profiles').update(updates).eq('id', currentUser.id);
+  if (updateError) return console.error("Profile update error:", updateError);
+
+  // --- Update related tables ---
+  const relatedUpdates = {
+    name: updates.name,
+    profile_photo: updates.profile_photo
+  };
+
+  // Chats
+  await supabase.from('chats').update({ user1_name: relatedUpdates.name, user1_profile_photo: relatedUpdates.profile_photo }).eq('user1_id', currentUser.id);
+  await supabase.from('chats').update({ user2_name: relatedUpdates.name, user2_profile_photo: relatedUpdates.profile_photo }).eq('user2_id', currentUser.id);
+
+  // Friends
+  await supabase.from('friends').update({ user1_name: relatedUpdates.name, user1_profile_photo: relatedUpdates.profile_photo }).eq('user1_id', currentUser.id);
+  await supabase.from('friends').update({ user2_name: relatedUpdates.name, user2_profile_photo: relatedUpdates.profile_photo }).eq('user2_id', currentUser.id);
+
+  // Community participants
+  await supabase.from('community_participants').update(relatedUpdates).eq('user_id', currentUser.id);
+
+  // Mentors
+  await supabase.from('mentors').update(relatedUpdates).eq('user_id', currentUser.id);
+
+  // --- Update local profile object ---
+  Object.assign(currentProfile, updates);
+
+const { profile, globalImpact } = await fetchAllData();
+await renderProfile(profile, globalImpact);
+await initExtraLessons();
+
+  // Show profile view
+  document.querySelector('.containeredit')?.classList.add('hidden');
+  document.querySelector('.containersettings')?.classList.remove('hidden');
+}
+
+async function deleteFileByPublicUrl(bucket, publicUrl) {
+  if (!publicUrl) return;
+
+  try {
+    const url = new URL(publicUrl);
+
+    // Extract path after `/object/public/{bucket}/`
+    const filePath = url.pathname.split(`/object/public/${bucket}/`)[1];
+    if (!filePath) return;
+
+    await supabase.storage.from(bucket).remove([filePath]);
+  } catch (err) {
+    console.warn("Failed to delete old file:", err);
+  }
+}
+
+
+// --- Helper: upload file ---
+async function uploadFile(file, bucket, userId) {
+  const timestamp = Date.now();
+  const fileName = `${userId}/${file.name.split('.')[0]}-${timestamp}.${file.name.split('.').pop()}`;
+  const { data, error } = await supabase.storage.from(bucket).upload(fileName, file, { upsert: true });
+  if (error) throw error;
+  return supabase.storage.from(bucket).getPublicUrl(fileName).data.publicUrl;
+}
+
+// Attach save button
+document.getElementById('saveBtn')?.addEventListener('click', saveProfile);
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  if (confirm("Are you sure you want to log out?")) {
+    logoutUser();
+  }
+});
+
+async function logoutUser() {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error("Logout failed:", error.message);
+    alert("Something went wrong while logging out.");
+    return;
+  }
+
+  // 🔥 Clear app state
+  localStorage.clear();
+  sessionStorage.clear();
+
+  // Optional: hard reload to reset JS state
+  window.location.href = "index.html";
+}
+
+
+//DELETE PROFILE
+//DELETE PROFILE
+//DELETE PROFILE
+//DELETE PROFILE
+
+const deleteProfileBtn = document.getElementById("deleteProfileBtn");
+
+deleteProfileBtn.addEventListener("click", async () => {
+  // First confirmation
+  const firstConfirm = confirm(
+    "⚠️ Are you sure you want to delete your profile?\n\nThis will permanently remove your account, profile, messages, friends, and all related data."
+  );
+
+  if (!firstConfirm) return;
+
+  // Second confirmation (stronger)
+  const secondConfirm = confirm(
+    "🚨 This action is IRREVERSIBLE.\n\nOnce deleted, your data cannot be recovered.\n\nDo you REALLY want to continue?"
+  );
+
+  if (!secondConfirm) return;
+
+  // Optional: disable button to prevent double-click
+  deleteProfileBtn.disabled = true;
+  deleteProfileBtn.textContent = "Deleting account…";
+
+  try {
+    const { error } = await supabase.functions.invoke("delete-user");
+
+    if (error) {
+      console.error("Delete error:", error);
+      alert("❌ Failed to delete account. Please try again.");
+      deleteProfileBtn.disabled = false;
+      deleteProfileBtn.textContent = "🗑️ Delete Profile";
+      return;
+    }
+
+    // Clean up client state
+    await supabase.auth.signOut();
+    localStorage.clear();
+    sessionStorage.clear();
+
+    // Redirect to landing / login
+    window.location.href = "login.html";
+
+  } catch (err) {
+    console.error(err);
+    alert("❌ Unexpected error while deleting account.");
+    deleteProfileBtn.disabled = false;
+    deleteProfileBtn.textContent = "🗑️ Delete Profile";
+  }
+});
+//#endregion
+
+//#region FRIENDS
+async function sendRequest(receiverCode) {
+  const friend_code = receiverCode.trim().toLowerCase();
+  if (!friend_code) return { success: false, message: "No code provided." };
+
+  if (friend_code === currentUser.friend_code?.toLowerCase()) {
+    return { success: false, message: "You cannot send a request to yourself." };
+  }
+
+  // ------------------------------
+  // Lookup receiver in profilecards
+  // ------------------------------
+  const { data: receiverProfile, error: receiverError } = await supabase
+    .from("profilecards")
+    .select("user_id, friend_code")
+    .eq("friend_code", friend_code)
+    .maybeSingle();
+
+  if (receiverError) return { success: false, message: receiverError.message };
+  if (!receiverProfile) return { success: false, message: "User not found." };
+
+  const receiver_id = receiverProfile.user_id;
+
+  // ------------------------------
+  // Check for existing friend request
+  // ------------------------------
+  const { data: existing, error: checkError } = await supabase
+    .from("friend_requests")
+    .select("id", { head: true })
+    .eq("sender_id", currentUser.id)
+    .eq("receiver_id", receiver_id)
+    .maybeSingle();
+
+  if (checkError) return { success: false, message: checkError.message };
+  if (existing) return { success: false, message: "Request already sent!" };
+
+  // ------------------------------
+  // Fetch sender profile
+  // ------------------------------
+  const { data: senderProfile, error: profileError } = await supabase
+    .from("profiles")
+    .select("name, title, profile_photo, frame, friend_code")
+    .eq("id", currentUser.id)
+    .maybeSingle();
+
+  if (profileError) return { success: false, message: profileError.message };
+
+  // ------------------------------
+  // Insert new friend request
+  // ------------------------------
+  const { error: insertError } = await supabase.from("friend_requests").insert([{
+    sender_id: currentUser.id,
+    receiver_id: receiver_id,
+    receiver_friend_code: friend_code,
+    name: senderProfile?.name || "Unknown",
+    title: senderProfile?.title || "",
+    profile_photo: senderProfile?.profile_photo || "default.jpg",
+    frame: senderProfile?.frame || "",
+    sender_friend_code: senderProfile?.friend_code || null,
+    status: "pending"
+  }]);
+
+  if (insertError) return { success: false, message: insertError.message };
+
+  return { success: true };
+}
+
+
+async function showIncomingFriendRequests() { 
+  const list = document.getElementById("incomingRequestsList");
+  if (!list) return;
+  list.innerHTML = "";
+
+  // Fetch all pending requests for current user
+  const { data: requests, error } = await supabase
+    .from("friend_requests")
+    .select("id, sender_id, name, title, profile_photo, frame, sender_friend_code, receiver_friend_code, receiver_id, status")
+    .eq("receiver_id", currentProfile.id)   // always defined
+    .eq("status", "pending");
+
+  if (error) return console.error(error);
+
+  requests.forEach(req => {
+    const li = document.createElement("li");
+    li.className = "friend-request-item";
+
+    const hasFrame = req.frame && req.frame.trim() !== "";
+    const imgDiv = document.createElement("div");
+    imgDiv.className = "friend-photo-frame";
+    imgDiv.dataset.userid = req.sender_id;
+
+    imgDiv.style.backgroundImage = hasFrame
+      ? `url('${req.frame}'), url('${req.profile_photo || 'default.jpg'}')`
+      : `url('${req.profile_photo || 'default.jpg'}')`;
+
+    imgDiv.style.backgroundSize = hasFrame ? "contain, cover" : "cover";
+    imgDiv.style.backgroundPosition = "center";
+    imgDiv.style.backgroundRepeat = "no-repeat";
+    imgDiv.style.width = "60px";
+    imgDiv.style.height = "60px";
+    imgDiv.style.borderRadius = "50%";
+    imgDiv.style.cursor = "pointer";
+
+    imgDiv.addEventListener("click", e => {
+      e.stopPropagation();
+      openProfile(imgDiv);
+    });
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = req.title
+      ? `${req.name}, ${req.title}`
+      : req.name;
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+
+    // Accept
+    const acceptBtn = document.createElement("button");
+    acceptBtn.className = "accept";
+    acceptBtn.textContent = "Accept";
+
+    acceptBtn.onclick = async () => {
+      const { data: myProfile, error: myError } = await supabase
+        .from("profiles")
+        .select("id, name, title, profile_photo, frame, friend_code")
+        .eq("id", currentUser.id)
+        .single();
+      if (myError) return console.error(myError);
+
+      const { error: insertError } = await supabase.from("friends").insert([{
+        user1_id: req.sender_id,
+        user1_name: req.name,
+        user1_title: req.title,
+        user1_friend_code: req.sender_friend_code,
+        user1_profile_photo: req.profile_photo,
+        user1_frame: req.frame,
+
+        user2_id: myProfile.id,
+        user2_name: myProfile.name,
+        user2_title: myProfile.title,
+        user2_friend_code: myProfile.friend_code,
+        user2_profile_photo: myProfile.profile_photo,
+        user2_frame: myProfile.frame
+      }]);
+      if (insertError) return console.error(insertError);
+
+      await supabase.from("friend_requests").delete().eq("id", req.id);
+
+      // Refresh lists
+      await showIncomingFriendRequests();
+      await showFriends("friendsList", friend => startChatWithFriend(friend));
+    };
+
+    // Decline
+    const declineBtn = document.createElement("button");
+    declineBtn.className = "decline";
+    declineBtn.textContent = "Decline";
+    declineBtn.onclick = async () => {
+      await supabase.from("friend_requests").delete().eq("id", req.id);
+      await showIncomingFriendRequests();
+    };
+
+    actions.appendChild(acceptBtn);
+    actions.appendChild(declineBtn);
+
+    li.appendChild(imgDiv);
+    li.appendChild(nameSpan);
+    li.appendChild(actions);
+
+    list.appendChild(li);
+  });
+}
+
+
+
+async function showFriends(containerId, onClickFriend) {
+  const list = document.getElementById(containerId);
+  if (!list) return;
+  list.innerHTML = "";
+
+  const { data: friendsData, error } = await supabase
+    .from("friends")
+    .select("user1_id, user2_id, user1_name, user2_name, user1_profile_photo, user2_profile_photo, user1_title, user2_title, user1_frame, user2_frame")
+    .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
+  if (error) return console.error(error);
+
+  friendsData.forEach(friendship => {
+    const friend = friendship.user1_id === currentUser.id
+  ? { 
+      id: friendship.user2_id, 
+      name: friendship.user2_name, 
+      title: friendship.user2_title, 
+      photo: friendship.user2_profile_photo,
+      frame: friendship.user2_frame // <-- include frame
+    }
+  : { 
+      id: friendship.user1_id, 
+      name: friendship.user1_name, 
+      title: friendship.user1_title,
+      photo: friendship.user1_profile_photo,
+      frame: friendship.user1_frame // <-- include frame
+    };
+
+    const li = document.createElement("li");
+    li.className = "friend-item";
+
+    const hasFrame = friend.frame && friend.frame.trim() !== "";
+const imgDiv = document.createElement("div");
+imgDiv.className = "friend-photo-frame";
+imgDiv.dataset.userid = friend.id;
+
+imgDiv.style.backgroundImage = hasFrame
+  ? `url('${friend.frame}'), url('${friend.photo || 'default.jpg'}')`
+  : `url('${friend.photo || 'default.jpg'}')`;
+
+imgDiv.style.backgroundSize = hasFrame ? "contain, cover" : "cover";
+imgDiv.style.backgroundPosition = "center";
+imgDiv.style.backgroundRepeat = "no-repeat";
+imgDiv.style.width = "60px";
+imgDiv.style.height = "60px";
+imgDiv.style.borderRadius = "50%";
+imgDiv.style.cursor = "pointer";
+
+imgDiv.addEventListener("click", e => {
+  e.stopPropagation();
+  openProfile(imgDiv);
+});
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = friend.title
+  ? `${friend.name}, ${friend.title}`
+  : friend.name || "Unknown";
+
+    const btn = document.createElement("button");
+    btn.textContent = "Message";
+    btn.className = "message";
+    btn.onclick = e => {
+      e.stopPropagation();
+      onClickFriend(friend);
+    };
+
+    li.appendChild(imgDiv);
+    li.appendChild(nameSpan);
+    li.appendChild(btn);
+
+    list.appendChild(li);
+  });
+}
+
+async function loadFriendsTab() {
+  await showIncomingFriendRequests();
+  await showFriends("friendsList", friend => startChatWithFriend(friend));
+}
+
+//#endregion 
+
+//#region MESSAGES
+
+async function startChatWithFriend(friend) {
+  const { data: existingChats, error: chatError } = await supabase
+    .from('chats')
+    .select('id, user1_id, user2_id')
+    .or(
+      `and(user1_id.eq.${currentUser.id},user2_id.eq.${friend.id}),and(user1_id.eq.${friend.id},user2_id.eq.${currentUser.id})`
+    )
+    .limit(1);
+  if (chatError) return console.error(chatError);
+
+  const chatId = existingChats?.[0]?.id;
+  openChatWindow(chatId, friend);
+}
+
+async function openChatWindow(chatId, friend) {
+  window.currentChatId = chatId;
+  window.currentChatFriend = friend;
+
+  const friendsEl = document.getElementById("friends");
+  const messagesEl = document.getElementById("messages");
+  const chatListEl = document.getElementById("chatListView");
+  const chatViewEl = document.getElementById("chatView");
+
+  // Add/remove hidden class instead of changing style.display
+  // Add/remove hidden class safely
+  if (friendsEl) friendsEl.classList.add("hidden");
+  if (messagesEl) messagesEl.classList.remove("hidden");
+  if (chatListEl) chatListEl.classList.add("hidden");
+  if (chatViewEl) chatViewEl.classList.remove("hidden");
+
+  document.getElementById("chatHeader").textContent = friend.name;
+
+  if (chatId) loadMessages(chatId, friend);
+  else document.getElementById("chatMessages").innerHTML = "";
+}
+// Back arrow
+document.getElementById("backToList").addEventListener("click", () => {
+  document.getElementById("chatListView").classList.remove("hidden");
+  document.getElementById("chatView").classList.add("hidden");
+  window.currentChatId = null;
+  window.currentChatFriend = null;
+});
+
+
+
+async function loadMessages(chatId) {
+  const chatContainer = document.getElementById("chatMessages");
+  if (!chatContainer) return;
+
+  const { data: chatRows, error: chatError } = await supabase
+  .from('chats')
+  .select('id, user1_id, user2_id')
+  .eq('id', chatId)
+  .limit(1);
+
+if (chatError) return console.error("Error fetching chat:", chatError);
+if (!chatRows?.length) return console.error("Chat not found");
+
+const chat = chatRows[0];
+
+// If current user is user1, friend is user2; otherwise friend is user1
+const friend = chat.user1_id === currentUser.id
+  ? { id: chat.user2_id, name: chat.user2_name, photo: chat.user2_profile_photo }
+  : { id: chat.user1_id, name: chat.user1_name, photo: chat.user1_profile_photo };
+
+  // 1. Check if current user has blocked this friend
+  const { data: blockData, error: blockError } = await supabase
+    .from('user_blocks')
+    .select('created_at')
+    .eq('blocker_id', currentUser.id)
+    .eq('blocked_id', friend.id)
+    .limit(1);
+  if (blockError) return console.error("Error fetching block info:", blockError);
+
+  const isBlocked = blockData.length > 0;
+  const blockTime = isBlocked ? blockData[0].created_at : null;
+
+  // 2. Hide/show Block User button in dropdown
+  const blockBtn = document.getElementById("blockUserBtn");
+  if (blockBtn) {
+    if (isBlocked) blockBtn.classList.add("hidden");
+    else blockBtn.classList.remove("hidden");
+  }
+
+  // 3. Fetch messages (if blocked, only before block timestamp)
+  let messageQuery = supabase
+    .from('messages')
+    .select('*')
+    .eq('chat_id', chatId);
+
+  if (isBlocked) {
+    messageQuery = messageQuery.lt('created_at', blockTime);
+  }
+
+  const { data: messages, error: messagesError } = await messageQuery.order('created_at', { ascending: true });
+  if (messagesError) return console.error("Error fetching messages:", messagesError);
+
+  // 4. Render messages
+  chatContainer.innerHTML = "";
+  messages.forEach(msg => {
+    const div = document.createElement("div");
+    div.textContent = msg.content;
+    div.className = msg.sender_id === currentUser.id ? "my-message" : "friend-message";
+    div.dataset.senderId = msg.sender_id; // optional: helps with block filtering
+    chatContainer.appendChild(div);
+  });
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+
+  // 5. Handle input section & blocked notice
+  const inputSection = document.querySelector(".chat-input");
+  let blockedNotice = document.getElementById("blockedNotice");
+
+  if (!blockedNotice) {
+    // create blocked notice if it doesn't exist
+    blockedNotice = document.createElement("div");
+    blockedNotice.id = "blockedNotice";
+    blockedNotice.style.padding = "1rem";
+    blockedNotice.style.textAlign = "center";
+    blockedNotice.style.backgroundColor = "#ffe6e6";
+    blockedNotice.style.borderTop = "1px solid #ccc";
+    blockedNotice.innerHTML = `You've blocked this user. <button id="unblockBtn">Unblock</button>`;
+    if (inputSection && inputSection.parentNode) {
+  inputSection.parentNode.insertBefore(blockedNotice, inputSection.nextSibling);
+}
+  }
+
+  if (isBlocked) {
+    if (inputSection) inputSection.classList.add("hidden");
+    blockedNotice.classList.remove("hidden");
+
+    // 6. Setup unblock button
+    const unblockBtn = document.getElementById("unblockBtn");
+    unblockBtn.onclick = async () => {
+      const { error } = await supabase
+        .from('user_blocks')
+        .delete()
+        .eq('blocker_id', currentUser.id)
+        .eq('blocked_id', friend.id);
+      if (error) return console.error("Error unblocking user:", error.message);
+
+      // Reload chat and chat list after unblock
+      loadMessages(chatId);
+      loadChatList();
+    };
+  } else {
+    if (inputSection) inputSection.classList.remove("hidden");
+    blockedNotice.classList.add("hidden");
+  }
+
+  // 7. Setup real-time subscription (only if not blocked)
+  if (messageSubscription) {
+  await supabase.removeChannel(messageSubscription);
+  messageSubscription = null;
+}
+  if (!isBlocked) {
+    messageSubscription = supabase
+      .channel(`chat-${chatId}`)
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'messages',
+        filter: `chat_id=eq.${chatId}`
+      }, (payload) => {
+        const msg = payload.new;
+        // ignore messages from blocked user (optional safety)
+        if (msg.sender_id === friend.id && isBlocked) return;
+
+        const div = document.createElement("div");
+        div.textContent = msg.content;
+        div.className = msg.sender_id === currentUser.id ? "my-message" : "friend-message";
+        chatContainer.appendChild(div);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      })
+      .subscribe();
+  }
+}
+
+
+
+//--------------------------
+// CHAT MODULE
+//--------------------------
+async function loadChatList() {
+  const list = document.getElementById("chatListItems");
+  if (!list) return;
+
+  // 1. Fetch blocked users first
+  const { data: blockedUsersData, error: blockedError } = await supabase
+    .from('user_blocks')
+    .select('blocked_id')
+    .eq('blocker_id', currentUser.id);
+  if (blockedError) return console.error("Error fetching blocked users:", blockedError);
+
+  const blockedIds = blockedUsersData.map(b => b.blocked_id);
+
+  function renderChats(chats) {
+    list.innerHTML = "";
+    if (!chats || chats.length === 0) return;
+
+    chats.forEach(chat => {
+      const friend = chat.user1_id === currentUser.id
+        ? { id: chat.user2_id, name: chat.user2_name, photo: chat.user2_profile_photo }
+        : { id: chat.user1_id, name: chat.user1_name, photo: chat.user1_profile_photo };
+
+      const li = document.createElement("li");
+      li.style.display = "flex";
+      li.style.alignItems = "center";
+      li.style.justifyContent = "space-between";
+      li.style.padding = "0.5rem";
+      li.style.borderBottom = "1px solid #eee";
+
+      const img = document.createElement("img");
+      img.src = friend.photo || "default.jpg";
+      img.alt = friend.name;
+      img.style.width = "40px";
+      img.style.height = "40px";
+      img.style.borderRadius = "50%";
+      img.style.marginRight = "0.5rem";
+
+      const info = document.createElement("div");
+      info.style.flex = "1";
+      const nameSpan = document.createElement("div");
+      nameSpan.textContent = friend.name;
+      nameSpan.style.fontWeight = "500";
+      const lastMessage = document.createElement("div");
+
+    // 2. Check if this friend is blocked
+      if (blockedIds.includes(friend.id)) {
+        lastMessage.textContent = "Blocked user";
+      } else {
+        let preview = chat.last_message || "";
+        if (preview.length > 25) {
+          preview = preview.slice(0, 25) + "...";
+        }
+        lastMessage.textContent = preview;
+      }
+
+      lastMessage.style.fontSize = "0.85rem";
+      lastMessage.style.color = "#555";
+
+      info.appendChild(nameSpan);
+      info.appendChild(lastMessage);
+
+      li.appendChild(img);
+      li.appendChild(info);
+      li.onclick = () => startChatWithFriend(friend);
+
+      list.appendChild(li);
+    });
+  }
+
+  const { data: chats, error } = await supabase
+    .from('chats')
+    .select('*')
+    .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`)
+    .order('last_message_at', { ascending: false });
+
+  if (error) return console.error("Error fetching chats:", error);
+  renderChats(chats);
+
+  supabase
+    .channel('public:chats')
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'chats' },
+      payload => {
+        const chat = payload.new;
+        if (!chat) return;
+        if (chat.user1_id === currentUser.id || chat.user2_id === currentUser.id) {
+          loadChatList();
+        }
+      }
+    )
+    .subscribe();
+}
+
+//CLEAR AND BLOCK CHAT
+const actionButton = document.getElementById("actionButton");
+const dropdownMenu = document.getElementById("chatdropdownMenu");
+const deleteChatBtn = document.getElementById("deleteChatBtn");
+const blockUserBtn = document.getElementById("blockUserBtn");
+
+const confirmationPopup = document.getElementById("confirmationPopup");
+const confirmationMessage = document.getElementById("confirmationMessage");
+const confirmBtn = document.getElementById("confirmBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+
+let currentAction = null;
+
+
+// Toggle dropdown
+actionButton.addEventListener("click", (e) => {
+  e.stopPropagation();
+  dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+});
+
+// Close dropdown if clicked outside
+document.addEventListener("click", () => {
+  dropdownMenu.style.display = "none";
+});
+
+// Clear Chat clicked
+deleteChatBtn.addEventListener("click", () => {
+  dropdownMenu.style.display = "none";
+  currentAction = "delete";
+  confirmationMessage.textContent = "Are you sure you want to clear the chat? It clears for everyone.";
+  confirmationPopup.classList.remove("hidden");
+});
+
+// Block User clicked
+blockUserBtn.addEventListener("click", () => {
+  dropdownMenu.style.display = "none";
+  currentAction = "block";
+  confirmationMessage.textContent = "Are you sure you want to block this user? Blocked users won’t be notified, but you won’t receive their messages until you unblock them.";
+  confirmationPopup.classList.remove("hidden");
+});
+
+// Cancel confirmation
+cancelBtn.addEventListener("click", () => {
+  confirmationPopup.classList.add("hidden");
+  currentAction = null;
+});
+
+// Confirm action
+confirmBtn.addEventListener("click", () => {
+  if (currentAction === "delete") {
+    deleteCurrentChat();
+  } else if (currentAction === "block") {
+    blockUser();
+  }
+  confirmationPopup.classList.add("hidden");
+  currentAction = null;
+});
+
+async function deleteCurrentChat() {
+  if (!window.currentChatFriend) return console.error("No friend selected");
+
+  try {
+    // 1. Fetch the chat ID between current user and friend
+    const { data: existingChats, error: chatError } = await supabase
+      .from('chats')
+      .select('id', { head: true })
+      .or(
+        `and(user1_id.eq.${currentUser.id},user2_id.eq.${window.currentChatFriend.id}),and(user1_id.eq.${window.currentChatFriend.id},user2_id.eq.${currentUser.id})`
+      )
+      .limit(1);
+
+    if (chatError) throw chatError;
+
+    const chatId = existingChats?.[0]?.id;
+    if (!chatId) return console.error("Chat not found");
+
+    // 2. Delete all messages for this chat
+    const { error: deleteError } = await supabase
+      .from('messages')
+      .delete()
+      .eq('chat_id', chatId);
+    if (deleteError) throw deleteError;
+
+    // 3. Reset last_message in chats table
+    const { error: updateError } = await supabase
+      .from('chats')
+      .update({ last_message: '' })
+      .eq('id', chatId);
+    if (updateError) throw updateError;
+
+    // Optional: reload chat list and close chat window
+    loadChatList();
+    document.getElementById("chatListView").classList.remove("hidden");
+    document.getElementById("chatView").classList.add("hidden");
+    window.currentChatFriend = null;
+
+  } catch (error) {
+    console.error("Error deleting chat:", error.message);
+  }
+}
+
+async function blockUser() {
+  const chatId = window.currentChatId;
+  if (!chatId) return console.error("No active chat");
+
+  try {
+    // 1. Fetch chat to determine the other user
+    const { data: chatRows, error: chatError } = await supabase
+      .from('chats')
+      .select('user1_id, user2_id')
+      .eq('id', chatId)
+      .limit(1);
+
+    if (chatError) throw chatError;
+    if (!chatRows?.length) throw new Error("Chat not found");
+
+    const chat = chatRows[0];
+
+    // 2. Determine friend ID
+    const blockedUserId =
+      chat.user1_id === currentUser.id ? chat.user2_id : chat.user1_id;
+
+    // 3. Insert block
+    const { error: insertError } = await supabase
+      .from('user_blocks')
+      .insert({
+        blocker_id: currentUser.id,
+        blocked_id: blockedUserId
+      });
+
+    if (insertError) throw insertError;
+
+    // 4. Reload UI
+    loadChatList();
+    loadMessages(chatId);
+
+  } catch (error) {
+    console.error("Error blocking user:", error.message);
+  }
+}
+
+//#endregion
+
+//#region LOCAL COMMUNITY
 // ----------------------------
 // COMMUNITY
 // ----------------------------
 let joinedLocationId = null;
 let firstLoad = true;
 let messageChannel = null;
+
+async function initCommunityModule() {
+  // 1️⃣ Load locations
+  await loadLocations();
+
+  // 2️⃣ Load user community if logged in
+  if (currentUser) {
+    await loadUserCommunity(currentUser);
+  }
+
+  // 3️⃣ Setup section toggles (chat, events, etc.)
+  document.querySelectorAll('.community-section-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const content = header.nextElementSibling;
+      if (content.style.display === 'block') {
+        content.style.display = 'none';
+      } else {
+        content.style.display = 'block';
+        // Scroll chat into view if needed
+        if (content.id === 'communityChatSection') {
+          scrollCommunityChatToBottom();
+        }
+      }
+    });
+  });
+
+  // 4️⃣ Setup create event toggle
+  const createEventBtn = document.getElementById("createEventBtn");
+  const createEventInputs = document.getElementById("createEventInputs");
+  if (createEventBtn && createEventInputs) {
+    createEventBtn.addEventListener("click", () => { 
+      createEventInputs.style.display = createEventInputs.style.display === "none" ? "flex" : "none";
+      createEventInputs.style.flexDirection = "column";
+    });
+  }
+}
 
 // ----------------------------
 // Load countries and cities
@@ -2500,7 +3602,7 @@ async function showCommunityMembers(locationId) {
   // Fetch friends & sent requests
   const { data: friendsData } = await supabase
     .from("friends")
-    .select("*")
+    .select("user1_id, user2_id")
     .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
 
   const friends = Array.isArray(friendsData) ? friendsData : [];
@@ -2623,7 +3725,7 @@ async function openProfile(imgElement) {
   // Fetch public profile data from Supabase
   const { data, error } = await supabase
     .from('profilecards')
-    .select('*')
+    .select('id, user_id, username, avatar_url, diet, goals, level, streak, achievements, title, frame, animals_saved, water_saved, forest_saved, co2_saved, profile_photo')
     .eq('user_id', userId)
     .single();
 
@@ -2633,7 +3735,7 @@ async function openProfile(imgElement) {
   }
 
   // Fill the popup with user data
-  const popup = document.getElementById("ProfileCardDemo");
+  const popup = document.getElementById("ProfileCard");
   popup.querySelector(".ProfileAvatarLarge").style.backgroundImage = `url('${data.avatar_url}')`;
 
   const avatarDiv = popup.querySelector(".ProfileAvatarLarge");
@@ -2676,7 +3778,7 @@ if (Array.isArray(data.goals)) {
 
 // Close popup
 document.querySelector(".close-btnProfileCard").addEventListener("click", () => {
-  document.getElementById("ProfileCardDemo").classList.add("hidden");
+  document.getElementById("ProfileCard").classList.add("hidden");
 });
 // ----------------------------
 // Join community
@@ -2687,7 +3789,7 @@ document.getElementById("joinCommunityBtn").addEventListener("click", async () =
 
   const existing = await supabase
     .from("community_participants")
-    .select("*")
+    .select("id", { head: true })
     .eq("user_id", currentUser.id)
     .maybeSingle();
 
@@ -2729,7 +3831,7 @@ async function loadCommunityEvents(locationId) {
   // 1️⃣ Fetch all events
   const { data: events, error: eventsError } = await supabase
     .from("community_events")
-    .select("*")
+    .select("id, location_id, place, description, event_date, user_id, username")
     .eq("location_id", locationId)
     .order("event_date", { ascending: true });
 
@@ -2741,7 +3843,7 @@ async function loadCommunityEvents(locationId) {
   // 2️⃣ Fetch all participants for events at once
   const { data: allParticipants, error: participantsError } = await supabase
     .from("event_participants")
-    .select("*")
+    .select("id, event_id, user_id, username")
     .in("event_id", events.map(e => e.id)); // fetch participants only for the events we have
 
   if (participantsError) {
@@ -2810,7 +3912,7 @@ if (!isCreator) {
         // Prevent duplicate insertion by checking first
         const { data: existing } = await supabase
           .from("event_participants")
-          .select("*")
+          .select("id", { head: true })
           .eq("event_id", event.id)
           .eq("user_id", currentUser.id);
 
@@ -2854,43 +3956,6 @@ if (!isCreator) {
     ul.appendChild(li);
   }
 }
-
-async function initCommunityModule() {
-  // 1️⃣ Load locations
-  await loadLocations();
-
-  // 2️⃣ Load user community if logged in
-  if (currentUser) {
-    await loadUserCommunity(currentUser);
-  }
-
-  // 3️⃣ Setup section toggles (chat, events, etc.)
-  document.querySelectorAll('.community-section-header').forEach(header => {
-    header.addEventListener('click', () => {
-      const content = header.nextElementSibling;
-      if (content.style.display === 'block') {
-        content.style.display = 'none';
-      } else {
-        content.style.display = 'block';
-        // Scroll chat into view if needed
-        if (content.id === 'communityChatSection') {
-          scrollCommunityChatToBottom();
-        }
-      }
-    });
-  });
-
-  // 4️⃣ Setup create event toggle
-  const createEventBtn = document.getElementById("createEventBtn");
-  const createEventInputs = document.getElementById("createEventInputs");
-  if (createEventBtn && createEventInputs) {
-    createEventBtn.addEventListener("click", () => { 
-      createEventInputs.style.display = createEventInputs.style.display === "none" ? "flex" : "none";
-      createEventInputs.style.flexDirection = "column";
-    });
-  }
-}
-
 
 const submitEventBtn = document.getElementById("submitEventBtn");
 const createEventInputs = document.getElementById("createEventInputs");
@@ -2961,7 +4026,7 @@ async function showParticipantsPopup(eventPlace, participants) {
   const userIds = participants.map(p => p.user_id);
   const { data: profiles, error } = await supabase
     .from("profilecards")
-    .select("*")
+    .select("id, user_id, username, avatar_url, diet, goals, level, streak, achievements, title, frame, animals_saved, water_saved, forest_saved, co2_saved, profile_photo")
     .in("user_id", userIds);
 
   if (error) {
@@ -3042,6 +4107,88 @@ async function showParticipantsPopup(eventPlace, participants) {
   overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
 }
 
+// --- Local Business Popup ---
+const openLocalBtn = document.getElementById("openLocalBusinessPopup");
+const closeLocalBtn = document.getElementById("closeLocalBusinessPopup");
+const localPopup = document.getElementById("localBusinessPopup");
+const sendLocalBtn = document.getElementById("sendLocalBusinessRequest");
+
+openLocalBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  localPopup.classList.remove("hidden");
+});
+
+closeLocalBtn.addEventListener("click", () => {
+  localPopup.classList.add("hidden");
+});
+
+sendLocalBtn.addEventListener("click", async () => {
+  const message = document.getElementById("localBusinessMessage").value.trim();
+  if (!message) {
+    alert("Please tell us a bit about your business.");
+    return;
+  }
+
+  const { error } = await supabase
+    .from("contact_messages")
+    .insert({
+      user_id: currentUser.id,
+      email: currentUser.email,
+      subject: "NewLocalPartner",
+      message
+    });
+
+  if (error) {
+    console.error(error);
+    alert("Something went wrong. Please try again.");
+    return;
+  }
+
+  document.getElementById("localBusinessMessage").value = "";
+  localPopup.classList.add("hidden");
+  alert("Request sent! We'll contact you soon 😊");
+});
+
+const sendContactBtn = document.getElementById("sendContactMessage");
+
+sendContactBtn.addEventListener("click", async () => {
+  const subject = document.getElementById("contactSubject").value.trim();
+  const message = document.getElementById("contactMessage").value.trim();
+
+  if (!subject) {
+    alert("Please select a subject.");
+    return;
+  }
+
+  if (!message) {
+    alert("Please write your message.");
+    return;
+  }
+
+  const { error } = await supabase
+    .from("contact_messages")
+    .insert({
+      user_id: currentUser.id,
+      email: currentUser.email,
+      subject,
+      message
+    });
+
+  if (error) {
+    console.error(error);
+    alert("Something went wrong. Please try again.");
+    return;
+  }
+
+  // Clear inputs
+  document.getElementById("contactSubject").value = "";
+  document.getElementById("contactMessage").value = "";
+
+  alert("We have received your message and will contact you shortly. Thank you!");
+});
+//#endregion
+
+//#region ANONYMOUS FORUM
 // ----------------------------
 // ANONYMOUS FORUM
 // ----------------------------
@@ -3052,7 +4199,7 @@ async function loadForumBlocks() {
   forumMessages.innerHTML = '';
   const { data: blocks, error } = await supabase
     .from('forum_blocks')
-    .select('*')
+    .select('id, content, user_id')
     .order('created_at', { ascending: false });
 
   if (error) return console.error(error);
@@ -3090,6 +4237,58 @@ async function loadForumBlocks() {
   });
 }
 
+// ---- Anonymous Forum & Chat Initialization ----
+    // Forum collapse toggle
+    document.querySelectorAll(".AFsection h2").forEach(header => {
+      header.addEventListener("click", () => {
+        const content = header.nextElementSibling;
+        content.style.display = content.style.display === "block" ? "none" : "block";
+      });
+    });
+
+    // Close comment popup
+const closePopup = document.getElementById('AFclosePopup');
+const commentPopup = document.getElementById('AFcommentPopup');
+
+if (closePopup && commentPopup) {
+  // Close on X button
+  closePopup.addEventListener('click', () => {
+    commentPopup.classList.add('hidden');
+  });
+
+  // Close when clicking outside the popup content
+  commentPopup.addEventListener('click', (event) => {
+    // Check if click target is the overlay itself, not inner content
+    if (event.target === commentPopup) {
+      commentPopup.classList.add('hidden');
+    }
+  });
+}
+
+    // Submit block
+    const submitBlockBtn = document.getElementById('submitBlockBtn');
+    const blockContent = document.getElementById('blockContent');
+    if (submitBlockBtn && blockContent) {
+      submitBlockBtn.addEventListener('click', async () => {
+        const content = blockContent.value.trim();
+        if (!content) return;
+        await supabase.from('forum_blocks').insert([{ user_id: currentUser.id, content }]);
+        blockContent.value = '';
+        await addXP(2);
+        if (blockContent.resetCounter) blockContent.resetCounter();
+        loadForumBlocks();
+      });
+    }
+
+    // Submit comment
+    const submitCommentBtn = document.getElementById('AFsubmitCommentBtn');
+    const newCommentInput = document.getElementById('AFnewCommentInput');
+    if (submitCommentBtn && newCommentInput) {
+      submitCommentBtn.addEventListener('click', async () => {
+        await submitNewComment(newCommentInput.value.trim(), newCommentInput);
+      });
+    }
+
 async function AFopenCommentPopup(block) {
   activeBlockId = block.id;
 
@@ -3102,7 +4301,7 @@ async function AFopenCommentPopup(block) {
 
   const { data: comments, error } = await supabase
     .from('forum_comments')
-    .select('*')
+    .select('id, commenter_id, content, commenter_name, block_id')
     .eq('block_id', block.id)
     .order('created_at', { ascending: true });
 
@@ -3154,544 +4353,21 @@ async function submitNewComment(content, inputElement) {
 
   inputElement.value = '';
   inputElement.resetCounter();
+  await addXP(1);
 
   const { data: fullBlock } = await supabase
     .from('forum_blocks')
-    .select('*')
+    .select('id, user_id, content')
     .eq('id', activeBlockId)
     .single();
 
   AFopenCommentPopup(fullBlock);
 }
 
-async function sendRequest(receiverCode) {
-  const friend_code = receiverCode.trim().toLowerCase();
-  if (!friend_code) return { success: false, message: "No code provided." };
+//#endregion
 
-  if (friend_code === currentUser.friend_code?.toLowerCase()) {
-    return { success: false, message: "You cannot send a request to yourself." };
-  }
+//#region MENTORSHIP
 
-  // ------------------------------
-  // Lookup receiver in profilecards
-  // ------------------------------
-  const { data: receiverProfile, error: receiverError } = await supabase
-    .from("profilecards")
-    .select("user_id, friend_code")
-    .eq("friend_code", friend_code)
-    .maybeSingle();
-
-  if (receiverError) return { success: false, message: receiverError.message };
-  if (!receiverProfile) return { success: false, message: "User not found." };
-
-  const receiver_id = receiverProfile.user_id;
-
-  // ------------------------------
-  // Check for existing friend request
-  // ------------------------------
-  const { data: existing, error: checkError } = await supabase
-    .from("friend_requests")
-    .select("*")
-    .eq("sender_id", currentUser.id)
-    .eq("receiver_id", receiver_id)
-    .maybeSingle();
-
-  if (checkError) return { success: false, message: checkError.message };
-  if (existing) return { success: false, message: "Request already sent!" };
-
-  // ------------------------------
-  // Fetch sender profile
-  // ------------------------------
-  const { data: senderProfile, error: profileError } = await supabase
-    .from("profiles")
-    .select("name, title, profile_photo, frame, friend_code")
-    .eq("id", currentUser.id)
-    .maybeSingle();
-
-  if (profileError) return { success: false, message: profileError.message };
-
-  // ------------------------------
-  // Insert new friend request
-  // ------------------------------
-  const { error: insertError } = await supabase.from("friend_requests").insert([{
-    sender_id: currentUser.id,
-    receiver_id: receiver_id,
-    receiver_friend_code: friend_code,
-    name: senderProfile?.name || "Unknown",
-    title: senderProfile?.title || "",
-    profile_photo: senderProfile?.profile_photo || "default.jpg",
-    frame: senderProfile?.frame || "",
-    sender_friend_code: senderProfile?.friend_code || null,
-    status: "pending"
-  }]);
-
-  if (insertError) return { success: false, message: insertError.message };
-
-  return { success: true };
-}
-
-
-async function showIncomingFriendRequests() { 
-  const list = document.getElementById("incomingRequestsList");
-  if (!list) return;
-  list.innerHTML = "";
-
-  // Fetch all pending requests for current user
-  const { data: requests, error } = await supabase
-    .from("friend_requests")
-    .select("id, sender_id, name, title, profile_photo, frame, sender_friend_code, receiver_friend_code, receiver_id, status")
-    .eq("receiver_id", currentProfile.id)   // always defined
-    .eq("status", "pending");
-
-  if (error) return console.error(error);
-
-  requests.forEach(req => {
-    const li = document.createElement("li");
-    li.className = "friend-request-item";
-
-    const hasFrame = req.frame && req.frame.trim() !== "";
-    const imgDiv = document.createElement("div");
-    imgDiv.className = "friend-photo-frame";
-    imgDiv.dataset.userid = req.sender_id;
-
-    imgDiv.style.backgroundImage = hasFrame
-      ? `url('${req.frame}'), url('${req.profile_photo || 'default.jpg'}')`
-      : `url('${req.profile_photo || 'default.jpg'}')`;
-
-    imgDiv.style.backgroundSize = hasFrame ? "contain, cover" : "cover";
-    imgDiv.style.backgroundPosition = "center";
-    imgDiv.style.backgroundRepeat = "no-repeat";
-    imgDiv.style.width = "60px";
-    imgDiv.style.height = "60px";
-    imgDiv.style.borderRadius = "50%";
-    imgDiv.style.cursor = "pointer";
-
-    imgDiv.addEventListener("click", e => {
-      e.stopPropagation();
-      openProfile(imgDiv);
-    });
-
-    const nameSpan = document.createElement("span");
-    nameSpan.textContent = req.title
-      ? `${req.name}, ${req.title}`
-      : req.name;
-
-    const actions = document.createElement("div");
-    actions.className = "actions";
-
-    // Accept
-    const acceptBtn = document.createElement("button");
-    acceptBtn.className = "accept";
-    acceptBtn.textContent = "Accept";
-
-    acceptBtn.onclick = async () => {
-      const { data: myProfile, error: myError } = await supabase
-        .from("profiles")
-        .select("id, name, title, profile_photo, frame, friend_code")
-        .eq("id", currentUser.id)
-        .single();
-      if (myError) return console.error(myError);
-
-      const { error: insertError } = await supabase.from("friends").insert([{
-        user1_id: req.sender_id,
-        user1_name: req.name,
-        user1_title: req.title,
-        user1_friend_code: req.sender_friend_code,
-        user1_profile_photo: req.profile_photo,
-        user1_frame: req.frame,
-
-        user2_id: myProfile.id,
-        user2_name: myProfile.name,
-        user2_title: myProfile.title,
-        user2_friend_code: myProfile.friend_code,
-        user2_profile_photo: myProfile.profile_photo,
-        user2_frame: myProfile.frame
-      }]);
-      if (insertError) return console.error(insertError);
-
-      await supabase.from("friend_requests").delete().eq("id", req.id);
-
-      // Refresh lists
-      await showIncomingFriendRequests();
-      await showFriends("friendsList", friend => startChatWithFriend(friend));
-    };
-
-    // Decline
-    const declineBtn = document.createElement("button");
-    declineBtn.className = "decline";
-    declineBtn.textContent = "Decline";
-    declineBtn.onclick = async () => {
-      await supabase.from("friend_requests").delete().eq("id", req.id);
-      await showIncomingFriendRequests();
-    };
-
-    actions.appendChild(acceptBtn);
-    actions.appendChild(declineBtn);
-
-    li.appendChild(imgDiv);
-    li.appendChild(nameSpan);
-    li.appendChild(actions);
-
-    list.appendChild(li);
-  });
-}
-
-
-
-async function showFriends(containerId, onClickFriend) {
-  const list = document.getElementById(containerId);
-  if (!list) return;
-  list.innerHTML = "";
-
-  const { data: friendsData, error } = await supabase
-    .from("friends")
-    .select("*")
-    .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
-  if (error) return console.error(error);
-
-  friendsData.forEach(friendship => {
-    const friend = friendship.user1_id === currentUser.id
-  ? { 
-      id: friendship.user2_id, 
-      name: friendship.user2_name, 
-      title: friendship.user2_title, 
-      photo: friendship.user2_profile_photo,
-      frame: friendship.user2_frame // <-- include frame
-    }
-  : { 
-      id: friendship.user1_id, 
-      name: friendship.user1_name, 
-      title: friendship.user1_title,
-      photo: friendship.user1_profile_photo,
-      frame: friendship.user1_frame // <-- include frame
-    };
-
-    const li = document.createElement("li");
-    li.className = "friend-item";
-
-    const hasFrame = friend.frame && friend.frame.trim() !== "";
-const imgDiv = document.createElement("div");
-imgDiv.className = "friend-photo-frame";
-imgDiv.dataset.userid = friend.id;
-
-imgDiv.style.backgroundImage = hasFrame
-  ? `url('${friend.frame}'), url('${friend.photo || 'default.jpg'}')`
-  : `url('${friend.photo || 'default.jpg'}')`;
-
-imgDiv.style.backgroundSize = hasFrame ? "contain, cover" : "cover";
-imgDiv.style.backgroundPosition = "center";
-imgDiv.style.backgroundRepeat = "no-repeat";
-imgDiv.style.width = "60px";
-imgDiv.style.height = "60px";
-imgDiv.style.borderRadius = "50%";
-imgDiv.style.cursor = "pointer";
-
-imgDiv.addEventListener("click", e => {
-  e.stopPropagation();
-  openProfile(imgDiv);
-});
-
-    const nameSpan = document.createElement("span");
-    nameSpan.textContent = friend.title
-  ? `${friend.name}, ${friend.title}`
-  : friend.name || "Unknown";
-
-    const btn = document.createElement("button");
-    btn.textContent = "Message";
-    btn.className = "message";
-    btn.onclick = e => {
-      e.stopPropagation();
-      onClickFriend(friend);
-    };
-
-    li.appendChild(imgDiv);
-    li.appendChild(nameSpan);
-    li.appendChild(btn);
-
-    list.appendChild(li);
-  });
-}
-
-async function loadFriendsTab() {
-  await showIncomingFriendRequests();
-  await showFriends("friendsList", friend => startChatWithFriend(friend));
-}
-
-async function startChatWithFriend(friend) {
-  const { data: existingChats, error: chatError } = await supabase
-    .from('chats')
-    .select('*')
-    .or(
-      `and(user1_id.eq.${currentUser.id},user2_id.eq.${friend.id}),and(user1_id.eq.${friend.id},user2_id.eq.${currentUser.id})`
-    )
-    .limit(1);
-  if (chatError) return console.error(chatError);
-
-  const chatId = existingChats?.[0]?.id;
-  openChatWindow(chatId, friend);
-}
-
-async function openChatWindow(chatId, friend) {
-  window.currentChatId = chatId;
-  window.currentChatFriend = friend;
-
-  const friendsEl = document.getElementById("friends");
-  const messagesEl = document.getElementById("messages");
-  const chatListEl = document.getElementById("chatListView");
-  const chatViewEl = document.getElementById("chatView");
-
-  // Add/remove hidden class instead of changing style.display
-  // Add/remove hidden class safely
-  if (friendsEl) friendsEl.classList.add("hidden");
-  if (messagesEl) messagesEl.classList.remove("hidden");
-  if (chatListEl) chatListEl.classList.add("hidden");
-  if (chatViewEl) chatViewEl.classList.remove("hidden");
-
-  document.getElementById("chatHeader").textContent = friend.name;
-
-  if (chatId) loadMessages(chatId, friend);
-  else document.getElementById("chatMessages").innerHTML = "";
-}
-// Back arrow
-document.getElementById("backToList").addEventListener("click", () => {
-  document.getElementById("chatListView").classList.remove("hidden");
-  document.getElementById("chatView").classList.add("hidden");
-  window.currentChatId = null;
-  window.currentChatFriend = null;
-});
-
-
-
-async function loadMessages(chatId) {
-  const chatContainer = document.getElementById("chatMessages");
-  if (!chatContainer) return;
-
-  const { data: chatRows, error: chatError } = await supabase
-  .from('chats')
-  .select('*')
-  .eq('id', chatId)
-  .limit(1);
-
-if (chatError) return console.error("Error fetching chat:", chatError);
-if (!chatRows?.length) return console.error("Chat not found");
-
-const chat = chatRows[0];
-
-// If current user is user1, friend is user2; otherwise friend is user1
-const friend = chat.user1_id === currentUser.id
-  ? { id: chat.user2_id, name: chat.user2_name, photo: chat.user2_profile_photo }
-  : { id: chat.user1_id, name: chat.user1_name, photo: chat.user1_profile_photo };
-
-  // 1. Check if current user has blocked this friend
-  const { data: blockData, error: blockError } = await supabase
-    .from('user_blocks')
-    .select('*')
-    .eq('blocker_id', currentUser.id)
-    .eq('blocked_id', friend.id)
-    .limit(1);
-  if (blockError) return console.error("Error fetching block info:", blockError);
-
-  const isBlocked = blockData.length > 0;
-  const blockTime = isBlocked ? blockData[0].created_at : null;
-
-  // 2. Hide/show Block User button in dropdown
-  const blockBtn = document.getElementById("blockUserBtn");
-  if (blockBtn) {
-    if (isBlocked) blockBtn.classList.add("hidden");
-    else blockBtn.classList.remove("hidden");
-  }
-
-  // 3. Fetch messages (if blocked, only before block timestamp)
-  let messageQuery = supabase
-    .from('messages')
-    .select('*')
-    .eq('chat_id', chatId);
-
-  if (isBlocked) {
-    messageQuery = messageQuery.lt('created_at', blockTime);
-  }
-
-  const { data: messages, error: messagesError } = await messageQuery.order('created_at', { ascending: true });
-  if (messagesError) return console.error("Error fetching messages:", messagesError);
-
-  // 4. Render messages
-  chatContainer.innerHTML = "";
-  messages.forEach(msg => {
-    const div = document.createElement("div");
-    div.textContent = msg.content;
-    div.className = msg.sender_id === currentUser.id ? "my-message" : "friend-message";
-    div.dataset.senderId = msg.sender_id; // optional: helps with block filtering
-    chatContainer.appendChild(div);
-  });
-  chatContainer.scrollTop = chatContainer.scrollHeight;
-
-  // 5. Handle input section & blocked notice
-  const inputSection = document.querySelector(".chat-input");
-  let blockedNotice = document.getElementById("blockedNotice");
-
-  if (!blockedNotice) {
-    // create blocked notice if it doesn't exist
-    blockedNotice = document.createElement("div");
-    blockedNotice.id = "blockedNotice";
-    blockedNotice.style.padding = "1rem";
-    blockedNotice.style.textAlign = "center";
-    blockedNotice.style.backgroundColor = "#ffe6e6";
-    blockedNotice.style.borderTop = "1px solid #ccc";
-    blockedNotice.innerHTML = `You've blocked this user. <button id="unblockBtn">Unblock</button>`;
-    if (inputSection && inputSection.parentNode) {
-  inputSection.parentNode.insertBefore(blockedNotice, inputSection.nextSibling);
-}
-  }
-
-  if (isBlocked) {
-    if (inputSection) inputSection.classList.add("hidden");
-    blockedNotice.classList.remove("hidden");
-
-    // 6. Setup unblock button
-    const unblockBtn = document.getElementById("unblockBtn");
-    unblockBtn.onclick = async () => {
-      const { error } = await supabase
-        .from('user_blocks')
-        .delete()
-        .eq('blocker_id', currentUser.id)
-        .eq('blocked_id', friend.id);
-      if (error) return console.error("Error unblocking user:", error.message);
-
-      // Reload chat and chat list after unblock
-      loadMessages(chatId);
-      loadChatList();
-    };
-  } else {
-    if (inputSection) inputSection.classList.remove("hidden");
-    blockedNotice.classList.add("hidden");
-  }
-
-  // 7. Setup real-time subscription (only if not blocked)
-  if (messageSubscription) {
-  await supabase.removeChannel(messageSubscription);
-  messageSubscription = null;
-}
-  if (!isBlocked) {
-    messageSubscription = supabase
-      .channel(`chat-${chatId}`)
-      .on('postgres_changes', {
-        event: 'INSERT',
-        schema: 'public',
-        table: 'messages',
-        filter: `chat_id=eq.${chatId}`
-      }, (payload) => {
-        const msg = payload.new;
-        // ignore messages from blocked user (optional safety)
-        if (msg.sender_id === friend.id && isBlocked) return;
-
-        const div = document.createElement("div");
-        div.textContent = msg.content;
-        div.className = msg.sender_id === currentUser.id ? "my-message" : "friend-message";
-        chatContainer.appendChild(div);
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-      })
-      .subscribe();
-  }
-}
-
-
-
-//--------------------------
-// CHAT MODULE
-//--------------------------
-async function loadChatList() {
-  const list = document.getElementById("chatListItems");
-  if (!list) return;
-
-  // 1. Fetch blocked users first
-  const { data: blockedUsersData, error: blockedError } = await supabase
-    .from('user_blocks')
-    .select('blocked_id')
-    .eq('blocker_id', currentUser.id);
-  if (blockedError) return console.error("Error fetching blocked users:", blockedError);
-
-  const blockedIds = blockedUsersData.map(b => b.blocked_id);
-
-  function renderChats(chats) {
-    list.innerHTML = "";
-    if (!chats || chats.length === 0) return;
-
-    chats.forEach(chat => {
-      const friend = chat.user1_id === currentUser.id
-        ? { id: chat.user2_id, name: chat.user2_name, photo: chat.user2_profile_photo }
-        : { id: chat.user1_id, name: chat.user1_name, photo: chat.user1_profile_photo };
-
-      const li = document.createElement("li");
-      li.style.display = "flex";
-      li.style.alignItems = "center";
-      li.style.justifyContent = "space-between";
-      li.style.padding = "0.5rem";
-      li.style.borderBottom = "1px solid #eee";
-
-      const img = document.createElement("img");
-      img.src = friend.photo || "default.jpg";
-      img.alt = friend.name;
-      img.style.width = "40px";
-      img.style.height = "40px";
-      img.style.borderRadius = "50%";
-      img.style.marginRight = "0.5rem";
-
-      const info = document.createElement("div");
-      info.style.flex = "1";
-      const nameSpan = document.createElement("div");
-      nameSpan.textContent = friend.name;
-      nameSpan.style.fontWeight = "500";
-      const lastMessage = document.createElement("div");
-
-    // 2. Check if this friend is blocked
-      if (blockedIds.includes(friend.id)) {
-        lastMessage.textContent = "Blocked user";
-      } else {
-        let preview = chat.last_message || "";
-        if (preview.length > 25) {
-          preview = preview.slice(0, 25) + "...";
-        }
-        lastMessage.textContent = preview;
-      }
-
-      lastMessage.style.fontSize = "0.85rem";
-      lastMessage.style.color = "#555";
-
-      info.appendChild(nameSpan);
-      info.appendChild(lastMessage);
-
-      li.appendChild(img);
-      li.appendChild(info);
-      li.onclick = () => startChatWithFriend(friend);
-
-      list.appendChild(li);
-    });
-  }
-
-  const { data: chats, error } = await supabase
-    .from('chats')
-    .select('*')
-    .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`)
-    .order('last_message_at', { ascending: false });
-
-  if (error) return console.error("Error fetching chats:", error);
-  renderChats(chats);
-
-  supabase
-    .channel('public:chats')
-    .on(
-      'postgres_changes',
-      { event: '*', schema: 'public', table: 'chats' },
-      payload => {
-        const chat = payload.new;
-        if (!chat) return;
-        if (chat.user1_id === currentUser.id || chat.user2_id === currentUser.id) {
-          loadChatList();
-        }
-      }
-    )
-    .subscribe();
-}
 // ----------------------------
 // MENTORSHIP
 // ----------------------------
@@ -3828,7 +4504,7 @@ async function checkAndToggleMentorUI() {
 
   const { data: mentorRecord } = await supabase
     .from("mentors")
-    .select("*")
+    .select("id, user_id, name, profile_photo, years_vegan, mentor_rating, title, frame, friend_code")
     .eq("user_id", user.id)
     .maybeSingle();
 
@@ -3857,8 +4533,8 @@ async function checkAndToggleMentorUI() {
     loadMentors();
   });
 }
-function setupDemoCard() {
-  const demoCard = document.getElementById("ProfileCardDemo");
+function setupCard() {
+  const demoCard = document.getElementById("ProfileCard");
   const closeBtn = demoCard.querySelector(".close-btn");
 
   closeBtn?.addEventListener("click", () => demoCard.classList.remove("show"));
@@ -3889,7 +4565,7 @@ async function startChatWithMentor(mentor) {
   const orQuery = `and(user1_id.eq.${currentUser.id},user2_id.eq.${mentor.user_id}),and(user1_id.eq.${mentor.user_id},user2_id.eq.${currentUser.id})`;
   const { data: existingChats, error: chatError } = await supabase
     .from('chats')
-    .select('*')
+    .select('user1_id, user2_id')
     .or(orQuery)
     .limit(1);
 
@@ -3913,7 +4589,9 @@ async function startChatWithMentor(mentor) {
   // 4. Open chat window (empty if chatId is null)
   openChatWindow(chatId, window.currentChatFriend);
 }
+//#endregion
 
+//#region LEADERBOARD
 // ----------------------------
 // LEADERBOARDS
 // ----------------------------
@@ -3976,12 +4654,9 @@ async function fetchAllLeaderboards() {
   await fetchLeaderboard('badge', 'overall-badge'); 
 }
 
+//#endregion
 
-//--------------------------
-//--------------------------
-// PLAYGROUND
-//--------------------------
-//--------------------------
+//#region ACHIEVEMENTS
 
 // Display achievements
 function populateAchievements(container, achievements) {
@@ -4139,15 +4814,15 @@ async function addAchievementToProfile(userId, newAchievement) {
       .update({ achievements })
       .eq("id", userId);
       
-      fetchAllData();
-      await renderProfile();
       await displayAchievementsSettings(userId);
-
-      
+      await addXP(10);
+ 
     if (updateError) console.error("Error updating achievements:", updateError);
   }
 }
+//#endregion
 
+//#region SHOP
 // --------------------------------
 // SHOP
 // --------------------------------
@@ -4240,10 +4915,9 @@ async function setupShop() {
     const buyXPBox = async () => {
       if (currentProfile.badge < product.price) return alert("Not enough badges!");
       currentProfile.badge -= product.price;
-      currentProfile.total_xp += 80;
+      addXP(80);
       const { error } = await supabase.from("profiles").update({
-        badge: currentProfile.badge,
-        total_xp: currentProfile.total_xp
+        badge: currentProfile.badge
       }).eq("id", currentUser.id);
       if (error) return alert("Purchase failed: " + error.message);
       alert("Purchase successful!");
@@ -4293,151 +4967,9 @@ async function setupShop() {
     };
   });
 }
+//#endregion
 
-
-
-// ---------------------------
-// Watch ads
-// ---------------------------
-
-// ---------------------------
-// Watch ads
-// ---------------------------
-
-const DAILY_CAP = 50;
-const SESSION_CAP = 25;
-const MIN_INTERVAL_MS = 20_000; // 20s
-const BADGES_PER_AD = 2;
-
-let sessionAdCount = 0;
-const storage = localStorage;
-
-// Your Rewarded Ad ID (for web fallback)
-const WEB_REWARD_AMOUNT = BADGES_PER_AD;
-
-// Helper functions
-function todayKey() {
-  return 'adBadge_' + new Date().toISOString().slice(0,10);
-}
-
-function loadAdCount() {
-  return parseInt(storage.getItem(todayKey()) || '0', 10);
-}
-
-function saveAdCount(count) {
-  storage.setItem(todayKey(), count);
-}
-
-function loadLastAdTime() {
-  return parseInt(storage.getItem('lastAdAt') || '0', 10);
-}
-
-function saveLastAdTime(ts) {
-  storage.setItem('lastAdAt', ts);
-}
-
-// -------------------- Reward Ad --------------------
-async function showAdMobReward() {
-  if (window.Capacitor && Capacitor.isNativePlatform()) {
-    // ✅ Native bridge will call Kotlin, JS waits for reward callback
-    return new Promise((resolve) => {
-      window.onRewardEarned = (amount) => {
-        resolve(amount);
-      };
-      window.NativeBridge.showRewardedAd();
-    });
-  } else {
-    // Web fallback
-    console.log("Web fallback: ad simulated, reward given");
-    return Promise.resolve(WEB_REWARD_AMOUNT);
-  }
-}
-
-
-// -------------------- Badge Reward --------------------
-async function addBadgesSafe(userId, amount) {
-  const { data: profile, error } = await supabase
-    .from("profiles")
-    .select("badge")
-    .eq("id", userId)
-    .single();
-
-  if (error) return console.error(error);
-
-  const newCount = (profile?.badge || 0) + amount;
-
-  await supabase
-    .from("profiles")
-    .update({ badge: newCount })
-    .eq("id", userId);
-
-  await fetchAllData();
-  await setupShop();
-  await renderProfile();
-}
-
-// -------------------- Main Click Handler --------------------
-async function handleWatchAdClick() {
-  const { data: { user }, error: userError } = await supabase.auth.getUser();
-  if (userError || !user) return alert("User not logged in");
-
-  const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .single();
-
-  if (profileError || !profile) return;
-
-  const userId = profile.id;
-
-  let dailyCount = loadAdCount();
-  if (dailyCount >= DAILY_CAP) return alert(`Daily limit reached: ${DAILY_CAP}`);
-  if (sessionAdCount >= SESSION_CAP) return alert(`Session limit reached: ${SESSION_CAP}`);
-
-  const lastAdAt = loadLastAdTime();
-  const now = Date.now();
-  if (now - lastAdAt < MIN_INTERVAL_MS) {
-    const wait = Math.ceil((MIN_INTERVAL_MS - (now - lastAdAt))/1000);
-    return alert(`Please wait ${wait} seconds before watching another ad.`);
-  }
-
-  try {
-    const reward = await showAdMobReward(); // wait until reward is earned
-    await addBadgesSafe(userId, reward);
-
-    dailyCount++;
-    sessionAdCount++;
-    saveAdCount(dailyCount);
-    saveLastAdTime(Date.now());
-
-    alert(`You earned +${reward} badges!`);
-  } catch (err) {
-    console.warn("Ad failed or no reward:", err);
-    alert("No ad available right now. Try again later.");
-  }
-}
-
-// -------------------- Attach to Buttons --------------------
-document.querySelectorAll('.watchAdBtn').forEach(btn => {
-  btn.addEventListener('click', handleWatchAdClick);
-});
-
-const submitAndSupportBtn = document.getElementById('submitAndSupportBtnDCI');
-
-submitAndSupportBtn.addEventListener('click', async () => {
-  const success = await handleSubmit();
-  if (success) {
-    try {
-      await handleWatchAdClick(); // ✅ await to catch errors
-    } catch (err) {
-      console.error("Reward ad failed:", err);
-    }
-  } else {
-    console.warn("Submit failed — not showing ad");
-  }
-});
-
+//#region CHALLENGES
 
 //--------------------------
 // Challenges
@@ -4474,27 +5006,6 @@ async function markClaimed(userId, challenge) {
   if (error) throw error;
 }
 
-// 🏆 Helper: Add badges
-async function addBadges(userId, amount) {
-  const { data: profile, error } = await supabase
-    .from("profiles")
-    .select("badge")
-    .eq("id", userId)
-    .single();
-
-  if (error) return console.error(error);
-
-  const newCount = (profile?.badge) + amount;
-
-  await supabase
-    .from("profiles")
-    .update({ badge: newCount })
-    .eq("id", userId);
-
-  await setupShop();
-  await renderProfile();
-}
-
 // ---------------------------
 // 🔥 DAILY XP CHALLENGE
 // ---------------------------
@@ -4529,9 +5040,10 @@ async function loadDailyXpChallenge(userId) {
 
 document.getElementById("daily-xp-claim").addEventListener("click", async () => {
   await addBadges(currentUser.id, 3);
+  await addXP(3);
   await markClaimed(currentUser.id, "daily_xp");
 
-  alert("🎉 You earned +3 badges for completing today’s challenge!");
+  alert("🎉 You earned +3 badges and 3 XPs for completing today’s challenge!");
 
   const btn = document.getElementById("daily-xp-claim");
   btn.disabled = true;
@@ -4602,9 +5114,10 @@ async function markLessonComplete(userId, courseID) {
 
 document.getElementById("learnClaimBtn").addEventListener("click", async () => {
   await addBadges(currentUser.id, 3);
+  await addXP(3);
   await markClaimed(currentUser.id, "learn");
 
-  alert("🎉 You earned +3 Badges!");
+  alert("🎉 You earned 3 Badges and 3 XPs!");
   loadLessonChallenge();
 });
 
@@ -4686,21 +5199,32 @@ startBtn.addEventListener("click", () => {
   }, 1000);
 });
 
-// Close popup resets the timer
-closeBtn.addEventListener("click", () => {
+// Function to close this specific popup
+function closeMindfulPopup() {
   clearInterval(mindfulTimer);
   timerDisplay.style.display = "inline";
   rewardBtn.style.display = "none";
-  popup.style.display = "none";
+  popup.style.display = "none"; // only this popup
   startBtn.disabled = false;
+}
+
+// Close button click (inside the popup)
+closeBtn.addEventListener("click", closeMindfulPopup);
+
+// Clicking outside the popup content (overlay of this popup only)
+popup.addEventListener("click", (e) => {
+  if (e.target === popup) { // clicked on the overlay, not the content
+    closeMindfulPopup();
+  }
 });
 
 // Reward button claims the badge and closes popup
 rewardBtn.addEventListener("click", async () => {
   try {
     await addBadges(currentUser.id, 5);
+    await addXP(5);
     await markClaimed(currentUser.id, "mindful");
-    alert("🧘 You earned +5 Badge!");
+    alert("🧘 You earned 5 Badges and 5 XPs!");
     popup.style.display = "none";
     startBtn.disabled = true; // already claimed
     startBtn.textContent = "Done today"; // ✅ change button text
@@ -4774,7 +5298,7 @@ document.getElementById("sendEncourageBtn").addEventListener("click", async () =
     // 3️⃣ Fetch all chats where current user is either user1 or user2
     const { data: chatsData, error: fetchError } = await supabase
       .from("chats")
-      .select("*")
+      .select("user1_id, user2_id")
       .or(`user1_id.eq.${currentProfile.id},user2_id.eq.${currentProfile.id}`);
 
     if (fetchError) throw fetchError;
@@ -4833,9 +5357,10 @@ document.getElementById("sendEncourageBtn").addEventListener("click", async () =
 
 document.getElementById("encourageClaimBtn").addEventListener("click", async () => {
   await addBadges(currentUser.id, 2);
+  await addXP(2);
   await markClaimed(currentUser.id, "encourage");
 
-  alert("🌸 You earned +2 Badge!");
+  alert("🌸 You earned 2 Badges and 2 XPs!");
   loadEncourageChallenge();
 });
 
@@ -4859,38 +5384,128 @@ async function loadEncourageChallenge() {
   }
 }
 
-function showProgressSuggestion(message, petPhotoUrl) {
-  const banner = document.createElement("div");
-  banner.className = "toast-suggestion";
+//#endregion
 
-  // Pet image
-  const petImg = document.createElement("img");
-  petImg.src = petPhotoUrl || "default-pet.jpg";
-  petImg.alt = "Pet";
-  petImg.className = "toast-pet";
-  
-  // Message
-  const textSpan = document.createElement("span");
-  textSpan.textContent = message;
+//#region WATCH ADS
+// ---------------------------
+// Watch ads
+// ---------------------------
 
-  banner.appendChild(petImg);
-  banner.appendChild(textSpan);
-  document.body.appendChild(banner);
+const DAILY_CAP = 50;
+const SESSION_CAP = 25;
+const MIN_INTERVAL_MS = 20_000; // 20s
+const BADGES_PER_AD = 2;
 
-  // Trigger slide-in after next tick
-  requestAnimationFrame(() => {
-    banner.classList.add("show");
-  });
+let sessionAdCount = 0;
+const storage = localStorage;
 
-  // Auto-hide after 6 seconds
-  setTimeout(() => {
-    banner.classList.remove("show");
-    banner.classList.add("fade-out");
-    setTimeout(() => banner.remove(), 600);
-  }, 6000);
+// Your Rewarded Ad ID (for web fallback)
+const WEB_REWARD_AMOUNT = BADGES_PER_AD;
+
+// Helper functions
+function todayKey() {
+  return 'adBadge_' + new Date().toISOString().slice(0,10);
+}
+
+function loadAdCount() {
+  return parseInt(storage.getItem(todayKey()) || '0', 10);
+}
+
+function saveAdCount(count) {
+  storage.setItem(todayKey(), count);
+}
+
+function loadLastAdTime() {
+  return parseInt(storage.getItem('lastAdAt') || '0', 10);
+}
+
+function saveLastAdTime(ts) {
+  storage.setItem('lastAdAt', ts);
+}
+
+// -------------------- Reward Ad --------------------
+async function showAdMobReward() {
+  if (window.Capacitor && Capacitor.isNativePlatform()) {
+    // ✅ Native bridge will call Kotlin, JS waits for reward callback
+    return new Promise((resolve) => {
+      window.onRewardEarned = (amount) => {
+        resolve(amount);
+      };
+      window.NativeBridge.showRewardedAd();
+    });
+  } else {
+    // Web fallback
+    console.log("Web fallback: ad simulated, reward given");
+    return Promise.resolve(WEB_REWARD_AMOUNT);
+  }
 }
 
 
+// -------------------- Main Click Handler --------------------
+async function handleWatchAdClick() {
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError || !user) return alert("User not logged in");
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
+  if (profileError || !profile) return;
+
+  const userId = profile.id;
+
+  let dailyCount = loadAdCount();
+  if (dailyCount >= DAILY_CAP) return alert(`Daily limit reached: ${DAILY_CAP}`);
+  if (sessionAdCount >= SESSION_CAP) return alert(`Session limit reached: ${SESSION_CAP}`);
+
+  const lastAdAt = loadLastAdTime();
+  const now = Date.now();
+  if (now - lastAdAt < MIN_INTERVAL_MS) {
+    const wait = Math.ceil((MIN_INTERVAL_MS - (now - lastAdAt))/1000);
+    return alert(`Please wait ${wait} seconds before watching another ad.`);
+  }
+
+  try {
+    const reward = await showAdMobReward(); // wait until reward is earned
+    await addBadges(userId, reward);
+    await addXP(3);
+
+    dailyCount++;
+    sessionAdCount++;
+    saveAdCount(dailyCount);
+    saveLastAdTime(Date.now());
+
+    alert(`You earned ${reward} badges and 3 XPs!`);
+  } catch (err) {
+    console.warn("Ad failed or no reward:", err);
+    alert("No ad available right now. Try again later.");
+  }
+}
+
+// -------------------- Attach to Buttons --------------------
+document.querySelectorAll('.watchAdBtn').forEach(btn => {
+  btn.addEventListener('click', handleWatchAdClick);
+});
+
+const submitAndSupportBtn = document.getElementById('submitAndSupportBtnDCI');
+
+submitAndSupportBtn.addEventListener('click', async () => {
+  const success = await handleSubmit();
+  if (success) {
+    try {
+      await handleWatchAdClick(); // ✅ await to catch errors
+    } catch (err) {
+      console.error("Reward ad failed:", err);
+    }
+  } else {
+    console.warn("Submit failed — not showing ad");
+  }
+});
+//#endregion
+
+//#region NOTIFICATIONS
 
 // -------------- NOTIFICATION STATE --------------
 const notificationState = {
@@ -5128,357 +5743,78 @@ async function initNotifications(supabase, currentUserId, friendcode, locationId
 
 window.initNotifications = initNotifications;
 
-document.getElementById("logoutBtn").addEventListener("click", () => {
-  if (confirm("Are you sure you want to log out?")) {
-    logoutUser();
+// On page load (and you can repeat periodically if needed
+  setInterval(async () => {
+    await supabase
+      .from('user_status')
+      .upsert({
+        user_id: currentUser.id,
+        app_open: true,
+        last_seen: new Date().toISOString(),
+      }, { onConflict: ['user_id'] });
+  }, 60_000); // update every 60s
+
+  async function sendTokenToAndroid() {
+  const { data } = await supabase.auth.getSession();
+  if (!data.session) return;
+
+  const token = data.session.access_token;
+
+// Fallback: only call NativeBridge if it exists
+  if (typeof NativeBridge !== 'undefined' && NativeBridge.sendUserToken) {
+    NativeBridge.sendUserToken(token);
   }
-});
+}
 
-async function logoutUser() {
-  const { error } = await supabase.auth.signOut();
+// Detect device type
+function getDeviceType() {
+  const ua = navigator.userAgent || navigator.vendor || window.opera;
 
-  if (error) {
-    console.error("Logout failed:", error.message);
-    alert("Something went wrong while logging out.");
-    return;
-  }
-
-  // 🔥 Clear app state
-  localStorage.clear();
-  sessionStorage.clear();
-
-  // Optional: hard reload to reset JS state
-  window.location.href = "index.html";
+  if (/android/i.test(ua)) return "android";
+  if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return "ios";
+  return "web";
 }
 
 
-//DELETE PROFILE
-//DELETE PROFILE
-//DELETE PROFILE
-//DELETE PROFILE
-
-const deleteProfileBtn = document.getElementById("deleteProfileBtn");
-
-deleteProfileBtn.addEventListener("click", async () => {
-  // First confirmation
-  const firstConfirm = confirm(
-    "⚠️ Are you sure you want to delete your profile?\n\nThis will permanently remove your account, profile, messages, friends, and all related data."
-  );
-
-  if (!firstConfirm) return;
-
-  // Second confirmation (stronger)
-  const secondConfirm = confirm(
-    "🚨 This action is IRREVERSIBLE.\n\nOnce deleted, your data cannot be recovered.\n\nDo you REALLY want to continue?"
-  );
-
-  if (!secondConfirm) return;
-
-  // Optional: disable button to prevent double-click
-  deleteProfileBtn.disabled = true;
-  deleteProfileBtn.textContent = "Deleting account…";
-
+// --- insertDeviceRow function ---
+async function insertDeviceRow(token) {
   try {
-    const { error } = await supabase.functions.invoke("delete-user");
-
-    if (error) {
-      console.error("Delete error:", error);
-      alert("❌ Failed to delete account. Please try again.");
-      deleteProfileBtn.disabled = false;
-      deleteProfileBtn.textContent = "🗑️ Delete Profile";
+    // Get session asynchronously
+    const { data, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError) {
       return;
     }
 
-    // Clean up client state
-    await supabase.auth.signOut();
-    localStorage.clear();
-    sessionStorage.clear();
+    if (!data.session) {
+      return;
+    }
 
-    // Redirect to landing / login
-    window.location.href = "login.html";
+    const userId = data.session.user.id;
+    const deviceType = getDeviceType();
 
-  } catch (err) {
-    console.error(err);
-    alert("❌ Unexpected error while deleting account.");
-    deleteProfileBtn.disabled = false;
-    deleteProfileBtn.textContent = "🗑️ Delete Profile";
-  }
-});
-
-
-//CLEAR AND BLOCK CHAT
-const actionButton = document.getElementById("actionButton");
-const dropdownMenu = document.getElementById("chatdropdownMenu");
-const deleteChatBtn = document.getElementById("deleteChatBtn");
-const blockUserBtn = document.getElementById("blockUserBtn");
-
-const confirmationPopup = document.getElementById("confirmationPopup");
-const confirmationMessage = document.getElementById("confirmationMessage");
-const confirmBtn = document.getElementById("confirmBtn");
-const cancelBtn = document.getElementById("cancelBtn");
-
-let currentAction = null;
-
-
-// Toggle dropdown
-actionButton.addEventListener("click", (e) => {
-  e.stopPropagation();
-  dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
-});
-
-// Close dropdown if clicked outside
-document.addEventListener("click", () => {
-  dropdownMenu.style.display = "none";
-});
-
-// Clear Chat clicked
-deleteChatBtn.addEventListener("click", () => {
-  dropdownMenu.style.display = "none";
-  currentAction = "delete";
-  confirmationMessage.textContent = "Are you sure you want to clear the chat? It clears for everyone.";
-  confirmationPopup.classList.remove("hidden");
-});
-
-// Block User clicked
-blockUserBtn.addEventListener("click", () => {
-  dropdownMenu.style.display = "none";
-  currentAction = "block";
-  confirmationMessage.textContent = "Are you sure you want to block this user? Blocked users won’t be notified, but you won’t receive their messages until you unblock them.";
-  confirmationPopup.classList.remove("hidden");
-});
-
-// Cancel confirmation
-cancelBtn.addEventListener("click", () => {
-  confirmationPopup.classList.add("hidden");
-  currentAction = null;
-});
-
-// Confirm action
-confirmBtn.addEventListener("click", () => {
-  if (currentAction === "delete") {
-    deleteCurrentChat();
-  } else if (currentAction === "block") {
-    blockUser();
-  }
-  confirmationPopup.classList.add("hidden");
-  currentAction = null;
-});
-
-async function deleteCurrentChat() {
-  if (!window.currentChatFriend) return console.error("No friend selected");
-
-  try {
-    // 1. Fetch the chat ID between current user and friend
-    const { data: existingChats, error: chatError } = await supabase
-      .from('chats')
-      .select('*')
-      .or(
-        `and(user1_id.eq.${currentUser.id},user2_id.eq.${window.currentChatFriend.id}),and(user1_id.eq.${window.currentChatFriend.id},user2_id.eq.${currentUser.id})`
-      )
-      .limit(1);
-
-    if (chatError) throw chatError;
-
-    const chatId = existingChats?.[0]?.id;
-    if (!chatId) return console.error("Chat not found");
-
-    // 2. Delete all messages for this chat
-    const { error: deleteError } = await supabase
-      .from('messages')
-      .delete()
-      .eq('chat_id', chatId);
-    if (deleteError) throw deleteError;
-
-    // 3. Reset last_message in chats table
-    const { error: updateError } = await supabase
-      .from('chats')
-      .update({ last_message: '' })
-      .eq('id', chatId);
-    if (updateError) throw updateError;
-
-    // Optional: reload chat list and close chat window
-    loadChatList();
-    document.getElementById("chatListView").classList.remove("hidden");
-    document.getElementById("chatView").classList.add("hidden");
-    window.currentChatFriend = null;
-
-  } catch (error) {
-    console.error("Error deleting chat:", error.message);
-  }
-}
-
-async function blockUser() {
-  const chatId = window.currentChatId;
-  if (!chatId) return console.error("No active chat");
-
-  try {
-    // 1. Fetch chat to determine the other user
-    const { data: chatRows, error: chatError } = await supabase
-      .from('chats')
-      .select('*')
-      .eq('id', chatId)
-      .limit(1);
-
-    if (chatError) throw chatError;
-    if (!chatRows?.length) throw new Error("Chat not found");
-
-    const chat = chatRows[0];
-
-    // 2. Determine friend ID
-    const blockedUserId =
-      chat.user1_id === currentUser.id ? chat.user2_id : chat.user1_id;
-
-    // 3. Insert block
     const { error: insertError } = await supabase
-      .from('user_blocks')
-      .insert({
-        blocker_id: currentUser.id,
-        blocked_id: blockedUserId
-      });
-
-    if (insertError) throw insertError;
-
-    // 4. Reload UI
-    loadChatList();
-    loadMessages(chatId);
-
-  } catch (error) {
-    console.error("Error blocking user:", error.message);
+      .from('user_tokens')
+      .upsert(
+        {
+          user_id: userId,
+          device_token: token,
+          device_type: deviceType,
+        },
+        { onConflict: ['user_id'] }
+      );
+  } catch (e) {
+    alert("Unexpected error: " + e.message);
   }
 }
 
+// --- onAndroidTokenReceived function ---
+window.onAndroidTokenReceived = function(token) {
+  insertDeviceRow(token);
+};
 
+//#endregion
 
-const kitchenopenBtn = document.getElementById("openProKitchenPopup");
-const kitchencloseBtn = document.getElementById("closeProKitchenPopup");
-const kitchenpopup = document.getElementById("proKitchenPopup");
-const kitchensendBtn = document.getElementById("sendProKitchenRequest");
-
-kitchenopenBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  kitchenpopup.classList.remove("hidden");
-});
-
-kitchencloseBtn.addEventListener("click", () => {
-  kitchenpopup.classList.add("hidden");
-});
-
-kitchensendBtn.addEventListener("click", async () => {
-  const message = document.getElementById("proKitchenMessage").value.trim();
-  if (!message) {
-    alert("Please tell us a little about yourself.");
-    return;
-  }
-
-  const { error } = await supabase
-    .from("contact_messages")
-    .insert({
-      user_id: currentUser.id,
-      email: currentUser.email,
-      subject: "ProKitchenAccess",
-      message
-    });
-
-  if (error) {
-    console.error(error);
-    alert("Something went wrong. Please try again.");
-    return;
-  }
-
-  document.getElementById("proKitchenMessage").value = "";
-  kitchenpopup.classList.add("hidden");
-  alert("Request sent! We'll get back to you soon 😊");
-});
-
-// --- Local Business Popup ---
-const openLocalBtn = document.getElementById("openLocalBusinessPopup");
-const closeLocalBtn = document.getElementById("closeLocalBusinessPopup");
-const localPopup = document.getElementById("localBusinessPopup");
-const sendLocalBtn = document.getElementById("sendLocalBusinessRequest");
-
-openLocalBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  localPopup.classList.remove("hidden");
-});
-
-closeLocalBtn.addEventListener("click", () => {
-  localPopup.classList.add("hidden");
-});
-
-sendLocalBtn.addEventListener("click", async () => {
-  const message = document.getElementById("localBusinessMessage").value.trim();
-  if (!message) {
-    alert("Please tell us a bit about your business.");
-    return;
-  }
-
-  const { error } = await supabase
-    .from("contact_messages")
-    .insert({
-      user_id: currentUser.id,
-      email: currentUser.email,
-      subject: "NewLocalPartner",
-      message
-    });
-
-  if (error) {
-    console.error(error);
-    alert("Something went wrong. Please try again.");
-    return;
-  }
-
-  document.getElementById("localBusinessMessage").value = "";
-  localPopup.classList.add("hidden");
-  alert("Request sent! We'll contact you soon 😊");
-});
-
-const sendContactBtn = document.getElementById("sendContactMessage");
-
-sendContactBtn.addEventListener("click", async () => {
-  const subject = document.getElementById("contactSubject").value.trim();
-  const message = document.getElementById("contactMessage").value.trim();
-
-  if (!subject) {
-    alert("Please select a subject.");
-    return;
-  }
-
-  if (!message) {
-    alert("Please write your message.");
-    return;
-  }
-
-  const { error } = await supabase
-    .from("contact_messages")
-    .insert({
-      user_id: currentUser.id,
-      email: currentUser.email,
-      subject,
-      message
-    });
-
-  if (error) {
-    console.error(error);
-    alert("Something went wrong. Please try again.");
-    return;
-  }
-
-  // Clear inputs
-  document.getElementById("contactSubject").value = "";
-  document.getElementById("contactMessage").value = "";
-
-  alert("We have received your message and will contact you shortly. Thank you!");
-});
-
-
-
-
-
-
-
-
-
-
+//#region DOM
 //--------------------------
 // INIT
 //--------------------------
@@ -5547,57 +5883,6 @@ if (modal) {
 await loadRecipes();
 //COMMUNITY
   await initCommunityModule();
-
-// ---- Anonymous Forum & Chat Initialization ----
-    // Forum collapse toggle
-    document.querySelectorAll(".AFsection h2").forEach(header => {
-      header.addEventListener("click", () => {
-        const content = header.nextElementSibling;
-        content.style.display = content.style.display === "block" ? "none" : "block";
-      });
-    });
-
-    // Close comment popup
-const closePopup = document.getElementById('AFclosePopup');
-const commentPopup = document.getElementById('AFcommentPopup');
-
-if (closePopup && commentPopup) {
-  // Close on X button
-  closePopup.addEventListener('click', () => {
-    commentPopup.classList.add('hidden');
-  });
-
-  // Close when clicking outside the popup content
-  commentPopup.addEventListener('click', (event) => {
-    // Check if click target is the overlay itself, not inner content
-    if (event.target === commentPopup) {
-      commentPopup.classList.add('hidden');
-    }
-  });
-}
-
-    // Submit block
-    const submitBlockBtn = document.getElementById('submitBlockBtn');
-    const blockContent = document.getElementById('blockContent');
-    if (submitBlockBtn && blockContent) {
-      submitBlockBtn.addEventListener('click', async () => {
-        const content = blockContent.value.trim();
-        if (!content) return;
-        await supabase.from('forum_blocks').insert([{ user_id: currentUser.id, content }]);
-        blockContent.value = '';
-        if (blockContent.resetCounter) blockContent.resetCounter();
-        loadForumBlocks();
-      });
-    }
-
-    // Submit comment
-    const submitCommentBtn = document.getElementById('AFsubmitCommentBtn');
-    const newCommentInput = document.getElementById('AFnewCommentInput');
-    if (submitCommentBtn && newCommentInput) {
-      submitCommentBtn.addEventListener('click', async () => {
-        await submitNewComment(newCommentInput.value.trim(), newCommentInput);
-      });
-    }
 
     // Load forum blocks and chats
     await loadForumBlocks();
@@ -5703,7 +5988,7 @@ document.getElementById("sendMessageBtn")?.addEventListener("click", async () =>
 
 //Mentorship
 await setupMentorshipUI();
-await setupDemoCard();
+await setupCard();
 await loadMentors();
 await checkAndToggleMentorUI();
 
@@ -5831,147 +6116,13 @@ await sendTokenToAndroid();
     el.classList.remove('popupinit-hidden');
   });
 });
-
-// On page load (and you can repeat periodically if needed
-  setInterval(async () => {
-    await supabase
-      .from('user_status')
-      .upsert({
-        user_id: currentUser.id,
-        app_open: true,
-        last_seen: new Date().toISOString(),
-      }, { onConflict: ['user_id'] });
-  }, 60_000); // update every 60s
-
-  async function sendTokenToAndroid() {
-  const { data } = await supabase.auth.getSession();
-  if (!data.session) return;
-
-  const token = data.session.access_token;
-
-// Fallback: only call NativeBridge if it exists
-  if (typeof NativeBridge !== 'undefined' && NativeBridge.sendUserToken) {
-    NativeBridge.sendUserToken(token);
-  }
-}
-
-// Detect device type
-function getDeviceType() {
-  const ua = navigator.userAgent || navigator.vendor || window.opera;
-
-  if (/android/i.test(ua)) return "android";
-  if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return "ios";
-  return "web";
-}
-
-
-// --- insertDeviceRow function ---
-async function insertDeviceRow(token) {
-  try {
-    // Get session asynchronously
-    const { data, error: sessionError } = await supabase.auth.getSession();
-    if (sessionError) {
-      return;
-    }
-
-    if (!data.session) {
-      return;
-    }
-
-    const userId = data.session.user.id;
-    const deviceType = getDeviceType();
-
-    const { error: insertError } = await supabase
-      .from('user_tokens')
-      .upsert(
-        {
-          user_id: userId,
-          device_token: token,
-          device_type: deviceType,
-        },
-        { onConflict: ['user_id'] }
-      );
-  } catch (e) {
-    alert("Unexpected error: " + e.message);
-  }
-}
-
-// --- onAndroidTokenReceived function ---
-window.onAndroidTokenReceived = function(token) {
-  insertDeviceRow(token);
-};
+//#endregion
 
 
 
-// --- VALIDATION ---
-// --- VALIDATION ---
-
-// Helper function to attach a live character counter
-// Helper function to attach a live character counter
-function attachCharCounter(inputId, counterId, maxLength, warningThreshold = 0.9, showThreshold = 0.7) {
-  const input = document.getElementById(inputId);
-  const counter = document.getElementById(counterId);
-
-  if (!input || !counter) return;
-
-  // Hide counter by default
-  counter.style.display = 'none';
-
-  function updateCounter() {
-    const length = input.value.length;
-    counter.textContent = `${length}/${maxLength}`;
-
-    if (length === 0) {
-      // Hide counter if input is empty
-      counter.style.display = 'none';
-    } else if (length >= maxLength * showThreshold) {
-      // Show counter if above showThreshold
-      counter.style.display = 'inline';
-    } else {
-      counter.style.display = 'none';
-    }
-
-    // Color if near limit
-    counter.style.color = length >= maxLength * warningThreshold ? 'red' : 'black';
-  }
-
-  // Update live while typing
-  input.addEventListener('input', updateCounter);
-
-  // Trim spaces when leaving the field
-  input.addEventListener('blur', () => {
-    input.value = input.value.trim();
-    updateCounter();
-  });
-
-  // Initialize counter
-  updateCounter();
-
-  // Optional: reset counter manually (e.g., after sending message)
-  input.resetCounter = function() {
-    input.value = '';
-    updateCounter();
-  };
-}
 
 
-// --- Profile & Pet Names ---
-attachCharCounter('profileNameInput', 'profileNameCharCount', 15);
-attachCharCounter('petNameInput', 'petNameCharCount', 15);
 
-// --- Ingredients & Instructions ---
-attachCharCounter('mealArtrecipeIngredients', 'ingredientsCharCount', 1000);
-attachCharCounter('mealArtrecipeInstructions', 'instructionsCharCount', 1000);
-attachCharCounter('recipeIngredients', 'recipeIngredientsCounter', 1000);
-attachCharCounter('recipeInstructions', 'recipeInstructionsCounter', 1000);
 
-// --- Messages & Comments ---
-attachCharCounter('messageInput', 'messageCharCount', 1000);
-attachCharCounter('blockContent', 'blockContentCounter', 1000);
-attachCharCounter('AFnewCommentInput', 'AFnewCommentCounter', 1000);
-attachCharCounter('communityMessageInput', 'communityMessageCounter', 1000);
-
-// --- Event description ---
-attachCharCounter('eventDescriptionInput', 'eventDescriptionCounter', 300, 0.9);
 
 

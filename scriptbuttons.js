@@ -103,7 +103,7 @@ communityDropdown.forEach(id => {
 });
 
 // 4️⃣ Playground dropdown: Achievements, Shop, Challenges
-const playgroundDropdown = ['shop','leaderboards','challenges'];
+const playgroundDropdown = ['leaderboards', 'achievements', 'shop', 'challenges'];
 playgroundDropdown.forEach(id => {
   const btn = document.querySelector(`button[onclick="showSection('${id}')"]`);
   if (btn) btn.addEventListener('click', () => {
@@ -357,7 +357,7 @@ profilePhotoInput.addEventListener('change', async e => {
   let file = e.target.files[0];
   if (!file) return;
 
-  file = await resizeImage(file, 600, 0.7);
+  file = await resizeImage(file, 600, 0.7, 'image/webp');
   newProfilePhotoFile = file;
 
   profilePhotoPreview.src = URL.createObjectURL(file);
@@ -372,7 +372,7 @@ petPhotoInput.addEventListener('change', async e => {
   let file = e.target.files[0];
   if (!file) return;
 
-  file = await resizeImage(file, 300, 0.7);
+  file = await resizeImage(file, 300, 0.7, 'image/webp');
   newPetPhotoFile = file;
 
   petPhotoPreview.src = URL.createObjectURL(file);
