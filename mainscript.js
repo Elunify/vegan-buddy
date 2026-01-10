@@ -82,59 +82,38 @@ async function renderProfile() {
   
   if (!profile) return;
 
-  // Profile photo
-  ["profilePhoto"].forEach(id => {
+  ["profilePhoto", "profilePhotoprofile", "profilePhotoPreview"].forEach(id => {
   const el = document.getElementById(id);
   if (!el) return;
 
-  const parent = el.parentElement;
   const hasFrame = profile.frame && profile.frame.trim() !== "";
 
-  // Create a div to replace the img
-  const div = document.createElement("div");
-  div.className = "profile-photo"; // keep all existing CSS
-
-  // Set background image (frame over photo)
-  div.style.backgroundImage = hasFrame
-    ? `url('${profile.frame}'), url('${profile.profile_photo || 'default.jpg'}')`
-    : `url('${profile.profile_photo || 'default.jpg'}')`;
-
-  // Background sizing and position
-  div.style.backgroundSize = hasFrame ? "contain, cover" : "cover";
-  div.style.backgroundPosition = "center";
-  div.style.backgroundRepeat = "no-repeat";
-  div.style.width = el.offsetWidth + "px";
-  div.style.height = el.offsetHeight + "px";
-
-  // Replace the <img> with this div
-  parent.replaceChild(div, el);
+  if (el.tagName === "IMG") {
+    if (id === "profilePhoto" && hasFrame) {
+      // Replace dropdown photo with div if frame exists
+      const parent = el.parentElement;
+      const div = document.createElement("div");
+      div.className = "profile-photo";
+      div.style.backgroundImage = `url('${profile.frame}'), url('${profile.profile_photo || 'default.jpg'}')`;
+      div.style.backgroundSize = "contain, cover";
+      div.style.backgroundPosition = "center";
+      div.style.backgroundRepeat = "no-repeat";
+      div.style.width = el.offsetWidth + "px";
+      div.style.height = el.offsetHeight + "px";
+      div.dataset.profilePhotoDiv = "true";
+      parent.replaceChild(div, el);
+    } else {
+      // Normal <img>, just update src
+      el.src = profile.profile_photo || "default.jpg";
+    }
+  } else if (el.dataset.profilePhotoDiv === "true") {
+    // Update existing div's background
+    el.style.backgroundImage = hasFrame
+      ? `url('${profile.frame}'), url('${profile.profile_photo || 'default.jpg'}')`
+      : `url('${profile.profile_photo || 'default.jpg'}')`;
+  }
 });
 
-// Profile photo
-  ["profilePhotoprofile", "profilePhotoPreview"].forEach(id => {
-  const el = document.getElementById(id);
-  if (!el) return;
-
-  const parent = el.parentElement;
-  const hasFrame = profile.frame && profile.frame.trim() !== "";
-
-  // Create a div to replace the img
-  const div = document.createElement("div");
-  div.className = "profile-photosettings"; // keep all existing CSS
-
-  // Set background image (frame over photo)
-  div.style.backgroundImage = hasFrame
-    ? `url('${profile.frame}'), url('${profile.profile_photo || 'default.jpg'}')`
-    : `url('${profile.profile_photo || 'default.jpg'}')`;
-
-  // Background sizing and position
-  div.style.backgroundSize = hasFrame ? "contain, cover" : "cover";
-  div.style.backgroundPosition = "center";
-  div.style.backgroundRepeat = "no-repeat";
-
-  // Replace the <img> with this div
-  parent.replaceChild(div, el);
-});
   
 
   // Name & Diet
@@ -412,6 +391,15 @@ function loadWinnersFromData() {
 //--------------------------
 // HELPERS
 //--------------------------
+function sanitizeFileName(filename) {
+  return filename
+    .normalize("NFD")                     // é → e + accent
+    .replace(/[\u0300-\u036f]/g, "")     // remove accents
+    .replace(/\s+/g, "_")                // spaces → _
+    .replace(/[^a-zA-Z0-9._-]/g, "")     // remove unsafe chars
+    .toLowerCase();
+}
+
 async function addXP(amount) {
   if (typeof amount !== "number" || amount <= 0) return;
 
@@ -421,15 +409,9 @@ async function addXP(amount) {
   }
 
   try {
-    const { data, error } = await supabase.rpc("add_xp", {
-  user_id: currentUser.id,
-  xp_amount: amount
-}).single();
+    const { data, error } = await supabase.rpc("add_xp", { p_xp: amount }).single();
 
 if (error) throw error;
-
-
-    if (error) throw error;
 
     // ✅ USE UPDATED DATA FROM SUPABASE
     const totalXP = data.total_xp ?? 0;
@@ -749,7 +731,7 @@ function renderMealItem(meal, today) {
 
   const foodNameP = document.createElement("p");
   foodNameP.className = "food-name";
-  foodNameP.textContent = meal.food_name; // <- use food_name
+  foodNameP.textContent = meal.food_name;
   mealDiv.appendChild(foodNameP);
 
   const img = document.createElement("img");
@@ -775,47 +757,37 @@ function renderMealItem(meal, today) {
     delBtn.className = "delete-meal-btn";
     delBtn.textContent = "Delete";
     delBtn.addEventListener("click", async () => {
-  if (!confirm("Are you sure you want to delete this meal?")) return;
+      if (!confirm("Are you sure you want to delete this meal?")) return;
 
-  // 1️⃣ Delete DB row
-  const { error } = await supabase
-    .from("meals")
-    .delete()
-    .eq("id", meal.id);
+      // 1️⃣ Delete DB row first
+      const { error: delError } = await supabase
+        .from("meals")
+        .delete()
+        .eq("id", meal.id);
 
-  if (error) {
-    alert("Error deleting meal: " + error.message);
-    return;
-  }
-
-  // 2️⃣ Delete image from storage
-  if (meal.image_url) {
-    const filePath = getStoragePathFromPublicUrl(
-      meal.image_url,
-      "meal_uploads"
-    );
-
-    if (filePath) {
-      const { error: storageError } =
-        await supabase.storage.from("meal_uploads").remove([filePath]);
-
-      if (storageError) {
-        console.error("Meal image delete failed:", storageError);
+      if (delError) {
+        console.error("Delete failed:", delError);
+        return;
       }
-    }
+
+      // 2️⃣ Delete image from storage
+      if (meal.image_url) {
+  const filePath = getMealStoragePath(meal.image_url);
+  if (filePath) {
+    const { error } = await supabase.storage.from("meal-uploads").remove([filePath]);
   }
+}
 
-  // 3️⃣ Update UI
-  mealDiv.remove();
+      // 3️⃣ Update UI
+      mealDiv.remove();
+      const uploadBtn = document.getElementById("uploadBtn");
+      if (uploadBtn) uploadBtn.style.display = "block";
 
-  const uploadBtn = document.getElementById("uploadBtn");
-  if (uploadBtn) uploadBtn.style.display = "block";
+      const alreadyUploadedMsg = document.getElementById("alreadyUploadedMsg");
+      if (alreadyUploadedMsg) alreadyUploadedMsg.style.display = "none";
 
-  const alreadyUploadedMsg = document.getElementById("alreadyUploadedMsg");
-  if (alreadyUploadedMsg) alreadyUploadedMsg.style.display = "none";
-
-  fetchAllData();
-});
+      fetchAllData();
+    });
     mealDiv.appendChild(delBtn);
   }
 
@@ -832,6 +804,22 @@ function renderMealItem(meal, today) {
     (meal.is_pro ? proKitchenWinners : homeChefWinners).appendChild(mealDiv);
   } else {
     (meal.is_pro ? proKitchenGallery : homeChefGallery).appendChild(mealDiv);
+  }
+}
+
+// Helper to extract storage path from public URL
+function getMealStoragePath(publicUrl) {
+  try {
+    const url = new URL(publicUrl);
+    const marker = "/object/public/meal-uploads/";
+    const index = url.pathname.indexOf(marker);
+    if (index === -1) return null;
+
+    // Everything after the marker (includes subfolder)
+    return url.pathname.substring(index + marker.length);
+  } catch (err) {
+    console.error("Invalid URL for storage path:", publicUrl);
+    return null;
   }
 }
 
@@ -870,21 +858,24 @@ function setupMealUploadForm() {
   const form = document.getElementById("mealUploadForm");
   const uploadBtn = document.getElementById("uploadBtn");
 
+  let mealPhotoFile = null;
+
   // Photo preview
   mealPhotoInput.addEventListener("change", e => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        previewImage.src = e.target.result;
-        photoPreview.style.display = "block";
-      };
-      reader.readAsDataURL(file);
-    } else {
-      previewImage.src = "";
-      photoPreview.style.display = "none";
-    }
-  });
+  mealPhotoFile = e.target.files[0] || null;
+
+  if (mealPhotoFile) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      previewImage.src = e.target.result;
+      photoPreview.style.display = "block";
+    };
+    reader.readAsDataURL(mealPhotoFile);
+  } else {
+    previewImage.src = "";
+    photoPreview.style.display = "none";
+  }
+});
 
   // Form submit
 form.addEventListener("submit", async e => {
@@ -901,6 +892,12 @@ form.addEventListener("submit", async e => {
 
     // --- Resize the image here ---
     file = await resizeImage(file, 600, 0.7, 'image/webp');
+
+    const safeFileName = sanitizeFileName(
+      `meal_${currentUser.id}_${Date.now()}.webp`
+    );
+
+    file = new File([file], safeFileName, { type: 'image/webp' });
     mealPhotoFile = file;
 
     const foodName = document.getElementById("mealArtrecipeName").value.trim();
@@ -951,9 +948,7 @@ form.addEventListener("submit", async e => {
     form.reset();
     previewImage.src = "";
     photoPreview.style.display = "none";
-    document.getElementById("MealArtUploadContent").classList.add("hidden-meal");
-    document.getElementById("mealArtContestSmall").classList.remove("hidden-meal");
-    document.querySelector(".main-tab[data-tab='participants']")?.click();
+    goBackTab();
   } catch (err) {
     alert(err.message);
   } finally {
@@ -2305,16 +2300,19 @@ function setupRecipeUploadForm() {
   const uploadFeedback = document.getElementById("uploadFeedback");
   const submitBtn = form.querySelector('button[type="submit"]');
 
+  let recipePhotoFile = null;
+
   // Image preview
   recipeImageInput.addEventListener("change", e => {
-    const file = e.target.files[0];
-    if (file) {
+    recipePhotoFile = e.target.files[0] || null;
+
+    if (recipePhotoFile) {
       const reader = new FileReader();
       reader.onload = e => {
         previewImg.src = e.target.result;
         imagePreview.style.display = "flex";
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(recipePhotoFile);
     } else {
       previewImg.src = "";
       imagePreview.style.display = "none";
@@ -2326,36 +2324,45 @@ function setupRecipeUploadForm() {
   e.preventDefault();
   if (!submitBtn) return;
 
-  let file = mealPhotoFile; 
-  if (!file) return alert("Please select a recipe image before submitting.");
-
-  // --- Resize the image here ---
-    file = await resizeImage(file, 600, 0.7, 'image/webp');
-    mealPhotoFile = file;
-
-  const title = document.getElementById("recipeTitle").value.trim();
-  const prepTime = document.getElementById("recipePrepTime").value.trim();
-  const ingredients = document.getElementById("recipeIngredients").value.trim();
-  const instructions = document.getElementById("recipeInstructions").value.trim();
-
-  if (!title || !prepTime || !ingredients || !instructions) {
-    return alert("Please fill in all fields before submitting.");
-  }
-
   submitBtn.disabled = true;
   submitBtn.textContent = "Uploading...";
 
   try {
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${currentUser.id}_${Date.now()}.${fileExt}`;
-    const filePath = `recipes/${fileName}`;
+    let file = recipePhotoFile;
+    if (!file) throw new Error("Please select a recipe image before submitting.");
 
-    const { error: uploadError } =
-      await supabase.storage.from("recipes").upload(filePath, file);
+    // --- Resize the image here ---
+    file = await resizeImage(file, 600, 0.7, 'image/webp');
+
+    // --- Generate safe filename ---
+    const safeFileName = sanitizeFileName(
+      `recipe_${currentUser.id}_${Date.now()}.webp`
+    );
+
+    file = new File([file], safeFileName, { type: 'image/webp' });
+    recipePhotoFile = file;
+
+    const title = document.getElementById("recipeTitle").value.trim();
+    const prepTime = document.getElementById("recipePrepTime").value.trim();
+    const ingredients = document.getElementById("recipeIngredients").value.trim();
+    const instructions = document.getElementById("recipeInstructions").value.trim();
+
+    if (!title || !prepTime || !ingredients || !instructions) {
+      throw new Error("Please fill in all fields before submitting.");
+    }
+
+    const filePath = `recipes/${safeFileName}`;
+
+    const { error: uploadError } = await supabase
+      .storage
+      .from("recipes")
+      .upload(filePath, file);
+
     if (uploadError) throw uploadError;
 
-    const { data } =
-      supabase.storage.from("recipes").getPublicUrl(filePath);
+    const { data } = supabase.storage
+      .from("recipes")
+      .getPublicUrl(filePath);
 
     const { error: insertError } = await supabase
       .from("recipes")
@@ -2374,12 +2381,11 @@ function setupRecipeUploadForm() {
     await addXP(2);
 
     form.reset();
-    mealPhotoFile = null; 
-    mealPhotoPreview.src = "";
-    mealPhotoPreview.style.display = "none";
+    recipePhotoFile = null;
+    previewImg.src = "";
+    imagePreview.style.display = "none";
 
-    document.getElementById("upload-recipe")
-      .classList.add("hidden-modal");
+    document.getElementById("upload-recipe").classList.add("hidden-modal");
 
     if (typeof loadRecipes === "function") loadRecipes();
 
@@ -2391,6 +2397,7 @@ function setupRecipeUploadForm() {
   }
 });
 }
+
 //#endregion
 
 //#region COMPARISON
@@ -2519,16 +2526,16 @@ async function saveProfile() {
   updates.pet_name = document.getElementById('petNameInput').value || null;
 
   // --- Handle Profile Photo ---
-  if (newProfilePhotoFile) {
-    await deleteFileByPublicUrl('profile_photos',currentProfile.profile_photo);
-    updates.profile_photo = await uploadFile(newProfilePhotoFile, 'profile_photos', currentUser.id);
-  }
+if (newProfilePhotoFile) {
+  await deleteFileByUrl(currentProfile.profile_photo);  
+  updates.profile_photo = await uploadFile(newProfilePhotoFile, 'profile_photos', currentUser.id);
+}
 
-  // --- Handle Pet Photo ---
-  if (newPetPhotoFile) {
-    await deleteFileByPublicUrl('pet_photos',currentProfile.pet_photo);
-    updates.pet_photo = await uploadFile(newPetPhotoFile, 'pet_photos', currentUser.id);
-  }
+// --- Handle Pet Photo ---
+if (newPetPhotoFile) {
+  await deleteFileByUrl(currentProfile.pet_photo);
+  updates.pet_photo = await uploadFile(newPetPhotoFile, 'pet_photos', currentUser.id);
+}
 
   // --- Update profiles table ---
   const { error: updateError } = await supabase.from('profiles').update(updates).eq('id', currentUser.id);
@@ -2557,40 +2564,63 @@ async function saveProfile() {
   // --- Update local profile object ---
   Object.assign(currentProfile, updates);
 
-const { profile, globalImpact } = await fetchAllData();
-await renderProfile(profile, globalImpact);
-await initExtraLessons();
+// Re-fetch latest data
+const { profile, impact } = await fetchAllData();
+
+// Update global variables (fetchAllData already does this)
+currentProfile = profile;
+currentGlobalImpact = impact;
+
+// Re-render everything that depends on profile/globalImpact
+await renderProfile();       
+await initExtraLessons();    
 
   // Show profile view
-  document.querySelector('.containeredit')?.classList.add('hidden');
-  document.querySelector('.containersettings')?.classList.remove('hidden');
+  goBackTab();
 }
 
-async function deleteFileByPublicUrl(bucket, publicUrl) {
+async function deleteFileByUrl(publicUrl) {
   if (!publicUrl) return;
 
   try {
     const url = new URL(publicUrl);
+    const match = url.pathname.match(/\/object\/public\/([^\/]+)\/(.+)/);
+    if (!match) return;
 
-    // Extract path after `/object/public/{bucket}/`
-    const filePath = url.pathname.split(`/object/public/${bucket}/`)[1];
-    if (!filePath) return;
+    const bucket = match[1];
+    const filePath = match[2];
 
-    await supabase.storage.from(bucket).remove([filePath]);
+    const { error } = await supabase.storage.from(bucket).remove([filePath]);
+    if (error) console.warn("Failed to delete file:", error);
   } catch (err) {
-    console.warn("Failed to delete old file:", err);
+    console.warn("Error parsing URL:", err);
   }
 }
 
 
 // --- Helper: upload file ---
 async function uploadFile(file, bucket, userId) {
-  const timestamp = Date.now();
-  const fileName = `${userId}/${file.name.split('.')[0]}-${timestamp}.${file.name.split('.').pop()}`;
-  const { data, error } = await supabase.storage.from(bucket).upload(fileName, file, { upsert: true });
+  // Sanitize the file name to avoid invalid characters
+  const safeName = sanitizeFileName(file.name);
+
+  // Extract extension and base name
+  const ext = safeName.split('.').pop();
+  const base = safeName.replace(`.${ext}`, '');
+
+  // Build the file path with timestamp to avoid conflicts
+  const filePath = `${userId}/${base}-${Date.now()}.${ext}`;
+
+  // Upload the file to Supabase Storage
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .upload(filePath, file, { upsert: true });
+
   if (error) throw error;
-  return supabase.storage.from(bucket).getPublicUrl(fileName).data.publicUrl;
+
+  // Return the public URL of the uploaded file
+  return supabase.storage.from(bucket).getPublicUrl(filePath).data.publicUrl;
 }
+
 
 // Attach save button
 document.getElementById('saveBtn')?.addEventListener('click', saveProfile);

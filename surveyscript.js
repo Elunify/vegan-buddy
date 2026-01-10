@@ -214,9 +214,11 @@ function typeText(elementId, text, callback) {
 async function uploadFile(bucket, file, userId) {
   if (!file) return null;
 
-  // Create a unique filename per user
-  const ext = file.name.split('.').pop();
-  const filePath = `${userId}/${Date.now()}.${ext}`;
+  const safeName = sanitizeFileName(file.name);
+  const ext = safeName.split('.').pop();
+  const base = safeName.replace(`.${ext}`, '');
+
+  const filePath = `${userId}/${base}-${Date.now()}.${ext}`;
 
   const { error } = await supabase.storage.from(bucket).upload(filePath, file, {
     cacheControl: '3600',
@@ -228,9 +230,7 @@ async function uploadFile(bucket, file, userId) {
     return null;
   }
 
-  // Get public URL
-  const { data } = supabase.storage.from(bucket).getPublicUrl(filePath);
-  return data.publicUrl;
+  return supabase.storage.from(bucket).getPublicUrl(filePath).data.publicUrl;
 }
 
 // --- Profile photo preview + upload ---
@@ -337,7 +337,6 @@ async function saveProfile() {
     forest_saved: 0,
     water_saved: 0,
     co2_saved: 0,
-    donated: 0,
     total_xp: 10,
     current_level: 1,
     badge: 1,
@@ -417,4 +416,13 @@ async function resizeImage(file, maxSize = 600, quality = 0.7) {
     img.onerror = err => reject(err);
     reader.readAsDataURL(file);
   });
+}
+
+function sanitizeFileName(filename) {
+  return filename
+    .normalize("NFD")                     // é → e + accent
+    .replace(/[\u0300-\u036f]/g, "")     // remove accents
+    .replace(/\s+/g, "_")                // spaces → _
+    .replace(/[^a-zA-Z0-9._-]/g, "")     // remove unsafe chars
+    .toLowerCase();
 }
