@@ -350,10 +350,9 @@ async function resizeImage(file, maxSize = 600, quality = 0.7) {
   });
 }
 
-
-// --- PROFILE PHOTO PREVIEW ---
 // --- PROFILE PHOTO PREVIEW ---
 const profilePhotoInput = document.getElementById('profilePhotoUpload');
+const profilePhotoPreview = document.getElementById('profilePhotoPreview');
 let newProfilePhotoFile = null;
 
 profilePhotoInput.addEventListener('change', async e => {
@@ -365,19 +364,15 @@ profilePhotoInput.addEventListener('change', async e => {
 
   const fileUrl = URL.createObjectURL(file);
 
-  // Update all profile photo elements
-  ["profilePhotoPreview"].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-
-    // If it's a div (frame), only show the photo without frame
-    if (el.dataset.profilePhotoDiv === "true") {
-      el.style.backgroundImage = `url('${fileUrl}')`;
-    } else if (el.tagName === "IMG") {
-      el.src = fileUrl;
+  if (profilePhotoPreview) {
+    if (profilePhotoPreview.dataset.profilePhotoDiv === "true") {
+      profilePhotoPreview.style.backgroundImage = `url('${fileUrl}')`;
+    } else if (profilePhotoPreview.tagName === "IMG") {
+      profilePhotoPreview.src = fileUrl;
     }
-  });
+  }
 });
+
 
 // --- PET PHOTO PREVIEW ---
 const petPhotoInput = document.getElementById('petPhotoUpload');

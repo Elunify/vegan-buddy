@@ -679,6 +679,13 @@ attachCharCounter('communityMessageInput', 'communityMessageCounter', 1000);
 
 // --- Event description ---
 attachCharCounter('eventDescriptionInput', 'eventDescriptionCounter', 300, 0.9);
+
+// Helper function to create a trimmed preview for chat list
+function makePreview(text, maxLength = 20) {
+  if (!text) return "";
+  return text.length > maxLength ? text.slice(0, maxLength) + '…' : text;
+}
+
 //#endregion
 
 //#region MEALART
@@ -2398,6 +2405,30 @@ function setupRecipeUploadForm() {
 });
 }
 
+// Open modal button
+    const openUploadBtn = document.getElementById("openUploadBtn");
+    const uploadModal = document.getElementById("upload-recipe");
+    const closeBtns = uploadModal.querySelectorAll(".close-btn");
+
+    // Show modal
+    openUploadBtn.addEventListener("click", () => {
+      uploadModal.classList.remove("hidden-modal");
+    });
+
+    // Hide modal with close buttons
+    closeBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        uploadModal.classList.add("hidden-modal");
+      });
+    });
+
+    // Hide modal when clicking outside content
+    window.addEventListener("click", e => {
+      if (e.target === uploadModal) {
+        uploadModal.classList.add("hidden-modal");
+      }
+    });
+
 //#endregion
 
 //#region COMPARISON
@@ -2957,6 +2988,24 @@ async function loadFriendsTab() {
   await showFriends("friendsList", friend => startChatWithFriend(friend));
 }
 
+
+//Friends + messages
+  
+// Friend request popup
+  document.getElementById("sendFriendRequestBtn")?.addEventListener("click", async () => {
+    const friend_code = document.getElementById("friendEmailInput")?.value;
+    const result = await sendRequest(friend_code);
+    if (!result.success) alert(result.message);
+    else {
+      alert("Friend request sent!");
+      document.getElementById("friendEmailInput").value = "";
+      searchPopup.style.display = "none";
+      await showFriends("friendsList", friend => startChatWithFriend(friend));
+      if (joinedLocationId) await showCommunityMembers(joinedLocationId);
+    }
+  });
+
+
 //#endregion 
 
 //#region MESSAGES
@@ -3377,6 +3426,80 @@ async function blockUser() {
     console.error("Error blocking user:", error.message);
   }
 }
+
+  // Back to chat list
+  document.getElementById("backToList")?.addEventListener("click", () => {
+    document.getElementById("chatListView")?.classList.remove("hidden");
+    document.getElementById("chatView")?.classList.add("hidden");
+    window.currentChatId = null;
+    window.currentChatFriend = null;
+  });
+
+  // Send message button
+document.getElementById("sendMessageBtn")?.addEventListener("click", async () => {
+  const messageInput = document.getElementById("messageInput");
+  const text = messageInput.value.trim();
+  if (!text) return;
+
+  const friend = window.currentChatFriend;
+  if (!friend?.id) return console.error("No valid friend selected.");
+
+  try {
+    // Get current user's profile info
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select("name, profile_photo")
+      .eq("id", currentUser.id)
+      .maybeSingle();
+
+    let chatId = window.currentChatId;
+
+    // Create a preview message for last_message column
+    const previewMessage = makePreview(text, 20); // adjust 200 to your column limit
+
+    // Create chat if it doesn't exist
+    if (!chatId) {
+      const { data: newChat } = await supabase.from('chats').insert([{
+        user1_id: currentUser.id,
+        user1_name: profile?.name,
+        user1_profile_photo: profile?.profile_photo || "",
+        user2_id: friend.id,
+        user2_name: friend.name,
+        user2_profile_photo: friend.photo || "",
+        last_message: previewMessage,
+        last_message_at: new Date().toISOString()
+      }]).select().single();
+
+      chatId = newChat.id;
+      window.currentChatId = chatId;
+    } else {
+      // Update existing chat
+      await supabase.from('chats').update({
+        last_message: previewMessage,
+        last_message_at: new Date().toISOString()
+      }).eq('id', chatId);
+    }
+
+    // Insert full message into messages table
+    await supabase.from('messages').insert([{
+      chat_id: chatId,
+      sender_id: currentUser.id,
+      receiver_id: friend.id,
+      content: text
+    }]);
+
+    // Clear input and reset counter
+    messageInput.value = '';
+    if (messageInput.resetCounter) messageInput.resetCounter();
+
+    // Reload messages
+    loadMessages(chatId, friend);
+
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 
 //#endregion
 
@@ -4850,6 +4973,40 @@ async function addAchievementToProfile(userId, newAchievement) {
     if (updateError) console.error("Error updating achievements:", updateError);
   }
 }
+
+async function checkAchievementSuggestions() {
+  if (!currentProfile?.id) return;
+
+  // Fetch achievements data
+  const { data, error } = await supabase
+    .from("achievements_data")
+    .select("events_organized, meal_art_wins")
+    .eq("user_id", currentProfile.id)
+    .single();
+
+  if (error) {
+    console.error("Error fetching achievements_data:", error);
+    return;
+  }
+
+  const achievementsList = currentProfile.achievements || [];
+
+  // ---- EVENT ORGANISER ACHIEVEMENT ----
+  if (data.events_organized >= 1 && !achievementsList.includes("Local Hero")) {
+    showProgressSuggestion(
+      "🎉 You hosted your first event! Open Achievements to add your badge!",
+      currentProfile.pet_photo
+    );
+  }
+
+  // ---- MEAL ART WIN ACHIEVEMENT ----
+  if (data.meal_art_wins >= 1 && !achievementsList.includes("Expert Vegan Chef")) {
+    showProgressSuggestion(
+      "🍽️ Your Meal Art won! Congratulations! Claim your achievement in your profile!",
+      currentProfile.pet_photo
+    );
+  }
+}
 //#endregion
 
 //#region SHOP
@@ -5849,303 +6006,197 @@ window.onAndroidTokenReceived = function(token) {
 // INIT
 //--------------------------
 document.addEventListener("DOMContentLoaded", async () => {
-    //pageload
   showLoading(true);
+
   try {
-    await fetchAllData(); // loads currentProfile
-    await renderProfile(); 
-    await initExtraLessons(); // now progress is available
-    await loadWinnersFromData();
+    /* =========================
+       PHASE 1 — CRITICAL LOAD
+       ========================= */
+    await fetchAllData();            // sets currentUser + currentProfile
+    await renderProfile();           // user must see something ASAP
 
 
-    // ✅ Wait a tick to ensure DOM is updated
-    setTimeout(async () => {
-      if (currentUser && currentUser.id) {
-        await setupMondayVoting(currentUser.id);
-        await displayAchievementsSettings(currentUser.id);
-      }
-    }, 300);
+    /* =========================
+       PHASE 2 — IMPORTANT (PARALLEL)
+       ========================= */
+    await Promise.all([
+      initExtraLessons(),
+      loadWinnersFromData(),
+      initHealthPaths(),
+      loadRecipes(),
+      loadFriendsTab()
+    ]);
 
-  } catch (err) {
-    console.error("Error initializing mainpage:", err);
-  }
+
+    /* =========================
+       PHASE 3 — USER-DEPENDENT SETUP
+       ========================= */
+    if (currentUser?.id) {
+      await Promise.all([
+        setupMondayVoting(currentUser.id),
+        displayAchievementsSettings(currentUser.id)
+      ]);
+    }
 
     blockedUserIds = await getBlockedUserIds(supabase, currentUser.id);
 
-  //dailycheckin
 
-  try {
-    getTodaysLessonFromProfile(currentProfile);
-    renderTodaysLesson();
-    renderYesterdaysQuiz(currentProfile);
-
-    window.handleSubmit = handleSubmit;
-  } catch (err) {
-    console.error("Daily Check-in setup error:", err);
-  }
-  //Healthlessons
-  await initHealthPaths();
-
-//Comparison
-if (currentProfile) {
-  injectComparisonSentences(currentProfile);
-} else {
-  console.warn("currentProfile not available yet — comparison sentences not injected.");
-}
-
-//MEALART
-setupTabs();
-  setupUploadButton();
-  setupMealUploadForm();
-  setupRecipeModalClose();
-  renderMeals(currentMeals);
-
-  const modal = document.getElementById("mealArtrecipeModal");
-if (modal) {
-    modal.classList.add("hidden-meal");
-    modal.style.display = "none"; // force hide
-  }
-  const today = new Date().getDay();
-  updateMealArtNotes(today);
-
-
-//Recipes
-await loadRecipes();
-//COMMUNITY
-  await initCommunityModule();
-
-    // Load forum blocks and chats
-    await loadForumBlocks();
-    await loadChatList();
-
-//Friends + messages
-  
-// Friend request popup
-  document.getElementById("sendFriendRequestBtn")?.addEventListener("click", async () => {
-    const friend_code = document.getElementById("friendEmailInput")?.value;
-    const result = await sendRequest(friend_code);
-    if (!result.success) alert(result.message);
-    else {
-      alert("Friend request sent!");
-      document.getElementById("friendEmailInput").value = "";
-      searchPopup.style.display = "none";
-      await showFriends("friendsList", friend => startChatWithFriend(friend));
-      if (joinedLocationId) await showCommunityMembers(joinedLocationId);
+    /* =========================
+       PHASE 4 — DAILY CHECK-IN
+       ========================= */
+    try {
+      getTodaysLessonFromProfile(currentProfile);
+      renderTodaysLesson();
+      renderYesterdaysQuiz(currentProfile);
+      window.handleSubmit = handleSubmit;
+    } catch (err) {
+      console.error("Daily Check-in setup error:", err);
     }
-  });
 
-  // Back to chat list
-  document.getElementById("backToList")?.addEventListener("click", () => {
-    document.getElementById("chatListView")?.classList.remove("hidden");
-    document.getElementById("chatView")?.classList.add("hidden");
-    window.currentChatId = null;
-    window.currentChatFriend = null;
-  });
+    showLoading(false);              // UI becomes interactive immediately
 
-  // Helper function to create a trimmed preview for chat list
-function makePreview(text, maxLength = 20) {
-  if (!text) return "";
-  return text.length > maxLength ? text.slice(0, maxLength) + '…' : text;
-}
 
-// Send message button
-document.getElementById("sendMessageBtn")?.addEventListener("click", async () => {
-  const messageInput = document.getElementById("messageInput");
-  const text = messageInput.value.trim();
-  if (!text) return;
-
-  const friend = window.currentChatFriend;
-  if (!friend?.id) return console.error("No valid friend selected.");
-
-  try {
-    // Get current user's profile info
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select("name, profile_photo")
-      .eq("id", currentUser.id)
-      .maybeSingle();
-
-    let chatId = window.currentChatId;
-
-    // Create a preview message for last_message column
-    const previewMessage = makePreview(text, 20); // adjust 200 to your column limit
-
-    // Create chat if it doesn't exist
-    if (!chatId) {
-      const { data: newChat } = await supabase.from('chats').insert([{
-        user1_id: currentUser.id,
-        user1_name: profile?.name,
-        user1_profile_photo: profile?.profile_photo || "",
-        user2_id: friend.id,
-        user2_name: friend.name,
-        user2_profile_photo: friend.photo || "",
-        last_message: previewMessage,
-        last_message_at: new Date().toISOString()
-      }]).select().single();
-
-      chatId = newChat.id;
-      window.currentChatId = chatId;
+    /* =========================
+       PHASE 5 — COMPARISON
+       ========================= */
+    if (currentProfile) {
+      injectComparisonSentences(currentProfile);
     } else {
-      // Update existing chat
-      await supabase.from('chats').update({
-        last_message: previewMessage,
-        last_message_at: new Date().toISOString()
-      }).eq('id', chatId);
+      console.warn("currentProfile not available — comparison skipped.");
     }
 
-    // Insert full message into messages table
-    await supabase.from('messages').insert([{
-      chat_id: chatId,
-      sender_id: currentUser.id,
-      receiver_id: friend.id,
-      content: text
-    }]);
 
-    // Clear input and reset counter
-    messageInput.value = '';
-    if (messageInput.resetCounter) messageInput.resetCounter();
+    /* =========================
+       PHASE 6 — MEAL ART
+       ========================= */
+    setupTabs();
+    setupUploadButton();
+    setupMealUploadForm();
+    setupRecipeModalClose();
+    renderMeals(currentMeals);
 
-    // Reload messages
-    loadMessages(chatId, friend);
+    const mealModal = document.getElementById("mealArtrecipeModal");
+    if (mealModal) {
+      mealModal.classList.add("hidden-meal");
+      mealModal.style.display = "none";
+    }
 
-  } catch (err) {
-    console.error(err);
-  }
-});
+    updateMealArtNotes(new Date().getDay());
 
-  // Load friends & requests
-  await loadFriendsTab();
 
-//Mentorship
-await setupMentorshipUI();
-await setupCard();
-await loadMentors();
-await checkAndToggleMentorUI();
+    /* =========================
+       PHASE 7 — COMMUNITY (PARALLEL)
+       ========================= */
+    await Promise.all([
+      initCommunityModule(),
+      loadForumBlocks(),
+      loadChatList()
+    ]);
 
-//LeaderBoards
-await fetchAllLeaderboards();
 
-// Setup the upload form
+    /* =========================
+       PHASE 8 — MENTORSHIP
+       ========================= */
+    await Promise.all([
+      setupMentorshipUI(),
+      setupCard(),
+      loadMentors(),
+      checkAndToggleMentorUI()
+    ]);
+
+
+    /* =========================
+       PHASE 9 — LEADERBOARDS
+       ========================= */
+    await fetchAllLeaderboards();
+
+
+    /* =========================
+       PHASE 10 — RECIPE UPLOAD
+       ========================= */
     setupRecipeUploadForm();
 
-    // Open modal button
-    const openUploadBtn = document.getElementById("openUploadBtn");
-    const uploadModal = document.getElementById("upload-recipe");
-    const closeBtns = uploadModal.querySelectorAll(".close-btn");
 
-    // Show modal
-    openUploadBtn.addEventListener("click", () => {
-      uploadModal.classList.remove("hidden-modal");
-    });
+    /* =========================
+       PHASE 11 — ACHIEVEMENTS & SHOP
+       ========================= */
+    if (currentUser?.id) {
+      await Promise.all([
+        displayAchievementsPage(currentUser.id),
+        setupShop(currentUser.id)
+      ]);
+    }
 
-    // Hide modal with close buttons
-    closeBtns.forEach(btn => {
-      btn.addEventListener("click", () => {
-        uploadModal.classList.add("hidden-modal");
-      });
-    });
 
-    // Hide modal when clicking outside content
-    window.addEventListener("click", e => {
-      if (e.target === uploadModal) {
-        uploadModal.classList.add("hidden-modal");
+    /* =========================
+       PHASE 12 — CHALLENGES
+       ========================= */
+    if (currentUser?.id) {
+      await Promise.all([
+        loadDailyXpChallenge(currentUser.id),
+        loadEncourageChallenge(),
+        loadMindfulPopupState(currentUser.id),
+        loadLessonChallenge(),
+        checkLearnProgress(currentUser.id),
+        loadFriendSelect(currentUser.id)
+      ]);
+
+      const challenges = [
+        { key: "daily_xp", btnId: "daily-xp-claim" },
+        { key: "learn", btnId: "learnClaimBtn" },
+        { key: "mindful", btnId: "mindfulStartBtn" },
+        { key: "encourage", btnId: "encourageClaimBtn" }
+      ];
+
+      for (const c of challenges) {
+        const claimed = await isClaimed(currentUser.id, c.key);
+        const btn = document.getElementById(c.btnId);
+        if (btn && claimed) btn.disabled = true;
       }
+    }
+
+
+    /* =========================
+       PHASE 13 — NOTIFICATIONS
+       ========================= */
+    initNotifications(
+      supabase,
+      currentUser.id,
+      currentProfile.friend_code,
+      joinedLocationId
+    );
+
+
+    /* =========================
+       PHASE 14 — BACKGROUND TASKS
+       ========================= */
+    requestIdleCallback(async () => {
+      await checkAchievementSuggestions();
+      await sendTokenToAndroid();
+
+      await supabase
+        .from("user_status")
+        .upsert({
+          user_id: currentUser.id,
+          app_open: true,
+          last_seen: new Date().toISOString()
+        }, { onConflict: ['user_id'] });
     });
 
-    // Achievements
-    if (currentUser && currentUser.id) {
-    displayAchievementsPage(currentUser.id);
+
+    /* =========================
+       PHASE 15 — FINAL UI CLEANUP
+       ========================= */
+    document.querySelectorAll('.popuptrick').forEach(el => {
+      el.classList.remove('popupinit-hidden');
+    });
+
+  } catch (err) {
+    console.error("Error initializing mainpage:", err);
+    showLoading(false);
   }
-    // Shop
-    if (currentUser && currentUser.id) {
-    setupShop(currentUser.id);
-  }
-
-    // Challenges
-    if (currentUser && currentUser.id) {
-    loadDailyXpChallenge(currentUser.id);
-    loadEncourageChallenge();
-    loadMindfulPopupState(currentUser.id);
-    loadLessonChallenge();
-    checkLearnProgress(currentUser.id);
-    loadFriendSelect(currentUser.id);
-
-  const challenges = [
-  { key: "daily_xp", btnId: "daily-xp-claim" },
-  { key: "learn", btnId: "learnClaimBtn" },
-  { key: "mindful", btnId: "mindfulStartBtn" },
-  { key: "encourage", btnId: "encourageClaimBtn" }
-];
-
-for (const c of challenges) {
-  const claimed = await isClaimed(currentUser.id, c.key);
-  const btn = document.getElementById(c.btnId);
-  if (btn && claimed) btn.disabled = true;
-}
-  }
-
-    // MARK WITH  DOTS
-  initNotifications(supabase, currentUser.id, currentProfile.friend_code, joinedLocationId);
-
-//Show page after everything is loaded:
-  showLoading(false);
-
-
-// ✅ Suggest achievements if applicable
-setTimeout(async () => {
-  await checkAchievementSuggestions();
-}, 1000);
-
-  async function checkAchievementSuggestions() {
-  if (!currentProfile?.id) return;
-
-  // Get achievements_data row
-  const { data, error } = await supabase
-    .from("achievements_data")
-    .select("events_organized, meal_art_wins")
-    .eq("user_id", currentProfile.id)
-    .single();
-
-  if (error) {
-    console.error("Error fetching achievements_data:", error);
-    return;
-  }
-
-  // Ensure achievements list exists
-  const achievementsList = currentProfile.achievements || [];
-
-  // ---- EVENT ORGANISER ACHIEVEMENT ----
-  if (data.events_organized >= 1 && !achievementsList.includes("Local Hero")) {
-    showProgressSuggestion(
-      "🎉 You hosted your first event! Open Achievements to add your badge!",
-      currentProfile.pet_photo
-    );
-  }
-
-  // ---- MEAL ART WIN ACHIEVEMENT ----
-  if (data.meal_art_wins >= 1 && !achievementsList.includes("Expert Vegan Chef")) {
-    showProgressSuggestion(
-      "🍽️ Your Meal Art won! Congratulations! Claim your achievement in your profile!",
-      currentProfile.pet_photo
-    );
-  }
-}
-
-await supabase
-      .from('user_status')
-      .upsert({
-        user_id: currentUser.id,
-        app_open: true,
-        last_seen: new Date().toISOString(),
-      }, { onConflict: ['user_id'] });
-
-await sendTokenToAndroid();
-
-// Keep all popups hidden initially
-  document.querySelectorAll('.popuptrick').forEach(el => {
-    el.classList.remove('popupinit-hidden');
-  });
 });
+
 //#endregion
 
 
