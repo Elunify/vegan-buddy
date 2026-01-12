@@ -1009,7 +1009,7 @@ async function addVotingToGallery(gallery, isPro, userId) {
 
   const { data: existingVote, error } = await supabase
     .from("votes")
-    .select("id", { head: true })
+    .select("id")
     .eq("user_id", userId)
     .eq("category", isPro)
     .eq("week_start_date", weekStr)
@@ -1072,9 +1072,6 @@ async function addVotingToGallery(gallery, isPro, userId) {
     gallery.querySelectorAll("input").forEach(r => (r.disabled = true));
     submitBtn.disabled = true;
     submitBtn.textContent = "Vote Submitted ✅";
-
-    await supabase.from("meals").update({ votes: currentVotes }).eq("id", mealId);
-    alert("Vote submitted! Thank you.");
   });
 
   gallery.parentElement.appendChild(submitBtn);
@@ -5359,6 +5356,7 @@ startBtn.addEventListener("click", () => {
 
   // Show popup
   popup.style.display = "flex";
+  popup.classList.remove("hidden");
 
   // Start countdown
   startBtn.disabled = true; // prevent multiple timers
@@ -5392,6 +5390,7 @@ function closeMindfulPopup() {
   timerDisplay.style.display = "inline";
   rewardBtn.style.display = "none";
   popup.style.display = "none"; // only this popup
+  popup.classList.add("hidden"); // hide popup
   startBtn.disabled = false;
 }
 
@@ -6032,10 +6031,7 @@ document.addEventListener("DOMContentLoaded", async () => {
        PHASE 3 — USER-DEPENDENT SETUP
        ========================= */
     if (currentUser?.id) {
-      await Promise.all([
-        setupMondayVoting(currentUser.id),
-        displayAchievementsSettings(currentUser.id)
-      ]);
+      await displayAchievementsSettings(currentUser.id);
     }
 
     blockedUserIds = await getBlockedUserIds(supabase, currentUser.id);
@@ -6074,6 +6070,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     setupMealUploadForm();
     setupRecipeModalClose();
     renderMeals(currentMeals);
+    
+    if (currentUser?.id) {
+  await setupMondayVoting(currentUser.id);
+    }
 
     const mealModal = document.getElementById("mealArtrecipeModal");
     if (mealModal) {
