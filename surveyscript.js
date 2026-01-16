@@ -159,7 +159,27 @@ function switchStep(currentEl, nextId) {
 // --- Buddy Intro ---
 function showBuddyIntro() {
     const name = answers.profileName || "friend";
+    const petName = answers.petName || "Winnie";
 
+    const petImg = document.getElementById("petPortrait");
+    const petText = document.getElementById("petText");
+
+  // Set pet image (fallback handled already in saveProfile)
+  petImg.src = answers.petPhoto || 
+    "https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/pet_photos/default.jpg";
+
+  const speech = `Hi ${name}! 🐾  
+I’m ${petName}, your vegan buddy.
+
+I’ll be by your side on this journey —  
+helping you build healthy habits,  
+protect animals 🌱,  
+and make a positive impact on the planet 🌍.
+
+Every small step you take matters.  
+Let’s grow together 💚`;
+
+    /* 
     const elunaSpeech = `Hi ${name}! I'm Eluna. 
 I'm passionate about health, nutrition, and improving physical and mental performance. 
 I believe that conscious living and balance are the keys to a fulfilled life. 
@@ -169,10 +189,32 @@ Let me introduce my twin brother, Elune:`;
 I care deeply about animals, nature, and our planet. 
 My goal is to protect every living being and fight against climate change. 
 Together with my sister, we'll be here for you — guiding you, inspiring you, and helping you make a real difference!`;
-
+    */
     document.getElementById("q4").classList.add("active");
 
+    
     setTimeout(() => {
+    petImg.classList.remove("hidden");
+    petImg.classList.add("visible");
+
+    setTimeout(() => {
+      petText.classList.remove("hidden");
+      petText.classList.add("visible");
+
+      typeText("petText", speech, () => {
+        const btn = document.getElementById("startButton");
+        btn.classList.remove("hidden");
+
+        btn.addEventListener("click", async () => {
+          await saveProfile();
+          window.location.href = "homepage.html";
+        });
+      });
+    }, 600);
+  }, 300);
+}
+
+      /*
         document.getElementById("elunaPortrait").classList.add("visible");
         document.getElementById("elunaText").classList.add("visible");
 
@@ -193,8 +235,8 @@ Together with my sister, we'll be here for you — guiding you, inspiring you, a
                 }, 1000);
             });
         }, 600);
-    }, 300);
-}
+     */
+ 
 
 function typeText(elementId, text, callback) {
     const el = document.getElementById(elementId);

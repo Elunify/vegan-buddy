@@ -4165,6 +4165,8 @@ export const extralessonsData = {
 // Tip pools
 // ---------------------------
 const characterTips = {
+/* 
+ 
   elune: [
     "Fun fact: pigs are actually more intelligent than dogs!",
     "Dolphins give themselves names using unique whistles.",
@@ -4286,6 +4288,8 @@ const characterTips = {
     `Swap some meat for <span class="ingredient-link" onclick="openIngredient('broccoli')">Broccoli</span> — nutrient-rich and eco-friendly! 🌱`
 
   ],
+  
+*/
   pet: [
 "Be kind to every kind — and don’t forget to be kind to yourself too!",
 "Love grows when shared 💚",
@@ -4315,6 +4319,28 @@ const characterTips = {
 "Sharing joy multiplies it for everyone involved. 🌟",
 "Teach by example — hearts learn faster than ears.",
 "Every act of love is a building block for a better world.",
+// ✅ Ingredient linked sustainability tips
+    `Replacing meat with <span class="ingredient-link" onclick="openIngredient('tofu')">Tofu</span> saves massive water resources.`,
+    `<span class="ingredient-link" onclick="openIngredient('seitan')">Seitan</span> uses only a fraction of land needed for beef.`,
+    `A meal with <span class="ingredient-link" onclick="openIngredient('lentils')">Lentils</span> has a much lower carbon footprint.`,
+    `<span class="ingredient-link" onclick="openIngredient('beans')">Beans</span> nourish the soil instead of depleting it.`,
+    `<span class="ingredient-link" onclick="openIngredient('tempeh')">Tempeh</span> promotes gut biodiversity.`,
+    `<span class="ingredient-link" onclick="openIngredient('chickpeas')">Chickpeas</span> naturally enrich farmland.`,
+    `<span class="ingredient-link" onclick="openIngredient('peaProtein')">Pea Protein</span> has lower CO₂ impact than whey.`,
+    `<span class="ingredient-link" onclick="openIngredient('soyMilk')">Soy Milk</span> requires far less land and water than dairy.`,
+    `<span class="ingredient-link" onclick="openIngredient('texturizedSoy')">Texturized Soy</span> avoids the emissions of chicken farming.`,
+    `Swap some meat for <span class="ingredient-link" onclick="openIngredient('broccoli')">Broccoli</span> — nutrient-rich and eco-friendly! 🌱`,
+
+    `Replacing meat with <span class="ingredient-link" onclick="openIngredient('tofu')">Tofu</span> saves massive water resources.`,
+    `<span class="ingredient-link" onclick="openIngredient('seitan')">Seitan</span> uses only a fraction of land needed for beef.`,
+    `A meal with <span class="ingredient-link" onclick="openIngredient('lentils')">Lentils</span> has a much lower carbon footprint.`,
+    `<span class="ingredient-link" onclick="openIngredient('beans')">Beans</span> nourish the soil instead of depleting it.`,
+    `<span class="ingredient-link" onclick="openIngredient('tempeh')">Tempeh</span> promotes gut biodiversity.`,
+    `<span class="ingredient-link" onclick="openIngredient('chickpeas')">Chickpeas</span> naturally enrich farmland.`,
+    `<span class="ingredient-link" onclick="openIngredient('peaProtein')">Pea Protein</span> has lower CO₂ impact than whey.`,
+    `<span class="ingredient-link" onclick="openIngredient('soyMilk')">Soy Milk</span> requires far less land and water than dairy.`,
+    `<span class="ingredient-link" onclick="openIngredient('texturizedSoy')">Texturized Soy</span> avoids the emissions of chicken farming.`,
+    `Swap some meat for <span class="ingredient-link" onclick="openIngredient('broccoli')">Broccoli</span> — nutrient-rich and eco-friendly! 🌱`
     
   ],
 celebrity: [   // ✅ replace placeholder with real array
@@ -4504,6 +4530,7 @@ function getRandomPositionForChar(char, wrapperWidth, wrapperHeight) {
   let minX, maxX;
 
   switch (char) {
+    /* fill viewport height 
     case "eluna":
       minX = leftEdge;
       maxX = 0.4 * vw - wrapperWidth; // left side
@@ -4512,6 +4539,7 @@ function getRandomPositionForChar(char, wrapperWidth, wrapperHeight) {
       minX = 0.3 * vw;
       maxX = 0.7 * vw - wrapperWidth; // middle
       break;
+     */ 
     case "pet":
       minX = 0.6 * vw;
       maxX = rightEdge; // right side
@@ -4543,10 +4571,12 @@ function showRandomAvatar() {
 
   // 🎯 Weighted probability setup
   const weightedChars = [
-    { char: "celebrity", weight: 25 },
+    { char: "celebrity", weight: 50 },
+    /* 
     { char: "elune", weight: 25 },
     { char: "eluna", weight: 25 },
-    { char: "pet", weight: 25 }
+    */
+    { char: "pet", weight: 50 }
   ];
 
   const totalWeight = weightedChars.reduce((sum, c) => sum + c.weight, 0);

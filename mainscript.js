@@ -1478,7 +1478,8 @@ currentProfile.last_lesson = { goal: todayGoal, lessonId: todayLessonId };
 
   // Refresh homepage
   const { profile, globalImpact: fetchedImpact } = await fetchAllData();
-  await renderProfile(profile, globalImpact);
+  await renderProfile();
+  await injectComparisonSentences(profile);
 
   // Hide Daily Check-in, show home
   document.getElementById("dailycheck-in").classList.add("hidden");
@@ -2759,7 +2760,7 @@ async function sendRequest(receiverCode) {
   // ------------------------------
   const { data: existing, error: checkError } = await supabase
     .from("friend_requests")
-    .select("id", { head: true })
+    .select("id")
     .eq("sender_id", currentUser.id)
     .eq("receiver_id", receiver_id)
     .maybeSingle();
@@ -3939,7 +3940,7 @@ document.getElementById("joinCommunityBtn").addEventListener("click", async () =
 
   const existing = await supabase
     .from("community_participants")
-    .select("id", { head: true })
+    .select("id")
     .eq("user_id", currentUser.id)
     .maybeSingle();
 
