@@ -1050,7 +1050,7 @@ async function addVotingToGallery(gallery, isPro, userId) {
       .single();
     votesSpan.textContent = `Votes: ${mealData?.votes || 0}`;
 
-    mealDiv.prepend(radio);
+    mealDiv.appendChild(radio);
   }
 
   const submitBtn = document.createElement("button");
@@ -5347,7 +5347,7 @@ async function loadMindfulPopupState(userId) {
   startBtn.disabled = claimed;
 
   if (claimed) {
-    startBtn.textContent = "Done today"; // ✅ only if already claimed
+    startBtn.textContent = "Reward Claimed 🌸"; // ✅ only if already claimed
   } else {
     startBtn.textContent = "Start 5-Minute Timer"; // normal text
   }
@@ -5384,15 +5384,20 @@ startBtn.addEventListener("click", () => {
 
   if (timeLeft <= 0) {
   clearInterval(mindfulTimer);
-  timerDisplay.style.display = "none";
+  document.getElementById("mindfulTimerRow").style.display = "none";
   closeBtn.style.display = "none"; // hide close button
 
-  // Append message without breaking the reward button
-  const msg = document.createElement("p");
-  msg.textContent = "🎉 Congratulations, you completed your daily challenge! Take your reward.";
-  document.getElementById("mindfulPopupBody").appendChild(msg);
+  // Create message
+const msg = document.createElement("p");
+msg.textContent = "🎉 Congratulations, you completed your daily challenge! Take your reward.";
+msg.classList.add("mindful-success-message");
 
-  rewardBtn.style.display = "inline-block";
+// Insert message at the TOP
+const popupBody = document.getElementById("mindfulPopupBody");
+popupBody.prepend(msg);
+
+// Show reward button BELOW the message
+rewardBtn.style.display = "inline-block";
 }
 
     timeLeft--;
@@ -5499,7 +5504,7 @@ document.getElementById("sendEncourageBtn").addEventListener("click", async () =
     // 3️⃣ Fetch all chats where current user is either user1 or user2
     const { data: chatsData, error: fetchError } = await supabase
       .from("chats")
-      .select("user1_id, user2_id")
+      .select("id, user1_id, user2_id")
       .or(`user1_id.eq.${currentProfile.id},user2_id.eq.${currentProfile.id}`);
 
     if (fetchError) throw fetchError;
@@ -5536,18 +5541,27 @@ document.getElementById("sendEncourageBtn").addEventListener("click", async () =
       chatId = newChat.id;
     }
 
+    if (!chatId) {
+      throw new Error("Chat ID missing — cannot send message");
+    }
+
     const { error: msgError } = await supabase.from("messages").insert([{
   chat_id: chatId,
   sender_id: currentProfile.id,
-  receiver_id: friendId, // ✅ REQUIRED
+  receiver_id: friendId, 
   content: finalMessage,
   created_at: new Date()
 }]);
 
     if (msgError) throw msgError;
 
-    document.getElementById("encourageClaimBtn").disabled = false;
-    alert("Message sent 💖 You can now claim your reward!");
+    
+    await addBadges(currentUser.id, 2);
+    await addXP(2);
+    await markClaimed(currentUser.id, "encourage");
+
+    alert("🌸 You earned 2 Badges and 2 XPs!");
+    loadEncourageChallenge();
     msgInput.value = "";
 
   } catch (err) {
@@ -5556,30 +5570,19 @@ document.getElementById("sendEncourageBtn").addEventListener("click", async () =
   }
 });
 
-document.getElementById("encourageClaimBtn").addEventListener("click", async () => {
-  await addBadges(currentUser.id, 2);
-  await addXP(2);
-  await markClaimed(currentUser.id, "encourage");
-
-  alert("🌸 You earned 2 Badges and 2 XPs!");
-  loadEncourageChallenge();
-});
-
 async function loadEncourageChallenge() {
-  const btn = document.getElementById("encourageClaimBtn");
   const sendBtn = document.getElementById("sendEncourageBtn");
   const startMindfulBtn = document.getElementById("mindfulStartBtn");
 
   const claimed = await isClaimed(currentUser.id, "encourage");
 
   if (claimed) {
-    btn.disabled = true;
-    btn.textContent = "Reward Claimed 🌸";
+    sendBtn.disabled = true;
+    sendBtn.textContent = "Reward Claimed 🌸";
     sendBtn.disabled = true;
     startMindfulBtn.disabled = true;
   } else {
-    btn.disabled = true;
-    btn.textContent = "Claim Reward";
+    sendBtn.textContent = "Send Message";
     sendBtn.disabled = false;
     startMindfulBtn.disabled = false;
   }
@@ -5687,7 +5690,19 @@ async function handleWatchAdClick() {
 
 // -------------------- Attach to Buttons --------------------
 document.querySelectorAll('.watchAdBtn').forEach(btn => {
-  btn.addEventListener('click', handleWatchAdClick);
+  btn.addEventListener('click', function () {
+    if (btn.disabled) return; // safety guard
+
+    btn.disabled = true;
+    btn.classList.add('disabled'); // optional styling
+
+    handleWatchAdClick();
+
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.classList.remove('disabled');
+    }, 5000); // 5 seconds
+  });
 });
 
 const submitAndSupportBtn = document.getElementById('submitAndSupportBtnDCI');
