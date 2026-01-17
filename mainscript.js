@@ -6122,6 +6122,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
 
+    showLoading(false);        
 
     /* =========================
        PHASE 5 — COMPARISON
@@ -6236,8 +6237,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       currentProfile.friend_code,
       joinedLocationId
     );
-
-    showLoading(false);              
+      
     /* =========================
        PHASE 14 — BACKGROUND TASKS
        ========================= */
