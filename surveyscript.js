@@ -169,7 +169,7 @@ function showBuddyIntro() {
     "https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/pet_photos/default.jpg";
 
   const speech = `Hi ${name}! 🐾  
-I’m ${petName}, your vegan buddy.
+I’m ${petName}, your buddy.
 
 I’ll be by your side on this journey —  
 helping you build healthy habits,  

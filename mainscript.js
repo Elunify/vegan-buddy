@@ -686,6 +686,14 @@ function makePreview(text, maxLength = 20) {
   return text.length > maxLength ? text.slice(0, maxLength) + '…' : text;
 }
 
+const submitBtn = document.getElementById("submitBtnDCI");
+const submitSupportBtn = document.getElementById("submitAndSupportBtnDCI");
+
+function disableDailyCheckinButtons() {
+    submitBtn.disabled = true;
+    submitSupportBtn.disabled = true;
+}
+
 //#endregion
 
 //#region MEALART
@@ -1392,6 +1400,11 @@ function calculateImpact(mealValue) {
     co2_saved: baseImpact.co2_saved * impactMultiplier
   };
 }
+
+submitBtn.addEventListener('click', async () => {
+  disableDailyCheckinButtons();
+  await handleSubmit();
+});
 
 async function handleSubmit() {
 
@@ -2747,7 +2760,7 @@ async function sendRequest(receiverCode) {
   const { data: receiverProfile, error: receiverError } = await supabase
     .from("profilecards")
     .select("user_id, friend_code")
-    .eq("friend_code", friend_code)
+    .ilike("friend_code", friend_code)
     .maybeSingle();
 
   if (receiverError) return { success: false, message: receiverError.message };
@@ -2991,12 +3004,12 @@ async function loadFriendsTab() {
   
 // Friend request popup
   document.getElementById("sendFriendRequestBtn")?.addEventListener("click", async () => {
-    const friend_code = document.getElementById("friendEmailInput")?.value;
+    const friend_code = document.getElementById("friendfriendcode")?.value;
     const result = await sendRequest(friend_code);
     if (!result.success) alert(result.message);
     else {
       alert("Friend request sent!");
-      document.getElementById("friendEmailInput").value = "";
+      document.getElementById("friendfriendcode").value = "";
       searchPopup.style.display = "none";
       await showFriends("friendsList", friend => startChatWithFriend(friend));
       if (joinedLocationId) await showCommunityMembers(joinedLocationId);
@@ -3349,7 +3362,7 @@ async function deleteCurrentChat() {
     // 1. Fetch the chat ID between current user and friend
     const { data: existingChats, error: chatError } = await supabase
       .from('chats')
-      .select('id', { head: true })
+      .select('id')
       .or(
         `and(user1_id.eq.${currentUser.id},user2_id.eq.${window.currentChatFriend.id}),and(user1_id.eq.${window.currentChatFriend.id},user2_id.eq.${currentUser.id})`
       )
@@ -4063,7 +4076,7 @@ if (!isCreator) {
         // Prevent duplicate insertion by checking first
         const { data: existing } = await supabase
           .from("event_participants")
-          .select("id", { head: true })
+          .select("id")
           .eq("event_id", event.id)
           .eq("user_id", currentUser.id);
 
@@ -4713,32 +4726,33 @@ async function startChatWithMentor(mentor) {
   }
 
   // 1. Check if chat already exists
-  const orQuery = `and(user1_id.eq.${currentUser.id},user2_id.eq.${mentor.user_id}),and(user1_id.eq.${mentor.user_id},user2_id.eq.${currentUser.id})`;
-  const { data: existingChats, error: chatError } = await supabase
-    .from('chats')
-    .select('user1_id, user2_id')
-    .or(orQuery)
-    .limit(1);
+  const { data: existingChat, error: chatError } = await supabase
+  .from('chats')
+  .select('id')
+  .or(
+    `and(user1_id.eq.${currentUser.id},user2_id.eq.${mentor.user_id}),` +
+    `and(user1_id.eq.${mentor.user_id},user2_id.eq.${currentUser.id})`
+  )
+  .maybeSingle();
 
   if (chatError) {
     console.error("Error checking existing chat:", chatError);
   }
 
-  let chatId = existingChats?.[0]?.id || null;
+  let chatId = existingChat?.id || null;
 
   // 2. Set the global current chat context
-  window.currentChatFriend = {
+  const chatFriend = {
     id: mentor.user_id,
     name: mentor.name,
     photo: mentor.profile_photo || ""
   };
-  window.currentChatId = chatId; // will be null if chat doesn't exist
 
   // 3. Hide the mentorship tab
   document.getElementById("mentorship")?.classList.add("hidden");
 
   // 4. Open chat window (empty if chatId is null)
-  openChatWindow(chatId, window.currentChatFriend);
+  openChatWindow(chatId, chatFriend);
 }
 //#endregion
 
@@ -5679,6 +5693,7 @@ document.querySelectorAll('.watchAdBtn').forEach(btn => {
 const submitAndSupportBtn = document.getElementById('submitAndSupportBtnDCI');
 
 submitAndSupportBtn.addEventListener('click', async () => {
+  disableDailyCheckinButtons();
   const success = await handleSubmit();
   if (success) {
     try {
@@ -5758,6 +5773,7 @@ function updateDots() {
 
 // -------------- NOTIFICATION TRIGGERS --------------
 function notify(type) {
+  if (notificationState[type]) return;
   notificationState[type] = true;
   saveNotificationState();
   updateDots();
@@ -5769,30 +5785,77 @@ function clearNotification(type) {
   updateDots();
 }
 
+// ---------------- MESSAGES TAB STATE ----------------
+
+// Optional heartbeat to handle sudden closes
+let messagesHeartbeat = null;
+
+window.isMessagesTabOpen = false;
+
+window.setMessagesTabOpen = function(value) {
+  window.isMessagesTabOpen = value;
+
+  if (value) {
+    startMessagesHeartbeat();
+  } else {
+    stopMessagesHeartbeat();
+  }
+};
+// ---------------- HEARTBEAT ----------------
+function startMessagesHeartbeat() {
+  if (messagesHeartbeat) return;
+
+  messagesHeartbeat = setInterval(() => {
+    if (!isMessagesTabOpen) return;
+
+    notificationState.lastSeenMessages = new Date().toISOString();
+    saveNotificationState();
+  }, 5000); // update every 5s while tab is open
+}
+
+function stopMessagesHeartbeat() {
+  clearInterval(messagesHeartbeat);
+  messagesHeartbeat = null;
+}
+
 // -------------- CLEAR WHEN USER OPENS THE SECTION --------------
 window.clearSectionNotifications = function (section) {
   const now = new Date().toISOString();
 
   if (section === "messages") {
-  clearNotification("messages");
-  notificationState.lastSeenMessages = new Date().toISOString();
-}
+    setMessagesTabOpen(true);
+
+    // Everything visible is considered read
+    notificationState.lastSeenMessages = now;
+    clearNotification("messages");
+  }
 
   if (section === "friends") {
-    clearNotification("friendRequests");
     notificationState.lastSeenFriends = now;
+    clearNotification("friendRequests");
   }
 
   if (section === "forum") {
-    clearNotification("forumComments");
     notificationState.lastSeenForum = now;
+    clearNotification("forumComments");
   }
 
   if (section === "local") {
-    clearNotification("localEvents");
     notificationState.lastSeenLocal = now;
+    clearNotification("localEvents");
   }
 
+  saveNotificationState();
+};
+
+// -------------- WHEN USER LEAVES MESSAGES TAB --------------
+window.onMessagesTabClosed = function () {
+  const now = new Date().toISOString();
+
+  setMessagesTabOpen(false);
+
+  // Mark everything up to this moment as read
+  notificationState.lastSeenMessages = now;
   saveNotificationState();
 };
 
@@ -5806,45 +5869,54 @@ async function subscribeToMessages(supabase, currentUserId) {
       (payload) => {
         const message = payload.new;
 
-        // Ignore own messages
         if (message.sender_id === currentUserId) return;
-
-        // Ignore blocked users
         if (blockedUserIds.includes(message.sender_id)) return;
 
-        // A message belongs to a chat with user
-        if (message.chat_id && message.sender_id !== currentUserId) {
+        // If user is reading messages → update lastSeen, no dot
+        if (isMessagesTabOpen) {
+          if (
+            !notificationState.lastSeenMessages ||
+            message.created_at > notificationState.lastSeenMessages
+          ) {
+            notificationState.lastSeenMessages = message.created_at;
+            saveNotificationState();
+          }
+          return;
+        }
+
+        // Notify only if newer than lastSeen
+        if (
+          !notificationState.lastSeenMessages ||
+          message.created_at > notificationState.lastSeenMessages
+        ) {
           notify("messages");
         }
       }
     )
     .subscribe();
 }
+
 // -------------- MESSAGES ON LOAD --------------
 async function checkMessages(supabase, currentUserId) {
   const lastSeen = notificationState.lastSeenMessages;
 
   let query = supabase
     .from("messages")
-    .select("created_at, chat_id, sender_id")
-    .neq("sender_id", currentUserId);
+    .select("created_at, sender_id")
+    .neq("sender_id", currentUserId)
+    .order("created_at", { ascending: false })
+    .limit(5);
 
-  if (lastSeen) {
-    query = query.gt("created_at", lastSeen);
-  }
+  if (lastSeen) query = query.gt("created_at", lastSeen);
 
   const { data, error } = await query;
-  if (error) {
-    console.error("Error checking messages:", error);
-    return;
-  }
+  if (error || !data) return;
 
-  // Filter out blocked senders
-  const unblockedMessages = data.filter(
-    msg => !blockedUserIds.includes(msg.sender_id)
+  const unblocked = data.filter(
+    (msg) => !blockedUserIds.includes(msg.sender_id)
   );
 
-  if (unblockedMessages.length > 0) {
+  if (unblocked.length > 0) {
     notify("messages");
   }
 }
@@ -5852,66 +5924,65 @@ async function checkMessages(supabase, currentUserId) {
 
 // -------------- FRIEND REQUESTS ON LOAD --------------
 async function checkFriendRequests(supabase, currentFriendCode) {
-  const lastSeen = notificationState.lastSeenFriends; // ISO string or null
+  const lastSeen = notificationState.lastSeenFriends;
 
   let query = supabase
     .from("friend_requests")
-    .select("*")
+    .select("created_at")
     .eq("receiver_friend_code", currentFriendCode)
-    .eq("status", "pending");
+    .eq("status", "pending")
+    .order("created_at", { ascending: false })
+    .limit(3);
 
-  if (lastSeen) {
-    query = query.gt("created_at", lastSeen); // only requests after last seen
-  }
+  if (lastSeen) query = query.gt("created_at", lastSeen);
 
   const { data } = await query;
-
-  if (data && data.length > 0) {
-    notify("friendRequests");
-  }
+  if (data && data.length > 0) notify("friendRequests");
 }
 
 // -------------- FORUM COMMENTS ON LOAD --------------
 async function checkForumComments(supabase, currentUserId) {
   const lastSeen = notificationState.lastSeenForum;
 
-  const { data } = await supabase
+  const blocksRes = await supabase
+    .from("forum_blocks")
+    .select("id")
+    .eq("user_id", currentUserId);
+
+  const blockIds = blocksRes.data?.map((b) => b.id) || [];
+  if (!blockIds.length) return;
+
+  let query = supabase
     .from("forum_comments")
-    .select("created_at, block_id")
-    .in(
-      "block_id",
-      (
-        await supabase
-          .from("forum_blocks")
-          .select("id")
-          .eq("user_id", currentUserId)
-      ).data?.map((b) => b.id) || []
-    );
+    .select("created_at")
+    .in("block_id", blockIds)
+    .order("created_at", { ascending: false })
+    .limit(5);
 
-  if (!data || data.length === 0) return;
+  if (lastSeen) query = query.gt("created_at", lastSeen);
 
-  // Only notify if new comments exist after last seen
-  const hasNew = data.some((c) => !lastSeen || c.created_at > lastSeen);
-
-  if (hasNew) notify("forumComments");
+  const { data } = await query;
+  if (data && data.length > 0) notify("forumComments");
 }
 
 // -------------- LOCAL EVENTS ON LOAD --------------
 async function checkLocalEvents(supabase, locationId) {
-  
-  if (!locationId) return; // <-- prevent the bad request
+  if (!locationId) return;
+
   const lastSeen = notificationState.lastSeenLocal;
 
-  const { data } = await supabase
+  let query = supabase
     .from("community_events")
-    .select("created_at")
-    .eq("location_id", locationId);
+    .select("created_at, user_id")
+    .eq("location_id", locationId)
+    .neq("user_id", currentUser.id)  // <-- ignore own events
+    .order("created_at", { ascending: false })
+    .limit(3);
 
-  if (!data || data.length === 0) return;
+  if (lastSeen) query = query.gt("created_at", lastSeen);
 
-  const hasNew = data.some((e) => !lastSeen || e.created_at > lastSeen);
-
-  if (hasNew) notify("localEvents");
+  const { data } = await query;
+  if (data && data.length > 0) notify("localEvents");
 }
 
 // -------------- INIT (call this AFTER supabase client is created) --------------
@@ -6050,7 +6121,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       console.error("Daily Check-in setup error:", err);
     }
 
-    showLoading(false);              // UI becomes interactive immediately
 
 
     /* =========================
@@ -6167,7 +6237,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       joinedLocationId
     );
 
-
+    showLoading(false);              
     /* =========================
        PHASE 14 — BACKGROUND TASKS
        ========================= */

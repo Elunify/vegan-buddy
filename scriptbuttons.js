@@ -14,6 +14,17 @@ function showSection(sectionId) {
     currentTab = sectionId;
   }
 
+   // Set messages tab state
+  if (sectionId === 'messages') {
+    window.isMessagesTabOpen = true;
+    window.onMessagesTabOpened?.(); // optional, in case you have other logic
+  } else {
+    if (window.isMessagesTabOpen) {
+      window.isMessagesTabOpen = false;
+      window.onMessagesTabClosed?.();
+    }
+  }
+
   // Show/hide all pages
   document.querySelectorAll('.page').forEach(page => {
     if (page.id === sectionId) {
@@ -86,8 +97,18 @@ profileDropdown.forEach(id => {
     showSection(id);
     closeDropdowns();
     clearSectionNotifications(id); 
-    if (id === 'messages') onMessagesTabOpened();
   });
+});
+// Handle user leaving page
+window.addEventListener('beforeunload', () => {
+  if (isMessagesTabOpen) onMessagesTabClosed();
+});
+
+// Handle browser tab visibility change (minimize/switch tab)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden' && isMessagesTabOpen) {
+    onMessagesTabClosed();
+  }
 });
 
 // 2️⃣ Home button (no dropdown)
