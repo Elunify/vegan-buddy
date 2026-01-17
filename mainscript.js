@@ -2747,7 +2747,7 @@ deleteProfileBtn.addEventListener("click", async () => {
 
 //#region FRIENDS
 async function sendRequest(receiverCode) {
-  const friend_code = receiverCode.trim().toLowerCase();
+  const friend_code = receiverCode.trim().toUpperCase();
   if (!friend_code) return { success: false, message: "No code provided." };
 
   if (friend_code === currentUser.friend_code?.toLowerCase()) {
@@ -5929,7 +5929,7 @@ async function checkFriendRequests(supabase, currentFriendCode) {
   let query = supabase
     .from("friend_requests")
     .select("created_at")
-    .eq("receiver_friend_code", currentFriendCode)
+    .eq("receiver_friend_code", currentFriendCode.trim())
     .eq("status", "pending")
     .order("created_at", { ascending: false })
     .limit(3);
@@ -5993,7 +5993,7 @@ async function initNotifications(supabase, currentUserId, friendcode, locationId
   subscribeToMessages(supabase, currentUserId);
 
   // fetch-on-load:
-  checkMessages(supabase, currentUserId); // ← added
+  checkMessages(supabase, currentUserId); 
   checkFriendRequests(supabase, friendcode);
   checkForumComments(supabase, currentUserId);
   checkLocalEvents(supabase, locationId);
