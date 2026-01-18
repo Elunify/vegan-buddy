@@ -693,6 +693,10 @@ function disableDailyCheckinButtons() {
     submitBtn.disabled = true;
     submitSupportBtn.disabled = true;
 }
+function enableDailyCheckinButtons() {
+    submitBtn.disabled = false;
+    submitSupportBtn.disabled = false;
+}
 
 //#endregion
 
@@ -1438,17 +1442,26 @@ if (!todayLesson) { alert("No lesson found for today!"); return false; }
 
   // Quiz validation
   if (currentProfile.day_counter > 0) {
-    let allAnswered = true, allCorrect = true;
+  let allAnswered = true, allCorrect = true;
 
-    yesterdayQuiz.forEach((q, i) => {
-      const selected = document.querySelector(`input[name="q${i}"]:checked`);
-      if (!selected) allAnswered = false;
-      else if (selected.value !== q.answer) allCorrect = false;
-    });
+  yesterdayQuiz.forEach((q, i) => {
+    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    if (!selected) allAnswered = false;
+    else if (selected.value !== q.answer) allCorrect = false;
+  });
 
-    if (!allAnswered) { alert("Please answer all quiz questions!"); return false; }
-    if (!allCorrect) { alert("Some answers are incorrect. Try again!"); return false; }
+  if (!allAnswered) {
+    alert("Please answer all quiz questions!");
+    enableDailyCheckinButtons(); // ✅ re-enable
+    return false;
   }
+
+  if (!allCorrect) {
+    alert("Some answers are incorrect. Try again!");
+    enableDailyCheckinButtons(); // ✅ re-enable
+    return false;
+  }
+}
 
   // Meal selection
   const mealAnswer = document.querySelector('input[name="mealsDCI"]:checked');
@@ -1482,12 +1495,26 @@ currentProfile.last_lesson = { goal: todayGoal, lessonId: todayLessonId };
   currentProfile.badge = (currentProfile.badge || 0) + badgeIncrement;
 
   // Update Supabase
-  const { error: updateError } = await supabase
-    .from("profiles")
-    .update(currentProfile)
-    .eq("id", currentProfile.id);
+  // Destructure XP-related fields OUT of the update payload
+const {
+  total_xp,
+  xp_today,
+  xp_fraction,
+  current_level,
+  ...profileWithoutXp
+} = currentProfile;
 
-  if (updateError) return console.error("Profile update failed:", updateError);
+// Update profile WITHOUT XP fields
+const { error: updateError } = await supabase
+  .from("profiles")
+  .update(profileWithoutXp)
+  .eq("id", currentProfile.id);
+
+  if (updateError) {
+  console.error("Profile update failed:", updateError);
+  enableDailyCheckinButtons(); // ✅ Re-enable buttons so user can retry
+  return false;                 // stop further execution
+}
 
   // Refresh homepage
   const { profile, globalImpact: fetchedImpact } = await fetchAllData();
@@ -2118,19 +2145,32 @@ function setupCourseButtons() {
   });
 }
 
+function normalizeQuiz(lesson) {
+  if (lesson.question) return lesson; // already extra-lesson format
+
+  if (lesson.quiz) {
+    return {
+      ...lesson,
+      question: {
+        text: lesson.quiz.question,
+        options: lesson.quiz.options,
+        correctIndex: lesson.quiz.answer
+      }
+    };
+  }
+
+  return lesson;
+}
+
 function resolveLessonData(courseId, rawLessonData) {
   if (!rawLessonData) return null;
 
-  if (rawLessonData.type !== "review") {
-    return rawLessonData;
+  if (rawLessonData.type === "review") {
+    const pool = (globalLessonsToRender[courseId] || []).filter(l => l.type !== "review");
+    return pool.length ? normalizeQuiz(pool[Math.floor(Math.random() * pool.length)]) : null;
   }
 
-  const pool = (globalLessonsToRender[courseId] || [])
-    .filter(l => l.type !== "review");
-
-  if (!pool.length) return null;
-
-  return pool[Math.floor(Math.random() * pool.length)];
+  return normalizeQuiz(rawLessonData);
 }
 
 //#endregion

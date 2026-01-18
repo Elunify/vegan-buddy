@@ -24,25 +24,29 @@
     return;
   }
 
-  // check survey
-  try {
-    const { data: profile, error } = await supabase
-      .from('profiles')
-      .select('survey_completed')
-      .eq('id', user.id)
-      .single();
+try {
+  // fetch profile
+  const { data: profile, error } = await supabase
+    .from('profiles')
+    .select('survey_completed')
+    .eq('id', user.id)
+    .single();
 
-    if (error) throw error;
+  if (error) throw error; // handle any Supabase error
 
-    if (profile?.survey_completed) {
-      window.location.replace("homepage.html");
-    } else {
-      window.location.replace("survey.html");
-    }
-  } catch (err) {
-    console.error("Error fetching profile:", err);
+  // Navigate based on survey completion
+  if (profile?.survey_completed === true) {
     window.location.replace("homepage.html");
+  } else {
+    window.location.replace("survey.html");
   }
+
+} catch (err) {
+  console.error("Error fetching profile:", err);
+
+  // If profile row doesn't exist or there was an error, assume survey not completed
+  window.location.replace("survey.html");
+}
 }
 
 init();
