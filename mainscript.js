@@ -811,12 +811,13 @@ function renderMealItem(meal, today) {
   }
 
   // Image popup
-  img.addEventListener("click", () => {
-    const popup = document.getElementById("mealPopup");
-    const popupImg = document.getElementById("popupMealImage");
-    popupImg.src = img.src;
-    popup.classList.remove("hidden");
-  });
+  // Image popup (Meal Art)
+img.addEventListener("click", () => {
+  const popupImg = document.getElementById("popupMealImage");
+
+  popupImg.src = img.src;
+  openPopup("mealPopup");   // use your unified system
+});
 
   // Append to gallery
   if (meal.is_winner) {
@@ -1142,11 +1143,11 @@ const kitchensendBtn = document.getElementById("sendProKitchenRequest");
 
 kitchenopenBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  kitchenpopup.classList.remove("hidden");
+  kitchenpopup.classList.add("active");
 });
 
 kitchencloseBtn.addEventListener("click", () => {
-  kitchenpopup.classList.add("hidden");
+  kitchenpopup.classList.remove("active");
 });
 
 kitchensendBtn.addEventListener("click", async () => {
@@ -1172,7 +1173,7 @@ kitchensendBtn.addEventListener("click", async () => {
   }
 
   document.getElementById("proKitchenMessage").value = "";
-  kitchenpopup.classList.add("hidden");
+  kitchenpopup.classList.remove("active");
   alert("Request sent! We'll get back to you soon 😊");
 });
 
@@ -2220,10 +2221,29 @@ async function loadRecipes() {
   const modalInstructions = document.getElementById("modal-instructions");
   const closeBtn = modal.querySelector(".close-btn");
 
-  closeBtn.addEventListener("click", () => modal.classList.add("hidden-modal"));
-  window.addEventListener("click", (e) => {
-    if (e.target === modal) modal.classList.add("hidden-modal");
-  });
+  // Hide modal when clicking the close button
+closeBtn.addEventListener("click", () => {
+  modal.classList.remove("active");
+});
+
+// Hide modal when clicking outside the content
+modal.addEventListener("click", (e) => {
+  if (e.target === modal) {
+    modal.classList.remove("active");
+  }
+});
+
+// To open the modal somewhere else in your code, just use:
+function showRecipeModal(recipeData) {
+  modalImg.src = recipeData.img;
+  modalTitle.textContent = recipeData.title;
+  modalPreptime.textContent = recipeData.preptime;
+  modalIngredients.textContent = recipeData.ingredients;
+  modalInstructions.textContent = recipeData.instructions;
+
+  // Open the modal using the unified system
+  openPopup("recipe-modal");
+}
 
   // 4️⃣ Render cards with merged data
   data.forEach(recipe => {
@@ -2280,13 +2300,14 @@ async function loadRecipes() {
 
     // Modal click
     card.querySelector(".recipe-img, .recipe-title").addEventListener("click", () => {
-      modalImg.src = recipe.image_url;
-      modalTitle.textContent = recipe.title;
-      modalPreptime.innerHTML = "<strong>Preparation time:</strong> " + (recipe.prep_time || "N/A");
-      modalIngredients.innerHTML = "<strong>Ingredients:</strong><br>" + recipe.ingredients;
-      modalInstructions.innerHTML = "<strong>Instructions:</strong><br>" + recipe.description;
-      modal.classList.remove("hidden-modal");
-    });
+  showRecipeModal({
+    img: recipe.image_url,
+    title: recipe.title,
+    preptime: recipe.prep_time ? `${recipe.prep_time}` : "N/A" ,
+    ingredients: `${recipe.ingredients}`,
+    instructions: `${recipe.description}`
+  });
+});
 
     const likeBtn = card.querySelector(".like-btn");
     likeBtn.addEventListener("click", () => toggleLike(recipe.id, userId, likeBtn));
@@ -2443,7 +2464,7 @@ function setupRecipeUploadForm() {
     previewImg.src = "";
     imagePreview.style.display = "none";
 
-    document.getElementById("upload-recipe").classList.add("hidden-modal");
+    document.getElementById("upload-recipe")?.classList.remove("active");
 
     if (typeof loadRecipes === "function") loadRecipes();
 
@@ -2457,28 +2478,29 @@ function setupRecipeUploadForm() {
 }
 
 // Open modal button
-    const openUploadBtn = document.getElementById("openUploadBtn");
-    const uploadModal = document.getElementById("upload-recipe");
-    const closeBtns = uploadModal.querySelectorAll(".close-btn");
+const openUploadBtn = document.getElementById("openUploadBtn");
+const uploadModal = document.getElementById("upload-recipe");
+const closeBtns = uploadModal.querySelectorAll(".close-btn");
 
-    // Show modal
-    openUploadBtn.addEventListener("click", () => {
-      uploadModal.classList.remove("hidden-modal");
-    });
+// Show modal
+openUploadBtn?.addEventListener("click", () => {
+  openPopup("upload-recipe"); // use your global openPopup function
+});
 
-    // Hide modal with close buttons
-    closeBtns.forEach(btn => {
-      btn.addEventListener("click", () => {
-        uploadModal.classList.add("hidden-modal");
-      });
-    });
+// Hide modal with close buttons
+closeBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    uploadModal.classList.remove("active");
+  });
+});
 
-    // Hide modal when clicking outside content
-    window.addEventListener("click", e => {
-      if (e.target === uploadModal) {
-        uploadModal.classList.add("hidden-modal");
-      }
-    });
+// Hide modal when clicking outside content
+uploadModal?.addEventListener("click", e => {
+  if (e.target === uploadModal) {
+    uploadModal.classList.remove("active");
+  }
+});
+
 
 //#endregion
 
@@ -2714,8 +2736,22 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
 });
 
 async function logoutUser() {
-  const { error } = await supabase.auth.signOut();
+  try {
+    // Remove the token for this user using global currentUser
+    if (currentUser?.id) {
+      const { error: tokenError } = await supabase
+        .from("user_tokens")
+        .delete()
+        .eq("user_id", currentUser.id);
 
+      if (tokenError) console.error("Failed to remove user token:", tokenError);
+    }
+  } catch (err) {
+    console.error("Error removing token:", err);
+  }
+
+  // Sign out
+  const { error } = await supabase.auth.signOut();
   if (error) {
     console.error("Logout failed:", error.message);
     alert("Something went wrong while logging out.");
@@ -2729,6 +2765,7 @@ async function logoutUser() {
   // Optional: hard reload to reset JS state
   window.location.href = "index.html";
 }
+
 
 
 //DELETE PROFILE
@@ -3364,23 +3401,23 @@ document.addEventListener("click", () => {
 
 // Clear Chat clicked
 deleteChatBtn.addEventListener("click", () => {
-  dropdownMenu.style.display = "none";
+  dropdownMenu.classList.remove("active");
   currentAction = "delete";
   confirmationMessage.textContent = "Are you sure you want to clear the chat? It clears for everyone.";
-  confirmationPopup.classList.remove("hidden");
+  confirmationPopup.classList.add("active");
 });
 
 // Block User clicked
 blockUserBtn.addEventListener("click", () => {
-  dropdownMenu.style.display = "none";
+  dropdownMenu.classList.remove("active");
   currentAction = "block";
   confirmationMessage.textContent = "Are you sure you want to block this user? Blocked users won’t be notified, but you won’t receive their messages until you unblock them.";
-  confirmationPopup.classList.remove("hidden");
+  confirmationPopup.classList.add("active");
 });
 
 // Cancel confirmation
 cancelBtn.addEventListener("click", () => {
-  confirmationPopup.classList.add("hidden");
+  confirmationPopup.classList.remove("active");
   currentAction = null;
 });
 
@@ -3391,8 +3428,16 @@ confirmBtn.addEventListener("click", () => {
   } else if (currentAction === "block") {
     blockUser();
   }
-  confirmationPopup.classList.add("hidden");
+  confirmationPopup.classList.remove("active");
   currentAction = null;
+});
+
+// Optional: close confirmation popup on clicking outside
+confirmationPopup.addEventListener("click", (e) => {
+  if (e.target === confirmationPopup) {
+    confirmationPopup.classList.remove("active");
+    currentAction = null;
+  }
 });
 
 async function deleteCurrentChat() {
@@ -3977,13 +4022,22 @@ if (Array.isArray(data.goals)) {
   populateAchievements(achievementsList, data.achievements);
 
   // Show popup
-  popup.classList.remove("hidden");
+  popup.classList.add("active");
 }
 
-// Close popup
-document.querySelector(".close-btnProfileCard").addEventListener("click", () => {
-  document.getElementById("ProfileCard").classList.add("hidden");
+// Close ProfileCard popup
+document.querySelector(".close-btnProfileCard")?.addEventListener("click", () => {
+  document.getElementById("ProfileCard")?.classList.remove("active");
 });
+
+// Optional: close when clicking outside the popup content
+const profileCard = document.getElementById("ProfileCard");
+profileCard?.addEventListener("click", e => {
+  if (e.target === profileCard) {
+    profileCard.classList.remove("active");
+  }
+});
+
 // ----------------------------
 // Join community
 // ----------------------------
@@ -4319,11 +4373,11 @@ const sendLocalBtn = document.getElementById("sendLocalBusinessRequest");
 
 openLocalBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  localPopup.classList.remove("hidden");
+  localPopup.classList.add("active");
 });
 
 closeLocalBtn.addEventListener("click", () => {
-  localPopup.classList.add("hidden");
+  localPopup.classList.remove("active");
 });
 
 sendLocalBtn.addEventListener("click", async () => {
@@ -4349,9 +4403,10 @@ sendLocalBtn.addEventListener("click", async () => {
   }
 
   document.getElementById("localBusinessMessage").value = "";
-  localPopup.classList.add("hidden");
+  localPopup.classList.remove("active");
   alert("Request sent! We'll contact you soon 😊");
 });
+
 
 const sendContactBtn = document.getElementById("sendContactMessage");
 
@@ -4457,14 +4512,14 @@ const commentPopup = document.getElementById('AFcommentPopup');
 if (closePopup && commentPopup) {
   // Close on X button
   closePopup.addEventListener('click', () => {
-    commentPopup.classList.add('hidden');
+    commentPopup.classList.remove('active');
   });
 
   // Close when clicking outside the popup content
   commentPopup.addEventListener('click', (event) => {
     // Check if click target is the overlay itself, not inner content
     if (event.target === commentPopup) {
-      commentPopup.classList.add('hidden');
+      commentPopup.classList.remove('active');
     }
   });
 }
@@ -4534,7 +4589,7 @@ async function AFopenCommentPopup(block) {
     popupCommentsList.appendChild(li);
   });
 
-  commentPopup.classList.remove('hidden');
+  commentPopup.classList.add('active');
 }
 
 async function submitNewComment(content, inputElement) {
@@ -4582,13 +4637,13 @@ function setupMentorshipUI() {
 
   if (applyBtn) {
     applyBtn.addEventListener("click", () => {
-      document.getElementById("mentor-popup")?.classList.remove("mentor-hidden");
+      document.getElementById("mentor-popup")?.classList.add("active");
     });
   }
 
   if (cancelBtn) {
     cancelBtn.addEventListener("click", () => {
-      document.getElementById("mentor-popup")?.classList.add("mentor-hidden");
+      document.getElementById("mentor-popup")?.classList.remove("active");
     });
   }
 
@@ -4630,7 +4685,7 @@ function setupMentorshipUI() {
       }
 
       alert("Mentor application submitted!");
-      document.getElementById("mentor-popup")?.classList.add("mentor-hidden");
+      document.getElementById("mentor-popup")?.classList.remove("active");
       submitBtn.disabled = false;
 
       loadMentors();          // refresh mentors list
@@ -5108,11 +5163,15 @@ async function setupShop() {
     const confirmBtn = document.getElementById("shopModalConfirm");
     const cancelBtn = document.getElementById("shopModalCancel");
 
-    modal.classList.remove("hidden");
-    cancelBtn.onclick = () => modal.classList.add("hidden");
+    modal.classList.add("active");
+    cancelBtn.onclick = () => modal.classList.remove("active");
 
     modalTitle.textContent = product.name;
     modalBody.innerHTML = "";
+
+    modal.addEventListener("click", e => {
+  if (e.target === modal) modal.classList.remove("active");
+});
 
     // Setup modal content
     if (product.id === "xpbox") {
@@ -5162,7 +5221,7 @@ async function setupShop() {
       alert("Purchase successful!");
       badgeSpan.textContent = `Your Badges: ${currentProfile.badge}`;
       renderProfile();
-      modal.classList.add("hidden");
+      modal.classList.remove("active");
     };
 
     const buyTitle = async () => {
@@ -5178,7 +5237,7 @@ async function setupShop() {
       alert("Purchase successful!");
       badgeSpan.textContent = `Your Badges: ${currentProfile.badge}`;
       renderProfile();
-      modal.classList.add("hidden");
+      modal.classList.remove("active");
     };
 
     const buyFrame = async () => {
@@ -5195,7 +5254,7 @@ async function setupShop() {
       alert("Purchase successful!");
       badgeSpan.textContent = `Your Badges: ${currentProfile.badge}`;
       renderProfile();
-      modal.classList.add("hidden");
+      modal.classList.remove("active");
     };
 
     // Assign the right confirm handler
@@ -5564,6 +5623,24 @@ document.getElementById("sendEncourageBtn").addEventListener("click", async () =
         .update({ last_message: finalMessage, last_message_at: new Date() })
         .eq("id", chatId);
     } else {
+      // Chat does NOT exist → fetch friend's profile photo
+      const { data: friendData, error: friendError } = await supabase
+  .from("friends")
+    .select("user1_id, user2_id, user1_profile_photo, user2_profile_photo")
+    .or(`user1_id.eq.${currentProfile.id},user1_id.eq.${friendId}`)
+    .in('user2_id', [friendId, currentProfile.id])
+    .single();
+
+      if (friendError || !friendData) {
+        throw new Error("Failed to fetch friend data");
+      }
+
+      const user1ProfilePhoto = currentProfile.profile_photo;
+      const user2ProfilePhoto = friendData.user1_id === currentProfile.id
+        ? friendData.user2_profile_photo
+        : friendData.user1_profile_photo;
+
+      // Insert new chat with profile photos
       const { data: newChat, error: insertError } = await supabase
         .from("chats")
         .insert([{
@@ -5571,6 +5648,8 @@ document.getElementById("sendEncourageBtn").addEventListener("click", async () =
           user2_id: friendId,
           user1_name: currentProfile.name,
           user2_name: friendSelect.selectedOptions[0].text,
+          user1_profile_photo: user1ProfilePhoto,
+          user2_profile_photo: user2ProfilePhoto,
           last_message: finalMessage,
           last_message_at: new Date()
         }])
@@ -5585,6 +5664,7 @@ document.getElementById("sendEncourageBtn").addEventListener("click", async () =
       throw new Error("Chat ID missing — cannot send message");
     }
 
+    // Insert message
     const { error: msgError } = await supabase.from("messages").insert([{
   chat_id: chatId,
   sender_id: currentProfile.id,
@@ -6313,9 +6393,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     /* =========================
        PHASE 15 — FINAL UI CLEANUP
        ========================= */
-    document.querySelectorAll('.popuptrick').forEach(el => {
-      el.classList.remove('popupinit-hidden');
-    });
+   // document.querySelectorAll('.popuptrick').forEach(el => {
+   //   el.classList.remove('popupinit-hidden');
+   // });
 
   } catch (err) {
     console.error("Error initializing mainpage:", err);

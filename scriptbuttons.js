@@ -214,47 +214,130 @@ document.getElementById('recipesBtn')?.addEventListener('click', () => showSecti
 // =======================
 
 function openPopup(popupId) {
-  document.querySelectorAll('.popup').forEach(p => p.classList.add('hidden'));
-  document.getElementById(popupId)?.classList.remove('hidden');
+  // Close all popups first
+  document.querySelectorAll('.popup').forEach(p => p.classList.remove('active'));
+
+  // Open requested popup
+  const popup = document.getElementById(popupId);
+  if (popup) popup.classList.add('active');
 }
 
 // Close popup X buttons
 document.querySelectorAll('.popup-close').forEach(btn => {
-  btn.addEventListener('click', () => btn.closest('.popup')?.classList.add('hidden'));
+  btn.addEventListener('click', () => {
+    const popup = btn.closest('.popup');
+    if (popup) popup.classList.remove('active');
+  });
 });
 
 // Optional: close popup on outside click
 document.querySelectorAll('.popup').forEach(popup => {
   popup.addEventListener('click', e => {
-    if (e.target === popup) popup.classList.add('hidden');
+    if (e.target === popup) {
+      popup.classList.remove('active');
+    }
   });
 });
 
 // Meal Art Winners Popups
-const mealArtMap = { 'amateurImage': 'popupAmateur', 'proImage': 'popupProfessional' };
+const mealArtMap = {
+  'amateurImage': 'popupAmateur',
+  'proImage': 'popupProfessional'
+};
+
 Object.keys(mealArtMap).forEach(id => {
-  document.getElementById(id)?.addEventListener('click', () => openPopup(mealArtMap[id]));
+  document.getElementById(id)?.addEventListener('click', () => {
+    openPopup(mealArtMap[id]);
+  });
 });
 
 // Recipe modals
-document.getElementById('amateurRecipe')?.addEventListener('click', () => openPopup('recipeModal'));
-document.getElementById('professionalRecipe')?.addEventListener('click', () => openPopup('recipeModal'));
+document.getElementById('amateurRecipe')?.addEventListener('click', () => {
+  openPopup('recipeModal');
+});
+
+document.getElementById('professionalRecipe')?.addEventListener('click', () => {
+  openPopup('recipeModal');
+});
 
 // Impact card popups
-const impactMap = { 'youAnimals': 'popupAnimals', 'youForest': 'popupForest', 'youWater': 'popupWater', 'youCO2': 'popupCO2' };
+const impactMap = {
+  'youAnimals': 'popupAnimals',
+  'youForest': 'popupForest',
+  'youWater': 'popupWater',
+  'youCO2': 'popupCO2'
+};
+
 document.querySelectorAll('.impact-cards .card').forEach(card => {
   card.addEventListener('click', () => {
     const strong = Array.from(card.querySelectorAll('strong')).find(s => impactMap[s.id]);
     if (strong) openPopup(impactMap[strong.id]);
   });
 });
-document.querySelectorAll('.openCalculator').forEach(link => link.addEventListener('click', () => openPopup('impactcalculator')));
 
-// Search popup
+// Open calculator from inside popups
+document.querySelectorAll('.openCalculator').forEach(link => {
+  link.addEventListener('click', () => {
+    openPopup('impactcalculator');
+  });
+});
+
+// Search popup (converted to active system)
 const searchPopup = document.getElementById("searchPopup");
-document.getElementById("openSearchPopup")?.addEventListener("click", () => searchPopup.style.display = "flex");
-document.getElementById("closeSearchPopup")?.addEventListener("click", () => searchPopup.style.display = "none");
-window.addEventListener("click", e => { if (e.target === searchPopup) searchPopup.style.display = "none"; });
+
+document.getElementById("openSearchPopup")?.addEventListener("click", () => {
+  searchPopup.classList.add("active");
+});
+
+document.getElementById("closeSearchPopup")?.addEventListener("click", () => {
+  searchPopup.classList.remove("active");
+});
+
+window.addEventListener("click", e => {
+  if (e.target === searchPopup) {
+    searchPopup.classList.remove("active");
+  }
+});
+
+document.getElementById("mentor-cancel")?.addEventListener("click", () => {
+  document.getElementById("mentor-popup")?.classList.remove("active");
+});
+
+const mentorPopup = document.getElementById("mentor-popup");
+
+mentorPopup?.addEventListener("click", e => {
+  if (e.target === mentorPopup) {
+    mentorPopup.classList.remove("active");
+  }
+});
+
+document.getElementById("AFclosePopup")?.addEventListener("click", () => {
+  document.getElementById("AFcommentPopup")?.classList.remove("active");
+});
+
+const AFpopup = document.getElementById("AFcommentPopup");
+
+AFpopup?.addEventListener("click", e => {
+  if (e.target === AFpopup) {
+    AFpopup.classList.remove("active");
+  }
+});
+
+document.getElementById("closePopup")?.addEventListener("click", () => {
+  document.getElementById("newChatPopup")?.classList.remove("active");
+});
+
+const newChatPopup = document.getElementById("newChatPopup");
+
+newChatPopup?.addEventListener("click", e => {
+  if (e.target === newChatPopup) {
+    newChatPopup.classList.remove("active");
+  }
+});
+
+
+
+
 
 // =======================
 // 4️⃣ OTHER FUNCTIONS

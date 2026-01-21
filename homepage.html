@@ -676,14 +676,6 @@
     <button id="openSearchPopup" class="search-btn">🔎 Connect with a friend</button>
   </div>
 
-  <div id="searchPopup" class="popup">
-    <div class="popup-content">
-      <span id="closeSearchPopup" class="close">&times;</span>
-      <input id="friendfriendcode" type="bpchar" placeholder="Enter your friend's code." />
-      <button id="sendFriendRequestBtn">Send Request</button>
-      <p class="yourfriendcode">Your friend code:</p> <div id="myfriendcode"></id></div>
-    </div>
-  </div>
 
   <!-- Incoming Requests -->
   <ul id="incomingRequestsList"></ul>
@@ -736,14 +728,7 @@
     </div>
   </div>
 
-  <!-- New Chat Popup -->
-  <div id="newChatPopup" class="hidden">
-    <div class="popup-content">
-      <span id="closePopup" class="close">&times;</span>
-      <h3>Select a friend to message</h3>
-      <ul id="friendsListPopup"></ul>
-    </div>
-  </div>
+  
 </div>
 
 
@@ -894,21 +879,7 @@
         </div>
     </section>
 
-    <!-- Popup for comments in anonymous forum -->
-<div id="AFcommentPopup" class="AFpopup hidden">
-  <div class="AFpopup-content">
-    <span id="AFclosePopup" class="close">&times;</span>
-    <div id="AFpopupBlockContent"></div>
-    <ul id="AFpopupCommentsList"></ul>
 
-    <div class="comment-input-container">
-      <input type="text" id="AFnewCommentInput" placeholder="Write your comment..." maxlength="1000">
-      <small id="AFnewCommentCounter">0/1000</small>
-    </div>
-    
-    <button class="button" id="AFsubmitCommentBtn">Comment</button>
-  </div>
-</div>
 
     </div>
 
@@ -935,16 +906,7 @@
 <!-- Apply to be mentor button -->
     <button id="applyMentorBtn">Apply to be a mentor</button>
 
-    <!-- Popup Modal -->
-<div id="mentor-popup" class="mentor-hidden mentor-popup-overlay">
-  <div class="mentor-popup">
-    <h2 class="mentor-title">Apply as Mentor</h2>
-    <label for="mentor-years">How long have you been a vegan for?</label>
-    <input type="number" id="mentor-years" class="mentor-input" min="0" placeholder="Enter years" />
-    <button id="mentor-submit" class="mentor-button">Submit</button>
-    <button id="mentor-cancel" class="mentor-button mentor-cancel">Cancel</button>
-  </div>
-</div>
+ 
 
     
   </div>
@@ -1045,17 +1007,7 @@
   <section id="ShopProducts"></section>
 </div>
 
-<div id="shopModal" class="popup hidden">
-  <div class="popup-content">
-    <button class="popup-close">✖</button>
-    <h3 id="shopModalTitle"></h3>
-    <div id="shopModalBody"></div>
-    <div class="modal-buttons">
-      <button id="shopModalConfirm">Confirm</button>
-      <button id="shopModalCancel">Cancel</button>
-    </div>
-  </div>
-</div>
+
 
 <!-- Challenges -->
  <!-- Challenges -->
@@ -1100,18 +1052,7 @@
   <div class="reward">Reward: 🏅 +5 Badge +5 XPs</div>
   <button id="mindfulStartBtn">Start 5-Minute Timer</button>
   <div id="mindfulTimer" style="margin-top:10px;font-weight:bold;"></div>
-  <!-- Mindful Moment Popup -->
-<div id="mindfulPopup" class="popup" style="display:none;">
-  <div class="popup-content">
-    <span id="mindfulCloseBtn" class="popup-close">&times;</span>
-    <div id="mindfulPopupBody">
-      <p id="mindfulTimerRow">
-        Time left: <span id="mindfulPopupTimer">5:00</span>
-      </p>
-      <button id="mindfulPopupRewardBtn" style="display:none;">Claim Reward 🏅 +5 Badges, +5 Xps</button>
-    </div>
-  </div>
-</div>
+ 
 </div>
 
 <div class="challenge-card" id="encourageChallenge">
@@ -1399,9 +1340,9 @@
    <!-- POPUPS -->
     <!-- POPUPS -->
 
-    <div class = "popuptrick popupinit-hidden">
+<!--    <div class = "popuptrick popupinit-hidden"> -->
 <!-- Popup: Animals -->
-<div id="popupAnimals" class="popup hidden">
+<div id="popupAnimals" class="popup">
   <div class="popup-content">
     <button class="popup-close">✖</button>
     <div id="animalsSentence"></div> <br> 
@@ -1413,7 +1354,7 @@
   </div>
 </div>
 <!-- Popup: Forest -->
-<div id="popupForest" class="popup hidden">
+<div id="popupForest" class="popup">
   <div class="popup-content">
     <button class="popup-close">✖</button>
     <div id="forestSentence"></div> <br> 
@@ -1425,7 +1366,7 @@
   </div>
 </div>
 <!-- Popup: Water -->
-<div id="popupWater" class="popup hidden">
+<div id="popupWater" class="popup">
   <div class="popup-content">
     <button class="popup-close">✖</button>
     <div id="waterSentence"></div> <br> 
@@ -1437,7 +1378,7 @@
   </div>
 </div>
 <!-- Popup: CO2 -->
-<div id="popupCO2" class="popup hidden">
+<div id="popupCO2" class="popup">
   <div class="popup-content">
     <button class="popup-close">✖</button>
     <div id="co2Sentence"></div> <br> 
@@ -1449,7 +1390,7 @@
   </div>
 </div>
 <!-- Popup: Impact Calculator -->
-<div id="impactcalculator" class="popup hidden">
+<div id="impactcalculator" class="popup">
   <div class="popup-content">
     <button class="popup-close">✖</button>
     <h2 id="ImpactCalcTitle">Impact Calculator</h2>
@@ -1482,28 +1423,28 @@
   </div>
 </div>
 <!-- Popup: Amateur Home Chef -->
-<div id="popupAmateur" class="popup hidden">
+<div id="popupAmateur" class="popup">
   <div class="popup-content">
     <button class="popup-close">✖</button>
     <img id="amateurImagePopup" src="meals/amateur.jpg" alt="Amateur winning dish" class="meal-art-image">
   </div>
 </div>
 <!-- Popup: Pro Kitchen -->
-<div id="popupProfessional" class="popup hidden">
+<div id="popupProfessional" class="popup">
   <div class="popup-content">
     <button class="popup-close">✖</button>
     <img id="proImagePopup" src="meals/professional.jpg" alt="Professional winning dish" class="meal-art-image">
   </div>
 </div>
 <!-- Popup: MealArt -->
-<div id="mealPopup" class="popup hidden">
+<div id="mealPopup" class="popup">
   <div class="popup-content">
     <button class="popup-close">✖</button>
     <img id="popupMealImage" src="" alt="Meal" class="meal-art-image">
   </div>
 </div>
 <!-- Recipe Modal -->
-<div class="modal hidden-meal" id="mealArtrecipeModal" >
+<div id="mealArtrecipeModal" class="popup modal" >
   <div class="modal-content">
     <span id="mealArtcloseModal" class="close">&times;</span>
     <h3 id="mealArtmodalFoodName"></h3>
@@ -1516,7 +1457,7 @@
   </div>
 </div>
 <!-- Upload Recipe Modal -->
-<div id="upload-recipe" class="modal hidden-modal">
+<div id="upload-recipe" class="popup modal">
   <div class="modal-content">
     <span class="close-btn">&times;</span>
     <h2>Upload a New Recipe</h2>
@@ -1535,12 +1476,12 @@
       <label>
         Preparation Time:
         <input type="text" id="recipePrepTime" placeholder="e.g., 30 mins" required>
-      </label>
+      </label> 
       <!-- Ingredients -->
       <label>
         Ingredients:
         <textarea id="recipeIngredients" placeholder="List ingredients..." maxlength="1000" required></textarea>
-      </label>
+      </label> 
       <small id="recipeIngredientsCounter">0/1000</small>
 
       <!-- Instructions -->
@@ -1556,18 +1497,21 @@
   </div>
 </div>
 <!-- Recipe Details Modal -->
-<div id="recipe-modal" class="hidden-modal">
+<div id="recipe-modal" class="popup modal">
   <div class="modal-content">
     <span class="close-btn">&times;</span>
     <img id="modal-img" src="" alt="" class="modal-img">
     <h2 id="modal-title"></h2>
-    <p id="modal-preptime"></p>
-    <p id="modal-ingredients"></p>
+    <h3>Preparation time:</h3>
+    <p id="modal-preptime"></p><br>
+    <h3>Ingredients:</h3>
+    <p id="modal-ingredients"></p><br>
+    <h3>Instructions:</h3>
     <p id="modal-instructions"></p>
   </div>
 </div>
 <!-- Profile card -->
-<div id="ProfileCard" class="profile-card hidden">
+<div id="ProfileCard" class="popup profile-card">
   <button class="close-btnProfileCard">×</button>
 
   <div class="ProfileAvatarLarge"></div>
@@ -1594,7 +1538,7 @@
   </div>
 </div>
 <!-- Ingredient Modal -->
-<div id="ingredientModal" class="modal hidden">
+<div id="ingredientModal" class="popup modal">
   <div class="modal-content">
     <span class="close-modal" id="closeIngredientModal">×</span>
     <h2 id="ingredientName"></h2>
@@ -1603,7 +1547,7 @@
   </div>
 </div>
 <!-- Confirmation popup -->
-<div id="confirmationPopup" class="confirmation-popup hidden">
+<div id="confirmationPopup" class="popup confirmation-popup">
   <p id="confirmationMessage"></p>
   <div class="confirmation-buttons">
     <button id="confirmBtn">Confirm</button>
@@ -1611,7 +1555,7 @@
   </div>
 </div>
 <!-- Pro Kitchen Access -->
-<div id="proKitchenPopup" class="popup hidden">
+<div id="proKitchenPopup" class="popup">
   <div class="popup-content">
     <span class="close" id="closeProKitchenPopup">&times;</span>
 
@@ -1630,7 +1574,7 @@
   </div>
 </div>
 <!-- LocalPartner -->
-<div id="localBusinessPopup" class="popup hidden">
+<div id="localBusinessPopup" class="popup">
   <div class="popup-content">
     <span class="close" id="closeLocalBusinessPopup">&times;</span>
 
@@ -1647,8 +1591,75 @@
     <button id="sendLocalBusinessRequest">Send request</button>
   </div>
 </div>
+ <!-- Mindful Moment Popup -->
+<div id="mindfulPopup" class="popup">
+  <div class="popup-content">
+    <span id="mindfulCloseBtn" class="popup-close">&times;</span>
+    <div id="mindfulPopupBody">
+      <p id="mindfulTimerRow">
+        Time left: <span id="mindfulPopupTimer">5:00</span>
+      </p>
+      <button id="mindfulPopupRewardBtn" style="display:none;">Claim Reward 🏅 +5 Badges, +5 Xps</button>
+    </div>
+  </div>
+</div>
+<!-- ShopModal -->
+<div id="shopModal" class="popup">
+  <div class="popup-content">
+    <button class="popup-close">✖</button>
+    <h3 id="shopModalTitle"></h3>
+    <div id="shopModalBody"></div>
+    <div class="modal-buttons">
+      <button id="shopModalConfirm">Confirm</button>
+      <button id="shopModalCancel">Cancel</button>
+    </div>
+  </div>
+</div>
+   <!-- Mentor Popup Modal -->
+<div id="mentor-popup" class="popup mentor-popup-overlay">
+  <div class="mentor-popup">
+    <h2 class="mentor-title">Apply as Mentor</h2>
+    <label for="mentor-years">How long have you been a vegan for?</label>
+    <input type="number" id="mentor-years" class="mentor-input" min="0" placeholder="Enter years" />
+    <button id="mentor-submit" class="mentor-button">Submit</button>
+    <button id="mentor-cancel" class="mentor-button mentor-cancel">Cancel</button>
+  </div>
+</div>
+    <!-- Popup for comments in anonymous forum -->
+<div id="AFcommentPopup" class="popup AFpopup">
+  <div class="AFpopup-content">
+    <span id="AFclosePopup" class="close">&times;</span>
+    <div id="AFpopupBlockContent"></div>
+    <ul id="AFpopupCommentsList"></ul>
 
-</div> 
+    <div class="comment-input-container">
+      <input type="text" id="AFnewCommentInput" placeholder="Write your comment..." maxlength="1000">
+      <small id="AFnewCommentCounter">0/1000</small>
+    </div>
+    
+    <button class="button" id="AFsubmitCommentBtn">Comment</button>
+  </div>
+</div>
+<!-- New Chat Popup -->
+  <div id="newChatPopup" class="popup">
+    <div class="popup-content">
+      <span id="closePopup" class="close">&times;</span>
+      <h3>Select a friend to message</h3>
+      <ul id="friendsListPopup"></ul>
+    </div>
+  </div>
+<!-- Search Friend Popup -->
+<div id="searchPopup" class="popup">
+    <div class="popup-content">
+      <span id="closeSearchPopup" class="close">&times;</span>
+      <input id="friendfriendcode" type="bpchar" placeholder="Enter your friend's code." />
+      <button id="sendFriendRequestBtn">Send Request</button>
+      <p class="yourfriendcode">Your friend code:</p> <div id="myfriendcode"></id></div>
+    </div>
+  </div>
+
+
+<!--   </div>  -->
 </div>
 
 
