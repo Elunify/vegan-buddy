@@ -15,41 +15,61 @@
     user = data.user;
   } catch (err) {
     console.warn("Supabase runtime not ready, retrying in 100ms...", err);
-    setTimeout(init, 100); // retry after short delay
+    setTimeout(init, 100);
     return;
   }
 
+  // 1. Not logged in
   if (!user) {
     window.location.replace("login.html");
     return;
   }
 
-try {
-  // fetch profile
-  const { data: profile, error } = await supabase
-    .from('profiles')
-    .select('survey_completed')
-    .eq('id', user.id)
-    .single();
+  try {
+    const { data: profile, error } = await supabase
+      .from('profiles')
+      .select('survey_completed, language')
+      .eq('id', user.id)
+      .single();
 
-  if (error) throw error; // handle any Supabase error
+    // 2. Profile does not exist
+    if (error && error.code === "PGRST116") {
+      console.warn("Profile row not found, redirecting to login.");
+      window.location.replace("login.html");
+      return;
+    }
 
-  // Navigate based on survey completion
-  if (profile?.survey_completed === true) {
-    window.location.replace("homepage.html");
-  } else {
-    window.location.replace("survey.html");
+    // 3. Other unexpected error
+    if (error) {
+      console.error("Profile fetch failed:", error);
+      // Do NOT redirect anywhere – stop and let the app fail visibly
+      alert("There was a problem loading your profile. Please refresh or contact support.");
+      return;
+    }
+
+    // 4. Profile exists → Set language 
+    if (profile?.language) {
+      localStorage.setItem("preferredLanguage", profile.language);
+    }
+
+    const lang = localStorage.getItem("preferredLanguage") || "en";
+
+    // 5. Profile exists, normal routing
+    if (profile.survey_completed === true) {
+      window.location.replace("homepage.html");
+    } else {
+      window.location.replace("survey.html");
+    }
+
+  } catch (err) {
+    // Truly unexpected crash
+    console.error("Unexpected error fetching profile:", err);
+    alert("Unexpected error. Please refresh the page.");
   }
-
-} catch (err) {
-  console.error("Error fetching profile:", err);
-
-  // If profile row doesn't exist or there was an error, assume survey not completed
-  window.location.replace("survey.html");
-}
 }
 
 init();
+
 </script>
 </head>
 <body>

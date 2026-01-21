@@ -392,10 +392,10 @@ async function saveProfile() {
         acc[goal] = 0; // start each goal at lesson index 0
         return acc;
     }, {}), 
-     // --- Friend code ---
+    
       friend_code: friendCode,
-      // --- survey completed ---
-      survey_completed: true
+      survey_completed: true,
+      language: localStorage.getItem('lang') || 'en'   // <-- here
       })
       .eq('id', user.id)           // ensure only their own row is updated
       .select();                   // return the updated row

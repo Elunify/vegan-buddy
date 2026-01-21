@@ -4501,11 +4501,11 @@ function openIngredient(key) {
   document.getElementById("ingredientDescription").innerHTML = item.description;
   document.getElementById("ingredientNutrition").innerHTML = item.nutrition;
 
-  document.getElementById("ingredientModal").classList.remove("hidden");
+  document.getElementById("ingredientModal").classList.add("active");
 }
 
 document.getElementById("closeIngredientModal").onclick = () => {
-  document.getElementById("ingredientModal").classList.add("hidden");
+  document.getElementById("ingredientModal").classList.remove("active");
 };
 
 // Track last shown timestamp (single for all characters)

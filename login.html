@@ -8,9 +8,20 @@
 
 </head>
 <body>
+
+  <!-- Language Selector -->
+  <div id="languageSelector">
+    <button id="langBtn">🌐 EN ▾</button>
+    <div id="langDropdown">
+      <div data-lang="en">🇬🇧 English</div>
+      <div data-lang="es">🇪🇸 Español</div>
+      <div data-lang="hu">🇭🇺 Magyar</div>
+    </div>
+  </div>
+
   <!-- Login Section -->
 <div id="loginSection">
-  <h1>Welcome! Sign in or create a profile</h1>
+  <h1 id="loginTitle">Welcome to Elunify!</h1>
   <input type="email" id="signEmail" placeholder="Enter your email" />
   <input type="password" id="signPassword" placeholder="Enter your password" />
   <button id="signInBtn">Sign In</button>
@@ -25,11 +36,11 @@
 
 <!-- New Profile Section -->
 <div id="newProfileStep1" style="display:none;">
-  <h2>Create a Profile</h2>
-  <label class="smallLabel">Email:</label><br>
+  <h2 id="newProfileTitle">Create a Profile</h2>
+  <label class="smallLabel" id="profileEmailLabel">Email:</label><br>
   <input type="text" id="profileEmail" placeholder="Your email" />
   <div id="passwordSection">
-    <label class="smallLabel">Create a password</label>
+    <label class="smallLabel" id="profilePasswordLabel">Create a password</label>
     <input type="password" id="profilePassword1" placeholder="Enter password">
     <input type="password" id="profilePassword2" placeholder="Confirm password">
   </div>
@@ -40,12 +51,20 @@
 
 <!-- Hidden Verification Code Section -->
 <div id="verifyCodeSection" style="display:none;">
-  <h3>Enter Verification Code</h3>
+  <h3 id="verifyTitle">Enter Verification Code</h3>
   <input type="text" id="verificationCode" placeholder="Enter code" />
   <button id="verifyCodeBtn">Verify</button>
 </div>
 
-<p id="statusMsg"></p>
+<p id="statusMsg" style="display: none"></p>
+
+<!-- Intro Texts under login -->
+  <div id="introTexts">
+    <p id="intro1">🎮 Play, Learn, Grow</p>
+    <p id="intro2">🤝 Connect with like-minded people</p>
+    <p id="intro3">🌱 See how your acts shape the world</p>
+  </div>
+
 
 
 
@@ -66,23 +85,18 @@ clearSession();
 const statusMsg = document.getElementById("statusMsg");
 emailjs.init("_BvHMRNPejeC7Wsha");
 
-function setStatus(msg, color = "red") {
-  statusMsg.style.color = color;
-  statusMsg.textContent = msg || "";
-}
-
 // Show profile section
 document.getElementById("showProfileBtn").addEventListener("click", () => {
   document.getElementById("loginSection").style.display = "none";
   document.getElementById("newProfileStep1").style.display = "block";
-  setStatus("");
+  clearStatus();
 });
 
 // Back to login
 document.getElementById("backToLoginBtn").addEventListener("click", () => {
   document.getElementById("newProfileStep1").style.display = "none";
   document.getElementById("loginSection").style.display = "block";
-  setStatus("");
+  clearStatus();
 });
 
 // ------------------ Temp storage ------------------
@@ -94,6 +108,12 @@ let codeSentEmails = {}; // { email: timestamp } to track rate limiting
 document.getElementById("signInBtn").addEventListener("click", async () => {
   const email = document.getElementById("signEmail").value;
   const password = document.getElementById("signPassword").value;
+
+  if (!email || !password) {
+    // Show language-aware message for empty fields
+    setStatus("fillAllFields");
+    return;
+  }
 
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) return alert("Login failed: " + error.message);
@@ -119,6 +139,7 @@ function generateCode(length = 6) {
 async function sendVerificationCode(email) {
   const code = generateCode();
   const nowIso = new Date().toISOString();
+  const lang = localStorage.getItem("lang") || "en";
 
   // Call RPC
   const { error: rpcError } = await supabase.rpc(
@@ -132,19 +153,23 @@ async function sendVerificationCode(email) {
 
   if (rpcError) {
     console.error("RPC error:", rpcError);
-    setStatus("Failed to save verification code. Try again later.", "red");
+    setStatus("errorGeneric", "red");
     return;
   }
 
   try {
-    // Send email ONLY if DB insert succeeded
-    await emailjs.send("service_50i8a3q", "template_0g6ty24", {
-      user_email: email,
-      verification_code: code
-    });
+const lang = localStorage.getItem("lang") || "en";
+const templateData = {
+  user_email: email,
+  code: code,
+  introText: emailTexts.verification[lang].body.replace("{{code}}", code),
+  subject: emailTexts.verification[lang].subject
+};
+
+await emailjs.send("service_50i8a3q", "template_0g6ty24", templateData);
 
     document.getElementById("verifyCodeSection").style.display = "block";
-    setStatus("Verification code sent! Check your email.", "green");
+    setStatus("codeSent", "green");
 
   } catch (emailErr) {
     console.error("Email send failed:", emailErr);
@@ -154,34 +179,34 @@ async function sendVerificationCode(email) {
       p_email: email
     });
 
-    setStatus("Failed to send verification email. Try again later.", "red");
+    setStatus("errorGeneric", "red");
   }
 }
 
 // ------------------ Request verification (step 1) ------------------
 document.getElementById("newProfileBtn").addEventListener("click", async () => {
-  setStatus("");
+  clearStatus();
   const email = document.getElementById("profileEmail").value.trim();
   const password = document.getElementById("profilePassword1").value.trim();
   const password2 = document.getElementById("profilePassword2").value.trim();
 
   if (!email || !password || !password2) return setStatus("Please fill in all fields");
-  if (password !== password2) return setStatus("Passwords don't match");
-  if (password.length < 6) return setStatus("Password must be at least 6 characters long");
+  if (password !== password2) return setStatus("passwordMismatch");
+  if (password.length < 6) return setStatus("shortPassword");
 
   tempEmail = email;
   tempPassword = password;
 
   // Check if profile exists via RPC
   const { data: profileExists, error: profileError } = await supabase.rpc('profile_exists', { p_email: email });
-  if (profileError) return setStatus("Something went wrong. Try again later.");
+  if (profileError) return setStatus("errorGeneric");
 
-  if (profileExists) return setStatus("A profile with this email already exists");
+  if (profileExists) return setStatus("profileExists");
 
   // Rate limit: 1 code per 2 minutes
   const lastSent = codeSentEmails[email] || 0;
   if (Date.now() - lastSent < 2 * 60 * 1000) {
-    return setStatus("Verification code already sent. Please wait a bit.", "orange");
+    return setStatus("codeAlreadySent", "orange");
   }
   codeSentEmails[email] = Date.now();
 
@@ -193,9 +218,9 @@ document.getElementById("newProfileBtn").addEventListener("click", async () => {
 
 // ------------------ Verify code + create user (step 2) ------------------
 document.getElementById('verifyCodeBtn').addEventListener('click', async () => {
-  setStatus("");
+  clearStatus();
   const inputCode = document.getElementById('verificationCode').value.trim();
-  if (!inputCode) return setStatus("Please enter the verification code");
+  if (!inputCode) return setStatus("enterVerificationCode");
 
   try {
     // Verify code via RPC
@@ -203,21 +228,21 @@ document.getElementById('verifyCodeBtn').addEventListener('click', async () => {
       p_email: tempEmail,
       p_code: inputCode
     });
-    if (verifyError || !verified) return setStatus("Incorrect or expired code");
+    if (verifyError || !verified) return setStatus("verificationFailed");
 
     // Create Supabase user
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email: tempEmail,
       password: tempPassword
     });
-    if (signUpError) return setStatus(signUpError.message);
+    if (signUpError) return setStatus("loginFailed");
 
     // Sign in immediately
     const { error: signInError } = await supabase.auth.signInWithPassword({
       email: tempEmail,
       password: tempPassword
     });
-    if (signInError) return setStatus(signInError.message);
+    if (signInError) return setStatus("loginFailed");
 
     if (window.ReactNativeWebView && signUpData.user) {
       window.ReactNativeWebView.postMessage(JSON.stringify({
@@ -231,31 +256,31 @@ document.getElementById('verifyCodeBtn').addEventListener('click', async () => {
     tempEmail = "";
     tempPassword = "";
 
-    setStatus("Verified and account created! Redirecting...", "green");
+    setStatus("accountCreated", "green");
     window.location.href = "survey.html";
 
   } catch (err) {
     console.error("Verification error:", err);
-    setStatus("Something went wrong during verification.");
+    setStatus("errorGeneric");
   }
 });
 
 // ------------------ Forgot password ------------------
 document.getElementById("forgotPasswordLink").addEventListener("click", async (e) => {
   e.preventDefault();
-  setStatus("");
+  clearStatus();
 
   const email = document.getElementById("signEmail").value.trim();
-  if (!email) return setStatus("Please enter your email");
+  if (!email) return setStatus("enterEmail");
 
   const { data: exists, error } = await supabase.rpc('profile_exists', { p_email: email });
 
 if (error) {
-  return setStatus("Something went wrong. Try again later.");
+  return setStatus("errorGeneric");
 }
 
 if (!exists) {
-  return setStatus("No account found with this email");
+  return setStatus("noAccountFound");
 }
 
   const code = generateCode();
@@ -269,13 +294,19 @@ if (!exists) {
       p_created_at: nowIso
     });
 
-    // Send reset email
-    await emailjs.send("service_50i8a3q", "template_0qmhcvi", {
-      user_email: email,
-      reset_code: code
-    });
+    // Get current language
+const lang = localStorage.getItem("lang") || "en";
+const templateData = {
+  user_email: email,
+  code: code,
+  introText: emailTexts.passwordReset[lang].body.replace("{{code}}", code),
+  subject: emailTexts.verification[lang].subject
+};
 
-    setStatus("Password reset code sent! Check your inbox (or spam).", "green");
+await emailjs.send("service_50i8a3q", "template_0qmhcvi", templateData);
+
+
+    setStatus("passwordResetSent", "green");
 
     // Redirect to reset-password.html
     setTimeout(() => {
@@ -284,9 +315,260 @@ if (!exists) {
 
   } catch (err) {
     console.error("Password reset error:", err);
-    setStatus("Something went wrong. Try again later.");
+    setStatus("errorGeneric");
   }
 });
+
+// ===== Language Selector =====
+const langBtn = document.getElementById("langBtn");
+const langDropdown = document.getElementById("langDropdown");
+
+// Default language
+if (!localStorage.getItem("lang")) localStorage.setItem("lang", "en");
+let currentLang = localStorage.getItem("lang");
+langBtn.textContent = `🌐 ${currentLang.toUpperCase()} ▾`;
+
+// Toggle dropdown
+langBtn.addEventListener("click", () => {
+  langDropdown.style.display = langDropdown.style.display === "block" ? "none" : "block";
+});
+
+// Select language
+document.querySelectorAll("#langDropdown div").forEach(el => {
+  el.addEventListener("click", () => {
+    const lang = el.dataset.lang;
+    localStorage.setItem("lang", lang);
+    currentLang = lang;
+    langBtn.textContent = `🌐 ${currentLang.toUpperCase()} ▾`;
+    langDropdown.style.display = "none";
+
+    updateLanguageUI(lang); // <-- dynamically update UI
+  });
+});
+
+
+// Hide dropdown if clicked outside
+document.addEventListener("click", (e) => {
+  if (!langBtn.contains(e.target) && !langDropdown.contains(e.target)) {
+    langDropdown.style.display = "none";
+  }
+});
+
+const emailTexts = {
+  verification: {
+    en: {
+      subject: "Your Elunify Verification Code",
+      body: `Hello! 👋
+      
+Here is your verification code for Elunify: {{code}}
+
+Enter this code in the app to verify your account.
+
+Thank you for joining us! 🌱`
+    },
+    es: {
+      subject: "Tu código de verificación de Elunify",
+      body: `¡Hola! 👋
+      
+Aquí está tu código de verificación para Elunify: {{code}}
+
+Introduce este código en la aplicación para verificar tu cuenta.
+
+¡Gracias por unirte a nosotros! 🌱`
+    },
+    hu: {
+      subject: "Elunify ellenőrző kódod",
+      body: `Szia! 👋
+      
+Itt van az Elunify fiókodhoz tartozó ellenőrző kód: {{code}}
+
+Add meg ezt a kódot az alkalmazásban a fiókod ellenőrzéséhez.
+
+Köszönjük, hogy csatlakoztál! 🌱`
+    }
+  },
+  passwordReset: {
+    en: {
+      subject: "Reset Your Elunify Password",
+      body: `Hello! 👋
+      
+Here is your password reset code for Elunify: {{code}}
+
+Enter this code in the app to reset your password.
+
+Enjoy your journey! 🌱`
+    },
+    es: {
+      subject: "Restablece tu contraseña de Elunify",
+      body: `¡Hola! 👋
+      
+Aquí está tu código para restablecer la contraseña de Elunify: {{code}}
+
+Introduce este código en la aplicación para cambiar tu contraseña.
+
+Disfruta de tu experiencia! 🌱`
+    },
+    hu: {
+      subject: "Állítsd vissza az Elunify jelszavad",
+      body: `Szia! 👋
+      
+Itt van az Elunify jelszó visszaállító kódod: {{code}}
+
+Add meg ezt a kódot az alkalmazásban a jelszavad visszaállításához.`
+    }
+  }
+};
+
+// Language data
+const languages = {
+  en: {
+    loginTitle: "Welcome to Elunify!",
+    signInPlaceholder: "Enter your email",
+    passwordPlaceholder: "Enter your password",
+    signInBtn: "Sign In",
+    createProfileBtn: "Create Profile",
+    forgotPassword: "Forgot your password?",
+    newProfileTitle: "Create a Profile",
+    profileEmailLabel: "Email:",
+    profilePasswordLabel: "Create a password",
+    newProfileBtn: "Create an account",
+    backToLoginBtn: "Do you have a profile already?",
+    verifyTitle: "Enter Verification Code",
+    verifyCodeBtn: "Verify",
+    intro1: "🎮 Play, Learn, Grow",
+    intro2: "🤝 Connect with like-minded people",
+    intro3: "🌱 See how your acts shape the world",
+    statusMsgs: {
+      fillAllFields: "Please fill in all fields",
+      passwordMismatch: "Passwords don't match",
+      shortPassword: "Password must be at least 6 characters long",
+      profileExists: "A profile with this email already exists",
+      codeSent: "Verification code sent! Check your email.",
+      codeAlreadySent: "Verification code already sent. Please wait a bit.",
+      verificationFailed: "Incorrect or expired code",
+      accountCreated: "Verified and account created! Redirecting...",
+      loginFailed: "Login failed",
+      passwordResetSent: "Password reset code sent! Check your inbox (or spam).",
+      errorGeneric: "Something went wrong. Try again later.",
+      noAccountFound: "No account found with this email",
+      enterEmail: "Please enter your email",
+      enterVerificationCode: "Please enter the verification code"
+    }
+  },
+  es: {
+    loginTitle: "¡Bienvenido a Elunify!",
+    signInPlaceholder: "Introduce tu correo",
+    passwordPlaceholder: "Introduce tu contraseña",
+    signInBtn: "Iniciar sesión",
+    createProfileBtn: "Crear perfil",
+    forgotPassword: "¿Olvidaste tu contraseña?",
+    newProfileTitle: "Crear un perfil",
+    profileEmailLabel: "Correo:",
+    profilePasswordLabel: "Crea una contraseña",
+    newProfileBtn: "Crear cuenta",
+    backToLoginBtn: "¿Ya tienes un perfil?",
+    verifyTitle: "Introduce el código de verificación",
+    verifyCodeBtn: "Verificar",
+    intro1: "🎮 Juega, Aprende, Crece",
+    intro2: "🤝 Conéctate con personas afines",
+    intro3: "🌱 Ve cómo tus acciones moldean el mundo",
+    statusMsgs: {
+      fillAllFields: "Por favor completa todos los campos",
+      passwordMismatch: "Las contraseñas no coinciden",
+      shortPassword: "La contraseña debe tener al menos 6 caracteres",
+      profileExists: "Ya existe un perfil con este correo",
+      codeSent: "¡Código de verificación enviado! Revisa tu correo.",
+      codeAlreadySent: "Código ya enviado. Por favor espera un momento.",
+      verificationFailed: "Código incorrecto o caducado",
+      accountCreated: "¡Cuenta verificada y creada! Redirigiendo...",
+      loginFailed: "Error al iniciar sesión:",
+      passwordResetSent: "¡Código de recuperación enviado! Revisa tu correo.",
+      errorGeneric: "Algo salió mal. Intenta de nuevo más tarde.",
+      noAccountFound: "No se encontró ninguna cuenta con este correo",
+      enterEmail: "Por favor introduce tu correo",
+      enterVerificationCode: "Por favor introduce el código de verificación"
+    }
+  },
+  hu: {
+    loginTitle: "Üdvözlünk az Elunify-ban!",
+    signInPlaceholder: "Add meg az emailed",
+    passwordPlaceholder: "Add meg a jelszavad",
+    signInBtn: "Bejelentkezés",
+    createProfileBtn: "Profil létrehozása",
+    forgotPassword: "Elfelejtetted a jelszavad?",
+    newProfileTitle: "Hozz létre egy profilt",
+    profileEmailLabel: "Email:",
+    profilePasswordLabel: "Adj meg egy jelszót",
+    newProfileBtn: "Fiók létrehozása",
+    backToLoginBtn: "Már van profilod?",
+    verifyTitle: "Add meg az ellenőrző kódot",
+    verifyCodeBtn: "Ellenőrzés",
+    intro1: "🎮 Játssz, Tanulj, Növekedj",
+    intro2: "🤝 Kapcsolódj hasonló gondolkodású emberekkel",
+    intro3: "🌱 Lásd, hogyan formálják tetteid a világot",
+    statusMsgs: {
+      fillAllFields: "Kérlek tölts ki minden mezőt",
+      passwordMismatch: "A jelszavak nem egyeznek",
+      shortPassword: "A jelszó legalább 6 karakter legyen",
+      profileExists: "Már létezik profil ezzel az emaillel",
+      codeSent: "Ellenőrző kód elküldve! Nézd meg az emailed.",
+      codeAlreadySent: "A kód már elküldve. Kérlek várj egy kicsit.",
+      verificationFailed: "Hibás vagy lejárt kód",
+      accountCreated: "Sikeres ellenőrzés és fiók létrehozva! Átirányítás...",
+      loginFailed: "Sikertelen bejelentkezés:",
+      passwordResetSent: "Jelszó visszaállító kód elküldve! Nézd meg a postaládád.",
+      errorGeneric: "Valami hiba történt. Próbáld újra később.",
+      noAccountFound: "Nem található fiók ezzel az email címmel",
+      enterEmail: "Kérlek add meg az emailed",
+      enterVerificationCode: "Kérlek add meg az ellenőrző kódot"
+    }
+  }
+};
+
+// Update all UI elements
+function updateLanguageUI(lang) {
+  const data = languages[lang] || languages.en;
+
+  document.getElementById("loginTitle").textContent = data.loginTitle;
+  document.getElementById("signEmail").placeholder = data.signInPlaceholder;
+  document.getElementById("signPassword").placeholder = data.passwordPlaceholder;
+  document.getElementById("signInBtn").textContent = data.signInBtn;
+  document.getElementById("showProfileBtn").textContent = data.createProfileBtn;
+  document.getElementById("forgotPasswordLink").textContent = data.forgotPassword;
+
+  document.getElementById("newProfileTitle").textContent = data.newProfileTitle;
+  document.getElementById("profileEmailLabel").textContent = data.profileEmailLabel;
+  document.getElementById("profilePasswordLabel").textContent = data.profilePasswordLabel;
+  document.getElementById("newProfileBtn").textContent = data.newProfileBtn;
+  document.getElementById("backToLoginBtn").textContent = data.backToLoginBtn;
+
+  document.getElementById("verifyTitle").textContent = data.verifyTitle;
+  document.getElementById("verifyCodeBtn").textContent = data.verifyCodeBtn;
+
+  document.getElementById("intro1").textContent = data.intro1;
+  document.getElementById("intro2").textContent = data.intro2;
+  document.getElementById("intro3").textContent = data.intro3;
+}
+
+// Usage example for status messages:
+function setStatus(msgKey, color = "red") {
+  const lang = localStorage.getItem("lang") || "en";
+  const msg = languages[lang].statusMsgs[msgKey] || msgKey;
+  const statusMsg = document.getElementById("statusMsg");
+  statusMsg.style.color = color;
+  statusMsg.style.display = "block"; // <-- make it visible
+  statusMsg.textContent = msg;
+}
+
+function clearStatus() {
+  const statusMsg = document.getElementById("statusMsg");
+  statusMsg.style.display = "none";
+  statusMsg.textContent = "";
+}
+
+updateLanguageUI(currentLang);
+
+
 </script>
 
 
@@ -294,28 +576,29 @@ if (!exists) {
 
 <style>
 /* ===== Reset & Body ===== */
-body {
+html, body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #f9f9f9;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  min-height: 100vh;
-  padding: 2rem 1rem;
+  height: 100vh;         /* use height instead of min-height */
+  margin: 0;             /* remove default margin */
+  padding: 2rem 1rem;    /* you can keep padding if you like */
   color: #2d6a4f;
+  overflow:scroll;      /* THIS stops all scrolling */
 }
 
-/* ===== Card Container ===== */
+/* ===== Cards ===== */
 #loginSection, #newProfileStep1, #verifyCodeSection {
   background-color: #ffffff;
   border-radius: 20px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
   padding: 2rem;
   max-width: 400px;
-  width: 90%;
-  margin: 5%;
-  margin-bottom: 2rem;
+  width: 80%;
+  margin: 1rem 0;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
@@ -328,6 +611,18 @@ body {
   font-size: 1.5rem;
 }
 
+/* ===== Intro texts ===== */
+#introTexts {
+  margin-top: 1rem;
+  text-align: center;
+  max-width: 350px;
+}
+
+#introTexts p {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+  color: #2d6a4f;
+}
 /* ===== Inputs ===== */
 input[type="email"], input[type="password"], input[type="text"] {
   width: 90%;
@@ -421,6 +716,46 @@ button:hover {
     padding: 0.8rem;
   }
 }
+
+/* ===== Language Selector ===== */
+#languageSelector {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  font-size: 0.9rem;
+}
+
+#langBtn {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+  border: 1px solid #b7e4c7;
+  font-weight: bold;
+  color: #2d6a4f;
+}
+
+#langDropdown {
+  display: none;
+  margin-top: 5px;
+  background: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+#langDropdown div {
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  white-space: nowrap;
+  color: #2d6a4f;
+}
+
+#langDropdown div:hover {
+  background-color: #d9f0e1;
+}
+
 </style>
 </body>
 </html>

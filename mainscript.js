@@ -6192,6 +6192,7 @@ async function insertDeviceRow(token) {
           user_id: userId,
           device_token: token,
           device_type: deviceType,
+          language: localStorage.getItem('lang') || 'en',
         },
         { onConflict: ['user_id'] }
       );
