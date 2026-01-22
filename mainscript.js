@@ -2729,97 +2729,7 @@ async function uploadFile(file, bucket, userId) {
 // Attach save button
 document.getElementById('saveBtn')?.addEventListener('click', saveProfile);
 
-document.getElementById("logoutBtn").addEventListener("click", () => {
-  if (confirm("Are you sure you want to log out?")) {
-    logoutUser();
-  }
-});
 
-async function logoutUser() {
-  try {
-    // Remove the token for this user using global currentUser
-    if (currentUser?.id) {
-      const { error: tokenError } = await supabase
-        .from("user_tokens")
-        .delete()
-        .eq("user_id", currentUser.id);
-
-      if (tokenError) console.error("Failed to remove user token:", tokenError);
-    }
-  } catch (err) {
-    console.error("Error removing token:", err);
-  }
-
-  // Sign out
-  const { error } = await supabase.auth.signOut();
-  if (error) {
-    console.error("Logout failed:", error.message);
-    alert("Something went wrong while logging out.");
-    return;
-  }
-
-  // 🔥 Clear app state
-  localStorage.clear();
-  sessionStorage.clear();
-
-  // Optional: hard reload to reset JS state
-  window.location.href = "index.html";
-}
-
-
-
-//DELETE PROFILE
-//DELETE PROFILE
-//DELETE PROFILE
-//DELETE PROFILE
-
-const deleteProfileBtn = document.getElementById("deleteProfileBtn");
-
-deleteProfileBtn.addEventListener("click", async () => {
-  // First confirmation
-  const firstConfirm = confirm(
-    "⚠️ Are you sure you want to delete your profile?\n\nThis will permanently remove your account, profile, messages, friends, and all related data."
-  );
-
-  if (!firstConfirm) return;
-
-  // Second confirmation (stronger)
-  const secondConfirm = confirm(
-    "🚨 This action is IRREVERSIBLE.\n\nOnce deleted, your data cannot be recovered.\n\nDo you REALLY want to continue?"
-  );
-
-  if (!secondConfirm) return;
-
-  // Optional: disable button to prevent double-click
-  deleteProfileBtn.disabled = true;
-  deleteProfileBtn.textContent = "Deleting account…";
-
-  try {
-    const { error } = await supabase.functions.invoke("delete-user");
-
-    if (error) {
-      console.error("Delete error:", error);
-      alert("❌ Failed to delete account. Please try again.");
-      deleteProfileBtn.disabled = false;
-      deleteProfileBtn.textContent = "🗑️ Delete Profile";
-      return;
-    }
-
-    // Clean up client state
-    await supabase.auth.signOut();
-    localStorage.clear();
-    sessionStorage.clear();
-
-    // Redirect to landing / login
-    window.location.href = "login.html";
-
-  } catch (err) {
-    console.error(err);
-    alert("❌ Unexpected error while deleting account.");
-    deleteProfileBtn.disabled = false;
-    deleteProfileBtn.textContent = "🗑️ Delete Profile";
-  }
-});
 //#endregion
 
 //#region FRIENDS
@@ -5710,6 +5620,152 @@ async function loadEncourageChallenge() {
 
 //#endregion
 
+//#region SYSTEMSETTINGS
+async function initSystemSettings() {
+  const languageSelect = document.getElementById("languageSelect");
+  const saveLangBtn = document.getElementById("saveLanguageBtn");
+
+  // Preselect the current language
+  const currentLang = localStorage.getItem("lang") || "en";
+  languageSelect.value = currentLang;
+
+  saveLangBtn.addEventListener("click", async () => {
+    const newLang = languageSelect.value;
+    localStorage.setItem("lang", newLang);
+
+    // Make sure currentUser exists
+    if (!currentUser?.id) {
+      return alert("Please log in first!");
+    }
+
+    const userId = currentUser.id;
+
+    try {
+      const { error: profileError } = await supabase
+        .from("profiles")
+        .update({ language: newLang })
+        .eq("id", userId);
+      if (profileError) console.error("Error updating profile language:", profileError);
+
+      const { error: tokenError } = await supabase
+        .from("user_tokens")
+        .update({ language: newLang })
+        .eq("user_id", userId);
+      if (tokenError) console.error("Error updating user_tokens language:", tokenError);
+
+      alert("Language updated successfully!");
+      // Optionally update UI immediately
+      // updateLanguageUI(newLang);
+    } catch (err) {
+      console.error("Unexpected error updating language:", err);
+      alert("Failed to update language. Please try again.");
+    }
+  });
+}
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  if (confirm("Are you sure you want to log out?")) {
+    logoutUser();
+  }
+});
+
+async function logoutUser() {
+  try {
+    // Preserve preferred language
+    const preferredLang = localStorage.getItem("lang") || "en";
+
+    // Remove the token for this user using global currentUser
+    if (currentUser?.id) {
+      const { error: tokenError } = await supabase
+        .from("user_tokens")
+        .delete()
+        .eq("user_id", currentUser.id);
+
+      if (tokenError) console.error("Failed to remove user token:", tokenError);
+    }
+  } catch (err) {
+    console.error("Error removing token:", err);
+  }
+
+  // Sign out
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.error("Logout failed:", error.message);
+    alert("Something went wrong while logging out.");
+    return;
+  }
+
+  // 🔥 Clear app state
+  const preferredLang = localStorage.getItem("lang") || "en";
+  localStorage.clear();
+  sessionStorage.clear();
+  localStorage.setItem("lang", preferredLang);
+
+  // Optional: hard reload to reset JS state
+  window.location.href = "login.html";
+}
+
+
+
+//DELETE PROFILE
+//DELETE PROFILE
+//DELETE PROFILE
+//DELETE PROFILE
+
+const deleteProfileBtn = document.getElementById("deleteProfileBtn");
+
+deleteProfileBtn.addEventListener("click", async () => {
+  // First confirmation
+  const firstConfirm = confirm(
+    "⚠️ Are you sure you want to delete your profile?\n\nThis will permanently remove your account, profile, messages, friends, and all related data."
+  );
+
+  if (!firstConfirm) return;
+
+  // Second confirmation (stronger)
+  const secondConfirm = confirm(
+    "🚨 This action is IRREVERSIBLE.\n\nOnce deleted, your data cannot be recovered.\n\nDo you REALLY want to continue?"
+  );
+
+  if (!secondConfirm) return;
+
+  // Optional: disable button to prevent double-click
+  deleteProfileBtn.disabled = true;
+  deleteProfileBtn.textContent = "Deleting account…";
+
+  try {
+    const { error } = await supabase.functions.invoke("delete-user");
+
+    if (error) {
+      console.error("Delete error:", error);
+      alert("❌ Failed to delete account. Please try again.");
+      deleteProfileBtn.disabled = false;
+      deleteProfileBtn.textContent = "🗑️ Delete Profile";
+      return;
+    }
+
+     // Preserve preferred language
+    const preferredLang = localStorage.getItem("lang") || "en";
+
+    // Clean up client state
+    await supabase.auth.signOut();
+    localStorage.clear();
+    sessionStorage.clear();
+    localStorage.setItem("lang", preferredLang);
+
+    // Redirect to landing / login
+    window.location.href = "login.html";
+
+  } catch (err) {
+    console.error(err);
+    alert("❌ Unexpected error while deleting account.");
+    deleteProfileBtn.disabled = false;
+    deleteProfileBtn.textContent = "🗑️ Delete Profile";
+  }
+});
+
+//#endregion
+
 //#region WATCH ADS
 // ---------------------------
 // Watch ads
@@ -6394,9 +6450,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     /* =========================
        PHASE 15 — FINAL UI CLEANUP
        ========================= */
-   // document.querySelectorAll('.popuptrick').forEach(el => {
-   //   el.classList.remove('popupinit-hidden');
-   // });
+   initSystemSettings();
 
   } catch (err) {
     console.error("Error initializing mainpage:", err);

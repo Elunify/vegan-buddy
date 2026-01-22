@@ -140,7 +140,7 @@ playgroundDropdown.forEach(id => {
 });
 
 // 5️⃣ ETC dropdown: Leaderboards, Recommendations, About us, Sources
-const etcDropdown = ['recommendations', 'subscriptions', 'sources', 'aboutus', 'contactus'];
+const etcDropdown = ['recommendations', 'subscriptions', 'sources', 'aboutus', 'contactus', 'systemsettings'];
 etcDropdown.forEach(id => {
   const btn = document.querySelector(`button[onclick="showSection('${id}')"]`);
   if (btn) btn.addEventListener('click', () => {

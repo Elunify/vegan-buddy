@@ -1,5 +1,226 @@
  import { supabase } from "./supabaseClient.mjs";
- 
+
+// -------------------------
+// Multilanguage setup
+// -------------------------
+
+// ===== Multilanguage pool =====
+const langTexts = {
+  en: {
+    welcomeTitle: "Tell us a little about yourself!",
+    profileStepLabel: "Create your profile",
+    profileNameLabel: "Username:",
+    profileNamePlaceholder: "Your name",
+    dietLabel: "Which best describes your diet?",
+    dietVegan: "Vegan",
+    dietTransition: "In Transition",
+    dietVegetarian: "Vegetarian",
+    dietPescatarian: "Pescatarian",
+    dietFlexitarian: "Flexitarian",
+    dietOmnivore: "Omnivore",
+    profilePhotoLabel: "Upload Profile Photo",
+    profilePhotoInfo: "If you skip this, we'll use a default picture.",
+
+    goalsLabel: "What are your goals?",
+    goalsInfo: "Knowing your goals helps us suggest tips and challenges that fit your lifestyle.",
+    goalAnimals: "Protecting animals & animal welfare",
+    goalEnvironment: "Caring for the environment & fighting climate change",
+    goalHealthy: "Healthy living & wellness",
+    goalHealth: "Solving health issues",
+    goalAthlete: "Boosting my performance as an athlete",
+
+    healthConcernsLabel: "Are you experiencing any of these health concerns?",
+    healthConcernsInfo: "This helps us offer tips and recipes that support your health in a gentle, personalized way.",
+    healthHeart: "Heart disease",
+    healthCholesterol: "High cholesterol",
+    healthBP: "High blood pressure",
+    healthDiabetes: "Type 2 diabetes",
+    healthObesity: "Obesity",
+    healthDigestive: "Digestive issues",
+    healthInflammation: "Inflammation or swelling",
+    healthFatigue: "Fatigue",
+    healthCancer: "Concerned about cancer risk",
+
+    buddyLabel: "Create your buddy!",
+    petNameLabel: "Name:",
+    petNamePlaceholder: "Pet's name",
+    petPhotoLabel: "Upload a photo",
+    petPhotoInfo: "If you skip this, we will use a default buddy",
+    buddyIntroTitle: "Meet your Buddy!",
+
+    nextBtn: "Next",
+    startButton: "Let's Start!",
+
+    // Script messages
+    fillNameDietAlert: "Please fill in your name and diet preference.",
+    usernameTooLong: "Your username is too long. Maximum 15 characters allowed.",
+    petnameTooLong: "Your pet's name is too long. Maximum 15 characters allowed.",
+    selectGoalAlert: "Please select at least one goal before continuing.",
+    notLoggedIn: "Please log in first!",
+    answerBeforeContinue: "Please answer before continuing.",
+    
+  buddySpeech: (name, petName) => 
+    `Hi ${name}! 🐾\nI’m ${petName}, your buddy.\n\nI’ll be by your side on this journey — helping you build healthy habits, protect animals 🌱, and make a positive impact on the planet 🌍.\nEvery small step you take matters. Let’s grow together 💚`
+
+  },
+
+  es: {
+    welcomeTitle: "¡Cuéntanos un poco sobre ti!",
+    profileStepLabel: "Crea tu perfil",
+    profileNameLabel: "Nombre de usuario:",
+    profileNamePlaceholder: "Tu nombre",
+    dietLabel: "¿Cuál describe mejor tu dieta?",
+    dietVegan: "Vegano",
+    dietTransition: "En transición",
+    dietVegetarian: "Vegetariano",
+    dietPescatarian: "Pescetariano",
+    dietFlexitarian: "Flexitariano",
+    dietOmnivore: "Omnívoro",
+    profilePhotoLabel: "Subir foto de perfil",
+    profilePhotoInfo: "Si omites esto, usaremos una imagen por defecto.",
+
+    goalsLabel: "¿Cuáles son tus objetivos?",
+    goalsInfo: "Conocer tus objetivos nos ayuda a sugerir consejos y desafíos que se adapten a tu estilo de vida.",
+    goalAnimals: "Proteger a los animales y su bienestar",
+    goalEnvironment: "Cuidar el medio ambiente y combatir el cambio climático",
+    goalHealthy: "Vida saludable y bienestar",
+    goalHealth: "Resolver problemas de salud",
+    goalAthlete: "Mejorar mi rendimiento como atleta",
+
+    healthConcernsLabel: "¿Tienes alguna de estas preocupaciones de salud?",
+    healthConcernsInfo: "Esto nos ayuda a ofrecer consejos y recetas que apoyen tu salud de manera personalizada.",
+    healthHeart: "Enfermedad cardíaca",
+    healthCholesterol: "Colesterol alto",
+    healthBP: "Presión arterial alta",
+    healthDiabetes: "Diabetes tipo 2",
+    healthObesity: "Obesidad",
+    healthDigestive: "Problemas digestivos",
+    healthInflammation: "Inflamación o hinchazón",
+    healthFatigue: "Fatiga",
+    healthCancer: "Preocupación por el riesgo de cáncer",
+
+    buddyLabel: "¡Crea tu compañero!",
+    petNameLabel: "Nombre:",
+    petNamePlaceholder: "Nombre de tu compañero",
+    petPhotoLabel: "Subir una foto",
+    petPhotoInfo: "Si omites esto, usaremos un compañero por defecto",
+    buddyIntroTitle: "¡Conoce a tu Compañero!",
+
+    nextBtn: "Siguiente",
+    startButton: "¡Empezar!",
+
+    // Script messages
+    fillNameDietAlert: "Por favor, rellena tu nombre y preferencia de dieta.",
+    usernameTooLong: "Tu nombre de usuario es demasiado largo. Máximo 15 caracteres.",
+    petnameTooLong: "El nombre de tu mascota es demasiado largo. Máximo 15 caracteres.",
+    selectGoalAlert: "Por favor selecciona al menos un objetivo antes de continuar.",
+    notLoggedIn: "¡Por favor inicia sesión primero!",
+    answerBeforeContinue: "Por favor, responde antes de continuar.",
+    
+  buddySpeech: (name, petName) =>
+    `¡Hola ${name}! 🐾\nSoy ${petName}, tu compañero.\n\nEstaré a tu lado en este camino — ayudándote a crear hábitos saludables, proteger a los animales 🌱 y hacer un impacto positivo en el planeta 🌍.\nCada pequeño paso que tomes importa. ¡Crezcamos juntos 💚!`
+
+  },
+
+  hu: {
+    welcomeTitle: "Mesélj egy kicsit magadról!",
+    profileStepLabel: "Hozd létre a profilodat",
+    profileNameLabel: "Felhasználónév:",
+    profileNamePlaceholder: "A neved",
+    dietLabel: "Melyik írja le legjobban az étrended?",
+    dietVegan: "Vegán",
+    dietTransition: "Átmenetben",
+    dietVegetarian: "Vegetáriánus",
+    dietPescatarian: "Pescetáriánus",
+    dietFlexitarian: "Flexitáriánus",
+    dietOmnivore: "Mindenevő",
+    profilePhotoLabel: "Profilkép feltöltése",
+    profilePhotoInfo: "Ha kihagyod, alapértelmezett képet használunk.",
+
+    goalsLabel: "Mik a céljaid?",
+    goalsInfo: "A céljaid ismerete segít abban, hogy személyre szabott tippeket és kihívásokat javasoljunk.",
+    goalAnimals: "Az állatok védelme és jóléte",
+    goalEnvironment: "A környezet védelme és a klímaváltozás elleni küzdelem",
+    goalHealthy: "Egészséges élet és jólét",
+    goalHealth: "Egészségügyi problémák megoldása",
+    goalAthlete: "Teljesítményem növelése sportolóként",
+
+    healthConcernsLabel: "Tapasztalsz bármelyik egészségügyi problémát?",
+    healthConcernsInfo: "Ez segít abban, hogy tippeket és recepteket ajánljunk egészségedhez igazodva.",
+    healthHeart: "Szívbetegség",
+    healthCholesterol: "Magas koleszterin",
+    healthBP: "Magas vérnyomás",
+    healthDiabetes: "2-es típusú cukorbetegség",
+    healthObesity: "Elhízás",
+    healthDigestive: "Emésztési problémák",
+    healthInflammation: "Gyulladás vagy duzzanat",
+    healthFatigue: "Fáradtság",
+    healthCancer: "Rák kockázata",
+
+    buddyLabel: "Hozd létre a kisállatodat!",
+    petNameLabel: "Név:",
+    petNamePlaceholder: "A kisállat neve",
+    petPhotoLabel: "Fotó feltöltése",
+    petPhotoInfo: "Ha kihagyod, alapértelmezett kisállatot használunk",
+    buddyIntroTitle: "Ismerd meg a kisállatodat!",
+
+    nextBtn: "Következő",
+    startButton: "Kezdjük!",
+
+    // Script messages
+    fillNameDietAlert: "Kérlek, add meg a neved és az étrendedet.",
+    usernameTooLong: "A felhasználónév túl hosszú. Maximum 15 karakter.",
+    petnameTooLong: "A kisállat neve túl hosszú. Maximum 15 karakter.",
+    selectGoalAlert: "Kérlek, válassz legalább egy célt a folytatáshoz.",
+    notLoggedIn: "Kérlek, jelentkezz be először!",
+    answerBeforeContinue: "Kérlek, válaszolj, mielőtt továbbmész.",
+    
+  buddySpeech: (name, petName) =>
+    `Szia ${name}! 🐾\nÉn ${petName} vagyok, a társad.\n\nVeled leszek ezen az úton — segítve az egészséges szokások kialakítását, az állatok védelmét 🌱 és pozitív hatást gyakorolva a bolygóra 🌍.\nMinden apró lépés számít. Növekedjünk együtt 💚!`
+
+  }
+};
+
+// ===== updateLanguageUI function =====
+export function updateLanguageUI(lang) {
+  const t = langTexts[lang] || langTexts.en;
+
+  // Loop through all IDs in the pool
+  Object.keys(t).forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    // Update placeholder for input fields
+    if (el.tagName === "INPUT" && el.type === "text") {
+      el.placeholder = t[id];
+    }
+    // Update <option> elements
+    else if (el.tagName === "OPTION") {
+      el.textContent = t[id];
+    }
+    // Update normal text content
+    else {
+      el.textContent = t[id];
+    }
+  });
+}
+
+// ===== Initialize UI =====
+const currentLang = localStorage.getItem("lang") || "en";
+updateLanguageUI(currentLang);
+
+function getLangText(key) {
+  const lang = localStorage.getItem("lang") || "en";
+  const t = langTexts[lang] || langTexts.en;
+  return t[key] || key;
+}
+
+
+
+// -------------------------
+// FLOW
+// -------------------------
+
 const nextBtn = document.getElementById("nextBtn");
 nextBtn.addEventListener("click", nextQuestion);
 
@@ -47,7 +268,7 @@ async function nextQuestion() {
     const currentEl = document.getElementById("q" + currentStep);
 
     if (!validateStep(currentStep)) {
-        alert("Please answer before continuing.");
+        alert(getLangText("answerBeforeContinue"));
         return;
     }
 
@@ -58,13 +279,13 @@ async function nextQuestion() {
         const profilePhotoFile = document.getElementById("profilePhoto").files[0];
 
         if (!name || !diet) {
-            alert("Please fill in your name and diet preference.");
+            alert(getLangText("fillNameDietAlert"));
             return;
         }
 
         // Check name length (short text max 15 chars)
     if (name.length > 15) {
-        alert("Your username is too long. Maximum 15 characters allowed.");
+        alert(getLangText("usernameTooLong"));
         return; // stop proceeding to next step
     }
 
@@ -113,7 +334,7 @@ async function nextQuestion() {
 
         // Validate pet name length (short text max 15 chars)
     if (petNameInput.length > 15) {
-        alert("Your pet's name is too long. Maximum 15 characters allowed.");
+        alert(getLangText("petnameTooLong"));
         return; // stop proceeding to next step
     }
 
@@ -168,16 +389,7 @@ function showBuddyIntro() {
   petImg.src = answers.petPhoto || 
     "https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/pet_photos/default.jpg";
 
-  const speech = `Hi ${name}! 🐾  
-I’m ${petName}, your buddy.
-
-I’ll be by your side on this journey —  
-helping you build healthy habits,  
-protect animals 🌱,  
-and make a positive impact on the planet 🌍.
-
-Every small step you take matters.  
-Let’s grow together 💚`;
+  const speech = getLangText("buddySpeech")(name, petName);
 
     /* 
     const elunaSpeech = `Hi ${name}! I'm Eluna. 
@@ -337,14 +549,7 @@ async function saveAnswers() {
 async function saveProfile() {
   // Get current logged-in user
   const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    console.warn("No logged-in user. Cannot save profile.");
-    return;
-  }
-
-  console.log("Logged-in user ID:", user.id);
-  console.log("Logged-in user email:", user.email);
+if (!user) return alert(getLangText("notLoggedIn"));
 
   // Default URLs
   const defaultProfileUrl = "https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/profile_photos/default.jpg";
@@ -392,7 +597,7 @@ async function saveProfile() {
         acc[goal] = 0; // start each goal at lesson index 0
         return acc;
     }, {}), 
-    
+
       friend_code: friendCode,
       survey_completed: true,
       language: localStorage.getItem('lang') || 'en'   // <-- here

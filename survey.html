@@ -6,147 +6,90 @@
   <title>Startup Survey</title>
   <link rel="stylesheet" href="surveystyle.css"/>
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  
-<script type="module">
-    import { supabase } from "./supabaseClient.mjs";
-</script>
 </head>
 <body>
   <div id="app"></div>
   
-  <h1 id="welcomeTitle" style.display="none">Tell us a little about yourself!</h1>
+  <h1 id="welcomeTitle" style="display:none">Tell us a little about yourself!</h1>
 
   <!-- Step 1 – Profile Info -->
   <div class="question active" id="q1">
-    <label class="bigLabel">Create your profile</label>
+    <label class="bigLabel" id="profileStepLabel">Create your profile</label>
 
-    <label class="smallLabel">Username:</label>
+    <label class="smallLabel" id="profileNameLabel">Username:</label>
     <div class="dob-container">
       <input type="text" id="profileName" placeholder="Your name" maxlength="15">
       <small id="nameCharCount">0/15</small>
     </div>
 
-    <label class="smallLabel">Which best describes your diet?</label>
+    <label class="smallLabel" id="dietLabel">Which best describes your diet?</label>
     <select id="diet" name="diet" class="diet-select">
       <option value="" disabled selected>Select your diet</option>
-      <option value="Vegan">Vegan</option>
-      <option value="InTransition">In Transition</option>
-      <option value="Vegetarian">Vegetarian</option>
-      <option value="Pescatarian">Pescatarian</option>
-      <option value="Flexitarian">Flexitarian</option>
-      <option value="Omnivore">Omnivore</option>
+      <option id="dietVegan" value="Vegan">Vegan</option>
+      <option id="dietTransition" value="InTransition">In Transition</option>
+      <option id="dietVegetarian" value="Vegetarian">Vegetarian</option>
+      <option id="dietPescatarian" value="Pescatarian">Pescatarian</option>
+      <option id="dietFlexitarian" value="Flexitarian">Flexitarian</option>
+      <option id="dietOmnivore" value="Omnivore">Omnivore</option>
     </select>
 
-    <label for="profilePhoto" class="file-btn">Upload Profile Photo</label>
+    <label for="profilePhoto" id="profilePhotoLabel" class="file-btn">Upload Profile Photo</label>
     <input type="file" id="profilePhoto" accept="image/*" />
-    <small>If you skip this, we'll use a default picture.</small>
+    <small id="profilePhotoInfo">If you skip this, we'll use a default picture.</small>
     <img id="profilePreview" alt="Profile preview" />
   </div>
 
-
   <!-- Step 2 – Goals + Health Issues -->
   <div class="question" id="q2">
-    <label class="bigLabel">What are your goals?</label>
-    <small>Knowing your goals helps us suggest tips and challenges that fit your lifestyle.</small>
-    <label class="checkbox-label">
-      <input type="checkbox" class="checkbox" name="goal" value="Protecting animals & animal welfare">
-      Protecting animals & animal welfare
-    </label>
-    <label class="checkbox-label">
-      <input type="checkbox" class="checkbox" name="goal" value="Caring for the environment & fighting climate change">
-      Caring for the environment & fighting climate change
-    </label>
-    <label class="checkbox-label">
-      <input type="checkbox" class="checkbox" name="goal" value="Healthy living & wellness">
-      Healthy living & wellness
-    </label>
-    <label class="checkbox-label">
-      <input type="checkbox" class="checkbox" name="goal" value="Solving health issues">
-      Solving health issues
-    </label>
-    <label class="checkbox-label">
-      <input type="checkbox" class="checkbox" name="goal" value="Boosting my performance as an athlete">
-      Boosting my performance as an athlete
-    </label>
+    <label class="bigLabel" id="goalsLabel">What are your goals?</label>
+    <small id="goalsInfo">Knowing your goals helps us suggest tips and challenges that fit your lifestyle.</small>
+    
+    <label class="checkbox-label"><input type="checkbox" class="checkbox" name="goal" value="Protecting animals & animal welfare" id="goalAnimals"> Protecting animals & animal welfare</label>
+    <label class="checkbox-label"><input type="checkbox" class="checkbox" name="goal" value="Caring for the environment & fighting climate change" id="goalEnvironment"> Caring for the environment & fighting climate change</label>
+    <label class="checkbox-label"><input type="checkbox" class="checkbox" name="goal" value="Healthy living & wellness" id="goalHealthy"> Healthy living & wellness</label>
+    <label class="checkbox-label"><input type="checkbox" class="checkbox" name="goal" value="Solving health issues" id="goalHealth"> Solving health issues</label>
+    <label class="checkbox-label"><input type="checkbox" class="checkbox" name="goal" value="Boosting my performance as an athlete" id="goalAthlete"> Boosting my performance as an athlete</label>
   </div>
 
   <div class="question" id="q2b">
-    <label class="bigLabel">Are you experiencing any of these health concerns?</label>
-    <small>This helps us offer tips and recipes that support your health in a gentle, personalized way.</small>
-    <label class="checkbox-label">
-      <input type="checkbox" class="checkbox" name="healthIssue" value="Heart disease">
-      Heart disease
-    </label>
-    <label class="checkbox-label">
-      <input type="checkbox" class="checkbox" name="healthIssue" value="High cholesterol">
-      High cholesterol 
-    </label>
-    <label class="checkbox-label">
-      <input type="checkbox" class="checkbox" name="healthIssue" value="High blood pressure">
-      High blood pressure 
-    </label>
-    <label class="checkbox-label">
-      <input type="checkbox" class="checkbox" name="healthIssue" value="Type 2 diabetes">
-      Type 2 diabetes
-    </label>
-    <label class="checkbox-label">
-      <input type="checkbox" class="checkbox" name="healthIssue" value="Obesity">
-      Obesity
-    </label>
-    <label class="checkbox-label">
-      <input type="checkbox" class="checkbox" name="healthIssue" value="Digestive issues">
-      Digestive issues
-    </label>
-    <label class="checkbox-label">
-      <input type="checkbox" class="checkbox" name="healthIssue" value="Inflammation or swelling">
-      Inflammation or swelling
-    </label>
-    <label class="checkbox-label">
-      <input type="checkbox" class="checkbox" name="healthIssue" value="Fatigue">
-      Fatigue
-    </label>
-    <label class="checkbox-label">
-      <input type="checkbox" class="checkbox" name="healthIssue" value="Cancer risk">
-      Concerned about cancer risk
-    </label>
+    <label class="bigLabel" id="healthConcernsLabel">Are you experiencing any of these health concerns?</label>
+    <small id="healthConcernsInfo">This helps us offer tips and recipes that support your health in a gentle, personalized way.</small>
+    
+    <label class="checkbox-label"><input type="checkbox" class="checkbox" name="healthIssue" value="Heart disease" id="healthHeart"> Heart disease</label>
+    <label class="checkbox-label"><input type="checkbox" class="checkbox" name="healthIssue" value="High cholesterol" id="healthCholesterol"> High cholesterol</label>
+    <label class="checkbox-label"><input type="checkbox" class="checkbox" name="healthIssue" value="High blood pressure" id="healthBP"> High blood pressure</label>
+    <label class="checkbox-label"><input type="checkbox" class="checkbox" name="healthIssue" value="Type 2 diabetes" id="healthDiabetes"> Type 2 diabetes</label>
+    <label class="checkbox-label"><input type="checkbox" class="checkbox" name="healthIssue" value="Obesity" id="healthObesity"> Obesity</label>
+    <label class="checkbox-label"><input type="checkbox" class="checkbox" name="healthIssue" value="Digestive issues" id="healthDigestive"> Digestive issues</label>
+    <label class="checkbox-label"><input type="checkbox" class="checkbox" name="healthIssue" value="Inflammation or swelling" id="healthInflammation"> Inflammation or swelling</label>
+    <label class="checkbox-label"><input type="checkbox" class="checkbox" name="healthIssue" value="Fatigue" id="healthFatigue"> Fatigue</label>
+    <label class="checkbox-label"><input type="checkbox" class="checkbox" name="healthIssue" value="Cancer risk" id="healthCancer"> Concerned about cancer risk</label>
   </div>
 
   <!-- Step 3 – Pet -->
   <div class="question" id="q3">
-    <label class="bigLabel">Create your buddy!</label>
-    <label class="smallLabel">Name:</label>
+    <label class="bigLabel" id="buddyLabel">Create your buddy!</label>
+    <label class="smallLabel" id="petNameLabel">Name:</label>
     <div class="dob-container">
       <input type="text" id="petname" placeholder="Pet's name" maxlength="15">
       <small id="petNameCharCount">0/15</small>
     </div>
 
-    <label for="petPhotoUpload" class="file-btn">Upload a photo</label>
+    <label for="petPhotoUpload" id="petPhotoLabel" class="file-btn">Upload a photo</label>
     <input type="file" id="petPhotoUpload" accept="image/*" />
-    <small>If you skip this, we will use a default buddy</small>
-
+    <small id="petPhotoInfo">If you skip this, we will use a default buddy</small>
     <img id="petPhotoPreview" alt="Pet preview" />
   </div>
 
   <!-- Step 4 – Buddy Intro -->
   <div class="question" id="q4">
     <div id="buddyIntro" class="hidden">
-      <h3>Meet your Buddy!</h3>
+      <h3 id="buddyIntroTitle">Meet your Buddy!</h3>
       <div class="buddy-container">
         <div class="buddy">
-        <img id="petPortrait" class="portrait hidden" alt="Your Vegan Buddy">
-        <div id="petText" class="typing-text hidden"></div>
-      </div>
-
-        <!--
-        <div class="buddy">
-          <img src="characters/eluna.png" alt="Eluna" class="portrait" id="elunaPortrait">
-          <div class="typing-text" id="elunaText"></div>
+          <img id="petPortrait" class="portrait hidden" alt="Your Vegan Buddy">
+          <div id="petText" class="typing-text hidden"></div>
         </div>
-        <div class="buddy">
-          <img src="characters/elune.png" alt="Elune" class="portrait" id="elunePortrait">
-          <div class="typing-text" id="eluneText"></div>
-        </div>
-        -->
       </div>
     </div>
   </div>
@@ -159,3 +102,4 @@
   <script type="module" src="surveyscript.js"></script>
 </body>
 </html>
+

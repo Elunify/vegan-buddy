@@ -264,6 +264,7 @@
       <button onclick="showSection('sources')">Sources</button>
       <button onclick="showSection('aboutus')">About Us</button>
       <button onclick="showSection('contactus')">Contact Us</button>
+      <button onclick="showSection('systemsettings')">Settings</button>
     </div>
   </div>
 
@@ -512,13 +513,10 @@
         </div>
     </div>
     <a href="#" class="editprofile"> <button>Edit profile</button></a>
-<div class="profile-actions-secondary">
-  <button id="logoutBtn" class="logout-btn">Log out</button>
-</div>
+
   </div>
 </div>
 
-<div>
 <div id="editProfileTabBtn" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);">
 
   <div class="containeredit">
@@ -650,20 +648,9 @@
       <div style="text-align:center; margin:1rem 0;">
         <button class="button" id="saveBtn">💾 Save Profile</button>
       </div> 
-
-      <!-- Danger Zone -->
-<div style="text-align:center; margin:2.5rem 0 1rem 0;">
-  <button
-    class="button danger"
-    id="deleteProfileBtn"
-    style="background:#c0392b;"
-  >
-    🗑️ Delete Profile
-  </button>
-</div>
+   
 </div>
   </div>
-</div>
 
 
 <!-- Friends -->
@@ -1325,7 +1312,42 @@
   </div>
    </div>
 
+   <!-- SystemSettings -->
+    <!-- SystemSettings -->
+     <!-- SystemSettings -->
+      <!-- SystemSettings -->
+   <div id="systemsettings" class="page hidden"> 
 
+     <h2 id="settingsTitle">Settings</h2>
+
+  <label for="languageSelect" id="languageLabel">Select Language:</label>
+  <select id="languageSelect">
+    <option value="en">English</option>
+    <option value="es">Español</option>
+    <option value="hu">Magyar</option>
+  </select>
+
+  <button id="saveLanguageBtn">Save Language</button>
+
+  <small id="languageInfo">Changing the language will update your app interface immediately.</small>
+
+<div class="profile-actions-secondary">
+  <button id="logoutBtn" class="logout-btn">Log out</button>
+</div>
+
+<!-- Danger Zone -->
+  <button
+    class="button danger"
+    id="deleteProfileBtn"
+  >
+    🗑️ Delete Profile
+  </button>
+
+  </div>
+
+
+
+  
 </div>
 
 

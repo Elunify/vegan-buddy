@@ -74,286 +74,6 @@
 <script type="module">
 import { supabase } from "./supabaseClient.mjs";
 
-async function clearSession() {
-  await supabase.auth.signOut();
-  localStorage.clear();
-  sessionStorage.clear();
-}
-
-clearSession();
-
-const statusMsg = document.getElementById("statusMsg");
-emailjs.init("_BvHMRNPejeC7Wsha");
-
-// Show profile section
-document.getElementById("showProfileBtn").addEventListener("click", () => {
-  document.getElementById("loginSection").style.display = "none";
-  document.getElementById("newProfileStep1").style.display = "block";
-  clearStatus();
-});
-
-// Back to login
-document.getElementById("backToLoginBtn").addEventListener("click", () => {
-  document.getElementById("newProfileStep1").style.display = "none";
-  document.getElementById("loginSection").style.display = "block";
-  clearStatus();
-});
-
-// ------------------ Temp storage ------------------
-let tempEmail = "";
-let tempPassword = "";
-let codeSentEmails = {}; // { email: timestamp } to track rate limiting
-
-// ------------------ Login ------------------
-document.getElementById("signInBtn").addEventListener("click", async () => {
-  const email = document.getElementById("signEmail").value;
-  const password = document.getElementById("signPassword").value;
-
-  if (!email || !password) {
-    // Show language-aware message for empty fields
-    setStatus("fillAllFields");
-    return;
-  }
-
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) return alert("Login failed: " + error.message);
-
-  if (window.ReactNativeWebView && data.user) {
-    window.ReactNativeWebView.postMessage(JSON.stringify({
-      type: 'userInfo',
-      user_id: data.user.id
-    }));
-  }
-
-  window.location.href = "homepage.html";
-});
-
-// ------------------ Generate 6-digit code ------------------
-function generateCode(length = 6) {
-  let code = '';
-  for (let i = 0; i < length; i++) code += Math.floor(Math.random() * 10);
-  return code;
-}
-
-// ------------------ Send verification code ------------------
-async function sendVerificationCode(email) {
-  const code = generateCode();
-  const nowIso = new Date().toISOString();
-  const lang = localStorage.getItem("lang") || "en";
-
-  // Call RPC
-  const { error: rpcError } = await supabase.rpc(
-    'handle_email_verification',
-    {
-      p_email: email,
-      p_code: code,
-      p_created_at: nowIso
-    }
-  );
-
-  if (rpcError) {
-    console.error("RPC error:", rpcError);
-    setStatus("errorGeneric", "red");
-    return;
-  }
-
-  try {
-const lang = localStorage.getItem("lang") || "en";
-const templateData = {
-  user_email: email,
-  code: code,
-  introText: emailTexts.verification[lang].body.replace("{{code}}", code),
-  subject: emailTexts.verification[lang].subject
-};
-
-await emailjs.send("service_50i8a3q", "template_0g6ty24", templateData);
-
-    document.getElementById("verifyCodeSection").style.display = "block";
-    setStatus("codeSent", "green");
-
-  } catch (emailErr) {
-    console.error("Email send failed:", emailErr);
-
-    // Clean up DB if email sending fails
-    await supabase.rpc('delete_email_verification', {
-      p_email: email
-    });
-
-    setStatus("errorGeneric", "red");
-  }
-}
-
-// ------------------ Request verification (step 1) ------------------
-document.getElementById("newProfileBtn").addEventListener("click", async () => {
-  clearStatus();
-  const email = document.getElementById("profileEmail").value.trim();
-  const password = document.getElementById("profilePassword1").value.trim();
-  const password2 = document.getElementById("profilePassword2").value.trim();
-
-  if (!email || !password || !password2) return setStatus("Please fill in all fields");
-  if (password !== password2) return setStatus("passwordMismatch");
-  if (password.length < 6) return setStatus("shortPassword");
-
-  tempEmail = email;
-  tempPassword = password;
-
-  // Check if profile exists via RPC
-  const { data: profileExists, error: profileError } = await supabase.rpc('profile_exists', { p_email: email });
-  if (profileError) return setStatus("errorGeneric");
-
-  if (profileExists) return setStatus("profileExists");
-
-  // Rate limit: 1 code per 2 minutes
-  const lastSent = codeSentEmails[email] || 0;
-  if (Date.now() - lastSent < 2 * 60 * 1000) {
-    return setStatus("codeAlreadySent", "orange");
-  }
-  codeSentEmails[email] = Date.now();
-
-  document.getElementById("newProfileStep1").style.display = "none";
-  document.getElementById("verifyCodeSection").style.display = "block";
-
-  await sendVerificationCode(email);
-});
-
-// ------------------ Verify code + create user (step 2) ------------------
-document.getElementById('verifyCodeBtn').addEventListener('click', async () => {
-  clearStatus();
-  const inputCode = document.getElementById('verificationCode').value.trim();
-  if (!inputCode) return setStatus("enterVerificationCode");
-
-  try {
-    // Verify code via RPC
-    const { data: verified, error: verifyError } = await supabase.rpc('verify_email_code', {
-      p_email: tempEmail,
-      p_code: inputCode
-    });
-    if (verifyError || !verified) return setStatus("verificationFailed");
-
-    // Create Supabase user
-    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-      email: tempEmail,
-      password: tempPassword
-    });
-    if (signUpError) return setStatus("loginFailed");
-
-    // Sign in immediately
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email: tempEmail,
-      password: tempPassword
-    });
-    if (signInError) return setStatus("loginFailed");
-
-    if (window.ReactNativeWebView && signUpData.user) {
-      window.ReactNativeWebView.postMessage(JSON.stringify({
-        type: 'userInfo',
-        user_id: signUpData.user.id
-      }));
-    }
-
-    await supabase.rpc('delete_email_verification', { p_email: tempEmail });
-
-    tempEmail = "";
-    tempPassword = "";
-
-    setStatus("accountCreated", "green");
-    window.location.href = "survey.html";
-
-  } catch (err) {
-    console.error("Verification error:", err);
-    setStatus("errorGeneric");
-  }
-});
-
-// ------------------ Forgot password ------------------
-document.getElementById("forgotPasswordLink").addEventListener("click", async (e) => {
-  e.preventDefault();
-  clearStatus();
-
-  const email = document.getElementById("signEmail").value.trim();
-  if (!email) return setStatus("enterEmail");
-
-  const { data: exists, error } = await supabase.rpc('profile_exists', { p_email: email });
-
-if (error) {
-  return setStatus("errorGeneric");
-}
-
-if (!exists) {
-  return setStatus("noAccountFound");
-}
-
-  const code = generateCode();
-  const nowIso = new Date().toISOString();
-
-  try {
-    // Call RPC to create password reset row
-    await supabase.rpc('handle_password_reset', {
-      p_email: email,
-      p_code: code,
-      p_created_at: nowIso
-    });
-
-    // Get current language
-const lang = localStorage.getItem("lang") || "en";
-const templateData = {
-  user_email: email,
-  code: code,
-  introText: emailTexts.passwordReset[lang].body.replace("{{code}}", code),
-  subject: emailTexts.verification[lang].subject
-};
-
-await emailjs.send("service_50i8a3q", "template_0qmhcvi", templateData);
-
-
-    setStatus("passwordResetSent", "green");
-
-    // Redirect to reset-password.html
-    setTimeout(() => {
-      window.location.href = `reset-password.html?email=${encodeURIComponent(email)}`;
-    }, 2500);
-
-  } catch (err) {
-    console.error("Password reset error:", err);
-    setStatus("errorGeneric");
-  }
-});
-
-// ===== Language Selector =====
-const langBtn = document.getElementById("langBtn");
-const langDropdown = document.getElementById("langDropdown");
-
-// Default language
-if (!localStorage.getItem("lang")) localStorage.setItem("lang", "en");
-let currentLang = localStorage.getItem("lang");
-langBtn.textContent = `🌐 ${currentLang.toUpperCase()} ▾`;
-
-// Toggle dropdown
-langBtn.addEventListener("click", () => {
-  langDropdown.style.display = langDropdown.style.display === "block" ? "none" : "block";
-});
-
-// Select language
-document.querySelectorAll("#langDropdown div").forEach(el => {
-  el.addEventListener("click", () => {
-    const lang = el.dataset.lang;
-    localStorage.setItem("lang", lang);
-    currentLang = lang;
-    langBtn.textContent = `🌐 ${currentLang.toUpperCase()} ▾`;
-    langDropdown.style.display = "none";
-
-    updateLanguageUI(lang); // <-- dynamically update UI
-  });
-});
-
-
-// Hide dropdown if clicked outside
-document.addEventListener("click", (e) => {
-  if (!langBtn.contains(e.target) && !langDropdown.contains(e.target)) {
-    langDropdown.style.display = "none";
-  }
-});
-
 const emailTexts = {
   verification: {
     en: {
@@ -525,6 +245,287 @@ const languages = {
   }
 };
 
+
+// ===== Language Selector =====
+const langBtn = document.getElementById("langBtn");
+const langDropdown = document.getElementById("langDropdown");
+
+// Toggle dropdown
+langBtn.addEventListener("click", () => {
+  langDropdown.style.display = langDropdown.style.display === "block" ? "none" : "block";
+});
+
+// Select language
+document.querySelectorAll("#langDropdown div").forEach(el => {
+  el.addEventListener("click", () => {
+    const lang = el.dataset.lang;
+    localStorage.setItem("lang", lang);
+    currentLang = lang;
+    langBtn.textContent = `🌐 ${currentLang.toUpperCase()} ▾`;
+    langDropdown.style.display = "none";
+
+    updateLanguageUI(lang); // <-- dynamically update UI
+  });
+});
+
+
+// Hide dropdown if clicked outside
+document.addEventListener("click", (e) => {
+  if (!langBtn.contains(e.target) && !langDropdown.contains(e.target)) {
+    langDropdown.style.display = "none";
+  }
+});
+// ===== Initial language setup on page load =====
+
+// Ensure lang exists
+let currentLang = localStorage.getItem("lang");
+if (!currentLang) {
+  currentLang = "en";
+  localStorage.setItem("lang", "en");
+}
+
+// Set button label immediately
+langBtn.textContent = `🌐 ${currentLang.toUpperCase()} ▾`;
+
+// Apply language to UI immediately
+updateLanguageUI(currentLang);
+
+const statusMsg = document.getElementById("statusMsg");
+emailjs.init("_BvHMRNPejeC7Wsha");
+
+// Show profile section
+document.getElementById("showProfileBtn").addEventListener("click", () => {
+  document.getElementById("loginSection").style.display = "none";
+  document.getElementById("newProfileStep1").style.display = "block";
+  clearStatus();
+});
+
+// Back to login
+document.getElementById("backToLoginBtn").addEventListener("click", () => {
+  document.getElementById("newProfileStep1").style.display = "none";
+  document.getElementById("loginSection").style.display = "block";
+  clearStatus();
+});
+
+// ------------------ Temp storage ------------------
+let tempEmail = "";
+let tempPassword = "";
+let codeSentEmails = {}; // { email: timestamp } to track rate limiting
+
+// ------------------ Login ------------------
+document.getElementById("signInBtn").addEventListener("click", async () => {
+  const email = document.getElementById("signEmail").value;
+  const password = document.getElementById("signPassword").value;
+
+  if (!email || !password) {
+    // Show language-aware message for empty fields
+    setStatus("fillAllFields");
+    return;
+  }
+
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) return alert("Login failed: " + error.message);
+
+  if (window.ReactNativeWebView && data.user) {
+    window.ReactNativeWebView.postMessage(JSON.stringify({
+      type: 'userInfo',
+      user_id: data.user.id
+    }));
+  }
+
+  window.location.href = "homepage.html";
+});
+
+// ------------------ Generate 6-digit code ------------------
+function generateCode(length = 6) {
+  let code = '';
+  for (let i = 0; i < length; i++) code += Math.floor(Math.random() * 10);
+  return code;
+}
+
+// ------------------ Send verification code ------------------
+async function sendVerificationCode(email) {
+  const code = generateCode();
+  const nowIso = new Date().toISOString();
+  const lang = localStorage.getItem("lang") || "en";
+
+  // Call RPC
+  const { error: rpcError } = await supabase.rpc(
+    'handle_email_verification',
+    {
+      p_email: email,
+      p_code: code,
+      p_created_at: nowIso
+    }
+  );
+
+  if (rpcError) {
+    console.error("RPC error:", rpcError);
+    setStatus("errorGeneric", "red");
+    return;
+  }
+
+  try {
+const templateData = {
+  user_email: email,
+  code: code,
+  introText: emailTexts.verification[lang].body.replace("{{code}}", code),
+  subject: emailTexts.verification[lang].subject
+};
+
+await emailjs.send("service_50i8a3q", "template_0g6ty24", templateData);
+
+    document.getElementById("verifyCodeSection").style.display = "block";
+    setStatus("codeSent", "green");
+
+  } catch (emailErr) {
+    console.error("Email send failed:", emailErr);
+
+    // Clean up DB if email sending fails
+    await supabase.rpc('delete_email_verification', {
+      p_email: email
+    });
+
+    setStatus("errorGeneric", "red");
+  }
+}
+
+// ------------------ Request verification (step 1) ------------------
+document.getElementById("newProfileBtn").addEventListener("click", async () => {
+  clearStatus();
+  const email = document.getElementById("profileEmail").value.trim();
+  const password = document.getElementById("profilePassword1").value.trim();
+  const password2 = document.getElementById("profilePassword2").value.trim();
+
+  if (!email || !password || !password2) return setStatus("fillAllFields");
+  if (password !== password2) return setStatus("passwordMismatch");
+  if (password.length < 6) return setStatus("shortPassword");
+
+  tempEmail = email;
+  tempPassword = password;
+
+  // Check if profile exists via RPC
+  const { data: profileExists, error: profileError } = await supabase.rpc('profile_exists', { p_email: email });
+  if (profileError) return setStatus("errorGeneric");
+
+  if (profileExists) return setStatus("profileExists");
+
+  // Rate limit: 1 code per 2 minutes
+  const lastSent = codeSentEmails[email] || 0;
+  if (Date.now() - lastSent < 2 * 60 * 1000) {
+    return setStatus("codeAlreadySent", "orange");
+  }
+  codeSentEmails[email] = Date.now();
+
+  document.getElementById("newProfileStep1").style.display = "none";
+  document.getElementById("verifyCodeSection").style.display = "block";
+
+  await sendVerificationCode(email);
+});
+
+// ------------------ Verify code + create user (step 2) ------------------
+document.getElementById('verifyCodeBtn').addEventListener('click', async () => {
+  clearStatus();
+  const inputCode = document.getElementById('verificationCode').value.trim();
+  if (!inputCode) return setStatus("enterVerificationCode");
+
+  try {
+    // Verify code via RPC
+    const { data: verified, error: verifyError } = await supabase.rpc('verify_email_code', {
+      p_email: tempEmail,
+      p_code: inputCode
+    });
+    if (verifyError || !verified) return setStatus("verificationFailed");
+
+    // Create Supabase user
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+      email: tempEmail,
+      password: tempPassword
+    });
+    if (signUpError) return setStatus("loginFailed");
+
+    // Sign in immediately
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: tempEmail,
+      password: tempPassword
+    });
+    if (signInError) return setStatus("loginFailed");
+
+    if (window.ReactNativeWebView && signUpData.user) {
+      window.ReactNativeWebView.postMessage(JSON.stringify({
+        type: 'userInfo',
+        user_id: signUpData.user.id
+      }));
+    }
+
+    await supabase.rpc('delete_email_verification', { p_email: tempEmail });
+
+    tempEmail = "";
+    tempPassword = "";
+
+    setStatus("accountCreated", "green");
+    window.location.href = "survey.html";
+
+  } catch (err) {
+    console.error("Verification error:", err);
+    setStatus("errorGeneric");
+  }
+});
+
+// ------------------ Forgot password ------------------
+document.getElementById("forgotPasswordLink").addEventListener("click", async (e) => {
+  e.preventDefault();
+  clearStatus();
+
+  const email = document.getElementById("signEmail").value.trim();
+  if (!email) return setStatus("enterEmail");
+
+  const { data: exists, error } = await supabase.rpc('profile_exists', { p_email: email });
+
+if (error) {
+  return setStatus("errorGeneric");
+}
+
+if (!exists) {
+  return setStatus("noAccountFound");
+}
+
+  const code = generateCode();
+  const nowIso = new Date().toISOString();
+
+  try {
+    // Call RPC to create password reset row
+    await supabase.rpc('handle_password_reset', {
+      p_email: email,
+      p_code: code,
+      p_created_at: nowIso
+    });
+
+    // Get current language
+const lang = localStorage.getItem("lang") || "en";
+const templateData = {
+  user_email: email,
+  code: code,
+  introText: emailTexts.passwordReset[lang].body.replace("{{code}}", code),
+  subject: emailTexts.passwordReset[lang].subject
+};
+
+await emailjs.send("service_50i8a3q", "template_0qmhcvi", templateData);
+
+
+    setStatus("passwordResetSent", "green");
+
+    // Redirect to reset-password.html
+    setTimeout(() => {
+      window.location.href = `reset-password.html?email=${encodeURIComponent(email)}`;
+    }, 2500);
+
+  } catch (err) {
+    console.error("Password reset error:", err);
+    setStatus("errorGeneric");
+  }
+});
+
 // Update all UI elements
 function updateLanguageUI(lang) {
   const data = languages[lang] || languages.en;
@@ -565,9 +566,6 @@ function clearStatus() {
   statusMsg.style.display = "none";
   statusMsg.textContent = "";
 }
-
-updateLanguageUI(currentLang);
-
 
 </script>
 
