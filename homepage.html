@@ -35,7 +35,7 @@
     <div class="level-bar">
       <div class="progress">
         <div id="levelProgress" class="progress-fill"></div>
-        <small id="xpToNext"> </small>
+        <small id="xpToNext"><span id="xpRemaining">0</span> <span id="xpLabel">XP to next level</span></small>
       </div>
     </div>
 
@@ -66,47 +66,47 @@
 
 
 <div class = impact-box>
-  <p><span class="you">You, </span>and our <span class="community">Community</span> <br>
+  <p><span id="youLabel" class="you">You, </span><span id="andour"> and our </span></span><span id="communityLabel" class="community">Community</span> <br>
   
 <div class="impact-cards">
   
   <!-- Animals -->
   <div class="card">
     🐾
-    <p> saved <br>
+    <p id="animalsSave"> saved <br>
        <strong id="youAnimals">12</strong> 
        <strong id="communityAnimals">3560</strong> </p>
-    <p class = "lastPincards">animals</p>
+    <p id="animalsLabel" class = "lastPincards">animals</p>
     <div class="card-info">ℹ️</div>
   </div>
 
   <!-- Forest -->
   <div class="card">
     🌲
-    <p> saved <br>
+    <p id="forestSave"> saved <br>
        <strong id="youForest">12</strong> 
        <strong id="communityForest">3560</strong> </p>
-    <p class = "lastPincards"> m² of forests</p>
+    <p id="forestLabel" class = "lastPincards"> m² of forests</p>
     <div class="card-info">ℹ️</div>
   </div>
 
   <!-- Water -->
   <div class="card">
     💧
-    <p> saved <br>
+    <p id="waterSave"> saved <br>
        <strong id="youWater">12</strong> 
        <strong id="communityWater">3560</strong> </p>
-    <p class = "lastPincards">L of water</p>
+    <p id="waterLabel" class = "lastPincards">L of water</p>
     <div class="card-info">ℹ️</div>
   </div>
 
   <!-- CO₂ -->
   <div class="card">
     🌬️
-    <p> reduced <br>
+    <p id="co2save"> reduced <br>
        <strong id="youCO2">12</strong> 
        <strong id="communityCO2">3560</strong> </p>
-    <p class = "lastPincards">kg of CO₂</p>
+    <p id="co2Label" class = "lastPincards">kg of CO₂</p>
     <div class="card-info">ℹ️</div>
   </div>
  </div>
@@ -114,12 +114,12 @@
 
       <!-- Meal-Art Contest -->
       <div class="meal-art-winners">
-        <h3>🍽️ Meal-Art Winners This Week:</h3>
+        <h3 id="mealArtTitle">🍽️ Meal-Art Winners This Week:</h3>
         <div class="meal-art-categories">
 
           <!-- Amateur -->
           <div class="meal-art-card">
-            <h4>🥕 Home Chef</h4>
+            <h4 id="homeChefTitle">🥕 Home Chef</h4>
             <p class="winner-name" id="amateurName">Jane Doe</p>
             <img id="amateurImage" src="meals/amateur.jpg" alt="Amateur winning dish" class="meal-art-image">
             <div id="amateurRecipe"><span class="recipe">Recipe available</span></div>
@@ -127,7 +127,7 @@
 
           <!-- Professional -->
           <div class="meal-art-card">
-            <h4>🍴 Pro Kitchen</h4>
+            <h4 id="proKitchenTitle">🍴 Pro Kitchen</h4>
             <p class="winner-name" id="proName">Green Leaf Bistro</p>
             <img id="proImage" src="meals/professional.jpg" alt="Professional winning dish" class="meal-art-image">
             <div id="professionalRecipe"><span class="no-recipe">Recipe unavailable</span></div>
@@ -166,7 +166,7 @@
     <div class="avatar" id="petAvatar"></div>
     <div class="thought-toggle">💭</div>
     <div id="petThought" class="thought-bubble">
-      <span id="petName">Pet</span> says...
+      <span id="petName">Pet</span> <span id="petSays">says...</span>
       <div id="petTip" class="lesson-box"></div>
       <span class="close-thought">×</span>
     </div>
@@ -201,15 +201,15 @@
       <span class="red-dot" id="profileDot"></span>
     </button>
     <div class="dropdown-content">
-      <button onclick="showSection('profile')">Profile</button>
-      <button onclick="showSection('friends')">
+      <button id="profileBtn" onclick="showSection('profile')">Profile</button>
+      <button id="friendsBtn" onclick="showSection('friends')">
   <span class="btn-label">
     Friends
     <span class="red-dot" id="friendRequestsDot"></span>
   </span>
 </button>
 
-<button onclick="showSection('messages')">
+<button id="messagesBtn" onclick="showSection('messages')">
   <span class="btn-label">
     Messages
     <span class="red-dot" id="messagesDot"></span>
@@ -227,20 +227,20 @@
   <div class="dropdown">
     <button>🌐 <span class="red-dot" id="communityDot"></span> </button>
     <div class="dropdown-content">
-      <button onclick="showSection('local')">
+      <button id="localBtn" onclick="showSection('local')">
   <span class="btn-label">
     Local Community
     <span class="red-dot" id="LocalDot"></span>
   </span>
 </button>
 
-<button onclick="showSection('forum')">
+<button id="forumBtn" onclick="showSection('forum')">
   <span class="btn-label">
     Anonymous Forum
     <span class="red-dot" id="ForumDot"></span>
   </span>
 </button>
-      <button onclick="showSection('mentorship')">Mentorship</button>
+      <button id="mentorshipBtn" onclick="showSection('mentorship')">Mentorship</button>
     </div>
   </div>
 
@@ -248,10 +248,10 @@
   <div class="dropdown">
     <button>🧸</button>
     <div class="dropdown-content">
-      <button onclick="showSection('leaderboards')">Leaderboards</button>
-      <button onclick="showSection('achievements')">Achievements</button>
-      <button onclick="showSection('shop')">Shop</button>
-      <button onclick="showSection('challenges')">Challenges</button>
+      <button id="leaderboardsBtn" onclick="showSection('leaderboards')">Leaderboards</button>
+      <button id="achievementsPageBtn" onclick="showSection('achievements')">Achievements</button>
+      <button id="shopBtn" onclick="showSection('shop')">Shop</button>
+      <button id="challengesBtn" onclick="showSection('challenges')">Challenges</button>
     </div>
   </div>
 
@@ -259,12 +259,12 @@
   <div class="dropdown">
     <button>☰</button>
     <div class="dropdown-content">
-      <button onclick="showSection('recommendations')">Recommendations</button>
-<!--  <button onclick="showSection('subscriptions')">Subscriptions</button>     -->
-      <button onclick="showSection('sources')">Sources</button>
-      <button onclick="showSection('aboutus')">About Us</button>
-      <button onclick="showSection('contactus')">Contact Us</button>
-      <button onclick="showSection('systemsettings')">Settings</button>
+      <button id="recommendationsBtn" onclick="showSection('recommendations')">Recommendations</button>
+<!--  <button id="subscriptionsBtn" onclick="showSection('subscriptions')">Subscriptions</button>     -->
+      <button id="sourcesBtn" onclick="showSection('sources')">Sources</button>
+      <button id="aboutUsBtn" onclick="showSection('aboutus')">About Us</button>
+      <button id="contactUsBtn" onclick="showSection('contactus')">Contact Us</button>
+      <button id="settingsBtn" onclick="showSection('systemsettings')">Settings</button>
     </div>
   </div>
 
@@ -1347,7 +1347,7 @@
 
 
 
-  
+
 </div>
 
 

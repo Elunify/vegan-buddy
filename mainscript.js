@@ -1,3 +1,183 @@
+//#region MULTILANGUAGE
+
+const translations = {
+  en: {
+    xpLabel: "XP to next level",
+    mealArtBtn: "Meal-Art Contest",
+    checkinBtn: "Daily Check-in",
+    lessonPathBtn: "Learn Path",
+    recipesBtn: "Trending Recipes",
+    youLabel: "You",
+    andour: "and our ",
+    communityLabel: "Community",
+    animalsSavedLabel: "saved",
+    forestSavedLabel: "saved",
+    waterSavedLabel: "saved",
+    co2SavedLabel: "reduced",
+    animalsLabel: "animals",
+    forestLabel: "m² of forests",
+    waterLabel: "L of water",
+    co2Label: "kg of CO₂",
+    mealArtTitle: "Meal-Art Winners This Week:",
+    homeChefTitle: "Home Chef",
+    proKitchenTitle: "Pro Kitchen",
+    recipeAvailable: "Recipe available",
+    recipeUnavailable: "Recipe unavailable",
+    petSays: "says...",
+    profileBtn: "Profile",
+    friendsBtn: "Friends",
+    messagesBtn: "Messages",
+    localBtn: "Local Community",
+    forumBtn: "Anonymous Forum",
+    mentorshipBtn: "Mentorship",
+    leaderboardsBtn: "Leaderboards",
+    achievementsPageBtn: "Achievements",
+    shopBtn: "Shop",
+    challengesBtn: "Challenges",
+    recommendationsBtn: "Recommendations",
+    sourcesBtn: "Sources",
+    aboutUsBtn: "About Us",
+    contactUsBtn: "Contact Us",
+    settingsBtn: "Settings"
+  },
+  es: {
+    xpLabel: "XP para el siguiente nivel",
+    mealArtBtn: "Concurso de Meal-Art",
+    checkinBtn: "Registro diario",
+    lessonPathBtn: "Ruta de aprendizaje",
+    recipesBtn: "Recetas populares",
+    youLabel: "Tú",
+    andour: "y la ",
+    communityLabel: "Comunidad",
+    animalsSavedLabel: "guardados",
+    forestSavedLabel: "protegidos",
+    waterSavedLabel: "ahorrados",
+    co2SavedLabel: "reducidos",
+    animalsLabel: "animales",
+    forestLabel: "m² de bosques",
+    waterLabel: "L de agua",
+    co2Label: "kg de CO₂",
+    mealArtTitle: "Ganadores de Meal-Art de esta semana:",
+    homeChefTitle: "Chef Casero",
+    proKitchenTitle: "Cocina Profesional",
+    recipeAvailable: "Receta disponible",
+    recipeUnavailable: "Receta no disponible",
+    petSays: "dice...",
+    profileBtn: "Perfil",
+    friendsBtn: "Amigos",
+    messagesBtn: "Mensajes",
+    localBtn: "Comunidad Local",
+    forumBtn: "Foro Anónimo",
+    mentorshipBtn: "Mentoría",
+    leaderboardsBtn: "Clasificaciones",
+    achievementsPageBtn: "Logros",
+    shopBtn: "Tienda",
+    challengesBtn: "Retos",
+    recommendationsBtn: "Recomendaciones",
+    sourcesBtn: "Fuentes",
+    aboutUsBtn: "Sobre Nosotros",
+    contactUsBtn: "Contáctanos",
+    settingsBtn: "Configuración"
+  },
+  hu: {
+    xpLabel: "XP a következő szinthez",
+    mealArtBtn: "Meal-Art Verseny",
+    checkinBtn: "Napi Check-in",
+    lessonPathBtn: "Tanulási Útvonal",
+    recipesBtn: "Népszerű Receptek",
+    youLabel: "Te",
+    andour: "és a ",
+    communityLabel: "Közösség",
+    animalsSavedLabel: "megmentett",
+    forestSavedLabel: "megkímélt",
+    waterSavedLabel: "megtakarított",
+    co2SavedLabel: "csökkentett",
+    animalsLabel: "állatot",
+    forestLabel: "m² erdőt",
+    waterLabel: "L vizet",
+    co2Label: "kg CO₂",
+    mealArtTitle: "E heti Meal-Art győztesek:",
+    homeChefTitle: "Hobbi Séf",
+    proKitchenTitle: "Profikonyha",
+    recipeAvailable: "Recept elérhető",
+    recipeUnavailable: "Recept nem elérhető",
+    petSays: "mondja...",
+    profileBtn: "Profil",
+    friendsBtn: "Barátok",
+    messagesBtn: "Üzenetek",
+    localBtn: "Helyi Közösség",
+    forumBtn: "Anonim Fórum",
+    mentorshipBtn: "Mentorprogram",
+    leaderboardsBtn: "Ranglisták",
+    achievementsPageBtn: "Eredmények",
+    shopBtn: "Bolt",
+    challengesBtn: "Kihívások",
+    recommendationsBtn: "Ajánlások",
+    sourcesBtn: "Források",
+    aboutUsBtn: "Rólunk",
+    contactUsBtn: "Kapcsolat",
+    settingsBtn: "Beállítások"
+  }
+};
+
+
+async function updateLanguageUI(lang) {
+  const t = translations[lang]; // Select the language dictionary
+
+  // Top bar
+  document.getElementById("xpLabel").textContent = t.xpLabel;
+
+  // Buttons
+  document.getElementById("mealArtBtn").innerText = t.mealArtBtn;
+  document.getElementById("checkinBtn").innerText = t.checkinBtn;
+  document.getElementById("lessonPathBtn").innerText = t.lessonPathBtn;
+  document.getElementById("recipesBtn").innerText = t.recipesBtn;
+
+  // Impact labels
+  document.getElementById("youLabel").innerText = t.youLabel + ", ";
+  document.getElementById("andour").innerText = t.andour;
+  document.getElementById("communityLabel").innerText = t.communityLabel;
+
+  document.querySelector("#animalsSave").firstChild.textContent = t.animalsSavedLabel;
+  document.querySelector("#forestSave").firstChild.textContent  = t.forestSavedLabel;
+  document.querySelector("#waterSave").firstChild.textContent   = t.waterSavedLabel;
+  document.querySelector("#co2save").firstChild.textContent     = t.co2SavedLabel;
+
+  document.getElementById("animalsLabel").innerText = t.animalsLabel;
+  document.getElementById("forestLabel").innerText = t.forestLabel;
+  document.getElementById("waterLabel").innerText = t.waterLabel;
+  document.getElementById("co2Label").innerText = t.co2Label;
+
+  // Meal-Art section
+  document.getElementById("mealArtTitle").innerText = t.mealArtTitle;
+  document.getElementById("homeChefTitle").innerText = t.homeChefTitle;
+  document.getElementById("proKitchenTitle").innerText = t.proKitchenTitle;
+  document.querySelector("#amateurRecipe .recipe").innerText = t.recipeAvailable;
+  document.querySelector("#professionalRecipe .no-recipe").innerText = t.recipeUnavailable;
+
+  // Pet
+  document.getElementById("petSays").innerText = t.petSays;
+
+  // Bottom nav
+  document.getElementById("profileBtn").innerText = t.profileBtn;
+  document.getElementById("friendsBtn").querySelector(".btn-label").firstChild.textContent = t.friendsBtn;
+  document.getElementById("messagesBtn").querySelector(".btn-label").firstChild.textContent = t.messagesBtn;
+  document.getElementById("localBtn").querySelector(".btn-label").firstChild.textContent = t.localBtn;
+  document.getElementById("forumBtn").querySelector(".btn-label").firstChild.textContent = t.forumBtn;
+  document.getElementById("mentorshipBtn").innerText = t.mentorshipBtn;
+  document.getElementById("leaderboardsBtn").innerText = t.leaderboardsBtn;
+  document.getElementById("achievementsPageBtn").innerText = t.achievementsPageBtn;
+  document.getElementById("shopBtn").innerText = t.shopBtn;
+  document.getElementById("challengesBtn").innerText = t.challengesBtn;
+  document.getElementById("recommendationsBtn").innerText = t.recommendationsBtn;
+  document.getElementById("sourcesBtn").innerText = t.sourcesBtn;
+  document.getElementById("aboutUsBtn").innerText = t.aboutUsBtn;
+  document.getElementById("contactUsBtn").innerText = t.contactUsBtn;
+  document.getElementById("settingsBtn").innerText = t.settingsBtn;
+}
+
+//#endregion 
+
 //#region INIT
 //--------------------------
 // SUPABASE
@@ -292,7 +472,7 @@ if (checkinBtn && lessonPathBtn && dailyCheckInSection && lessonPathSection) {
 
   // XP to next level
   const xpRemaining = levelData.xpNeededForNextLevel - levelData.xpTowardsNextLevel;
-  document.getElementById("xpToNext").textContent = `${xpRemaining} XP to next level`;
+  document.getElementById("xpRemaining").textContent = `${xpRemaining}`;
 
   // Pet rendering
   const petDisplay = document.getElementById("petDisplay");
@@ -5628,10 +5808,12 @@ async function initSystemSettings() {
   // Preselect the current language
   const currentLang = localStorage.getItem("lang") || "en";
   languageSelect.value = currentLang;
+  await updateLanguageUI(currentLang);
 
   saveLangBtn.addEventListener("click", async () => {
     const newLang = languageSelect.value;
     localStorage.setItem("lang", newLang);
+    await updateLanguageUI(newLang);
 
     // Make sure currentUser exists
     if (!currentUser?.id) {
@@ -5654,8 +5836,8 @@ async function initSystemSettings() {
       if (tokenError) console.error("Error updating user_tokens language:", tokenError);
 
       alert("Language updated successfully!");
-      // Optionally update UI immediately
-      // updateLanguageUI(newLang);
+      showSection("home");
+      
     } catch (err) {
       console.error("Unexpected error updating language:", err);
       alert("Failed to update language. Please try again.");
@@ -6277,6 +6459,7 @@ document.addEventListener("DOMContentLoaded", async () => {
        ========================= */
     await fetchAllData();            // sets currentUser + currentProfile
     await renderProfile();           // user must see something ASAP
+    await initSystemSettings();
 
 
     /* =========================
@@ -6450,7 +6633,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     /* =========================
        PHASE 15 — FINAL UI CLEANUP
        ========================= */
-   initSystemSettings();
 
   } catch (err) {
     console.error("Error initializing mainpage:", err);
