@@ -82,7 +82,7 @@ const translations = {
   hu: {
     xpLabel: "XP a következő szinthez",
     mealArtBtn: "Meal-Art Verseny",
-    checkinBtn: "Napi Check-in",
+    checkinBtn: "Napi bejegyzés",
     lessonPathBtn: "Tanulási Útvonal",
     recipesBtn: "Népszerű Receptek",
     youLabel: "Te",
@@ -5528,23 +5528,22 @@ async function loadLessonChallenge() {
 }
 
 // ---------------------------
-// 🧘 MINDFUL MOMENT (Popup Version)
+// 🧘 MINDFUL MOMENT (Popup Version - Reset on Close)
 // ---------------------------
+
 async function loadMindfulPopupState(userId) {
   const claimed = await isClaimed(currentUser.id, "mindful");
   const startBtn = document.getElementById("mindfulStartBtn");
   startBtn.disabled = claimed;
 
   if (claimed) {
-    startBtn.textContent = "Reward Claimed 🌸"; // ✅ only if already claimed
+    startBtn.textContent = "Reward Claimed 🌸";
   } else {
-    startBtn.textContent = "Start 5-Minute Timer"; // normal text
+    startBtn.textContent = "Start 5-Minute Timer";
   }
 }
 
-
-let mindfulTimer;
-let timeLeft = 0;
+let mindfulTimer = null;
 
 const popup = document.getElementById("mindfulPopup");
 const closeBtn = document.getElementById("mindfulCloseBtn");
@@ -5552,77 +5551,150 @@ const startBtn = document.getElementById("mindfulStartBtn");
 const timerDisplay = document.getElementById("mindfulPopupTimer");
 const rewardBtn = document.getElementById("mindfulPopupRewardBtn");
 
+// ---------------------------
+// START BUTTON
+// ---------------------------
 startBtn.addEventListener("click", () => {
-  // Reset time
-  timeLeft = 5 * 60; // 5 minutes
-  timerDisplay.textContent = "5:00";
-  rewardBtn.style.display = "none";
+  // 🔴 HARD RESET before starting
+  if (mindfulTimer) {
+    clearInterval(mindfulTimer);
+    mindfulTimer = null;
+  }
+  localStorage.removeItem("mindfulEndTime");
 
-  // Show popup
+  // Force UI to 5:00 immediately
+  timerDisplay.textContent = "5:00";
+
+  const durationMs = 5 * 60 * 1000; // 5 minutes
+  const endTime = Date.now() + durationMs;
+
+  // Save new absolute end time
+  localStorage.setItem("mindfulEndTime", endTime.toString());
+
+  // UI setup
+  timerDisplay.style.display = "inline";
+  rewardBtn.style.display = "none";
+  document.getElementById("mindfulTimerRow").style.display = "block";
+  closeBtn.style.display = "inline-block";
+
   popup.style.display = "flex";
   popup.classList.remove("hidden");
 
-  // Start countdown
-  startBtn.disabled = true; // prevent multiple timers
-  if (mindfulTimer) clearInterval(mindfulTimer);
+  startBtn.disabled = true;
 
-  mindfulTimer = setInterval(async () => {
-    const mins = Math.floor(timeLeft / 60);
-    const secs = timeLeft % 60;
-    timerDisplay.textContent = `${mins}:${secs.toString().padStart(2, "0")}`;
-
-  if (timeLeft <= 0) {
-  clearInterval(mindfulTimer);
-  document.getElementById("mindfulTimerRow").style.display = "none";
-  closeBtn.style.display = "none"; // hide close button
-
-  // Create message
-const msg = document.createElement("p");
-msg.textContent = "🎉 Congratulations, you completed your daily challenge! Take your reward.";
-msg.classList.add("mindful-success-message");
-
-// Insert message at the TOP
-const popupBody = document.getElementById("mindfulPopupBody");
-popupBody.prepend(msg);
-
-// Show reward button BELOW the message
-rewardBtn.style.display = "inline-block";
-}
-
-    timeLeft--;
-  }, 1000);
+  startMindfulCountdown();
 });
 
-// Function to close this specific popup
+
+// ---------------------------
+// COUNTDOWN (robust, wall-clock based)
+// ---------------------------
+function startMindfulCountdown() {
+  if (mindfulTimer) {
+    clearInterval(mindfulTimer);
+    mindfulTimer = null;
+  }
+
+  // Render once immediately from endTime
+  updateMindfulDisplay();
+
+  // 🔴 Start ticking AFTER 1 second (prevents instant jump)
+  mindfulTimer = setInterval(updateMindfulDisplay, 1000);
+}
+
+
+function updateMindfulDisplay() {
+  const endTimeStr = localStorage.getItem("mindfulEndTime");
+  if (!endTimeStr) return;
+
+  const endTime = parseInt(endTimeStr, 10);
+  const now = Date.now();
+  const diffMs = endTime - now;
+
+  // Round UP so first second stays visible
+  const timeLeft = Math.max(0, Math.ceil(diffMs / 1000));
+
+  const mins = Math.floor(timeLeft / 60);
+  const secs = timeLeft % 60;
+  timerDisplay.textContent = `${mins}:${secs.toString().padStart(2, "0")}`;
+
+  if (timeLeft <= 0) {
+    clearInterval(mindfulTimer);
+    mindfulTimer = null;
+    localStorage.removeItem("mindfulEndTime");
+    onMindfulFinished();
+  }
+}
+
+// ---------------------------
+// FINISH HANDLER
+// ---------------------------
+function onMindfulFinished() {
+  document.getElementById("mindfulTimerRow").style.display = "none";
+  closeBtn.style.display = "none";
+
+  const popupBody = document.getElementById("mindfulPopupBody");
+
+  if (!popupBody.querySelector(".mindful-success-message")) {
+    const msg = document.createElement("p");
+    msg.textContent = "🎉 Congratulations, you completed your daily challenge! Take your reward.";
+    msg.classList.add("mindful-success-message");
+    popupBody.prepend(msg);
+  }
+
+  rewardBtn.style.display = "inline-block";
+}
+
+// ---------------------------
+// CLOSE POPUP  → RESET TIMER
+// ---------------------------
 function closeMindfulPopup() {
-  clearInterval(mindfulTimer);
+  if (mindfulTimer) {
+    clearInterval(mindfulTimer);
+    mindfulTimer = null;
+  }
+
+  // 🔴 IMPORTANT: reset the session completely
+  localStorage.removeItem("mindfulEndTime");
+
   timerDisplay.style.display = "inline";
   rewardBtn.style.display = "none";
-  popup.style.display = "none"; // only this popup
-  popup.classList.add("hidden"); // hide popup
+  popup.style.display = "none";
+  popup.classList.add("hidden");
+
+  // Allow starting again from scratch
   startBtn.disabled = false;
 }
 
-// Close button click (inside the popup)
+// Close button click
 closeBtn.addEventListener("click", closeMindfulPopup);
 
-// Clicking outside the popup content (overlay of this popup only)
+// Clicking outside the popup (overlay only)
 popup.addEventListener("click", (e) => {
-  if (e.target === popup) { // clicked on the overlay, not the content
+  if (e.target === popup) {
     closeMindfulPopup();
   }
 });
 
-// Reward button claims the badge and closes popup
+// ---------------------------
+// REWARD BUTTON
+// ---------------------------
 rewardBtn.addEventListener("click", async () => {
   try {
     await addBadges(currentUser.id, 5);
     await addXP(5);
     await markClaimed(currentUser.id, "mindful");
+
     alert("🧘 You earned 5 Badges and 5 XPs!");
+
     popup.style.display = "none";
-    startBtn.disabled = true; // already claimed
-    startBtn.textContent = "Done today"; // ✅ change button text
+    popup.classList.add("hidden");
+
+    startBtn.disabled = true;
+    startBtn.textContent = "Done today";
+
+    // Cleanup
+    localStorage.removeItem("mindfulEndTime");
   } catch (err) {
     console.error("Reward claim failed:", err);
     alert("Something went wrong claiming your reward.");
