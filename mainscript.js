@@ -1507,8 +1507,9 @@ form.addEventListener("submit", async e => {
 
     try {
   file = await resizeImage(file, 600, 0.7, 'image/webp');
-} catch(err) {
-  throw err; // rethrow to go to outer catch
+} catch (err) {
+  alert("Resize failed: " + err.message);
+  return; // or skip resizing
 }
     if (!currentUser || !currentUser.id) throw new Error("User not logged in");
 
