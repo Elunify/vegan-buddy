@@ -1502,26 +1502,15 @@ form.addEventListener("submit", async e => {
   submitBtn.textContent = "Uploading...";
 
   try {
-
-    
-    alert("Step 1: Form submission started");
-
-
     let file = mealPhotoFile;
     if (!file) throw new Error("Please select a photo before submitting.");
 
-    
-    alert("Step 2: File selected");
-
     try {
   file = await resizeImage(file, 600, 0.7, 'image/webp');
-  alert("Step 3: Image resized");
 } catch(err) {
-  alert("Resize failed: " + err.message);
   throw err; // rethrow to go to outer catch
 }
     if (!currentUser || !currentUser.id) throw new Error("User not logged in");
-    alert("Step 4: currentUser OK: " + currentUser.id);
 
     const safeFileName = sanitizeFileName(
       `meal_${currentUser.id}_${Date.now()}.webp`
@@ -1530,39 +1519,22 @@ form.addEventListener("submit", async e => {
     file = new File([file], safeFileName, { type: 'image/webp' });
     mealPhotoFile = file;
 
-    
-    alert("Step 5: File object created");
-
     const foodName = document.getElementById("mealArtrecipeName").value.trim();
     const mealArtPrepTime = document.getElementById("mealArtPrepTime").value.trim();
     const ingredients = document.getElementById("mealArtrecipeIngredients").value.trim();
     const instructions = document.getElementById("mealArtrecipeInstructions").value.trim();
     const recipeAvailable = !!(foodName && ingredients && instructions);
 
-    
-    alert("Step 6: Form fields read");
-
     const isProCategory = currentProfile.is_pro === true;
     const fileExt = file.name.split('.').pop();
     const fileName = `${currentUser.id}_${Date.now()}.${fileExt}`;
     const filePath = `${isProCategory ? 'pro' : 'home'}/${fileName}`;
 
-    
-    alert("Step 7: Upload path ready: " + filePath);
-
     const { error: uploadError } = await supabase.storage.from("meal-uploads").upload(filePath, file);
     if (uploadError) throw new Error("Error uploading photo: " + uploadError.message);
 
-    
-    alert("Step 8: Photo uploaded");
-
-
     const { data: publicUrlData } = supabase.storage.from("meal-uploads").getPublicUrl(filePath);
     const imageUrl = publicUrlData.publicUrl;
-
-    
-    alert("Step 9: Public URL retrieved: " + imageUrl);
-
 
     const weekStartDate = new Date();
     weekStartDate.setDate(weekStartDate.getDate() - weekStartDate.getDay() + 1);
@@ -1585,15 +1557,7 @@ form.addEventListener("submit", async e => {
 
     if (mealError) throw new Error("Error saving meal: " + mealError.message);
 
-    
-    alert("Step 10: Meal saved to DB");
-
     await addXP(6);
-
-    
-    alert("Step 11: XP added");
-
-
     alert("Meal uploaded successfully!");
     renderMeals([...currentMeals, newMeals[0]]);
     currentMeals.push(newMeals[0]);
@@ -1604,10 +1568,6 @@ form.addEventListener("submit", async e => {
     previewImage.src = "";
     photoPreview.style.display = "none";
     goBackTab();
-
-    
-    alert("Step 12: Upload complete ✅");
-
   } catch (err) {
     alert(err.message);
   } finally {
