@@ -1513,11 +1513,13 @@ form.addEventListener("submit", async e => {
     
     alert("Step 2: File selected");
 
-    // --- Resize the image here ---
-    file = await resizeImage(file, 600, 0.7, 'image/webp');
-
-    
-    alert("Step 3: Image resized");
+    try {
+  file = await resizeImage(file, 600, 0.7, 'image/webp');
+  alert("Step 3: Image resized");
+} catch(err) {
+  alert("Resize failed: " + err.message);
+  throw err; // rethrow to go to outer catch
+}
     if (!currentUser || !currentUser.id) throw new Error("User not logged in");
     alert("Step 4: currentUser OK: " + currentUser.id);
 
@@ -1605,7 +1607,7 @@ form.addEventListener("submit", async e => {
 
     
     alert("Step 12: Upload complete ✅");
-    
+
   } catch (err) {
     alert(err.message);
   } finally {
