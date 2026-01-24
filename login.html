@@ -575,16 +575,24 @@ function clearStatus() {
 <style>
 /* ===== Reset & Body ===== */
 html, body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #f9f9f9;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  height: 100%;         /* use height instead of min-height */
-  margin: 0;             /* remove default margin */
+  height: 100%;         
+  margin: 0;             
   color: #2d6a4f;
-  overflow:scroll;      /* THIS stops all scrolling */
+  overflow:scroll;       */
+
+  height: 100%;               /* avoid 100vh issues */
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background: #f9f9f9;
+    color: #333;
+    overflow: visible;          /* let children handle scrolling */
 }
 
 /* ===== Cards ===== */
