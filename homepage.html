@@ -296,7 +296,7 @@
       <div id="mealArtContestSmall" class="tab-content">
   <!-- Header / Intro -->
   <div class="meal-art-header">
-    <h2>Meal Art Contest</h2>
+    <h2 id="mealArtHeaderTitle">Meal Art Contest</h2>
     <p class="generalnote" id="generalnote" style="display: inline-block">Upload your meal art from Tuesday to Sunday. Voting is on Monday.</p>
 
     <!-- Buttons -->
@@ -318,21 +318,21 @@
 
   <!-- Main Tabs: Current Participants / Past Winners -->
   <div class="meal-art-main-tabs">
-    <button class="main-tab active" data-tab="participants">Current Participants</button>
-    <button class="main-tab" data-tab="past-winners">Past Winners</button>
+    <button class="main-tab active" data-tab="participants" id="participantsTab">Current Participants</button>
+    <button class="main-tab" data-tab="past-winners" id="pastWinnersTab">Past Winners</button>
   </div>
 
   <!-- Participants Gallery -->
 <div class="main-tab-content" id="participants">
   <div class="participants-gallery">
     <div class="category-column" id="home-chef-column">
-      <h4>Home Chef</h4>
+      <h4 id="homeChefCategory1">Home Chef</h4>
       <!-- JS will insert current week meals here -->
       <div class="current-week-gallery" id="home-chef-gallery"></div>
     </div>
 
     <div class="category-column" id="pro-kitchen-column">
-      <h4>Pro Kitchen</h4>
+      <h4 id="proKitchenCategory1">Pro Kitchen</h4>
       <!-- JS will insert current week meals here -->
       <div class="current-week-gallery" id="pro-kitchen-gallery"></div>
     </div>
@@ -342,13 +342,13 @@
 <div class="main-tab-content" id="past-winners">
   <div class="past-winners-columns">
     <div class="category-column" id="home-chef-past">
-      <h4>Home Chef</h4>
+      <h4 id="homeChefCategory2">Home Chef</h4>
       <!-- JS will insert winners here -->
       <div class="winner-list" id="home-chef-winners"></div>
     </div>
 
     <div class="category-column" id="pro-kitchen-past">
-      <h4>Pro Kitchen</h4>
+      <h4 id="proKitchenCategory2">Pro Kitchen</h4>
       <!-- JS will insert winners here -->
       <div class="winner-list" id="pro-kitchen-winners"></div>
     </div>
@@ -361,12 +361,12 @@
 
 <div id="mealArtUploadTab" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);">
 <div class="MealArtUploadContent hidden-meal" id="MealArtUploadContent">
-  <h2 class="UploadYourMeal">Upload Your Meal</h2>
-  <p class="rule">Only plant-based meals are allowed!</p>
+  <h2 class="UploadYourMeal" id="uploadYourMealTitle">Upload Your Meal</h2>
+  <p class="rule" id="plantBasedRule">Only plant-based meals are allowed!</p>
 
   <form id="mealUploadForm">
     <!-- Required Photo -->
-    <label for="mealPhoto">Meal Photo <span style="color:red">*</span></label>
+    <label for="mealPhoto" id="mealPhotoLabel">Meal Photo <span style="color:red">*</span></label>
     <input type="file" id="mealPhoto" name="mealPhoto" accept="image/*" required>
 
     <!-- Preview Area -->
@@ -375,21 +375,21 @@
     </div>
 
     <!-- Optional Recipe -->
-     <p class="recipe-note">Fill all boxes to make your recipe available:</p>
+     <p class="recipe-note" id="recipeNote">Fill all boxes to make your recipe available:</p>
 
-    <label for="recipeName">Recipe Name <span class="optional-label">(optional)</span></label>
+    <label for="recipeName" id="recipeNameLabel">Recipe Name <span class="optional-label">(optional)</span></label>
     <input type="text" id="mealArtrecipeName" name="mealArtrecipeName" placeholder="E.g., Vegan Lasagna">
     
-    <label for="mealArtPrepTime">Preparation Time <span class="optional-label">(optional)</span></label>
+    <label for="mealArtPrepTime" id="prepTimeLabel">Preparation Time <span class="optional-label">(optional)</span></label>
     <input type="text" id="mealArtPrepTime" name="mealArtPrepTime" placeholder="E.g., 30 mins">
     
     <!-- Ingredients -->
-    <label for="mealArtrecipeIngredients">Ingredients <span class="optional-label">(optional)</span></label>
+    <label for="mealArtrecipeIngredients" id="ingredientsLabel">Ingredients <span class="optional-label"  id="optional1">(optional)</span></label>
     <textarea id="mealArtrecipeIngredients" name="mealArtrecipeIngredients" placeholder="List ingredients here..." maxlength="1000"></textarea>
     <small id="ingredientsCharCount">0/1000</small>
 
     <!-- Instructions -->
-    <label for="mealArtrecipeInstructions">Instructions <span class="optional-label">(optional)</span></label>
+    <label for="mealArtrecipeInstructions" id="instructionsLabel">Instructions <span class="optional-label"  id="optional2">(optional)</span></label>
     <textarea id="mealArtrecipeInstructions" name="mealArtrecipeInstructions" placeholder="Write instructions here..." maxlength="1000"></textarea>
     <small id="instructionsCharCount">0/1000</small>
 
@@ -412,17 +412,17 @@
     <div id="quizDCI" class="boxDCI"></div>
 
     <div id="lessonsectionDCI" class="boxDCI">
-      <label class="bigLabelDCI">Your lesson for today:</label>
+      <label class="bigLabelDCI" id="todayLessonLabel">Your lesson for today:</label>
       <div id="dailyLessonDCI" class="lesson-boxDCI"></div>
     </div>
 
     <div id="mealsectionDCI" class="boxDCI">
-      <label class="bigLabelDCI">How many fully plant-powered meals did you enjoy yesterday?</label>
+      <label class="bigLabelDCI" id="mealsQuestion">How many fully plant-powered meals did you enjoy yesterday?</label>
 
-      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="1">Oops! My plate betrayed me 😅</label>
-      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="2">Some plant magic in my meals ✨</label>
-      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="3">Plant-powered most of the day! 🌿</label>
-      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="4">I was fully powered by plants! 🌱</label>
+      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="1" id="mealOption1">Oops! My plate betrayed me 😅</label>
+      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="2" id="mealOption2">Some plant magic in my meals ✨</label>
+      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="3" id="mealOption3">Plant-powered most of the day! 🌿</label>
+      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="4" id="mealOption4">I was fully powered by plants! 🌱</label>
     </div>
 
     <button class="button" id="submitAndSupportBtnDCI">
@@ -434,11 +434,11 @@
   <!-- LESSON PATH (shown after daily check-in) -->
   <div id="lesson-path" class="hidden">
     <div class="learning-path-head">
-      <h2>Learn</h2> 
+      <h2 id="learnTitle">Learn</h2> 
     <div class="learning-path-buttons">
-      <button class="path-btn" data-path="animals">For the Animals</button>
-      <button class="path-btn" data-path="earth">For the Earth</button>
-      <button class="path-btn" data-path="health">For Health</button>
+      <button class="path-btn" data-path="animals" id="pathAnimalsBtn">For the Animals</button>
+      <button class="path-btn" data-path="earth" id="pathEarthBtn">For the Earth</button>
+      <button class="path-btn" data-path="health" id="pathHealthBtn">For Health</button>
     </div>
     </div>
 
@@ -455,7 +455,7 @@
   <!-- Recipes -->
    <!-- Recipes -->
     <div id="recipes" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
-      <h2>Recipes</h2>
+      <h2 id="recipesTitle">Recipes</h2>
   <div id="recipes-container" class="recipes-container">
     <!-- Recipes will be loaded here dynamically -->
   </div>
@@ -480,13 +480,13 @@
    <!-- profile -->        
 <div id="profile" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
   <div class="containersettings active">
-    <h1 class="settingsh1">My Profile</h1>
+    <h1 class="settingsh1" id="myProfileTitle">My Profile</h1>
 
     <div class="profile-sectionsettings">
         <img id="profilePhotoprofile" class="profile-photosettings" src="blankphoto.jpg" alt="Profile Photo">
         <div class="profile-infosettings">
-            <div class="info-itemsettings"><strong>Name:</strong> <br><span id="profileName">-</span></div>
-            <div class="info-itemsettings"><strong>Diet:</strong><br> <span id="diet">-</span></div>
+            <div class="info-itemsettings"><strong id="nameLabel">Name:</strong> <br><span id="profileName">-</span></div>
+            <div class="info-itemsettings"><strong id="dietLabel">Diet:</strong><br> <span id="diet">-</span></div>
         </div>
     </div>
 
@@ -496,23 +496,23 @@
   <span class="countersettings">🏅 <span id="badgeprofile">0</span></span>
 </div>
 
-    <div class="section-titlesettings">Goals</div>
+    <div class="section-titlesettings" id="goalsTitle">Goals</div>
 <ul id="goalsList" class="details-listsettings"></ul>
 
 <div id="healthTitle" class="section-titlesettings">Health Issues</div>
 <ul id="healthIssuesList" class="details-listsettings"></ul>
 
 <!-- ✅ Move Achievements here -->
-  <div class="section-titlesettings">Achievements</div>
+  <div class="section-titlesettings" id="achievementsTitle">Achievements</div>
   <div id="AchievementsListSettings" class="details-listsettings"></div>
 
     <div class="profile-sectionsettings">
         <img id="petPhotoprofile" class="pet-photosettings" src="defaultPet.jpg" alt="Pet Photo">
         <div class="profile-infosettings">
-            <div class="info-item"><strong>Buddy's Name:</strong> <br><span id="petNameprofile">-</span></div>
+            <div class="info-item"><strong id="buddyNameLabel">Buddy's Name:</strong> <br><span id="petNameprofile">-</span></div>
         </div>
     </div>
-    <a href="#" class="editprofile"> <button>Edit profile</button></a>
+    <a href="#" class="editprofile"> <button id="editProfileBtn">Edit profile</button></a>
 
   </div>
 </div>
@@ -520,7 +520,7 @@
 <div id="editProfileTabBtn" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);">
 
   <div class="containeredit">
-    <h1 class="settingsh1">Edit My Profile</h1>
+    <h1 class="settingsh1" id="editProfileTitle">Edit My Profile</h1>
 
   
     <!-- Profile Info -->
@@ -530,7 +530,7 @@
 
         <div class="profile-infoedit">
           <div class="info-itemsettings">
-        <label for="profileNameInput"><strong>Username:</strong></label>
+        <label for="profileNameInput"><strong id="usernameLabel">Username:</strong></label>
         <div class="dob-container">
           <input type="text" id="profileNameInput" placeholder="Enter your name" maxlength="15"><br>
           <small id="profileNameCharCount">0/15</small>
@@ -538,14 +538,14 @@
         </div>
           <div class="info-itemsettings">
 
-        <label for="profileDietSelect"><strong>Diet:</strong></label>
+        <label for="profileDietSelect"><strong id="dietEditLabel">Diet:</strong></label>
   <select id="profileDietSelect">
-    <option value="Vegan">Vegan</option>
-    <option value="InTransition">In Transition</option>
-    <option value="Vegetarian">Vegetarian</option>
-    <option value="Pescatarian">Pescatarian</option>
-    <option value="Flexitarian">Flexitarian</option>
-    <option value="Omnivore">Omnivore</option>
+    <option value="Vegan" id="dietOptionVegan">Vegan</option>
+    <option value="InTransition" id="dietOptionInTransition">In Transition</option>
+    <option value="Vegetarian" id="dietOptionVegetarian">Vegetarian</option>
+    <option value="Pescatarian" id="dietOptionPescatarian">Pescatarian</option>
+    <option value="Flexitarian" id="dietOptionFlexitarian">Flexitarian</option>
+    <option value="Omnivore" id="dietOptionOmnivore">Omnivore</option>
   </select>
           </div>
         </div>
@@ -559,69 +559,69 @@
       <!-- Lists -->
       <!-- Q2: Goals -->
 <div class="question" id="q2">
-  <div class="section-titleedit">Goals:</div>
+  <div class="section-titleedit" id="editGoalsTitle">Goals:</div>
 
   <label class="checkbox-label">
-    <input type="checkbox" name="goal" value="Protecting animals & animal welfare">
+    <input type="checkbox" name="goal" value="Protecting animals & animal welfare" id="goalOption1">
     Protecting animals
   </label>
   <label class="checkbox-label">
-    <input type="checkbox" name="goal" value="Caring for the environment & fighting climate change">
+    <input type="checkbox" name="goal" value="Caring for the environment & fighting climate change" id="goalOption2">
     Caring for the environment
   </label>
   <label class="checkbox-label">
-    <input type="checkbox" name="goal" value="Healthy living & wellness">
+    <input type="checkbox" name="goal" value="Healthy living & wellness" id="goalOption3">
     Healthy living
   </label> 
   <label class="checkbox-label">
-    <input type="checkbox" name="goal" value="Solving health issues">
+    <input type="checkbox" name="goal" value="Solving health issues" id="goalOption4">
     Solving health issues
   </label> 
   <label class="checkbox-label">
-    <input type="checkbox" name="goal" value="Boosting my performance as an athlete">
+    <input type="checkbox" name="goal" value="Boosting my performance as an athlete" id="goalOption5">
     Boosting my performance as an athlete
   </label>
 </div>
 
 <!-- Q2b: Health Issues (shown only if "Solving health issues" is checked) -->
 <div class="question" id="q2b">
-  <div class="section-titleedit">Health Issues:</div>
+  <div class="section-titleedit" id="editHealthTitle">Health Issues:</div>
 
   <label class="checkbox-label">
     <input type="checkbox" name="healthIssue" value="Heart disease">
-    Heart disease
+    <span id="healthOption1">Heart disease</span>
   </label>
   <label class="checkbox-label">
     <input type="checkbox" name="healthIssue" value="High cholesterol">
-    High cholesterol
+    <span id="healthOption2">High cholesterol</span>
   </label>
   <label class="checkbox-label">
     <input type="checkbox" name="healthIssue" value="High blood pressure">
-    High blood pressure
+   <span id="healthOption3"> High blood pressure</span>
   </label>
   <label class="checkbox-label">
     <input type="checkbox" name="healthIssue" value="Type 2 diabetes">
-    Type 2 diabetes
+    <span id="healthOption4">Type 2 diabetes</span>
   </label>
   <label class="checkbox-label">
     <input type="checkbox" name="healthIssue" value="Obesity">
-    Obesity
+    <span id="healthOption5">Obesity</span>
   </label>
   <label class="checkbox-label">
     <input type="checkbox" name="healthIssue" value="Digestive issues">
-    Digestive issues
+    <span id="healthOption6">Digestive issues</span>
   </label>
   <label class="checkbox-label">
     <input type="checkbox" name="healthIssue" value="Inflammation or swelling">
-    Inflammation or swelling
+    <span id="healthOption7">Inflammation or swelling</span>
   </label>
   <label class="checkbox-label">
     <input type="checkbox" name="healthIssue" value="Fatigue">
-    Fatigue
+    <span id="healthOption8">Fatigue</span>
   </label>
   <label class="checkbox-label">
     <input type="checkbox" name="healthIssue" value="Cancer risk">
-    Concerned about cancer risk
+    <span id="healthOption9">Concerned about cancer risk</span>
   </label>
 </div>
 
@@ -632,7 +632,7 @@
         <input type="text-hidden" id="petPhotoInput">
         <div class="profile-infoedit">
           <div class="info-itemsettings">
-        <label for="petNameInput"><strong>Buddy's Name:</strong></label>
+        <label for="petNameInput"><strong id="buddyNameEditLabel">Buddy's Name:</strong></label>
         <div class="dob-container">
           <input type="text" id="petNameInput" placeholder="Enter pet name" maxlength="15"><br>
           <small id="petNameCharCount">0/15</small>
@@ -668,7 +668,7 @@
   <ul id="incomingRequestsList"></ul>
 
   <!-- Accepted Friends -->
-  <p class="friendsTitle">Friends:</p>
+  <p class="friendsTitle" id="friendsTitleLabel">Friends:</p>
   <ul id="friendsList"></ul>
     </div>
 
@@ -682,7 +682,7 @@
   <div class="messages-container">
     <!-- Chat List -->
     <div id="chatListView">
-      <div class="chat-list-header"><h3>Chats</h3></div>
+      <div class="chat-list-header"><h3 id="messagesTitle">Chats</h3></div>
       <ul id="chatListItems"></ul>
     </div>
 

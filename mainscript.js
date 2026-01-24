@@ -2,6 +2,7 @@
 
 const translations = {
   en: {
+    //HomPage
     xpLabel: "XP to next level",
     mealArtBtn: "Meal-Art Contest",
     checkinBtn: "Daily Check-in",
@@ -38,9 +39,109 @@ const translations = {
     sourcesBtn: "Sources",
     aboutUsBtn: "About Us",
     contactUsBtn: "Contact Us",
-    settingsBtn: "Settings"
+    settingsBtn: "Settings",
+
+    //Mealart
+mealArtHeaderTitle: "Meal Art Contest",
+mealArtIntro: "Upload your meal art from Tuesday to Sunday. Voting is on Monday.",
+uploadMyMealBtn: "Upload My Meal",
+requestProKitchen: "Request Pro Kitchen access",
+votenote: "It's a vote day! Pick your favorite!",
+alreadyUploadedMsg: "You uploaded your meal this week, congratulations!",
+participantsTab: "Current Participants",
+pastWinnersTab: "Past Winners",
+uploadYourMealTitle: "Upload Your Meal",
+plantBasedRule: "Only plant-based meals are allowed!",
+mealPhotoLabel: "Meal Photo",
+recipeNote: "Fill all boxes to make your recipe available:",
+recipeNameLabel: "Recipe Name",
+prepTimeLabel: "Preparation Time",
+ingredientsLabel: "Ingredients",
+instructionsLabel: "Instructions",
+submitMealBtn: "Submit Meal",
+optional: "(optional)",
+
+    //Learn Section
+todayLessonLabel: "Your lesson for today:",
+mealsQuestion: "How many fully plant-powered meals did you enjoy yesterday?",
+mealOption1: "Oops! My plate betrayed me 😅",
+mealOption2: "Some plant magic in my meals ✨",
+mealOption3: "Plant-powered most of the day! 🌿",
+mealOption4: "I was fully powered by plants! 🌱",
+submitAndSupportBtnDCI: "▶️ Submit & Support +2🏅",
+submitBtnDCI: "Submit",
+learnTitle: "Learn",
+pathAnimalsBtn: "For the Animals",
+pathEarthBtn: "For the Earth",
+pathHealthBtn: "For Health",
+    
+    //Recipes
+recipesTitle: "Recipes",
+openUploadBtn: "Upload Your Own Recipe",
+
+    //Profile
+myProfileTitle: "My Profile",
+nameLabel: "Name:",
+dietLabel: "Diet:",
+goalsTitle: "Goals",
+healthTitle: "Health Issues",
+achievementsTitle: "Achievements",
+buddyNameLabel: "Buddy's Name:",
+editProfileBtn: "Edit profile",
+
+editProfileTitle: "Edit My Profile",
+usernameLabel: "Username:",
+dietEditLabel: "Diet:",
+changeProfilePhotoBtn: "Change Profile Photo",
+editGoalsTitle: "Goals:",
+
+goalOption1: "Protecting animals",
+goalOption2: "Caring for the environment",
+goalOption3: "Healthy living",
+goalOption4: "Solving health issues",
+goalOption5: "Boosting my performance as an athlete",
+
+editHealthTitle: "Health Issues:",
+healthOption1: "Heart disease",
+healthOption2: "High cholesterol",
+healthOption3: "High blood pressure",
+healthOption4: "Type 2 diabetes",
+healthOption5: "Obesity",
+healthOption6: "Digestive issues",
+healthOption7: "Inflammation or swelling",
+healthOption8: "Fatigue",
+healthOption9: "Concerned about cancer risk",
+
+buddyNameEditLabel: "Buddy's Name:",
+changePetPhotoBtn: "Change Buddy Photo",
+saveProfileBtn: "💾 Save Profile",
+   
+dietOptionVegan: "Vegan",
+dietOptionInTransition: "In Transition",
+dietOptionVegetarian: "Vegetarian",
+dietOptionPescatarian: "Pescatarian",
+dietOptionFlexitarian: "Flexitarian",
+dietOptionOmnivore: "Omnivore",
+
+    //Friends
+connectFriendBtnText: "Connect with a friend",
+friendsTitleLabel: "Friends:",
+
+    //Messages
+  messagesTitle: "Chats",
+  chatHeaderLabel: "Chat",
+  messagePlaceholder: "Type a message...",
+  messageCharCountLabel: "0/1000",
+  sendMessageBtn: "Send",
+  deleteChatBtn: "Clear Chat",
+  blockUserBtn: "Block User",
+
+
+
+
   },
   es: {
+    //HomPage
     xpLabel: "XP para el siguiente nivel",
     mealArtBtn: "Concurso de Meal-Art",
     checkinBtn: "Registro diario",
@@ -77,9 +178,107 @@ const translations = {
     sourcesBtn: "Fuentes",
     aboutUsBtn: "Sobre Nosotros",
     contactUsBtn: "Contáctanos",
-    settingsBtn: "Configuración"
+    settingsBtn: "Configuración",
+
+    //Mealart
+mealArtHeaderTitle: "Concurso de Arte Culinario",
+mealArtIntro: "Sube tu plato de martes a domingo. La votación es el lunes.",
+uploadMyMealBtn: "Subir mi plato",
+requestProKitchen: "Solicitar acceso a Cocina Pro",
+votenote: "¡Es día de votación! ¡Elige tu favorito!",
+alreadyUploadedMsg: "Ya has subido tu plato esta semana, ¡felicidades!",
+participantsTab: "Participantes actuales",
+pastWinnersTab: "Ganadores anteriores",
+uploadYourMealTitle: "Sube tu plato",
+plantBasedRule: "¡Solo se permiten platos vegetales!",
+mealPhotoLabel: "Foto del plato",
+recipeNote: "Rellena todos los campos para publicar tu receta:",
+recipeNameLabel: "Nombre de la receta",
+prepTimeLabel: "Tiempo de preparación",
+ingredientsLabel: "Ingredientes",
+instructionsLabel: "Instrucciones",
+submitMealBtn: "Enviar plato",
+optional: "(opcional)",
+
+    //Learn Section
+todayLessonLabel: "Tu lección de hoy:",
+mealsQuestion: "¿Cuántas comidas totalmente vegetales disfrutaste ayer?",
+mealOption1: "¡Ups! Mi plato me traicionó 😅",
+mealOption2: "Un poco de magia vegetal en mis comidas ✨",
+mealOption3: "¡Mayormente vegetal durante el día! 🌿",
+mealOption4: "¡Totalmente impulsado por plantas! 🌱",
+submitAndSupportBtnDCI: "▶️ Enviar y apoyar +2🏅",
+submitBtnDCI: "Enviar",
+learnTitle: "Aprender",
+pathAnimalsBtn: "Por los animales",
+pathEarthBtn: "Por la Tierra",
+pathHealthBtn: "Por la salud",
+    
+    //Recipes
+recipesTitle: "Recetas",
+openUploadBtn: "Sube tu propia receta",
+
+    //Profile
+myProfileTitle: "Mi perfil",
+nameLabel: "Nombre:",
+dietLabel: "Dieta:",
+goalsTitle: "Objetivos",
+healthTitle: "Problemas de salud",
+achievementsTitle: "Logros",
+buddyNameLabel: "Nombre del compañero:",
+editProfileBtn: "Editar perfil",
+
+editProfileTitle: "Editar mi perfil",
+usernameLabel: "Nombre de usuario:",
+dietEditLabel: "Dieta:",
+changeProfilePhotoBtn: "Cambiar foto de perfil",
+editGoalsTitle: "Objetivos:",
+
+goalOption1: "Proteger a los animales",
+goalOption2: "Cuidar el medio ambiente",
+goalOption3: "Vida saludable",
+goalOption4: "Resolver problemas de salud",
+goalOption5: "Mejorar mi rendimiento como atleta",
+
+editHealthTitle: "Problemas de salud:",
+healthOption1: "Enfermedad cardíaca",
+healthOption2: "Colesterol alto",
+healthOption3: "Presión arterial alta",
+healthOption4: "Diabetes tipo 2",
+healthOption5: "Obesidad",
+healthOption6: "Problemas digestivos",
+healthOption7: "Inflamación o hinchazón",
+healthOption8: "Fatiga",
+healthOption9: "Preocupación por riesgo de cáncer",
+
+buddyNameEditLabel: "Nombre del compañero:",
+changePetPhotoBtn: "Cambiar foto del compañero",
+saveProfileBtn: "💾 Guardar perfil",
+
+dietOptionVegan: "Vegano",
+dietOptionInTransition: "En transición",
+dietOptionVegetarian: "Vegetariano",
+dietOptionPescatarian: "Pescetariano",
+dietOptionFlexitarian: "Flexitariano",
+dietOptionOmnivore: "Omnívoro",
+
+    //Friends
+connectFriendBtnText: "Conectar con un amigo",
+friendsTitleLabel: "Amigos:",
+
+    //Messages
+  messagesTitle: "Chats",
+  chatHeaderLabel: "Chat",
+  messagePlaceholder: "Escribe un mensaje...",
+  messageCharCountLabel: "0/1000",
+  sendMessageBtn: "Enviar",
+  deleteChatBtn: "Borrar chat",
+  blockUserBtn: "Bloquear usuario",
+
+
   },
   hu: {
+    //HomPage
     xpLabel: "XP a következő szinthez",
     mealArtBtn: "Meal-Art Verseny",
     checkinBtn: "Napi bejegyzés",
@@ -116,7 +315,104 @@ const translations = {
     sourcesBtn: "Források",
     aboutUsBtn: "Rólunk",
     contactUsBtn: "Kapcsolat",
-    settingsBtn: "Beállítások"
+    settingsBtn: "Beállítások",
+
+    //Mealart
+mealArtHeaderTitle: "Meal-Art Verseny",
+mealArtIntro: "Keddtől vasárnapig töltheted fel az ételedet. Szavazás hétfőn.",
+uploadMyMealBtn: "Ételem feltöltése",
+requestProKitchen: "Pro konyha hozzáférés kérése",
+votenote: "Szavazás napja! Válaszd ki a kedvenced!",
+alreadyUploadedMsg: "Ezen a héten már feltöltötted az ételedet, gratulálunk!",
+participantsTab: "Aktuális résztvevők",
+pastWinnersTab: "Korábbi győztesek",
+uploadYourMealTitle: "Ételed feltöltése",
+plantBasedRule: "Csak növényi alapú ételek engedélyezettek!",
+mealPhotoLabel: "Étel fotó",
+recipeNote: "Tölts ki minden mezőt, hogy a recept elérhető legyen:",
+recipeNameLabel: "Recept neve",
+prepTimeLabel: "Elkészítési idő",
+ingredientsLabel: "Hozzávalók",
+instructionsLabel: "Elkészítés",
+submitMealBtn: "Étel beküldése",
+optional: "(opcionális)",
+
+    //Learn Section
+todayLessonLabel: "A mai leckéd:",
+mealsQuestion: "Hány teljesen növényi alapú ételt ettél tegnap?",
+mealOption1: "Hoppá! A tányérom elárult 😅",
+mealOption2: "Egy kis növényi varázslat az ételeimben ✨",
+mealOption3: "A nap nagy részében növényi alapú voltam! 🌿",
+mealOption4: "Teljesen növények hajtottak! 🌱",
+submitAndSupportBtnDCI: "▶️ Beküldés és támogatás +2🏅",
+submitBtnDCI: "Beküldés",
+learnTitle: "Tanulás",
+pathAnimalsBtn: "Az állatokért",
+pathEarthBtn: "A Földért",
+pathHealthBtn: "Az egészségért",
+    
+    //Recipes
+recipesTitle: "Receptek",
+openUploadBtnt: "Saját recept feltöltése",
+
+    //Profile
+myProfileTitle: "Profilom",
+nameLabel: "Név:",
+dietLabel: "Étrend:",
+goalsTitle: "Célok",
+healthTitle: "Egészségügyi problémák",
+achievementsTitle: "Eredmények",
+buddyNameLabel: "Társ neve:",
+editProfileBtn: "Profil szerkesztése",
+
+editProfileTitle: "Profil szerkesztése",
+usernameLabel: "Felhasználónév:",
+dietEditLabel: "Étrend:",
+changeProfilePhotoBtn: "Profilkép cseréje",
+editGoalsTitle: "Célok:",
+
+goalOption1: "Állatok védelme",
+goalOption2: "Környezet védelme",
+goalOption3: "Egészséges életmód",
+goalOption4: "Egészségügyi problémák megoldása",
+goalOption5: "Sportteljesítmény javítása",
+
+editHealthTitle: "Egészségügyi problémák:",
+healthOption1: "Szívbetegség",
+healthOption2: "Magas koleszterin",
+healthOption3: "Magas vérnyomás",
+healthOption4: "2-es típusú cukorbetegség",
+healthOption5: "Elhízás",
+healthOption6: "Emésztési problémák",
+healthOption7: "Gyulladás vagy duzzanat",
+healthOption8: "Fáradtság",
+healthOption9: "Rák kockázata miatti aggodalom",
+
+buddyNameEditLabel: "Társ neve:",
+changePetPhotoBtn: "Társ fotójának cseréje",
+saveProfileBtn: "💾 Profil mentése",
+
+dietOptionVegan: "Vegán",
+dietOptionInTransition: "Átmenetben",
+dietOptionVegetarian: "Vegetáriánus",
+dietOptionPescatarian: "Peszkateriánus",
+dietOptionFlexitarian: "Flexitáriánus",
+dietOptionOmnivore: "Mindenevő",
+
+    //Friends
+connectFriendBtnText: "Kapcsolódás egy baráthoz",
+friendsTitleLabel: "Barátok:",
+
+    //Messages
+  messagesTitle: "Csevegések",
+  chatHeaderLabel: "Csevegés",
+  messagePlaceholder: "Írj egy üzenetet...",
+  messageCharCountLabel: "0/1000",
+  sendMessageBtn: "Küldés",
+  deleteChatBtn: "Chat törlése",
+  blockUserBtn: "Felhasználó blokkolása",
+
+
   }
 };
 
@@ -124,6 +420,7 @@ const translations = {
 async function updateLanguageUI(lang) {
   const t = translations[lang]; // Select the language dictionary
 
+    //HomPage
   // Top bar
   document.getElementById("xpLabel").textContent = t.xpLabel;
 
@@ -174,6 +471,124 @@ async function updateLanguageUI(lang) {
   document.getElementById("aboutUsBtn").innerText = t.aboutUsBtn;
   document.getElementById("contactUsBtn").innerText = t.contactUsBtn;
   document.getElementById("settingsBtn").innerText = t.settingsBtn;
+
+    //Mealart
+  // Meal Art Contest page
+document.getElementById("mealArtHeaderTitle").innerText = t.mealArtHeaderTitle;
+document.getElementById("generalnote").innerText = t.mealArtIntro;
+document.getElementById("uploadBtn").innerText = t.uploadMyMealBtn;
+document.getElementById("openProKitchenPopup").innerText = t.requestProKitchen;
+document.getElementById("votenote").innerText = t.voteNote;
+document.getElementById("alreadyUploadedMsg").innerText = t.alreadyUploadedMsg;
+
+document.getElementById("participantsTab").innerText = t.participantsTab;
+document.getElementById("pastWinnersTab").innerText = t.pastWinnersTab;
+
+// Upload page
+document.getElementById("uploadYourMealTitle").innerText = t.uploadYourMealTitle;
+document.getElementById("plantBasedRule").innerText = t.plantBasedRule;
+document.getElementById("mealPhotoLabel").firstChild.textContent = t.mealPhotoLabel + " ";
+
+document.getElementById("recipeNote").innerText = t.recipeNote;
+document.getElementById("recipeNameLabel").firstChild.textContent = t.recipeNameLabel + " ";
+document.getElementById("prepTimeLabel").firstChild.textContent = t.prepTimeLabel + " ";
+document.getElementById("ingredientsLabel").firstChild.textContent = t.ingredientsLabel + " ";
+document.getElementById("instructionsLabel").firstChild.textContent = t.instructionsLabel + " ";
+document.getElementById("optional1").innerText = t.optional;
+document.getElementById("optional2").innerText = t.optional;
+
+document.getElementById("sbmtMealArtBtn").innerText = t.submitMealBtn;
+
+    //Learn Section
+// Daily Check-in
+document.getElementById("todayLessonLabel").innerText = t.todayLessonLabel;
+document.getElementById("mealsQuestion").innerText = t.mealsQuestion;
+
+document.getElementById("mealOption1").innerText = t.mealOption1;
+document.getElementById("mealOption2").innerText = t.mealOption2;
+document.getElementById("mealOption3").innerText = t.mealOption3;
+document.getElementById("mealOption4").innerText = t.mealOption4;
+
+document.getElementById("submitAndSupportBtnDCI").innerText = t.submitAndSupportBtnDCI;
+document.getElementById("submitBtnDCI").innerText = t.submitBtnDCI;
+
+// Learn / Lesson Path
+document.getElementById("learnTitle").innerText = t.learnTitle;
+document.getElementById("pathAnimalsBtn").innerText = t.pathAnimalsBtn;
+document.getElementById("pathEarthBtn").innerText = t.pathEarthBtn;
+document.getElementById("pathHealthBtn").innerText = t.pathHealthBtn;
+
+    //Recipes
+// Recipes page
+document.getElementById("recipesTitle").innerText = t.recipesTitle;
+document.getElementById("openUploadBtn").innerText = t.uploadRecipeBtnText;
+
+    //Profile
+// Profile view
+document.getElementById("myProfileTitle").innerText = t.myProfileTitle;
+document.getElementById("nameLabel").innerText = t.nameLabel;
+document.getElementById("dietLabel").innerText = t.dietLabel;
+document.getElementById("goalsTitle").innerText = t.goalsTitle;
+document.getElementById("healthTitle").innerText = t.healthTitle;
+document.getElementById("achievementsTitle").innerText = t.achievementsTitle;
+document.getElementById("buddyNameLabel").innerText = t.buddyNameLabel;
+document.getElementById("editProfileBtn").innerText = t.editProfileBtn;
+
+// Edit profile
+document.getElementById("editProfileTitle").innerText = t.editProfileTitle;
+document.getElementById("usernameLabel").innerText = t.usernameLabel;
+document.getElementById("dietEditLabel").innerText = t.dietEditLabel;
+document.getElementById("changeProfilePhotoBtn").innerText = t.changeProfilePhotoBtn;
+document.getElementById("editGoalsTitle").innerText = t.editGoalsTitle;
+
+// Goals options
+document.getElementById("goalOption1").innerText = t.goalOption1;
+document.getElementById("goalOption2").innerText = t.goalOption2;
+document.getElementById("goalOption3").innerText = t.goalOption3;
+document.getElementById("goalOption4").innerText = t.goalOption4;
+document.getElementById("goalOption5").innerText = t.goalOption5;
+
+// Health options
+document.getElementById("editHealthTitle").innerText = t.editHealthTitle;
+document.getElementById("healthOption1").innerText = t.healthOption1;
+document.getElementById("healthOption2").innerText = t.healthOption2;
+document.getElementById("healthOption3").innerText = t.healthOption3;
+document.getElementById("healthOption4").innerText = t.healthOption4;
+document.getElementById("healthOption5").innerText = t.healthOption5;
+document.getElementById("healthOption6").innerText = t.healthOption6;
+document.getElementById("healthOption7").innerText = t.healthOption7;
+document.getElementById("healthOption8").innerText = t.healthOption8;
+document.getElementById("healthOption9").innerText = t.healthOption9;
+
+// Pet & save
+document.getElementById("buddyNameEditLabel").innerText = t.buddyNameEditLabel;
+document.getElementById("changePetPhotoBtn").innerText = t.changePetPhotoBtn;
+document.getElementById("saveBtn").innerText = t.saveProfileBtn;
+
+// Diet select options
+document.getElementById("dietOptionVegan").innerText = t.dietOptionVegan;
+document.getElementById("dietOptionInTransition").innerText = t.dietOptionInTransition;
+document.getElementById("dietOptionVegetarian").innerText = t.dietOptionVegetarian;
+document.getElementById("dietOptionPescatarian").innerText = t.dietOptionPescatarian;
+document.getElementById("dietOptionFlexitarian").innerText = t.dietOptionFlexitarian;
+document.getElementById("dietOptionOmnivore").innerText = t.dietOptionOmnivore;
+
+    //Friends
+// Friends page
+document.getElementById("openSearchPopup").innerText = t.connectFriendBtnText;
+document.getElementById("friendsTitleLabel").innerText = t.friendsTitleLabel;
+
+    //Messages
+// Messages page
+document.getElementById("messagesTitle").innerText = t.messagesTitle;
+document.getElementById("chatHeader").innerText = t.chatHeaderLabel;
+document.getElementById("messageInput").placeholder = t.messagePlaceholder;
+document.getElementById("messageCharCount").innerText = t.messageCharCountLabel;
+document.getElementById("sendMessageBtn").innerText = t.sendMessageBtn;
+document.getElementById("deleteChatBtn").innerText = t.deleteChatBtn;
+document.getElementById("blockUserBtn").innerText = t.blockUserBtn;
+
+
 }
 
 //#endregion 
