@@ -521,7 +521,7 @@ document.getElementById("pathHealthBtn").innerText = t.pathHealthBtn;
     //Recipes
 // Recipes page
 document.getElementById("recipesTitle").innerText = t.recipesTitle;
-document.getElementById("openUploadBtn").innerText = t.uploadRecipeBtnText;
+document.getElementById("openUploadBtn").innerText = t.openUploadBtn;
 
     //Profile
 // Profile view
@@ -799,15 +799,6 @@ async function renderProfile() {
     }
   }
 
-  // Sync level to DB
-  if (profile.current_level !== level) {
-    const { error: updateError } = await supabase
-      .from("profiles")
-      .update({ current_level: level })
-      .eq("id", currentUser.id);
-    if (!updateError) profile.current_level = level;
-  }
-
  // --- Daily check-in logic ---
 const checkinBtn = document.getElementById("checkinBtn");
 const lessonPathBtn = document.getElementById("lessonPathBtn"); // <-- new
@@ -886,8 +877,10 @@ if (checkinBtn && lessonPathBtn && dailyCheckInSection && lessonPathSection) {
   }
 
   // XP to next level
-  const xpRemaining = levelData.xpNeededForNextLevel - levelData.xpTowardsNextLevel;
-  document.getElementById("xpRemaining").textContent = `${xpRemaining}`;
+  const el = document.getElementById("X");
+if (el) {
+  el.textContent = value;
+}
 
   // Pet rendering
   const petDisplay = document.getElementById("petDisplay");
@@ -1006,6 +999,7 @@ async function addXP(amount) {
   try {
     const { data, error } = await supabase.rpc("add_xp", { p_xp: amount }).single();
 
+    
 if (error) throw error;
 
     // ✅ USE UPDATED DATA FROM SUPABASE
@@ -1013,6 +1007,23 @@ if (error) throw error;
 
     const levelData = getLevelFromXP(totalXP);
     const { level, xpTowardsNextLevel, xpNeededForNextLevel } = levelData;
+
+    const previousLevel = data.current_level ?? profile.current_level ?? 1;
+
+// 🔔 LEVEL UP DETECTED
+if (level > previousLevel) {
+  console.log("Level up!", previousLevel, "→", level);
+
+  // Sync level to DB here
+  const { error: updateError } = await supabase
+    .from("profiles")
+    .update({ current_level: level })
+    .eq("id", currentUser.id);
+
+  if (!updateError) {
+    profile.current_level = level; // keep local state in sync
+  }
+}
 
     // Update level text
     document.getElementById("currentLevel").textContent =
@@ -2075,6 +2086,7 @@ if (!todayLesson) { alert("No lesson found for today!"); return false; }
   currentProfile.day_counter += 1;
   currentProfile.streak = (currentProfile.streak || 0) + 1;
   await addXP(20);
+  await addBadges(currentUser.id,badgeIncrement);
 
   // Store progress using lesson index from LessonsByIndex
   if (!currentProfile.lesson_progress) currentProfile.lesson_progress = [];
@@ -2093,7 +2105,6 @@ currentProfile.last_lesson = { goal: todayGoal, lessonId: todayLessonId };
   currentProfile.water_saved = (currentProfile.water_saved || 0) + impactIncrement.water_saved;
   currentProfile.co2_saved = (currentProfile.co2_saved || 0) + impactIncrement.co2_saved;
   currentProfile.last_checkin_date = new Date().toISOString().split("T")[0];
-  currentProfile.badge = (currentProfile.badge || 0) + badgeIncrement;
 
   // Update Supabase
   // Destructure XP-related fields OUT of the update payload
@@ -2132,6 +2143,8 @@ const { error: updateError } = await supabase
   await fetchAllLeaderboards();
   await displayAchievementsPage();
   await loadDailyXpChallenge(currentProfile.id);
+
+  showSection("home");
 
   
 if (currentProfile.day_counter === 1 ) {
