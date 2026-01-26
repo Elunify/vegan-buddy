@@ -736,7 +736,7 @@
       
       <div id="communityCardWrapper">
   <div class="community-card" id="joinCommunityCard">
-    <h5 class="localCommunityh2">Find your local community</h5>
+    <h5 class="localCommunityh2" id="findLocalCommunityLabel">Find your local community</h5>
     <select id="countrySelect">
       <option value="">Select country</option>
     </select>
@@ -752,7 +752,7 @@
   <div class="community-dashboard" id="communityDashboard" style="display:none;">
   <div class="community-section">
     <h3 id="communityTitle"></h3> <!-- Title will be inserted here -->
-    <div class="community-section-header">Community Chat ▼</div>
+    <div class="community-section-header" id="communityChatHeader"></div>>Community Chat ▼</div>
     <div class="community-section-content" id="communityChatSection">
       <div id="communityMessages" class="chat-box"></div>
   
@@ -767,7 +767,7 @@
   </div>
 
   <div class="community-section">
-    <div class="community-section-header">Upcoming Events ▼</div>
+    <div class="community-section-header" id="upcomingEventsHeader">Upcoming Events ▼</div>
     <div class="community-section-content" id="communityEventsSection">
     
     <ul id="communityEventsList">
@@ -792,7 +792,7 @@
   </div>
 
   <div class="community-section">
-  <div class="community-section-header">Members ▼</div>
+  <div class="community-section-header" id="membersHeader">Members ▼</div>
   <div class="community-section-content" id="communityMembersSection" style="display: none;">
     <ul id="communityMembersList">
       <!-- Members populated dynamically -->
@@ -802,7 +802,7 @@
 
 <!-- Local Businesses Section -->
 <div id="localBusinessesSection" style="margin:1rem 0;">
-  <h3>Local Partners:</h3>
+  <h3 id="localPartnersHeader">Local Partners:</h3>
   <div id="localBusinessesList" style="display:flex; flex-direction: column; gap:1rem;">
     <!-- Businesses will be populated dynamically here -->
   </div>
@@ -818,7 +818,8 @@
     border-radius: 8px;
     font-weight: bold;
 ">
-    Put your local business here! 
+    <span id="localBusinessBannerText">Put your local business here!</span>
+
     <a href="#" id="openLocalBusinessPopup" style="color: #007bff; text-decoration: underline;">
        Contact us
     </a>
@@ -840,17 +841,17 @@
     <section class="AFsection" id="forum">
         <div class="AFsection-content">
   <p class="forum-quote">
-  <span class="quote-text">
+  <span class="quote-text" id="forumQuoteText">
     <em>"That is the best of humanity: When we support each other. Not when we cancel each other out for past mistakes, but when we help each other to grow."</em>
   </span>
   
-  <span class="quote-source">
+  <span class="quote-source" id="forumQuoteSource">
     <a href="https://www.youtube.com/watch?v=WVPw0UrjLuo" target="_blank" rel="noopener noreferrer" class="quote-link">
       — Joaquin Phoenix, Oscars 2020
     </a>
   </span>
   
-  <span class="forum-guideline">
+  <span class="forum-guideline" id="forumGuideline">
     Please share your thoughts kindly and help others grow 🧡
   </span>
 </p>
@@ -877,17 +878,17 @@
 
     <div id="mentorship" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
        <section class="section" id="buddy">
-  <h2>Buddy System 🤝</h2>
+  <h2 id="buddySystemHeader">Find a mentor 🤝</h2>
 
   <div class="section-content">
     <p id="ConnectWithAMentor">Connect with someone who has been vegan longer for mentorship.</p>
     <!-- Row to display if user is already a mentor -->
 <div id="alrdymentor" style="display: none;">
-  <p class="youareamentorP"> You are a mentor </p>
+  <p class="youareamentorP" id="youAreAMentor"> You are a mentor </p>
   <button id = "endmentorship">End mentorships</button>
 </div>
 
- <p class="mentorlisttitle">Mentors:</p> 
+ <p id="mentorsTitle" class="mentorlisttitle">Mentors:</p> 
     <!-- Mentor list -->
     <ul id="mentorsList" class="mentor-list"></ul>
 <!-- Apply to be mentor button -->
@@ -916,31 +917,31 @@
   <div id="leaderboards" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
       
       <div class="leaderboard-container" id="leaderboards">
-<h2>Leaderboards</h2>
+<h2 id="leaderboardsHeader">Leaderboards</h2>
   <!-- Overall Leaderboards -->
   <div class="leaderboard" data-period="overall">
-    <h3 onclick="toggleListLeader(this)">Biggest Impact</h3>
+    <h3 id="biggestImpactHeader" onclick="toggleListLeader(this)">Biggest Impact</h3>
     <ul id="overall-impact">
       <!-- JS will insert top 10 impact users here -->
     </ul>
   </div>
 
   <div class="leaderboard" data-period="overall">
-    <h3 onclick="toggleListLeader(this)">Most XP</h3>
+    <h3 id="mostXPHeader" onclick="toggleListLeader(this)">Most XP</h3>
   <ul id="overall-level">
     <!-- JS will insert top 10 users by XP here -->
   </ul>
   </div>
 
   <div class="leaderboard" data-period="overall">
-    <h3 onclick="toggleListLeader(this)">Biggest Streak</h3>
+    <h3 id="biggestStreakHeader" onclick="toggleListLeader(this)">Biggest Streak</h3>
     <ul id="overall-streak">
       <!-- JS will insert top 10 streak users here -->
     </ul>
   </div>
 
   <div class="leaderboard" data-period="overall">
-    <h3 onclick="toggleListLeader(this)">Most Badge</h3>
+    <h3 id="mostBadgeHeader" onclick="toggleListLeader(this)">Most Badge</h3>
     <ul id="overall-badge">
       <!-- JS will insert top 10 badge users here -->
     </ul>
@@ -957,7 +958,7 @@
 <div id="achievements" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(50px+safe-area-inset-bottom, 80px);"> 
          
 <section id="AchievementsInfo">
-<p>Earn achievements to unlock special titles that appear next to your name and are visible to the community. You can proudly display these rewards on your profile card to show off your progress and impact.</p>
+<p id="achievementsInfoText">Earn achievements to unlock special titles that appear next to your name and are visible to the community. You can proudly display these rewards on your profile card to show off your progress and impact.</p>
 </section>
 
 <section id="AchievementsList"></section>
@@ -974,19 +975,19 @@
   <section id="ShopWallet">
     <div class="badge-count">
       <div class="badge-icon">🏅</div>
-      <span id="badge-countshop">Your Badges: 0</span>
+      <span id="badgeCountText">Your Badges: </span> <span id="badge-countshop">0</span>
     </div>
   </section>
 
   <!-- 🌱 How to get badges -->
   <section id="ShopMethods">
-  <h3>How to get badges</h3>
+  <h3 id="shopMethodsHeader">How to get badges</h3>
   <ul>
     <li>
-       <button class="watchAdBtn">Watch an Ad</button> → +2 badges and +3 XPs per ad
+       <button class="watchAdBtn" id="watchAdBtn">Watch an Ad>Watch an Ad</button> → <span id="watchAdReward">+2 badges and +3 XPs per ad</span>
     </li>
-    <li>Complete vegan challenges</li>
-    <li>Keep your plant-based streak alive 🌿</li>
+    <li id="veganChallengesText">Complete vegan challenges</li>
+    <li id="streakText">Keep your plant-based streak alive 🌿</li>
   </ul>
 </section>
 
@@ -1005,10 +1006,10 @@
 <div class="challenge-list" id="daily-challenges">
 
   <div class="challenge-card" id="daily-xp-challenge">
-    <h3>Daily Challenge — Earn 50 XP</h3>
-    <p>Complete your daily goal by earning 50 XP today through lessons and activities.</p>
+    <h3 id="dailyXpTitle">Daily Challenge — Earn 50 XP</h3>
+    <p id="dailyXpDesc">Complete your daily goal by earning 50 XP today through lessons and activities.</p>
     
-    <div class="reward">
+    <div class="reward" id="dailyXpReward">
       🏅 Reward: +3 Badges + 3 Xps
     </div>
     
@@ -1021,43 +1022,43 @@
   </div>
 
   <div class="challenge-card" id="learnChallenge">
-  <h3>📚 Learn Something New</h3>
-  <p>Complete a new lesson in every path today:</p>
+  <h3 id="learnChallengeTitle">📚 Learn Something New</h3>
+  <p id="learnChallengeDesc">Complete a new lesson in every path today:</p>
   <ul>
     <li>Animal: <span id="animalStatus">❌</span></li>
     <li>Earth: <span id="earthStatus">❌</span></li>
     <li>Health: <span id="healthStatus">❌</span></li>
   </ul>
   <div class="progress"><div id="learnProgress" style="width:0%"></div></div>
-  <div class="reward">Reward: 🏅 +3 Badges +3 Xps</div>
+  <div class="reward" id="learnChallengeReward">Reward: 🏅 +3 Badges +3 Xps</div>
   <button id="learnClaimBtn" disabled>Claim Reward</button>
 </div>
 
 <div class="challenge-card" id="mindfulChallenge">
-  <h3>🧘 Take Care of Yourself</h3>
-  <p>Take 5 minutes for self-care. Meditate, stretch, or take a walk — the goal is to clear your mind, relax, and take deep, calm breaths.</p>
-  <div class="reward">Reward: 🏅 +5 Badge +5 XPs</div>
+  <h3 id="mindfulChallengeTitle">🧘 Take Care of Yourself</h3>
+  <p id="mindfulChallengeDesc">Take 5 minutes for self-care. Meditate, stretch, or take a walk — the goal is to clear your mind, relax, and take deep, calm breaths.</p>
+  <div class="reward" id="mindfulChallengeReward">Reward: 🏅 +5 Badge +5 XPs</div>
   <button id="mindfulStartBtn">Start 5-Minute Timer</button>
   <div id="mindfulTimer" style="margin-top:10px;font-weight:bold;"></div>
  
 </div>
 
 <div class="challenge-card" id="encourageChallenge">
-  <h3>💖 Encourage Someone</h3>
-  <p>Send a kind message to encourage a friend today!</p>
+  <h3 id="encourageChallengeTitle">💖 Encourage Someone</h3>
+  <p id="encourageChallengeDesc">Send a kind message to encourage a friend today!</p>
 
   <!-- Friend selector -->
-  <label for="friendSelect" style="display:block;margin-top:5px;">Choose a friend:</label>
+  <label for="friendSelect" id="chooseFriendLabel" style="display:block;margin-top:5px;">Choose a friend:</label>
   <select id="friendSelect" style="width:100%;margin-bottom:5px;">
-    <option value="" disabled selected>Select a friend</option>
+    <option value="" disabled selected id="selectFriendOption">Select a friend</option>
     <!-- Friends will be dynamically loaded here -->
   </select>
 
    <!-- User message with fixed template --> 
-    <label for="encourageMessage" style="display:block;margin-top:5px;">Your message:</label>
+    <label for="encourageMessage" id="yourMessageLabel" style="display:block;margin-top:5px;">Your message:</label>
 
   <!-- Message template display -->
-  <div style="margin:5px 0; font-size:14px; color:#555;">
+  <div id="encourageTemplateStart" style="margin:5px 0; font-size:14px; color:#555;">
     "I've chosen you to encourage in my daily challenge.
   </div>
 
@@ -1065,11 +1066,11 @@
   <textarea id="encourageMessage" placeholder="[your message]" style="width:100%;height:80px;margin-bottom:5px;"></textarea>
 
   <!-- Template ending -->
-  <div style="margin:5px 0; font-size:14px; color:#555;">
+  <div id="encourageTemplateEnd" style="margin:5px 0; font-size:14px; color:#555;">
     Keep going 🌱"
   </div>
 
-  <div class="reward">Reward: 🏅 +2 Badge +2 Xps</div>
+  <div class="reward" id="encourageReward">Reward: 🏅 +2 Badge +2 Xps</div>
   <button id="sendEncourageBtn">Send Message</button>
 </div>
 

@@ -136,8 +136,84 @@ friendsTitleLabel: "Friends:",
   deleteChatBtn: "Clear Chat",
   blockUserBtn: "Block User",
 
+    //Community
+  findLocalCommunityLabel: "Find your local community",
+  countryPlaceholder: "Select country",
+  cityPlaceholder: "Select city",
+  joinCommunityBtn: "Join Community",
+  leaveCommunityBtn: "Leave Community",
+  typeMessagePlaceholder: "Type a message...",
+  sendBtn: "Send",
+  upcomingEventsHeader: "Upcoming Events ▼",
+  createEventBtn: "Create Event",
+  eventPlacePlaceholder: "Event place",
+  eventDescriptionPlaceholder: "Description",
+  submitEventBtn: "Submit Event",
+  membersHeader: "Members ▼",
+  localPartnersHeader: "Local Partners:",
+  localBusinessBannerText: "Put your local business here!",
+  contactUsLink: "Contact us",
 
+  //Anon Forum
+  forumQuoteText: '"That is the best of humanity: When we support each other. Not when we cancel each other out for past mistakes, but when we help each other to grow."',
+  forumQuoteSource: '— Joaquin Phoenix, Oscars 2020',
+  forumGuideline: 'Please share your thoughts kindly and help others grow 🧡',
+  openTopicPlaceholder: 'Open a topic anonymously...',
+  submitBtn: 'Submit',
 
+  //Mentorship
+  buddySystemHeader: "Mentors 🤝",
+  ConnectWithAMentor: "Connect with someone who has been vegan longer for mentorship.",
+  youAreAMentor: "You are a mentor",
+  endMentorshipBtn: "End mentorships",
+  mentorsTitle: "Mentors:",
+  applyMentorBtn: "Apply to be a mentor",
+  
+  //LeaderBoards
+  leaderboardsHeader: "Leaderboards",
+  biggestImpactHeader: "Biggest Impact",
+  mostXPHeader: "Most XP",
+  biggestStreakHeader: "Biggest Streak",
+  mostBadgeHeader: "Most Badge",
+
+  //Achievements
+  achievementsInfoText: "Earn achievements to unlock special titles that appear next to your name and are visible to the community. You can proudly display these rewards on your profile card to show off your progress and impact.",
+    
+  //Shop
+  badgeCountText: "Your Badges: ",
+  shopMethodsHeader: "How to get badges",
+  watchAdBtn: "Watch an Ad",
+  watchAdReward: "+2 badges and +3 XPs per ad",
+  veganChallengesText: "Complete vegan challenges",
+  streakText: "Keep your plant-based streak alive 🌿",
+
+  //Challenges
+  dailyXpTitle: "Daily Challenge — Earn 50 XP",
+  dailyXpDesc: "Complete your daily goal by earning 50 XP today through lessons and activities.",
+  dailyXpReward: "🏅 Reward: +3 Badges + 3 XPs",
+  dailyXpClaimBtn: "Claim Reward",
+
+  learnChallengeTitle: "📚 Learn Something New",
+  learnChallengeDesc: "Complete a new lesson in every path today:",
+  learnChallengeReward: "Reward: 🏅 +3 Badges +3 XPs",
+  learnClaimBtn: "Claim Reward",
+
+  mindfulChallengeTitle: "🧘 Take Care of Yourself",
+  mindfulChallengeDesc: "Take 5 minutes for self-care. Meditate, stretch, or take a walk — the goal is to clear your mind, relax, and take deep, calm breaths.",
+  mindfulChallengeReward: "Reward: 🏅 +5 Badge +5 XPs",
+  mindfulStartBtn: "Start 5-Minute Timer",
+
+  encourageChallengeTitle: "💖 Encourage Someone",
+  encourageChallengeDesc: "Send a kind message to encourage a friend today!",
+  chooseFriendLabel: "Choose a friend:",
+  selectFriendOption: "Select a friend",
+  yourMessageLabel: "Your message:",
+  encourageReward: "Reward: 🏅 +2 Badge +2 XPs",
+  sendEncourageBtn: "Send Message",
+  encourageTemplateStart: "I've chosen you to encourage in my daily challenge.",
+  encourageTemplateEnd: "Keep going 🌱",
+
+  //Recommendations
 
   },
   es: {
@@ -275,6 +351,86 @@ friendsTitleLabel: "Amigos:",
   deleteChatBtn: "Borrar chat",
   blockUserBtn: "Bloquear usuario",
 
+    
+    //Community
+  findLocalCommunityLabel: "Encuentra tu comunidad local",
+  countryPlaceholder: "Selecciona país",
+  cityPlaceholder: "Selecciona ciudad",
+  joinCommunityBtn: "Unirse a la comunidad",
+  leaveCommunityBtn: "Salir de la comunidad",
+  typeMessagePlaceholder: "Escribe un mensaje...",
+  sendBtn: "Enviar",
+  upcomingEventsHeader: "Próximos eventos ▼",
+  createEventBtn: "Crear evento",
+  eventPlacePlaceholder: "Lugar del evento",
+  eventDescriptionPlaceholder: "Descripción",
+  submitEventBtn: "Enviar evento",
+  membersHeader: "Miembros ▼",
+  localPartnersHeader: "Socios locales:",
+  localBusinessBannerText: "¡Publica tu negocio local aquí!",
+  contactUsLink: "Contáctanos",
+
+  //Anon Forum
+  forumQuoteText: '"Lo mejor de la humanidad: Cuando nos apoyamos mutuamente. No cuando cancelamos a otros por errores pasados, sino cuando ayudamos a los demás a crecer."',
+  forumQuoteSource: '— Joaquin Phoenix, Oscars 2020',
+  forumGuideline: 'Por favor, comparte tus pensamientos con amabilidad y ayuda a otros a crecer 🧡',
+  openTopicPlaceholder: 'Abre un tema de forma anónima...',
+  submitBtn: 'Enviar',
+
+  //Mentorship
+  buddySystemHeader: "Mentores 🤝",
+  ConnectWithAMentor: "Conéctate con alguien que haya sido vegano por más tiempo para mentoría.",
+  youAreAMentor: "Eres un mentor",
+  endMentorshipBtn: "Finalizar mentorías",
+  mentorsTitle: "Mentores:",
+  applyMentorBtn: "Solicitar ser mentor",
+  
+  //LeaderBoards
+  leaderboardsHeader: "Clasificaciones",
+  biggestImpactHeader: "Mayor Impacto",
+  mostXPHeader: "Más XP",
+  biggestStreakHeader: "Mayor Racha",
+  mostBadgeHeader: "Más Insignias",
+
+  //Achievements
+  achievementsInfoText: "Gana logros para desbloquear títulos especiales que aparecen junto a tu nombre y son visibles para la comunidad. Puedes mostrar con orgullo estas recompensas en tu tarjeta de perfil para mostrar tu progreso e impacto.",
+ 
+  //Shop
+  badgeCountText: "Tus insignias: ",
+  shopMethodsHeader: "Cómo conseguir insignias",
+  watchAdBtn: "Ver un anuncio",
+  watchAdReward: "+2 insignias y +3 XP por anuncio",
+  veganChallengesText: "Completa los retos veganos",
+  streakText: "Mantén viva tu racha vegana 🌿",
+
+  //Challenges
+  dailyXpTitle: "Desafío Diario — Gana 50 XP",
+  dailyXpDesc: "Cumple tu objetivo diario ganando 50 XP hoy a través de lecciones y actividades.",
+  dailyXpReward: "🏅 Recompensa: +3 Insignias + 3 XP",
+  dailyXpClaimBtn: "Reclamar Recompensa",
+
+  learnChallengeTitle: "📚 Aprende Algo Nuevo",
+  learnChallengeDesc: "Completa una lección nueva en cada ruta hoy:",
+  learnChallengeReward: "Recompensa: 🏅 +3 Insignias +3 XP",
+  learnClaimBtn: "Reclamar Recompensa",
+
+  mindfulChallengeTitle: "🧘 Cuida de Ti Mismo",
+  mindfulChallengeDesc: "Tómate 5 minutos para el autocuidado. Medita, estírate o da un paseo — el objetivo es despejar tu mente, relajarte y respirar profundamente.",
+  mindfulChallengeReward: "Recompensa: 🏅 +5 Insignia +5 XP",
+  mindfulStartBtn: "Iniciar Temporizador de 5 Minutos",
+
+  encourageChallengeTitle: "💖 Anima a Alguien",
+  encourageChallengeDesc: "¡Envía un mensaje amable para animar a un amigo hoy!",
+  chooseFriendLabel: "Elige un amigo:",
+  selectFriendOption: "Selecciona un amigo",
+  yourMessageLabel: "Tu mensaje:",
+  encourageReward: "Recompensa: 🏅 +2 Insignia +2 XP",
+  sendEncourageBtn: "Enviar Mensaje",
+  encourageTemplateStart: "Te he elegido para animarte en mi desafío diario.",
+  encourageTemplateEnd: "¡Sigue así 🌱",
+  
+  //Recommendations
+
 
   },
   hu: {
@@ -411,6 +567,85 @@ friendsTitleLabel: "Barátok:",
   sendMessageBtn: "Küldés",
   deleteChatBtn: "Chat törlése",
   blockUserBtn: "Felhasználó blokkolása",
+
+    //Community
+  findLocalCommunityLabel: "Találd meg a helyi közösséged",
+  countryPlaceholder: "Válassz országot",
+  cityPlaceholder: "Válassz várost",
+  joinCommunityBtn: "Csatlakozás a közösséghez",
+  leaveCommunityBtn: "Kilépés a közösségből",
+  typeMessagePlaceholder: "Írj egy üzenetet...",
+  sendBtn: "Küldés",
+  upcomingEventsHeader: "Közelgő események ▼",
+  createEventBtn: "Esemény létrehozása",
+  eventPlacePlaceholder: "Helyszín",
+  eventDescriptionPlaceholder: "Leírás",
+  submitEventBtn: "Esemény beküldése",
+  membersHeader: "Tagok ▼",
+  localPartnersHeader: "Helyi partnerek:",
+  localBusinessBannerText: "Tedd ki helyi vállalkozásodat ide!",
+  contactUsLink: "Kapcsolatfelvétel",
+
+  //Anon Forum
+  forumQuoteText: '"Az emberiség legjobb része: amikor támogatjuk egymást. Nem az, amikor a múltbéli hibák miatt elutasítunk másokat, hanem amikor segítünk nekik fejlődni."',
+  forumQuoteSource: '— Joaquin Phoenix, 2020-as Oscar',
+  forumGuideline: 'Kérlek, oszd meg gondolataid kedvesen, és segíts másoknak fejlődni 🧡',
+  openTopicPlaceholder: 'Nyiss egy témát névtelenül...',
+  submitBtn: 'Beküldés',
+
+  //Mentorship
+  buddySystemHeader: "Mentorok 🤝",
+  ConnectWithAMentor: "Kapcsolódj valakihez, aki már régebb óta vegán, mentorálás céljából.",
+  youAreAMentor: "Te mentor vagy",
+  endMentorshipBtn: "Mentorálás befejezése",
+  mentorsTitle: "Mentorok:",
+  applyMentorBtn: "Jelentkezés mentorálásra",
+
+  //LeaderBoards
+  leaderboardsHeader: "Ranglisták",
+  biggestImpactHeader: "Legnagyobb Hatás",
+  mostXPHeader: "Legtöbb XP",
+  biggestStreakHeader: "Leghosszabb Sorozat",
+  mostBadgeHeader: "Legtöbb Jelvény",
+
+  //Achievements
+  achievementsInfoText: "Szerezz eredményeket, hogy különleges címeket nyiss meg, amelyek a neved mellett jelennek meg, és láthatóak a közösség számára. Büszkén bemutathatod ezeket a jutalmakat a profilkártyádon, hogy megmutasd a fejlődésedet és hatásodat.",
+
+  //Shop
+  badgeCountText: "Jutalmaid: ",
+  shopMethodsHeader: "Hogyan szerezhetsz jelvényeket",
+  watchAdBtn: "Hirdetés megtekintése",
+  watchAdReward: "+2 jelvény és +3 XP hirdetésenként",
+  veganChallengesText: "Teljesíts vegán kihívásokat",
+  streakText: "Tartsd életben a növényi alapú sorozatodat 🌿",
+
+  //Challenges
+  dailyXpTitle: "Napi kihívás — Szerezz 50 XP-t",
+  dailyXpDesc: "Teljesítsd a napi célodat, és szerezz 50 XP-t ma leckék és tevékenységek révén.",
+  dailyXpReward: "🏅 Jutalom: +3 Jelvény +3 XP",
+  dailyXpClaimBtn: "Jutalom igénylése",
+
+  learnChallengeTitle: "📚 Tanulj Valami Újat",
+  learnChallengeDesc: "Teljesíts ma minden útvonalon egy új leckét:",
+  learnChallengeReward: "Jutalom: 🏅 +3 Jelvény +3 XP",
+  learnClaimBtn: "Jutalom igénylése",
+
+  mindfulChallengeTitle: "🧘 Gondoskodj Magadról",
+  mindfulChallengeDesc: "Szánj 5 percet az önmagad gondozására. Meditálj, nyújtózkodj vagy sétálj — a cél a lélek megnyugtatása és a pihenés.",
+  mindfulChallengeReward: "Jutalom: 🏅 +5 Jelvény +5 XP",
+  mindfulStartBtn: "5 perces időzítő indítása",
+
+  encourageChallengeTitle: "💖 Bátoríts Valakit",
+  encourageChallengeDesc: "Küldj ma kedves üzenetet, hogy bátoríts egy barátot!",
+  chooseFriendLabel: "Válassz egy barátot:",
+  selectFriendOption: "Válassz barátot",
+  yourMessageLabel: "Üzeneted:",
+  encourageReward: "Jutalom: 🏅 +2 Jelvény +2 XP",
+  sendEncourageBtn: "Üzenet küldése",
+  encourageTemplateStart: "Kiválasztottalak, hogy bátorítsalak a napi kihívásomban.",
+  encourageTemplateEnd: "Hajrá 🌱",
+
+  //Recommendations
 
 
   }
@@ -587,6 +822,94 @@ document.getElementById("messageCharCount").innerText = t.messageCharCountLabel;
 document.getElementById("sendMessageBtn").innerText = t.sendMessageBtn;
 document.getElementById("deleteChatBtn").innerText = t.deleteChatBtn;
 document.getElementById("blockUserBtn").innerText = t.blockUserBtn;
+
+  
+    //Community
+// Local Community
+document.getElementById("findLocalCommunityLabel").innerText = t.findLocalCommunityLabel;
+document.getElementById("countrySelect").options[0].text = t.countryPlaceholder;
+document.getElementById("citySelect").options[0].text = t.cityPlaceholder;
+document.getElementById("joinCommunityBtn").innerText = t.joinCommunityBtn;
+document.getElementById("leaveCommunityBtn").innerText = t.leaveCommunityBtn;
+document.getElementById("communityMessageInput").placeholder = t.typeMessagePlaceholder;
+document.getElementById("sendCommunityMessageBtn").innerText = t.sendBtn;
+document.getElementById("upcomingEventsHeader").innerText = t.upcomingEventsHeader;
+document.getElementById("createEventBtn").innerText = t.createEventBtn;
+document.getElementById("eventPlaceInput").placeholder = t.eventPlacePlaceholder;
+document.getElementById("eventDescriptionInput").placeholder = t.eventDescriptionPlaceholder;
+document.getElementById("submitEventBtn").innerText = t.submitEventBtn;
+document.getElementById("membersHeader").innerText = t.membersHeader;
+document.getElementById("localPartnersHeader").innerText = t.localPartnersHeader;
+document.getElementById("localBusinessBannerText").innerText = t.localBusinessBannerText;
+document.getElementById("openLocalBusinessPopup").innerText = t.contactUsLink;
+document.getElementById("leaveCommunityDashboardBtn").innerText = t.leaveCommunityBtn;
+
+  //Anon Forum
+// Forum page
+document.getElementById("forumQuoteText").innerText = t.forumQuoteText;
+document.getElementById("forumQuoteSource").innerText = t.forumQuoteSource;
+document.getElementById("forumGuideline").innerText = t.forumGuideline;
+document.getElementById("blockContent").placeholder = t.openTopicPlaceholder;
+document.getElementById("submitBlockBtn").innerText = t.submitBtn;
+
+  //Mentorship
+// Mentorship / Buddy page
+document.getElementById("buddySystemHeader").innerText = t.buddySystemHeader;
+document.getElementById("ConnectWithAMentor").innerText = t.ConnectWithAMentor;
+document.getElementById("youAreAMentor").innerText = t.youAreAMentor;
+document.getElementById("endmentorship").innerText = t.endMentorshipBtn;
+document.getElementById("mentorsTitle").innerText = t.mentorsTitle;
+document.getElementById("applyMentorBtn").innerText = t.applyMentorBtn;
+
+  //LeaderBoards
+// Leaderboards page
+document.getElementById("leaderboardsHeader").innerText = t.leaderboardsHeader;
+document.getElementById("biggestImpactHeader").innerText = t.biggestImpactHeader;
+document.getElementById("mostXPHeader").innerText = t.mostXPHeader;
+document.getElementById("biggestStreakHeader").innerText = t.biggestStreakHeader;
+document.getElementById("mostBadgeHeader").innerText = t.mostBadgeHeader;
+
+  //Achievements
+// Achievements page
+document.getElementById("achievementsInfoText").innerText = t.achievementsInfoText;
+
+  //Shop
+// Shop page
+document.getElementById("badgeCountText").innerText = t.badgeCountText;
+document.getElementById("shopMethodsHeader").innerText = t.shopMethodsHeader;
+document.getElementById("watchAdBtn").innerText = t.watchAdBtn;
+document.getElementById("watchAdReward").innerText = t.watchAdReward;
+document.getElementById("veganChallengesText").innerText = t.veganChallengesText;
+document.getElementById("streakText").innerText = t.streakText;
+
+  //Challenges
+  // Challenges page
+document.getElementById("dailyXpTitle").innerText = t.dailyXpTitle;
+document.getElementById("dailyXpDesc").innerText = t.dailyXpDesc;
+document.getElementById("dailyXpReward").innerText = t.dailyXpReward;
+document.getElementById("daily-xp-claim").innerText = t.dailyXpClaimBtn;
+
+document.getElementById("learnChallengeTitle").innerText = t.learnChallengeTitle;
+document.getElementById("learnChallengeDesc").innerText = t.learnChallengeDesc;
+document.getElementById("learnChallengeReward").innerText = t.learnChallengeReward;
+document.getElementById("learnClaimBtn").innerText = t.learnClaimBtn;
+
+document.getElementById("mindfulChallengeTitle").innerText = t.mindfulChallengeTitle;
+document.getElementById("mindfulChallengeDesc").innerText = t.mindfulChallengeDesc;
+document.getElementById("mindfulChallengeReward").innerText = t.mindfulChallengeReward;
+document.getElementById("mindfulStartBtn").innerText = t.mindfulStartBtn;
+
+document.getElementById("encourageChallengeTitle").innerText = t.encourageChallengeTitle;
+document.getElementById("encourageChallengeDesc").innerText = t.encourageChallengeDesc;
+document.getElementById("chooseFriendLabel").innerText = t.chooseFriendLabel;
+document.getElementById("selectFriendOption").innerText = t.selectFriendOption;
+document.getElementById("yourMessageLabel").innerText = t.yourMessageLabel;
+document.getElementById("encourageReward").innerText = t.encourageReward;
+document.getElementById("sendEncourageBtn").innerText = t.sendEncourageBtn;
+document.getElementById("encourageTemplateStart").innerText = t.encourageTemplateStart;
+document.getElementById("encourageTemplateEnd").innerText = t.encourageTemplateEnd;
+
+  //Recommendations
 
 
 }
@@ -876,10 +1199,16 @@ if (checkinBtn && lessonPathBtn && dailyCheckInSection && lessonPathSection) {
     document.getElementById('communityCO2').textContent     = formatNumber(globalImpact.co2_saved ?? 0);
   }
 
-  // XP to next level
-  const el = document.getElementById("X");
-if (el) {
-  el.textContent = value;
+  // ===== XP to next level =====
+const xpRemaining = xpNeededForNextLevel - xpTowardsNextLevel;
+
+const xpToNextEl = document.getElementById("xpRemaining");
+if (xpToNextEl) {
+  if (level >= 100) {
+    xpToNextEl.textContent = "Max level reached";
+  } else {
+    xpToNextEl.textContent = `${xpRemaining}`;
+  }
 }
 
   // Pet rendering
@@ -1169,7 +1498,7 @@ async function addBadges(userId, amount) {
 
   // 2️⃣ Update UI immediately
   const badgeShopEl = document.getElementById("badge-countshop");
-  if (badgeShopEl) badgeShopEl.textContent = `Your Badges: ${newCount}`;
+  if (badgeShopEl) badgeShopEl.textContent = `${newCount}`;
 
   const badgeProfileEl = document.getElementById("badgeprofile");
   if (badgeProfileEl) badgeProfileEl.textContent = newCount;
@@ -5649,7 +5978,7 @@ async function setupShop() {
   const badgeSpan = document.getElementById("badge-countshop");
   const shopContainer = document.getElementById("ShopProducts");
 
-  badgeSpan.textContent = `Your Badges: ${currentProfile.badge || 0}`;
+  badgeSpan.textContent = `${currentProfile.badge || 0}`;
 
   const shopItems = [
     { id: "xpbox", name: "📦 XP Box", price: 20, description: "Gain +80 XP instantly." },
