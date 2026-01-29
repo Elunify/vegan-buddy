@@ -1,11 +1,8 @@
-// ====== DailyCheckIn ======
-// ====== DailyCheckIn ======
-// ====== DailyCheckIn ======
-// ====== DailyCheckIn ======
-// ====== DailyCheckIn ======
+
+  const currentLang = localStorage.getItem("lang") || "en";
 
 // =======================
-// LESSONS BY INDEX
+// DAILY LESSONS
 // =======================
 export const LessonsByIndex = {
 
@@ -2481,10 +2478,9 @@ answer: "Combine legumes, grains, nuts, and seeds"
 };
 
 
-//------ extraLessons -------
-//------ extraLessons -------
-//------ extraLessons -------
-//------ extraLessons -------
+// =======================
+// LEARN PATH
+// =======================
 export const extralessonsData = {
   animals: [
     {
@@ -4162,263 +4158,350 @@ export const extralessonsData = {
 };
 
 // ---------------------------
-// Tip pools
+// TIPS
 // ---------------------------
 const characterTips = {
-/* 
- 
-  elune: [
-    "Fun fact: pigs are actually more intelligent than dogs!",
-    "Dolphins give themselves names using unique whistles.",
-    "Dolphins work together to care for injured friends.",
-    "Turkeys love affection and can purr when they’re happy!",
-    "Protecting forests means protecting animal homes 🌳",
-    "Cows have best friends — and they get stressed when separated.",
 
-    "Imagine a world where no animal suffers—you're building it! 🌍",
-    "You are the reason an animal sees tomorrow!",
-    "By caring, you turn empathy into real change for animals.",
-    "Every plant-based meal is a hug to the planet and its creatures.",
-    "You are creating a world where kindness is the norm.",
-    "Because of you, a life is lived, not taken.",
-    "Your compassion is stronger than any industry of cruelty.",
-    "Every act of kindness makes the world safer.",
-    "You are part of the solution — a hero for every animal.",
-    "Your choices matter more than you realize — they save lives. 💛",
-    "Imagine the joy of a world where no creature lives in fear — you make it possible. 🌟",
-    "Each plant-based meal is a victory for animals. 🥦",
-    "Your empathy is a superpower — use it to protect the voiceless. 🦸",
-    "You’re shaping a future where compassion wins. 🌈",
-    "A world without animal suffering begins with you. 🌍",
-    "Even small changes ripple into massive kindness. 🌊",
-    "With every thoughtful choice, you fight cruelty. ⚡",
-    "Your actions give freedom a chance to flourish. 🌿",
-    "Each kind choice is a victory against cruelty. 🏆",
-    "You are creating a world worth living for, for every creature. 🌍",
-    "Every thoughtful act for animals multiplies kindness. 💫",
-    "Every life you protect matters — and you matter to them. 💛",
-    "Your compassion can turn fear into freedom. 🕊️",
-    "Imagine the smiles of animals living without fear — that’s your impact. 🐶",
-    "By caring, you create a world full of hope and joy. 🌈",
-    "You are making the world brighter, one kind choice at a time. 🌞",
-    "Thanks to you, more animals get to live, explore, and play. 🐇",
-    "Every kind choice is a ripple in the ocean of compassion. 🌊",
+  pet: {
+    en: [
+      "Be kind to every kind — and don’t forget to be kind to yourself too!",
+      "Love grows when shared 💚",
+      "Every small act of care shapes who you are.",
+      "Happiness multiplies when you give it away.",
+      "Patience is love in action.",
+      "A gentle word can change someone’s entire day.",
+      "Sharing love is never wasted — it always returns.",
+      "Small acts of care create big ripples in the world.",
+      "Compassion starts with noticing someone’s needs.",
+      "Your warmth makes others feel safe and valued.",
+      "Encouragement can blossom where criticism would wither.",
+      "Every smile you share brightens someone’s path.",
+      "Kindness costs nothing but creates priceless moments.",
+      "You are wiser when you seek understanding before judgment.",
+      "Helping others grow is a reflection of your own strength.",
+      "Love yourself as fiercely as you love others.",
+      "Quiet support is often more powerful than loud words.",
+      "Your patience today teaches others how to be gentle tomorrow.",
+      "Sharing your knowledge softly guides hearts, not forces them.",
+      "Happiness blooms when you care without expecting in return.",
+      "Every gentle touch leaves a mark of love.",
+      "Encouragement turns mistakes into lessons, not failures.",
+      "You are strongest when you act with empathy.",
+      "A kind action can be louder than a thousand words.",
+      "Your warmth has the power to heal invisible wounds.",
+      "Sharing joy multiplies it for everyone involved. 🌟",
+      "Teach by example — hearts learn faster than ears.",
+      "Every act of love is a building block for a better world.",
 
-  // ✅ Ingredient linked tips
-    `Have you tried <span class="ingredient-link" onclick="openIngredient('tofu')">Tofu</span>? It absorbs flavor like magic! 🍲`,
-    `Want something chewy and hearty? Try <span class="ingredient-link" onclick="openIngredient('seitan')">Seitan</span> 😋`,
-    `Feeling cozy? <span class="ingredient-link" onclick="openIngredient('lentils')">Lentils</span> bring warmth and nutrition 💛`,
-    `Looking for something filling? <span class="ingredient-link" onclick="openIngredient('beans')">Beans</span> are perfect! 🌱`,
-    `Try <span class="ingredient-link" onclick="openIngredient('tempeh')">Tempeh</span> — your gut will thank you! 😊`,
-    `<span class="ingredient-link" onclick="openIngredient('chickpeas')">Chickpeas</span> are tiny plant heroes! 🧡`,
-    `Need pure protein power? <span class="ingredient-link" onclick="openIngredient('peaProtein')">Pea Protein</span> is here 💪`,
-    `Craving a creamy latte? <span class="ingredient-link" onclick="openIngredient('soyMilk')">Soy Milk</span> has your back ☕✨`,
-    `On a budget? <span class="ingredient-link" onclick="openIngredient('texturizedSoy')">Texturized Soy</span> works wonders ✨`,
-    `Did you know <span class="ingredient-link" onclick="openIngredient('broccoli')">Broccoli</span> is packed with fiber, vitamin C, and calcium while being low in calories? 🥦`,
-
-    `Have you tried <span class="ingredient-link" onclick="openIngredient('tofu')">Tofu</span>? It absorbs flavor like magic! 🍲`,
-    `Want something chewy and hearty? Try <span class="ingredient-link" onclick="openIngredient('seitan')">Seitan</span> 😋`,
-    `Feeling cozy? <span class="ingredient-link" onclick="openIngredient('lentils')">Lentils</span> bring warmth and nutrition 💛`,
-    `Looking for something filling? <span class="ingredient-link" onclick="openIngredient('beans')">Beans</span> are perfect! 🌱`,
-    `Try <span class="ingredient-link" onclick="openIngredient('tempeh')">Tempeh</span> — your gut will thank you! 😊`,
-    `<span class="ingredient-link" onclick="openIngredient('chickpeas')">Chickpeas</span> are tiny plant heroes! 🧡`,
-    `Need pure protein power? <span class="ingredient-link" onclick="openIngredient('peaProtein')">Pea Protein</span> is here 💪`,
-    `Craving a creamy latte? <span class="ingredient-link" onclick="openIngredient('soyMilk')">Soy Milk</span> has your back ☕✨`,
-    `On a budget? <span class="ingredient-link" onclick="openIngredient('texturizedSoy')">Texturized Soy</span> works wonders ✨`,
-    `Did you know <span class="ingredient-link" onclick="openIngredient('broccoli')">Broccoli</span> is packed with fiber, vitamin C, and calcium while being low in calories? 🥦`
-
-
-  ],
-  eluna: [
-"We feed 80 billion farm animals annually — yet 673 million humans go hungry.", //(Based on the 2024 UN report indicating 673 million people experienced hunger.)
-"Approximately 70% of antibiotics are used in farm animals, not humans.", //(Based on estimates from the 2010s; figures may vary.)
-"Up to 80% of chronic diseases are linked to diets high in meat and dairy.",
-"Air pollution causes 7 million deaths globally every year.",
-"Plastic waste kills over a million marine animals annually.",
-"Deforestation wipes out 10 million hectares of forest each year.",
-"Industrial farming produces more greenhouse gases than all cars and planes combined.",
-"Overfishing has wiped out 90% of large fish populations in the last century.",
-"Human consumption uses 1.7 times the planet’s resources annually.",
-"Animal agriculture uses 70% of global freshwater for meat and dairy production.",
-"Polluted oceans threaten the food supply of billions of people.",
-"Rising CO₂ levels make oceans more acidic, threatening coral reefs.",
-
-
-"Meat-free meals are linked to lower cholesterol and better heart health.",
-"Eating more plants can reduce your risk of type 2 diabetes.",
-"Every kilogram of beef uses 15,000 liters of water to produce.",
-"Global temperature has already increased by over 1°C since pre-industrial times.",
-"Methane is a more potent greenhouse gas than CO₂ over 20 years.",
-"Switching to a plant-based diet could reduce a person’s carbon footprint by up to 50%.",
-"Every plant-based meal helps protect the planet and your health. 🌱",
-"Choosing to walk, bike, or use public transport reduces CO₂ emissions. 🚲",
-"Planting trees can restore habitats and fight climate change. 🌳",
-"Eating more plants supports your heart, your body, and the Earth. ❤️",
-"Sustainable fashion and recycled materials reduce pollution and save lives. 👕",
-"Plant-based diets can reduce heart disease, diabetes, and obesity. ❤️",
-"Small daily actions add up — every choice matters. ✨",
-"Eating more seasonal vegetables reduces emissions and supports farmers. 🥦",
-"Planting a single tree can capture hundreds of kilograms of CO₂ over its life. 🌳",
-"Reducing food waste saves money, energy, and lives. 🥗",
-"Eating a variety of plants supports both your health and biodiversity. 🌾",
-"Every kind choice creates a ripple of positive change. 🌊",
-"Every small reduction in waste helps preserve oceans and rivers. 🐠",
-
-  // ✅ Ingredient linked sustainability tips
     `Replacing meat with <span class="ingredient-link" onclick="openIngredient('tofu')">Tofu</span> saves massive water resources.`,
-    `<span class="ingredient-link" onclick="openIngredient('seitan')">Seitan</span> uses only a fraction of land needed for beef.`,
+    `<span class="ingredient-link" onclick="openIngredient('seitan')">Seitan</span> uses only a fraction of the land needed for beef.`,
     `A meal with <span class="ingredient-link" onclick="openIngredient('lentils')">Lentils</span> has a much lower carbon footprint.`,
     `<span class="ingredient-link" onclick="openIngredient('beans')">Beans</span> nourish the soil instead of depleting it.`,
     `<span class="ingredient-link" onclick="openIngredient('tempeh')">Tempeh</span> promotes gut biodiversity.`,
     `<span class="ingredient-link" onclick="openIngredient('chickpeas')">Chickpeas</span> naturally enrich farmland.`,
-    `<span class="ingredient-link" onclick="openIngredient('peaProtein')">Pea Protein</span> has lower CO₂ impact than whey.`,
-    `<span class="ingredient-link" onclick="openIngredient('soyMilk')">Soy Milk</span> requires far less land and water than dairy.`,
-    `<span class="ingredient-link" onclick="openIngredient('texturizedSoy')">Texturized Soy</span> avoids the emissions of chicken farming.`,
-    `Swap some meat for <span class="ingredient-link" onclick="openIngredient('broccoli')">Broccoli</span> — nutrient-rich and eco-friendly! 🌱`,
-
-    `Replacing meat with <span class="ingredient-link" onclick="openIngredient('tofu')">Tofu</span> saves massive water resources.`,
-    `<span class="ingredient-link" onclick="openIngredient('seitan')">Seitan</span> uses only a fraction of land needed for beef.`,
-    `A meal with <span class="ingredient-link" onclick="openIngredient('lentils')">Lentils</span> has a much lower carbon footprint.`,
-    `<span class="ingredient-link" onclick="openIngredient('beans')">Beans</span> nourish the soil instead of depleting it.`,
-    `<span class="ingredient-link" onclick="openIngredient('tempeh')">Tempeh</span> promotes gut biodiversity.`,
-    `<span class="ingredient-link" onclick="openIngredient('chickpeas')">Chickpeas</span> naturally enrich farmland.`,
-    `<span class="ingredient-link" onclick="openIngredient('peaProtein')">Pea Protein</span> has lower CO₂ impact than whey.`,
+    `<span class="ingredient-link" onclick="openIngredient('peaProtein')">Pea Protein</span> has a lower CO₂ impact than whey.`,
     `<span class="ingredient-link" onclick="openIngredient('soyMilk')">Soy Milk</span> requires far less land and water than dairy.`,
     `<span class="ingredient-link" onclick="openIngredient('texturizedSoy')">Texturized Soy</span> avoids the emissions of chicken farming.`,
     `Swap some meat for <span class="ingredient-link" onclick="openIngredient('broccoli')">Broccoli</span> — nutrient-rich and eco-friendly! 🌱`
-
-  ],
   
-*/
-  pet: [
-"Be kind to every kind — and don’t forget to be kind to yourself too!",
-"Love grows when shared 💚",
-"Every small act of care shapes who you are.",
-"Happiness multiplies when you give it away.",
-"Patience is love in action.",
-"A gentle word can change someone’s entire day.",
-"Sharing love is never wasted — it always returns.",
-"Small acts of care create big ripples in the world.",
-"Compassion starts with noticing someone’s needs.",
-"Your warmth makes others feel safe and valued.",
-"Encouragement can blossom where criticism would wither.",
-"Every smile you share brightens someone’s path.",
-"Kindness costs nothing but creates priceless moments.",
-"You are wiser when you seek understanding before judgment.",
-"Helping others grow is a reflection of your own strength.",
-"Love yourself as fiercely as you love others.",
-"Quiet support is often more powerful than loud words.",
-"Your patience today teaches others how to be gentle tomorrow.",
-"Sharing your knowledge softly guides hearts, not forces them.",
-"Happiness blooms when you care without expecting in return.",
-"Every gentle touch leaves a mark of love.",
-"Encouragement turns mistakes into lessons, not failures.",
-"You are strongest when you act with empathy.",
-"A kind action can be louder than a thousand words.",
-"Your warmth has the power to heal invisible wounds.",
-"Sharing joy multiplies it for everyone involved. 🌟",
-"Teach by example — hearts learn faster than ears.",
-"Every act of love is a building block for a better world.",
-// ✅ Ingredient linked sustainability tips
-    `Replacing meat with <span class="ingredient-link" onclick="openIngredient('tofu')">Tofu</span> saves massive water resources.`,
-    `<span class="ingredient-link" onclick="openIngredient('seitan')">Seitan</span> uses only a fraction of land needed for beef.`,
-    `A meal with <span class="ingredient-link" onclick="openIngredient('lentils')">Lentils</span> has a much lower carbon footprint.`,
-    `<span class="ingredient-link" onclick="openIngredient('beans')">Beans</span> nourish the soil instead of depleting it.`,
-    `<span class="ingredient-link" onclick="openIngredient('tempeh')">Tempeh</span> promotes gut biodiversity.`,
-    `<span class="ingredient-link" onclick="openIngredient('chickpeas')">Chickpeas</span> naturally enrich farmland.`,
-    `<span class="ingredient-link" onclick="openIngredient('peaProtein')">Pea Protein</span> has lower CO₂ impact than whey.`,
-    `<span class="ingredient-link" onclick="openIngredient('soyMilk')">Soy Milk</span> requires far less land and water than dairy.`,
-    `<span class="ingredient-link" onclick="openIngredient('texturizedSoy')">Texturized Soy</span> avoids the emissions of chicken farming.`,
-    `Swap some meat for <span class="ingredient-link" onclick="openIngredient('broccoli')">Broccoli</span> — nutrient-rich and eco-friendly! 🌱`,
+      ],
+    es: [
+      "Sé amable con todos los seres — y no olvides ser amable contigo también.",
+      "El amor crece cuando se comparte 💚",
+      "Cada pequeño acto de cuidado moldea quién eres.",
+      "La felicidad se multiplica cuando la compartes.",
+      "La paciencia es amor en acción.",
+      "Una palabra amable puede cambiar todo el día de alguien.",
+      "Compartir amor nunca se desperdicia — siempre vuelve.",
+      "Los pequeños actos de cuidado crean grandes ondas en el mundo.",
+      "La compasión empieza al notar las necesidades de los demás.",
+      "Tu calidez hace que otros se sientan seguros y valorados.",
+      "El ánimo florece donde la crítica se marchita.",
+      "Cada sonrisa que compartes ilumina el camino de alguien.",
+      "La bondad no cuesta nada y crea momentos invaluables.",
+      "Eres más sabio cuando buscas comprender antes de juzgar.",
+      "Ayudar a otros a crecer refleja tu propia fuerza.",
+      "Ámate con la misma intensidad con la que amas a otros.",
+      "El apoyo silencioso suele ser más poderoso que las palabras fuertes.",
+      "Tu paciencia hoy enseña gentileza mañana.",
+      "Compartir conocimiento suavemente guía corazones.",
+      "La felicidad florece cuando das sin esperar nada.",
+      "Cada gesto suave deja una huella de amor.",
+      "El ánimo convierte errores en lecciones.",
+      "Eres más fuerte cuando actúas con empatía.",
+      "Un acto amable puede hablar más que mil palabras.",
+      "Tu calidez puede sanar heridas invisibles.",
+      "Compartir alegría la multiplica para todos. 🌟",
+      "Enseña con el ejemplo — el corazón aprende más rápido.",
+      "Cada acto de amor construye un mundo mejor.",
 
-    `Replacing meat with <span class="ingredient-link" onclick="openIngredient('tofu')">Tofu</span> saves massive water resources.`,
-    `<span class="ingredient-link" onclick="openIngredient('seitan')">Seitan</span> uses only a fraction of land needed for beef.`,
-    `A meal with <span class="ingredient-link" onclick="openIngredient('lentils')">Lentils</span> has a much lower carbon footprint.`,
-    `<span class="ingredient-link" onclick="openIngredient('beans')">Beans</span> nourish the soil instead of depleting it.`,
-    `<span class="ingredient-link" onclick="openIngredient('tempeh')">Tempeh</span> promotes gut biodiversity.`,
-    `<span class="ingredient-link" onclick="openIngredient('chickpeas')">Chickpeas</span> naturally enrich farmland.`,
-    `<span class="ingredient-link" onclick="openIngredient('peaProtein')">Pea Protein</span> has lower CO₂ impact than whey.`,
-    `<span class="ingredient-link" onclick="openIngredient('soyMilk')">Soy Milk</span> requires far less land and water than dairy.`,
-    `<span class="ingredient-link" onclick="openIngredient('texturizedSoy')">Texturized Soy</span> avoids the emissions of chicken farming.`,
-    `Swap some meat for <span class="ingredient-link" onclick="openIngredient('broccoli')">Broccoli</span> — nutrient-rich and eco-friendly! 🌱`
-    
-  ],
-celebrity: [   // ✅ replace placeholder with real array
-    {
-      name: "Natalie Portman",
-      title: "Actress & Activist",
-      quote: "Three times a day, I remind myself that I value life and do not want to cause pain to or kill other living beings. That is why I eat the way I do.",
-      avatar: "images/natalie.jpg"
+      `Sustituir la carne por <span class="ingredient-link" onclick="openIngredient('tofu')">tofu</span> ahorra enormes recursos de agua.`,
+      `<span class="ingredient-link" onclick="openIngredient('seitan')">Seitan</span> usa solo una fracción de la tierra necesaria para la carne.`,
+      `Una comida con <span class="ingredient-link" onclick="openIngredient('lentils')">lentejas</span> tiene una huella de carbono mucho menor.`,
+      `<span class="ingredient-link" onclick="openIngredient('beans')">Las legumbres</span> nutren el suelo.`,
+      `<span class="ingredient-link" onclick="openIngredient('tempeh')">Tempeh</span> favorece la biodiversidad intestinal.`,
+      `<span class="ingredient-link" onclick="openIngredient('chickpeas')">Garbanzos</span> enriquecen naturalmente la tierra.`,
+      `<span class="ingredient-link" onclick="openIngredient('peaProtein')">Proteína de guisante</span> tiene menor impacto de CO₂.`,
+      `<span class="ingredient-link" onclick="openIngredient('soyMilk')">Leche de soja</span> requiere menos tierra y agua.`,
+      `<span class="ingredient-link" onclick="openIngredient('texturizedSoy')">Soja texturizada</span> evita emisiones de la ganadería.`,
+      `Cambia algo de carne por <span class="ingredient-link" onclick="openIngredient('broccoli')">brócoli</span> 🌱`
+    ],
+
+    hu: [
+      "Légy kedves minden lényhez — és magadhoz se felejts el az lenni.",
+      "A szeretet akkor nő, ha megosztják 💚",
+      "Minden apró gondoskodás formálja azt, aki vagy.",
+      "A boldogság megsokszorozódik, ha továbbadod.",
+      "A türelem a szeretet cselekvésben.",
+      "Egy kedves szó megváltoztathatja valaki egész napját.",
+      "A megosztott szeretet sosem vész el — mindig visszatér.",
+      "Az apró törődés nagy hullámokat kelt.",
+      "Az együttérzés a figyelemmel kezdődik.",
+      "A melegség biztonságot és értéket ad másoknak.",
+      "A bátorítás ott virágzik, ahol a kritika elsorvad.",
+      "Minden mosoly fényt ad valaki útjára.",
+      "A kedvesség semmibe sem kerül, mégis felbecsülhetetlen.",
+      "Bölcsebb vagy, ha megértést keresel ítélkezés előtt.",
+      "Mások segítése a saját erőd tükre.",
+      "Szeresd magad olyan erősen, ahogy másokat.",
+      "A csendes támogatás gyakran a legerősebb.",
+      "A mai türelmed holnap gyengédséget tanít.",
+      "A tudás finom megosztása szíveket vezet.",
+      "A boldogság akkor virágzik, ha nem vársz viszonzást.",
+      "Minden gyengéd érintés nyomot hagy.",
+      "A bátorítás tanulsággá alakítja a hibákat.",
+      "Az empátia az igazi erő.",
+      "Egy kedves tett hangosabb ezer szónál.",
+      "A melegség láthatatlan sebeket gyógyít.",
+      "Az öröm megosztva megsokszorozódik. 🌟",
+      "Mutass példát — a szív gyorsabban tanul.",
+      "Minden szeretetteljes tett egy jobb világ alapja.",
+
+      `A hús helyettesítése <span class="ingredient-link" onclick="openIngredient('tofu')">tofúval</span> rengeteg vizet takarít meg.`,
+      `<span class="ingredient-link" onclick="openIngredient('seitan')">A szejtán</span> töredéknyi földet igényel.`,
+      `A <span class="ingredient-link" onclick="openIngredient('lentils')">lencsével</span> készült étel kisebb karbonlábnyomú.`,
+      `<span class="ingredient-link" onclick="openIngredient('beans')">A bab</span> táplálja a talajt.`,
+      `<span class="ingredient-link" onclick="openIngredient('tempeh')">A tempeh</span> támogatja a bélflórát.`,
+      `<span class="ingredient-link" onclick="openIngredient('chickpeas')">A csicseriborsó</span> gazdagítja a földet.`,
+      `<span class="ingredient-link" onclick="openIngredient('peaProtein')">Borsófehérje</span> kevesebb CO₂-t termel.`,
+      `<span class="ingredient-link" onclick="openIngredient('soyMilk')">Szójatej</span> kevesebb földet és vizet igényel.`,
+      `<span class="ingredient-link" onclick="openIngredient('texturizedSoy')">Texturált szója</span> csökkenti a kibocsátást.`,
+      `Cserélj le egy kis húst <span class="ingredient-link" onclick="openIngredient('broccoli')">brokkolira</span> 🌱`
+    ]
+  },
+celebrity: [
+  {
+    name: {
+      en: "Natalie Portman",
+      es: "Natalie Portman",
+      hu: "Natalie Portman"
     },
-    {
-      name: "Albert Einstein",
-      title: "Theoretical Physicist",
-      quote: "Nothing will benefit health or increase chances of survival on Earth as much as the evolution to a vegetarian diet.",
-      avatar: "images/einstein.jpg"
+    title: {
+      en: "Actress & Activist",
+      es: "Actriz y activista",
+      hu: "Színésznő és aktivista"
     },
-    {
-      name: "Patrik Baboumian",
-      title: "Strongman & Vegan Activist",
-      quote: "Someone once asked me, 'How can you get as strong as an ox without eating any meat?' My answer was, 'Have you ever seen an ox eating meat?'",
-      avatar: "images/patrik.jpg"
+    quote: {
+      en: "Three times a day, I remind myself that I value life and do not want to cause pain to or kill other living beings. That is why I eat the way I do.",
+      es: "Tres veces al día me recuerdo que valoro la vida y que no quiero causar dolor ni matar a otros seres vivos. Por eso como como lo hago.",
+      hu: "Naponta háromszor emlékeztetem magam arra, hogy értékelem az életet, és nem akarok fájdalmat okozni vagy megölni más élőlényeket. Ezért eszem így."
     },
-    {
-      name: "Abraham Lincoln",
-      title: "16th U.S. President",
-      quote: "I am in favor of animal rights as well as human rights. That is the way of a whole human being.",
-      avatar: "images/lincoln.jpg"
+    avatar: "images/natalie.jpg"
+  },
+
+  {
+    name: {
+      en: "Albert Einstein",
+      es: "Albert Einstein",
+      hu: "Einstein Albert"
     },
-    {
-      name: "Leonardo da Vinci",
-      title: "Renaissance Polymath",
-      quote: "I have from an early age abjured the use of meat.",
-      avatar: "images/davinci.jpg"
+    title: {
+      en: "Theoretical Physicist",
+      es: "Físico teórico",
+      hu: "Elméleti fizikus"
     },
-    //{
-    //  name: "Plato",
-    //  title: "Philosopher",
-    //  quote: "The greatness of a nation and its moral progress can be judged by the way its animals are treated.",
-    //  avatar: "images/plato.jpg"
-    //},
-    {
-      name: "Pythagoras",
-      title: "Philosopher & Mathematician",
-      quote: "As long as man continues to be the ruthless destroyer of lower living beings, he will never know health or peace.",
-      avatar: "images/pythagoras.jpg"
+    quote: {
+      en: "Nothing will benefit health or increase chances of survival on Earth as much as the evolution to a vegetarian diet.",
+      es: "Nada beneficiará tanto la salud ni aumentará las posibilidades de supervivencia en la Tierra como la evolución hacia una dieta vegetariana.",
+      hu: "Semmi sem szolgálja jobban az egészséget vagy növeli a túlélés esélyét a Földön, mint a vegetáriánus étrend felé való fejlődés."
     },
-    {
-      name: "Lewis Hamilton",
-      title: "Formula 1 World Champion",
-      quote: "We all have choices to make. I choose to love, to be conscious of what I’m supporting and I refuse to support the companies killing and torturing animals.",
-      avatar: "images/hamilton.jpg"
+    avatar: "images/einstein.jpg"
+  },
+
+  {
+    name: {
+      en: "Patrik Baboumian",
+      es: "Patrik Baboumian",
+      hu: "Patrik Baboumian"
     },
-    {
-      name: "Mahatma Gandhi",
-      title: "Indian Leader & Activist",
-      quote: "The greatness of a nation can be judged by the way its animals are treated.",
-      avatar: "images/gandhi.jpg"
+    title: {
+      en: "Strongman & Vegan Activist",
+      es: "Strongman y activista vegano",
+      hu: "Erősember és vegán aktivista"
     },
-    {
-      name: "Leo Tolstoy",
-      title: "Author & Philosopher",
-      quote: "As long as there are slaughterhouses, there will be battlefields.",
-      avatar: "images/tolstoy.jpg"
+    quote: {
+      en: "Someone once asked me, 'How can you get as strong as an ox without eating any meat?' My answer was, 'Have you ever seen an ox eating meat?'",
+      es: "Alguien me preguntó una vez: «¿Cómo puedes ser tan fuerte como un buey sin comer carne?» Mi respuesta fue: «¿Has visto alguna vez a un buey comiendo carne?»",
+      hu: "Egyszer megkérdezték tőlem: „Hogyan lehetsz olyan erős, mint egy ökör hús nélkül?” A válaszom az volt: „Láttál már ökröt húst enni?”"
     },
-    {
-      name: "John Stuart Mill",
-      title: "Philosopher & Economist",
-      quote: "The worth of a civilization is measured by the compassion it shows toward those who cannot defend themselves.",
-      avatar: "images/stuart.jpg"
+    avatar: "images/patrik.jpg"
+  },
+
+  {
+    name: {
+      en: "Abraham Lincoln",
+      es: "Abraham Lincoln",
+      hu: "Abraham Lincoln"
     },
-    {
-      name: "Buddha",
-      title: "Spiritual Leader",
-      quote: "All beings tremble before violence. All fear death. When a man considers this, he does not kill or cause to kill.",
-      avatar: "images/buddha.jpg"
-    }
-  ]
+    title: {
+      en: "16th U.S. President",
+      es: "16.º presidente de los Estados Unidos",
+      hu: "Az Egyesült Államok 16. elnöke"
+    },
+    quote: {
+      en: "I am in favor of animal rights as well as human rights. That is the way of a whole human being.",
+      es: "Estoy a favor de los derechos de los animales así como de los derechos humanos. Ese es el camino de un ser humano completo.",
+      hu: "Az állatok jogai mellett ugyanúgy kiállok, mint az emberi jogok mellett. Ez a teljes ember útja."
+    },
+    avatar: "images/lincoln.jpg"
+  },
+
+  {
+    name: {
+      en: "Leonardo da Vinci",
+      es: "Leonardo da Vinci",
+      hu: "Leonardo da Vinci"
+    },
+    title: {
+      en: "Renaissance Polymath",
+      es: "Polímata del Renacimiento",
+      hu: "Reneszánsz polihisztor"
+    },
+    quote: {
+      en: "I have from an early age abjured the use of meat.",
+      es: "Desde muy joven he rechazado el consumo de carne.",
+      hu: "Fiatal koromtól kezdve elutasítottam a hús fogyasztását."
+    },
+    avatar: "images/davinci.jpg"
+  },
+
+  {
+    name: {
+      en: "Pythagoras",
+      es: "Pitágoras",
+      hu: "Püthagorasz"
+    },
+    title: {
+      en: "Philosopher & Mathematician",
+      es: "Filósofo y matemático",
+      hu: "Filozófus és matematikus"
+    },
+    quote: {
+      en: "As long as man continues to be the ruthless destroyer of lower living beings, he will never know health or peace.",
+      es: "Mientras el hombre siga siendo el destructor despiadado de los seres vivos inferiores, nunca conocerá la salud ni la paz.",
+      hu: "Amíg az ember könyörtelen pusztítója marad az alacsonyabb rendű élőlényeknek, soha nem fogja megismerni az egészséget vagy a békét."
+    },
+    avatar: "images/pythagoras.jpg"
+  },
+
+  {
+    name: {
+      en: "Lewis Hamilton",
+      es: "Lewis Hamilton",
+      hu: "Lewis Hamilton"
+    },
+    title: {
+      en: "Formula 1 World Champion",
+      es: "Campeón del mundo de Fórmula 1",
+      hu: "Forma–1 világbajnok"
+    },
+    quote: {
+      en: "We all have choices to make. I choose to love, to be conscious of what I’m supporting and I refuse to support the companies killing and torturing animals.",
+      es: "Todos tenemos elecciones que hacer. Yo elijo amar, ser consciente de lo que apoyo y me niego a apoyar a empresas que matan y torturan animales.",
+      hu: "Mindannyiunknak vannak döntései. Én a szeretetet választom, tudatos vagyok abban, mit támogatok, és nem támogatom az állatokat megölő és kínzó vállalatokat."
+    },
+    avatar: "images/hamilton.jpg"
+  },
+
+  {
+    name: {
+      en: "Mahatma Gandhi",
+      es: "Mahatma Gandhi",
+      hu: "Mahatma Gandhi"
+    },
+    title: {
+      en: "Indian Leader & Activist",
+      es: "Líder y activista indio",
+      hu: "Indiai vezető és aktivista"
+    },
+    quote: {
+      en: "The greatness of a nation can be judged by the way its animals are treated.",
+      es: "La grandeza de una nación se puede juzgar por la forma en que trata a sus animales.",
+      hu: "Egy nemzet nagysága megítélhető abból, ahogyan az állataival bánik."
+    },
+    avatar: "images/gandhi.jpg"
+  },
+
+  {
+    name: {
+      en: "Leo Tolstoy",
+      es: "León Tolstói",
+      hu: "Lev Tolsztoj"
+    },
+    title: {
+      en: "Author & Philosopher",
+      es: "Escritor y filósofo",
+      hu: "Író és filozófus"
+    },
+    quote: {
+      en: "As long as there are slaughterhouses, there will be battlefields.",
+      es: "Mientras existan los mataderos, habrá campos de batalla.",
+      hu: "Amíg léteznek vágóhidak, addig lesznek csataterek."
+    },
+    avatar: "images/tolstoy.jpg"
+  },
+
+  {
+    name: {
+      en: "John Stuart Mill",
+      es: "John Stuart Mill",
+      hu: "John Stuart Mill"
+    },
+    title: {
+      en: "Philosopher & Economist",
+      es: "Filósofo y economista",
+      hu: "Filozófus és közgazdász"
+    },
+    quote: {
+      en: "The worth of a civilization is measured by the compassion it shows toward those who cannot defend themselves.",
+      es: "El valor de una civilización se mide por la compasión que muestra hacia quienes no pueden defenderse.",
+      hu: "Egy civilizáció értékét az mutatja meg, mennyi együttérzést tanúsít azokkal szemben, akik nem tudják megvédeni magukat."
+    },
+    avatar: "images/stuart.jpg"
+  },
+
+  {
+    name: {
+      en: "Buddha",
+      es: "Buda",
+      hu: "Buddha"
+    },
+    title: {
+      en: "Spiritual Leader",
+      es: "Líder espiritual",
+      hu: "Spirituális tanító"
+    },
+    quote: {
+      en: "All beings tremble before violence. All fear death. When a man considers this, he does not kill or cause to kill.",
+      es: "Todos los seres tiemblan ante la violencia. Todos temen la muerte. Cuando alguien reflexiona sobre esto, no mata ni hace que otros maten.",
+      hu: "Minden lény retteg az erőszaktól. Mindenki fél a haláltól. Aki ezt megérti, nem öl, és nem is késztet másokat ölésre."
+    },
+    avatar: "images/buddha.jpg"
+  }
+]
 };
 
+//#region Functions
 /*
 Ariana Grande – Singer and Actress
 “I’m a firm believer in eating a full plant-based, whole food diet that can expand your life length and make you an all-around happier person.” 
@@ -4497,9 +4580,9 @@ function openIngredient(key) {
   const item = ingredientInfo[key];
   if (!item) return;
 
-  document.getElementById("ingredientName").textContent = item.name;
-  document.getElementById("ingredientDescription").innerHTML = item.description;
-  document.getElementById("ingredientNutrition").innerHTML = item.nutrition;
+  document.getElementById("ingredientName").textContent = item.name[currentLang] || item.name.en;
+  document.getElementById("ingredientDescription").innerHTML = item.description[currentLang] || item.description.en;
+  document.getElementById("ingredientNutrition").innerHTML = item.nutrition[currentLang] || item.nutrition.en;
 
   document.getElementById("ingredientModal").classList.add("active");
 }
@@ -4565,6 +4648,7 @@ function getRandomPositionForChar(char, wrapperWidth, wrapperHeight) {
 }
 
 function showRandomAvatar() {
+
   const now = Date.now();
   const cooldown = 60 * 60 * 1000; // 1 hour
   if (now - lastShown < cooldown) return;
@@ -4625,34 +4709,40 @@ function showRandomAvatar() {
 
     tipBox.innerHTML = `
       <div class="celeb-quote">
-        <p class="quote">“${celeb.quote}”</p>
-        <p class="celeb-name"><strong>${celeb.name}</strong></p>
-        <p class="celeb-title"><em>${celeb.title}</em></p>
+        <p class="quote">“${celeb.quote[currentLang] || celeb.quote.en}”</p>
+        <p class="celeb-name"><strong>${celeb.name[currentLang] || celeb.name.en}</strong></p>
+        <p class="celeb-title"><em>${celeb.title[currentLang] || celeb.title.en}</em></p>
       </div>
     `;
 
     const avatarImg = wrapper.querySelector("#celebrityAvatar");
     avatarImg.src = celeb.avatar;
   } else {
-    const tips = characterTips[char];
-    const randomTip = tips[Math.floor(Math.random() * tips.length)];
-    tipBox.innerHTML = randomTip;
+  // Pick language-specific tips, fallback to EN
+  const tips =
+    characterTips[char][currentLang] || characterTips[char].en;
 
-    // 🔹 Make ingredient links clickable
-    tipBox.querySelectorAll(".ingredient-link").forEach(link => {
-      link.onclick = (e) => {
-        e.stopPropagation();
-        // Extract the key from the original onclick
-        const keyMatch = link.getAttribute("onclick").match(/'(\w+)'/);
-        if (keyMatch) {
-          const key = keyMatch[1];
-          openIngredient(key);
-        }
-        // Close the bubble
-        bubble.classList.remove("visible");
-        wrapper.remove();
-      };
-    });
+  const randomTip = tips[Math.floor(Math.random() * tips.length)];
+  tipBox.innerHTML = randomTip;
+
+  // 🔹 Make ingredient links clickable
+  tipBox.querySelectorAll(".ingredient-link").forEach(link => {
+    link.onclick = (e) => {
+      e.stopPropagation();
+
+      // Extract ingredient key from inline onclick
+      const keyMatch = link
+        .getAttribute("onclick")
+        ?.match(/'(\w+)'/);
+
+      if (keyMatch) {
+        openIngredient(keyMatch[1]);
+      }
+
+      bubble.classList.remove("visible");
+      wrapper.remove();
+    };
+  });
   }
 
   const avatars = wrapper.querySelectorAll(
@@ -4682,14 +4772,13 @@ window.addEventListener("load", () => {
   setTimeout(() => showRandomAvatar(), 8000);
 });
 
+//#endregion 
 
 
 
-//------ Health issues -------
-//------ Health issues -------
-//------ Health issues -------
-//------ Health issues -------
-
+// =======================
+// HEALTH ISSUE LESSONS
+// =======================
 export const HealthIssuesPool = {
   health: [
 
@@ -6217,151 +6306,422 @@ Prevention is powerful, and your daily choices truly matter. Let’s make each m
 ]
 };
 
-//------ Ingredients -------
-//------ Ingredients -------
-//------ Ingredients -------
-//------ Ingredients -------
-
+// =======================
+// INGREDIENTS
+// =======================
 const ingredientInfo = {
   tofu: {
-    name: "Tofu",
-    description: "Tofu is perfect to replace eggs in many dishes. Mild in flavor, it absorbs spices well, making it very versatile.",
-    nutrition: `
-      <table>
-        <tr><th>Nutrient</th><th>Tofu</th><th>Egg</th></tr>
-        <tr><td>Calories</td><td>76 kcal / 100g</td><td>155 kcal / 100g</td></tr>
-        <tr><td>Protein</td><td>8 g</td><td>13 g</td></tr>
-        <tr><td>Cholesterol</td><td>0 mg</td><td>373 mg</td></tr>
-        <tr><td>Calcium</td><td>350 mg</td><td>56 mg</td></tr>
-        <tr><td>Fat</td><td>4 g</td><td>11 g</td></tr>
-      </table>
-    `
+    name: {
+      en: "Tofu",
+      es: "Tofu",
+      hu: "Tofu"
+    },
+    description: {
+      en: "Tofu is perfect to replace eggs in many dishes. Mild in flavor, it absorbs spices well, making it very versatile.",
+      es: "El tofu es perfecto para sustituir los huevos en muchos platos. Su sabor suave absorbe bien las especias.",
+      hu: "A tofu kiváló tojáshelyettesítő sok ételben. Semleges ízű, jól felszívja a fűszereket."
+    },
+    nutrition: {
+      en: `
+        <table>
+          <tr><th>Nutrient</th><th>Tofu</th><th>Egg</th></tr>
+          <tr><td>Calories</td><td>76 kcal / 100g</td><td>155 kcal / 100g</td></tr>
+          <tr><td>Protein</td><td>8 g</td><td>13 g</td></tr>
+          <tr><td>Cholesterol</td><td>0 mg</td><td>373 mg</td></tr>
+          <tr><td>Calcium</td><td>350 mg</td><td>56 mg</td></tr>
+          <tr><td>Fat</td><td>4 g</td><td>11 g</td></tr>
+        </table>
+      `,
+      es: `
+        <table>
+          <tr><th>Nutriente</th><th>Tofu</th><th>Huevo</th></tr>
+          <tr><td>Calorías</td><td>76 kcal / 100g</td><td>155 kcal / 100g</td></tr>
+          <tr><td>Proteína</td><td>8 g</td><td>13 g</td></tr>
+          <tr><td>Colesterol</td><td>0 mg</td><td>373 mg</td></tr>
+          <tr><td>Calcio</td><td>350 mg</td><td>56 mg</td></tr>
+          <tr><td>Grasa</td><td>4 g</td><td>11 g</td></tr>
+        </table>
+      `,
+      hu: `
+        <table>
+          <tr><th>Tápanyag</th><th>Tofu</th><th>Tojás</th></tr>
+          <tr><td>Kalória</td><td>76 kcal / 100g</td><td>155 kcal / 100g</td></tr>
+          <tr><td>Fehérje</td><td>8 g</td><td>13 g</td></tr>
+          <tr><td>Koleszterin</td><td>0 mg</td><td>373 mg</td></tr>
+          <tr><td>Kalcium</td><td>350 mg</td><td>56 mg</td></tr>
+          <tr><td>Zsír</td><td>4 g</td><td>11 g</td></tr>
+        </table>
+      `
+    }
   },
+
   seitan: {
-    name: "Seitan",
-    description: "Seitan is a chewy, meat-like wheat protein perfect to replace chicken or beef in recipes.",
-    nutrition: `
-      <table>
-        <tr><th>Nutrient</th><th>Seitan</th><th>Chicken Breast</th></tr>
-        <tr><td>Calories</td><td>120 kcal / 100g</td><td>165 kcal / 100g</td></tr>
-        <tr><td>Protein</td><td>25 g</td><td>31 g</td></tr>
-        <tr><td>Cholesterol</td><td>0 mg</td><td>85 mg</td></tr>
-        <tr><td>Iron</td><td>4 mg</td><td>1 mg</td></tr>
-        <tr><td>Fat</td><td>1.9 g</td><td>3.6 g</td></tr>
-      </table>
-    `
+    name: {
+      en: "Seitan",
+      es: "Seitán",
+      hu: "Szejtán"
+    },
+    description: {
+      en: "Seitan is a chewy, meat-like wheat protein perfect to replace chicken or beef in recipes.",
+      es: "El seitán es una proteína de trigo con textura carnosa, ideal para sustituir pollo o ternera.",
+      hu: "A szejtán búzafehérjéből készült, húsos állagú alapanyag, kiváló húshelyettesítő."
+    },
+    nutrition: {
+      en: `
+        <table>
+          <tr><th>Nutrient</th><th>Seitan</th><th>Chicken Breast</th></tr>
+          <tr><td>Calories</td><td>120 kcal</td><td>165 kcal</td></tr>
+          <tr><td>Protein</td><td>25 g</td><td>31 g</td></tr>
+          <tr><td>Cholesterol</td><td>0 mg</td><td>85 mg</td></tr>
+          <tr><td>Iron</td><td>4 mg</td><td>1 mg</td></tr>
+        </table>
+      `,
+      es: `
+        <table>
+          <tr><th>Nutriente</th><th>Seitán</th><th>Pechuga de pollo</th></tr>
+          <tr><td>Calorías</td><td>120 kcal</td><td>165 kcal</td></tr>
+          <tr><td>Proteína</td><td>25 g</td><td>31 g</td></tr>
+          <tr><td>Colesterol</td><td>0 mg</td><td>85 mg</td></tr>
+          <tr><td>Hierro</td><td>4 mg</td><td>1 mg</td></tr>
+        </table>
+      `,
+      hu: `
+        <table>
+          <tr><th>Tápanyag</th><th>Szejtán</th><th>Csirkemell</th></tr>
+          <tr><td>Kalória</td><td>120 kcal</td><td>165 kcal</td></tr>
+          <tr><td>Fehérje</td><td>25 g</td><td>31 g</td></tr>
+          <tr><td>Koleszterin</td><td>0 mg</td><td>85 mg</td></tr>
+          <tr><td>Vas</td><td>4 mg</td><td>1 mg</td></tr>
+        </table>
+      `
+    }
   },
   lentils: {
-  name: "Lentils",
-  description: "Lentils are a protein-packed legume, perfect to replace ground beef in stews, chili, and other hearty dishes.",
-  nutrition: `
-    <table>
-      <tr><th>Nutrient</th><th>Lentils (dry)</th><th>Ground Beef</th></tr>
-      <tr><td>Calories</td><td>353 kcal / 100g dry</td><td>250 kcal / 100g</td></tr>
-      <tr><td>Protein</td><td>25 g</td><td>26 g</td></tr>
-      <tr><td>Cholesterol</td><td>0 mg</td><td>89 mg</td></tr>
-      <tr><td>Fiber</td><td>11 g</td><td>0 g</td></tr>
-      <tr><td>Iron</td><td>7.5 mg</td><td>2.6 mg</td></tr>
-    </table>
-    <p><em>Note: Protein and calories reduce after cooking due to water absorption, but lentils remain a hearty plant-based option.</em></p>
-  `
-},
+    name: { en: "Lentils", es: "Lentejas", hu: "Lencse" },
+    description: {
+      en: "Lentils are a protein-packed legume, perfect to replace ground beef in stews, chili, and other hearty dishes.",
+      es: "Las lentejas son una legumbre rica en proteínas, perfectas para sustituir carne picada en guisos y chili.",
+      hu: "A lencse fehérjében gazdag hüvelyes, kiváló darált hús helyettesítésére pörköltekben, chili-ben és más ételekben."
+    },
+    nutrition: {
+      en: `
+        <table>
+          <tr><th>Nutrient</th><th>Lentils (dry)</th><th>Ground Beef</th></tr>
+          <tr><td>Calories</td><td>353 kcal / 100g dry</td><td>250 kcal / 100g</td></tr>
+          <tr><td>Protein</td><td>25 g</td><td>26 g</td></tr>
+          <tr><td>Cholesterol</td><td>0 mg</td><td>89 mg</td></tr>
+          <tr><td>Fiber</td><td>11 g</td><td>0 g</td></tr>
+          <tr><td>Iron</td><td>7.5 mg</td><td>2.6 mg</td></tr>
+        </table>
+        <p><em>Note: Protein and calories reduce after cooking due to water absorption, but lentils remain a hearty plant-based option.</em></p>
+      `,
+      es: `
+        <table>
+          <tr><th>Nutriente</th><th>Lentejas (seco)</th><th>Carne molida</th></tr>
+          <tr><td>Calorías</td><td>353 kcal / 100g seco</td><td>250 kcal / 100g</td></tr>
+          <tr><td>Proteína</td><td>25 g</td><td>26 g</td></tr>
+          <tr><td>Colesterol</td><td>0 mg</td><td>89 mg</td></tr>
+          <tr><td>Fibra</td><td>11 g</td><td>0 g</td></tr>
+          <tr><td>Hierro</td><td>7.5 mg</td><td>2.6 mg</td></tr>
+        </table>
+        <p><em>Nota: La proteína y las calorías disminuyen tras cocinar, pero las lentejas siguen siendo una opción abundante basada en plantas.</em></p>
+      `,
+      hu: `
+        <table>
+          <tr><th>Tápanyag</th><th>Lencse (száraz)</th><th>Darált marhahús</th></tr>
+          <tr><td>Kalória</td><td>353 kcal / 100g száraz</td><td>250 kcal / 100g</td></tr>
+          <tr><td>Fehérje</td><td>25 g</td><td>26 g</td></tr>
+          <tr><td>Koleszterin</td><td>0 mg</td><td>89 mg</td></tr>
+          <tr><td>Rost</td><td>11 g</td><td>0 g</td></tr>
+          <tr><td>Vas</td><td>7.5 mg</td><td>2.6 mg</td></tr>
+        </table>
+        <p><em>Megjegyzés: A főzés során a fehérje és kalória csökken a vízfelvétel miatt, de a lencse továbbra is tápláló növényi alapú lehetőség.</em></p>
+      `
+    }
+  },
+
   beans: {
-  name: "Soybeans",
-  description: "Soybeans are incredibly high in protein, perfect to replace beef in meals like chili or stir-fries.",
-  nutrition: `
-    <table>
-      <tr><th>Nutrient</th><th>Soybeans</th><th>Beef</th></tr>
-      <tr><td>Calories</td><td>446 kcal / 100g dry</td><td>250 kcal / 100g</td></tr>
-      <tr><td>Protein</td><td>36 g</td><td>26 g</td></tr>
-      <tr><td>Cholesterol</td><td>0 mg</td><td>89 mg</td></tr>
-      <tr><td>Fiber</td><td>9 g</td><td>0 g</td></tr>
-      <tr><td>Iron</td><td>15.7 mg</td><td>2.6 mg</td></tr>
-    </table>
-  `
-},
+    name: { en: "Beans", es: "Frijoles", hu: "Bab" },
+    description: {
+      en: "Beans are incredibly high in protein, perfect to replace beef in meals like chili or stir-fries.",
+      es: "Los frijoles son muy ricos en proteínas, perfectos para reemplazar carne en chili o salteados.",
+      hu: "A bab rendkívül fehérjedús, kiváló marhahús helyettesítésére chili-ben vagy wokételekben."
+    },
+    nutrition: {
+      en: `
+        <table>
+          <tr><th>Nutrient</th><th>Beans</th><th>Beef</th></tr>
+          <tr><td>Calories</td><td>446 kcal / 100g dry</td><td>250 kcal / 100g</td></tr>
+          <tr><td>Protein</td><td>36 g</td><td>26 g</td></tr>
+          <tr><td>Cholesterol</td><td>0 mg</td><td>89 mg</td></tr>
+          <tr><td>Fiber</td><td>9 g</td><td>0 g</td></tr>
+          <tr><td>Iron</td><td>15.7 mg</td><td>2.6 mg</td></tr>
+        </table>
+      `,
+      es: `
+        <table>
+          <tr><th>Nutriente</th><th>Frijoles</th><th>Carne</th></tr>
+          <tr><td>Calorías</td><td>446 kcal / 100g seco</td><td>250 kcal / 100g</td></tr>
+          <tr><td>Proteína</td><td>36 g</td><td>26 g</td></tr>
+          <tr><td>Colesterol</td><td>0 mg</td><td>89 mg</td></tr>
+          <tr><td>Fibra</td><td>9 g</td><td>0 g</td></tr>
+          <tr><td>Hierro</td><td>15.7 mg</td><td>2.6 mg</td></tr>
+        </table>
+      `,
+      hu: `
+        <table>
+          <tr><th>Tápanyag</th><th>Bab</th><th>Marhahús</th></tr>
+          <tr><td>Kalória</td><td>446 kcal / 100g száraz</td><td>250 kcal / 100g</td></tr>
+          <tr><td>Fehérje</td><td>36 g</td><td>26 g</td></tr>
+          <tr><td>Koleszterin</td><td>0 mg</td><td>89 mg</td></tr>
+          <tr><td>Rost</td><td>9 g</td><td>0 g</td></tr>
+          <tr><td>Vas</td><td>15.7 mg</td><td>2.6 mg</td></tr>
+        </table>
+      `
+    }
+  },
+
   tempeh: {
-    name: "Tempeh",
-    description: "Tempeh is fermented soy, perfect to replace bacon or other processed meats with extra gut benefits.",
-    nutrition: `
-    <table>
-      <tr><th>Nutrient</th><th>Tempeh (per 200 kcal)</th><th>Bacon (per 200 kcal)</th></tr>
-      <tr><td>Protein</td><td>19 g</td><td>13.6 g</td></tr>
-      <tr><td>Cholesterol</td><td>0 mg</td><td>33 mg</td></tr>
-      <tr><td>Fat</td><td>11 g</td><td>15.5 g</td></tr>
-      <tr><td>Fiber</td><td>1.5 g</td><td>0 g</td></tr>
-    </table>
-    <p><em>Comparison based on equal caloric intake (200 kcal) for a fairer nutritional perspective.</em></p>
-  `
+    name: { en: "Tempeh", es: "Tempeh", hu: "Tempeh" },
+    description: {
+      en: "Tempeh is fermented soy, perfect to replace bacon or other processed meats with extra gut benefits.",
+      es: "El tempeh es soja fermentada, ideal para reemplazar tocino u otras carnes procesadas, con beneficios para el intestino.",
+      hu: "A tempeh fermentált szója, tökéletes szalonna vagy feldolgozott húsok helyettesítésére, extra bélflóra előnyökkel."
+    },
+    nutrition: {
+      en: `
+        <table>
+          <tr><th>Nutrient</th><th>Tempeh (per 200 kcal)</th><th>Bacon (per 200 kcal)</th></tr>
+          <tr><td>Protein</td><td>19 g</td><td>13.6 g</td></tr>
+          <tr><td>Cholesterol</td><td>0 mg</td><td>33 mg</td></tr>
+          <tr><td>Fat</td><td>11 g</td><td>15.5 g</td></tr>
+          <tr><td>Fiber</td><td>1.5 g</td><td>0 g</td></tr>
+        </table>
+        <p><em>Comparison based on equal caloric intake (200 kcal) for a fairer nutritional perspective.</em></p>
+      `,
+      es: `
+        <table>
+          <tr><th>Nutriente</th><th>Tempeh (por 200 kcal)</th><th>Tocino (por 200 kcal)</th></tr>
+          <tr><td>Proteína</td><td>19 g</td><td>13.6 g</td></tr>
+          <tr><td>Colesterol</td><td>0 mg</td><td>33 mg</td></tr>
+          <tr><td>Grasa</td><td>11 g</td><td>15.5 g</td></tr>
+          <tr><td>Fibra</td><td>1.5 g</td><td>0 g</td></tr>
+        </table>
+        <p><em>Comparación basada en igual aporte calórico (200 kcal) para una perspectiva más justa.</em></p>
+      `,
+      hu: `
+        <table>
+          <tr><th>Tápanyag</th><th>Tempeh (200 kcal)</th><th>Szalonna (200 kcal)</th></tr>
+          <tr><td>Fehérje</td><td>19 g</td><td>13.6 g</td></tr>
+          <tr><td>Koleszterin</td><td>0 mg</td><td>33 mg</td></tr>
+          <tr><td>Zsír</td><td>11 g</td><td>15.5 g</td></tr>
+          <tr><td>Rost</td><td>1.5 g</td><td>0 g</td></tr>
+        </table>
+        <p><em>Összehasonlítás azonos kalóriabevitel (200 kcal) alapján a fairabb nézőpontért.</em></p>
+      `
+    }
   },
   chickpeas: {
-    name: "Chickpeas",
-    description: "Chickpeas are ideal for replacing chicken or tuna in salads and stews, with plant-based protein and fiber.",
-    nutrition: `
-      <table>
-        <tr><th>Nutrient</th><th>Chickpeas</th><th>Chicken</th></tr>
-        <tr><td>Calories</td><td>164 kcal / 100g cooked</td><td>165 kcal / 100g</td></tr>
-        <tr><td>Protein</td><td>7 g</td><td>31 g</td></tr>
-        <tr><td>Cholesterol</td><td>0 mg</td><td>85 mg</td></tr>
-        <tr><td>Fiber</td><td>7.6 g</td><td>0 g</td></tr>
-        <tr><td>Iron</td><td>2.9 mg</td><td>1 mg</td></tr>
-      </table>
-    `
+    name: { en: "Chickpeas", es: "Garbanzos", hu: "Csicseriborsó" },
+    description: {
+      en: "Chickpeas are ideal for replacing chicken or tuna in salads and stews, with plant-based protein and fiber.",
+      es: "Los garbanzos son ideales para reemplazar pollo o atún en ensaladas y guisos, aportando proteína y fibra vegetal.",
+      hu: "A csicseriborsó tökéletes csirke vagy tonhal helyettesítésére salátákban és pörköltekben, növényi fehérjével és rosttal."
+    },
+    nutrition: {
+      en: `
+        <table>
+          <tr><th>Nutrient</th><th>Chickpeas</th><th>Chicken</th></tr>
+          <tr><td>Calories</td><td>164 kcal / 100g cooked</td><td>165 kcal / 100g</td></tr>
+          <tr><td>Protein</td><td>7 g</td><td>31 g</td></tr>
+          <tr><td>Cholesterol</td><td>0 mg</td><td>85 mg</td></tr>
+          <tr><td>Fiber</td><td>7.6 g</td><td>0 g</td></tr>
+          <tr><td>Iron</td><td>2.9 mg</td><td>1 mg</td></tr>
+        </table>
+      `,
+      es: `
+        <table>
+          <tr><th>Nutriente</th><th>Garbanzos</th><th>Pollo</th></tr>
+          <tr><td>Calorías</td><td>164 kcal / 100g cocido</td><td>165 kcal / 100g</td></tr>
+          <tr><td>Proteína</td><td>7 g</td><td>31 g</td></tr>
+          <tr><td>Colesterol</td><td>0 mg</td><td>85 mg</td></tr>
+          <tr><td>Fibra</td><td>7.6 g</td><td>0 g</td></tr>
+          <tr><td>Hierro</td><td>2.9 mg</td><td>1 mg</td></tr>
+        </table>
+      `,
+      hu: `
+        <table>
+          <tr><th>Tápanyag</th><th>Csicseriborsó</th><th>Csirke</th></tr>
+          <tr><td>Kalória</td><td>164 kcal / 100g főtt</td><td>165 kcal / 100g</td></tr>
+          <tr><td>Fehérje</td><td>7 g</td><td>31 g</td></tr>
+          <tr><td>Koleszterin</td><td>0 mg</td><td>85 mg</td></tr>
+          <tr><td>Rost</td><td>7.6 g</td><td>0 g</td></tr>
+          <tr><td>Vas</td><td>2.9 mg</td><td>1 mg</td></tr>
+        </table>
+      `
+    }
   },
+
   peaProtein: {
-  name: "Pea Protein",
-  description: "Pea protein is a great alternative to whey or eggs for shakes and recipes, complete in essential amino acids.",
-  nutrition: `
-    <table>
-      <tr><th>Nutrient</th><th>Pea Protein (per 30g scoop)</th><th>Egg (1 large, ~50g)</th></tr>
-      <tr><td>Calories</td><td>120 kcal</td><td>70 kcal</td></tr>
-      <tr><td>Protein</td><td>20–25 g</td><td>6 g</td></tr>
-      <tr><td>Cholesterol</td><td>0 mg</td><td>186 mg</td></tr>
-      <tr><td>Calcium</td><td>50 mg</td><td>28 mg</td></tr>
-      <tr><td>Fat</td><td>1 g</td><td>5 g</td></tr>
-    </table>
-  `
-},
+    name: { en: "Pea Protein", es: "Proteína de guisante", hu: "Borsófehérje" },
+    description: {
+      en: "Pea protein is a great alternative to whey or eggs for shakes and recipes, complete in essential amino acids.",
+      es: "La proteína de guisante es una gran alternativa al suero o los huevos en batidos y recetas, completa en aminoácidos esenciales.",
+      hu: "A borsófehérje kiváló alternatíva a tejsavó vagy tojás helyett turmixokban és receptekben, teljes esszenciális aminosavakban."
+    },
+    nutrition: {
+      en: `
+        <table>
+          <tr><th>Nutrient</th><th>Pea Protein (30g scoop)</th><th>Egg (1 large)</th></tr>
+          <tr><td>Calories</td><td>120 kcal</td><td>70 kcal</td></tr>
+          <tr><td>Protein</td><td>20–25 g</td><td>6 g</td></tr>
+          <tr><td>Cholesterol</td><td>0 mg</td><td>186 mg</td></tr>
+          <tr><td>Calcium</td><td>50 mg</td><td>28 mg</td></tr>
+          <tr><td>Fat</td><td>1 g</td><td>5 g</td></tr>
+        </table>
+      `,
+      es: `
+        <table>
+          <tr><th>Nutriente</th><th>Proteína de guisante (30g)</th><th>Huevo (1 grande)</th></tr>
+          <tr><td>Calorías</td><td>120 kcal</td><td>70 kcal</td></tr>
+          <tr><td>Proteína</td><td>20–25 g</td><td>6 g</td></tr>
+          <tr><td>Colesterol</td><td>0 mg</td><td>186 mg</td></tr>
+          <tr><td>Calcio</td><td>50 mg</td><td>28 mg</td></tr>
+          <tr><td>Grasa</td><td>1 g</td><td>5 g</td></tr>
+        </table>
+      `,
+      hu: `
+        <table>
+          <tr><th>Tápanyag</th><th>Borsófehérje (30g)</th><th>Tojás (1 db)</th></tr>
+          <tr><td>Kalória</td><td>120 kcal</td><td>70 kcal</td></tr>
+          <tr><td>Fehérje</td><td>20–25 g</td><td>6 g</td></tr>
+          <tr><td>Koleszterin</td><td>0 mg</td><td>186 mg</td></tr>
+          <tr><td>Kalcium</td><td>50 mg</td><td>28 mg</td></tr>
+          <tr><td>Zsír</td><td>1 g</td><td>5 g</td></tr>
+        </table>
+      `
+    }
+  },
   soyMilk: {
-    name: "Soy Milk",
-    description: "Soy milk is a perfect dairy alternative, ideal to replace cow's milk in drinks and cereals.",
-    nutrition: `
-      <table>
-        <tr><th>Nutrient</th><th>Soy Milk</th><th>Cow Milk</th></tr>
-        <tr><td>Calories</td><td>33 kcal / 100ml</td><td>64 kcal / 100ml</td></tr>
-        <tr><td>Protein</td><td>3 g</td><td>3.5 g</td></tr>
-        <tr><td>Cholesterol</td><td>0 mg</td><td>14 mg</td></tr>
-        <tr><td>Calcium</td><td>120 mg</td><td>120 mg</td></tr>
-        <tr><td>Fat</td><td>1.5 g</td><td>3.6 g</td></tr>
-      </table>
-    `
+    name: { en: "Soy Milk", es: "Leche de soja", hu: "Szójatej" },
+    description: {
+      en: "Soy milk is a perfect dairy alternative, ideal to replace cow's milk in drinks and cereals.",
+      es: "La leche de soja es una alternativa perfecta a la leche, ideal para reemplazar leche de vaca en bebidas y cereales.",
+      hu: "A szójatej tökéletes tejhelyettesítő, ideális italokban és gabonapelyhekben a tehéntej helyett."
+    },
+    nutrition: {
+      en: `
+        <table>
+          <tr><th>Nutrient</th><th>Soy Milk</th><th>Cow Milk</th></tr>
+          <tr><td>Calories</td><td>33 kcal / 100ml</td><td>64 kcal / 100ml</td></tr>
+          <tr><td>Protein</td><td>3 g</td><td>3.5 g</td></tr>
+          <tr><td>Cholesterol</td><td>0 mg</td><td>14 mg</td></tr>
+          <tr><td>Calcium</td><td>120 mg</td><td>120 mg</td></tr>
+          <tr><td>Fat</td><td>1.5 g</td><td>3.6 g</td></tr>
+        </table>
+      `,
+      es: `
+        <table>
+          <tr><th>Nutriente</th><th>Leche de soja</th><th>Leche de vaca</th></tr>
+          <tr><td>Calorías</td><td>33 kcal / 100ml</td><td>64 kcal / 100ml</td></tr>
+          <tr><td>Proteína</td><td>3 g</td><td>3.5 g</td></tr>
+          <tr><td>Colesterol</td><td>0 mg</td><td>14 mg</td></tr>
+          <tr><td>Calcio</td><td>120 mg</td><td>120 mg</td></tr>
+          <tr><td>Grasa</td><td>1.5 g</td><td>3.6 g</td></tr>
+        </table>
+      `,
+      hu: `
+        <table>
+          <tr><th>Tápanyag</th><th>Szójatej</th><th>Tehéntej</th></tr>
+          <tr><td>Kalória</td><td>33 kcal / 100ml</td><td>64 kcal / 100ml</td></tr>
+          <tr><td>Fehérje</td><td>3 g</td><td>3.5 g</td></tr>
+          <tr><td>Koleszterin</td><td>0 mg</td><td>14 mg</td></tr>
+          <tr><td>Kalcium</td><td>120 mg</td><td>120 mg</td></tr>
+          <tr><td>Zsír</td><td>1.5 g</td><td>3.6 g</td></tr>
+        </table>
+      `
+    }
   },
+
   texturizedSoy: {
-    name: "Texturized Soy (TVP)",
-    description: "TVP is a high-protein meat replacement, perfect for ground beef in burgers, tacos, or chili.",
-    nutrition: `
-      <table>
-        <tr><th>Nutrient</th><th>Texturized Soy</th><th>Beef</th></tr>
-        <tr><td>Calories</td><td>200 kcal / 100g dry</td><td>250 kcal / 100g</td></tr>
-        <tr><td>Protein</td><td>50 g</td><td>26 g</td></tr>
-        <tr><td>Cholesterol</td><td>0 mg</td><td>89 mg</td></tr>
-        <tr><td>Iron</td><td>9 mg</td><td>2.6 mg</td></tr>
-        <tr><td>Fat</td><td>1 g</td><td>15 g</td></tr>
-      </table>
-    `
+    name: { en: "Texturized Soy", es: "Soja texturizada", hu: "Texturált szója" },
+    description: {
+      en: "TVP is a high-protein meat replacement, perfect for ground beef in burgers, tacos, or chili.",
+      es: "La soja texturizada es un reemplazo de carne rico en proteínas, ideal para carne molida en hamburguesas, tacos o chili.",
+      hu: "A texturált szója magas fehérjetartalmú húshelyettesítő, kiváló darált hús helyettesítésére hamburgerben, tacóban vagy chili-ben."
+    },
+    nutrition: {
+      en: `
+        <table>
+          <tr><th>Nutrient</th><th>Texturized Soy</th><th>Beef</th></tr>
+          <tr><td>Calories</td><td>200 kcal / 100g dry</td><td>250 kcal / 100g</td></tr>
+          <tr><td>Protein</td><td>50 g</td><td>26 g</td></tr>
+          <tr><td>Cholesterol</td><td>0 mg</td><td>89 mg</td></tr>
+          <tr><td>Iron</td><td>9 mg</td><td>2.6 mg</td></tr>
+          <tr><td>Fat</td><td>1 g</td><td>15 g</td></tr>
+        </table>
+      `,
+      es: `
+        <table>
+          <tr><th>Nutriente</th><th>Soja texturizada</th><th>Carne</th></tr>
+          <tr><td>Calorías</td><td>200 kcal / 100g seco</td><td>250 kcal / 100g</td></tr>
+          <tr><td>Proteína</td><td>50 g</td><td>26 g</td></tr>
+          <tr><td>Colesterol</td><td>0 mg</td><td>89 mg</td></tr>
+          <tr><td>Hierro</td><td>9 mg</td><td>2.6 mg</td></tr>
+          <tr><td>Grasa</td><td>1 g</td><td>15 g</td></tr>
+        </table>
+      `,
+      hu: `
+        <table>
+          <tr><th>Tápanyag</th><th>Texturált szója</th><th>Marhahús</th></tr>
+          <tr><td>Kalória</td><td>200 kcal / 100g száraz</td><td>250 kcal / 100g</td></tr>
+          <tr><td>Fehérje</td><td>50 g</td><td>26 g</td></tr>
+          <tr><td>Koleszterin</td><td>0 mg</td><td>89 mg</td></tr>
+          <tr><td>Vas</td><td>9 mg</td><td>2.6 mg</td></tr>
+          <tr><td>Zsír</td><td>1 g</td><td>15 g</td></tr>
+        </table>
+      `
+    }
   },
+
   broccoli: {
-  name: "Broccoli",
-  description: "Broccoli is a super nutrient-rich vegetable, packed with vitamins and minerals, perfect to add to any meal. Here's how it compares calorie-for-calorie with beef:",
-  nutrition: `
-    <table>
-      <tr><th>Nutrient</th><th>Broccoli (~150 kcal)</th><th>Beef (~150 kcal)</th></tr>
-      <tr><td>Protein</td><td>12 g</td><td>13 g</td></tr>
-      <tr><td>Fiber</td><td>20 g</td><td>0 g</td></tr>
-      <tr><td>Vitamin C</td><td>810 mg</td><td>0 mg</td></tr>
-      <tr><td>Calcium</td><td>150 mg</td><td>18 mg</td></tr>
-      <tr><td>Iron</td><td>5 mg</td><td>6 mg</td></tr>
-    </table>
-  `
-}
+    name: { en: "Broccoli", es: "Brócoli", hu: "Brokkoli" },
+    description: {
+      en: "Broccoli is a super nutrient-rich vegetable, packed with vitamins and minerals, perfect to add to any meal.",
+      es: "El brócoli es un vegetal muy rico en nutrientes, lleno de vitaminas y minerales, perfecto para cualquier plato.",
+      hu: "A brokkoli tápanyagokban gazdag zöldség, vitaminokkal és ásványi anyagokkal, tökéletes minden ételhez."
+    },
+    nutrition: {
+      en: `
+        <table>
+          <tr><th>Nutrient</th><th>Broccoli (~150 kcal)</th><th>Beef (~150 kcal)</th></tr>
+          <tr><td>Protein</td><td>12 g</td><td>13 g</td></tr>
+          <tr><td>Fiber</td><td>20 g</td><td>0 g</td></tr>
+          <tr><td>Vitamin C</td><td>810 mg</td><td>0 mg</td></tr>
+          <tr><td>Calcium</td><td>150 mg</td><td>18 mg</td></tr>
+          <tr><td>Iron</td><td>5 mg</td><td>6 mg</td></tr>
+        </table>
+      `,
+      es: `
+        <table>
+          <tr><th>Nutriente</th><th>Brócoli (~150 kcal)</th><th>Carne (~150 kcal)</th></tr>
+          <tr><td>Proteína</td><td>12 g</td><td>13 g</td></tr>
+          <tr><td>Fibra</td><td>20 g</td><td>0 g</td></tr>
+          <tr><td>Vitamina C</td><td>810 mg</td><td>0 mg</td></tr>
+          <tr><td>Calcio</td><td>150 mg</td><td>18 mg</td></tr>
+          <tr><td>Hierro</td><td>5 mg</td><td>6 mg</td></tr>
+        </table>
+      `,
+      hu: `
+        <table>
+          <tr><th>Tápanyag</th><th>Brokkoli (~150 kcal)</th><th>Marhahús (~150 kcal)</th></tr>
+          <tr><td>Fehérje</td><td>12 g</td><td>13 g</td></tr>
+          <tr><td>Rost</td><td>20 g</td><td>0 g</td></tr>
+          <tr><td>C-vitamin</td><td>810 mg</td><td>0 mg</td></tr>
+          <tr><td>Kalcium</td><td>150 mg</td><td>18 mg</td></tr>
+          <tr><td>Vas</td><td>5 mg</td><td>6 mg</td></tr>
+        </table>
+      `
+    }
+  }
 };

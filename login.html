@@ -13,9 +13,9 @@
   <div id="languageSelector">
     <button id="langBtn">🌐 EN ▾</button>
     <div id="langDropdown">
-      <div data-lang="en">🇬🇧 English</div>
-      <div data-lang="es">🇪🇸 Español</div>
-      <div data-lang="hu">🇭🇺 Magyar</div>
+      <div id="English" data-lang="en">🇬🇧 English</div>
+      <div id="Spanish" data-lang="es">🇪🇸 Español</div>
+      <div id="Hungarian" data-lang="hu">🇭🇺 Magyar</div>
     </div>
   </div>
 
@@ -142,6 +142,9 @@ Add meg ezt a kódot az alkalmazásban a jelszavad visszaállításához.`
 // Language data
 const languages = {
   en: {
+    english: "English",
+    spanish: "Spanish",
+    hungarian: "Hungarian",
     loginTitle: "Welcome to Elunify!",
     signInPlaceholder: "Enter your email",
     passwordPlaceholder: "Enter your password",
@@ -176,6 +179,9 @@ const languages = {
     }
   },
   es: {
+    english: "Inglés",
+    spanish: "Español",
+    hungarian: "Húngaro",
     loginTitle: "¡Bienvenido a Elunify!",
     signInPlaceholder: "Introduce tu correo",
     passwordPlaceholder: "Introduce tu contraseña",
@@ -210,6 +216,9 @@ const languages = {
     }
   },
   hu: {
+    english: "Angol",
+    spanish: "Spanyol",
+    hungarian: "Magyar",
     loginTitle: "Üdvözlünk az Elunify-ban!",
     signInPlaceholder: "Add meg az emailed",
     passwordPlaceholder: "Add meg a jelszavad",
@@ -529,6 +538,10 @@ await emailjs.send("service_50i8a3q", "template_0qmhcvi", templateData);
 // Update all UI elements
 function updateLanguageUI(lang) {
   const data = languages[lang] || languages.en;
+
+  document.getElementById("English").textContent = data.english;
+  document.getElementById("Spanish").textContent = data.spanish;
+  document.getElementById("Hungarian").textContent = data.hungarian;
 
   document.getElementById("loginTitle").textContent = data.loginTitle;
   document.getElementById("signEmail").placeholder = data.signInPlaceholder;

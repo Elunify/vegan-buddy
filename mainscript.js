@@ -214,6 +214,159 @@ friendsTitleLabel: "Friends:",
   encourageTemplateEnd: "Keep going 🌱",
 
   //Recommendations
+recTitle: "📚 Recommendations",
+recBooksTitle: "Books",
+recBook1: "How Not to Die – <em>Dr. Michael Greger</em>",
+recBook2: "Debunking Every Argument Against Veganism – <em>Danny Ishay</em>",
+recBook3: "How to Argue with a Meat Eater and Always Win – <em>Ed Winters</em>",
+
+recMoviesTitle: "Movies",
+recMovie1: "Cowspiracy (Netflix, 2014) – Explores the environmental impact of animal agriculture.",
+recMovie2: "The Game Changers (Netflix, 2018) – Focuses on plant-based diets for athletes and performance.",
+recMovie3: "Earthlings (2005) – Powerful documentary on human use of animals.",
+recMovie4: "Dominion (2018) – Investigates the treatment of animals in modern industries.",
+
+recWebsitesTitle: "Websites",
+recWebsite1: "Support and resources for trying veganism for a month (or longer!).",
+recWebsite2: "Evidence-based information on plant-based nutrition.",
+
+  //Subscriptions
+subscriptionsTitle: "Memberships",
+subscriptionsIntro: "Want to support us long-term and unlock extra rewards? Become a member! You’ll get XP boosts, badges, and special recognition.",
+membershipTiersTitle: "🌟 Membership Tiers",
+
+seedMemberTitle: "Seed Member 🌱",
+seedMemberPrice: "€2 / month",
+seedMemberBenefit1: "+10% XP boost on all activities & badges for donations",
+seedMemberBenefit2: "Seed badge in profile",
+
+sproutMemberTitle: "Sprout Member 🌿",
+sproutMemberPrice: "€5 / month",
+sproutMemberBenefit1: "+25% XP boost",
+sproutMemberBenefit2: "Exclusive badge",
+
+treeMemberTitle: "Tree Member 🌳",
+treeMemberPrice: "€10 / month",
+treeMemberBenefit1: "+50% XP boost",
+treeMemberBenefit2: "Early access to new features",
+
+forestMemberTitle: "Forest Member 🌲",
+forestMemberPrice: "€20 / month",
+forestMemberBenefit1: "+100% XP boost",
+forestMemberBenefit2: "Highlighted spot on leaderboard",
+forestMemberBenefit3: "Special recognition badge",
+
+earthGuardianTitle: "Earth Guardian Member 🌍",
+earthGuardianPrice: "€50 / month",
+earthGuardianBenefit1: "+200% XP boost",
+earthGuardianBenefit2: "VIP badge & profile highlight",
+
+    //Sources
+sourcesContentText: "...Sources content...",
+
+    //Aboutus
+aboutGreeting: "Hi there 👋",
+aboutText:
+  "My name is Gábor — and this app is a small, heart-driven project created by me, guided by the belief that together we can make a difference for animals, people, and the planet. I started this journey to inspire conscious living, compassion, and connection — because I truly believe that even the smallest positive actions can ripple out and create real change. Thank you for being here ✨",
+aboutFollowText: "Follow our journey on ",
+aboutInstagram: "@app.elunify",
+aboutEnding: " 🌱 — together, we’re building something beautiful.",
+
+    //ContactUs
+contactTitle: "Contact Us",
+contactIntro: "We’re here to help! Choose a subject and tell us your message.",
+
+contactSubjectLabel: "Subject:",
+contactSubjectPlaceholder: "-- Select a subject --",
+contactSubjectBug: "Report a bug",
+contactBillingIssue: "Billing issue",
+contactSubjectFeedback: "App feedback",
+contactSubjectFeature: "Feature request",
+contactSubjectCommunity: "Add a new city in communities",
+contactSubjectOther: "Other",
+
+contactMessageLabel: "Message:",
+contactMessagePlaceholder: "Write your message here...",
+
+sendContactMessageBtn: "Send message",
+
+    //SystemSettings
+settingsTitle: "Settings",
+
+languageLabel: "Select language:",
+langOptionEn: "English",
+langOptionEs: "Spanish",
+langOptionHu: "Hungarian",
+
+saveLanguageBtn: "Save language",
+languageInfo: "Changing the language will update your app interface immediately.",
+
+logoutBtn: "Log out",
+deleteProfileBtn: "🗑️ Delete profile",
+
+    //PopUps
+  animalsSentence: "You’ve saved 0 animals so far!",
+  forestSentence: "You’ve saved 0 m² of forest so far!",
+  waterSentence: "You’ve saved 0 liters of water so far!",
+  co2Sentence: "You’ve reduced 0 kg of CO₂ so far!",
+  impactSentence1: "See how far your impact can go:",
+  impactSentence2: "See how far your impact can go:",
+  impactSentence3: "See how far your impact can go:",
+  impactSentence4: "See how far your impact can go:",
+  openCalculatorText1: "Use our impact calculator",
+  openCalculatorText2: "Use our impact calculator",
+  openCalculatorText3: "Use our impact calculator",
+  openCalculatorText4: "Use our impact calculator",
+  ImpactCalcTitle: "Impact Calculator",
+  ImpactCalcYears: "Years:",
+  ImpactCalcMonths: "Months:",
+  calculateImpactBtn: "Calculate Impact",
+  animalsSavedCalc: "Animals saved:",
+  forestSavedCalc: "Forest saved:",
+  waterSavedCalc: "Water saved:",
+  coSavedCalc: "CO₂ reduced:",
+  mealArtPrepTime: "Preparation time:",
+  mealArtIngredient: "Ingredients:",
+  mealArtInstructions: "Instructions:",
+  uploadNewRecipe: "Upload a New Recipe",
+  RecipeTitleuploadform: "Title:",
+  RecipePrepTimeuploadform: "Preparation Time:",
+  RecipeIngredientsuploadform: "Ingredients:",
+  UploadRecipeButton: "Upload Recipe",
+  RecipeModalPrepTime: "Preparation time:",
+  RecipeModalIngredients: "Ingredients:",
+  RecipeModalInstructions: "Instructions:",
+  profileName: "User Name",
+  dietprofilecard: "Diet:",
+  goalsprofilecard: "Goals:",
+  levelprofilecard: "🌍 Level:",
+  streakprofilecard: "🔥 Streak:",
+  ReqProKitchen: "Request Pro Kitchen Access",
+  InfoReqProKitchen: "This category is recommended for professional chefs and restaurants. Tell us a little about yourself!",
+  proKitchenMessage: "Who are you? What do you cook? Where are you based?",
+  sendProKitchenRequest: "Send request",
+  ReqBusinessList: "List Your Business!",
+  ReqBusinessListLabel: "We love supporting our community, and we’d be thrilled to support you by listing your business here! Share a little about your business, and we’ll get in touch with all the details.",
+  localBusinessMessage: "Tell us about your business, location, and what you offer...",
+  sendLocalBusinessRequest: "Send request",
+  mindfulTimerRow: "Time left:",
+  mindfulPopupRewardBtn: "Claim Reward 🏅 +5 Badges, +5 XPs",
+  shopModalConfirm: "Confirm",
+  shopModalCancel: "Cancel",
+  ApplyAsAMentor: "Apply as Mentor",
+  ApplyAsAMentorQuestion: "How long have you been a vegan for?",
+  mentorSubmit: "Submit",
+  mentorCancel: "Cancel",
+  AFnewCommentInput: "Write your comment...",
+  AFsubmitCommentBtn: "Comment",
+  SelectAFriendToStartChat: "Select a friend to message",
+  friendfriendcode: "Enter your friend's code.",
+  sendFriendRequestBtn: "Send Request",
+  YourFriendCode: "Your friend code:",
+  confirmBtn: "Confirm",
+  cancelBtn: "Cancel",
+
+ 
 
   },
   es: {
@@ -430,7 +583,159 @@ friendsTitleLabel: "Amigos:",
   encourageTemplateEnd: "¡Sigue así 🌱",
   
   //Recommendations
+recTitle: "📚 Recomendaciones",
+recBooksTitle: "Libros",
+recBook1: "Cómo no morir – <em>Dr. Michael Greger</em>",
+recBook2: "Refutando todos los argumentos contra el veganismo – <em>Danny Ishay</em>",
+recBook3: "Cómo discutir con un carnívoro y ganar siempre – <em>Ed Winters</em>",
 
+recMoviesTitle: "Películas",
+recMovie1: "Cowspiracy (Netflix, 2014) – Explora el impacto ambiental de la ganadería.",
+recMovie2: "The Game Changers (Netflix, 2018) – Dieta vegetal y rendimiento deportivo.",
+recMovie3: "Earthlings (2005) – Impactante documental sobre el uso de animales.",
+recMovie4: "Dominion (2018) – Investigación sobre el trato a los animales en la industria moderna.",
+
+recWebsitesTitle: "Sitios web",
+recWebsite1: "Apoyo y recursos para probar el veganismo durante un mes (¡o más!).",
+recWebsite2: "Información basada en evidencia sobre nutrición vegetal.",
+
+  //Subscriptions
+subscriptionsTitle: "Membresías",
+subscriptionsIntro: "¿Quieres apoyarnos a largo plazo y desbloquear recompensas extra? ¡Hazte miembro! Obtendrás aumentos de XP, insignias y reconocimiento especial.",
+membershipTiersTitle: "🌟 Niveles de membresía",
+
+seedMemberTitle: "Miembro Semilla 🌱",
+seedMemberPrice: "2 € / mes",
+seedMemberBenefit1: "+10% de XP en todas las actividades y insignias por donaciones",
+seedMemberBenefit2: "Insignia Semilla en tu perfil",
+
+sproutMemberTitle: "Miembro Brote 🌿",
+sproutMemberPrice: "5 € / mes",
+sproutMemberBenefit1: "+25% de XP",
+sproutMemberBenefit2: "Insignia exclusiva",
+
+treeMemberTitle: "Miembro Árbol 🌳",
+treeMemberPrice: "10 € / mes",
+treeMemberBenefit1: "+50% de XP",
+treeMemberBenefit2: "Acceso anticipado a nuevas funciones",
+
+forestMemberTitle: "Miembro Bosque 🌲",
+forestMemberPrice: "20 € / mes",
+forestMemberBenefit1: "+100% de XP",
+forestMemberBenefit2: "Posición destacada en la clasificación",
+forestMemberBenefit3: "Insignia de reconocimiento especial",
+
+earthGuardianTitle: "Guardián de la Tierra 🌍",
+earthGuardianPrice: "50 € / mes",
+earthGuardianBenefit1: "+200% de XP",
+earthGuardianBenefit2: "Insignia VIP y perfil destacado",
+
+    //Sources
+sourcesContentText: "...Contenido de fuentes...",
+
+    //Aboutus
+aboutGreeting: "Hola 👋",
+aboutText:
+  "Me llamo Gábor — y esta app es un pequeño proyecto creado desde el corazón, guiado por la creencia de que juntos podemos marcar una diferencia real para los animales, las personas y el planeta. Empecé este camino para inspirar una vida más consciente, compasiva y conectada — porque creo de verdad que incluso las acciones positivas más pequeñas pueden generar un cambio real. Gracias por estar aquí ✨",
+aboutFollowText: "Sigue nuestro camino en ",
+aboutInstagram: "@app.elunify",
+aboutEnding: " 🌱 — juntos estamos construyendo algo hermoso.",
+
+    //ContactUs
+contactTitle: "Contacto",
+contactIntro: "¡Estamos aquí para ayudarte! Elige un tema y cuéntanos tu mensaje.",
+
+contactSubjectLabel: "Asunto:",
+contactSubjectPlaceholder: "-- Selecciona un asunto --",
+contactSubjectBug: "Reportar un error",
+contactBillingIssue: "Problema de facturación",
+contactSubjectFeedback: "Comentarios sobre la app",
+contactSubjectFeature: "Solicitud de nueva función",
+contactSubjectCommunity: "Añadir una nueva ciudad a las comunidades",
+contactSubjectOther: "Otro",
+
+contactMessageLabel: "Mensaje:",
+contactMessagePlaceholder: "Escribe tu mensaje aquí...",
+
+sendContactMessageBtn: "Enviar mensaje",
+
+    //SystemSettings
+settingsTitle: "Configuración",
+
+languageLabel: "Seleccionar idioma:",
+langOptionEn: "Inglés",
+langOptionEs: "Español",
+langOptionHu: "Húngaro",
+
+saveLanguageBtn: "Guardar idioma",
+languageInfo: "Cambiar el idioma actualizará la interfaz de la app de inmediato.",
+
+logoutBtn: "Cerrar sesión",
+deleteProfileBtn: "🗑️ Eliminar perfil",
+
+    //PopUps
+animalsSentence: "¡Has salvado 0 animales hasta ahora!",
+  forestSentence: "¡Has salvado 0 m² de bosque hasta ahora!",
+  waterSentence: "¡Has salvado 0 litros de agua hasta ahora!",
+  co2Sentence: "¡Has reducido 0 kg de CO₂ hasta ahora!",
+  impactSentence1: "Ve hasta dónde puede llegar tu impacto:",
+  impactSentence2: "Ve hasta dónde puede llegar tu impacto:",
+  impactSentence3: "Ve hasta dónde puede llegar tu impacto:",
+  impactSentence4: "Ve hasta dónde puede llegar tu impacto:",
+  openCalculatorText1: "Usa nuestro calculador de impacto",
+  openCalculatorText2: "Usa nuestro calculador de impacto",
+  openCalculatorText3: "Usa nuestro calculador de impacto",
+  openCalculatorText4: "Usa nuestro calculador de impacto",
+  ImpactCalcTitle: "Calculador de Impacto",
+  ImpactCalcYears: "Años:",
+  ImpactCalcMonths: "Meses:",
+  calculateImpactBtn: "Calcular impacto",
+  animalsSavedCalc: "Animales salvados:",
+  forestSavedCalc: "Bosque salvado:",
+  waterSavedCalc: "Agua salvada:",
+  coSavedCalc: "CO₂ reducido:",
+  mealArtPrepTime: "Tiempo de preparación:",
+  mealArtIngredient: "Ingredientes:",
+  mealArtInstructions: "Instrucciones:",
+  uploadNewRecipe: "Subir una nueva receta",
+  RecipeTitleuploadform: "Título:",
+  RecipePrepTimeuploadform: "Tiempo de preparación:",
+  RecipeIngredientsuploadform: "Ingredientes:",
+  UploadRecipeButton: "Subir receta",
+  RecipeModalPrepTime: "Tiempo de preparación:",
+  RecipeModalIngredients: "Ingredientes:",
+  RecipeModalInstructions: "Instrucciones:",
+  profileName: "Nombre de usuario",
+  dietprofilecard: "Dieta:",
+  goalsprofilecard: "Objetivos:",
+  levelprofilecard: "🌍 Nivel:",
+  streakprofilecard: "🔥 Racha:",
+  ReqProKitchen: "Solicitar acceso a cocina profesional",
+  InfoReqProKitchen: "Esta categoría está recomendada para chefs profesionales y restaurantes. ¡Cuéntanos un poco sobre ti!",
+  proKitchenMessage: "¿Quién eres? ¿Qué cocinas? ¿Dónde estás?",
+  sendProKitchenRequest: "Enviar solicitud",
+  ReqBusinessList: "¡Lista tu negocio!",
+  ReqBusinessListLabel: "Nos encanta apoyar a nuestra comunidad y nos encantaría ayudarte listando tu negocio aquí. Cuéntanos sobre tu negocio y nos pondremos en contacto.",
+  localBusinessMessage: "Cuéntanos sobre tu negocio, ubicación y lo que ofreces...",
+  sendLocalBusinessRequest: "Enviar solicitud",
+  mindfulTimerRow: "Tiempo restante:",
+  mindfulPopupRewardBtn: "Reclamar recompensa 🏅 +5 Insignias, +5 XP",
+  shopModalConfirm: "Confirmar",
+  shopModalCancel: "Cancelar",
+  ApplyAsAMentor: "Postularse como mentor",
+  ApplyAsAMentorQuestion: "¿Cuánto tiempo llevas siendo vegano?",
+  mentorSubmit: "Enviar",
+  mentorCancel: "Cancelar",
+  AFnewCommentInput: "Escribe tu comentario...",
+  AFsubmitCommentBtn: "Comentar",
+  SelectAFriendToStartChat: "Selecciona un amigo para enviar un mensaje",
+  friendfriendcode: "Ingresa el código de tu amigo.",
+  sendFriendRequestBtn: "Enviar solicitud",
+  YourFriendCode: "Tu código de amigo:",
+  confirmBtn: "Confirmar",
+  cancelBtn: "Cancelar",
+
+  
 
   },
   hu: {
@@ -646,8 +951,159 @@ friendsTitleLabel: "Barátok:",
   encourageTemplateEnd: "Hajrá 🌱",
 
   //Recommendations
+recTitle: "📚 Ajánlások",
+recBooksTitle: "Könyvek",
+recBook1: "Hogyan ne halj meg – <em>Dr. Michael Greger</em>",
+recBook2: "A veganizmus elleni érvek cáfolata – <em>Danny Ishay</em>",
+recBook3: "Hogyan vitázz egy húsevővel és mindig nyerj – <em>Ed Winters</em>",
 
+recMoviesTitle: "Filmek",
+recMovie1: "Cowspiracy (Netflix, 2014) – Az állattenyésztés környezeti hatásait vizsgálja.",
+recMovie2: "The Game Changers (Netflix, 2018) – A növényi étrend hatása a sportteljesítményre.",
+recMovie3: "Earthlings (2005) – Megrázó dokumentumfilm az állatok emberi felhasználásáról.",
+recMovie4: "Dominion (2018) – Az állatok modern iparágakban való kezelését mutatja be.",
 
+recWebsitesTitle: "Weboldalak",
+recWebsite1: "Támogatás és források a veganizmus kipróbálásához egy hónapra (vagy tovább!).",
+recWebsite2: "Tudományosan megalapozott információk a növényi alapú táplálkozásról.",
+
+  //Subscriptions
+subscriptionsTitle: "Tagságok",
+subscriptionsIntro: "Szeretnél hosszú távon támogatni minket és extra jutalmakat feloldani? Legyél tag! XP bónuszokat, jelvényeket és különleges elismerést kapsz.",
+membershipTiersTitle: "🌟 Tagsági szintek",
+
+seedMemberTitle: "Mag Tag 🌱",
+seedMemberPrice: "2 € / hónap",
+seedMemberBenefit1: "+10% XP bónusz minden tevékenységre és jelvények adományozásért",
+seedMemberBenefit2: "Mag jelvény a profilodon",
+
+sproutMemberTitle: "Hajtás Tag 🌿",
+sproutMemberPrice: "5 € / hónap",
+sproutMemberBenefit1: "+25% XP bónusz",
+sproutMemberBenefit2: "Exkluzív jelvény",
+
+treeMemberTitle: "Fa Tag 🌳",
+treeMemberPrice: "10 € / hónap",
+treeMemberBenefit1: "+50% XP bónusz",
+treeMemberBenefit2: "Korai hozzáférés az új funkciókhoz",
+
+forestMemberTitle: "Erdő Tag 🌲",
+forestMemberPrice: "20 € / hónap",
+forestMemberBenefit1: "+100% XP bónusz",
+forestMemberBenefit2: "Kiemelt hely a ranglistán",
+forestMemberBenefit3: "Különleges elismerő jelvény",
+
+earthGuardianTitle: "Föld Védelmező 🌍",
+earthGuardianPrice: "50 € / hónap",
+earthGuardianBenefit1: "+200% XP bónusz",
+earthGuardianBenefit2: "VIP jelvény és kiemelt profil",
+
+    //Sources
+sourcesContentText: "...Források tartalma...",
+
+    //Aboutus
+aboutGreeting: "Szia 👋",
+aboutText:
+  "A nevem Gábor — és ez az alkalmazás egy kis, szívből jövő projekt, amit az a hit vezérel, hogy együtt valódi változást érhetünk el az állatokért, az emberekért és a bolygóért. Azért indultam el ezen az úton, hogy tudatosabb életmódra, együttérzésre és kapcsolódásra inspiráljak — mert őszintén hiszem, hogy még a legkisebb pozitív lépések is valódi hatást teremthetnek. Köszönöm, hogy itt vagy ✨",
+aboutFollowText: "Kövesd az utunkat itt: ",
+aboutInstagram: "@app.elunify",
+aboutEnding: " 🌱 — együtt valami igazán szépet építünk.",
+
+    //ContactUs
+contactTitle: "Kapcsolat",
+contactIntro: "Szívesen segítünk! Válassz egy témát, és írd meg az üzeneted.",
+
+contactSubjectLabel: "Tárgy:",
+contactSubjectPlaceholder: "-- Válassz egy témát --",
+contactSubjectBug: "Hiba jelentése",
+contactBillingIssue: "Számlázási probléma",
+contactSubjectFeedback: "Visszajelzés az alkalmazásról",
+contactSubjectFeature: "Új funkció javaslata",
+contactSubjectCommunity: "Új város hozzáadása a közösségekhez",
+contactSubjectOther: "Egyéb",
+
+contactMessageLabel: "Üzenet:",
+contactMessagePlaceholder: "Ide írd az üzeneted...",
+
+sendContactMessageBtn: "Üzenet küldése",
+
+    //SystemSettings
+settingsTitle: "Beállítások",
+
+languageLabel: "Nyelv kiválasztása:",
+langOptionEn: "Angol",
+langOptionEs: "Spanyol",
+langOptionHu: "Magyar",
+
+saveLanguageBtn: "Nyelv mentése",
+languageInfo: "A nyelv megváltoztatása azonnal frissíti az alkalmazás felületét.",
+
+logoutBtn: "Kijelentkezés",
+deleteProfileBtn: "🗑️ Profil törlése",
+
+    //PopUps
+  animalsSentence: "Eddig 0 állatot mentettél meg!",
+  forestSentence: "Eddig 0 m² erdőt mentettél meg!",
+  waterSentence: "Eddig 0 liter vizet takarítottál meg!",
+  co2Sentence: "Eddig 0 kg CO₂-t csökkentettél!",
+  impactSentence1: "Nézd meg, milyen messzire hat az aktivitásod:",
+  impactSentence2: "Nézd meg, milyen messzire hat az aktivitásod:",
+  impactSentence3: "Nézd meg, milyen messzire hat az aktivitásod:",
+  impactSentence4: "Nézd meg, milyen messzire hat az aktivitásod:",
+  openCalculatorText1: "Használd a hatás kalkulátort",
+  openCalculatorText2: "Használd a hatás kalkulátort",
+  openCalculatorText3: "Használd a hatás kalkulátort",
+  openCalculatorText4: "Használd a hatás kalkulátort",
+  ImpactCalcTitle: "Hatás Kalkulátor",
+  ImpactCalcYears: "Évek:",
+  ImpactCalcMonths: "Hónapok:",
+  calculateImpactBtn: "Számítsd ki",
+  animalsSavedCalc: "Megmentett állatok:",
+  forestSavedCalc: "Megmentett erdő:",
+  waterSavedCalc: "Megmentett víz:",
+  coSavedCalc: "Csökkentett CO₂:",
+  mealArtPrepTime: "Elkészítési idő:",
+  mealArtIngredient: "Hozzávalók:",
+  mealArtInstructions: "Elkészítés:",
+  uploadNewRecipe: "Új recept feltöltése",
+  RecipeTitleuploadform: "Cím:",
+  RecipePrepTimeuploadform: "Elkészítési idő:",
+  RecipeIngredientsuploadform: "Hozzávalók:",
+  UploadRecipeButton: "Recept feltöltése",
+  RecipeModalPrepTime: "Elkészítési idő:",
+  RecipeModalIngredients: "Hozzávalók:",
+  RecipeModalInstructions: "Elkészítés:",
+  profileName: "Felhasználó neve",
+  dietprofilecard: "Diéta:",
+  goalsprofilecard: "Célok:",
+  levelprofilecard: "🌍 Szint:",
+  streakprofilecard: "🔥 Sorozat:",
+  ReqProKitchen: "Pro konyha hozzáférés kérése",
+  InfoReqProKitchen: "Ez a kategória profi szakácsoknak és éttermeknek ajánlott. Mesélj kicsit magadról!",
+  proKitchenMessage: "Ki vagy? Mit főzöl? Hol vagy?",
+  sendProKitchenRequest: "Küldés",
+  ReqBusinessList: "Listázd a vállalkozásod!",
+  ReqBusinessListLabel: "Szeretjük támogatni a közösséget, és örömmel segítünk, hogy listázzuk a vállalkozásod! Mesélj kicsit róla, és felvesszük a kapcsolatot.",
+  localBusinessMessage: "Meséld el a vállalkozásod, helyed és kínálatod...",
+  sendLocalBusinessRequest: "Küldés",
+  mindfulTimerRow: "Hátralévő idő:",
+  mindfulPopupRewardBtn: "Jutalom igénylése 🏅 +5 jelvény, +5 XP",
+  shopModalConfirm: "Megerősítés",
+  shopModalCancel: "Mégse",
+  ApplyAsAMentor: "Jelentkezés mentorálásra",
+  ApplyAsAMentorQuestion: "Mióta vagy vegán?",
+  mentorSubmit: "Küldés",
+  mentorCancel: "Mégse",
+  AFnewCommentInput: "Írd meg a kommentet...",
+  AFsubmitCommentBtn: "Komment",
+  SelectAFriendToStartChat: "Válassz egy barátot az üzenethez",
+  friendfriendcode: "Írd be a barátod kódját.",
+  sendFriendRequestBtn: "Küldés",
+  YourFriendCode: "A te barátkódod:",
+  confirmBtn: "Megerősítés",
+  cancelBtn: "Mégse",
+
+  
   }
 };
 
@@ -684,8 +1140,6 @@ async function updateLanguageUI(lang) {
   document.getElementById("mealArtTitle").innerText = t.mealArtTitle;
   document.getElementById("homeChefTitle").innerText = t.homeChefTitle;
   document.getElementById("proKitchenTitle").innerText = t.proKitchenTitle;
-  document.querySelector("#amateurRecipe .recipe").innerText = t.recipeAvailable;
-  document.querySelector("#professionalRecipe .no-recipe").innerText = t.recipeUnavailable;
 
   // Pet
   document.getElementById("petSays").innerText = t.petSays;
@@ -910,7 +1364,185 @@ document.getElementById("encourageTemplateStart").innerText = t.encourageTemplat
 document.getElementById("encourageTemplateEnd").innerText = t.encourageTemplateEnd;
 
   //Recommendations
+// Recommendations
+document.getElementById("rec-title").innerText = t.recTitle;
 
+document.getElementById("rec-books-title").innerText = t.recBooksTitle;
+document.getElementById("rec-book-1").innerHTML = t.recBook1;
+document.getElementById("rec-book-2").innerHTML = t.recBook2;
+document.getElementById("rec-book-3").innerHTML = t.recBook3;
+
+document.getElementById("rec-movies-title").innerText = t.recMoviesTitle;
+document.getElementById("rec-movie-1").innerText = t.recMovie1;
+document.getElementById("rec-movie-2").innerText = t.recMovie2;
+document.getElementById("rec-movie-3").innerText = t.recMovie3;
+document.getElementById("rec-movie-4").innerText = t.recMovie4;
+
+document.getElementById("rec-websites-title").innerText = t.recWebsitesTitle;
+document.getElementById("rec-website-1").innerText = t.recWebsite1;
+document.getElementById("rec-website-2").innerText = t.recWebsite2;
+
+  //Subscriptions
+// Subscriptions
+document.getElementById("subscriptionsTitle").innerText = t.subscriptionsTitle;
+document.getElementById("subscriptionsIntro").innerText = t.subscriptionsIntro;
+document.getElementById("membershipTiersTitle").innerText = t.membershipTiersTitle;
+
+document.getElementById("seedMemberTitle").innerText = t.seedMemberTitle;
+document.getElementById("seedMemberPrice").innerText = t.seedMemberPrice;
+document.getElementById("seedMemberBenefit1").innerText = t.seedMemberBenefit1;
+document.getElementById("seedMemberBenefit2").innerText = t.seedMemberBenefit2;
+
+document.getElementById("sproutMemberTitle").innerText = t.sproutMemberTitle;
+document.getElementById("sproutMemberPrice").innerText = t.sproutMemberPrice;
+document.getElementById("sproutMemberBenefit1").innerText = t.sproutMemberBenefit1;
+document.getElementById("sproutMemberBenefit2").innerText = t.sproutMemberBenefit2;
+
+document.getElementById("treeMemberTitle").innerText = t.treeMemberTitle;
+document.getElementById("treeMemberPrice").innerText = t.treeMemberPrice;
+document.getElementById("treeMemberBenefit1").innerText = t.treeMemberBenefit1;
+document.getElementById("treeMemberBenefit2").innerText = t.treeMemberBenefit2;
+
+document.getElementById("forestMemberTitle").innerText = t.forestMemberTitle;
+document.getElementById("forestMemberPrice").innerText = t.forestMemberPrice;
+document.getElementById("forestMemberBenefit1").innerText = t.forestMemberBenefit1;
+document.getElementById("forestMemberBenefit2").innerText = t.forestMemberBenefit2;
+document.getElementById("forestMemberBenefit3").innerText = t.forestMemberBenefit3;
+
+document.getElementById("earthGuardianTitle").innerText = t.earthGuardianTitle;
+document.getElementById("earthGuardianPrice").innerText = t.earthGuardianPrice;
+document.getElementById("earthGuardianBenefit1").innerText = t.earthGuardianBenefit1;
+document.getElementById("earthGuardianBenefit2").innerText = t.earthGuardianBenefit2;
+
+// Sources
+document.getElementById("sourcesContentText").innerText = t.sourcesContentText;
+
+// About Us
+document.getElementById("aboutGreeting").innerText = t.aboutGreeting;
+document.getElementById("aboutText").innerText = t.aboutText;
+document.getElementById("aboutFollowText").innerText = t.aboutFollowText;
+document.getElementById("aboutInstagram").innerText = t.aboutInstagram;
+document.getElementById("aboutEnding").innerText = t.aboutEnding;
+
+// Contact Us
+document.getElementById("contactTitle").innerText = t.contactTitle;
+document.getElementById("contactIntro").innerText = t.contactIntro;
+
+document.getElementById("contactSubjectLabel").innerText = t.contactSubjectLabel;
+document.getElementById("contactSubjectPlaceholder").innerText = t.contactSubjectPlaceholder;
+document.getElementById("contactSubjectBug").innerText = t.contactSubjectBug;
+document.getElementById("contactBillingIssue").innerText = t.contactBillingIssue;
+document.getElementById("contactSubjectFeedback").innerText = t.contactSubjectFeedback;
+document.getElementById("contactSubjectFeature").innerText = t.contactSubjectFeature;
+document.getElementById("contactSubjectCommunity").innerText = t.contactSubjectCommunity;
+document.getElementById("contactSubjectOther").innerText = t.contactSubjectOther;
+
+document.getElementById("contactMessageLabel").innerText = t.contactMessageLabel;
+document.getElementById("contactMessage").placeholder = t.contactMessagePlaceholder;
+
+document.getElementById("sendContactMessage").innerText = t.sendContactMessageBtn;
+
+// Settings
+document.getElementById("settingsTitle").innerText = t.settingsTitle;
+document.getElementById("languageLabel").innerText = t.languageLabel;
+
+document.getElementById("langOptionEn").innerText = t.langOptionEn;
+document.getElementById("langOptionEs").innerText = t.langOptionEs;
+document.getElementById("langOptionHu").innerText = t.langOptionHu;
+
+document.getElementById("saveLanguageBtn").innerText = t.saveLanguageBtn;
+document.getElementById("languageInfo").innerText = t.languageInfo;
+
+document.getElementById("logoutBtn").innerText = t.logoutBtn;
+document.getElementById("deleteProfileBtn").innerText = t.deleteProfileBtn;
+
+//PopUps
+
+  // Popups Animals / Forest / Water / CO2
+  ["animalsSentence","forestSentence","waterSentence","co2Sentence"].forEach(id => {
+    document.getElementById(id).innerText = t[id];
+  });
+  ["impactSentence1","impactSentence2","impactSentence3","impactSentence4"].forEach(id => {
+    document.getElementById(id).innerText = t[id];
+  });
+  ["openCalculatorText1","openCalculatorText2","openCalculatorText3","openCalculatorText4"].forEach(id => {
+    document.getElementById(id).innerText = t[id];
+  });
+
+  // Impact Calculator
+  document.getElementById("ImpactCalcTitle").innerText = t.ImpactCalcTitle;
+  document.getElementById("ImpactCalcYears").childNodes[0].textContent = t.ImpactCalcYears + " ";
+  document.getElementById("ImpactCalcMonths").childNodes[0].textContent = t.ImpactCalcMonths + " ";
+  document.getElementById("calculateImpactBtn").innerText = t.calculateImpactBtn;
+  document.getElementById("animalsSavedCalc").innerText = t.animalsSavedCalc;
+  document.getElementById("forestSavedCalc").innerText = t.forestSavedCalc;
+  document.getElementById("waterSavedCalc").innerText = t.waterSavedCalc;
+  document.getElementById("coSavedCalc").innerText = t.coSavedCalc;
+
+  // Meal Art
+  document.getElementById("mealArtModalPrepTime").innerText = t.mealArtPrepTime;
+  document.getElementById("mealArtIngredient").innerText = t.mealArtIngredient;
+  document.getElementById("mealArtInstructions").innerText = t.mealArtInstructions;
+
+  // Upload Recipe
+  document.getElementById("uploadNewRecipe").innerText = t.uploadNewRecipe;
+  document.getElementById("RecipeTitleuploadform").innerText = t.RecipeTitleuploadform;
+  document.getElementById("RecipePrepTimeuploadform").innerText = t.RecipePrepTimeuploadform;
+  document.getElementById("RecipeIngredientsuploadform").innerText = t.RecipeIngredientsuploadform;
+  document.getElementById("UploadRecipeButton").innerText = t.UploadRecipeButton;
+
+  // Recipe Modal
+  document.getElementById("RecipeModalPrepTime").innerText = t.RecipeModalPrepTime;
+  document.getElementById("RecipeModalIngredients").innerText = t.RecipeModalIngredients;
+  document.getElementById("RecipeModalInstructions").innerText = t.RecipeModalInstructions;
+
+  // Profile Card
+  document.querySelector(".profile-name").innerText = t.profileName;
+  document.querySelector(".dietprofilecard").innerText = t.dietprofilecard;
+  document.querySelector(".goalsprofilecard").innerText = t.goalsprofilecard;
+  document.querySelector(".levelprofilecard").innerText = t.levelprofilecard;
+  document.querySelector(".streakprofilecard").innerText = t.streakprofilecard;
+
+  // Pro Kitchen
+  document.getElementById("ReqProKitchen").innerText = t.ReqProKitchen;
+  document.getElementById("InfoReqProKitchen").innerText = t.InfoReqProKitchen;
+  document.getElementById("proKitchenMessage").placeholder = t.proKitchenMessage;
+  document.getElementById("sendProKitchenRequest").innerText = t.sendProKitchenRequest;
+
+  // Local Business
+  document.getElementById("ReqBusinessList").innerText = t.ReqBusinessList;
+  document.getElementById("ReqBusinessListLabel").innerText = t.ReqBusinessListLabel;
+  document.getElementById("localBusinessMessage").placeholder = t.localBusinessMessage;
+  document.getElementById("sendLocalBusinessRequest").innerText = t.sendLocalBusinessRequest;
+
+  // Mindful Popup
+  document.getElementById("mindfulTimerRow").childNodes[0].textContent = t.mindfulTimerRow + " ";
+  document.getElementById("mindfulPopupRewardBtn").innerText = t.mindfulPopupRewardBtn;
+
+  // Shop Modal
+  document.getElementById("shopModalConfirm").innerText = t.shopModalConfirm;
+  document.getElementById("shopModalCancel").innerText = t.shopModalCancel;
+
+  // Mentor Popup
+  document.getElementById("ApplyAsAMentor").innerText = t.ApplyAsAMentor;
+  document.getElementById("ApplyAsAMentorQuestion").innerText = t.ApplyAsAMentorQuestion;
+  document.getElementById("mentor-years").placeholder = t.ApplyAsAMentorQuestion;
+  document.getElementById("mentor-submit").innerText = t.mentorSubmit;
+  document.getElementById("mentor-cancel").innerText = t.mentorCancel;
+
+  // Anonymous Forum
+  document.getElementById("AFnewCommentInput").placeholder = t.AFnewCommentInput;
+  document.getElementById("AFsubmitCommentBtn").innerText = t.AFsubmitCommentBtn;
+
+  // Chat / Friend
+  document.getElementById("SelectAFriendToStartChat").innerText = t.SelectAFriendToStartChat;
+  document.getElementById("friendfriendcode").placeholder = t.friendfriendcode;
+  document.getElementById("sendFriendRequestBtn").innerText = t.sendFriendRequestBtn;
+  document.getElementById("YourFriendCode").innerText = t.YourFriendCode;
+
+  // Confirmation Popup
+  document.getElementById("confirmBtn").innerText = t.confirmBtn;
+  document.getElementById("cancelBtn").innerText = t.cancelBtn;
 
 }
 
@@ -4867,7 +5499,7 @@ if (Array.isArray(data.goals)) {
 } else if (data.goals) {
   goalsContainer.innerHTML += `• ${data.goals}`;
 }
-  popup.querySelector(".levelprofilecard").textContent = `🌍 Level: ${data.level}`;
+  popup.querySelector(".levelprofilecard").textContent = `🌍 ${data.level}`;
   popup.querySelector(".streakprofilecard").textContent = `🔥 ${data.streak}`;
 
   const achievementsList = popup.querySelector(".achievements-list");
