@@ -192,7 +192,11 @@ document.getElementById("uploadBtn")?.addEventListener('click', openMealArtUploa
 
 // ----- Daily Check-in / Learn Path -----
 const checkinBtn = document.getElementById('checkinBtn');
-checkinBtn?.addEventListener('click', () => {
+checkinBtn?.addEventListener('click', async () => {
+  const canProceed = await checkAndHandleStreak();
+
+  if (!canProceed) return; // Stop here if streak not saved / user cancelled
+
   initDailyCheckin();
   showSection('learn');
   document.getElementById('dailycheck-in')?.classList.remove('hidden');

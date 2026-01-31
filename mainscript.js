@@ -1582,6 +1582,49 @@ const healthIssuesSection = document.getElementById("q2b");
 let messageSubscription = null;
 
 //--------------------------
+// Translations for UI strings
+//--------------------------
+const initTranslations = {
+  en: {
+    startStreak: "Start your streak today!",
+    streakActive: "Streak active!",
+    checkInToday: "Check in today to keep your streak!",
+    missedStreak: ({ badgeCost }) =>
+      `You missed your streak! You can save it after check-in by spending ${badgeCost} badges - make sure you have them!`,
+    maxLevel: "Max level reached",
+    recipe: "Recipe",
+    noRecipe: "No recipe"
+  },
+  es: {
+    startStreak: "¡Comienza tu racha hoy!",
+    streakActive: "¡Racha activa!",
+    checkInToday: "¡Regístrate hoy para mantener tu racha!",
+    missedStreak: ({ badgeCost }) =>
+      `¡Perdiste tu racha! Puedes salvarla después de registrarte gastando ${badgeCost} insignias. ¡Asegúrate de tenerlas!`,
+    maxLevel: "Nivel máximo alcanzado",
+    recipe: "Receta",
+    noRecipe: "Sin receta"
+  },
+  hu: {
+    startStreak: "Kezdd el a sorozatot ma!",
+    streakActive: "Sorozat aktív!",
+    checkInToday: "Jelentkezz ma a sorozat fenntartásához!",
+    missedStreak: ({ badgeCost }) =>
+      `Kihagytad a sorozatot! Ellenőrzés után megmentheted a sorozatot ${badgeCost} jelvény felhasználásával – győződj meg róla, hogy van elég!`,
+    maxLevel: "Elérted a maximális szintet",
+    recipe: "Recept",
+    noRecipe: "Nincs recept"
+  }
+};
+
+// Helper function to get translation
+function initT(key, variables = {}) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
+  const translation = initTranslations[lang]?.[key] || initTranslations.en[key] || key;
+  return typeof translation === "function" ? translation(variables) : translation;
+}
+
+//--------------------------
 // FETCH DATA
 //--------------------------
 async function fetchAllData() {
@@ -1782,22 +1825,25 @@ const yesterdayStr = getUTCDateString(yesterdayUTC);
 if (!profile.last_checkin_date) {
   // Never checked in yet
   streakFire.classList.add("inactive");
-  streakFire.setAttribute("title", "Start your streak today!");
+  streakFire.setAttribute("title", initT("startStreak"));
 } else if (profile.last_checkin_date === todayStr) {
   // Checked in today
   streakFire.classList.remove("inactive");
   streakFire.textContent = "🔥"; // normal fire emoji
-  streakFire.setAttribute("title", "Streak active!");
+  streakFire.setAttribute("title", initT("streakActive"));
 } else if (profile.last_checkin_date === yesterdayStr) {
   // Checked in yesterday but not today
   streakFire.classList.add("inactive");
   streakFire.textContent = "🔥"; 
-  streakFire.setAttribute("title", "Check in today to keep your streak!");
+  streakFire.setAttribute("title", initT("checkInToday"));
 } else if (profile.last_checkin_date < yesterdayStr) {
   // Missed one or more days
   streakFire.classList.add("inactive");
   streakFire.textContent = "⚠️🔥"; // warning + fire
-  streakFire.setAttribute("title", "You missed your streak! It will reset if you don't check in today.");
+  
+  // ✅ Calculate badgeCost dynamically
+  const badgeCost = calculateBadgeCost(profile, todayStr);
+  streakFire.setAttribute("title", initT("missedStreak", { badgeCost }));
 }
 
 if (checkinBtn && lessonPathBtn && dailyCheckInSection && lessonPathSection) {
@@ -1837,7 +1883,7 @@ const xpRemaining = xpNeededForNextLevel - xpTowardsNextLevel;
 const xpToNextEl = document.getElementById("xpRemaining");
 if (xpToNextEl) {
   if (level >= 100) {
-    xpToNextEl.textContent = "Max level reached";
+    xpToNextEl.textContent =  initT("maxLevel");
   } else {
     xpToNextEl.textContent = `${xpRemaining}`;
   }
@@ -1898,7 +1944,7 @@ function loadWinnersFromData() {
       const a = document.createElement("a");
       a.href = "#";
       a.className = "recipe";
-      a.textContent = "Recipe";
+      a.textContent =  initT("recipe");
       a.addEventListener("click", e => {
         e.preventDefault();
         showRecipeModal(amateurWinner);
@@ -1906,7 +1952,7 @@ function loadWinnersFromData() {
       amateurRecipeDiv.innerHTML = "";
       amateurRecipeDiv.appendChild(a);
     } else {
-      amateurRecipeDiv.innerHTML = `<span class="no-recipe">No recipe</span>`;
+      amateurRecipeDiv.innerHTML = `<span class="no-recipe">${initT("noRecipe")}</span>`;
     }
   }
 
@@ -1922,7 +1968,7 @@ function loadWinnersFromData() {
       const a = document.createElement("a");
       a.href = "#";
       a.className = "recipe";
-      a.textContent = "Recipe";
+      a.textContent = initT("recipe");
       a.addEventListener("click", e => {
         e.preventDefault();
         showRecipeModal(proWinner);
@@ -1930,16 +1976,158 @@ function loadWinnersFromData() {
       proRecipeDiv.innerHTML = "";
       proRecipeDiv.appendChild(a);
     } else {
-      proRecipeDiv.innerHTML = `<span class="no-recipe">No recipe</span>`;
+      proRecipeDiv.innerHTML = `<span class="no-recipe">${initT("noRecipe")}</span>`;
     }
   }
 }
 //#endregion
 
 //#region HELPERS
+
+function calculateBadgeCost(profile, todayStr) {
+  if (!profile?.last_checkin_date) return 0; // no last check-in, no cost
+
+  const lastDate = new Date(profile.last_checkin_date);
+  const today = new Date(todayStr);
+
+  const diffTime = today.getTime() - lastDate.getTime();
+  const skippedDays = Math.max(Math.floor(diffTime / (1000 * 60 * 60 * 24)) - 1, 0);
+
+  return skippedDays * 10; // each skipped day costs 10 badges
+}
+
+//--------------------------
+// Translation pool for HELPERS region
+//--------------------------
+const helperTranslations = {
+  en: {
+    toNextLevel: "to next level",
+    errorUpdatingXP: "Error updating XP:",
+    errorFetchingBlockedUsers: "Error fetching blocked users:",
+    confirmSaveStreak: ({ badgeCost }) =>
+      `Do you want to save your streak for ${badgeCost} badges?`,
+    streakWillReset: "Your streak will reset.",
+    streakSavedWithBadges: "Streak saved!",
+    notEnoughBadges: ({ badgeCost, missing }) =>
+      `You can save your streak by collecting ${missing} more badges and spending ${badgeCost} before your check-in.`,
+    confirmLoseStreak: "Press OK to lose your streak now and proceed with today's check-in, or Cancel to collect badges first.",
+    errorUpdatingBadges: "Error updating badges:"
+  },
+  es: {
+    toNextLevel: "para el siguiente nivel",
+    errorUpdatingXP: "Error al actualizar XP:",
+    errorFetchingBlockedUsers: "Error al obtener usuarios bloqueados:",
+    confirmSaveStreak: ({ badgeCost }) =>
+      `¿Quieres guardar tu racha gastando ${badgeCost} insignias?`,
+    streakWillReset: "Tu racha se reiniciará.",
+    streakSavedWithBadges: "¡Racha guardada!",
+    notEnoughBadges: ({ badgeCost, missing }) =>
+      `Puedes salvar tu racha recolectando ${missing} insignias más y gastando ${badgeCost} antes de registrarte.`,
+    confirmLoseStreak: "Presiona OK para perder tu racha ahora y continuar con el registro de hoy, o Cancelar para recolectar primero las insignias.",
+    errorUpdatingBadges: "Error al actualizar las insignias:"
+  },
+  hu: {
+    toNextLevel: "a következő szinthez",
+    errorUpdatingXP: "Hiba az XP frissítésekor:",
+    errorFetchingBlockedUsers: "Hiba a blokkolt felhasználók lekérésekor:",
+    confirmSaveStreak: ({ badgeCost }) =>
+      `Szeretnéd megmenteni a sorozatodat ${badgeCost} jelvényért cserébe?`,
+    streakWillReset: "A sorozatod újraindul.",
+    streakSavedWithBadges: "A sorozat megmentve!",
+    notEnoughBadges: ({ badgeCost, missing }) =>
+      `A sorozatod megmentéséhez gyűjts ${missing} jelvényt, majd használd fel a ${badgeCost}-at a bejelentkezés előtt.`,
+    confirmLoseStreak: "Nyomj OK-t, ha most elveszíted a sorozatod és folytatod a mai bejelentkezést, vagy Mégse, ha előbb jelvényeket szeretnél gyűjteni.",
+    errorUpdatingBadges: "Hiba a jelvények frissítésekor:"
+  }
+};
+
+//--------------------------
+// Helper function for HELPERS translations
+//--------------------------
+function helperT(key, variables = {}) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
+  const translation = helperTranslations[lang]?.[key] || helperTranslations.en[key] || key;
+  return typeof translation === "function" ? translation(variables) : translation;
+}
+
 //--------------------------
 // HELPERS
 //--------------------------
+window.checkAndHandleStreak = async function() {
+  const user = currentUser;
+  const profile = currentProfile;
+
+  if (!user || !profile) return true; // fallback
+
+  const todayStr = getUTCDateString(new Date());
+  const yesterdayUTC = new Date();
+  yesterdayUTC.setUTCDate(yesterdayUTC.getUTCDate() - 1);
+  const yesterdayStr = getUTCDateString(yesterdayUTC);
+
+  const badgeCost = calculateBadgeCost(profile, todayStr);
+
+  // ✅ Streak not lost, just return
+  if (badgeCost === 0) return true;
+
+  const userBadges = profile.badge ?? 0;
+
+  // --- Streak lost ---
+  if ((userBadges || 0) >= badgeCost) {
+    // User has enough badges to save
+    const save = confirm(helperT("confirmSaveStreak", { badgeCost }));
+    if (save) {
+      // Spend badges and update last_checkin_date to yesterday
+      await supabase
+        .from("profiles")
+        .update({ badge: userBadges - badgeCost, last_checkin_date: yesterdayStr })
+        .eq("id", user.id);
+
+      profile.badge -= badgeCost;
+      profile.last_checkin_date = yesterdayStr;
+
+      alert(helperT("streakSavedWithBadges"));
+      return true;
+    } else {
+      // User chose to reset streak
+      profile.streak = 0;
+      profile.last_checkin_date = yesterdayStr;
+
+      await supabase
+        .from("profiles")
+        .update({ streak: 0, last_checkin_date: yesterdayStr })
+        .eq("id", user.id);
+
+      alert(helperT("streakWillReset"));
+      return true; // ✅ allow daily check-in to proceed
+    }
+  }
+   // --- User does NOT have enough badges ---
+  const missing = badgeCost - userBadges;
+  
+  const proceed = confirm(helperT("notEnoughBadges", { badgeCost, missing }) +
+    "\n\n" +
+    helperT("confirmLoseStreak")
+  );
+
+  if (proceed) {
+    // User chooses to lose streak
+    profile.streak = 0;
+    profile.last_checkin_date = yesterdayStr;
+
+    await supabase
+      .from("profiles")
+      .update({ streak: 0, last_checkin_date: yesterdayStr })
+      .eq("id", user.id);
+
+    alert(helperT("streakWillReset"));
+    return true; // ✅ allow daily check-in
+  } else {
+    // User chooses to collect badges first
+    return false; // ❌ do NOT proceed to check-in
+  }
+};
+
+
 function sanitizeFileName(filename) {
   return filename
     .normalize("NFD")                     // é → e + accent
@@ -1973,7 +2161,6 @@ if (error) throw error;
 
 // 🔔 LEVEL UP DETECTED
 if (level > previousLevel) {
-  console.log("Level up!", previousLevel, "→", level);
 
   // Sync level to DB here
   const { error: updateError } = await supabase
@@ -2016,10 +2203,10 @@ if (level > previousLevel) {
       xpNeededForNextLevel - xpTowardsNextLevel;
 
     document.getElementById("xpToNext").textContent =
-      `${xpRemaining} XP to next level`;
+      `${xpRemaining} XP ${helperT("toNextLevel")}`;
 
   } catch (err) {
-    console.error("Error updating XP:", err);
+    console.error(helperT("errorUpdatingXP"), err);
   }
 }
 
@@ -2070,7 +2257,7 @@ async function getBlockedUserIds(supabase, currentUserId) {
     .eq("blocker_id", currentUserId);
 
   if (error) {
-    console.error("Error fetching blocked users:", error);
+    console.error(helperT("errorFetchingBlockedUsers"), error);
     return [];
   }
 
@@ -2100,25 +2287,13 @@ document.querySelectorAll('input[name="goal"]').forEach(cb => cb.addEventListene
 //--------------------------
 // STREAK MANAGEMENT
 //--------------------------
-async function handleStreakSave(user, profile, yesterday) {
-  const save = confirm("Do you want to save your streak for 10 badges?");
-  if (!save) {
-    alert("Your streak will reset.");
-    await supabase.from("profiles").update({ streak: 0, last_checkin_date: yesterday }).eq("id", user.id);
-    profile.streak = 0;
-    profile.last_checkin_date = yesterday;
-    return false;
-  }
-
-  if ((profile.badge || 0) >= 10) {
-    await supabase.from("profiles").update({ badge: profile.badge - 10, last_checkin_date: yesterday }).eq("id", user.id);
-    profile.badge -= 10;
-    profile.last_checkin_date = yesterday;
-    alert("Streak saved by spending 10 badges!");
-    return true;
-  }   
+function getUTCDateString(date) {
+  return (
+    date.getUTCFullYear() + '-' +
+    String(date.getUTCMonth() + 1).padStart(2, '0') + '-' +
+    String(date.getUTCDate()).padStart(2, '0')
+  );
 }
-
 
 async function addBadges(userId, amount) {
   // Use currentProfile directly
@@ -2141,7 +2316,7 @@ async function addBadges(userId, amount) {
     .update({ badge: newCount })
     .eq("id", userId);
 
-  if (updateError) return console.error("Error updating badges:", updateError);
+  if (updateError) return console.error(helperT("errorUpdatingBadges"), updateError);
 
   // 4️⃣ Optional: refresh leaderboard
   await fetchLeaderboard('badge', 'overall-badge');
@@ -2268,16 +2443,95 @@ function enableDailyCheckinButtons() {
 //#endregion
 
 //#region MEALART
+
+const mealartTranslations = {
+  en: {
+    noTitle: "No title",
+    noIngredients: "No ingredients provided",
+    noInstructions: "No instructions provided",
+    recipeAvailable: "Recipe available",
+    noRecipe: "No recipe",
+    deleteMealConfirm: "Are you sure you want to delete this meal?",
+    uploading: "Uploading...",
+    submit: "Submit",
+    mealUploaded: "Meal uploaded successfully!",
+    selectPhoto: "Please select a photo before submitting.",
+    userNotLoggedIn: "User not logged in",
+    resizeFailed: "Resize failed:",
+    saveMealError: "Error saving meal:",
+    votePlease: "Please select a meal to vote!",
+    submitvote: "Submit Vote",
+    voteSubmitted: "Vote Submitted ✅",
+    votes: "Votes: ",
+    requestProMessage: "Please tell us a little about yourself.",
+    requestSent: "Request sent! We'll get back to you soon 😊",
+    requestError: "Something went wrong. Please try again."
+  },
+  es: {
+    noTitle: "Sin título",
+    noIngredients: "No se proporcionaron ingredientes",
+    noInstructions: "No se proporcionaron instrucciones",
+    recipeAvailable: "Receta disponible",
+    noRecipe: "Sin receta",
+    deleteMealConfirm: "¿Estás seguro de que deseas eliminar esta comida?",
+    uploading: "Subiendo...",
+    submit: "Enviar",
+    mealUploaded: "¡Comida subida con éxito!",
+    selectPhoto: "Por favor selecciona una foto antes de enviar.",
+    userNotLoggedIn: "Usuario no ha iniciado sesión",
+    resizeFailed: "Error al redimensionar:",
+    saveMealError: "Error al guardar la comida:",
+    votePlease: "¡Por favor selecciona una comida para votar!",
+    submitvote: "Envíar voto",
+    voteSubmitted: "Voto enviado ✅",
+    votes: "Votos: ",
+    requestProMessage: "Por favor cuéntanos un poco sobre ti.",
+    requestSent: "¡Solicitud enviada! Te responderemos pronto 😊",
+    requestError: "Algo salió mal. Por favor inténtalo de nuevo."
+  },
+  hu: {
+    noTitle: "Nincs cím",
+    noIngredients: "Nem adtál meg hozzávalókat",
+    noInstructions: "Nem adtál meg elkészítési utasítást",
+    recipeAvailable: "Recept elérhető",
+    noRecipe: "Nincs recept",
+    deleteMealConfirm: "Biztosan törölni szeretnéd ezt az ételt?",
+    uploading: "Feltöltés...",
+    submit: "Küldés",
+    mealUploaded: "Az étel sikeresen feltöltve!",
+    selectPhoto: "Kérlek, válassz egy fotót a feltöltés előtt.",
+    userNotLoggedIn: "A felhasználó nincs bejelentkezve",
+    resizeFailed: "Átméretezés sikertelen:",
+    saveMealError: "Hiba az étel mentése közben:",
+    votePlease: "Kérlek válassz egy ételt a szavazáshoz!",
+    submitvote: "Szavazás elküldése",
+    voteSubmitted: "Szavazat elküldve ✅",
+    votes: "Szavazatok: ",
+    requestProMessage: "Kérlek, mesélj kicsit magadról.",
+    requestSent: "Kérés elküldve! Hamarosan visszajelzünk 😊",
+    requestError: "Valami hiba történt. Próbáld újra."
+  }
+};
+
+//--------------------------
+// mealartT FUNCTION
+//--------------------------
+function mealartT(key, variables = {}) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
+  const translation = mealartTranslations[lang]?.[key] || mealartTranslations.en[key] || key;
+  return typeof translation === "function" ? translation(variables) : translation;
+}
+
 //--------------------------
 // MEALART
 //--------------------------
 
 function showRecipeModal(meal) {
   const modal = document.getElementById("mealArtrecipeModal");
-  document.getElementById("mealArtmodalFoodName").textContent = meal.food_name || "No title";
+  document.getElementById("mealArtmodalFoodName").textContent = meal.food_name || mealartT("noTitle");
   document.getElementById("mealArtmodalPrepTime").textContent = meal.prep_time || "N/A"; 
-  document.getElementById("mealArtmodalIngredients").innerHTML = (meal.ingredients || "No ingredients provided").replace(/\n/g, "<br>");
-  document.getElementById("mealArtmodalInstructions").innerHTML = (meal.instructions || "No instructions provided").replace(/\n/g, "<br>");
+  document.getElementById("mealArtmodalIngredients").innerHTML = (meal.ingredients || mealartT("noIngredients")).replace(/\n/g, "<br>");
+  document.getElementById("mealArtmodalInstructions").innerHTML = (meal.instructions || mealartT("noInstructions")).replace(/\n/g, "<br>");
   modal.style.display = "flex";
 }
 
@@ -2329,7 +2583,7 @@ function renderMealItem(meal, today) {
 
   const recipeSpan = document.createElement("span");
   recipeSpan.className = "recipe-label";
-  recipeSpan.textContent = meal.recipe_available ? "Recipe available" : "No recipe";
+  recipeSpan.textContent = meal.recipe_available ? mealartT("recipeAvailable") : mealartT("noRecipe");
   if (meal.recipe_available) {
     recipeSpan.classList.add("recipe-available");
     recipeSpan.addEventListener("click", () => showRecipeModal(meal));
@@ -2343,7 +2597,7 @@ function renderMealItem(meal, today) {
     delBtn.className = "delete-meal-btn";
     delBtn.textContent = "Delete";
     delBtn.addEventListener("click", async () => {
-      if (!confirm("Are you sure you want to delete this meal?")) return;
+      if (!confirm(mealartT("deleteMealConfirm"))) return;
 
       // 1️⃣ Delete DB row first
       const { error: delError } = await supabase
@@ -2471,19 +2725,19 @@ form.addEventListener("submit", async e => {
   // Prevent double-click submission
   const submitBtn = form.querySelector("button[type='submit']");
   submitBtn.disabled = true;
-  submitBtn.textContent = "Uploading...";
+  submitBtn.textContent = mealartT("uploading");
 
   try {
     let file = mealPhotoFile;
-    if (!file) throw new Error("Please select a photo before submitting.");
+    if (!file) throw new Error(mealartT("selectPhoto"));
 
     try {
   file = await resizeImage(file, 600, 0.7, 'image/webp');
 } catch (err) {
-  alert("Resize failed: " + err.message);
+  alert(mealartT("resizeFailed") + err.message);
   return; // or skip resizing
 }
-    if (!currentUser || !currentUser.id) throw new Error("User not logged in");
+    if (!currentUser || !currentUser.id) throw new Error(mealartT("userNotLoggedIn"));
 
     const safeFileName = sanitizeFileName(
       `meal_${currentUser.id}_${Date.now()}.webp`
@@ -2504,7 +2758,7 @@ form.addEventListener("submit", async e => {
     const filePath = `${isProCategory ? 'pro' : 'home'}/${fileName}`;
 
     const { error: uploadError } = await supabase.storage.from("meal-uploads").upload(filePath, file);
-    if (uploadError) throw new Error("Error uploading photo: " + uploadError.message);
+    if (uploadError) throw new Error(mealartT("saveMealError") + uploadError.message);
 
     const { data: publicUrlData } = supabase.storage.from("meal-uploads").getPublicUrl(filePath);
     const imageUrl = publicUrlData.publicUrl;
@@ -2528,10 +2782,10 @@ form.addEventListener("submit", async e => {
       }])
       .select();
 
-    if (mealError) throw new Error("Error saving meal: " + mealError.message);
+    if (mealError) throw new Error(mealartT("saveMealError") + mealError.message);
 
     await addXP(6);
-    alert("Meal uploaded successfully!");
+    alert(mealartT("mealUploaded"));
     renderMeals([...currentMeals, newMeals[0]]);
     currentMeals.push(newMeals[0]);
 
@@ -2546,7 +2800,7 @@ form.addEventListener("submit", async e => {
   } finally {
     // Re-enable the submit button no matter what happens
     submitBtn.disabled = false;
-    submitBtn.textContent = "Submit";
+    submitBtn.textContent = mealartT("submit");
   }
 });
 }
@@ -2631,18 +2885,18 @@ async function addVotingToGallery(gallery, isPro, userId) {
   }
 
   const submitBtn = document.createElement("button");
-  submitBtn.textContent = "Submit Vote";
+  submitBtn.textContent = mealartT("submitvote");
   submitBtn.classList.add("button");
   submitBtn.style.marginTop = "10px";
   submitBtn.disabled = alreadyVoted;
 
   if (alreadyVoted) {
-    submitBtn.textContent = "Vote Submitted ✅";
+    submitBtn.textContent = mealartT("voteSubmitted");
   }
 
   submitBtn.addEventListener("click", async () => {
     const selected = gallery.querySelector(`input[name='${isPro}-vote']:checked`);
-    if (!selected) return alert("Please select a meal to vote!");
+    if (!selected) return alert(mealartT("votePlease"));
     const mealId = selected.value;
 
     await supabase.from("votes").insert([
@@ -2650,13 +2904,13 @@ async function addVotingToGallery(gallery, isPro, userId) {
     ]);
 
     const votesSpan = selected.parentElement.querySelector(".votes-span");
-    let currentVotes = parseInt(votesSpan.textContent.replace("Votes: ", "")) || 0;
+    let currentVotes = parseInt(votesSpan.textContent.replace(mealartT("votes"), "")) || 0;
     currentVotes += 1;
-    votesSpan.textContent = `Votes: ${currentVotes}`;
+    votesSpan.textContent = mealartT("votes"),`${currentVotes}`;
 
     gallery.querySelectorAll("input").forEach(r => (r.disabled = true));
     submitBtn.disabled = true;
-    submitBtn.textContent = "Vote Submitted ✅";
+    submitBtn.textContent = mealartT("voteSubmitted")
   });
 
   gallery.parentElement.appendChild(submitBtn);
@@ -2725,7 +2979,7 @@ kitchencloseBtn.addEventListener("click", () => {
 kitchensendBtn.addEventListener("click", async () => {
   const message = document.getElementById("proKitchenMessage").value.trim();
   if (!message) {
-    alert("Please tell us a little about yourself.");
+    alert(mealartT("requestProMessage"));
     return;
   }
 
@@ -2740,13 +2994,13 @@ kitchensendBtn.addEventListener("click", async () => {
 
   if (error) {
     console.error(error);
-    alert("Something went wrong. Please try again.");
+    alert(mealartT("requestError"));
     return;
   }
 
   document.getElementById("proKitchenMessage").value = "";
   kitchenpopup.classList.remove("active");
-  alert("Request sent! We'll get back to you soon 😊");
+  alert(mealartT("requestSent"));
 });
 
 //#endregion
@@ -2988,30 +3242,6 @@ async function handleSubmit() {
   const { todayGoal, todayLessonId, todayLesson } = getTodaysLessonFromProfile(currentProfile);
 
 if (!todayLesson) { alert("No lesson found for today!"); return false; }
-
-  // Helper to format date in UTC as YYYY-MM-DD
-  function getUTCDateString(date) {
-    return (
-      date.getUTCFullYear() + '-' +
-      String(date.getUTCMonth() + 1).padStart(2, '0') + '-' +
-      String(date.getUTCDate()).padStart(2, '0')
-    );
-  }
-
-  const yesterdayUTC = new Date();
-  yesterdayUTC.setUTCDate(yesterdayUTC.getUTCDate() - 1);
-  const yesterdayStr = getUTCDateString(yesterdayUTC);
-
-  // Optional streak reset
-  if (currentProfile.last_checkin_date < yesterdayStr && currentProfile.streak > 5) {
-    const streakSaved = await handleStreakSave(currentUser, currentProfile, yesterdayStr);
-    if (streakSaved) {
-      await supabase
-        .from("profiles")
-        .update({ last_checkin_date: yesterdayStr })
-        .eq("id", currentProfile.id);
-    }
-  }
 
   // Quiz validation
   if (currentProfile.day_counter > 0) {
@@ -7274,11 +7504,22 @@ async function initSystemSettings() {
   // Preselect the current language
   const currentLang = localStorage.getItem("lang") || "en";
   languageSelect.value = currentLang;
+
+  // 🔥 ADD THIS LINE (init scriptpools)
+  window.scriptPools.setPoolLanguage(currentLang);
+  
   await updateLanguageUI(currentLang);
 
   saveLangBtn.addEventListener("click", async () => {
     const newLang = languageSelect.value;
-    localStorage.setItem("lang", newLang);
+
+    // update source of truth
+  window.appState.lang = newLang;
+  localStorage.setItem("lang", newLang);
+
+  // 🔁 notify pools explicitly
+  window.scriptPools.setPoolLanguage(newLang);
+
     await updateLanguageUI(newLang);
 
     // Make sure currentUser exists
@@ -7319,9 +7560,6 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
 
 async function logoutUser() {
   try {
-    // Preserve preferred language
-    const preferredLang = localStorage.getItem("lang") || "en";
-
     // Remove the token for this user using global currentUser
     if (currentUser?.id) {
       const { error: tokenError } = await supabase

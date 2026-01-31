@@ -1,5 +1,17 @@
+let poolLang = "en";
 
-  const currentLang = localStorage.getItem("lang") || "en";
+function setPoolLanguage(lang) {
+  poolLang = lang;
+}
+
+function getPoolText(key) {
+  return textPools[poolLang][key];
+}
+
+window.scriptPools = {
+  setPoolLanguage,
+  getPoolText
+};
 
 // =======================
 // DAILY LESSONS
@@ -4580,9 +4592,9 @@ function openIngredient(key) {
   const item = ingredientInfo[key];
   if (!item) return;
 
-  document.getElementById("ingredientName").textContent = item.name[currentLang] || item.name.en;
-  document.getElementById("ingredientDescription").innerHTML = item.description[currentLang] || item.description.en;
-  document.getElementById("ingredientNutrition").innerHTML = item.nutrition[currentLang] || item.nutrition.en;
+  document.getElementById("ingredientName").textContent = item.name[poolLang] || item.name.en;
+  document.getElementById("ingredientDescription").innerHTML = item.description[poolLang] || item.description.en;
+  document.getElementById("ingredientNutrition").innerHTML = item.nutrition[poolLang] || item.nutrition.en;
 
   document.getElementById("ingredientModal").classList.add("active");
 }
@@ -4709,9 +4721,9 @@ function showRandomAvatar() {
 
     tipBox.innerHTML = `
       <div class="celeb-quote">
-        <p class="quote">“${celeb.quote[currentLang] || celeb.quote.en}”</p>
-        <p class="celeb-name"><strong>${celeb.name[currentLang] || celeb.name.en}</strong></p>
-        <p class="celeb-title"><em>${celeb.title[currentLang] || celeb.title.en}</em></p>
+        <p class="quote">“${celeb.quote[poolLang] || celeb.quote.en}”</p>
+        <p class="celeb-name"><strong>${celeb.name[poolLang] || celeb.name.en}</strong></p>
+        <p class="celeb-title"><em>${celeb.title[poolLang] || celeb.title.en}</em></p>
       </div>
     `;
 
@@ -4720,7 +4732,7 @@ function showRandomAvatar() {
   } else {
   // Pick language-specific tips, fallback to EN
   const tips =
-    characterTips[char][currentLang] || characterTips[char].en;
+    characterTips[char][poolLang] || characterTips[char].en;
 
   const randomTip = tips[Math.floor(Math.random() * tips.length)];
   tipBox.innerHTML = randomTip;
