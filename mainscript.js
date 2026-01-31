@@ -814,7 +814,7 @@ pathHealthBtn: "Az egészségért",
     
     //Recipes
 recipesTitle: "Receptek",
-openUploadBtnt: "Saját recept feltöltése",
+openUploadBtn: "Saját recept feltöltése",
 
     //Profile
 myProfileTitle: "Profilom",
@@ -1474,10 +1474,6 @@ document.getElementById("deleteProfileBtn").innerText = t.deleteProfileBtn;
   document.getElementById("ImpactCalcYears").childNodes[0].textContent = t.ImpactCalcYears + " ";
   document.getElementById("ImpactCalcMonths").childNodes[0].textContent = t.ImpactCalcMonths + " ";
   document.getElementById("calculateImpactBtn").innerText = t.calculateImpactBtn;
-  document.getElementById("animalsSavedCalc").innerText = t.animalsSavedCalc;
-  document.getElementById("forestSavedCalc").innerText = t.forestSavedCalc;
-  document.getElementById("waterSavedCalc").innerText = t.waterSavedCalc;
-  document.getElementById("coSavedCalc").innerText = t.coSavedCalc;
 
   // Meal Art
   document.getElementById("mealArtModalPrepTime").innerText = t.mealArtPrepTime;
@@ -3009,6 +3005,63 @@ kitchensendBtn.addEventListener("click", async () => {
 //--------------------------
 // DAILY CHECKIN
 //--------------------------
+//--------------------------
+// DAILY CHECK-IN TRANSLATIONS
+//--------------------------
+const dailyCheckinTranslations = {
+  en: {
+    lessonNotFound: "Lesson not found. Please check your profile.",
+    noLessonToday: "No lesson found for today!",
+    answerAllQuiz: "Please answer all quiz questions!",
+    incorrectQuiz: "Some answers are incorrect. Try again!",
+    selectMeal: "Please select your diet from yesterday!",
+    wellDoneLearnPath: "Well done! You can keep learning in the Learn Path or get extra rewards in Daily Challenges!",
+    wellDoneMealArt: "Well done! Have you checked out our meal-art contest and trending recipes already?",
+    wellDoneCommunity: "Well done! Are you already a member of your local community? 🤩",
+    wellDoneXpDone: "Well done! Your XP daily challenge is done, claim your reward in the playground section!",
+    wellDoneXpLeft: "Well done! You need {xp_left} more XP to complete your daily challenge!"
+  },
+  es: {
+    lessonNotFound: "Lección no encontrada. Por favor revisa tu perfil.",
+    noLessonToday: "¡No se encontró lección para hoy!",
+    answerAllQuiz: "¡Por favor responde todas las preguntas del quiz!",
+    incorrectQuiz: "Algunas respuestas son incorrectas. ¡Inténtalo de nuevo!",
+    selectMeal: "¡Por favor selecciona tu dieta de ayer!",
+    wellDoneLearnPath: "¡Bien hecho! Puedes seguir aprendiendo en el Camino de Aprendizaje o conseguir recompensas extra en Desafíos Diarios!",
+    wellDoneMealArt: "¡Bien hecho! ¿Ya has visto nuestro concurso de meal-art y las recetas más populares?",
+    wellDoneCommunity: "¡Bien hecho! ¿Ya eres miembro de tu comunidad local? 🤩",
+    wellDoneXpDone: "¡Bien hecho! Tu desafío diario de XP está completado, ¡reclama tu recompensa en la sección del parque de juegos!",
+    wellDoneXpLeft: "¡Bien hecho! Necesitas {xp_left} XP más para completar tu desafío diario!"
+  },
+  hu: {
+    lessonNotFound: "Az óra nem található. Kérlek, ellenőrizd a profilodat.",
+    noLessonToday: "Ma nincs elérhető lecke!",
+    answerAllQuiz: "Kérlek, válaszolj minden kvízkérdésre!",
+    incorrectQuiz: "Néhány válasz helytelen. Próbáld újra!",
+    selectMeal: "Kérlek válaszd ki a tegnapi étrendedet!",
+    wellDoneLearnPath: "Szép munka! Folytathatod a tanulást az Útvonal tanulásban, vagy extra jutalmakat szerezhetsz a Napi kihívásokban!",
+    wellDoneMealArt: "Szép munka! Megnézted már a meal-art versenyt és a népszerű recepteket?",
+    wellDoneCommunity: "Szép munka! Már tagja vagy a helyi közösségednek? 🤩",
+    wellDoneXpDone: "Szép munka! A napi XP kihívásod kész, igényeld a jutalmad a játszótér szekcióban!",
+    wellDoneXpLeft: "Szép munka! Még {xp_left} XP-re van szükséged a napi kihívás teljesítéséhez!"
+  }
+};
+
+//--------------------------
+// dailyCheckinT FUNCTION
+//--------------------------
+function dailyCheckinT(key, variables = {}) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
+  let translation = dailyCheckinTranslations[lang]?.[key] || dailyCheckinTranslations.en[key] || key;
+
+  // Replace variables (like {xp_left})
+  Object.entries(variables).forEach(([k, v]) => {
+    translation = translation.replace(`{${k}}`, v);
+  });
+
+  return translation;
+}
+
 
 // Global variables
 let yesterdayQuiz = [];
@@ -3166,7 +3219,7 @@ window.initDailyCheckin = function() {
 // ------------------
 function renderTodaysLesson() {
   if (!todayLesson) {
-    document.getElementById("dailyLessonDCI").innerHTML = "<p>Lesson not found. Please check your profile.</p>";
+    document.getElementById("dailyLessonDCI").innerHTML = `<p>${dailyCheckinT("lessonNotFound")}</p>`;
     return;
   }
   document.getElementById("dailyLessonDCI").innerHTML = `
@@ -3241,7 +3294,7 @@ async function handleSubmit() {
 
   const { todayGoal, todayLessonId, todayLesson } = getTodaysLessonFromProfile(currentProfile);
 
-if (!todayLesson) { alert("No lesson found for today!"); return false; }
+if (!todayLesson) { alert(dailyCheckinT("noLessonToday")); return false; }
 
   // Quiz validation
   if (currentProfile.day_counter > 0) {
@@ -3254,13 +3307,13 @@ if (!todayLesson) { alert("No lesson found for today!"); return false; }
   });
 
   if (!allAnswered) {
-    alert("Please answer all quiz questions!");
+    alert(dailyCheckinT("answerAllQuiz"));
     enableDailyCheckinButtons(); // ✅ re-enable
     return false;
   }
 
   if (!allCorrect) {
-    alert("Some answers are incorrect. Try again!");
+    alert(dailyCheckinT("incorrectQuiz"));
     enableDailyCheckinButtons(); // ✅ re-enable
     return false;
   }
@@ -3268,7 +3321,7 @@ if (!todayLesson) { alert("No lesson found for today!"); return false; }
 
   // Meal selection
   const mealAnswer = document.querySelector('input[name="mealsDCI"]:checked');
-  if (!mealAnswer) { alert("Please select your diet from yesterday!"); return false; }
+  if (!mealAnswer) { alert(dailyCheckinT("selectMeal")); return false; }
   const mealValue = parseInt(mealAnswer.value);
   const impactIncrement = calculateImpact(mealValue);
   const badgeIncrement = mealValue === 4 ? 5 : 0;
@@ -3340,28 +3393,28 @@ const { error: updateError } = await supabase
   
 if (currentProfile.day_counter === 1 ) {
   showProgressSuggestion(
-    "Well done! You can keep learning in the Learn Path or get extra rewards in Daily Challenges!",
+    dailyCheckinT("wellDoneLearnPath"),
     currentProfile.pet_photo
   );
   } else if (currentProfile.day_counter === 2) {
   showProgressSuggestion(
-     `Well done! Have you checked out our meal-art contest and trending recipes already?`,
+    dailyCheckinT("wellDoneMealArt"),
     currentProfile.pet_photo
   );
   } else if (currentProfile.day_counter === 3) {
   showProgressSuggestion(
-     `Well done! Are you already a member of your local community? 🤩`,
+    dailyCheckinT("wellDoneCommunity"),
     currentProfile.pet_photo
   );
   } else if (currentProfile.day_counter < 10 && currentProfile.xp_today >= 50) {
   showProgressSuggestion(
-     `Well done! Your XP daily challenge is done, claim your reward in the playground section!`,
+    dailyCheckinT("wellDoneXpDone"),
     currentProfile.pet_photo
   );
   } else if (currentProfile.day_counter < 5 && currentProfile.xp_today < 50) {
     const xp_left = 50 - currentProfile.xp_today;
   showProgressSuggestion(
-     `Well done! You need ${xp_left} more XP to complete your daily challenge!`,
+    dailyCheckinT("wellDoneXpLeft", { xp_left }),
     currentProfile.pet_photo
   );
   } 
@@ -3373,6 +3426,65 @@ if (currentProfile.day_counter === 1 ) {
 //--------------------------
 // HEALTH LESSONS
 //--------------------------
+
+const learnPathTranslations = {
+  en: {
+    startQuiz: "Start Quiz 📝",
+    quizLabel: "Quiz:",
+    correctLesson: "✅ Correct! Lesson completed.",
+    incorrectLesson: "❌ Incorrect. Try again!",
+    takeQuiz: "Take Quiz 🧠",
+    submit: "Submit",
+    chooseAnswer: "Choose an answer!",
+    tryAgain: "Try again!",
+    correct: "✅ Correct!",
+    xpChallengeDone:
+      "You've completed your daily XP challenge! Claim your reward in the playground section!"
+  },
+
+  es: {
+    startQuiz: "Comenzar quiz 📝",
+    quizLabel: "Quiz:",
+    correctLesson: "✅ ¡Correcto! Lección completada.",
+    incorrectLesson: "❌ Incorrecto. ¡Inténtalo de nuevo!",
+    takeQuiz: "Hacer quiz 🧠",
+    submit: "Enviar",
+    chooseAnswer: "¡Elige una respuesta!",
+    tryAgain: "¡Inténtalo de nuevo!",
+    correct: "✅ ¡Correcto!",
+    xpChallengeDone:
+      "¡Has completado tu desafío diario de XP! Reclama tu recompensa en la sección del parque de juegos."
+  },
+
+  hu: {
+    startQuiz: "Kvíz indítása 📝",
+    quizLabel: "Kvíz:",
+    correctLesson: "✅ Helyes! Lecke teljesítve.",
+    incorrectLesson: "❌ Helytelen. Próbáld újra!",
+    takeQuiz: "Kvíz kitöltése 🧠",
+    submit: "Beküldés",
+    chooseAnswer: "Válassz egy választ!",
+    tryAgain: "Próbáld újra!",
+    correct: "✅ Helyes!",
+    xpChallengeDone:
+      "Teljesítetted a napi XP kihívást! Vedd át a jutalmadat a játszótér szekcióban!"
+  }
+};
+
+function learnPathT(key, vars = {}) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
+  let str =
+    learnPathTranslations[lang]?.[key] ||
+    learnPathTranslations.en[key] ||
+    key;
+
+  for (const [k, v] of Object.entries(vars)) {
+    str = str.replaceAll(`{${k}}`, v);
+  }
+
+  return str;
+}
+
 
 // ------- Health issues----------
 async function initHealthPaths() {
@@ -3498,7 +3610,7 @@ function setupLessonClickForHealth(li, lesson, index, issue, userData, userId) {
 
     // Start Quiz button
     const startQuizBtn = document.createElement("button");
-    startQuizBtn.textContent = "Start Quiz 📝";
+    startQuizBtn.textContent = learnPathT("startQuiz");
     startQuizBtn.id = "start-quiz-btn";
     lessonContent.appendChild(startQuizBtn);
 
@@ -3513,7 +3625,7 @@ function setupLessonClickForHealth(li, lesson, index, issue, userData, userId) {
       e.stopPropagation();
       quizContainer.classList.remove("hidden");
       quizContainer.innerHTML = `
-        <p><strong>Quiz:</strong> ${lesson.quiz.question}</p>
+        <p><strong>${learnPathT("quizLabel")}</strong> ${lesson.quiz.question}</p>
         ${lesson.quiz.options
           .map((opt, i) => `<button class="quiz-option" data-index="${i}">${opt}</button>`)
           .join("")}
@@ -3527,7 +3639,7 @@ quizContainer.querySelectorAll(".quiz-option").forEach((answerBtn) => {
     const feedback = quizContainer.querySelector("#quiz-feedback");
 
     if (chosenIndex === lesson.quiz.answer) {
-      feedback.textContent = "✅ Correct! Lesson completed.";
+      feedback.textContent = learnPathT("correctLesson");
       feedback.style.color = "green";
 
       // Initialize progress
@@ -3571,7 +3683,7 @@ quizContainer.querySelectorAll(".quiz-option").forEach((answerBtn) => {
         }, 1300); // 1000 ms = 1 second
       }
     } else {
-      feedback.textContent = "❌ Incorrect. Try again!";
+      feedback.textContent = learnPathT("incorrectLesson");
       feedback.style.color = "red";
     }
   });
@@ -3756,7 +3868,7 @@ function setupExtraLessonClicks() {
         let html = `
           <div class="extralesson-text">
             <p>${lessonData.content}</p>
-            ${questionObj ? `<button class="start-quiz-btn">Take Quiz 🧠</button>` : ""}
+            ${questionObj ? `<button class="start-quiz-btn">${learnPathT("takeQuiz")}</button>` : ""}
           </div>
         `;
 
@@ -3770,7 +3882,7 @@ function setupExtraLessonClicks() {
                   ${opt}
                 </label>
               `).join("")}
-              <button class="extraquiz-submit">Submit</button>
+              <button class="extraquiz-submit">${learnPathT("submit")}</button>
               <div class="extraquiz-feedback"></div>
             </div>
           `;
@@ -3796,16 +3908,16 @@ function setupExtraLessonClicks() {
           e.stopPropagation();
           const selected = quiz.querySelector("input:checked");
           if (!selected) {
-            feedback.textContent = "Choose an answer!";
+            feedback.textContent = learnPathT("chooseAnswer");
             return;
           }
 
           if (+selected.value !== questionObj.correctIndex) {
-            feedback.textContent = "Try again!";
+            feedback.textContent = learnPathT("tryAgain");
             return;
           }
 
-          feedback.textContent = "✅ Correct!";
+          feedback.textContent = learnPathT("correct");
 
           setTimeout(async () => {
             lesson.classList.remove("unlocked");
@@ -3884,7 +3996,7 @@ async function saveExtraLessonProgress() {
 
   if (xptoday === 50) {
     showProgressSuggestion(
-      "You've completed your daily XP challenge! Claim your reward in the playground section!",
+      learnPathT("xpChallengeDone"),
       currentProfile.pet_photo
     );
   }
@@ -3984,6 +4096,50 @@ function resolveLessonData(courseId, rawLessonData) {
 // ----------------------------
 // RECIPES
 // ----------------------------
+const recipesTranslations = {
+  en: {
+    deleteConfirm: "Are you sure you want to delete this recipe?",
+    uploading: "Uploading...",
+    submit: "Submit",
+    uploadSuccess: "Recipe uploaded successfully!",
+    missingImage: "Please select a recipe image before submitting.",
+    fillAllFields: "Please fill in all fields before submitting.",
+    notAvailable: "N/A"
+  },
+  es: {
+    deleteConfirm: "¿Estás seguro de que quieres eliminar esta receta?",
+    uploading: "Subiendo...",
+    submit: "Enviar",
+    uploadSuccess: "¡Receta subida con éxito!",
+    missingImage: "Selecciona una imagen antes de enviar.",
+    fillAllFields: "Por favor completa todos los campos.",
+    notAvailable: "No disponible"
+  },
+  hu: {
+    deleteConfirm: "Biztosan törölni szeretnéd ezt a receptet?",
+    uploading: "Feltöltés...",
+    submit: "Beküldés",
+    uploadSuccess: "A recept sikeresen feltöltve!",
+    missingImage: "Kérlek válassz képet a feltöltéshez.",
+    fillAllFields: "Kérlek tölts ki minden mezőt.",
+    notAvailable: "N/A"
+  }
+};
+
+function recipesT(key, vars = {}) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
+  let str =
+    recipesTranslations[lang]?.[key] ||
+    recipesTranslations.en[key] ||
+    key;
+
+  for (const [k, v] of Object.entries(vars)) {
+    str = str.replaceAll(`{${k}}`, v);
+  }
+
+  return str;
+}
+
 
 async function loadRecipes() {
   const { data: userData } = await supabase.auth.getUser();
@@ -4068,7 +4224,7 @@ function showRecipeModal(recipeData) {
       deleteBtn.className = "delete-btn";
       deleteBtn.addEventListener("click", async (e) => {
   e.stopPropagation();
-  if (!confirm("Are you sure you want to delete this recipe?")) return;
+  if (!confirm(recipesT("deleteConfirm"))) return;
 
   // 1️⃣ Delete DB row first
   const { error: delError } = await supabase
@@ -4107,7 +4263,7 @@ function showRecipeModal(recipeData) {
   showRecipeModal({
     img: recipe.image_url,
     title: recipe.title,
-    preptime: recipe.prep_time ? `${recipe.prep_time}` : "N/A" ,
+    preptime: recipe.prep_time ? `${recipe.prep_time}` : recipesT("notAvailable") ,
     ingredients: `${recipe.ingredients}`,
     instructions: `${recipe.description}`
   });
@@ -4208,11 +4364,11 @@ function setupRecipeUploadForm() {
   if (!submitBtn) return;
 
   submitBtn.disabled = true;
-  submitBtn.textContent = "Uploading...";
+  submitBtn.textContent = recipesT("uploading");
 
   try {
     let file = recipePhotoFile;
-    if (!file) throw new Error("Please select a recipe image before submitting.");
+    if (!file) throw new Error(recipesT("missingImage"));
 
     // --- Resize the image here ---
     file = await resizeImage(file, 600, 0.7, 'image/webp');
@@ -4231,7 +4387,7 @@ function setupRecipeUploadForm() {
     const instructions = document.getElementById("recipeInstructions").value.trim();
 
     if (!title || !prepTime || !ingredients || !instructions) {
-      throw new Error("Please fill in all fields before submitting.");
+      throw new Error(recipesT("fillAllFields"));
     }
 
     const filePath = `recipes/${safeFileName}`;
@@ -4260,7 +4416,7 @@ function setupRecipeUploadForm() {
 
     if (insertError) throw insertError;
 
-    alert("Recipe uploaded successfully!");
+    alert(recipesT("uploadSuccess"));
     await addXP(2);
 
     form.reset();
@@ -4276,7 +4432,7 @@ function setupRecipeUploadForm() {
     alert(err.message);
   } finally {
     submitBtn.disabled = false;
-    submitBtn.textContent = "Submit";
+    submitBtn.textContent = recipesT("submit");
   }
 });
 }
@@ -4313,6 +4469,82 @@ uploadModal?.addEventListener("click", e => {
 // COMPARISON
 //--------------------------
 
+const comparisonTranslations = {
+  en: {
+    animalsSentence:
+      "Because of you, <span class=\"highlight\">{animals}</span> animals are safe — imagine them as happy friends roaming, swimming, and enjoying life freely!",
+
+    forestSentence:
+      "With your choices, you’ve protected <span class=\"highlight\">{forest}</span> m² of forest — that’s like saving <span class=\"highlight\">{paper}</span> sheets of paper from ever being used!",
+
+    waterSentence:
+      "By choosing plant-based meals, you’ve saved <span class=\"highlight\">{water}</span> liters of water — enough for <span class=\"highlight\">{showers}</span> refreshing showers!",
+
+    co2Sentence:
+      "Your actions cut down <span class=\"highlight\">{co2}</span> kg of CO₂ emissions — the same as avoiding <span class=\"highlight\">{carHours}</span> hours of car travel!",
+
+    calcComparison:
+      `Every animal you spared has a heartbeat, a breath, and a story ❤️.
+The forest you’ve protected provides enough oxygen for <span class="highlight">{oxygen}</span> people for a whole year 🌬️.
+You’ve also saved enough water to fill <span class="highlight">{bathtubs}</span> bathtubs — a small but meaningful gift to our planet 🛁.
+And all your choices together prevented as much CO₂ as <span class="highlight">{trees}</span> trees absorb in a year 🌳.`
+  },
+
+  es: {
+    animalsSentence:
+      "Gracias a ti, <span class=\"highlight\">{animals}</span> animales están a salvo — imagínalos como amigos felices disfrutando de la vida libremente.",
+
+    forestSentence:
+      "Con tus decisiones has protegido <span class=\"highlight\">{forest}</span> m² de bosque — ¡equivale a salvar <span class=\"highlight\">{paper}</span> hojas de papel!",
+
+    waterSentence:
+      "Al elegir comidas vegetales, has ahorrado <span class=\"highlight\">{water}</span> litros de agua — suficiente para <span class=\"highlight\">{showers}</span> duchas refrescantes.",
+
+    co2Sentence:
+      "Tus acciones redujeron <span class=\"highlight\">{co2}</span> kg de CO₂ — lo mismo que evitar <span class=\"highlight\">{carHours}</span> horas de coche.",
+
+    calcComparison:
+      `Cada animal que salvaste tiene un latido y una historia ❤️.
+El bosque que protegiste produce oxígeno para <span class="highlight">{oxygen}</span> personas durante un año 🌬️.
+También ahorraste agua suficiente para llenar <span class="highlight">{bathtubs}</span> bañeras 🛁.
+Y tus decisiones evitaron tanto CO₂ como el que absorben <span class="highlight">{trees}</span> árboles al año 🌳.`
+  },
+
+  hu: {
+    animalsSentence:
+      "Neked köszönhetően <span class=\"highlight\">{animals}</span> állat biztonságban van — képzeld el őket boldogan, szabadon élve!",
+
+    forestSentence:
+      "A döntéseiddel <span class=\"highlight\">{forest}</span> m² erdőt védtél meg — ez <span class=\"highlight\">{paper}</span> papírlap megmentésével egyenértékű!",
+
+    waterSentence:
+      "A növényi alapú étkezéssel <span class=\"highlight\">{water}</span> liter vizet spóroltál meg — ez <span class=\"highlight\">{showers}</span> frissítő zuhany!",
+
+    co2Sentence:
+      "A tetteid <span class=\"highlight\">{co2}</span> kg CO₂-kibocsátást előztek meg — mintha <span class=\"highlight\">{carHours}</span> órát nem autóztál volna!",
+
+    calcComparison:
+      `Minden megmentett állatnak van szívdobbanása és története ❤️.
+Az általad védett erdő <span class="highlight">{oxygen}</span> ember számára termel oxigént egy évig 🌬️.
+Annyi vizet spóroltál meg, amivel <span class="highlight">{bathtubs}</span> kádat lehetne megtölteni 🛁.
+A döntéseid pedig annyi CO₂-t előztek meg, amennyit <span class="highlight">{trees}</span> fa köt meg egy év alatt 🌳.`
+  }
+};
+
+function comparisonT(key, vars = {}) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
+  let str =
+    comparisonTranslations[lang]?.[key] ||
+    comparisonTranslations.en[key] ||
+    key;
+
+  for (const [k, v] of Object.entries(vars)) {
+    str = str.replaceAll(`{${k}}`, v);
+  }
+
+  return str;
+}
+
 // Constants for comparisons
 const sheetsPerTree = 8000;
 const forestAreaPerTree = 10; // m²
@@ -4333,18 +4565,26 @@ function injectComparisonSentences(profile) {
 
   // Inject into separate blocks with highlighted values
 document.getElementById("animalsSentence").innerHTML =
-  `Because of you, <span class="highlight">${animals}</span> animals are safe — imagine them as happy friends roaming, swimming, and enjoying life freely!`;
+  comparisonT("animalsSentence", { animals });
 
 document.getElementById("forestSentence").innerHTML =
-  `With your choices, you’ve protected <span class="highlight">${forest}</span> m² of forest — that’s like saving <span class="highlight">${paperEquivalent}</span> sheets of paper from ever being used!`;
+  comparisonT("forestSentence", {
+      forest,
+      paper: paperEquivalent
+    });
 
 document.getElementById("waterSentence").innerHTML =
-  `By choosing plant-based meals, you’ve saved <span class="highlight">${water}</span> liters of water — enough for <span class="highlight">${showerEquivalent}</span> refreshing showers!`;
-
+  comparisonT("waterSentence", {
+      water,
+      showers: showerEquivalent
+    });
+    
 document.getElementById("co2Sentence").innerHTML =
-  `Your actions cut down <span class="highlight">${co2}</span> kg of CO₂ emissions — the same as avoiding <span class="highlight">${carTimeEquivalent}</span> hours of car travel!`;
+ comparisonT("co2Sentence", {
+      co2,
+      carHours: carTimeEquivalent
+    });
 }
-
 
 document.getElementById('calculateImpactBtn').addEventListener('click', () => {
   const years = parseInt(document.getElementById('years').value) || 0;
@@ -4371,10 +4611,11 @@ document.getElementById('calculateImpactBtn').addEventListener('click', () => {
 
   // 🐾 Sentences
   document.getElementById('calcComparison').innerHTML =
-`Every animal you spared has a heartbeat, a breath, and a story ❤️. 
-The forest you’ve protected provides enough oxygen for <span class="highlight">${Math.round(forestSaved / 20)}</span> people for a whole year 🌬️. 
-You’ve also saved enough water to fill <span class="highlight">${Math.round(waterSaved / 170)}</span> bathtubs — a small but meaningful gift to our planet 🛁. 
-And all your choices together prevented as much CO₂ as <span class="highlight">${Math.round(co2Saved / 21)}</span> trees absorb in a year 🌳.`;
+comparisonT("calcComparison", {
+    oxygen: Math.round(forestSaved / 20),
+    bathtubs: Math.round(waterSaved / 170),
+    trees: Math.round(co2Saved / 21)
+  });
 
   document.getElementById('impactResults').classList.remove('hidden');
 });
