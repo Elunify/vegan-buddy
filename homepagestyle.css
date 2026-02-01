@@ -1030,7 +1030,7 @@ textarea {
 }
 
 .checkbox-label {
-  display: block;          /* keep each option on its own line */
+  display: inline-flex;
   font-size: 1rem;
   font-weight: 400;
   margin-bottom: 0.4rem;   /* space between rows */

@@ -1618,6 +1618,84 @@ const initTranslations = {
   }
 };
 
+// ===== Translation pools for Goals =====
+const goalTranslations = {
+  "Protecting animals & animal welfare": {
+    en: "Protecting animals",
+    es: "Protección de los animales",
+    hu: "Az állatok védelme"
+  },
+  "Caring for the environment & fighting climate change": {
+    en: "Caring for the environment",
+    es: "Cuidar el medio ambiente",
+    hu: "A környezet védelme"
+  },
+  "Healthy living & wellness": {
+    en: "Healthy living",
+    es: "Vida saludable",
+    hu: "Egészséges életmód"
+  },
+  "Solving health issues": {
+    en: "Solving health issues",
+    es: "Resolver problemas de salud",
+    hu: "Egészségügyi problémák megoldása"
+  },
+  "Boosting my performance as an athlete": {
+    en: "Boosting my performance as an athlete",
+    es: "Mejorar mi rendimiento como atleta",
+    hu: "Teljesítményem növelése sportolóként"
+  }
+};
+
+// ===== Translation pools for Health Issues =====
+const healthTranslations = {
+  "Heart disease": {
+    en: "Heart disease",
+    es: "Enfermedad cardíaca",
+    hu: "Szívbetegség"
+  },
+  "High cholesterol": {
+    en: "High cholesterol",
+    es: "Colesterol alto",
+    hu: "Magas koleszterin"
+  },
+  "High blood pressure": {
+    en: "High blood pressure",
+    es: "Hipertensión",
+    hu: "Magas vérnyomás"
+  },
+  "Type 2 diabetes": {
+    en: "Type 2 diabetes",
+    es: "Diabetes tipo 2",
+    hu: "2-es típusú cukorbetegség"
+  },
+  "Obesity": {
+    en: "Obesity",
+    es: "Obesidad",
+    hu: "Elhízás"
+  },
+  "Digestive issues": {
+    en: "Digestive issues",
+    es: "Problemas digestivos",
+    hu: "Emésztési problémák"
+  },
+  "Inflammation or swelling": {
+    en: "Inflammation or swelling",
+    es: "Inflamación o hinchazón",
+    hu: "Gyulladás vagy duzzanat"
+  },
+  "Fatigue": {
+    en: "Fatigue",
+    es: "Fatiga",
+    hu: "Fáradtság"
+  },
+  "Cancer risk": {
+    en: "Concerned about cancer risk",
+    es: "Preocupado por el riesgo de cáncer",
+    hu: "Aggodalom a rák kockázata miatt"
+  }
+};
+
 // Helper function to get translation
 function initT(key, variables = {}) {
   const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
@@ -1723,28 +1801,33 @@ async function renderProfile() {
   document.getElementById("currentLevelprofile").textContent = profile.current_level || 0;
   document.getElementById("badgeprofile").textContent = profile.badge || 0;
 
+  
   // ===== Goals =====
-  const goalsList = document.getElementById("goalsList");
-  goalsList.innerHTML = "";
-  const goals = toArray(profile.goals);
-  goals.forEach(goal => {
-    const li = document.createElement("li");
-    li.textContent = goal;
-    goalsList.appendChild(li);
-  });
-  document.querySelectorAll('input[name="goal"]').forEach(cb => {
-    cb.checked = goals.includes(cb.value);
-  });
+const goalsList = document.getElementById("goalsList");
+goalsList.innerHTML = "";
+const goals = toArray(profile.goals);
+const lang = localStorage.getItem("lang") || "en";
+
+goals.forEach(goal => {
+  const li = document.createElement("li");
+  li.textContent = (goalTranslations[goal]?.[lang]) || goal; // Fallback to original if missing
+  goalsList.appendChild(li);
+});
+
+// Update checkboxes (values remain the same)
+document.querySelectorAll('input[name="goal"]').forEach(cb => {
+  cb.checked = goals.includes(cb.value);
+});
 
   // ===== Health Issues =====
   const healthList = document.getElementById("healthIssuesList");
   healthList.innerHTML = "";
   const issues = toArray(profile.health_issues);
   issues.forEach(issue => {
-    const li = document.createElement("li");
-    li.textContent = issue;
-    healthList.appendChild(li);
-  });
+  const li = document.createElement("li");
+  li.textContent = (healthTranslations[issue]?.[lang]) || issue; // Fallback if missing
+  healthList.appendChild(li);
+});
   document.querySelectorAll('input[name="healthIssue"]').forEach(cb => {
     cb.checked = issues.includes(cb.value);
   });
@@ -4626,9 +4709,33 @@ comparisonT("calcComparison", {
 });
 //#endregion
 
-
 //#region PROFILE
 
+const profileTranslations = {
+  en: {
+    noAchievements: "No achievements yet."
+  },
+  es: {
+    noAchievements: "No tienes logros aún."
+  },
+  hu: {
+    noAchievements: "Még nincs elért eredmény."
+  }
+};
+
+function profileT(key, vars = {}) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
+  let str =
+    profileTranslations[lang]?.[key] ||
+    profileTranslations.en[key] ||
+    key;
+
+  for (const [k, v] of Object.entries(vars)) {
+    str = str.replaceAll(`{${k}}`, v);
+  }
+
+  return str;
+}
 //--------------------------
 // CHANGE PROFILE
 //--------------------------
@@ -4644,7 +4751,7 @@ async function displayAchievementsSettings(userId) {
 
   if (error) {
     console.error("Error fetching achievements:", error);
-    container.innerHTML = "<p>No achievements yet.</p>";
+    container.innerHTML = `<p>${profileT("noAchievements")}</p>`;
     return;
   }
 
@@ -4694,7 +4801,7 @@ if (newPetPhotoFile) {
 
   // --- Update profiles table ---
   const { error: updateError } = await supabase.from('profiles').update(updates).eq('id', currentUser.id);
-  if (updateError) return console.error("Profile update error:", updateError);
+  if (updateError) return console.error(profileT("saveProfileError"), updateError);
 
   // --- Update related tables ---
   const relatedUpdates = {
@@ -4784,12 +4891,62 @@ document.getElementById('saveBtn')?.addEventListener('click', saveProfile);
 //#endregion
 
 //#region FRIENDS
+const friendsTranslations = {
+  en: {
+    noCodeProvided: "No code provided.",
+    cannotFriendSelf: "You cannot send a request to yourself.",
+    userNotFound: "User not found.",
+    requestAlreadySent: "Request already sent!",
+    friendRequestSent: "Friend request sent!",
+    accept: "Accept",
+    decline: "Decline",
+    message: "Message",
+    unknown: "Unknown"
+  },
+  es: {
+    noCodeProvided: "No se proporcionó ningún código.",
+    cannotFriendSelf: "No puedes enviarte una solicitud a ti mismo.",
+    userNotFound: "Usuario no encontrado.",
+    requestAlreadySent: "¡Solicitud ya enviada!",
+    friendRequestSent: "¡Solicitud de amistad enviada!",
+    accept: "Aceptar",
+    decline: "Rechazar",
+    message: "Mensaje",
+    unknown: "Desconocido"
+  },
+  hu: {
+    noCodeProvided: "Nem adtál meg kódot.",
+    cannotFriendSelf: "Nem küldhetsz kérelmet magadnak.",
+    userNotFound: "Felhasználó nem található.",
+    requestAlreadySent: "A kérelmet már elküldték!",
+    friendRequestSent: "Barátkérelem elküldve!",
+    accept: "Elfogadás",
+    decline: "Elutasítás",
+    message: "Üzenet",
+    unknown: "Ismeretlen"
+  }
+};
+
+function friendsT(key, vars = {}) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
+  let str =
+    friendsTranslations[lang]?.[key] ||
+    friendsTranslations.en[key] ||
+    key;
+
+  for (const [k, v] of Object.entries(vars)) {
+    str = str.replaceAll(`{${k}}`, v);
+  }
+
+  return str;
+}
+
 async function sendRequest(receiverCode) {
   const friend_code = receiverCode.trim().toUpperCase();
-  if (!friend_code) return { success: false, message: "No code provided." };
+  if (!friend_code) return { success: false, message: friendsT("noCodeProvided") };
 
   if (friend_code === currentUser.friend_code?.toLowerCase()) {
-    return { success: false, message: "You cannot send a request to yourself." };
+    return { success: false, message: friendsT("cannotFriendSelf") };
   }
 
   // ------------------------------
@@ -4802,7 +4959,7 @@ async function sendRequest(receiverCode) {
     .maybeSingle();
 
   if (receiverError) return { success: false, message: receiverError.message };
-  if (!receiverProfile) return { success: false, message: "User not found." };
+  if (!receiverProfile) return { success: false, message: friendsT("userNotFound") };
 
   const receiver_id = receiverProfile.user_id;
 
@@ -4817,7 +4974,7 @@ async function sendRequest(receiverCode) {
     .maybeSingle();
 
   if (checkError) return { success: false, message: checkError.message };
-  if (existing) return { success: false, message: "Request already sent!" };
+  if (existing) return { success: false, message: friendsT("requestAlreadySent") };
 
   // ------------------------------
   // Fetch sender profile
@@ -4902,7 +5059,7 @@ async function showIncomingFriendRequests() {
     // Accept
     const acceptBtn = document.createElement("button");
     acceptBtn.className = "accept";
-    acceptBtn.textContent = "Accept";
+    acceptBtn.textContent = friendsT("accept");
 
     acceptBtn.onclick = async () => {
       const { data: myProfile, error: myError } = await supabase
@@ -4939,7 +5096,7 @@ async function showIncomingFriendRequests() {
     // Decline
     const declineBtn = document.createElement("button");
     declineBtn.className = "decline";
-    declineBtn.textContent = "Decline";
+    declineBtn.textContent = friendsT("decline");
     declineBtn.onclick = async () => {
       await supabase.from("friend_requests").delete().eq("id", req.id);
       await showIncomingFriendRequests();
@@ -5014,10 +5171,10 @@ imgDiv.addEventListener("click", e => {
     const nameSpan = document.createElement("span");
     nameSpan.textContent = friend.title
   ? `${friend.name}, ${friend.title}`
-  : friend.name || "Unknown";
+  : friend.name || friendsT("unknown");
 
     const btn = document.createElement("button");
-    btn.textContent = "Message";
+    btn.textContent = friendsT("message");
     btn.className = "message";
     btn.onclick = e => {
       e.stopPropagation();
@@ -5046,7 +5203,7 @@ async function loadFriendsTab() {
     const result = await sendRequest(friend_code);
     if (!result.success) alert(result.message);
     else {
-      alert("Friend request sent!");
+      alert(friendsT("friendRequestSent"));
       document.getElementById("friendfriendcode").value = "";
       searchPopup.style.display = "none";
       await showFriends("friendsList", friend => startChatWithFriend(friend));
@@ -5058,6 +5215,55 @@ async function loadFriendsTab() {
 //#endregion 
 
 //#region MESSAGES
+const messagesTranslations = {
+  en: {
+    chatNotFound: "Chat not found",
+    errorFetchingChat: "Error fetching chat:",
+    errorFetchingMessages: "Error fetching messages:",
+    blockedUserNotice: "You've blocked this user. <button id='unblockBtn'>Unblock</button>",
+    deleteChatConfirmation: "Are you sure you want to clear the chat? It clears for everyone.",
+    blockUserConfirmation: "Are you sure you want to block this user? Blocked users won’t be notified, but you won’t receive their messages until you unblock them.",
+    noFriendSelected: "No friend selected",
+    noActiveChat: "No active chat",
+    noValidFriend: "No valid friend selected."
+  },
+  es: {
+    chatNotFound: "Chat no encontrado",
+    errorFetchingChat: "Error al obtener el chat:",
+    errorFetchingMessages: "Error al obtener los mensajes:",
+    blockedUserNotice: "Has bloqueado a este usuario. <button id='unblockBtn'>Desbloquear</button>",
+    deleteChatConfirmation: "¿Estás seguro de que quieres borrar el chat? Se borrará para todos.",
+    blockUserConfirmation: "¿Estás seguro de que quieres bloquear a este usuario? No se notificará a los usuarios bloqueados, pero no recibirás sus mensajes hasta que los desbloquees.",
+    noFriendSelected: "No se seleccionó ningún amigo",
+    noActiveChat: "No hay chat activo",
+    noValidFriend: "No se seleccionó un amigo válido."
+  },
+  hu: {
+    chatNotFound: "Csevegés nem található",
+    errorFetchingChat: "Hiba a csevegés lekérése közben:",
+    errorFetchingMessages: "Hiba az üzenetek lekérése közben:",
+    blockedUserNotice: "Blokkoltad ezt a felhasználót. <button id='unblockBtn'>Feloldás</button>",
+    deleteChatConfirmation: "Biztosan törölni akarod a csevegést? Mindenkinél törlődik.",
+    blockUserConfirmation: "Biztosan blokkolni akarod ezt a felhasználót? A blokkolt felhasználókat nem értesítjük, de nem kapsz tőlük üzenetet, amíg fel nem oldod.",
+    noFriendSelected: "Nincs kiválasztott barát",
+    noActiveChat: "Nincs aktív csevegés",
+    noValidFriend: "Nincs érvényes barát kiválasztva."
+  }
+};
+
+function messagesT(key, vars = {}) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
+  let str =
+    messagesTranslations[lang]?.[key] ||
+    messagesTranslations.en[key] ||
+    key;
+
+  for (const [k, v] of Object.entries(vars)) {
+    str = str.replaceAll(`{${k}}`, v);
+  }
+
+  return str;
+}
 
 async function startChatWithFriend(friend) {
   const { data: existingChats, error: chatError } = await supabase
@@ -5067,7 +5273,7 @@ async function startChatWithFriend(friend) {
       `and(user1_id.eq.${currentUser.id},user2_id.eq.${friend.id}),and(user1_id.eq.${friend.id},user2_id.eq.${currentUser.id})`
     )
     .limit(1);
-  if (chatError) return console.error(chatError);
+  if (chatError) return console.error(messagesT("errorFetchingChat"), chatError);
 
   const chatId = existingChats?.[0]?.id;
   openChatWindow(chatId, friend);
@@ -5114,8 +5320,8 @@ async function loadMessages(chatId) {
   .eq('id', chatId)
   .limit(1);
 
-if (chatError) return console.error("Error fetching chat:", chatError);
-if (!chatRows?.length) return console.error("Chat not found");
+if (chatError) return console.error(messagesT("errorFetchingChat"), chatError);
+if (!chatRows?.length) return console.error(messagesT("chatNotFound"));
 
 const chat = chatRows[0];
 
@@ -5131,7 +5337,7 @@ const friend = chat.user1_id === currentUser.id
     .eq('blocker_id', currentUser.id)
     .eq('blocked_id', friend.id)
     .limit(1);
-  if (blockError) return console.error("Error fetching block info:", blockError);
+  if (blockError) return console.error(messagesT("errorFetchingChat"), blockError);
 
   const isBlocked = blockData.length > 0;
   const blockTime = isBlocked ? blockData[0].created_at : null;
@@ -5154,7 +5360,7 @@ const friend = chat.user1_id === currentUser.id
   }
 
   const { data: messages, error: messagesError } = await messageQuery.order('created_at', { ascending: true });
-  if (messagesError) return console.error("Error fetching messages:", messagesError);
+  if (messagesError) return console.error(messagesT("errorFetchingMessages"), messagesError);
 
   // 4. Render messages
   chatContainer.innerHTML = "";
@@ -5179,7 +5385,7 @@ const friend = chat.user1_id === currentUser.id
     blockedNotice.style.textAlign = "center";
     blockedNotice.style.backgroundColor = "#ffe6e6";
     blockedNotice.style.borderTop = "1px solid #ccc";
-    blockedNotice.innerHTML = `You've blocked this user. <button id="unblockBtn">Unblock</button>`;
+    blockedNotice.innerHTML = messagesT("blockedUserNotice");
     if (inputSection && inputSection.parentNode) {
   inputSection.parentNode.insertBefore(blockedNotice, inputSection.nextSibling);
 }
@@ -5364,7 +5570,7 @@ document.addEventListener("click", () => {
 deleteChatBtn.addEventListener("click", () => {
   dropdownMenu.classList.remove("active");
   currentAction = "delete";
-  confirmationMessage.textContent = "Are you sure you want to clear the chat? It clears for everyone.";
+  confirmationMessage.textContent = messagesT("deleteChatConfirmation");
   confirmationPopup.classList.add("active");
 });
 
@@ -5372,7 +5578,7 @@ deleteChatBtn.addEventListener("click", () => {
 blockUserBtn.addEventListener("click", () => {
   dropdownMenu.classList.remove("active");
   currentAction = "block";
-  confirmationMessage.textContent = "Are you sure you want to block this user? Blocked users won’t be notified, but you won’t receive their messages until you unblock them.";
+  confirmationMessage.textContent = messagesT("blockUserConfirmation");
   confirmationPopup.classList.add("active");
 });
 
@@ -5402,7 +5608,7 @@ confirmationPopup.addEventListener("click", (e) => {
 });
 
 async function deleteCurrentChat() {
-  if (!window.currentChatFriend) return console.error("No friend selected");
+  if (!window.currentChatFriend) return console.error(messagesT("noFriendSelected"));
 
   try {
     // 1. Fetch the chat ID between current user and friend
@@ -5417,7 +5623,7 @@ async function deleteCurrentChat() {
     if (chatError) throw chatError;
 
     const chatId = existingChats?.[0]?.id;
-    if (!chatId) return console.error("Chat not found");
+    if (!chatId) return console.error(messagesT("chatNotFound"));
 
     // 2. Delete all messages for this chat
     const { error: deleteError } = await supabase
@@ -5446,7 +5652,7 @@ async function deleteCurrentChat() {
 
 async function blockUser() {
   const chatId = window.currentChatId;
-  if (!chatId) return console.error("No active chat");
+  if (!chatId) return console.error(messagesT("noActiveChat"));
 
   try {
     // 1. Fetch chat to determine the other user
@@ -5499,7 +5705,7 @@ document.getElementById("sendMessageBtn")?.addEventListener("click", async () =>
   if (!text) return;
 
   const friend = window.currentChatFriend;
-  if (!friend?.id) return console.error("No valid friend selected.");
+  if (!friend?.id) return console.error(messagesT("noValidFriend"));
 
   try {
     // Get current user's profile info
@@ -5559,6 +5765,7 @@ document.getElementById("sendMessageBtn")?.addEventListener("click", async () =>
 
 
 //#endregion
+
 
 //#region LOCAL COMMUNITY
 // ----------------------------
@@ -6879,11 +7086,36 @@ async function fetchAllLeaderboards() {
 
 //#region ACHIEVEMENTS
 
+const achievementTranslations = {
+  en: {
+    noAchievements: "No achievements yet."
+  },
+  es: {
+    noAchievements: "No tienes logros aún."
+  },
+  hu: {
+    noAchievements: "Még nincs elért eredmény."
+  }
+};
+
+function achievementT(key, vars = {}) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
+  let str =
+    profileTranslations[lang]?.[key] ||
+    profileTranslations.en[key] ||
+    key;
+
+  for (const [k, v] of Object.entries(vars)) {
+    str = str.replaceAll(`{${k}}`, v);
+  }
+
+  return str;
+}
 // Display achievements
 function populateAchievements(container, achievements) {
   container.innerHTML = "";
   if (!achievements || !Array.isArray(achievements) || achievements.length === 0) {
-    container.innerHTML = "<p>No achievements yet.</p>";
+    container.innerHTML = `<p>${achievementT("noAchievements")}</p>`;
     return;
   }
 
