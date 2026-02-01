@@ -1356,7 +1356,12 @@ document.getElementById("mindfulStartBtn").innerText = t.mindfulStartBtn;
 document.getElementById("encourageChallengeTitle").innerText = t.encourageChallengeTitle;
 document.getElementById("encourageChallengeDesc").innerText = t.encourageChallengeDesc;
 document.getElementById("chooseFriendLabel").innerText = t.chooseFriendLabel;
-document.getElementById("selectFriendOption").innerText = t.selectFriendOption;
+const select = document.getElementById("friendSelect");
+if (select && select.options.length > 0) {
+  select.options[0].textContent = t.selectFriendOption;
+}
+const placeholder = document.querySelector("#friendSelect .placeholderOption");
+if (placeholder) placeholder.textContent = t.selectFriendOption;
 document.getElementById("yourMessageLabel").innerText = t.yourMessageLabel;
 document.getElementById("encourageReward").innerText = t.encourageReward;
 document.getElementById("sendEncourageBtn").innerText = t.sendEncourageBtn;
@@ -4621,6 +4626,7 @@ comparisonT("calcComparison", {
 });
 //#endregion
 
+
 //#region PROFILE
 
 //--------------------------
@@ -7573,8 +7579,6 @@ async function loadFriendSelect(currentProfileid) {
   const select = document.getElementById("friendSelect");
   if (!select) return;
 
-  select.innerHTML = `<option value="" disabled selected>Select a friend</option>`;
-
   try {
     const { data: friendsData, error } = await supabase
       .from("friends")
@@ -7755,7 +7759,6 @@ async function initSystemSettings() {
     const newLang = languageSelect.value;
 
     // update source of truth
-  window.appState.lang = newLang;
   localStorage.setItem("lang", newLang);
 
   // 🔁 notify pools explicitly
