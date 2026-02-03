@@ -1167,7 +1167,7 @@ document.getElementById("mealArtHeaderTitle").innerText = t.mealArtHeaderTitle;
 document.getElementById("generalnote").innerText = t.mealArtIntro;
 document.getElementById("uploadBtn").innerText = t.uploadMyMealBtn;
 document.getElementById("openProKitchenPopup").innerText = t.requestProKitchen;
-document.getElementById("votenote").innerText = t.voteNote;
+document.getElementById("votenote").innerText = t.votenote;
 document.getElementById("alreadyUploadedMsg").innerText = t.alreadyUploadedMsg;
 
 document.getElementById("participantsTab").innerText = t.participantsTab;
@@ -5766,8 +5766,161 @@ document.getElementById("sendMessageBtn")?.addEventListener("click", async () =>
 
 //#endregion
 
-
 //#region LOCAL COMMUNITY
+const communityTranslations = {
+  en: {
+    // --- General / status ---
+    notInCommunity: "You are not in a community.",
+    alreadyInCommunity: "You are already in a community!",
+    joinedCommunity: "You are in the community:",
+    communityTitleSuffix: "Community",
+
+    // --- Selects ---
+    selectCity: "Select city",
+
+    // --- Chat ---
+    emptyMessage: "Please write a message first.",
+
+    // --- Friends ---
+    sendRequest: "Send Request",
+    requestSent: "Request Sent",
+    requestSentConfirmed: "Request Sent ✅",
+    goalsLabel: "Goals:",
+
+    // --- Local businesses ---
+    noLocalBusinesses: "No local businesses yet.",
+    localBusinessesLoadError: "Unable to load local businesses.",
+
+    // --- Events ---
+    participants: "participant",
+    participantsPlural: "participants",
+    participantsFor: "Participants for",
+    signUp: "Sign Up",
+    unregister: "Unregister",
+    close: "Close",
+
+    // --- Event creation ---
+    eventMissingFields: "Please enter place, date, and ensure you are in a community.",
+    userDataNotLoaded: "User data not loaded. Please log in.",
+    failedCreateEvent: "Failed to create event.",
+    failedAddCreator: "Failed to add creator as participant.",
+    failedUpdateParticipation: "Failed to update participation. Check console for details.",
+
+    // --- Contact / business popup ---
+    businessMessageMissing: "Please tell us a bit about your business.",
+    requestSentSuccess: "Request sent! We'll contact you soon 😊",
+    genericError: "Something went wrong. Please try again.",
+
+    // --- Contact form ---
+    contactSelectSubject: "Please select a subject.",
+    contactWriteMessage: "Please write your message.",
+    contactSuccess: "We have received your message and will contact you shortly. Thank you!"
+  },
+
+  es: {
+    // --- General / status ---
+    notInCommunity: "No estás en ninguna comunidad.",
+    alreadyInCommunity: "¡Ya estás en una comunidad!",
+    joinedCommunity: "Estás en la comunidad:",
+    communityTitleSuffix: "Comunidad",
+
+    // --- Selects ---
+    selectCity: "Selecciona ciudad",
+
+    // --- Chat ---
+    emptyMessage: "Por favor, escribe un mensaje primero.",
+
+    // --- Friends ---
+    sendRequest: "Enviar solicitud",
+    requestSent: "Solicitud enviada",
+    requestSentConfirmed: "Solicitud enviada ✅",
+    goalsLabel: "Objetivos:",
+
+    // --- Local businesses ---
+    noLocalBusinesses: "Aún no hay negocios locales.",
+    localBusinessesLoadError: "No se pudieron cargar los negocios locales.",
+
+    // --- Events ---
+    participants: "participante",
+    participantsPlural: "participantes",
+    participantsFor: "Participantes de",
+    signUp: "Apuntarse",
+    unregister: "Cancelar",
+    close: "Cerrar",
+
+    // --- Event creation ---
+    eventMissingFields: "Por favor, introduce el lugar, la fecha y asegúrate de estar en una comunidad.",
+    userDataNotLoaded: "Datos del usuario no cargados. Por favor, inicia sesión.",
+    failedCreateEvent: "No se pudo crear el evento.",
+    failedAddCreator: "No se pudo añadir al creador como participante.",
+    failedUpdateParticipation: "No se pudo actualizar la participación. Revisa la consola.",
+
+    // --- Contact / business popup ---
+    businessMessageMissing: "Por favor, cuéntanos un poco sobre tu negocio.",
+    requestSentSuccess: "¡Solicitud enviada! Nos pondremos en contacto contigo pronto 😊",
+    genericError: "Algo salió mal. Inténtalo de nuevo.",
+
+    // --- Contact form ---
+    contactSelectSubject: "Por favor, selecciona un asunto.",
+    contactWriteMessage: "Por favor, escribe tu mensaje.",
+    contactSuccess: "Hemos recibido tu mensaje y te contactaremos pronto. ¡Gracias!"
+  },
+
+  hu: {
+    // --- General / status ---
+    notInCommunity: "Nem vagy közösség tagja.",
+    alreadyInCommunity: "Már tagja vagy egy közösségnek!",
+    joinedCommunity: "A közösséged:",
+    communityTitleSuffix: "Közösség",
+
+    // --- Selects ---
+    selectCity: "Válassz várost",
+
+    // --- Chat ---
+    emptyMessage: "Kérlek, először írj egy üzenetet.",
+
+    // --- Friends ---
+    sendRequest: "Barátkérelem küldése",
+    requestSent: "Kérelem elküldve",
+    requestSentConfirmed: "Kérelem elküldve ✅",
+    goalsLabel: "Célok:",
+
+    // --- Local businesses ---
+    noLocalBusinesses: "Még nincsenek helyi vállalkozások.",
+    localBusinessesLoadError: "Nem sikerült betölteni a helyi vállalkozásokat.",
+
+    // --- Events ---
+    participants: "résztvevő",
+    participantsPlural: "résztvevő",
+    participantsFor: "Résztvevők:",
+    signUp: "Jelentkezés",
+    unregister: "Leiratkozás",
+    close: "Bezárás",
+
+    // --- Event creation ---
+    eventMissingFields: "Kérlek add meg a helyszínt, az időpontot, és csatlakozz egy közösséghez.",
+    userDataNotLoaded: "Felhasználói adatok nem érhetők el. Kérlek, jelentkezz be.",
+    failedCreateEvent: "Az esemény létrehozása nem sikerült.",
+    failedAddCreator: "A szervező hozzáadása résztvevőként nem sikerült.",
+    failedUpdateParticipation: "Nem sikerült frissíteni a részvételt. Nézd meg a konzolt.",
+
+    // --- Contact / business popup ---
+    businessMessageMissing: "Kérlek, írj pár szót a vállalkozásodról.",
+    requestSentSuccess: "Kérelem elküldve! Hamarosan felvesszük veled a kapcsolatot 😊",
+    genericError: "Hiba történt. Kérlek, próbáld újra.",
+
+    // --- Contact form ---
+    contactSelectSubject: "Kérlek, válassz egy témát.",
+    contactWriteMessage: "Kérlek, írd meg az üzeneted.",
+    contactSuccess: "Megkaptuk az üzeneted, hamarosan jelentkezünk. Köszönjük!"
+  }
+};
+
+function tCommunity(key) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en"; // same logic as before
+  return communityTranslations[lang]?.[key] || communityTranslations.en[key] || key;
+}
+
 // ----------------------------
 // COMMUNITY
 // ----------------------------
@@ -5878,7 +6031,7 @@ async function loadUserCommunity(currentUser) {
     if (locationError) return console.error(locationError);
 
     const locationName = `${location.city}, ${location.country}`;
-    document.getElementById("joinedCommunityText").textContent = `You are in the community: ${locationName}`;
+    document.getElementById("joinedCommunityText").textContent = `${tCommunity("joinedCommunity")} ${locationName}`;
     document.getElementById("leaveCommunityBtn").style.display = "inline-block";
     document.getElementById("joinCommunityBtn").style.display = "none";
 
@@ -5894,9 +6047,9 @@ async function showCommunityDashboard(locationId, locationName) {
   firstLoad = true;
 
   document.getElementById("joinCommunityCard").style.display = "none";
-  document.getElementById("joinedCommunityText").textContent = `You are in the community: ${locationName}`;
+  document.getElementById("joinedCommunityText").textContent = `${tCommunity("joinedCommunity")} ${locationName}`;
   document.getElementById("communityDashboard").style.display = "block";
-  document.getElementById("communityTitle").textContent = `${locationName} Community`;
+  document.getElementById("communityTitle").textContent = `${locationName} ${tCommunity("communityTitleSuffix")}`;
 
   // Hide chat & events initially
   document.getElementById("communityChatSection").style.display = "none";
@@ -5952,7 +6105,7 @@ async function loadCommunityMessages(locationId) {
 async function sendCommunityMessage() {
   const input = document.getElementById("communityMessageInput");
   const text = document.getElementById("communityMessageInput").value.trim();
-  if (!text || !joinedLocationId) return alert("You are not in a community.");
+  if (!text || !joinedLocationId) return alert(tCommunity("notInCommunity"));
 
   const { error } = await supabase.from("community_messages").insert([{
     user_id: currentUser.id,
@@ -6068,14 +6221,14 @@ async function showCommunityMembers(locationId) {
     ) {
       const btn = document.createElement("button");
       btn.textContent = sentRequests.some(r => r.receiver_friend_code === member.friend_code)
-        ? "Request Sent"
-        : "Send Request";
-      btn.disabled = btn.textContent === "Request Sent";
+        ? tCommunity("requestSent")
+        : tCommunity("sendRequest");
+      btn.disabled = btn.textContent === tCommunity("requestSent");
 
       btn.onclick = async () => {
         const result = await sendRequest(member.friend_code);
         if (result.success) {
-          btn.textContent = "Request Sent ✅";
+          btn.textContent = tCommunity("requestSentConfirmed");
           btn.disabled = true;
         } else {
           alert(result.message);
@@ -6105,12 +6258,12 @@ async function showCommunityMembers(locationId) {
 
   if (bizError) {
     console.error("Error loading local businesses:", bizError);
-    localBusinessesContainer.innerHTML = "<p>Unable to load local businesses.</p>";
+    localBusinessesContainer.innerHTML = `<p>${tCommunity("localBusinessesLoadError")}</p>`;
     return;
   }
 
   if (businesses.length === 0) {
-    localBusinessesContainer.innerHTML = "<p>No local businesses yet.</p>";
+    localBusinessesContainer.innerHTML = `<p>${tCommunity("noLocalBusinesses")}</p>`;
     return;
   }
 
@@ -6175,7 +6328,7 @@ if (data.frame && data.frame.trim() !== "") {
   popup.querySelector(".dietprofilecard").textContent = `🌿 ${data.diet}`;
   // Goals (multiple)
 const goalsContainer = popup.querySelector(".goalsprofilecard");
-goalsContainer.innerHTML = '🎯 Goals:<br>'; // header
+goalsContainer.innerHTML = `🎯 ${tCommunity("goalsLabel")}<br>`; // header
 if (Array.isArray(data.goals)) {
   data.goals.forEach(goal => {
     goalsContainer.innerHTML += `• ${goal}<br>`;
@@ -6219,7 +6372,7 @@ document.getElementById("joinCommunityBtn").addEventListener("click", async () =
     .eq("user_id", currentUser.id)
     .maybeSingle();
 
-  if (existing.data) return alert("You are already in a community!");
+  if (existing.data) return alert(tCommunity("alreadyInCommunity"));
 
   const locationName = `${document.getElementById("citySelect").selectedOptions[0].text}, ${document.getElementById("countrySelect").value}`;
 
@@ -6300,7 +6453,11 @@ async function loadCommunityEvents(locationId) {
     // PARTICIPANTS BUTTON
     // ----------------------------
     const participantBtn = document.createElement("button");
-    participantBtn.textContent = `${participantCount} participant${participantCount !== 1 ? "s" : ""}`; // pluralize correctly
+    participantBtn.textContent = `${participantCount} ${
+    participantCount === 1
+      ? tCommunity("participants")
+      : tCommunity("participantsPlural")
+  }`; 
     participantBtn.onclick = () => {
   showParticipantsPopup(event.place, participants);
 };
@@ -6316,12 +6473,12 @@ const isParticipating = participants.some(p => p.user_id === currentUser.id);
 
 if (!isCreator) {
   const signupBtn = document.createElement("button");
-  signupBtn.textContent = isParticipating ? "Unregister" : "Sign Up";
+  signupBtn.textContent = isParticipating ? tCommunity("unregister") : tCommunity("signUp");
 
   signupBtn.onclick = async () => {
     if (!event.id) return alert("Event ID not found.");
     if (!currentUser || !currentUser.id || !currentProfile || !currentProfile.name) {
-      return alert("User data not loaded.");
+      return alert(tCommunity("userDataNotLoaded"));
     }
 
     try {
@@ -6395,11 +6552,11 @@ submitEventBtn.addEventListener("click", async () => {
   const eventDate = eventTimeInput.value;
 
   if (!place || !eventDate || !joinedLocationId) {
-    return alert("Please enter place, date, and ensure you are in a community.");
+    return alert(tCommunity("eventMissingFields"));
   }
 
   if (!currentUser || !currentProfile) {
-    return alert("User data not loaded. Please log in.");
+    return alert(tCommunity("userDataNotLoaded"));
   }
 
   // 1️⃣ Insert the new event
@@ -6418,7 +6575,7 @@ submitEventBtn.addEventListener("click", async () => {
 
   if (eventError) {
     console.error(eventError);
-    return alert("Failed to create event.");
+    return alert(tCommunity("failedCreateEvent"));
   }
 
   // 2️⃣ Insert creator into event_participants
@@ -6432,7 +6589,7 @@ submitEventBtn.addEventListener("click", async () => {
 
   if (participantError) {
     console.error(participantError);
-    return alert("Failed to add creator as participant.");
+    return alert(tCommunity("failedAddCreator"));
   }
 
   // 3️⃣ Clear inputs and hide form
@@ -6517,12 +6674,12 @@ async function showParticipantsPopup(eventPlace, participants) {
     ul.appendChild(li);
   });
 
-  popup.innerHTML = `<h3>Participants for ${eventPlace}</h3>`;
+  popup.innerHTML = `<h3>${tCommunity("participantsFor")} ${eventPlace}</h3>`;
   popup.appendChild(ul);
 
   const closeBtn = document.createElement("button");
   closeBtn.className = "eventclose-popup";
-  closeBtn.textContent = "Close";
+  closeBtn.textContent = tCommunity("close");
   closeBtn.onclick = () => overlay.remove();
   popup.appendChild(closeBtn);
 
@@ -6551,7 +6708,7 @@ closeLocalBtn.addEventListener("click", () => {
 sendLocalBtn.addEventListener("click", async () => {
   const message = document.getElementById("localBusinessMessage").value.trim();
   if (!message) {
-    alert("Please tell us a bit about your business.");
+    alert(tCommunity("businessMessageMissing"));
     return;
   }
 
@@ -6572,7 +6729,7 @@ sendLocalBtn.addEventListener("click", async () => {
 
   document.getElementById("localBusinessMessage").value = "";
   localPopup.classList.remove("active");
-  alert("Request sent! We'll contact you soon 😊");
+  alert(tCommunity("requestSentSuccess"));
 });
 
 
@@ -6583,12 +6740,12 @@ sendContactBtn.addEventListener("click", async () => {
   const message = document.getElementById("contactMessage").value.trim();
 
   if (!subject) {
-    alert("Please select a subject.");
+    alert(tCommunity("contactSelectSubject"));
     return;
   }
 
   if (!message) {
-    alert("Please write your message.");
+    alert(tCommunity("contactWriteMessage"));
     return;
   }
 
@@ -6603,7 +6760,7 @@ sendContactBtn.addEventListener("click", async () => {
 
   if (error) {
     console.error(error);
-    alert("Something went wrong. Please try again.");
+    alert(tCommunity("genericError"));
     return;
   }
 
@@ -6611,11 +6768,33 @@ sendContactBtn.addEventListener("click", async () => {
   document.getElementById("contactSubject").value = "";
   document.getElementById("contactMessage").value = "";
 
-  alert("We have received your message and will contact you shortly. Thank you!");
+  alert(tCommunity("contactSuccess"));
 });
 //#endregion
 
 //#region ANONYMOUS FORUM
+const forumTranslations = {
+  en: {
+    asker: "Asker",
+    anonymous: "Anonymous"
+  },
+
+  es: {
+    asker: "Autor",
+    anonymous: "Anónimo"
+  },
+
+  hu: {
+    asker: "Kérdező",
+    anonymous: "Névtelen"
+  }
+};
+
+function tForum(key) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
+  return forumTranslations[lang]?.[key] || forumTranslations.en[key] || key;
+}
+
 // ----------------------------
 // ANONYMOUS FORUM
 // ----------------------------
@@ -6738,7 +6917,7 @@ async function AFopenCommentPopup(block) {
   comments.forEach(c => {
     const li = document.createElement('li');
     const isAsker = c.commenter_id === block.user_id;
-    const displayName = isAsker ? "Asker" : c.commenter_name;
+    const displayName = isAsker ? tForum("asker") : c.commenter_name;
     const textSpan = document.createElement('span');
     textSpan.innerHTML = `<strong>${displayName}:</strong> ${c.content}`;
     li.appendChild(textSpan);
@@ -6769,7 +6948,7 @@ async function submitNewComment(content, inputElement) {
     .eq('id', currentUser.id)
     .single();
 
-  const commenterName = profile?.name || "Anonymous";
+  const commenterName = profile?.name || tForum("anonymous");
 
   await supabase.from('forum_comments').insert([{
     block_id: activeBlockId,
@@ -6794,6 +6973,69 @@ async function submitNewComment(content, inputElement) {
 //#endregion
 
 //#region MENTORSHIP
+const mentorshipTranslations = {
+  en: {
+    loadingMentors: "Loading mentors...",
+    errorLoadingMentors: "Error loading mentors.",
+
+    invalidYears: "Please enter valid years.",
+    mustBeLoggedIn: "You must be logged in.",
+    submitFailed: "Failed to submit mentorship.",
+    submitSuccess: "Mentor application submitted!",
+
+    yearsVegan: "years vegan",
+    message: "Message",
+
+    endFailed: "Failed to end mentorship.",
+    mentorshipEnded: "Mentorship ended.",
+
+    loginToChat: "You must be logged in to start a chat.",
+    missingMentorId: "Cannot start chat: mentor user ID is missing."
+  },
+  es: {
+  loadingMentors: "Cargando mentores...",
+  errorLoadingMentors: "Error al cargar los mentores.",
+
+  invalidYears: "Por favor, introduce años válidos.",
+  mustBeLoggedIn: "Debes iniciar sesión.",
+  submitFailed: "No se pudo enviar la solicitud de mentoría.",
+  submitSuccess: "¡Solicitud de mentoría enviada!",
+
+  yearsVegan: "años vegano",
+  message: "Mensaje",
+
+  endFailed: "No se pudo finalizar la mentoría.",
+  mentorshipEnded: "Mentoría finalizada.",
+
+  loginToChat: "Debes iniciar sesión para iniciar un chat.",
+  missingMentorId: "No se puede iniciar el chat: falta el ID del mentor."
+},
+  hu: {
+    loadingMentors: "Mentorok betöltése...",
+    errorLoadingMentors: "Nem sikerült betölteni a mentorokat.",
+
+    invalidYears: "Kérlek, adj meg érvényes éveket.",
+    mustBeLoggedIn: "Be kell jelentkezned.",
+    submitFailed: "Nem sikerült elküldeni a mentor jelentkezést.",
+    submitSuccess: "Mentor jelentkezés elküldve!",
+
+    yearsVegan: "éve vegán",
+    message: "Üzenet",
+
+    endFailed: "Nem sikerült befejezni a mentorálást.",
+    mentorshipEnded: "Mentorálás befejezve.",
+
+    loginToChat: "A csevegéshez be kell jelentkezned.",
+    missingMentorId: "Nem indítható csevegés: hiányzó mentor azonosító."
+  }
+};
+
+function tMentorship(key) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
+  return mentorshipTranslations[lang]?.[key]
+      || mentorshipTranslations.en[key]
+      || key;
+}
 
 // ----------------------------
 // MENTORSHIP
@@ -6821,7 +7063,7 @@ function setupMentorshipUI() {
 
       const years = document.getElementById("mentor-years").value;
       if (years === "" || isNaN(years)) {
-        alert("Please enter valid years.");
+        alert(tMentorship("invalidYears"));
         submitBtn.disabled = false;
         return;
       }
@@ -6829,7 +7071,7 @@ function setupMentorshipUI() {
       const user = currentUser;
       const profile = currentProfile;
       if (!user || !profile) {
-        alert("You must be logged in.");
+        alert(tMentorship("mustBeLoggedIn"));
         submitBtn.disabled = false;
         return;
       }
@@ -6847,12 +7089,12 @@ function setupMentorshipUI() {
 
       if (error) {
         console.error(error);
-        alert("Failed to submit mentorship.");
+        alert(tMentorship("submitFailed"));
         submitBtn.disabled = false;
         return;
       }
 
-      alert("Mentor application submitted!");
+      alert(tMentorship("submitSuccess"));
       document.getElementById("mentor-popup")?.classList.remove("active");
       submitBtn.disabled = false;
 
@@ -6867,7 +7109,7 @@ async function loadMentors() {
   if (!user) return;
 
   const mentorsList = document.getElementById("mentorsList");
-  mentorsList.innerHTML = "<li>Loading mentors...</li>";
+  mentorsList.innerHTML = tMentorship("loadingMentors");
 
   const { data: mentors, error } = await supabase
     .from("mentors")
@@ -6875,7 +7117,7 @@ async function loadMentors() {
 
   if (error) {
     console.error(error);
-    mentorsList.innerHTML = "<li>Error loading mentors.</li>";
+    mentorsList.innerHTML = tMentorship("errorLoadingMentors");
     return;
   }
 
@@ -6904,9 +7146,9 @@ async function loadMentors() {
     ></div>
     <div class="mentor-info">
       <p class="mentor-name">${mentor.title ? `${mentor.name}, ${mentor.title}` : mentor.name}</p>
-      <p class="mentor-years">${mentor.years_vegan} years vegan</p>
+      <p class="mentor-years">${mentor.years_vegan} ${tMentorship("yearsVegan")}</p>
     </div>
-    <button class="mentor-message-btn" data-id="${mentor.id}">Message</button>
+    <button class="mentor-message-btn" data-id="${mentor.id}">${tMentorship("message")}</button>
   `;
 
   // Handle profile click
@@ -6953,8 +7195,8 @@ async function checkAndToggleMentorUI() {
   const endBtn = document.getElementById("endmentorship");
   endBtn?.addEventListener("click", async () => {
     const { error } = await supabase.from("mentors").delete().eq("user_id", user.id);
-    if (error) { console.error(error); alert("Failed to end mentorship."); return; }
-    alert("Mentorship ended.");
+    if (error) { console.error(error); alert(tMentorship("endFailed")); return; }
+    alert(tMentorship("mentorshipEnded"));
     applyBtn.style.display = "inline-block";
     alreadyMentor.style.display = "none";
     loadMentors();
@@ -6978,13 +7220,13 @@ function setupCard() {
 async function startChatWithMentor(mentor) {
   const { data: { user: currentUser }, error } = await supabase.auth.getUser();
   if (error || !currentUser) {
-    alert("You must be logged in to start a chat.");
+    alert(tMentorship("loginToChat"));
     return;
   }
 
   if (!mentor?.user_id) {
     console.error("Mentor user_id is missing!", mentor);
-    alert("Cannot start chat: mentor user ID is missing.");
+    alert(tMentorship("missingMentorId"));
     return;
   }
 
@@ -7018,6 +7260,7 @@ async function startChatWithMentor(mentor) {
   openChatWindow(chatId, chatFriend);
 }
 //#endregion
+
 
 //#region LEADERBOARD
 // ----------------------------
