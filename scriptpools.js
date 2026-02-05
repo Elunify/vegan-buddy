@@ -24,21 +24,80 @@ export const LessonsByIndex = {
 
 1: {  
   goal: "Protecting animals & animal welfare",  diet: "omnivore",  
-  lesson: "We often say 'the circle of life' to describe nature, thinking that all living beings are part of a balanced system. In natural circumstances, every animal is born with freedom, space, and a chance to live fully, experiencing sunlight and expressing natural behaviors. Industrial farming, however, confines animals to tiny cages, preventing them from living naturally. If they are denied these basic experiences, can we still call it 'natural'? Reflecting on this helps us question our food system and its impact on life.",
+  title: {
+  en: "Circle of life?",
+  es: "¿Círculo de la vida?",
+  hu: "Az élet körforgása?",
+  },
+  lesson: {
+  en: "We often say 'the circle of life' to describe nature, thinking that all living beings are part of a balanced system. In natural circumstances, every animal is born with freedom, space, and a chance to live fully, experiencing sunlight and expressing natural behaviors. Industrial farming, however, confines animals to tiny cages, preventing them from living naturally. If they are denied these basic experiences, can we still call it 'natural'? Reflecting on this helps us question our food system and its impact on life.",
+  es: "A menudo decimos 'el círculo de la vida' para describir la naturaleza, pensando que todos los seres vivos forman parte de un sistema equilibrado. En condiciones naturales, cada animal nace con libertad, espacio y la oportunidad de vivir plenamente, experimentando la luz del sol y expresando comportamientos naturales. Sin embargo, la ganadería industrial confina a los animales en jaulas diminutas, impidiéndoles vivir de manera natural. Si se les niegan estas experiencias básicas, ¿podemos seguir llamándolo 'natural'? Reflexionar sobre esto nos ayuda a cuestionar nuestro sistema alimentario y su impacto en la vida.",
+  hu: "Gyakran mondjuk azt, hogy „az élet köre”, amikor a természetet írjuk le, azt gondolva, hogy minden élőlény része egy kiegyensúlyozott rendszernek. Természetes körülmények között minden állat szabadsággal, térrel és a teljes élet lehetőségével születik, élvezheti a napfényt és kifejezheti természetes viselkedését. Az ipari állattartás azonban az állatokat apró ketrecekbe zárja, megakadályozva, hogy természetesen éljenek. Ha ezektől az alapvető élményektől megfosztjuk őket, vajon még mindig nevezhetjük ezt „természetesnek”? Ennek átgondolása segít megkérdőjelezni az élelmiszer-rendszerünket és annak az életre gyakorolt hatását."
+  },
   quiz: {  
-    question: "What is often denied to farm animals compared to natural life?",  
-    options: ["Freedom and space", "Sunlight and natural behaviors", "A chance to live fully", "All of the above"],  
-    answer: "All of the above"  
-  }  
-},
-2: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
-     lesson: "Acknowledging the realities of animals’ lives can feel heavy, but feeling this way actually reflects your empathy and compassion—it’s something to be proud of, not avoid. At the same time, ignoring the truth doesn’t help. Even small, thoughtful actions can make a real difference, and you have the power to act kindly without guilt.",
-  quiz: { 
-      question: "What does feeling uncomfortable about animal suffering indicate?", 
-      options: ["It shows our empathy", "It proves we are bad people", "It’s pointless", "We should ignore it"], 
-      answer: "It shows our empathy" 
-  }
+    question: {
+      en: "What is often denied to farm animals compared to natural life?",
+      es: "¿Qué se les niega con frecuencia a los animales de granja en comparación con la vida natural?",
+      hu: "Mitől fosztják meg leggyakrabban a haszonállatokat a természetes élethez képest?"
+    },  
+    options: {
+      en: [
+        "Freedom and space",
+        "Sunlight and natural behaviors",
+        "A chance to live fully",
+        "All of the above"
+      ],
+      es: [
+        "Libertad y espacio",
+        "Luz solar y comportamientos naturales",
+        "La oportunidad de vivir plenamente",
+        "Todas las anteriores"
+      ],
+      hu: [
+        "Szabadság és tér",
+        "Napfény és természetes viselkedés",
+        "Teljes élet lehetősége",
+        "Mindegyik"
+      ]
     },
+    answer: {
+      en: "All of the above",
+      es: "Todas las anteriores",
+      hu: "Mindegyik"
+    }
+  }
+},
+2: { 
+  goal: "Protecting animals & animal welfare", 
+  diet: "omnivore", 
+  title: {
+  en: "Facing the truth",
+  es: "Enfrentar la verdad",
+  hu: "Szembenézni a tényekkel",
+  },
+  lesson: {
+    en: "Acknowledging the realities of animals’ lives can feel heavy. Feeling this way actually shows your empathy and compassion—it’s a sign of your humanity, not something to avoid. Ignoring the truth doesn’t help either. Even small, thoughtful actions—like choosing kinder food options or supporting animal welfare—can make a real difference. Reflecting on your choices empowers you to act with care without guilt.",
+    es: "Reconocer la realidad de la vida de los animales puede resultar pesado. Sentir esto demuestra tu empatía y compasión: es una señal de tu humanidad, no algo que debas evitar. Ignorar la verdad tampoco ayuda. Incluso pequeñas acciones conscientes, como elegir alimentos más respetuosos o apoyar el bienestar animal, pueden marcar una diferencia real. Reflexionar sobre tus decisiones te permite actuar con cuidado sin culpa.",
+    hu: "Az állatok életének valóságának felismerése nehéznek tűnhet. Az, hogy így érzel, az empátiádat és együttérzésedet mutatja—ez az emberiességed jele, nem valami, amit kerülni kellene. Az igazság figyelmen kívül hagyása sem segít. Már a kis, átgondolt cselekedetek—például kedvesebb ételválasztások vagy az állatjólét támogatása—is valódi változást hozhatnak. Az, hogy átgondolod a döntéseidet, lehetővé teszi, hogy felelősségteljesen cselekedj bűntudat nélkül."
+  },
+  quiz: { 
+    question: {
+      en: "What does feeling uncomfortable about animal suffering indicate?", 
+      es: "¿Qué indica sentirse incómodo ante el sufrimiento animal?", 
+      hu: "Mit jelez, ha kényelmetlenül érzed magad az állati szenvedés láttán?"
+    },
+    options: {
+      en: ["It shows our empathy", "It proves we are bad people", "It’s pointless", "We should ignore it"], 
+      es: ["Muestra nuestra empatía", "Prueba que somos malas personas", "No tiene sentido", "Debemos ignorarlo"], 
+      hu: ["Empátiánkat mutatja", "Bizonyítja, hogy rossz emberek vagyunk", "Értelmetlen", "Figyelmen kívül kell hagynunk"]
+    },
+    answer: {
+      en: "It shows our empathy", 
+      es: "Muestra nuestra empatía", 
+      hu: "Empátiánkat mutatja"
+    }
+  }
+},
 3: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
  lesson: "We often treat some animals as family, like dogs and cats, while others, like pigs, cows, and chickens, are raised for food. We probably agree on their innocence, feelings, and the desire to live. This raises an important question: why do we draw the line between animals we love and animals we eat? Thinking about where and why we set these boundaries can help us understand our values and the impact of our choices.",
 quiz: { 

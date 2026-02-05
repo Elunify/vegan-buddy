@@ -2,6 +2,8 @@
 
 const translations = {
   en: {
+    //Loading
+    loadingapp: "Loading...",
     //HomPage
     xpLabel: "XP to next level",
     mealArtBtn: "Meal-Art Contest",
@@ -213,6 +215,9 @@ friendsTitleLabel: "Friends:",
   encourageTemplateStart: "I've chosen you to encourage in my daily challenge.",
   encourageTemplateEnd: "Keep going 🌱",
 
+  lessonAnimal: "Animal",
+  lessonEarth: "Earth",
+  lessonHealth: "Health",
   //Recommendations
 recTitle: "📚 Recommendations",
 recBooksTitle: "Books",
@@ -370,6 +375,8 @@ deleteProfileBtn: "🗑️ Delete profile",
 
   },
   es: {
+    //Loading
+    loadingapp: "Cargando...",
     //HomPage
     xpLabel: "XP para el siguiente nivel",
     mealArtBtn: "Concurso de Meal-Art",
@@ -582,6 +589,9 @@ friendsTitleLabel: "Amigos:",
   encourageTemplateStart: "Te he elegido para animarte en mi desafío diario.",
   encourageTemplateEnd: "¡Sigue así 🌱",
   
+  lessonAnimal: "Animales",
+  lessonEarth: "Tierra",
+  lessonHealth: "Salud",
   //Recommendations
 recTitle: "📚 Recomendaciones",
 recBooksTitle: "Libros",
@@ -739,6 +749,8 @@ animalsSentence: "¡Has salvado 0 animales hasta ahora!",
 
   },
   hu: {
+    //Loading
+    loadingapp: "Betöltés...",
     //HomPage
     xpLabel: "XP a következő szinthez",
     mealArtBtn: "Meal-Art Verseny",
@@ -917,7 +929,7 @@ friendsTitleLabel: "Barátok:",
   achievementsInfoText: "Szerezz eredményeket, hogy különleges címeket nyiss meg, amelyek a neved mellett jelennek meg, és láthatóak a közösség számára. Büszkén bemutathatod ezeket a jutalmakat a profilkártyádon, hogy megmutasd a fejlődésedet és hatásodat.",
 
   //Shop
-  badgeCountText: "Jutalmaid: ",
+  badgeCountText: "Jelvényeid: ",
   shopMethodsHeader: "Hogyan szerezhetsz jelvényeket",
   watchAdBtn: "Hirdetés megtekintése",
   watchAdReward: "+2 jelvény és +3 XP hirdetésenként",
@@ -950,6 +962,9 @@ friendsTitleLabel: "Barátok:",
   encourageTemplateStart: "Kiválasztottalak, hogy bátorítsalak a napi kihívásomban.",
   encourageTemplateEnd: "Hajrá 🌱",
 
+  lessonAnimal: "Állatok",
+  lessonEarth: "Föld",
+  lessonHealth: "Egészség",
   //Recommendations
 recTitle: "📚 Ajánlások",
 recBooksTitle: "Könyvek",
@@ -1111,6 +1126,8 @@ deleteProfileBtn: "🗑️ Profil törlése",
 async function updateLanguageUI(lang) {
   const t = translations[lang]; // Select the language dictionary
 
+  //OnLoad
+  document.getElementById("loadingText").textContent = t.loadingapp;
     //HomPage
   // Top bar
   document.getElementById("xpLabel").textContent = t.xpLabel;
@@ -1368,6 +1385,9 @@ document.getElementById("sendEncourageBtn").innerText = t.sendEncourageBtn;
 document.getElementById("encourageTemplateStart").innerText = t.encourageTemplateStart;
 document.getElementById("encourageTemplateEnd").innerText = t.encourageTemplateEnd;
 
+  document.getElementById("animalLabel").innerText = t.lessonAnimal;
+  document.getElementById("earthLabel").innerText = t.lessonEarth;
+  document.getElementById("healthLabel").innerText = t.lessonHealth;
   //Recommendations
 // Recommendations
 document.getElementById("rec-title").innerText = t.recTitle;
@@ -1720,7 +1740,7 @@ async function fetchAllData() {
       last_checkin_date, goals, health_issues, badge, day_counter, goal_progress,
       is_pro, diet_preference, last_lesson, health_progress, extra_lesson,
       completed_health_issues, lesson_progress, achievements, title,
-      bought_items, xp_today, friend_code, survey_completed, name`)
+      bought_items, xp_today, friend_code, survey_completed, name, completed_lessons`)
     .eq("id", user.id)
     .single();
   if (profileError) return console.error("Error fetching profile:", profileError);
@@ -2132,6 +2152,9 @@ function helperT(key, variables = {}) {
   const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
   const translation = helperTranslations[lang]?.[key] || helperTranslations.en[key] || key;
   return typeof translation === "function" ? translation(variables) : translation;
+}
+function getLang() {
+  return window.appState?.lang || localStorage.getItem("lang") || "en";
 }
 
 //--------------------------
@@ -3093,9 +3116,6 @@ kitchensendBtn.addEventListener("click", async () => {
 //--------------------------
 // DAILY CHECKIN
 //--------------------------
-//--------------------------
-// DAILY CHECK-IN TRANSLATIONS
-//--------------------------
 const dailyCheckinTranslations = {
   en: {
     lessonNotFound: "Lesson not found. Please check your profile.",
@@ -3107,7 +3127,8 @@ const dailyCheckinTranslations = {
     wellDoneMealArt: "Well done! Have you checked out our meal-art contest and trending recipes already?",
     wellDoneCommunity: "Well done! Are you already a member of your local community? 🤩",
     wellDoneXpDone: "Well done! Your XP daily challenge is done, claim your reward in the playground section!",
-    wellDoneXpLeft: "Well done! You need {xp_left} more XP to complete your daily challenge!"
+    wellDoneXpLeft: "Well done! You need {xp_left} more XP to complete your daily challenge!",
+    lastquiz: "Last lesson's quiz:"
   },
   es: {
     lessonNotFound: "Lección no encontrada. Por favor revisa tu perfil.",
@@ -3119,7 +3140,8 @@ const dailyCheckinTranslations = {
     wellDoneMealArt: "¡Bien hecho! ¿Ya has visto nuestro concurso de meal-art y las recetas más populares?",
     wellDoneCommunity: "¡Bien hecho! ¿Ya eres miembro de tu comunidad local? 🤩",
     wellDoneXpDone: "¡Bien hecho! Tu desafío diario de XP está completado, ¡reclama tu recompensa en la sección del parque de juegos!",
-    wellDoneXpLeft: "¡Bien hecho! Necesitas {xp_left} XP más para completar tu desafío diario!"
+    wellDoneXpLeft: "¡Bien hecho! Necesitas {xp_left} XP más para completar tu desafío diario!",
+    lastquiz: "Cuestionario de la última lección:"
   },
   hu: {
     lessonNotFound: "Az óra nem található. Kérlek, ellenőrizd a profilodat.",
@@ -3131,7 +3153,8 @@ const dailyCheckinTranslations = {
     wellDoneMealArt: "Szép munka! Megnézted már a meal-art versenyt és a népszerű recepteket?",
     wellDoneCommunity: "Szép munka! Már tagja vagy a helyi közösségednek? 🤩",
     wellDoneXpDone: "Szép munka! A napi XP kihívásod kész, igényeld a jutalmad a játszótér szekcióban!",
-    wellDoneXpLeft: "Szép munka! Még {xp_left} XP-re van szükséged a napi kihívás teljesítéséhez!"
+    wellDoneXpLeft: "Szép munka! Még {xp_left} XP-re van szükséged a napi kihívás teljesítéséhez!",
+    lastquiz: "Az utolsó leckéhez tartozó kvíz:"
   }
 };
 
@@ -3223,7 +3246,7 @@ function getTodaysLessonFromProfile(profile) {
 
   // ✅ Rotate only through selected goals
   const todayGoalIndex = (profile.day_counter || 0) % availableGoals.length;
-  const todayGoal = availableGoals[todayGoalIndex];
+  const todayGoal = availableGoals[todayGoalIndex] || availableGoals[0];
 
   // ✅ Determine diet group and order
   const allowedDiets = ["omnivore", "vegetarian", "vegan"];
@@ -3262,6 +3285,7 @@ function getTodaysLessonFromProfile(profile) {
     if (numericId >= startIndex && !completed.includes(numericId)) {
       const currentDietIndex = allowedDiets.indexOf(lessonDiet);
       const lessonDietIndex = allowedDiets.indexOf(lessonDietLower);
+
       if (lessonDietIndex >= currentDietIndex) {
         todayLessonId = numericId;
         todayLesson = lesson;
@@ -3271,19 +3295,19 @@ function getTodaysLessonFromProfile(profile) {
   }
 
   // ✅ If all lessons are done, pick a random lesson from this goal (any diet)
-if (!todayLesson) {
-  const randomPool = allGoalLessons;
+  if (!todayLesson) { 
+    const randomPool = allGoalLessons;
 
-  if (randomPool.length > 0) {
-    const [randomId, randomLesson] =
-      randomPool[Math.floor(Math.random() * randomPool.length)];
+    if (randomPool.length > 0) {
+      const [randomId, randomLesson] =
+        randomPool[Math.floor(Math.random() * randomPool.length)];
 
-    todayLessonId = parseInt(randomId, 10);
-    todayLesson = randomLesson;
-  } else {
-    console.warn("⚠️ No lessons available for random fallback:", todayGoal);
+      todayLessonId = parseInt(randomId, 10);
+      todayLesson = randomLesson;
+    } else {
+      console.warn("⚠️ No lessons available for random fallback:", todayGoal);
+    }
   }
-}
 
   return { todayGoal, todayLessonId, todayLesson };
 }
@@ -3310,9 +3334,15 @@ function renderTodaysLesson() {
     document.getElementById("dailyLessonDCI").innerHTML = `<p>${dailyCheckinT("lessonNotFound")}</p>`;
     return;
   }
-  document.getElementById("dailyLessonDCI").innerHTML = `
-    <p class="lesson-text">${todayLesson.lesson}</p>
-  `;
+const lang = getLang();
+const lessonText =
+  todayLesson.lesson?.[lang] ||
+  todayLesson.lesson?.en ||
+  "";
+
+document.getElementById("dailyLessonDCI").innerHTML = `
+  <p class="lesson-text">${lessonText}</p>
+`;
 }
 
 // ------------------
@@ -3340,20 +3370,29 @@ function renderYesterdaysQuiz(profile) {
   yesterdayQuiz = Array.isArray(lessonData.quiz) ? lessonData.quiz : [lessonData.quiz];
 
   quizContainer.style.display = "block";
-  quizContainer.innerHTML = `<label class="bigLabelDCI">Last lesson's quiz:</label>`;
+  quizContainer.innerHTML = `<label class="bigLabelDCI"> ${dailyCheckinT("lastquiz")}</label>`;
+
+  const lang = getLang();
+
 
   yesterdayQuiz.forEach((q, i) => {
+const question =
+  q.question?.[lang] || q.question?.en || "";
+
+const options =
+  q.options?.[lang] || q.options?.en || [];
     const div = document.createElement("div");
     div.className = "quiz-itemDCI";
     div.innerHTML = `
-      <p class="quiz-questionDCI">${q.question}</p>
-      <div class="quiz-optionsDCI">
-        ${q.options.map(opt => `
-          <label class="checkbox-labelDCI">
-            <input type="radio" name="q${i}" value="${opt}"> ${opt}
-          </label>`).join("")}
-      </div>
-    `;
+  <p class="quiz-questionDCI">${question}</p>
+  <div class="quiz-optionsDCI">
+    ${options.map(opt => `
+      <label class="checkbox-labelDCI">
+        <input type="radio" name="q${i}" value="${opt}"> ${opt}
+      </label>
+    `).join("")}
+  </div>
+`;
     quizContainer.appendChild(div);
   });
 }
@@ -3380,7 +3419,7 @@ submitBtn.addEventListener('click', async () => {
 
 async function handleSubmit() {
 
-  const { todayGoal, todayLessonId, todayLesson } = getTodaysLessonFromProfile(currentProfile);
+  const todayLessonId = todayLessonIndex;
 
 if (!todayLesson) { alert(dailyCheckinT("noLessonToday")); return false; }
 
@@ -7261,8 +7300,49 @@ async function startChatWithMentor(mentor) {
 }
 //#endregion
 
-
 //#region LEADERBOARD
+const leaderboardTranslations = {
+  en: {
+    days: "days",
+    xpLabel: "XP",
+    level: "Level",
+
+    animals: "animals",
+    water: "L water",
+    forest: "trees",
+    co2: "kg CO₂"
+  },
+
+  es: {
+    days: "días",
+    xpLabel: "XP",
+    level: "Nivel",
+
+    animals: "animales",
+    water: "L de agua",
+    forest: "árboles",
+    co2: "kg de CO₂"
+  },
+
+  hu: {
+    days: "nap",
+    xpLabel: "XP",
+    level: "Szint",
+
+    animals: "állat",
+    water: "L víz",
+    forest: "fa",
+    co2: "kg CO₂"
+  }
+};
+
+function tLeaderboard(key) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
+  return leaderboardTranslations[lang]?.[key]
+    || leaderboardTranslations.en[key]
+    || key;
+}
+
 // ----------------------------
 // LEADERBOARDS
 // ----------------------------
@@ -7274,14 +7354,31 @@ function renderLeaderboard(ulId, data, type) {
   ul.innerHTML = data.map((user, index) => {
     switch(type) {
       case 'streak':
-        return `<li>${index + 1}. ${user.username} 🌱 – ${user.streak} days</li>`;
+        return `<li>
+          ${index + 1}. ${user.username} 🌱 – ${user.streak} ${tLeaderboard("days")}
+        </li>`;
+
       case 'xp':
-        return `<li>${index + 1}. ${user.username} 💫 – XP: ${user.total_xp}, (Level ${user.level})</li>`;
+        return `<li>
+          ${index + 1}. ${user.username} 💫 – 
+          ${tLeaderboard("xpLabel")}: ${user.total_xp}, 
+          (${tLeaderboard("level")} ${user.level})
+        </li>`;
+
       case 'impact':
-        return `<li>${index + 1}. ${user.username} 🌿 – ${user.animals_saved || 0} animals, ${user.water_saved || 0}L water, ${user.forest_saved || 0} trees, ${user.co2_saved || 0}kg CO₂</li>`;
+        return `<li>
+          ${index + 1}. ${user.username} 🌿 – 
+          ${user.animals_saved || 0} ${tLeaderboard("animals")}, 
+          ${user.water_saved || 0}${tLeaderboard("water")}, 
+          ${user.forest_saved || 0} ${tLeaderboard("forest")}, 
+          ${user.co2_saved || 0}${tLeaderboard("co2")}
+        </li>`;
+
       case 'badge':
-        return `<li>${index + 1}. ${user.username}  – 🏅 ${user.badge} </li>`;
-      
+        return `<li>
+          ${index + 1}. ${user.username} – 🏅 ${user.badge}
+        </li>`;
+
       default:
         return `<li>${index + 1}. ${user.username}</li>`;
     }
@@ -7331,21 +7428,46 @@ async function fetchAllLeaderboards() {
 
 const achievementTranslations = {
   en: {
-    noAchievements: "No achievements yet."
+    noAchievements: "No achievements yet.",
+
+    // Actions / states
+    addedToProfile: "🌟 Added to your profile",
+    addToAchievements: "Add to your achievements",
+    locked: "🔒 Locked",
+
+    // Suggestions / notifications
+    firstEvent: "🎉 You hosted your first event! Open Achievements to add your badge!",
+    mealArtWin: "🍽️ Your Meal Art won! Congratulations! Claim your achievement in your profile!"
   },
+
   es: {
-    noAchievements: "No tienes logros aún."
+    noAchievements: "Aún no tienes logros.",
+
+    addedToProfile: "🌟 Añadido a tu perfil",
+    addToAchievements: "Añadir a tus logros",
+    locked: "🔒 Bloqueado",
+
+    firstEvent: "🎉 ¡Has organizado tu primer evento! Abre Logros para añadir tu insignia.",
+    mealArtWin: "🍽️ ¡Tu plato ganó! ¡Felicidades! Reclama tu logro en tu perfil."
   },
+
   hu: {
-    noAchievements: "Még nincs elért eredmény."
+    noAchievements: "Még nincs elért eredmény.",
+
+    addedToProfile: "🌟 Hozzáadva a profilodhoz",
+    addToAchievements: "Hozzáadás az eredményeidhez",
+    locked: "🔒 Zárolva",
+
+    firstEvent: "🎉 Megszervezted az első eseményed! Nyisd meg az Eredményeket a jelvény hozzáadásához!",
+    mealArtWin: "🍽️ A fogásod nyert! Gratulálunk! Vedd fel az eredményt a profilodban!"
   }
 };
 
 function achievementT(key, vars = {}) {
   const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
   let str =
-    profileTranslations[lang]?.[key] ||
-    profileTranslations.en[key] ||
+    achievementTranslations[lang]?.[key] ||
+    achievementTranslations.en[key] ||
     key;
 
   for (const [k, v] of Object.entries(vars)) {
@@ -7354,6 +7476,7 @@ function achievementT(key, vars = {}) {
 
   return str;
 }
+
 // Display achievements
 function populateAchievements(container, achievements) {
   container.innerHTML = "";
@@ -7466,10 +7589,10 @@ async function displayAchievementsPage() {
     const action = document.createElement("div");
     if (isAdded) {
       action.className = "unlocked-badge";
-      action.textContent = "🌟 Added to your profile";
+      action.textContent = achievementT("addedToProfile");
     } else if (isUnlocked) {
       const button = document.createElement("button");
-      button.textContent = "Add to your achievements";
+      button.textContent = achievementT("addToAchievements");
       button.className = "unlock-btn";
       button.onclick = async () => {
         await addAchievementToProfile(userId, a.name);
@@ -7481,7 +7604,7 @@ async function displayAchievementsPage() {
     } else {
       const lockText = document.createElement("span");
       lockText.className = "locked-text";
-      lockText.textContent = "🔒 Locked";
+      lockText.textContent = achievementT("locked");
       action.appendChild(lockText);
     }
 
@@ -7537,7 +7660,7 @@ async function checkAchievementSuggestions() {
   // ---- EVENT ORGANISER ACHIEVEMENT ----
   if (data.events_organized >= 1 && !achievementsList.includes("Local Hero")) {
     showProgressSuggestion(
-      "🎉 You hosted your first event! Open Achievements to add your badge!",
+      achievementT("firstEvent"),
       currentProfile.pet_photo
     );
   }
@@ -7545,7 +7668,7 @@ async function checkAchievementSuggestions() {
   // ---- MEAL ART WIN ACHIEVEMENT ----
   if (data.meal_art_wins >= 1 && !achievementsList.includes("Expert Vegan Chef")) {
     showProgressSuggestion(
-      "🍽️ Your Meal Art won! Congratulations! Claim your achievement in your profile!",
+      achievementT("mealArtWin"),
       currentProfile.pet_photo
     );
   }
@@ -7553,6 +7676,96 @@ async function checkAchievementSuggestions() {
 //#endregion
 
 //#region SHOP
+
+const shopTranslations = {
+  en: {
+    // Shop items
+    price: "Price",
+    badges: "Badges",
+    buy: "Buy",
+
+    xpBoxDesc: "Gain +80 XP instantly.",
+    titleDesc: "Set one of your unlocked achievements as a title next to your name.",
+    frameDesc: "Set a frame around your profile picture.",
+
+    // Errors / alerts
+    productNotFound: "Product not found.",
+    notEnoughBadges: "Not enough badges!",
+    purchaseFailed: "Purchase failed:",
+    purchaseSuccess: "Purchase successful!",
+
+    // Modal / choices
+    buyXpConfirm: "Do you want to purchase 80 XP for {price} badges?",
+    clearTitle: "Clear title",
+    selectFrame: "Select a frame to apply:",
+    loadingFrames: "Loading frames...",
+    selectFrameAlert: "Please select a frame!",
+
+    // UI
+    yourBadges: "Your Badges"
+  },
+
+  es: {
+    price: "Precio",
+    badges: "Insignias",
+    buy: "Comprar",
+
+    xpBoxDesc: "Obtén +80 XP al instante.",
+    titleDesc: "Usa uno de tus logros desbloqueados como título junto a tu nombre.",
+    frameDesc: "Aplica un marco a tu foto de perfil.",
+
+    productNotFound: "Producto no encontrado.",
+    notEnoughBadges: "¡No tienes suficientes insignias!",
+    purchaseFailed: "La compra falló:",
+    purchaseSuccess: "¡Compra realizada con éxito!",
+
+    buyXpConfirm: "¿Quieres comprar 80 XP por {price} insignias?",
+    clearTitle: "Quitar título",
+    selectFrame: "Selecciona un marco para aplicar:",
+    loadingFrames: "Cargando marcos...",
+    selectFrameAlert: "¡Por favor selecciona un marco!",
+
+    yourBadges: "Tus insignias"
+  },
+
+  hu: {
+    price: "Ár",
+    badges: "Jelvények",
+    buy: "Vásárlás",
+
+    xpBoxDesc: "Azonnal +80 XP-t kapsz.",
+    titleDesc: "Állíts be egy feloldott eredményt címként a neved mellé.",
+    frameDesc: "Keretezd be a profilképed.",
+
+    productNotFound: "A termék nem található.",
+    notEnoughBadges: "Nincs elég jelvényed!",
+    purchaseFailed: "A vásárlás sikertelen:",
+    purchaseSuccess: "Sikeres vásárlás!",
+
+    buyXpConfirm: "Szeretnél 80 XP-t vásárolni {price} jelvényért?",
+    clearTitle: "Cím törlése",
+    selectFrame: "Válassz egy keretet:",
+    loadingFrames: "Keretek betöltése...",
+    selectFrameAlert: "Kérlek válassz egy keretet!",
+
+    yourBadges: "Jelvényeid"
+  }
+};
+
+function tShop(key, vars = {}) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
+  let str =
+    shopTranslations[lang]?.[key] ||
+    shopTranslations.en[key] ||
+    key;
+
+  for (const [k, v] of Object.entries(vars)) {
+    str = str.replaceAll(`{${k}}`, v);
+  }
+
+  return str;
+}
+
 // --------------------------------
 // SHOP
 // --------------------------------
@@ -7565,9 +7778,9 @@ async function setupShop() {
   badgeSpan.textContent = `${currentProfile.badge || 0}`;
 
   const shopItems = [
-    { id: "xpbox", name: "📦 XP Box", price: 20, description: "Gain +80 XP instantly." },
-    { id: "title", name: "🏷️ Title", price: 50, description: "Set one of your unlocked achievements as a title next to your name." },
-    { id: "profile-decoration", name: "🌸 Profile Picture Frame", price: 70, description: "Set a frame around your profile picture." }
+    { id: "xpbox", name: "📦 XP Box", price: 20, description: tShop("xpBoxDesc") },
+    { id: "title", name: "🏷️ Title", price: 50, description: tShop("titleDesc") },
+    { id: "profile-decoration", name: "🌸 Profile Picture Frame", price: 70, description: tShop("frameDesc") }
   ];
 
   const availableItems = shopItems;
@@ -7578,9 +7791,9 @@ async function setupShop() {
     card.className = "ShopProduct";
     card.innerHTML = `
       <h4>${item.name}</h4>
-      <div class="price">Price: ${item.price} Badges</div>
+      <div class="price">${tShop("price")}: ${item.price} ${tShop("badges")}</div>
       <p>${item.description}</p>
-      <button data-id="${item.id}">Buy</button>
+      <button data-id="${item.id}">${tShop("buy")}</button>
     `;
     shopContainer.appendChild(card);
   });
@@ -7591,7 +7804,7 @@ async function setupShop() {
 
     const productId = e.target.dataset.id;
     const product = shopItems.find(p => p.id === productId);
-    if (!product) return alert("Product not found.");
+    if (!product) return alert(tShop("productNotFound"));
 
     const modal = document.getElementById("shopModal");
     const modalTitle = document.getElementById("shopModalTitle");
@@ -7611,12 +7824,12 @@ async function setupShop() {
 
     // Setup modal content
     if (product.id === "xpbox") {
-      modalBody.innerHTML = `Do you want to purchase 80 XP for ${product.price} badges?`;
+      modalBody.innerHTML = tShop("buyXpConfirm", { price: product.price });
     } else if (product.id === "title") {
       const achievements = currentProfile.achievements || [];
       modalBody.innerHTML = "";
       const clearLabel = document.createElement("label");
-      clearLabel.innerHTML = `<input type="radio" name="shopChoice" value="">Clear title`;
+      clearLabel.innerHTML = `<input type="radio" name="shopChoice" value="">${tShop("clearTitle")}`;
       modalBody.appendChild(clearLabel);
       achievements.forEach(a => {
         const label = document.createElement("label");
@@ -7624,7 +7837,7 @@ async function setupShop() {
         modalBody.appendChild(label);
       });
     } else if (product.id === "profile-decoration") {
-      modalBody.innerHTML = `<p>Select a frame to apply:</p><div id="frameOptions">Loading frames...</div>`;
+      modalBody.innerHTML = `<p>${tShop("selectFrame")}</p><div id="frameOptions">${tShop("loadingFrames")}</div>`;
       const frameOptionsDiv = document.getElementById("frameOptions");
       const frameUrls = [
         'https://pqrgvelzxmtdqrofxujx.supabase.co/storage/v1/object/public/frames/frame3.png',
@@ -7647,21 +7860,21 @@ async function setupShop() {
 
     // Separate functions for each product
     const buyXPBox = async () => {
-      if (currentProfile.badge < product.price) return alert("Not enough badges!");
+      if (currentProfile.badge < product.price) return alert(tShop("notEnoughBadges"));
       currentProfile.badge -= product.price;
       addXP(80);
       const { error } = await supabase.from("profiles").update({
         badge: currentProfile.badge
       }).eq("id", currentUser.id);
       if (error) return alert("Purchase failed: " + error.message);
-      alert("Purchase successful!");
-      badgeSpan.textContent = `Your Badges: ${currentProfile.badge}`;
+      alert(tShop("purchaseSuccess"));
+      badgeSpan.textContent = `${tShop("yourBadges")}: ${currentProfile.badge}`;
       renderProfile();
       modal.classList.remove("active");
     };
 
     const buyTitle = async () => {
-      if (currentProfile.badge < product.price) return alert("Not enough badges!");
+      if (currentProfile.badge < product.price) return alert(tShop("notEnoughBadges"));
       const selected = modalBody.querySelector('input[name="shopChoice"]:checked')?.value || null;
       currentProfile.badge -= product.price;
       currentProfile.title = selected ? `the ${selected}` : null;
@@ -7670,16 +7883,16 @@ async function setupShop() {
         title: currentProfile.title
       }).eq("id", currentUser.id);
       if (error) return alert("Purchase failed: " + error.message);
-      alert("Purchase successful!");
-      badgeSpan.textContent = `Your Badges: ${currentProfile.badge}`;
+      alert(tShop("purchaseSuccess"));
+      badgeSpan.textContent = `${tShop("yourBadges")}: ${currentProfile.badge}`;
       renderProfile();
       modal.classList.remove("active");
     };
 
     const buyFrame = async () => {
-      if (currentProfile.badge < product.price) return alert("Not enough badges!");
+      if (currentProfile.badge < product.price) return alert(tShop("notEnoughBadges"));
       const selected = modalBody.querySelector('input[name="shopChoice"]:checked')?.value;
-      if (!selected) return alert("Please select a frame!");
+      if (!selected) return alert(tShop("selectFrameAlert"));
       currentProfile.badge -= product.price;
       currentProfile.frame = selected;
       const { error } = await supabase.from("profiles").update({
@@ -7687,8 +7900,8 @@ async function setupShop() {
         frame: currentProfile.frame
       }).eq("id", currentUser.id);
       if (error) return alert("Purchase failed: " + error.message);
-      alert("Purchase successful!");
-      badgeSpan.textContent = `Your Badges: ${currentProfile.badge}`;
+      alert(tShop("purchaseSuccess"));
+      badgeSpan.textContent = `${tShop("yourBadges")}: ${currentProfile.badge}`;
       renderProfile();
       modal.classList.remove("active");
     };
@@ -7704,6 +7917,113 @@ async function setupShop() {
 //#endregion
 
 //#region CHALLENGES
+
+const challengesTranslations = {
+  en: {
+    // Daily XP
+    progressText: "Progress",
+    rewardClaimed: "Reward Claimed 🎉",
+    claimRewardXp: "🎁 Claim Reward",
+    keepGoing: "Keep Going",
+    dailyXpAlert: "🎉 You earned +3 badges and 3 XPs for completing today’s challenge!",
+
+    // Learn challenge
+    rewardClaimedFlower: "Reward Claimed 🌸",
+    claimReward: "Claim Reward",
+    learnAlert: "🎉 You earned 3 Badges and 3 XPs!",
+
+    // Mindful
+    startTimer: "Start 5-Minute Timer",
+    doneToday: "Done today",
+    mindfulSuccess:
+      "🎉 Congratulations, you completed your daily challenge! Take your reward.",
+    mindfulRewardAlert: "🧘 You earned 5 Badges and 5 XPs!",
+    mindfulError: "Something went wrong claiming your reward.",
+
+    // Encourage
+    noFriends: "No friends yet, look for friends in the community",
+    failedLoadFriends: "Failed to load friends",
+    selectFriend: "Please select a friend 👥",
+    writeMessage: "Please write your message 💬",
+    encourageReward: "🌸 You earned 2 Badges and 2 XPs!",
+    encourageFailed: "Failed to send message. Please try again.",
+    sendMessage: "Send Message",
+    encourageIntro: "I've chosen you to encourage in my daily challenge.",
+    encourageOutro: "Keep going! 🌱"
+  },
+
+  hu: {
+    progressText: "Haladás",
+    rewardClaimed: "Jutalom átvéve 🎉",
+    claimRewardXp: "🎁 Jutalom igénylése",
+    keepGoing: "Csak így tovább",
+    dailyXpAlert:
+      "🎉 +3 jelvényt és 3 XP-t kaptál a mai kihívás teljesítéséért!",
+
+    rewardClaimedFlower: "Jutalom átvéve 🌸",
+    claimReward: "Jutalom igénylése",
+    learnAlert: "🎉 3 jelvényt és 3 XP-t kaptál!",
+
+    startTimer: "5 perces időzítő indítása",
+    doneToday: "Ma kész",
+    mindfulSuccess:
+      "🎉 Gratulálunk, teljesítetted a napi kihívást! Vedd át a jutalmad.",
+    mindfulRewardAlert: "🧘 5 jelvényt és 5 XP-t kaptál!",
+    mindfulError: "Hiba történt a jutalom igénylésekor.",
+
+    noFriends:
+      "Még nincsenek barátaid, keress barátokat a közösségben",
+    failedLoadFriends: "Nem sikerült betölteni a barátokat",
+    selectFriend: "Kérlek, válassz egy barátot 👥",
+    writeMessage: "Kérlek, írj egy üzenetet 💬",
+    encourageReward: "🌸 2 jelvényt és 2 XP-t kaptál!",
+    encourageFailed:
+      "Nem sikerült elküldeni az üzenetet. Próbáld újra.",
+    sendMessage: "Üzenet küldése",
+    encourageIntro: "Kiválasztottalak, hogy bátorítsalak a napi kihívásomban.",
+    encourageOutro: "Csak így tovább! 🌱"
+  },
+
+  es: {
+    progressText: "Progreso",
+    rewardClaimed: "Recompensa reclamada 🎉",
+    claimRewardXp: "🎁 Reclamar recompensa",
+    keepGoing: "Sigue así",
+    dailyXpAlert:
+      "🎉 ¡Has ganado 3 insignias y 3 XP por completar el desafío de hoy!",
+
+    rewardClaimedFlower: "Recompensa reclamada 🌸",
+    claimReward: "Reclamar recompensa",
+    learnAlert: "🎉 ¡Has ganado 3 insignias y 3 XP!",
+
+    startTimer: "Iniciar temporizador de 5 minutos",
+    doneToday: "Completado hoy",
+    mindfulSuccess:
+      "🎉 ¡Felicidades! Has completado tu desafío diario. Reclama tu recompensa.",
+    mindfulRewardAlert: "🧘 ¡Has ganado 5 insignias y 5 XP!",
+    mindfulError:
+      "Algo salió mal al reclamar tu recompensa.",
+
+    noFriends:
+      "Aún no tienes amigos, busca amigos en la comunidad",
+    failedLoadFriends: "No se pudieron cargar los amigos",
+    selectFriend: "Por favor selecciona un amigo 👥",
+    writeMessage: "Por favor escribe tu mensaje 💬",
+    encourageReward: "🌸 ¡Has ganado 2 insignias y 2 XP!",
+    encourageFailed:
+      "No se pudo enviar el mensaje. Inténtalo de nuevo.",
+    sendMessage: "Enviar mensaje",
+    encourageIntro: "Te he elegido para animarte en mi desafío diario.",
+    encourageOutro: "¡Sigue así! 🌱"
+  }
+};
+
+function tChallenges(key) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
+  return challengesTranslations[lang]?.[key] 
+      || challengesTranslations.en[key] 
+      || key;
+}
 
 //--------------------------
 // Challenges
@@ -7757,19 +8077,19 @@ async function loadDailyXpChallenge(userId) {
   const progressPercent = Math.min((xpToday / goal) * 100, 100);
 
   document.getElementById("daily-xp-progress").style.width = `${progressPercent}%`;
-  document.getElementById("daily-xp-text").textContent = `Progress: ${xpToday} / ${goal} XP`;
+  document.getElementById("daily-xp-text").textContent = `${tChallenges("progressText")}: ${xpToday} / ${goal} XP`;
 
   const btn = document.getElementById("daily-xp-claim");
   const claimed = await isClaimed(currentUser.id, "daily_xp");
 
   if (claimed) {
     btn.disabled = true;
-    btn.textContent = "Reward Claimed 🎉";
+    btn.textContent =  tChallenges("rewardClaimed");
     return;
   }
 
   btn.disabled = xpToday < goal;
-  btn.textContent = xpToday >= goal ? "🎁 Claim Reward (+3 Badges)" : "Keep Going";
+  btn.textContent = xpToday >= goal ? tChallenges("claimRewardXp") : tChallenges("claimRewardXp");
 }
 
 document.getElementById("daily-xp-claim").addEventListener("click", async () => {
@@ -7777,11 +8097,11 @@ document.getElementById("daily-xp-claim").addEventListener("click", async () => 
   await addXP(3);
   await markClaimed(currentUser.id, "daily_xp");
 
-  alert("🎉 You earned +3 badges and 3 XPs for completing today’s challenge!");
+  alert(tChallenges("dailyXpAlert"));
 
   const btn = document.getElementById("daily-xp-claim");
   btn.disabled = true;
-  btn.textContent = "Reward Claimed 🎉";
+  btn.textContent = tChallenges("rewardClaimed");
 
   loadDailyXpChallenge(currentUser.id);
   
@@ -7851,7 +8171,7 @@ document.getElementById("learnClaimBtn").addEventListener("click", async () => {
   await addXP(3);
   await markClaimed(currentUser.id, "learn");
 
-  alert("🎉 You earned 3 Badges and 3 XPs!");
+  alert(tChallenges("learnAlert"));
   loadLessonChallenge();
 });
 
@@ -7861,7 +8181,7 @@ async function loadLessonChallenge() {
 
   if (claimed) {
     btn.disabled = true;
-    btn.textContent = "Reward Claimed 🌸";
+    btn.textContent = tChallenges("rewardClaimedFlower");
   } else {
     // Check if all lessons are done
     const animalDone = document.getElementById("animalStatus").textContent === "✅";
@@ -7869,7 +8189,7 @@ async function loadLessonChallenge() {
     const healthDone = document.getElementById("healthStatus").textContent === "✅";
 
     btn.disabled = !(animalDone && earthDone && healthDone);
-    btn.textContent = "Claim Reward";
+    btn.textContent = tChallenges("claimReward");
   }
 }
 
@@ -7883,9 +8203,9 @@ async function loadMindfulPopupState(userId) {
   startBtn.disabled = claimed;
 
   if (claimed) {
-    startBtn.textContent = "Reward Claimed 🌸";
+    startBtn.textContent = tChallenges("rewardClaimedFlower");
   } else {
-    startBtn.textContent = "Start 5-Minute Timer";
+    startBtn.textContent = tChallenges("startTimer");
   }
 }
 
@@ -7983,7 +8303,7 @@ function onMindfulFinished() {
 
   if (!popupBody.querySelector(".mindful-success-message")) {
     const msg = document.createElement("p");
-    msg.textContent = "🎉 Congratulations, you completed your daily challenge! Take your reward.";
+    msg.textContent = tChallenges("mindfulSuccess");
     msg.classList.add("mindful-success-message");
     popupBody.prepend(msg);
   }
@@ -8031,19 +8351,19 @@ rewardBtn.addEventListener("click", async () => {
     await addXP(5);
     await markClaimed(currentUser.id, "mindful");
 
-    alert("🧘 You earned 5 Badges and 5 XPs!");
+    alert(tChallenges("mindfulRewardAlert"));
 
     popup.style.display = "none";
     popup.classList.add("hidden");
 
     startBtn.disabled = true;
-    startBtn.textContent = "Done today";
+    startBtn.textContent = tChallenges("doneToday");
 
     // Cleanup
     localStorage.removeItem("mindfulEndTime");
   } catch (err) {
     console.error("Reward claim failed:", err);
-    alert("Something went wrong claiming your reward.");
+    alert(tChallenges("mindfulError"));
   }
 });
 
@@ -8074,7 +8394,7 @@ async function loadFriendSelect(currentProfileid) {
       const option = document.createElement("option");
       option.value = "";
       option.disabled = true;
-      option.textContent = "No friends yet, look for friends in the community";
+      option.textContent = tChallenges("noFriends");
       select.appendChild(option);
     } else {
       friends.forEach(f => {
@@ -8089,7 +8409,7 @@ async function loadFriendSelect(currentProfileid) {
     const option = document.createElement("option");
     option.value = "";
     option.disabled = true;
-    option.textContent = "Failed to load friends";
+    option.textContent = tChallenges("failedLoadFriends");
     select.appendChild(option);
   }
 }
@@ -8099,11 +8419,11 @@ document.getElementById("sendEncourageBtn").addEventListener("click", async () =
   const friendSelect = document.getElementById("friendSelect");
   const friendId = friendSelect.value;
 
-  if (!friendId) return alert("Please select a friend 👥");
+  if (!friendId) return alert(tChallenges("selectFriend"));
   const msg = msgInput.value.trim();
-  if (!msg) return alert("Please write your message 💬");
+  if (!msg) return alert(tChallenges("writeMessage"));
 
-  const finalMessage = `I've chosen you to encourage in my daily challenge.\n\n${msg}\n\nKeep going! 🌱`;
+  const finalMessage = `${tChallenges("encourageIntro")}\n\n${msg}\n\n${tChallenges("encourageOutro")}`;
 
   try {
     // 3️⃣ Fetch all chats where current user is either user1 or user2
@@ -8186,13 +8506,13 @@ document.getElementById("sendEncourageBtn").addEventListener("click", async () =
     await addXP(2);
     await markClaimed(currentUser.id, "encourage");
 
-    alert("🌸 You earned 2 Badges and 2 XPs!");
+    alert(tChallenges("encourageReward"));
     loadEncourageChallenge();
     msgInput.value = "";
 
   } catch (err) {
     console.error("Error sending encouragement message:", err);
-    alert("Failed to send message. Please try again.");
+    alert(tChallenges("encourageFailed"));
   }
 });
 
@@ -8204,11 +8524,11 @@ async function loadEncourageChallenge() {
 
   if (claimed) {
     sendBtn.disabled = true;
-    sendBtn.textContent = "Reward Claimed 🌸";
+    sendBtn.textContent = tChallenges("rewardClaimedFlower");
     sendBtn.disabled = true;
     startMindfulBtn.disabled = true;
   } else {
-    sendBtn.textContent = "Send Message";
+    sendBtn.textContent = tChallenges("sendMessage");
     sendBtn.disabled = false;
     startMindfulBtn.disabled = false;
   }
@@ -8217,6 +8537,73 @@ async function loadEncourageChallenge() {
 //#endregion
 
 //#region SYSTEMSETTINGS
+
+const systemSettingsTranslations = {
+  en: {
+    languageUpdated: "Language updated successfully!",
+    loginFirst: "Please log in first!",
+    logoutConfirm: "Are you sure you want to log out?",
+    
+    deleteConfirm1:
+      "⚠️ Are you sure you want to delete your profile?\n\nThis will permanently remove your account, profile, messages, friends, and all related data.",
+    deleteConfirm2:
+      "🚨 This action is IRREVERSIBLE.\n\nOnce deleted, your data cannot be recovered.\n\nDo you REALLY want to continue?",
+    
+    deletingAccount: "Deleting account…",
+    deleteProfileBtn: "🗑️ Delete Profile",
+
+    logoutError: "Something went wrong while logging out.",
+    updateLangError: "Failed to update language. Please try again.",
+    deleteFailed: "❌ Failed to delete account. Please try again.",
+    deleteUnexpected: "❌ Unexpected error while deleting account."
+  },
+
+  es: {
+    languageUpdated: "¡Idioma actualizado correctamente!",
+    loginFirst: "¡Por favor inicia sesión primero!",
+    logoutConfirm: "¿Seguro que quieres cerrar sesión?",
+    
+    deleteConfirm1:
+      "⚠️ ¿Seguro que quieres eliminar tu perfil?\n\nEsto eliminará permanentemente tu cuenta, perfil, mensajes, amigos y todos los datos relacionados.",
+    deleteConfirm2:
+      "🚨 Esta acción es IRREVERSIBLE.\n\nUna vez eliminados, tus datos no podrán recuperarse.\n\n¿REALMENTE deseas continuar?",
+    
+    deletingAccount: "Eliminando cuenta…",
+    deleteProfileBtn: "🗑️ Eliminar perfil",
+
+    logoutError: "Algo salió mal al cerrar sesión.",
+    updateLangError: "No se pudo actualizar el idioma. Inténtalo de nuevo.",
+    deleteFailed: "❌ No se pudo eliminar la cuenta. Inténtalo de nuevo.",
+    deleteUnexpected: "❌ Error inesperado al eliminar la cuenta."
+  },
+
+  hu: {
+    languageUpdated: "A nyelv sikeresen frissítve!",
+    loginFirst: "Kérlek, jelentkezz be először!",
+    logoutConfirm: "Biztosan ki szeretnél jelentkezni?",
+    
+    deleteConfirm1:
+      "⚠️ Biztosan törölni szeretnéd a profilodat?\n\nEz véglegesen eltávolítja a fiókodat, profilodat, üzeneteidet, barátaidat és minden kapcsolódó adatot.",
+    deleteConfirm2:
+      "🚨 Ez a művelet VISSZAFORDÍTHATATLAN.\n\nA törölt adatok nem állíthatók vissza.\n\nBIZTOSAN folytatod?",
+    
+    deletingAccount: "Fiók törlése…",
+    deleteProfileBtn: "🗑️ Profil törlése",
+
+    logoutError: "Hiba történt kijelentkezéskor.",
+    updateLangError: "Nem sikerült frissíteni a nyelvet.",
+    deleteFailed: "❌ Nem sikerült törölni a fiókot.",
+    deleteUnexpected: "❌ Váratlan hiba történt a törlés során."
+  }
+};
+
+function tSystem(key) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
+  return systemSettingsTranslations[lang]?.[key]
+    || systemSettingsTranslations.en[key]
+    || key;
+}
+
 async function initSystemSettings() {
   const languageSelect = document.getElementById("languageSelect");
   const saveLangBtn = document.getElementById("saveLanguageBtn");
@@ -8243,7 +8630,7 @@ async function initSystemSettings() {
 
     // Make sure currentUser exists
     if (!currentUser?.id) {
-      return alert("Please log in first!");
+      return alert(tSystem("loginFirst"));
     }
 
     const userId = currentUser.id;
@@ -8261,18 +8648,18 @@ async function initSystemSettings() {
         .eq("user_id", userId);
       if (tokenError) console.error("Error updating user_tokens language:", tokenError);
 
-      alert("Language updated successfully!");
+      alert(tSystem("languageUpdated"));
       showSection("home");
       
     } catch (err) {
       console.error("Unexpected error updating language:", err);
-      alert("Failed to update language. Please try again.");
+      alert(tSystem("updateLangError"));
     }
   });
 }
 
 document.getElementById("logoutBtn").addEventListener("click", () => {
-  if (confirm("Are you sure you want to log out?")) {
+  if (confirm(tSystem("logoutConfirm"))) {
     logoutUser();
   }
 });
@@ -8296,7 +8683,7 @@ async function logoutUser() {
   const { error } = await supabase.auth.signOut();
   if (error) {
     console.error("Logout failed:", error.message);
-    alert("Something went wrong while logging out.");
+    alert(tSystem("logoutError"));
     return;
   }
 
@@ -8321,31 +8708,27 @@ const deleteProfileBtn = document.getElementById("deleteProfileBtn");
 
 deleteProfileBtn.addEventListener("click", async () => {
   // First confirmation
-  const firstConfirm = confirm(
-    "⚠️ Are you sure you want to delete your profile?\n\nThis will permanently remove your account, profile, messages, friends, and all related data."
-  );
+  const firstConfirm = confirm(tSystem("deleteConfirm1"));
 
   if (!firstConfirm) return;
 
   // Second confirmation (stronger)
-  const secondConfirm = confirm(
-    "🚨 This action is IRREVERSIBLE.\n\nOnce deleted, your data cannot be recovered.\n\nDo you REALLY want to continue?"
-  );
+  const secondConfirm = confirm(tSystem("deleteConfirm2"));
 
   if (!secondConfirm) return;
 
   // Optional: disable button to prevent double-click
   deleteProfileBtn.disabled = true;
-  deleteProfileBtn.textContent = "Deleting account…";
+  deleteProfileBtn.textContent = tSystem("deletingAccount");
 
   try {
     const { error } = await supabase.functions.invoke("delete-user");
 
     if (error) {
       console.error("Delete error:", error);
-      alert("❌ Failed to delete account. Please try again.");
+      alert(tSystem("deleteFailed"));
       deleteProfileBtn.disabled = false;
-      deleteProfileBtn.textContent = "🗑️ Delete Profile";
+      deleteProfileBtn.textContent = tSystem("deleteProfileBtn");
       return;
     }
 
@@ -8363,7 +8746,7 @@ deleteProfileBtn.addEventListener("click", async () => {
 
   } catch (err) {
     console.error(err);
-    alert("❌ Unexpected error while deleting account.");
+    alert(tSystem("deleteUnexpected"));
     deleteProfileBtn.disabled = false;
     deleteProfileBtn.textContent = "🗑️ Delete Profile";
   }
@@ -8372,6 +8755,55 @@ deleteProfileBtn.addEventListener("click", async () => {
 //#endregion
 
 //#region WATCH ADS
+
+const watchAdsTranslations = {
+  en: {
+    notLoggedIn: "User not logged in",
+
+    dailyLimitReached: "Daily limit reached",
+    sessionLimitReached: "Session limit reached",
+    waitBeforeNextAd: "Please wait {seconds} seconds before watching another ad.",
+
+    rewardEarned: "You earned {badges} badges and 3 XPs!",
+    noAdAvailable: "No ad available right now. Try again later."
+  },
+
+  es: {
+    notLoggedIn: "Usuario no conectado",
+
+    dailyLimitReached: "Límite diario alcanzado",
+    sessionLimitReached: "Límite de sesión alcanzado",
+    waitBeforeNextAd: "Por favor espera {seconds} segundos antes de ver otro anuncio.",
+
+    rewardEarned: "¡Has ganado {badges} insignias y 3 XP!",
+    noAdAvailable: "No hay anuncios disponibles ahora mismo. Inténtalo más tarde."
+  },
+
+  hu: {
+    notLoggedIn: "A felhasználó nincs bejelentkezve",
+
+    dailyLimitReached: "Elérted a napi limitet",
+    sessionLimitReached: "Elérted a munkamenet limitet",
+    waitBeforeNextAd: "Kérlek várj {seconds} másodpercet a következő hirdetés előtt.",
+
+    rewardEarned: "{badges} jelvényt és 3 XP-t kaptál!",
+    noAdAvailable: "Jelenleg nincs elérhető hirdetés. Próbáld később."
+  }
+};
+
+function tWatchAds(key, vars = {}) {
+  const lang = window.appState?.lang || localStorage.getItem("lang") || "en";
+  let text =
+    watchAdsTranslations[lang]?.[key] ||
+    watchAdsTranslations.en[key] ||
+    key;
+
+  Object.keys(vars).forEach(k => {
+    text = text.replace(`{${k}}`, vars[k]);
+  });
+
+  return text;
+}
 // ---------------------------
 // Watch ads
 // ---------------------------
@@ -8429,7 +8861,7 @@ async function showAdMobReward() {
 // -------------------- Main Click Handler --------------------
 async function handleWatchAdClick() {
   const { data: { user }, error: userError } = await supabase.auth.getUser();
-  if (userError || !user) return alert("User not logged in");
+  if (userError || !user) return alert(tWatchAds("notLoggedIn"));
 
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
@@ -8442,14 +8874,14 @@ async function handleWatchAdClick() {
   const userId = profile.id;
 
   let dailyCount = loadAdCount();
-  if (dailyCount >= DAILY_CAP) return alert(`Daily limit reached: ${DAILY_CAP}`);
-  if (sessionAdCount >= SESSION_CAP) return alert(`Session limit reached: ${SESSION_CAP}`);
+  if (dailyCount >= DAILY_CAP) return alert(`${tWatchAds("dailyLimitReached")}: ${DAILY_CAP}`);
+  if (sessionAdCount >= SESSION_CAP) return alert(`${tWatchAds("sessionLimitReached")}: ${SESSION_CAP}`);
 
   const lastAdAt = loadLastAdTime();
   const now = Date.now();
   if (now - lastAdAt < MIN_INTERVAL_MS) {
     const wait = Math.ceil((MIN_INTERVAL_MS - (now - lastAdAt))/1000);
-    return alert(`Please wait ${wait} seconds before watching another ad.`);
+    return alert(tWatchAds("waitBeforeNextAd", { seconds: wait }));
   }
 
   try {
@@ -8462,10 +8894,10 @@ async function handleWatchAdClick() {
     saveAdCount(dailyCount);
     saveLastAdTime(Date.now());
 
-    alert(`You earned ${reward} badges and 3 XPs!`);
+    alert(tWatchAds("rewardEarned", { badges: reward }));
   } catch (err) {
     console.warn("Ad failed or no reward:", err);
-    alert("No ad available right now. Try again later.");
+    alert(tWatchAds("noAdAvailable"));
   }
 }
 

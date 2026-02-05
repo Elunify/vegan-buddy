@@ -17,7 +17,7 @@
   justify-content: center;
   align-items: center;
 ">
-  <p>Loading...</p>
+  <p id="loadingText"></p>
 </div>
 
 
@@ -419,10 +419,10 @@
     <div id="mealsectionDCI" class="boxDCI">
       <label class="bigLabelDCI" id="mealsQuestion">How many fully plant-powered meals did you enjoy yesterday?</label>
 
-      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="1" id="mealOption1">Oops! My plate betrayed me 😅</label>
-      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="2" id="mealOption2">Some plant magic in my meals ✨</label>
-      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="3" id="mealOption3">Plant-powered most of the day! 🌿</label>
-      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="4" id="mealOption4">I was fully powered by plants! 🌱</label>
+      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="1"> <span id="mealOption1">Oops! My plate betrayed me 😅 </span></label>
+      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="2"> <span id="mealOption2">Some plant magic in my meals ✨</span></label>
+      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="3"> <span id="mealOption3">Plant-powered most of the day! 🌿</span></label>
+      <label class="checkbox-labelDCI"><input type="radio" name="mealsDCI" value="4"> <span id="mealOption4">I was fully powered by plants! 🌱</span></label>
     </div>
 
     <button class="button" id="submitAndSupportBtnDCI">
@@ -1025,9 +1025,9 @@
   <h3 id="learnChallengeTitle">📚 Learn Something New</h3>
   <p id="learnChallengeDesc">Complete a new lesson in every path today:</p>
   <ul>
-    <li>Animal: <span id="animalStatus">❌</span></li>
-    <li>Earth: <span id="earthStatus">❌</span></li>
-    <li>Health: <span id="healthStatus">❌</span></li>
+    <li><span id="animalLabel">Animal</span>: <span id="animalStatus">❌</span></li>
+    <li><span id="earthLabel">Earth</span>: <span id="earthStatus">❌</span></li>
+    <li><span id="healthLabel">Health</span>: <span id="healthStatus">❌</span></li>
   </ul>
   <div class="progress"><div id="learnProgress" style="width:0%"></div></div>
   <div class="reward" id="learnChallengeReward">Reward: 🏅 +3 Badges +3 Xps</div>
