@@ -3612,6 +3612,11 @@ function learnPathT(key, vars = {}) {
   return str;
 }
 
+function getLocalizedText(obj) {
+  const lang = getLang();
+  if (!obj) return "";
+  return obj[lang] || obj.en || "";
+}
 
 // ------- Health issues----------
 async function initHealthPaths() {
@@ -3707,15 +3712,15 @@ function renderLessonsForHealthIssue(issue, completedLessons = [], userData, use
     li.className = className;
 
     li.innerHTML = `
-      <div class="lesson-title">
-        <span class="lesson-icon">${
-          li.classList.contains("completed") ? "✅" :
-          li.classList.contains("unlocked") ? "🟢" : "🔒"
-        }</span>
-        ${lesson.title}
-      </div>
-      <div class="lesson-content"></div>
-    `;
+  <div class="lesson-title">
+    <span class="lesson-icon">${
+      li.classList.contains("completed") ? "✅" :
+      li.classList.contains("unlocked") ? "🟢" : "🔒"
+    }</span>
+    ${getLocalizedText(lesson.title)}
+  </div>
+  <div class="lesson-content"></div>
+`;
     lessonList.appendChild(li);
 
     setupLessonClickForHealth(li, lesson, index, issue, userData, userId);
@@ -3732,8 +3737,8 @@ function setupLessonClickForHealth(li, lesson, index, issue, userData, userId) {
     if (li.classList.contains("locked")) return; // locked lessons cannot be opened
 
     // Fill lesson content
-    lessonTitle.textContent = lesson.title;
-    lessonContent.innerHTML = `<p>${lesson.content}</p>`;
+    lessonTitle.textContent = getLocalizedText(lesson.title);
+    lessonContent.innerHTML = `<p>${getLocalizedText(lesson.content)}</p>`;
 
     // Start Quiz button
     const startQuizBtn = document.createElement("button");
@@ -3752,10 +3757,10 @@ function setupLessonClickForHealth(li, lesson, index, issue, userData, userId) {
       e.stopPropagation();
       quizContainer.classList.remove("hidden");
       quizContainer.innerHTML = `
-        <p><strong>${learnPathT("quizLabel")}</strong> ${lesson.quiz.question}</p>
+        <p><strong>${learnPathT("quizLabel")}</strong> ${getLocalizedText(lesson.quiz.question)}</p>
         ${lesson.quiz.options
-          .map((opt, i) => `<button class="quiz-option" data-index="${i}">${opt}</button>`)
-          .join("")}
+      .map((opt, i) => `<button class="quiz-option" data-index="${i}">${getLocalizedText(opt)}</button>`)
+      .join("")}
         <div id="quiz-feedback"></div>
       `;
 
@@ -3940,11 +3945,11 @@ function renderExtraLessons() {
       }
 
       li.innerHTML = `
-        <div class="extralesson-title" data-title="${lesson.title}">
-          <span class="extralesson-icon">
-            ${li.classList.contains("completed") ? "✅" : (li.classList.contains("unlocked") ? "🟢" : "🔒")}
-          </span>
-          ${lesson.title}
+        <div class="extralesson-title" data-title="${getLocalizedText(lesson.title)}" data-en-title="${lesson.title.en}">
+        <span class="extralesson-icon">
+          ${li.classList.contains("completed") ? "✅" : (li.classList.contains("unlocked") ? "🟢" : "🔒")}
+        </span>
+          ${getLocalizedText(lesson.title)}
         </div>
         <div class="extralesson-content"></div>
       `;
@@ -3994,7 +3999,7 @@ function setupExtraLessonClicks() {
 
         let html = `
           <div class="extralesson-text">
-            <p>${lessonData.content}</p>
+            <p>${getLocalizedText(lessonData.content)}</p>
             ${questionObj ? `<button class="start-quiz-btn">${learnPathT("takeQuiz")}</button>` : ""}
           </div>
         `;
@@ -4002,12 +4007,12 @@ function setupExtraLessonClicks() {
         if (questionObj) {
           html += `
             <div class="extraquiz-section" style="display:none;">
-              <p><strong>${questionObj.text}</strong></p>
-              ${questionObj.options.map((opt, i) => `
-                <label>
-                  <input type="radio" name="quiz-${courseId}-${idx}" value="${i}">
-                  ${opt}
-                </label>
+              <p><strong>${getLocalizedText(questionObj.text)}</strong></p>
+                ${(getLocalizedText(questionObj.options) || []).map((opt, i) => `
+              <label>
+              <input type="radio" name="quiz-${courseId}-${idx}" value="${i}">
+                ${opt}
+              </label>
               `).join("")}
               <button class="extraquiz-submit">${learnPathT("submit")}</button>
               <div class="extraquiz-feedback"></div>
@@ -4062,34 +4067,32 @@ function setupExtraLessonClicks() {
 }
 
 // Save progress using currentProfile if available
-async function saveExtraLessonProgress() { 
+async function saveExtraLessonProgress() {
   if (!currentProfile) return;
 
   const previousProgress = currentProfile.extra_lesson || {};
-  let totalXp = currentProfile.total_xp || 0;
-  let xptoday = currentProfile.xp_today || 0;
-
-  // Start with previous progress (merge)
   const progress = { ...previousProgress };
-  let newLessonsCompleted = 0;
 
-  for (const courseId of Object.keys(extralessonsData)) { 
+  for (const courseId of Object.keys(extralessonsData)) {
     progress[courseId] = progress[courseId] || [];
-    const lessons = document.querySelectorAll(`#${courseId} .extralesson`);
 
+    const lessons = document.querySelectorAll(`#${courseId} .extralesson`);
     for (const lesson of lessons) {
-      if (lesson.classList.contains("completed")) {  
-        const lessonTitle = lesson.querySelector(".extralesson-title").textContent.trim();
-        if (!progress[courseId].includes(lessonTitle)) {
-          progress[courseId].push(lessonTitle);
-          newLessonsCompleted++;
+      if (lesson.classList.contains("completed")) {
+        // Use stable EN title as ID
+        const lessonTitleEN = lesson.querySelector(".extralesson-title")?.dataset.enTitle;
+        if (!lessonTitleEN) continue;
+
+        if (!progress[courseId].includes(lessonTitleEN)) {
+          progress[courseId].push(lessonTitleEN);
 
           markLessonComplete(currentProfile.id, courseId);
 
-          // Special handling for health lessons
+          // Health lessons: track completed health issues
           if (courseId === "health") {
-            let lessonData = (extralessonsData.health || []).find(l => l.title === lessonTitle);
-            if (!lessonData) lessonData = (HealthIssuesPool.health || []).find(l => l.title === lessonTitle);
+            const lessonData =
+              (extralessonsData.health || []).find(l => l.title.en === lessonTitleEN) ||
+              (HealthIssuesPool.health || []).find(l => l.title.en === lessonTitleEN);
 
             if (lessonData?.issue) {
               if (!currentProfile.completedHealthIssues) currentProfile.completedHealthIssues = [];
@@ -4103,8 +4106,7 @@ async function saveExtraLessonProgress() {
     }
   }
 
-
-  // Update profile in Supabase
+  // Update Supabase
   const { error } = await supabase
     .from("profiles")
     .update({
@@ -4113,24 +4115,19 @@ async function saveExtraLessonProgress() {
     })
     .eq("id", currentProfile.id);
 
-  if (error) {
-    console.error("Error saving extra lesson progress:", error);
-  } else {
-    // Update local profile object
-    currentProfile.extra_lesson = progress;
-    await addXP(5);
+  if (error) console.error("Error saving extra lesson progress:", error);
+  else currentProfile.extra_lesson = progress;
+
+  await addXP(5);
+
+  if ((currentProfile.xp_today || 0) === 50) {
+    showProgressSuggestion(learnPathT("xpChallengeDone"), currentProfile.pet_photo);
   }
 
-  if (xptoday === 50) {
-    showProgressSuggestion(
-      learnPathT("xpChallengeDone"),
-      currentProfile.pet_photo
-    );
-  }
-
-  await fetchLeaderboard('xp', 'overall-level');
+  await fetchLeaderboard("xp", "overall-level");
   await loadDailyXpChallenge(currentUser.id);
 }
+
 
 
 // Apply saved progress to DOM (no extra fetch)
@@ -4139,14 +4136,20 @@ function applyExtraLessonProgress() {
 
   Object.keys(currentProfile.extra_lesson).forEach(courseId => {
     const lessons = document.querySelectorAll(`#${courseId} .extralesson`);
-    const completedLessons = (currentProfile.extra_lesson[courseId] || []).map(t => t.replace(/^✅\s*/, "").trim());
+    const completedEN = currentProfile.extra_lesson[courseId] || [];
+
+    // Map EN titles from storage to localized titles for current language
+    const completedLocalized = completedEN.map(enTitle => {
+      const lessonObj = globalLessonsToRender[courseId]?.find(l => l.title.en === enTitle);
+      return lessonObj ? getLocalizedText(lessonObj.title) : enTitle;
+    });
 
     let prevCompleted = false;
 
     lessons.forEach((lesson, idx) => {
       const lessonTitle = lesson.querySelector(".extralesson-title")?.dataset.title;
 
-      if (completedLessons.includes(lessonTitle)) {
+      if (completedLocalized.includes(lessonTitle)) {
         lesson.className = "extralesson completed";
         lesson.querySelector(".extralesson-icon").textContent = "✅";
         prevCompleted = true;
@@ -4160,7 +4163,7 @@ function applyExtraLessonProgress() {
       }
     });
 
-    // --- Unlock review lesson if all normal lessons completed ---
+    // Unlock review lesson if all normal lessons completed
     const lessonList = document.querySelector(`#${courseId} .extralesson-list`);
     const reviewLessonLi = lessonList.querySelector(".review-lesson");
     const normalLessons = lessonList.querySelectorAll(".extralesson:not(.review-lesson)");
