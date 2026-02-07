@@ -60,11 +60,7 @@ export const LessonsByIndex = {
         "Mindegyik"
       ]
     },
-    answer: {
-      en: "All of the above",
-      es: "Todas las anteriores",
-      hu: "Mindegyik"
-    }
+    answer: 3 
   }
 },
 2: { 
@@ -91,11 +87,7 @@ export const LessonsByIndex = {
       es: ["Muestra nuestra empatía", "Prueba que somos malas personas", "No tiene sentido", "Debemos ignorarlo"], 
       hu: ["Empátiánkat mutatja", "Bizonyítja, hogy rossz emberek vagyunk", "Értelmetlen", "Figyelmen kívül kell hagynunk"]
     },
-    answer: {
-      en: "It shows our empathy", 
-      es: "Muestra nuestra empatía", 
-      hu: "Empátiánkat mutatja"
-    }
+    answer: 0
   }
 },
 /*  
@@ -312,11 +304,7 @@ answer: "It causes stress for both mother and calf"
         "A legjobb takarmány a profit maximalizálásához"
       ]
     },
-    answer: {
-      en: "Profit vs. the intrinsic value of an individual animal’s life",
-      es: "Beneficio frente al valor intrínseco de la vida de un animal individual",
-      hu: "Profit vs. az egyes állatok életének belső értéke"
-    }
+    answer: 0
   }
 },
 
@@ -359,11 +347,7 @@ answer: "It causes stress for both mother and calf"
         "A termék által biztosított kalóriák"
       ]
     },
-    answer: {
-      en: "The suffering and loss of freedom experienced by animals",
-      es: "El sufrimiento y la pérdida de libertad que experimentan los animales",
-      hu: "Az állatok által átélt szenvedés és szabadságvesztés"
-    }
+    answer: 1
   }
 },
 /*  
@@ -647,11 +631,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
         "Követni egy egészséges étrendet"
       ]
     },
-    answer: {
-      en: "To avoid harming animals and reduce exploitation",
-      es: "Evitar dañar a los animales y reducir la explotación",
-      hu: "Elkerülni az állatok bántalmazását és csökkenteni a kizsákmányolást"
-    }
+    answer: 1
   }
 },
 
@@ -691,11 +671,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
         "Mert a vadon élő állatok már nem léteznek"
       ]
     },
-    answer: {
-      en: "Because we can obtain food easily without killing animals",
-      es: "Porque podemos obtener comida fácilmente sin matar animales",
-      hu: "Mert ételt könnyen beszerezhetünk anélkül, hogy állatokat ölnénk"
-    }
+    answer: 1
   }
 },
 
@@ -932,7 +908,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
       es: [
         "Cambiar a energías renovables",
         "Proteger los bosques",
-        "A fosszilis tüzelőanyagok használatának növelése"
+        "El aumento del uso de combustibles fósiles"
       ],
       hu: [
         "Áttérés megújuló energiára",
@@ -940,11 +916,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
         "A fosszilis tüzelőanyagok használatának növelése"
       ]
     },
-    answer: {
-      en: "Increasing fossil fuel use",
-      es: "A fosszilis tüzelőanyagok használatának növelése",
-      hu: "A fosszilis tüzelőanyagok használatának növelése"
-    }
+    answer: 2
   }
 },
 
@@ -984,11 +956,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
         "Körülbelül 70%"
       ]
     },
-    answer: {
-      en: "About 70%",
-      es: "Alrededor del 70%",
-      hu: "Körülbelül 70%"
-    }
+    answer: 2
   }
 },
 
@@ -1234,11 +1202,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
         "Akár 99%"
       ]
     },
-    answer: {
-      en: "Up to 99%",
-      es: "Hasta el 99%",
-      hu: "Akár 99%"
-    }
+    answer: 2
   }
 },
 
@@ -1278,11 +1242,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
         "Tofu"
       ]
     },
-    answer: {
-      en: "Beef",
-      es: "Carne de res",
-      hu: "Marhahús"
-    }
+    answer: 0
   }
 },
 /*  
@@ -1512,11 +1472,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
         "30 000 liter"
       ]
     },
-    answer: {
-      en: "15,000 liters",
-      es: "15.000 litros",
-      hu: "15 000 liter"
-    }
+    answer: 2
   }
 },
 
@@ -1559,11 +1515,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
         "Mert senkinek sem kell többé ennie"
       ]
     },
-    answer: {
-      en: "Because the transition will be slow and allow people to adapt",
-      es: "Porque la transición será lenta y permitirá que las personas se adapten",
-      hu: "Mert az átmenet lassú lesz, és lehetőséget ad az alkalmazkodásra"
-    }
+    answer: 0
   }
 },
 /*  
@@ -1806,11 +1758,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
         "Hiányoznak belőlük a vitaminok és ásványi anyagok"
       ]
     },
-    answer: {
-      en: "They are high in fiber and rich in nutrients",
-      es: "Son ricos en fibra y nutrientes",
-      hu: "Magas a rosttartalmuk és gazdagok tápanyagokban"
-    }
+    answer: 0
   }
 },
 
@@ -1850,11 +1798,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
         "Uborka"
       ]
     },
-    answer: {
-      en: "Lentils",
-      es: "Lentejas",
-      hu: "Lencse"
-    }
+    answer: 1
   }
 },
 
@@ -2113,11 +2057,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
         "Tejtermékek"
       ]
     },
-    answer: {
-      en: "Plant foods like legumes, nuts, and seeds",
-      es: "Alimentos vegetales como legumbres, frutos secos y semillas",
-      hu: "Növényi ételek, mint a hüvelyesek, diófélék és magvak"
-    }
+    answer: 0
   }
 },
 
@@ -2157,11 +2097,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
         "Nem támogatják az izomnövekedést"
       ]
     },
-    answer: {
-      en: "They can provide enough protein, calcium, and nutrients",
-      es: "Pueden proporcionar suficiente proteína, calcio y nutrientes",
-      hu: "Biztosítanak elegendő fehérjét, kalciumot és tápanyagokat"
-    }
+    answer: 0
   }
 },
 
@@ -2458,11 +2394,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
         "Csak víz fogyasztásával"
       ]
     },
-    answer: {
-      en: "By eating a variety of plant foods like beans, lentils, tofu, nuts, and grains",
-      es: "Comiendo una variedad de alimentos vegetales como frijoles, lentejas, tofu, frutos secos y cereales",
-      hu: "Változatos növényi ételek fogyasztásával, mint a bab, lencse, tofu, diófélék és gabonák"
-    }
+    answer: 1
   }
 },
 
@@ -2505,11 +2437,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
         "Csak állatok"
       ]
     },
-    answer: {
-      en: "Bacteria",
-      es: "Bacterias",
-      hu: "Baktériumok"
-    }
+    answer: 1
   }
 },
 /* 
@@ -2737,11 +2665,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
         "Kulturális hiedelmek, amelyek a húst a hatalomhoz kötik"
       ]
     },
-    answer: {
-      en: "Cultural beliefs linking meat to power",
-      es: "Creencias culturales que vinculan la carne con el poder",
-      hu: "Kulturális hiedelmek, amelyek a húst a hatalomhoz kötik"
-    }
+    answer: 2
   }
 },
 
@@ -2781,11 +2705,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
         "Csak versenynapokon"
       ]
     },
-    answer: {
-      en: "No, balanced nutrition is more important",
-      es: "No, la nutrición equilibrada es más importante",
-      hu: "Nem, a kiegyensúlyozott táplálkozás fontosabb"
-    }
+    answer: 0
   }
 },
 
@@ -2912,11 +2832,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
         "Ők alkotják az elit sportolók többségét"
       ]
     },
-    answer: {
-      en: "They rely mainly on dairy and eggs, which can limit protein variety",
-      es: "Dependen principalmente de lácteos y huevos, lo que puede limitar la variedad de proteínas",
-      hu: "Főként tejtermékekre és tojásra támaszkodnak, ami korlátozhatja a fehérjefajták változatosságát"
-    }
+    answer: 0
   }
 },
 
@@ -2956,11 +2872,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
         "A vegetáriánus sportolók sosem edzenek"
       ]
     },
-    answer: {
-      en: "Dairy increases LDL cholesterol and plaque formation",
-      es: "Los lácteos aumentan el colesterol LDL y la formación de placas",
-      hu: "A tejtermékek növelik az LDL-koleszterint és a plakk képződést"
-    }
+    answer: 1
   }
 },
 /* 
@@ -3034,11 +2946,7 @@ answer: "Combine legumes, grains, nuts, and seeds"
         "Víz"
       ]
     },
-    answer: {
-      en: "Glycogen (stored carbohydrates)",
-      es: "Glucógeno (carbohidratos almacenados)",
-      hu: "Glikogén (tárolt szénhidrát)"
-    }
+    answer: 0
   }
 },
 
@@ -3078,11 +2986,7 @@ answer: "Combine legumes, grains, nuts, and seeds"
         "Csökkentik az edzés okozta gyulladást"
       ]
     },
-    answer: {
-      en: "They reduce inflammation from exercise",
-      es: "Reducen la inflamación causada por el ejercicio",
-      hu: "Csökkentik az edzés okozta gyulladást"
-    }
+    answer: 2
   }
 },
 /*  

@@ -3386,11 +3386,12 @@ const options =
     div.innerHTML = `
   <p class="quiz-questionDCI">${question}</p>
   <div class="quiz-optionsDCI">
-    ${options.map(opt => `
-      <label class="checkbox-labelDCI">
-        <input type="radio" name="q${i}" value="${opt}"> ${opt}
-      </label>
-    `).join("")}
+    ${options.map((opt, optIndex) => `
+  <label class="checkbox-labelDCI">
+    <input type="radio" name="q${i}" value="${optIndex}">
+    ${opt}
+  </label>
+  `).join("")}
   </div>
 `;
     quizContainer.appendChild(div);
@@ -3430,7 +3431,9 @@ if (!todayLesson) { alert(dailyCheckinT("noLessonToday")); return false; }
   yesterdayQuiz.forEach((q, i) => {
     const selected = document.querySelector(`input[name="q${i}"]:checked`);
     if (!selected) allAnswered = false;
-    else if (selected.value !== q.answer) allCorrect = false;
+    else if (parseInt(selected.value, 10) !== q.answer) {
+      allCorrect = false;
+    }
   });
 
   if (!allAnswered) {
@@ -8621,44 +8624,51 @@ async function initSystemSettings() {
   await updateLanguageUI(currentLang);
 
   saveLangBtn.addEventListener("click", async () => {
-    const newLang = languageSelect.value;
+  const newLang = languageSelect.value;
 
-    // update source of truth
+  // 1️⃣ Update source of truth
   localStorage.setItem("lang", newLang);
-
-  // 🔁 notify pools explicitly
   window.scriptPools.setPoolLanguage(newLang);
 
-    await updateLanguageUI(newLang);
+  // 2️⃣ Make sure user exists
+  if (!currentUser?.id) {
+    alert(tSystem("loginFirst"));
+    return;
+  }
 
-    // Make sure currentUser exists
-    if (!currentUser?.id) {
-      return alert(tSystem("loginFirst"));
+  const userId = currentUser.id;
+
+  try {
+    // 3️⃣ Persist to DB
+    const { error: profileError } = await supabase
+      .from("profiles")
+      .update({ language: newLang })
+      .eq("id", userId);
+
+    if (profileError) {
+      console.error("Error updating profile language:", profileError);
     }
 
-    const userId = currentUser.id;
+    const { error: tokenError } = await supabase
+      .from("user_tokens")
+      .update({ language: newLang })
+      .eq("user_id", userId);
 
-    try {
-      const { error: profileError } = await supabase
-        .from("profiles")
-        .update({ language: newLang })
-        .eq("id", userId);
-      if (profileError) console.error("Error updating profile language:", profileError);
-
-      const { error: tokenError } = await supabase
-        .from("user_tokens")
-        .update({ language: newLang })
-        .eq("user_id", userId);
-      if (tokenError) console.error("Error updating user_tokens language:", tokenError);
-
-      alert(tSystem("languageUpdated"));
-      showSection("home");
-      
-    } catch (err) {
-      console.error("Unexpected error updating language:", err);
-      alert(tSystem("updateLangError"));
+    if (tokenError) {
+      console.error("Error updating user_tokens language:", tokenError);
     }
-  });
+
+    // 4️⃣ Optional UX feedback
+    alert(tSystem("languageUpdated"));
+
+    // 5️⃣ HARD RESET into clean state
+    window.location.href = "/index.html";
+
+  } catch (err) {
+    console.error("Unexpected error updating language:", err);
+    alert(tSystem("updateLangError"));
+  }
+});
 }
 
 document.getElementById("logoutBtn").addEventListener("click", () => {
