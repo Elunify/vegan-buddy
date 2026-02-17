@@ -1937,15 +1937,13 @@ if (nextLessonEl) {
   }
 }
 
-const { lesson: nextLesson, usedFallback } = getNextLessonFromPool(currentProfile, todayStr);
+const { lesson: nextLesson } = getNextLessonFromPool(currentProfile);
 
-const nextLessonTitle = getLessonTitle(nextLesson) || "Your next learning step 🌱";
-
-const lessonDayOffset = renderNextLessonSpoiler({
+renderNextLessonSpoiler({
   profile: currentProfile,
   todayStr,
-  nextLessonTitle,
-  usedFallback // pass it down
+  nextLessonTitle: getLessonTitle(nextLesson),
+  usedFallback: !nextLesson // hide if null
 });
 
 // Yesterday
@@ -2148,21 +2146,75 @@ function getLessonTitle(lesson) {
   return "Your next learning step 🌱";
 }
 
-function getNextLessonFromPool(profile, todayStr) {
-  const dayOffset = getLessonDayOffset(profile, todayStr);
+function getNextLessonFromPool(profile) {
+  const defaultGoalOrder = [
+    "Protecting animals & animal welfare",
+    "Caring for the environment & fighting climate change",
+    "Healthy living & wellness",
+    "Boosting my performance as an athlete"
+  ];
 
-  const lastLesson = Number(profile.last_lesson?.lessonId ?? 0);
-  const nextIndex = lastLesson + dayOffset;
+  const normalize = s => (s || "").toString().trim().toLowerCase();
 
-  // Determine if fallback is used
-  const lesson = LessonsByIndex[nextIndex] || LessonsByIndex[1];
-  const usedFallback = !LessonsByIndex[nextIndex]; // true if fallback triggered
+  // 1️⃣ Determine available goals
+  let availableGoals;
+  if (Array.isArray(profile.goals) && profile.goals.length > 0) {
+    const selectedNorm = profile.goals.map(g => normalize(g));
+    availableGoals = defaultGoalOrder.filter(g => selectedNorm.includes(normalize(g)));
+  } else {
+    availableGoals = defaultGoalOrder.slice();
+  }
 
-  return {
-    lesson,
-    dayOffset,
-    usedFallback
-  };
+  if (!availableGoals.length) return { lesson: null, usedFallback: true };
+
+  // 2️⃣ Determine today's goal based on day counter
+  const todayGoalIndex = (profile.day_counter || 0) % availableGoals.length;
+  const todayGoal = availableGoals[todayGoalIndex] || availableGoals[0];
+
+  // 3️⃣ Determine diet group
+  const allowedDiets = ["omnivore", "vegetarian", "vegan"];
+  const lessonDiet = getLessonDietGroup(profile.diet_preference).toLowerCase();
+
+  // 4️⃣ Get start index for this goal & diet
+  const startIndex = (
+    dietStartIndex[todayGoal] &&
+    dietStartIndex[todayGoal][lessonDiet]
+  ) ? parseInt(dietStartIndex[todayGoal][lessonDiet], 10)
+    : 1;
+
+  // 5️⃣ Get all lessons for the goal (any diet)
+  const allGoalLessons = Object.entries(LessonsByIndex)
+    .filter(([id, lesson]) => normalize(lesson.goal) === normalize(todayGoal))
+    .sort((a, b) => parseInt(a[0], 10) - parseInt(b[0], 10));
+
+  if (!allGoalLessons.length) return { lesson: null, usedFallback: true };
+
+  // 6️⃣ Completed lessons
+  const completed = (profile.completed_lessons || [])
+    .map(n => parseInt(n, 10))
+    .filter(n => !isNaN(n));
+
+  // 7️⃣ Find the next lesson starting from the user's diet group
+  let nextLesson = null;
+  for (let [id, lesson] of allGoalLessons) {
+    const numericId = parseInt(id, 10);
+    const lessonDietLower = (lesson.diet || "").toLowerCase();
+
+    if (numericId >= startIndex && !completed.includes(numericId)) {
+      const currentDietIndex = allowedDiets.indexOf(lessonDiet);
+      const lessonDietIndex = allowedDiets.indexOf(lessonDietLower);
+
+      if (lessonDietIndex >= currentDietIndex) {
+        nextLesson = lesson;
+        break;
+      }
+    }
+  }
+
+  // 8️⃣ If no lesson left, return null (no fallback)
+  if (!nextLesson) return { lesson: null, usedFallback: true };
+
+  return { lesson: nextLesson, usedFallback: false };
 }
 
 //--------------------------
