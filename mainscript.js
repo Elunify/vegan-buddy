@@ -1614,7 +1614,9 @@ const initTranslations = {
       `You missed your streak! You can save it after check-in by spending ${badgeCost} badges - make sure you have them!`,
     maxLevel: "Max level reached",
     recipe: "Recipe",
-    noRecipe: "No recipe"
+    noRecipe: "No recipe",
+    spoilerlabel: ({ spoilerDay, nextLesson }) =>
+  `${spoilerDay}'s lesson: ${nextLesson}`
   },
   es: {
     startStreak: "¡Comienza tu racha hoy!",
@@ -1624,7 +1626,9 @@ const initTranslations = {
       `¡Perdiste tu racha! Puedes salvarla después de registrarte gastando ${badgeCost} insignias. ¡Asegúrate de tenerlas!`,
     maxLevel: "Nivel máximo alcanzado",
     recipe: "Receta",
-    noRecipe: "Sin receta"
+    noRecipe: "Sin receta",
+    spoilerlabel: ({ spoilerDay, nextLesson }) =>
+  `Lección de ${spoilerDay}: ${nextLesson}`
   },
   hu: {
     startStreak: "Kezdd el a sorozatot ma!",
@@ -1634,7 +1638,9 @@ const initTranslations = {
       `Kihagytad a sorozatot! Ellenőrzés után megmentheted a sorozatot ${badgeCost} jelvény felhasználásával – győződj meg róla, hogy van elég!`,
     maxLevel: "Elérted a maximális szintet",
     recipe: "Recept",
-    noRecipe: "Nincs recept"
+    noRecipe: "Nincs recept",
+    spoilerlabel: ({ spoilerDay, nextLesson }) =>
+  `${spoilerDay} lecke: ${nextLesson}`
   }
 };
 
@@ -1921,6 +1927,27 @@ const streakFire = document.querySelector("#streak .fire");
 const todayUTC = new Date();
 const todayStr = getUTCDateString(todayUTC);
 
+ // SpoilerTitle
+ const nextLessonEl = document.getElementById("NextLessonSpoiler");
+if (nextLessonEl) {
+  if (!hasNextLesson(currentProfile)) {
+    nextLessonEl.classList.add("hidden"); // hide if everything is completed
+  } else {
+    nextLessonEl.classList.remove("hidden");
+  }
+}
+
+const { lesson: nextLesson, usedFallback } = getNextLessonFromPool(currentProfile, todayStr);
+
+const nextLessonTitle = getLessonTitle(nextLesson) || "Your next learning step 🌱";
+
+const lessonDayOffset = renderNextLessonSpoiler({
+  profile: currentProfile,
+  todayStr,
+  nextLessonTitle,
+  usedFallback // pass it down
+});
+
 // Yesterday
 const yesterdayUTC = new Date();
 yesterdayUTC.setUTCDate(yesterdayUTC.getUTCDate() - 1);
@@ -2021,6 +2048,121 @@ if (myCodeDiv && currentProfile?.friend_code) {
 }
 
   return profile;
+}
+
+// --------------------------
+// NEXT LESSON SPOILER RENDERER
+// --------------------------
+// --------------------------
+// CHECK IF ANY NEXT LESSON EXISTS
+// --------------------------
+function hasNextLesson(profile) {
+  const defaultGoalOrder = [
+    "Protecting animals & animal welfare",
+    "Caring for the environment & fighting climate change",
+    "Healthy living & wellness",
+    "Boosting my performance as an athlete"
+  ];
+
+  const normalize = s => (s || "").toString().trim().toLowerCase();
+
+  // 1️⃣ Determine available goals
+  let availableGoals;
+  if (Array.isArray(profile.goals) && profile.goals.length > 0) {
+    const selectedNorm = profile.goals.map(g => normalize(g));
+    availableGoals = defaultGoalOrder.filter(g => selectedNorm.includes(normalize(g)));
+  } else {
+    availableGoals = defaultGoalOrder.slice();
+  }
+
+  if (!availableGoals.length) return false;
+
+  // 2️⃣ Get all lessons for the user's selected goals
+  const allGoalLessons = Object.values(LessonsByIndex)
+    .filter(lesson => availableGoals.some(goal => normalize(lesson.goal) === normalize(goal)));
+
+  if (!allGoalLessons.length) return false;
+
+  // 3️⃣ Check if any lesson is not completed
+  const completed = (profile.completed_lessons || [])
+    .map(n => parseInt(n, 10))
+    .filter(n => !isNaN(n));
+
+  const hasPending = allGoalLessons.some(lesson => !completed.includes(lesson.id || lesson.lessonId));
+
+  return hasPending;
+}
+
+function getLessonDayOffset(profile, todayStr) {
+  // 0 = today, 1 = tomorrow
+  return profile.last_checkin_date === todayStr ? 1 : 0;
+}
+
+function renderNextLessonSpoiler({
+  profile,
+  todayStr,
+  nextLessonTitle,
+  usedFallback
+}) {
+  const el = document.getElementById("NextLessonSpoiler");
+  if (!el) return;
+
+  // Add 'hidden' class if fallback was used
+  if (usedFallback) {
+    el.classList.add("hidden");
+    return; // stop further rendering
+  } else {
+    el.classList.remove("hidden");
+  }
+
+  const dayOffset = getLessonDayOffset(profile, todayStr);
+  const spoilerDay = getSpoilerDayLabel(dayOffset);
+
+  el.textContent = initT("spoilerlabel", {
+    spoilerDay,
+    nextLesson: nextLessonTitle
+  });
+
+  return dayOffset; // 🔥 IMPORTANT: return it for lesson pool usage
+}
+
+function getSpoilerDayLabel(dayOffset) {
+  const lang = localStorage.getItem("lang") || "en";
+
+  const labels = {
+    en: ["Today", "Tomorrow"],
+    es: ["hoy", "mañana"],
+    hu: ["Mai", "Holnapi"]
+  };
+
+  return labels[lang]?.[dayOffset] || labels.en[dayOffset];
+}
+
+function getLessonTitle(lesson) {
+  if (!lesson) return "Your next learning step 🌱";
+  const lang = localStorage.getItem("lang") || "en";
+
+  if (lesson.title) return lesson.title[lang] || lesson.title.en || "Your next learning step 🌱";
+  if (lesson.lesson) return lesson.lesson[lang] || lesson.lesson.en || "Your next learning step 🌱";
+
+  return "Your next learning step 🌱";
+}
+
+function getNextLessonFromPool(profile, todayStr) {
+  const dayOffset = getLessonDayOffset(profile, todayStr);
+
+  const lastLesson = Number(profile.last_lesson?.lessonId ?? 0);
+  const nextIndex = lastLesson + dayOffset;
+
+  // Determine if fallback is used
+  const lesson = LessonsByIndex[nextIndex] || LessonsByIndex[1];
+  const usedFallback = !LessonsByIndex[nextIndex]; // true if fallback triggered
+
+  return {
+    lesson,
+    dayOffset,
+    usedFallback
+  };
 }
 
 //--------------------------
