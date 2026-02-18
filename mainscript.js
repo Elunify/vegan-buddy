@@ -7637,7 +7637,11 @@ const achievementTranslations = {
 
     // Suggestions / notifications
     firstEvent: "🎉 You hosted your first event! Open Achievements to add your badge!",
-    mealArtWin: "🍽️ Your Meal Art won! Congratulations! Claim your achievement in your profile!"
+    mealArtWin: "🍽️ Your Meal Art won! Congratulations! Claim your achievement in your profile!",
+
+    animalSaver_desc: "Unlocked when your counter reaches 100 saved animals.",
+    localHero_desc: "Organised a local event.",
+    veganChef_desc: "Win a meal-art contest!"
   },
 
   es: {
@@ -7648,7 +7652,12 @@ const achievementTranslations = {
     locked: "🔒 Bloqueado",
 
     firstEvent: "🎉 ¡Has organizado tu primer evento! Abre Logros para añadir tu insignia.",
-    mealArtWin: "🍽️ ¡Tu plato ganó! ¡Felicidades! Reclama tu logro en tu perfil."
+    mealArtWin: "🍽️ ¡Tu plato ganó! ¡Felicidades! Reclama tu logro en tu perfil.",
+
+    animalSaver_desc: "Se desbloquea cuando alcanzas 100 animales salvados.",
+    localHero_desc: "Has organizado un evento local.",
+    veganChef_desc: "¡Gana un concurso de arte culinario!"
+
   },
 
   hu: {
@@ -7659,7 +7668,11 @@ const achievementTranslations = {
     locked: "🔒 Zárolva",
 
     firstEvent: "🎉 Megszervezted az első eseményed! Nyisd meg az Eredményeket a jelvény hozzáadásához!",
-    mealArtWin: "🍽️ A fogásod nyert! Gratulálunk! Vedd fel az eredményt a profilodban!"
+    mealArtWin: "🍽️ A fogásod nyert! Gratulálunk! Vedd fel az eredményt a profilodban!",
+
+    animalSaver_desc: "Akkor oldódik fel, amikor 100 megmentett állatot érsz el.",
+    localHero_desc: "Szerveztél egy helyi eseményt.",
+    veganChef_desc: "Megnyertél egy étel-művészeti versenyt!"
   }
 };
 
@@ -7698,7 +7711,7 @@ const allAchievements = [
   { 
     symbol: "🐮", 
     name: "Animal Saver", 
-    description: "Unlocked when your counter reaches 100 saved animals.", 
+    descKey: "animalSaver_desc",
     key: "animals_saved", 
     goal: 100 
   },
@@ -7711,15 +7724,15 @@ const allAchievements = [
  // },
   { 
     symbol: "🏡", 
-    name: "Local Hero", 
-    description: "Organised a local event.", 
+    name: "Local Patriot", 
+    descKey: "localHero_desc",
     key: "events_organized", 
     goal: 1 
   },
   { 
     symbol: "🥗", 
     name: "Expert Vegan Chef", 
-    description: "Win a meal-art contest!", 
+    descKey: "veganChef_desc",
     key: "meal_art_wins", 
     goal: 1 
   }
@@ -7765,7 +7778,7 @@ async function displayAchievementsPage() {
     title.textContent = a.name;
 
     const desc = document.createElement("p");
-    desc.textContent = a.description;
+    desc.textContent = achievementT(a.descKey);
 
     const progressAch = document.createElement("div");
     progressAch.className = "progressAch";
@@ -7858,7 +7871,7 @@ async function checkAchievementSuggestions() {
   const achievementsList = currentProfile.achievements || [];
 
   // ---- EVENT ORGANISER ACHIEVEMENT ----
-  if (data.events_organized >= 1 && !achievementsList.includes("Local Hero")) {
+  if (data.events_organized >= 1 && !achievementsList.includes("Local Patriot")) {
     showProgressSuggestion(
       achievementT("firstEvent"),
       currentProfile.pet_photo
