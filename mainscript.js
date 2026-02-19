@@ -2655,6 +2655,8 @@ const toastQueue = [];
 let toastShowing = false;
 
 function showProgressSuggestion(message, petPhotoUrl) {
+  if (!message) return; // ← ignore empty messages
+
   // Push new toast into queue
   toastQueue.push({ message, petPhotoUrl });
 
