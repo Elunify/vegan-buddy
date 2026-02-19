@@ -10021,9 +10021,6 @@ document.addEventListener("DOMContentLoaded", async () => {
        PHASE 16 — CHALLENGES MONITOR
        ========================= */
     updateChallengeDots();
-    monitorDailyXP();
-    monitorDailyLesson();
-
 });
 
 //#endregion
