@@ -2651,8 +2651,24 @@ async function addBadges(userId, amount) {
   await fetchLeaderboard('badge', 'overall-badge');
 }
 
+const toastQueue = [];
+let toastShowing = false;
 
 function showProgressSuggestion(message, petPhotoUrl) {
+  // Push new toast into queue
+  toastQueue.push({ message, petPhotoUrl });
+
+  // Try to show the next toast
+  showNextToast();
+}
+
+function showNextToast() {
+  if (toastShowing) return; // Already showing a toast
+  if (toastQueue.length === 0) return; // Nothing to show
+
+  const { message, petPhotoUrl } = toastQueue.shift();
+  toastShowing = true;
+
   const banner = document.createElement("div");
   banner.className = "toast-suggestion";
 
@@ -2661,7 +2677,7 @@ function showProgressSuggestion(message, petPhotoUrl) {
   petImg.src = petPhotoUrl || "default-pet.jpg";
   petImg.alt = "Pet";
   petImg.className = "toast-pet";
-  
+
   // Message
   const textSpan = document.createElement("span");
   textSpan.textContent = message;
@@ -2670,7 +2686,7 @@ function showProgressSuggestion(message, petPhotoUrl) {
   banner.appendChild(textSpan);
   document.body.appendChild(banner);
 
-  // Trigger slide-in after next tick
+  // Slide-in
   requestAnimationFrame(() => {
     banner.classList.add("show");
   });
@@ -2679,7 +2695,16 @@ function showProgressSuggestion(message, petPhotoUrl) {
   setTimeout(() => {
     banner.classList.remove("show");
     banner.classList.add("fade-out");
-    setTimeout(() => banner.remove(), 600);
+    setTimeout(() => {
+      banner.remove();
+      toastShowing = false;
+
+      // Small 0.5s gap before showing the next toast
+      setTimeout(() => {
+        showNextToast();
+      }, 500);
+
+    }, 600); // match your fade-out duration
   }, 6000);
 }
 
@@ -2786,10 +2811,15 @@ async function monitorDailyXP() {
 
     if (claimed) return; // ✅ Don't show if reward claimed
 
+    const lastShownKey = `dailyXPLastShown_${currentUser.id}`;
+    const lastShown = localStorage.getItem(lastShownKey);
+    const now = Date.now();
+
     let message = "";
     if (xpToday >= xpGoal) {
       message = helperT("dailyXPComplete"); // 🔹 translation key
-    } else {
+    } else if (xpToday >= 20 && now - parseInt(lastShown) > 300_000)
+      {
       const remaining = xpGoal - xpToday;
       message = helperT("dailyXPProgress", { xpToday, xpGoal, remaining });
     }
