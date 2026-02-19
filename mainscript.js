@@ -2806,28 +2806,31 @@ async function monitorDailyXP() {
     .eq("id", currentUser.id)
     .single();
 
-  if (!xpError && xpData) {
-    const xpToday = xpData.xp_today || 0;
-    const xpGoal = 50;
-    const claimed = await isClaimed(currentUser.id, "daily_xp");
+  if (xpError || !xpData) return;
 
-    if (claimed) return; // ✅ Don't show if reward claimed
+  const xpToday = xpData.xp_today || 0;
+  const xpGoal = 50;
+  const claimed = await isClaimed(currentUser.id, "daily_xp");
 
-    const lastShownKey = `dailyXPLastShown_${currentUser.id}`;
-    const lastShown = localStorage.getItem(lastShownKey);
-    const now = Date.now();
+  if (claimed) return; // ✅ Don't show if reward claimed
 
-    let message = "";
-    if (xpToday >= xpGoal) {
-      message = helperT("dailyXPComplete"); // 🔹 translation key
-    } else if (xpToday >= 20 && now - parseInt(lastShown) > 300_000)
-      {
-      const remaining = xpGoal - xpToday;
-      message = helperT("dailyXPProgress", { xpToday, xpGoal, remaining });
-    }
+  const lastShownKey = `dailyXPLastShown_${currentUser.id}`;
+  const lastShown = parseInt(localStorage.getItem(lastShownKey)) || 0;
+  const now = Date.now();
 
-    showProgressSuggestion(message, petPhotoUrl);
+  let message = "";
+
+  if (xpToday >= xpGoal) {
+    message = helperT("dailyXPComplete"); // always show complete
+  } else if (xpToday >= 20 && now - lastShown > 180_000) {
+    const remaining = xpGoal - xpToday;
+    message = helperT("dailyXPProgress", { xpToday, xpGoal, remaining });
+
+    // Update last shown for progress throttling
+    localStorage.setItem(lastShownKey, now.toString());
   }
+
+  if (message) showProgressSuggestion(message, petPhotoUrl);
 }
 
 async function monitorDailyLesson() {
@@ -2841,24 +2844,32 @@ async function monitorDailyLesson() {
     .eq("date", todayUTC())
     .maybeSingle();
 
-  if (!learnError && learnData) {
-    const lessons = ["animal", "earth", "health"];
-    const doneCount = lessons.filter(l => learnData[l]).length;
-    const total = lessons.length;
-    const claimed = await isClaimed(currentUser.id, "learn");
+  if (learnError || !learnData) return;
 
-    if (claimed) return; // ✅ Don't show if reward claimed
+  const lessons = ["animal", "earth", "health"];
+  const doneCount = lessons.filter(l => learnData[l]).length;
+  const total = lessons.length;
+  const claimed = await isClaimed(currentUser.id, "learn");
 
-    let message = "";
-    if (doneCount === total) {
-      message = helperT("lessonsComplete"); // 🔹 translation key
-    } else {
-      const remaining = total - doneCount;
-      message = helperT("lessonsProgress", { doneCount, total, remaining });
-    }
+  if (claimed) return; // ✅ Don't show if reward claimed
 
-    showProgressSuggestion(message, petPhotoUrl);
+  const lastShownKey = `dailyLessonsLastShown_${currentUser.id}`;
+  const lastShown = parseInt(localStorage.getItem(lastShownKey)) || 0;
+  const now = Date.now();
+
+  let message = "";
+
+  if (doneCount === total) {
+    message = helperT("lessonsComplete"); // always show complete
+  } else if (now - lastShown > 120_000) {
+    const remaining = total - doneCount;
+    message = helperT("lessonsProgress", { doneCount, total, remaining });
+
+    // Update last shown for progress throttling
+    localStorage.setItem(lastShownKey, now.toString());
   }
+
+  if (message) showProgressSuggestion(message, petPhotoUrl);
 }
 
 //#endregion
