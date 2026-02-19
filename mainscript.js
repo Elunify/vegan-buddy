@@ -2820,7 +2820,7 @@ async function monitorDailyXP() {
 
   let message = "";
 
-  if (xpToday >= xpGoal) {
+  if (xpToday >= xpGoal && now - lastShown > 10_000) {
     message = helperT("dailyXPComplete"); // always show complete
   } else if (xpToday >= 20 && now - lastShown > 180_000) {
     const remaining = xpGoal - xpToday;
@@ -2859,7 +2859,7 @@ async function monitorDailyLesson() {
 
   let message = "";
 
-  if (doneCount === total) {
+  if (doneCount === total && now - lastShown > 10_000) {
     message = helperT("lessonsComplete"); // always show complete
   } else if (now - lastShown > 120_000) {
     const remaining = total - doneCount;
