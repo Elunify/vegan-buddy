@@ -247,12 +247,16 @@
 
   <!-- 🧸 Achievements -->
   <div class="dropdown">
-    <button>🧸</button>
+    <button>🧸 <span class="red-dot" id="playgroundDot"></span> </button>
     <div class="dropdown-content">
       <button id="leaderboardsBtn" onclick="showSection('leaderboards')">Leaderboards</button>
       <button id="achievementsPageBtn" onclick="showSection('achievements')">Achievements</button>
       <button id="shopBtn" onclick="showSection('shop')">Shop</button>
-      <button id="challengesBtn" onclick="showSection('challenges')">Challenges</button>
+      <button id="challengesBtn" onclick="showSection('challenges')"> 
+        <span class="btn-label">Challenges 
+          <span class="red-dot" id="challengesDot"></span> 
+        </span>
+      </button>
     </div>
   </div>
 

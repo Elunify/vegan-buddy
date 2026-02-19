@@ -4222,7 +4222,7 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
 
 };
 
-
+/*  */
 // =======================
 // LEARN PATH
 // =======================
@@ -4268,7 +4268,6 @@ export const extralessonsData = {
       correctIndex: 1
     }
   },
-
   {
     title: {
       en: "Out of Sight, Out of Mind?",
@@ -6198,7 +6197,6 @@ export const extralessonsData = {
     }
   },
 //More Lessons here
-
 {
   title: {
     en: "🔄 Review a Lesson",
@@ -6240,7 +6238,6 @@ export const extralessonsData = {
       correctIndex: 1
     }
   },
-
   {
     title: {
       en: "Energy and Emissions",
@@ -7425,7 +7422,6 @@ export const extralessonsData = {
 },
 // more lessons here
 
-
 {
   title: {
     en: "🔄 Review a Lesson",
@@ -7479,7 +7475,6 @@ export const extralessonsData = {
       correctIndex: 0
     }
   },
-
   {
     title: {
       en: "Protein from Plants vs Meat",

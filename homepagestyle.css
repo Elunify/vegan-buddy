@@ -4899,6 +4899,11 @@ cursor: not-allowed;
   right: 5px;
 }
 
+#playgroundDot {
+  top: 5px;
+  right: 5px;
+}
+
 /* ---------------------------------------------
    2) TEXT-ALIGNED DOTS (Messages, Friends, Local, Forum)
    These appear next to text, vertically centered
@@ -4923,7 +4928,6 @@ cursor: not-allowed;
 #LocalDot { }
 
 */
-
 
 .button.danger {
   background-color: #c0392b;

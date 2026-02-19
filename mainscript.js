@@ -1171,7 +1171,7 @@ async function updateLanguageUI(lang) {
   document.getElementById("leaderboardsBtn").innerText = t.leaderboardsBtn;
   document.getElementById("achievementsPageBtn").innerText = t.achievementsPageBtn;
   document.getElementById("shopBtn").innerText = t.shopBtn;
-  document.getElementById("challengesBtn").innerText = t.challengesBtn;
+  document.getElementById("challengesBtn").querySelector(".btn-label").firstChild.textContent = t.challengesBtn;
   document.getElementById("recommendationsBtn").innerText = t.recommendationsBtn;
   document.getElementById("sourcesBtn").innerText = t.sourcesBtn;
   document.getElementById("aboutUsBtn").innerText = t.aboutUsBtn;
@@ -2309,7 +2309,14 @@ const helperTranslations = {
     notEnoughBadges: ({ badgeCost, missing }) =>
       `You can save your streak by collecting ${missing} more badges and spending ${badgeCost} before your check-in.`,
     confirmLoseStreak: "Press OK to lose your streak now and proceed with today's check-in, or Cancel to collect badges first.",
-    errorUpdatingBadges: "Error updating badges:"
+    errorUpdatingBadges: "Error updating badges:",
+    
+    dailyXPComplete: "🎯 Daily XP complete! Reclaim your reward!",
+    dailyXPProgress: ({ xpToday, xpGoal, remaining }) =>
+      `🎯 Daily XP progress: ${xpToday}/${xpGoal} XP — only ${remaining} XP to claim your reward!`,
+    lessonsComplete: "📚 All lessons done! Reclaim your reward!",
+    lessonsProgress: ({ doneCount, total, remaining }) =>
+      `📚 Learn Challenge: ${doneCount}/${total} completed — only ${remaining} lesson${remaining > 1 ? "s" : ""} left to claim your reward!`
   },
   es: {
     toNextLevel: "para el siguiente nivel",
@@ -2322,7 +2329,15 @@ const helperTranslations = {
     notEnoughBadges: ({ badgeCost, missing }) =>
       `Puedes salvar tu racha recolectando ${missing} insignias más y gastando ${badgeCost} antes de registrarte.`,
     confirmLoseStreak: "Presiona OK para perder tu racha ahora y continuar con el registro de hoy, o Cancelar para recolectar primero las insignias.",
-    errorUpdatingBadges: "Error al actualizar las insignias:"
+    errorUpdatingBadges: "Error al actualizar las insignias:",
+
+    dailyXPComplete: "🎯 ¡XP diario completado! ¡Reclama tu recompensa!",
+    dailyXPProgress: ({ xpToday, xpGoal, remaining }) =>
+      `🎯 Progreso de XP diario: ${xpToday}/${xpGoal} XP — ¡solo ${remaining} XP para reclamar tu recompensa!`,
+    lessonsComplete: "📚 ¡Todas las lecciones completadas! ¡Reclama tu recompensa!",
+    lessonsProgress: ({ doneCount, total, remaining }) =>
+      `📚 Desafío de aprendizaje: ${doneCount}/${total} completadas — solo quedan ${remaining} lección${remaining > 1 ? "es" : ""} para reclamar tu recompensa!`
+ 
   },
   hu: {
     toNextLevel: "a következő szinthez",
@@ -2335,7 +2350,14 @@ const helperTranslations = {
     notEnoughBadges: ({ badgeCost, missing }) =>
       `A sorozatod megmentéséhez gyűjts ${missing} jelvényt, majd használd fel a ${badgeCost}-at a bejelentkezés előtt.`,
     confirmLoseStreak: "Nyomj OK-t, ha most elveszíted a sorozatod és folytatod a mai bejelentkezést, vagy Mégse, ha előbb jelvényeket szeretnél gyűjteni.",
-    errorUpdatingBadges: "Hiba a jelvények frissítésekor:"
+    errorUpdatingBadges: "Hiba a jelvények frissítésekor:",
+    
+    dailyXPComplete: "🎯 Napi XP teljesítve! Vedd át a jutalmad!",
+    dailyXPProgress: ({ xpToday, xpGoal, remaining }) =>
+      `🎯 Napi XP: ${xpToday}/${xpGoal} — még ${remaining} XP a jutalomhoz!`,
+    lessonsComplete: "📚 Minden lecke kész! Vedd át a jutalmad!",
+    lessonsProgress: ({ doneCount, total, remaining }) =>
+      `📚 Napi leckék: ${doneCount}/${total} kész — még ${remaining} lecke a jutalomhoz!`
   }
 };
 
@@ -2505,6 +2527,12 @@ if (level > previousLevel) {
 
     document.getElementById("xpToNext").textContent =
       `${xpRemaining} XP ${helperT("toNextLevel")}`;
+
+      // ✅ **CALL THE MONITOR HERE**
+    monitorDailyXP(); // <-- call after XP updated
+    
+  // NEW: Playground & Challenges
+  updateChallengeDots();
 
   } catch (err) {
     console.error(helperT("errorUpdatingXP"), err);
@@ -2739,6 +2767,66 @@ function disableDailyCheckinButtons() {
 function enableDailyCheckinButtons() {
     submitBtn.disabled = false;
     submitSupportBtn.disabled = false;
+}
+
+async function monitorDailyXP() {
+  if (!currentUser?.id) return;
+  const petPhotoUrl = currentProfile.pet_photo || "default-pet.jpg";
+
+  const { data: xpData, error: xpError } = await supabase
+    .from("profiles")
+    .select("xp_today")
+    .eq("id", currentUser.id)
+    .single();
+
+  if (!xpError && xpData) {
+    const xpToday = xpData.xp_today || 0;
+    const xpGoal = 50;
+    const claimed = await isClaimed(currentUser.id, "daily_xp");
+
+    if (claimed) return; // ✅ Don't show if reward claimed
+
+    let message = "";
+    if (xpToday >= xpGoal) {
+      message = helperT("dailyXPComplete"); // 🔹 translation key
+    } else {
+      const remaining = xpGoal - xpToday;
+      message = helperT("dailyXPProgress", { xpToday, xpGoal, remaining });
+    }
+
+    showProgressSuggestion(message, petPhotoUrl);
+  }
+}
+
+async function monitorDailyLesson() {
+  if (!currentUser?.id) return;
+  const petPhotoUrl = currentProfile.pet_photo || "default-pet.jpg";
+
+  const { data: learnData, error: learnError } = await supabase
+    .from("lessons_daily")
+    .select("*")
+    .eq("user_id", currentUser.id)
+    .eq("date", todayUTC())
+    .maybeSingle();
+
+  if (!learnError && learnData) {
+    const lessons = ["animal", "earth", "health"];
+    const doneCount = lessons.filter(l => learnData[l]).length;
+    const total = lessons.length;
+    const claimed = await isClaimed(currentUser.id, "learn");
+
+    if (claimed) return; // ✅ Don't show if reward claimed
+
+    let message = "";
+    if (doneCount === total) {
+      message = helperT("lessonsComplete"); // 🔹 translation key
+    } else {
+      const remaining = total - doneCount;
+      message = helperT("lessonsProgress", { doneCount, total, remaining });
+    }
+
+    showProgressSuggestion(message, petPhotoUrl);
+  }
 }
 
 //#endregion
@@ -3320,8 +3408,6 @@ const dailyCheckinTranslations = {
     wellDoneLearnPath: "Well done! You can keep learning in the Learn Path or get extra rewards in Daily Challenges!",
     wellDoneMealArt: "Well done! Have you checked out our meal-art contest and trending recipes already?",
     wellDoneCommunity: "Well done! Are you already a member of your local community? 🤩",
-    wellDoneXpDone: "Well done! Your XP daily challenge is done, claim your reward in the playground section!",
-    wellDoneXpLeft: "Well done! You need {xp_left} more XP to complete your daily challenge!",
     lastquiz: "Last lesson's quiz:"
   },
   es: {
@@ -3333,8 +3419,6 @@ const dailyCheckinTranslations = {
     wellDoneLearnPath: "¡Bien hecho! Puedes seguir aprendiendo en el Camino de Aprendizaje o conseguir recompensas extra en Desafíos Diarios!",
     wellDoneMealArt: "¡Bien hecho! ¿Ya has visto nuestro concurso de meal-art y las recetas más populares?",
     wellDoneCommunity: "¡Bien hecho! ¿Ya eres miembro de tu comunidad local? 🤩",
-    wellDoneXpDone: "¡Bien hecho! Tu desafío diario de XP está completado, ¡reclama tu recompensa en la sección del parque de juegos!",
-    wellDoneXpLeft: "¡Bien hecho! Necesitas {xp_left} XP más para completar tu desafío diario!",
     lastquiz: "Cuestionario de la última lección:"
   },
   hu: {
@@ -3346,8 +3430,6 @@ const dailyCheckinTranslations = {
     wellDoneLearnPath: "Szép munka! Folytathatod a tanulást az Útvonal tanulásban, vagy extra jutalmakat szerezhetsz a Napi kihívásokban!",
     wellDoneMealArt: "Szép munka! Megnézted már a meal-art versenyt és a népszerű recepteket?",
     wellDoneCommunity: "Szép munka! Már tagja vagy a helyi közösségednek? 🤩",
-    wellDoneXpDone: "Szép munka! A napi XP kihívásod kész, igényeld a jutalmad a játszótér szekcióban!",
-    wellDoneXpLeft: "Szép munka! Még {xp_left} XP-re van szükséged a napi kihívás teljesítéséhez!",
     lastquiz: "Az utolsó leckéhez tartozó kvíz:"
   }
 };
@@ -3728,17 +3810,6 @@ if (currentProfile.day_counter === 1 ) {
   } else if (currentProfile.day_counter === 3) {
   showProgressSuggestion(
     dailyCheckinT("wellDoneCommunity"),
-    currentProfile.pet_photo
-  );
-  } else if (currentProfile.day_counter < 10 && currentProfile.xp_today >= 50) {
-  showProgressSuggestion(
-    dailyCheckinT("wellDoneXpDone"),
-    currentProfile.pet_photo
-  );
-  } else if (currentProfile.day_counter < 5 && currentProfile.xp_today < 50) {
-    const xp_left = 50 - currentProfile.xp_today;
-  showProgressSuggestion(
-    dailyCheckinT("wellDoneXpLeft", { xp_left }),
     currentProfile.pet_photo
   );
   } 
@@ -4163,7 +4234,7 @@ function setupExtraLessonClicks() {
 
   ["animals", "earth", "health"].forEach(courseId => {
     const course = document.getElementById(courseId);
-    if (!course) return;
+    if (!course) return; 
 
     const lessons = course.querySelectorAll(".extralesson");
 
@@ -4263,6 +4334,30 @@ function setupExtraLessonClicks() {
   });
 }
 
+async function markPathComplete(courseId) {
+  if (!currentProfile?.id) return;
+
+  let update = {};
+
+  if (courseId === "animals") update.animal_path = 1;
+  if (courseId === "earth") update.earth_path = 1;
+  if (courseId === "health") update.health_path = 1;
+
+  if (Object.keys(update).length === 0) return;
+
+  const { error } = await supabase
+    .from("achievements_data")
+    .update(update)
+    .eq("user_id", currentProfile.id);
+
+  if (error) {
+    console.error("Failed to mark path complete:", error);
+  } else {
+    // Keep frontend state in sync
+    Object.assign(currentProfile, update);
+  }
+}
+
 // Save progress using currentProfile if available
 async function saveExtraLessonProgress() {
   if (!currentProfile) return;
@@ -4328,10 +4423,10 @@ async function saveExtraLessonProgress() {
 
 
 // Apply saved progress to DOM (no extra fetch)
-function applyExtraLessonProgress() {
+async function applyExtraLessonProgress() {
   if (!currentProfile || !currentProfile.extra_lesson) return;
 
-  Object.keys(currentProfile.extra_lesson).forEach(courseId => {
+  for (const courseId of Object.keys(currentProfile.extra_lesson)) {
     const lessons = document.querySelectorAll(`#${courseId} .extralesson`);
     const completedEN = currentProfile.extra_lesson[courseId] || [];
 
@@ -4365,14 +4460,18 @@ function applyExtraLessonProgress() {
     const reviewLessonLi = lessonList.querySelector(".review-lesson");
     const normalLessons = lessonList.querySelectorAll(".extralesson:not(.review-lesson)");
     const allNormalCompleted = Array.from(normalLessons).every(l => l.classList.contains("completed"));
-
+    if (allNormalCompleted) {
+        await markPathComplete(courseId); // your existing function to update Supabase
+        }
     if (reviewLessonLi && allNormalCompleted) {
       reviewLessonLi.classList.remove("locked");
       reviewLessonLi.classList.add("unlocked");
       reviewLessonLi.querySelector(".extralesson-icon").textContent = "🟢";
+      }
     }
-  });
-}
+  }
+
+
 
 // COURSE BUTTONS
 function setupCourseButtons() {
@@ -7636,12 +7735,21 @@ const achievementTranslations = {
     locked: "🔒 Locked",
 
     // Suggestions / notifications
+    animalSaverDone: "🐮 You saved 100 animals! Incredible impact — claim your Animal Saver achievement!",
     firstEvent: "🎉 You hosted your first event! Open Achievements to add your badge!",
     mealArtWin: "🍽️ Your Meal Art won! Congratulations! Claim your achievement in your profile!",
+    animalPathDone: "🐾 You completed the Animal Welfare learning path! Claim your achievement!",
+    earthPathDone: "🌍 You completed the Environment learning path! Claim your achievement!",
+    healthPathDone: "💪 You completed the Health learning path! Claim your achievement!",
+    allPathsDone: "👑 You completed all learning paths! You unlocked Enlightened One!",
 
     animalSaver_desc: "Unlocked when your counter reaches 100 saved animals.",
     localHero_desc: "Organised a local event.",
-    veganChef_desc: "Win a meal-art contest!"
+    veganChef_desc: "Win a meal-art contest!",
+    animalPath_desc: "Finish the animal welfare learning path.",
+    earthPath_desc: "Finish the environment learning path.",
+    healthPath_desc: "Finish the health learning path.",
+    allPaths_desc: "Finish all learning paths."
   },
 
   es: {
@@ -7651,12 +7759,21 @@ const achievementTranslations = {
     addToAchievements: "Añadir a tus logros",
     locked: "🔒 Bloqueado",
 
+    animalSaverDone: "🐮 ¡Has salvado 100 animales! Un impacto increíble — reclama tu logro Animal Saver.",
     firstEvent: "🎉 ¡Has organizado tu primer evento! Abre Logros para añadir tu insignia.",
     mealArtWin: "🍽️ ¡Tu plato ganó! ¡Felicidades! Reclama tu logro en tu perfil.",
+    animalPathDone: "🐾 ¡Has completado la ruta de aprendizaje sobre el bienestar animal! ¡Reclama tu logro!",
+    earthPathDone: "🌍 ¡Has completado la ruta de aprendizaje sobre el medio ambiente! ¡Reclama tu logro!",
+    healthPathDone: "💪 ¡Has completado la ruta de aprendizaje sobre la salud! ¡Reclama tu logro!",
+    allPathsDone: "👑 ¡Has completado todas las rutas de aprendizaje! ¡Has desbloqueado Enlightened One!",
 
     animalSaver_desc: "Se desbloquea cuando alcanzas 100 animales salvados.",
     localHero_desc: "Has organizado un evento local.",
-    veganChef_desc: "¡Gana un concurso de arte culinario!"
+    veganChef_desc: "¡Gana un concurso de arte culinario!",
+    animalPath_desc: "Completa la ruta de aprendizaje sobre el bienestar animal.",
+    earthPath_desc: "Completa la ruta de aprendizaje sobre el medio ambiente.",
+    healthPath_desc: "Completa la ruta de aprendizaje sobre la salud.",
+    allPaths_desc: "Completa todas las rutas de aprendizaje."
 
   },
 
@@ -7667,12 +7784,21 @@ const achievementTranslations = {
     addToAchievements: "Hozzáadás az eredményeidhez",
     locked: "🔒 Zárolva",
 
+    animalSaverDone: "🐮 100 állatot mentettél meg! Hihetetlen hatás — vedd fel az Animal Saver eredményt!",
     firstEvent: "🎉 Megszervezted az első eseményed! Nyisd meg az Eredményeket a jelvény hozzáadásához!",
     mealArtWin: "🍽️ A fogásod nyert! Gratulálunk! Vedd fel az eredményt a profilodban!",
+    animalPathDone: "🐾 Teljesítetted az állatvédelemmel kapcsolatos tanulási útvonalat! Vedd fel az eredményed!",
+    earthPathDone: "🌍 Teljesítetted a környezetvédelemmel kapcsolatos tanulási útvonalat! Vedd fel az eredményed!",
+    healthPathDone: "💪 Teljesítetted az egészséggel kapcsolatos tanulási útvonalat! Vedd fel az eredményed!",
+    allPathsDone: "👑 Teljesítetted az összes tanulási útvonalat! Feloldottad a Enlightened One címet!",
 
     animalSaver_desc: "Akkor oldódik fel, amikor 100 megmentett állatot érsz el.",
     localHero_desc: "Szerveztél egy helyi eseményt.",
-    veganChef_desc: "Megnyertél egy étel-művészeti versenyt!"
+    veganChef_desc: "Megnyertél egy étel-művészeti versenyt!",
+    animalPath_desc: "Teljesítetted az állatvédelemmel kapcsolatos tanulási útvonalat.",
+    earthPath_desc: "Teljesítetted a környezetvédelemmel kapcsolatos tanulási útvonalat.",
+    healthPath_desc: "Teljesítetted az egészséggel kapcsolatos tanulási útvonalat.",
+    allPaths_desc: "Az összes tanulási útvonalat teljesítetted."
   }
 };
 
@@ -7735,7 +7861,35 @@ const allAchievements = [
     descKey: "veganChef_desc",
     key: "meal_art_wins", 
     goal: 1 
-  }
+  },
+  {
+  symbol: "🐾",
+  name: "Voice for the Voiceless",
+  descKey: "animalPath_desc",
+  key: "animal_path",
+  goal: 1
+},
+{
+  symbol: "🌱",
+  name: "Planet Protector",
+  descKey: "earthPath_desc",
+  key: "earth_path",
+  goal: 1
+},
+{
+  symbol: "💪",
+  name: "Strong From Plants",
+  descKey: "healthPath_desc",
+  key: "health_path",
+  goal: 1
+},
+{
+  symbol: "🏆",
+  name: "Enlightened One",
+  descKey: "allPaths_desc",
+  key: "all_paths_complete",
+  goal: 1
+}
 ];
 
 // Display dynamic achievements with progress and add-to-profile button
@@ -7749,7 +7903,7 @@ async function displayAchievementsPage() {
   // 1️⃣ Fetch stats from achievements_data
   const { data: stats, error: statsError } = await supabase
     .from("achievements_data")
-    .select("animals_saved, mentor_rating, events_organized, meal_art_wins")
+    .select("animals_saved, events_organized, meal_art_wins, animal_path, earth_path, health_path")
     .eq("user_id", userId)
     .single();
 
@@ -7763,7 +7917,18 @@ async function displayAchievementsPage() {
 
   // 3️⃣ Loop through all possible achievements
   allAchievements.forEach(a => {
-    const value = stats?.[a.key] || 0;
+    let value;
+
+if (a.name === "Enlightened One") {
+  value =
+    stats.animal_path === 1 &&
+    stats.earth_path === 1 &&
+    stats.health_path === 1
+      ? 1
+      : 0;
+} else {
+  value = stats?.[a.key] || 0;
+}
     const isUnlocked = value >= a.goal;
     const isAdded = unlocked.includes(a.name);
 
@@ -7847,7 +8012,7 @@ async function addAchievementToProfile(userId, newAchievement) {
       .eq("id", userId);
       
       await displayAchievementsSettings(userId);
-      await addXP(10);
+      await addXP(50);
  
     if (updateError) console.error("Error updating achievements:", updateError);
   }
@@ -7859,7 +8024,7 @@ async function checkAchievementSuggestions() {
   // Fetch achievements data
   const { data, error } = await supabase
     .from("achievements_data")
-    .select("events_organized, meal_art_wins")
+    .select("animals_saved, events_organized, meal_art_wins, animal_path, earth_path, health_path")
     .eq("user_id", currentProfile.id)
     .single();
 
@@ -7869,6 +8034,14 @@ async function checkAchievementSuggestions() {
   }
 
   const achievementsList = currentProfile.achievements || [];
+
+  // ---- ANIMAL SAVER ACHIEVEMENT ----
+if (data.animals_saved >= 100 && !achievementsList.includes("Animal Saver")) {
+  showProgressSuggestion(
+    achievementT("animalSaverDone"),
+    currentProfile.pet_photo
+  );
+}
 
   // ---- EVENT ORGANISER ACHIEVEMENT ----
   if (data.events_organized >= 1 && !achievementsList.includes("Local Patriot")) {
@@ -7882,6 +8055,43 @@ async function checkAchievementSuggestions() {
   if (data.meal_art_wins >= 1 && !achievementsList.includes("Expert Vegan Chef")) {
     showProgressSuggestion(
       achievementT("mealArtWin"),
+      currentProfile.pet_photo
+    );
+  }
+
+  // ---- ANIMAL PATH ----
+  if (data.animal_path === 1 && !achievementsList.includes("Voice for the Voiceless")) {
+    showProgressSuggestion(
+      achievementT("animalPathDone"),
+      currentProfile.pet_photo
+    );
+  }
+
+  // ---- EARTH PATH ----
+  if (data.earth_path === 1 && !achievementsList.includes("Planet Protector")) {
+    showProgressSuggestion(
+      achievementT("earthPathDone"),
+      currentProfile.pet_photo
+    );
+  }
+
+  // ---- HEALTH PATH ----
+  if (data.health_path === 1 && !achievementsList.includes("Strong From Plants")) {
+    showProgressSuggestion(
+      achievementT("healthPathDone"),
+      currentProfile.pet_photo
+    );
+  }
+
+  // ---- ALL PATHS ----
+  if (
+    data.animal_path === 1 &&
+    data.earth_path === 1 &&
+    data.health_path === 1 &&
+    !achievementsList.includes("Enlightened One")
+  ) {
+    showProgressSuggestion(
+      achievementT("allPathsDone"),
       currentProfile.pet_photo
     );
   }
@@ -8310,6 +8520,9 @@ document.getElementById("daily-xp-claim").addEventListener("click", async () => 
   await addXP(3);
   await markClaimed(currentUser.id, "daily_xp");
 
+    clearNotification("challenges");
+    clearNotification("playground");
+
   alert(tChallenges("dailyXpAlert"));
 
   const btn = document.getElementById("daily-xp-claim");
@@ -8377,6 +8590,10 @@ async function markLessonComplete(userId, courseID) {
 
   // Optional: update progress in your app
   checkLearnProgress(userId);
+  await monitorDailyLesson();
+
+   // NEW: Playground & Challenges
+  updateChallengeDots();
 }
 
 document.getElementById("learnClaimBtn").addEventListener("click", async () => {
@@ -8386,6 +8603,9 @@ document.getElementById("learnClaimBtn").addEventListener("click", async () => {
 
   alert(tChallenges("learnAlert"));
   loadLessonChallenge();
+  
+    clearNotification("challenges");
+    clearNotification("playground");
 });
 
 async function loadLessonChallenge() {
@@ -9163,6 +9383,8 @@ const notificationState = {
   friendRequests: false,
   forumComments: false,
   localEvents: false,
+  playground: false,
+  challenges: false,
 
   lastSeenMessages: null, // ← added
   lastSeenFriends: null,   
@@ -9179,6 +9401,9 @@ const dots = {
   communityMain: document.getElementById("communityDot"),
   communityLocal: document.getElementById("LocalDot"),
   communityForum: document.getElementById("ForumDot"),
+  
+  playground: document.getElementById("playgroundDot"),
+  challenges: document.getElementById("challengesDot"),
 };
 
 // -------------- SAVE / LOAD STATE --------------
@@ -9217,6 +9442,13 @@ function updateDots() {
     notificationState.forumComments || notificationState.localEvents
       ? "inline-block"
       : "none";
+
+  // Playground
+  if (dots.playground) dots.playground.style.display = notificationState.playground ? "inline-block" : "none";
+
+  // Challenges
+  if (dots.challenges) dots.challenges.style.display = notificationState.challenges ? "inline-block" : "none";
+
 }
 
 // -------------- NOTIFICATION TRIGGERS --------------
@@ -9232,6 +9464,44 @@ function clearNotification(type) {
   saveNotificationState();
   updateDots();
 }
+
+// --- Update challenge dots ---
+async function updateChallengeDots() {
+  if (!currentUser?.id) return;
+
+  // Load current profile for xp_today
+  const { data: profileData } = await supabase
+    .from("profiles")
+    .select("xp_today")
+    .eq("id", currentUser.id)
+    .single();
+
+  const xpToday = profileData?.xp_today || 0;
+  const xpGoal = 50;
+  const xpClaimed = await isClaimed(currentUser.id, "daily_xp");
+
+  // Lessons
+  const { data: lessonRow } = await supabase
+    .from("lessons_daily")
+    .select("*")
+    .eq("user_id", currentUser.id)
+    .eq("date", todayUTC())
+    .maybeSingle();
+
+  const allLessonsDone = lessonRow ? lessonRow.animal && lessonRow.earth && lessonRow.health : false;
+  const learnClaimed = await isClaimed(currentUser.id, "learn");
+
+  // Set the dots individually
+  const showChallengeDot = (xpToday >= xpGoal && !xpClaimed) || (allLessonsDone && !learnClaimed);
+  const showPlaygroundDot = showChallengeDot; // same conditions as challenges
+
+  if (showChallengeDot) notify("challenges");
+  else clearNotification("challenges");
+
+  if (showPlaygroundDot) notify("playground");
+  else clearNotification("playground");
+}
+
 
 // ---------------- MESSAGES TAB STATE ----------------
 
@@ -9445,6 +9715,9 @@ async function initNotifications(supabase, currentUserId, friendcode, locationId
   checkFriendRequests(supabase, friendcode);
   checkForumComments(supabase, currentUserId);
   checkLocalEvents(supabase, locationId);
+  
+  // NEW: Playground & Challenges
+  updateChallengeDots(supabase, currentUserId);
 }
 
 window.initNotifications = initNotifications;
@@ -9713,6 +9986,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Error initializing mainpage:", err);
     showLoading(false);
   }
+
+  /* =========================
+       PHASE 16 — CHALLENGES MONITOR
+       ========================= */
+    updateChallengeDots();
+    monitorDailyXP();
+    monitorDailyLesson();
+
 });
 
 //#endregion
