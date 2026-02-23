@@ -49,20 +49,20 @@
 
     
     <!-- End Top Tabs -->
-      <div class="top-buttons-wrapper">
+  <div class="top-buttons-wrapper">
     <span id="NextLessonSpoiler"><!-- Today's lesson: ".." or "Tomorrow's lesson: ".." --></span>
-  <div class="top-buttons">
-    <!-- Left: Meal-Art -->
-    <button id="mealArtBtn" class="button button-circle small-circle">Meal-Art Contest</button>
-
+  <div class="learn-buttons">
     <!-- Center: Check-in / Learn Path -->
     <button id="checkinBtn" class="button button-circle main-circle">Daily Check-in</button>
-    <button id="lessonPathBtn" class="button button-circle main-circle hidden">Learn Path</button>
-
+    <button id="lessonPathBtn" class="button button-circle main-circle hidden">Learn Path</button> 
+  </div>
+  <div class="ArtBtnrecipesBtn">
+    <!-- Left: Meal-Art -->
+    <button id="mealArtBtn" class="button button-circle small-circle">Meal-Art Contest</button>
     <!-- Right: Recipes -->
     <button id="recipesBtn" class="button button-circle small-circle">Trending Recipes</button>
   </div>
-</div>
+  </div>
 
 
 
@@ -122,16 +122,20 @@
           <div class="meal-art-card">
             <h4 id="homeChefTitle">🥕 Home Chef</h4>
             <p class="winner-name" id="amateurName">Jane Doe</p>
-            <img id="amateurImage" src="meals/amateur.jpg" alt="Amateur winning dish" class="meal-art-image">
-            <div id="amateurRecipe"><span class="recipe">Recipe available</span></div>
+            <div class="meal-art-image-wrapper">
+              <img id="amateurImage" src="meals/amateur.jpg" class="meal-art-image">
+              <div class="recipe-badge hidden" id="recipebadgeAM">Recipe</div>
+            </div>
           </div>
 
           <!-- Professional -->
           <div class="meal-art-card">
             <h4 id="proKitchenTitle">🍴 Pro Kitchen</h4>
             <p class="winner-name" id="proName">Green Leaf Bistro</p>
-            <img id="proImage" src="meals/professional.jpg" alt="Professional winning dish" class="meal-art-image">
-            <div id="professionalRecipe"><span class="no-recipe">Recipe unavailable</span></div>
+            <div class="meal-art-image-wrapper">
+              <img id="proImage" src="meals/professional.jpg" class="meal-art-image">
+              <div class="recipe-badge hidden" id="recipebadgePRO">Recipe</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1436,7 +1440,8 @@
 <!-- Recipe Modal -->
 <div id="mealArtrecipeModal" class="popup modal" >
   <div class="modal-content">
-    <span id="mealArtcloseModal" class="close">&times;</span>
+    <button class="popup-close">✖</button>
+    <img id="mealArtmodalImage" class="meal-art-image">
     <h3 id="mealArtmodalFoodName"></h3>
     <h4 id="mealArtModalPrepTime">Preparation time:</h4>
     <p id="mealArtmodalPrepTime"></p>

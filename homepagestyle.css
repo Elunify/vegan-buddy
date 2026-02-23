@@ -202,58 +202,89 @@ h3 {
   font-size: 1.14rem;
 }
 
-.top-buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1.5rem;
-}
 .top-buttons-wrapper {
-  padding-top:40px;
-}
-
-/* Main big button */
-.button-circle.main-circle {
-  width: 7rem;
-  height: 7rem;
-  border-radius: 50%;
-  background: radial-gradient(circle at top left, #6ee7b7, #10b981);
-  color: white;
-  font-weight: bold;
-  font-size: 1.2rem;
-  border: none;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.button-circle.main-circle:hover {
-  transform: scale(1.07);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
-}
-
-/* Smaller side buttons */
-.button-circle.small-circle {
-  width: 4.8rem;
-  height: 4.8rem;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #fbbf24, #f59e0b);
-  color: white;
-  font-weight: bold;
-  font-size: 0.8rem;
-  border: none;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
-  transition: transform 0.2s, box-shadow 0.2s;
-
-  /* Fix text alignment */
+  padding-top: 30px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;   /* stack vertically */
+  gap: 0.5rem;              /* space between rows */
+}
+
+/* Next lesson text */
+#NextLessonSpoiler {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  text-align: left;
+}
+
+/* Middle row: Learn buttons */
+.learn-buttons {
+  display: flex;
+  justify-content: left;
+}
+
+/* Bottom row: Meal-Art + Recipes */
+.ArtBtnrecipesBtn {
+  display: flex;
+  justify-content: left;
+  gap: 0.5rem;
+}
+
+.button-circle.main-circle {
+  width: auto;
+  max-width: 320px;
+  height: 3.2rem;
+
+  border-radius: 1.6rem;
+  background: linear-gradient(135deg, #34d399, #10b981);
+  color: white;
+
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.2px;
+
+  border: none;
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+
+  display: flex;
   align-items: center;
-  text-align: center; /* for multi-line text */
-  line-height: 1; /* optional, keeps the text compact */
+  justify-content: center;
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
+
+.button-circle.main-circle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(16, 185, 129, 0.45);
+}
+
+
+.button-circle.small-circle {
+  flex: 1;
+  height: 2.6rem;
+
+  border-radius: 0.9rem;
+  background: #f9fafb;
+  color: #374151;
+
+  font-weight: 600;
+  font-size: 0.75rem;
+
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
 .button-circle.small-circle:hover {
-  transform: scale(1.1);
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
+  background: #f3f4f6;
+  transform: translateY(-1px);
 }
+
 
 /* Impact cards layout */
 .impact-box {
@@ -430,6 +461,30 @@ h3 {
 }
 
 /* Meal-Art Contest */
+.meal-art-image-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.recipe-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+
+  background: rgba(16, 185, 129, 0.95);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 999px;
+
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.recipe-badge.hidden {
+  display: none;
+}
+
 .meal-art-winners {
   margin-top: 0.7rem;
 }
@@ -2053,20 +2108,33 @@ h2 {
 
 /* Open Calculator link */
 .openCalculator {
-  display: inline-block;
-  margin-top: 6px;
-  font-size: 1.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 10px;
+  padding: 10px 16px;
+
+  font-size: 1.1rem;
   font-weight: 600;
+
   color: #2c8e6e;
+  background-color: #e7f6f0;
+
+  border: 2px solid #2c8e6e;
+  border-radius: 10px;
+
   cursor: pointer;
   text-decoration: none;
-  border-bottom: 2px solid #2c8e6e;
-  transition: all 0.2s ease;
+
+  transition: all 0.25s ease;
 }
+
 .openCalculator:hover {
-  color: #1f5f4a;
-  border-bottom-color: #1f5f4a;
-  transform: scale(1.05);
+  background-color: #2c8e6e;
+  color: #ffffff;
+  transform: scale(1.06);
+  box-shadow: 0 6px 16px rgba(44, 142, 110, 0.25);
 }
 
 /* Subtle animation */

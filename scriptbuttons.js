@@ -219,11 +219,18 @@ document.getElementById('recipesBtn')?.addEventListener('click', () => showSecti
 
 function openPopup(popupId) {
   // Close all popups first
-  document.querySelectorAll('.popup').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.popup').forEach(popup => {
+    popup.classList.remove('active');
+  });
 
   // Open requested popup
   const popup = document.getElementById(popupId);
-  if (popup) popup.classList.add('active');
+  if (!popup) {
+    console.warn('Popup not found:', popupId);
+    return;
+  }
+
+  popup.classList.add('active');
 }
 
 // Close popup X buttons
@@ -235,33 +242,12 @@ document.querySelectorAll('.popup-close').forEach(btn => {
 });
 
 // Optional: close popup on outside click
-document.querySelectorAll('.popup').forEach(popup => {
+document.querySelectorAll('.popup').forEach(popup => { 
   popup.addEventListener('click', e => {
     if (e.target === popup) {
       popup.classList.remove('active');
     }
   });
-});
-
-// Meal Art Winners Popups
-const mealArtMap = {
-  'amateurImage': 'popupAmateur',
-  'proImage': 'popupProfessional'
-};
-
-Object.keys(mealArtMap).forEach(id => {
-  document.getElementById(id)?.addEventListener('click', () => {
-    openPopup(mealArtMap[id]);
-  });
-});
-
-// Recipe modals
-document.getElementById('amateurRecipe')?.addEventListener('click', () => {
-  openPopup('recipeModal');
-});
-
-document.getElementById('professionalRecipe')?.addEventListener('click', () => {
-  openPopup('recipeModal');
 });
 
 // Impact card popups
@@ -339,7 +325,41 @@ newChatPopup?.addEventListener("click", e => {
   }
 });
 
+function setupMealArtImage(imgId, badgeSelector, mealData, fallbackPopupId) {
+  const img = document.getElementById(imgId);
+  const badge = img?.parentElement.querySelector(badgeSelector);
+  if (!img || !mealData) return;
 
+  const openRecipePopup = () => {
+    if (mealData.recipe_available) {
+      document.getElementById("mealArtmodalImage").src = mealData.image_url || "";
+      document.getElementById("mealArtmodalFoodName").textContent = mealData.food_name || "";
+      document.getElementById("mealArtmodalPrepTime").textContent = mealData.prep_time || "";
+      document.getElementById("mealArtmodalIngredients").textContent = mealData.ingredients || "";
+      document.getElementById("mealArtmodalInstructions").textContent = mealData.instructions || "";
+
+      openPopup("mealArtrecipeModal");
+    } else {
+      openPopup(fallbackPopupId);
+    }
+  };
+
+  // Make both image and badge clickable
+  img.onclick = openRecipePopup;
+  if (badge) {
+    badge.onclick = (e) => {
+      e.stopPropagation(); // prevent event bubbling if needed
+      openRecipePopup();
+    };
+  }
+
+  // Show/hide badge
+  if (mealData.recipe_available) {
+    badge?.classList.remove("hidden");
+  } else {
+    badge?.classList.add("hidden");
+  }
+}
 
 
 

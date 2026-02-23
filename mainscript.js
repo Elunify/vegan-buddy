@@ -24,6 +24,8 @@ const translations = {
     mealArtTitle: "Meal-Art Winners This Week:",
     homeChefTitle: "Home Chef",
     proKitchenTitle: "Pro Kitchen",
+    recipeAM: "Recipe",
+    recipePRO: "Recipe",
     recipeAvailable: "Recipe available",
     recipeUnavailable: "Recipe unavailable",
     petSays: "says...",
@@ -397,6 +399,8 @@ deleteProfileBtn: "🗑️ Delete profile",
     mealArtTitle: "Ganadores de Meal-Art de esta semana:",
     homeChefTitle: "Chef Casero",
     proKitchenTitle: "Cocina Profesional",
+    recipeAM: "Receta",
+    recipePRO: "Receta",
     recipeAvailable: "Receta disponible",
     recipeUnavailable: "Receta no disponible",
     petSays: "dice...",
@@ -771,6 +775,8 @@ animalsSentence: "¡Has salvado 0 animales hasta ahora!",
     mealArtTitle: "E heti Meal-Art győztesek:",
     homeChefTitle: "Hobbi Séf",
     proKitchenTitle: "Profikonyha",
+    recipeAM: "Recept",
+    recipePRO: "Recept",
     recipeAvailable: "Recept elérhető",
     recipeUnavailable: "Recept nem elérhető",
     petSays: "mondja...",
@@ -1157,6 +1163,9 @@ async function updateLanguageUI(lang) {
   document.getElementById("mealArtTitle").innerText = t.mealArtTitle;
   document.getElementById("homeChefTitle").innerText = t.homeChefTitle;
   document.getElementById("proKitchenTitle").innerText = t.proKitchenTitle;
+  
+  document.getElementById("recipebadgeAM").innerText = t.recipeAM;
+  document.getElementById("recipebadgePRO").innerText = t.recipePRO;
 
   // Pet
   document.getElementById("petSays").innerText = t.petSays;
@@ -2237,22 +2246,13 @@ function loadWinnersFromData() {
     document.getElementById("amateurImage").src = amateurWinner.image_url;
     document.getElementById("amateurImagePopup").src = amateurWinner.image_url;
 
-    const amateurRecipeDiv = document.getElementById("amateurRecipe");
-    if (amateurWinner.recipe_available) {
-      const a = document.createElement("a");
-      a.href = "#";
-      a.className = "recipe";
-      a.textContent =  initT("recipe");
-      a.addEventListener("click", e => {
-        e.preventDefault();
-        showRecipeModal(amateurWinner);
-      });
-      amateurRecipeDiv.innerHTML = "";
-      amateurRecipeDiv.appendChild(a);
-    } else {
-      amateurRecipeDiv.innerHTML = `<span class="no-recipe">${initT("noRecipe")}</span>`;
-    }
-  }
+  setupMealArtImage(
+  "amateurImage",
+  ".recipe-badge",
+  amateurWinner,
+  "popupAmateur"
+);
+}
 
   // Professional / Restaurant
   const proWinner = getLatestWinner(true);
@@ -2261,23 +2261,15 @@ function loadWinnersFromData() {
     document.getElementById("proImage").src = proWinner.image_url;
     document.getElementById("proImagePopup").src = proWinner.image_url;
 
-    const proRecipeDiv = document.getElementById("professionalRecipe");
-    if (proWinner.recipe_available) {
-      const a = document.createElement("a");
-      a.href = "#";
-      a.className = "recipe";
-      a.textContent = initT("recipe");
-      a.addEventListener("click", e => {
-        e.preventDefault();
-        showRecipeModal(proWinner);
-      });
-      proRecipeDiv.innerHTML = "";
-      proRecipeDiv.appendChild(a);
-    } else {
-      proRecipeDiv.innerHTML = `<span class="no-recipe">${initT("noRecipe")}</span>`;
-    }
-  }
+  setupMealArtImage(
+  "proImage",
+  ".recipe-badge",
+  proWinner,
+  "popupProfessional"
+);
 }
+}
+
 //#endregion
 
 //#region HELPERS
@@ -2881,7 +2873,7 @@ const mealartTranslations = {
     noTitle: "No title",
     noIngredients: "No ingredients provided",
     noInstructions: "No instructions provided",
-    recipeAvailable: "Recipe available",
+    recipeAvailable: "Recipe",
     noRecipe: "No recipe",
     deleteMealConfirm: "Are you sure you want to delete this meal?",
     uploading: "Uploading...",
@@ -2903,7 +2895,7 @@ const mealartTranslations = {
     noTitle: "Sin título",
     noIngredients: "No se proporcionaron ingredientes",
     noInstructions: "No se proporcionaron instrucciones",
-    recipeAvailable: "Receta disponible",
+    recipeAvailable: "Receta",
     noRecipe: "Sin receta",
     deleteMealConfirm: "¿Estás seguro de que deseas eliminar esta comida?",
     uploading: "Subiendo...",
@@ -2925,7 +2917,7 @@ const mealartTranslations = {
     noTitle: "Nincs cím",
     noIngredients: "Nem adtál meg hozzávalókat",
     noInstructions: "Nem adtál meg elkészítési utasítást",
-    recipeAvailable: "Recept elérhető",
+    recipeAvailable: "Recept",
     noRecipe: "Nincs recept",
     deleteMealConfirm: "Biztosan törölni szeretnéd ezt az ételt?",
     uploading: "Feltöltés...",
@@ -2958,21 +2950,6 @@ function mealartT(key, variables = {}) {
 // MEALART
 //--------------------------
 
-function showRecipeModal(meal) {
-  const modal = document.getElementById("mealArtrecipeModal");
-  document.getElementById("mealArtmodalFoodName").textContent = meal.food_name || mealartT("noTitle");
-  document.getElementById("mealArtmodalPrepTime").textContent = meal.prep_time || "N/A"; 
-  document.getElementById("mealArtmodalIngredients").innerHTML = (meal.ingredients || mealartT("noIngredients")).replace(/\n/g, "<br>");
-  document.getElementById("mealArtmodalInstructions").innerHTML = (meal.instructions || mealartT("noInstructions")).replace(/\n/g, "<br>");
-  modal.style.display = "flex";
-}
-
-function closeRecipeModal() {
-  const modal = document.getElementById("mealArtrecipeModal");
-  modal.style.display = "none";
-}
-
-
 // TAB HANDLER
 function setupTabs() {
   const tabs = document.querySelectorAll(".main-tab");
@@ -2989,8 +2966,7 @@ function setupTabs() {
   tabs[0]?.click();
 }
 
-
-// MEAL RENDERING
+// MEAL RENDERING// MEAL RENDERING
 function renderMealItem(meal, today) {
   const homeChefGallery = document.getElementById("home-chef-gallery");
   const proKitchenGallery = document.getElementById("pro-kitchen-gallery");
@@ -3004,24 +2980,33 @@ function renderMealItem(meal, today) {
   const foodNameP = document.createElement("p");
   foodNameP.className = "food-name";
   foodNameP.textContent = meal.food_name;
-  mealDiv.appendChild(foodNameP);
+
+  const nameP = document.createElement("p");
+  nameP.textContent = meal.uploader_name;
+
+  // Create image wrapper
+  const imgWrapper = document.createElement("div");
+  imgWrapper.className = "meal-art-image-wrapper";
 
   const img = document.createElement("img");
   img.src = meal.image_url;
   img.alt = `${meal.uploader_name}'s meal`;
 
-  const nameP = document.createElement("p");
-  nameP.textContent = meal.uploader_name;
+  imgWrapper.appendChild(img);
 
-  const recipeSpan = document.createElement("span");
-  recipeSpan.className = "recipe-label";
-  recipeSpan.textContent = meal.recipe_available ? mealartT("recipeAvailable") : mealartT("noRecipe");
-  if (meal.recipe_available) {
-    recipeSpan.classList.add("recipe-available");
-    recipeSpan.addEventListener("click", () => showRecipeModal(meal));
+  // Add recipe badge only if recipe exists
+  let badge = null;
+  if (meal.recipe_available && meal.ingredients && meal.instructions) {
+    badge = document.createElement("div");
+    badge.className = "recipe-badge";
+    badge.textContent = mealartT("recipeAvailable");
+    imgWrapper.appendChild(badge);
   }
 
-  mealDiv.append(img, nameP, recipeSpan);
+  mealDiv.append(foodNameP, imgWrapper, nameP);
+
+  // Pass badge to setup function so it also becomes clickable
+  setupMealArtCardImage(img, badge, meal);
 
   // Delete button for own meal
   if (meal.user_id === currentUser.id && !meal.is_winner && today !== 1) {
@@ -3031,7 +3016,6 @@ function renderMealItem(meal, today) {
     delBtn.addEventListener("click", async () => {
       if (!confirm(mealartT("deleteMealConfirm"))) return;
 
-      // 1️⃣ Delete DB row first
       const { error: delError } = await supabase
         .from("meals")
         .delete()
@@ -3042,15 +3026,13 @@ function renderMealItem(meal, today) {
         return;
       }
 
-      // 2️⃣ Delete image from storage
       if (meal.image_url) {
-  const filePath = getMealStoragePath(meal.image_url);
-  if (filePath) {
-    const { error } = await supabase.storage.from("meal-uploads").remove([filePath]);
-  }
-}
+        const filePath = getMealStoragePath(meal.image_url);
+        if (filePath) {
+          const { error } = await supabase.storage.from("meal-uploads").remove([filePath]);
+        }
+      }
 
-      // 3️⃣ Update UI
       mealDiv.remove();
       const uploadBtn = document.getElementById("uploadBtn");
       if (uploadBtn) uploadBtn.style.display = "block";
@@ -3063,15 +3045,6 @@ function renderMealItem(meal, today) {
     mealDiv.appendChild(delBtn);
   }
 
-  // Image popup
-  // Image popup (Meal Art)
-img.addEventListener("click", () => {
-  const popupImg = document.getElementById("popupMealImage");
-
-  popupImg.src = img.src;
-  openPopup("mealPopup");   // use your unified system
-});
-
   // Append to gallery
   if (meal.is_winner) {
     (meal.is_pro ? proKitchenWinners : homeChefWinners).appendChild(mealDiv);
@@ -3079,6 +3052,61 @@ img.addEventListener("click", () => {
     (meal.is_pro ? proKitchenGallery : homeChefGallery).appendChild(mealDiv);
   }
 }
+
+
+function setupMealArtCardImage(imgEl, badgeEl, meal) {
+  const hasRecipe =
+    meal.recipe_available &&
+    meal.ingredients &&
+    meal.instructions;
+
+  const openPopupHandler = () => openMealArtPopup(meal, hasRecipe);
+
+  // Image click
+  imgEl.addEventListener("click", openPopupHandler);
+
+  // Badge click (if exists)
+  if (badgeEl) {
+    if (hasRecipe) {
+      badgeEl.style.display = "block";
+      badgeEl.addEventListener("click", (e) => {
+        e.stopPropagation(); // prevent double trigger
+        openMealArtPopup(meal, true);
+      });
+    } else {
+      badgeEl.style.display = "none";
+    }
+  }
+}
+
+function openMealArtPopup(meal, hasRecipe) {
+  if (hasRecipe) {
+    // Recipe exists → open recipe modal
+    document.getElementById("mealArtmodalImage").src = meal.image_url || "";
+    document.getElementById("mealArtmodalFoodName").textContent =
+      meal.food_name || mealartT("noTitle");
+
+    document.getElementById("mealArtmodalPrepTime").textContent =
+      meal.prep_time || "N/A";
+
+    document.getElementById("mealArtmodalIngredients").innerHTML =
+      (meal.ingredients || mealartT("noIngredients")).replace(/\n/g, "<br>");
+
+    document.getElementById("mealArtmodalInstructions").innerHTML =
+      (meal.instructions || mealartT("noInstructions")).replace(/\n/g, "<br>");
+
+    openPopup("mealArtrecipeModal");
+  } else {
+    // No recipe → open simple image popup
+  const popupImg = document.getElementById("popupMealImage");
+  if (popupImg) {
+    popupImg.src = meal.image_url || "";
+  }
+
+  openPopup("mealPopup");
+  }
+}
+
 
 // Helper to extract storage path from public URL
 function getMealStoragePath(publicUrl) {
@@ -3346,16 +3374,6 @@ async function addVotingToGallery(gallery, isPro, userId) {
   });
 
   gallery.parentElement.appendChild(submitBtn);
-}
-
-
-
-// RECIPE MODAL CLOSE
-function setupRecipeModalClose() {
-  document.getElementById("mealArtcloseModal").addEventListener("click", closeRecipeModal);
-  window.addEventListener("click", e => {
-    if (e.target.id === "mealArtrecipeModal") closeRecipeModal();
-  });
 }
 
 function updateMealArtNotes(today) {
@@ -9887,7 +9905,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       console.error("Daily Check-in setup error:", err);
     }
 
-
     showLoading(false);        
 
     /* =========================
@@ -9899,24 +9916,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       console.warn("currentProfile not available — comparison skipped.");
     }
 
-
     /* =========================
        PHASE 6 — MEAL ART
        ========================= */
     setupTabs();
     setupUploadButton();
     setupMealUploadForm();
-    setupRecipeModalClose();
     renderMeals(currentMeals);
     
     if (currentUser?.id) {
   await setupMondayVoting(currentUser.id);
-    }
-
-    const mealModal = document.getElementById("mealArtrecipeModal");
-    if (mealModal) {
-      mealModal.classList.add("hidden-meal");
-      mealModal.style.display = "none";
     }
 
     updateMealArtNotes(new Date().getDay());
