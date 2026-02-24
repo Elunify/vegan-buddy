@@ -203,17 +203,47 @@ h3 {
 }
 
 .top-buttons-wrapper {
-  padding-top: 30px;
+  padding-top: 45px;
   display: flex;
   flex-direction: column;   /* stack vertically */
   gap: 0.5rem;              /* space between rows */
 }
 
-/* Next lesson text */
+/* General spoiler button style */
+.spoiler-btn,
 #NextLessonSpoiler {
-  font-size: 0.9rem;
-  opacity: 0.8;
+  display: inline-block;
+  background: linear-gradient(90deg, #81C784, #40af46); /* warm yellow highlight */
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #1f2937; /* dark gray text */
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
   text-align: left;
+}
+
+/* Hover effect */
+.spoiler-btn:hover,
+#NextLessonSpoiler:hover {
+  background: linear-gradient(90deg, #fef3c7, #fde68a); /* lighter yellow on hover */
+  color: #111827;
+  transform: translateY(-1px);
+}
+
+/* Disabled state */
+#NextLessonSpoiler:disabled {
+  background: linear-gradient(90deg, #81c784c7, #2e7d32bb); /* gray gradient */
+  cursor: not-allowed;
+  opacity: 0.9;
+  font-size: 0.95rem;
+}
+
+/* Optional: add a subtle shadow */
+#NextLessonSpoiler {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* Middle row: Learn buttons */
@@ -224,6 +254,7 @@ h3 {
 
 /* Bottom row: Meal-Art + Recipes */
 .ArtBtnrecipesBtn {
+  margin-top: 0.15rem;
   display: flex;
   justify-content: left;
   gap: 0.5rem;
@@ -294,7 +325,7 @@ h3 {
   background-color: #f9f9f9;   /* soft background */
   box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* subtle shadow */
   margin: auto;           /* center horizontally */
-  margin-top: 0.6rem;
+  margin-top: 1.5rem;
   margin-bottom: 0.9rem;
   padding-top: 0.6rem;
   font-family: sans-serif;     /* clean font */
@@ -486,7 +517,12 @@ h3 {
 }
 
 .meal-art-winners {
-  margin-top: 0.7rem;
+  margin-top: 1.5rem;
+}
+#mealArtTitle {
+  text-align: left;
+  margin-left: 1rem;
+  font-size: 1.2rem;
 }
 .mealartBtn {
   cursor: pointer;

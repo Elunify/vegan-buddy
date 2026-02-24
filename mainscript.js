@@ -8,7 +8,7 @@ const translations = {
     xpLabel: "XP to next level",
     mealArtBtn: "Meal-Art Contest",
     checkinBtn: "Daily Check-in",
-    lessonPathBtn: "Learn Path",
+    lessonPathBtn: "Lessons",
     recipesBtn: "Trending Recipes",
     youLabel: "You",
     andour: "and our ",
@@ -21,7 +21,7 @@ const translations = {
     forestLabel: "m² of forests",
     waterLabel: "L of water",
     co2Label: "kg of CO₂",
-    mealArtTitle: "Meal-Art Winners This Week:",
+    mealArtTitle: "Recent Winners:",
     homeChefTitle: "Home Chef",
     proKitchenTitle: "Pro Kitchen",
     recipeAM: "Recipe",
@@ -383,7 +383,7 @@ deleteProfileBtn: "🗑️ Delete profile",
     xpLabel: "XP para el siguiente nivel",
     mealArtBtn: "Concurso de Meal-Art",
     checkinBtn: "Registro diario",
-    lessonPathBtn: "Ruta de aprendizaje",
+    lessonPathBtn: "Lecciones",
     recipesBtn: "Recetas populares",
     youLabel: "Tú",
     andour: "y la ",
@@ -396,7 +396,7 @@ deleteProfileBtn: "🗑️ Delete profile",
     forestLabel: "m² de bosques",
     waterLabel: "L de agua",
     co2Label: "kg de CO₂",
-    mealArtTitle: "Ganadores de Meal-Art de esta semana:",
+    mealArtTitle: "Ganadores recientes:",
     homeChefTitle: "Chef Casero",
     proKitchenTitle: "Cocina Profesional",
     recipeAM: "Receta",
@@ -759,7 +759,7 @@ animalsSentence: "¡Has salvado 0 animales hasta ahora!",
     xpLabel: "XP a következő szinthez",
     mealArtBtn: "Meal-Art Verseny",
     checkinBtn: "Napi bejegyzés",
-    lessonPathBtn: "Tanulási Útvonal",
+    lessonPathBtn: "Leckék",
     recipesBtn: "Népszerű Receptek",
     youLabel: "Te",
     andour: "és a ",
@@ -772,7 +772,7 @@ animalsSentence: "¡Has salvado 0 animales hasta ahora!",
     forestLabel: "m² erdőt",
     waterLabel: "L vizet",
     co2Label: "kg CO₂",
-    mealArtTitle: "E heti Meal-Art győztesek:",
+    mealArtTitle: "Aktuális győztesek:",
     homeChefTitle: "Hobbi Séf",
     proKitchenTitle: "Profikonyha",
     recipeAM: "Recept",
@@ -1140,7 +1140,6 @@ async function updateLanguageUI(lang) {
 
   // Buttons
   document.getElementById("mealArtBtn").innerText = t.mealArtBtn;
-  document.getElementById("checkinBtn").innerText = t.checkinBtn;
   document.getElementById("lessonPathBtn").innerText = t.lessonPathBtn;
   document.getElementById("recipesBtn").innerText = t.recipesBtn;
 
@@ -1161,8 +1160,8 @@ async function updateLanguageUI(lang) {
 
   // Meal-Art section
   document.getElementById("mealArtTitle").innerText = t.mealArtTitle;
-  document.getElementById("homeChefTitle").innerText = t.homeChefTitle;
-  document.getElementById("proKitchenTitle").innerText = t.proKitchenTitle;
+  //document.getElementById("homeChefTitle").innerText = t.homeChefTitle;
+  //document.getElementById("proKitchenTitle").innerText = t.proKitchenTitle;
   
   document.getElementById("recipebadgeAM").innerText = t.recipeAM;
   document.getElementById("recipebadgePRO").innerText = t.recipePRO;
@@ -1624,6 +1623,7 @@ const initTranslations = {
     maxLevel: "Max level reached",
     recipe: "Recipe",
     noRecipe: "No recipe",
+    repeatedLesson: "Repeated lesson",
     spoilerlabel: ({ spoilerDay, nextLesson }) =>
   `${spoilerDay}'s lesson: ${nextLesson}`
   },
@@ -1636,6 +1636,7 @@ const initTranslations = {
     maxLevel: "Nivel máximo alcanzado",
     recipe: "Receta",
     noRecipe: "Sin receta",
+    repeatedLesson: "Lección repetida",
     spoilerlabel: ({ spoilerDay, nextLesson }) =>
   `Lección de ${spoilerDay}: ${nextLesson}`
   },
@@ -1648,6 +1649,7 @@ const initTranslations = {
     maxLevel: "Elérted a maximális szintet",
     recipe: "Recept",
     noRecipe: "Nincs recept",
+    repeatedLesson: "Ismételt lecke",
     spoilerlabel: ({ spoilerDay, nextLesson }) =>
   `${spoilerDay} lecke: ${nextLesson}`
   }
@@ -1939,11 +1941,19 @@ const todayStr = getUTCDateString(todayUTC);
  // SpoilerTitle
  const nextLessonEl = document.getElementById("NextLessonSpoiler");
 if (nextLessonEl) {
-  if (!hasNextLesson(currentProfile)) {
-    nextLessonEl.classList.add("hidden"); // hide if everything is completed
-  } else {
-    nextLessonEl.classList.remove("hidden");
-  }
+  nextLessonEl.classList.remove("hidden");
+}
+
+const hasCheckedInToday = profile.last_checkin_date === todayStr;
+
+if (hasCheckedInToday) {
+  // ✅ Checked in today → spoiler is disabled
+  nextLessonEl.disabled = true;
+  nextLessonEl.classList.add("disabled");
+} else {
+  // 🕓 Not checked in → spoiler is active
+  nextLessonEl.disabled = false;
+  nextLessonEl.classList.remove("disabled");
 }
 
 const { lesson: nextLesson } = getNextLessonFromPool(currentProfile);
@@ -1951,8 +1961,10 @@ const { lesson: nextLesson } = getNextLessonFromPool(currentProfile);
 renderNextLessonSpoiler({
   profile: currentProfile,
   todayStr,
-  nextLessonTitle: getLessonTitle(nextLesson),
-  usedFallback: !nextLesson // hide if null
+  nextLessonTitle: nextLesson
+    ? getLessonTitle(nextLesson)
+    : initT("repeatedLesson"),
+  usedFallback: !nextLesson
 });
 
 // Yesterday
@@ -1982,23 +1994,6 @@ if (!profile.last_checkin_date) {
   // ✅ Calculate badgeCost dynamically
   const badgeCost = calculateBadgeCost(profile, todayStr);
   streakFire.setAttribute("title", initT("missedStreak", { badgeCost }));
-}
-
-if (checkinBtn && lessonPathBtn && dailyCheckInSection && lessonPathSection) {
-  if (profile.last_checkin_date === todayStr) {
-    // ✅ Already checked in today
-    checkinBtn.classList.add("hidden");        // Hide check-in button
-    lessonPathBtn.classList.remove("hidden");  // Show learning path button
-    dailyCheckInSection.classList.add("hidden");
-    lessonPathSection.classList.remove("hidden");
-  } else {
-    // 🕓 Not checked in yet
-    checkinBtn.classList.remove("hidden");
-    lessonPathBtn.classList.add("hidden");     // Hide learning path button
-    dailyCheckInSection.classList.remove("hidden");
-    lessonPathSection.classList.add("hidden");
-
-  }
 }
 
   // Personal impact cards
@@ -3845,10 +3840,8 @@ const { error: updateError } = await supabase
   await injectComparisonSentences(profile);
 
   // Hide Daily Check-in, show home
-  document.getElementById("dailycheck-in").classList.add("hidden");
   document.getElementById("home").classList.remove("hidden");
   document.getElementById("topBar").classList.remove("hidden");
-  document.getElementById("checkinBtn")?.classList.add("hidden");
   document.getElementById("dailycheck-in")?.classList.add("hidden");
   document.getElementById("learn")?.classList.add("hidden");
   await fetchAllLeaderboards();

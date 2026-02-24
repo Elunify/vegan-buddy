@@ -8865,7 +8865,7 @@ celebrity: [
     name: {
       en: "Albert Einstein",
       es: "Albert Einstein",
-      hu: "Einstein Albert"
+      hu: " Albert Einstein"
     },
     title: {
       en: "Theoretical Physicist",
@@ -9049,7 +9049,26 @@ celebrity: [
       hu: "Minden lény retteg az erőszaktól. Mindenki fél a haláltól. Aki ezt megérti, nem öl, és nem is késztet másokat ölésre."
     },
     avatar: "images/buddha.jpg"
-  }
+  },
+
+  {
+  name: {
+    en: "Plato",
+    es: "Platón",
+    hu: "Platón"
+  },
+  title: {
+    en: "Philosopher",
+    es: "Filósofo",
+    hu: "Filozófus"
+  },
+  quote: {
+    en: "All living beings are ensouled, and the soul is not bound by species, but by its condition.",
+    es: "Todos los seres vivos están animados por un alma, y el alma no está ligada a la especie, sino a su condición.",
+    hu: "Minden élőlénynek van lelke, és a lélek nem a fajhoz, hanem az állapotához kötődik."
+  },
+  avatar: "images/plato.jpg"
+}
 ]
 };
 

@@ -191,23 +191,19 @@ document.getElementById("mealArtBtn")?.addEventListener('click', openMealArtCont
 document.getElementById("uploadBtn")?.addEventListener('click', openMealArtUpload);
 
 // ----- Daily Check-in / Learn Path -----
-const checkinBtn = document.getElementById('checkinBtn');
+const checkinBtn = document.getElementById('NextLessonSpoiler');
 checkinBtn?.addEventListener('click', async () => {
   const canProceed = await checkAndHandleStreak();
 
   if (!canProceed) return; // Stop here if streak not saved / user cancelled
 
   initDailyCheckin();
-  showSection('learn');
-  document.getElementById('dailycheck-in')?.classList.remove('hidden');
-  document.getElementById('lesson-path')?.classList.add('hidden');
+  showSection('checkin');
 });
 
 const lessonPathBtn = document.getElementById("lessonPathBtn");
 lessonPathBtn?.addEventListener('click', () => {
   showSection('learn');
-  document.getElementById('dailycheck-in')?.classList.add('hidden');
-  document.getElementById('lesson-path')?.classList.remove('hidden');
 });
 
 // ----- Trending Recipes -----

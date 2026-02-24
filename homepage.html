@@ -50,13 +50,11 @@
     
     <!-- End Top Tabs -->
   <div class="top-buttons-wrapper">
-    <span id="NextLessonSpoiler"><!-- Today's lesson: ".." or "Tomorrow's lesson: ".." --></span>
-  <div class="learn-buttons">
-    <!-- Center: Check-in / Learn Path -->
-    <button id="checkinBtn" class="button button-circle main-circle">Daily Check-in</button>
-    <button id="lessonPathBtn" class="button button-circle main-circle hidden">Learn Path</button> 
-  </div>
+    <button id="NextLessonSpoiler"><!-- Today's lesson: ".." or "Tomorrow's lesson: ".." --></button>
+  
   <div class="ArtBtnrecipesBtn">
+    <!-- Learn Path -->
+    <button id="lessonPathBtn" class="button button-circle small-circle">Learn Path</button> 
     <!-- Left: Meal-Art -->
     <button id="mealArtBtn" class="button button-circle small-circle">Meal-Art Contest</button>
     <!-- Right: Recipes -->
@@ -120,7 +118,7 @@
 
           <!-- Amateur -->
           <div class="meal-art-card">
-            <h4 id="homeChefTitle">🥕 Home Chef</h4>
+            <!--<h4 id="homeChefTitle">🥕 Home Chef</h4>-->
             <p class="winner-name" id="amateurName">Jane Doe</p>
             <div class="meal-art-image-wrapper">
               <img id="amateurImage" src="meals/amateur.jpg" class="meal-art-image">
@@ -130,7 +128,7 @@
 
           <!-- Professional -->
           <div class="meal-art-card">
-            <h4 id="proKitchenTitle">🍴 Pro Kitchen</h4>
+           <!-- <h4 id="proKitchenTitle">🍴 Pro Kitchen</h4>-->
             <p class="winner-name" id="proName">Green Leaf Bistro</p>
             <div class="meal-art-image-wrapper">
               <img id="proImage" src="meals/professional.jpg" class="meal-art-image">
@@ -414,10 +412,9 @@
  <!-- LEARN -->
   <!-- LEARN -->
    <!-- LEARN -->
-<div id="learn" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(safe-area-inset-bottom, 80px);">
-  
+
+  <div id="checkin" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(safe-area-inset-bottom, 80px);">
   <!-- DAILY CHECK-IN -->
-  <div id="dailycheck-in" class="hidden">
     <div id="quizDCI" class="boxDCI"></div>
 
     <div id="lessonsectionDCI" class="boxDCI">
@@ -438,10 +435,10 @@
     ▶️ Submit & Support +2🏅
 </button>
     <button class="button" id="submitBtnDCI">Submit</button>
-  </div>
+</div>
 
-  <!-- LESSON PATH (shown after daily check-in) -->
-  <div id="lesson-path" class="hidden">
+  <!-- LESSON PATH  -->
+<div id="learn" class="page hidden" style="margin-top: env(safe-area-inset-top, 30px); margin-bottom: env(safe-area-inset-bottom, 80px);">
     <div class="learning-path-head">
       <h2 id="learnTitle">Learn</h2> 
     <div class="learning-path-buttons">
@@ -456,7 +453,6 @@
       <div class="course hidden" id="earth"><ul class="extralesson-list"></ul></div>
       <div class="course hidden" id="health"><ul class="extralesson-list"></ul></div>
     </div>
-  </div>
 </div>
 
 <!-- Recipes -->
