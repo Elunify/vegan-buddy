@@ -148,6 +148,7 @@ friendsTitleLabel: "Friends:",
   leaveCommunityBtn: "Leave Community",
   typeMessagePlaceholder: "Type a message...",
   sendBtn: "Send",
+  communityChat: "Community Chat ▼",
   upcomingEventsHeader: "Upcoming Events ▼",
   createEventBtn: "Create Event",
   eventPlacePlaceholder: "Event place",
@@ -524,6 +525,7 @@ friendsTitleLabel: "Amigos:",
   leaveCommunityBtn: "Salir de la comunidad",
   typeMessagePlaceholder: "Escribe un mensaje...",
   sendBtn: "Enviar",
+  communityChat: "Comunidad Chat ▼",
   upcomingEventsHeader: "Próximos eventos ▼",
   createEventBtn: "Crear evento",
   eventPlacePlaceholder: "Lugar del evento",
@@ -899,6 +901,7 @@ friendsTitleLabel: "Barátok:",
   leaveCommunityBtn: "Kilépés a közösségből",
   typeMessagePlaceholder: "Írj egy üzenetet...",
   sendBtn: "Küldés",
+  communityChat: "Társalgó ▼",
   upcomingEventsHeader: "Közelgő események ▼",
   createEventBtn: "Esemény létrehozása",
   eventPlacePlaceholder: "Helyszín",
@@ -1312,6 +1315,7 @@ document.getElementById("joinCommunityBtn").innerText = t.joinCommunityBtn;
 document.getElementById("leaveCommunityBtn").innerText = t.leaveCommunityBtn;
 document.getElementById("communityMessageInput").placeholder = t.typeMessagePlaceholder;
 document.getElementById("sendCommunityMessageBtn").innerText = t.sendBtn;
+document.getElementById("communityChatHeader").innerText = t.communityChat;
 document.getElementById("upcomingEventsHeader").innerText = t.upcomingEventsHeader;
 document.getElementById("createEventBtn").innerText = t.createEventBtn;
 document.getElementById("eventPlaceInput").placeholder = t.eventPlacePlaceholder;
@@ -9464,6 +9468,13 @@ const dots = {
 function loadNotificationState() {
   const saved = localStorage.getItem("notificationState");
   if (saved) Object.assign(notificationState, JSON.parse(saved));
+
+  // Initialize to current time if null (first page load)
+  if (!notificationState.lastSeenMessages) {
+    notificationState.lastSeenMessages = new Date().toISOString();
+    saveNotificationState();
+  }
+
   updateDots();
 }
 
