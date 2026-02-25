@@ -216,152 +216,631 @@ export const LessonsByIndex = {
     answer: 1
   }
 },
-
-/*  
 6: {  
-  goal: "Protecting animals & animal welfare",  diet: "omnivore",  
-  lesson: "Would you feel bad seeing an animal suffering? Most of us would. Yet in our society, consuming animals is so normalized that we rarely connect our food with the suffering behind it. The question is: just because it happens out of sight, behind walls in farms or slaughterhouses, does that justify our choice to eat them? Reflecting on this helps us recognize the gap between our empathy and our habits.",
+  goal: "Protecting animals & animal welfare",  
+  diet: "omnivore",  
+  title: {
+    en: "Empathy out of sight",
+    es: "Empatía fuera de la vista",
+    hu: "Empátia szem elől elrejtve"
+  },
+  lesson: {
+    en: "Would you feel bad seeing an animal suffer? Most of us would. Yet in our society, consuming animals is so normalized that we rarely connect our food with the suffering behind it. The question is: just because it happens out of sight, behind walls in farms or slaughterhouses, does that justify our choice to eat them? Reflecting on this helps us recognize the gap between our empathy and our habits.",
+    es: "¿Te sentirías mal al ver sufrir a un animal? La mayoría de nosotros sí. Sin embargo, en nuestra sociedad, el consumo de animales está tan normalizado que rara vez conectamos nuestra comida con el sufrimiento que hay detrás. La pregunta es: ¿solo porque ocurre fuera de nuestra vista, detrás de las paredes de granjas o mataderos, eso justifica nuestra elección de comerlos? Reflexionar sobre esto nos ayuda a reconocer la brecha entre nuestra empatía y nuestros hábitos.",
+    hu: "Rosszul éreznéd magad, ha látnád egy állat szenvedését? A legtöbben igen. Mégis, társadalmunkban az állatok fogyasztása annyira normalizált, hogy ritkán kapcsoljuk össze az ételünket a mögötte álló szenvedéssel. A kérdés az: csak azért, mert mindez szem elől elrejtve történik, farmok vagy vágóhidak falai mögött, ez igazolja-e a fogyasztásukat? Ennek átgondolása segít felismerni az empátiánk és a szokásaink közti szakadékot."
+  },
   quiz: {  
-    question: "What does this scenario encourage us to question?",  
-    options: ["Whether empathy matters", "If suffering out of sight justifies our actions", "Whether animals can feel pain", "If we should ignore feelings"],  
-    answer: "If suffering out of sight justifies our actions"  
-  }  
+    question: {
+      en: "What does this scenario encourage us to question?",
+      es: "¿Qué nos invita a cuestionar este escenario?",
+      hu: "Mire ösztönöz ez a helyzet, hogy rákérdezzünk?"
+    },
+    options: {
+      en: [
+        "Whether empathy matters",
+        "If suffering out of sight justifies our actions",
+        "Whether animals can feel pain",
+        "If we should ignore feelings"
+      ],
+      es: [
+        "Si la empatía importa",
+        "Si el sufrimiento fuera de la vista justifica nuestras acciones",
+        "Si los animales pueden sentir dolor",
+        "Si deberíamos ignorar los sentimientos"
+      ],
+      hu: [
+        "Számít-e az empátia",
+        "Igazolja-e a szem elől elrejtett szenvedés a tetteinket",
+        "Éreznek-e fájdalmat az állatok",
+        "Figyelmen kívül kell-e hagynunk az érzéseket"
+      ]
+    },
+    answer: 1
+  }
 },
+
 7: {  
-  goal: "Protecting animals & animal welfare",  diet: "omnivore",  
-  lesson: "Would you kill an animal yourself? Most of us never have to, because meat is offered to us in a well-processed, hygienic way that hides the reality. This makes it easier to consume without feeling the weight of the act. But is this truly normal, or just a kind of collective illusion that distances us from the consequences of our choices?",
+  goal: "Protecting animals & animal welfare",  
+  diet: "omnivore",  
+  title: {
+    en: "Distance from the act",
+    es: "Distancia del acto",
+    hu: "Eltávolodás a tettetől"
+  },
+  lesson: {
+    en: "Would you kill an animal yourself? Most of us never have to, because meat is offered to us in a processed, hygienic form that hides the reality. This distance makes it easier to consume meat without confronting the act itself. But is this truly normal, or is it a collective illusion that separates us from the consequences of our choices?",
+    es: "¿Matarías tú mismo a un animal? La mayoría nunca tiene que hacerlo, porque la carne se nos presenta de forma procesada e higiénica, ocultando la realidad. Esta distancia facilita el consumo sin enfrentarnos al acto en sí. Pero, ¿es esto realmente normal o una ilusión colectiva que nos separa de las consecuencias de nuestras decisiones?",
+    hu: "Megölnél-e egy állatot saját kezűleg? A legtöbbünknek erre soha nincs szüksége, mert a húst feldolgozott, higiénikus formában kapjuk meg, amely elfedi a valóságot. Ez a távolság megkönnyíti a fogyasztást anélkül, hogy szembenéznénk magával a tettel. De vajon ez valóban normális, vagy inkább egy kollektív illúzió, amely eltávolít minket döntéseink következményeitől?"
+  },
   quiz: {  
-    question: "What does the sanitized presentation of meat encourage us to do?",  
-    options: ["Reflect deeply on killing", "Ignore the process and consume without thought", "Feel guilty for eating", "Stop eating completely"],  
-    answer: "Ignore the process and consume without thought"  
-  }  
+    question: {
+      en: "What does the sanitized presentation of meat encourage?",
+      es: "¿Qué fomenta la presentación higienizada de la carne?",
+      hu: "Mit eredményez a hús steril bemutatása?"
+    },
+    options: {
+      en: [
+        "Deep reflection on killing",
+        "Ignoring the process and consuming without thought",
+        "Feeling constant guilt",
+        "Rejecting food entirely"
+      ],
+      es: [
+        "Reflexionar profundamente sobre matar",
+        "Ignorar el proceso y consumir sin pensar",
+        "Sentir culpa constante",
+        "Rechazar la comida por completo"
+      ],
+      hu: [
+        "Mély gondolkodást az ölésről",
+        "A folyamat figyelmen kívül hagyását és gondolkodás nélküli fogyasztást",
+        "Állandó bűntudatot",
+        "Az étel teljes elutasítását"
+      ]
+    },
+    answer: 1
+  }
 },
+
 8: {  
   goal: "Protecting animals & animal welfare",  
   diet: "omnivore",  
-  lesson: "Are you against killing an animal for entertainment or pleasure? Science shows that humans can thrive on a plant-based diet. This raises an important question: if we eat meat simply because we enjoy the taste, are we, in effect, supporting the killing of animals for pleasure? Reflecting on this helps us consider the ethics behind our choices and whether habit or enjoyment justifies harm.",
+  title: {
+    en: "Pleasure versus necessity",
+    es: "Placer frente a necesidad",
+    hu: "Élvezet vagy szükségszerűség?"
+  },
+  lesson: {
+    en: "Are you against harming animals for entertainment or pleasure? Science shows that humans can thrive on a plant-based diet. This raises an important ethical question: if we eat meat mainly for taste and enjoyment, are we supporting the killing of animals for pleasure? Reflecting on this helps us examine whether habit and enjoyment justify harm.",
+    es: "¿Estás en contra de hacer daño a los animales por entretenimiento o placer? La ciencia muestra que los humanos pueden prosperar con una dieta basada en plantas. Esto plantea una pregunta ética importante: si comemos carne principalmente por su sabor y disfrute, ¿estamos apoyando la muerte de animales por placer? Reflexionar sobre esto nos ayuda a cuestionar si el hábito y el disfrute justifican el daño.",
+    hu: "Ellenzed-e az állatok bántását szórakozásból vagy élvezetből? A tudomány szerint az emberek képesek teljes értékű életet élni növényi alapú étrenden. Ez fontos etikai kérdést vet fel: ha főként az íze miatt eszünk húst, akkor valójában az állatok élvezetből történő megölését támogatjuk? Ennek átgondolása segít megvizsgálni, igazolja-e a szokás vagy az élvezet a károkozást."
+  },
   quiz: {  
-    question: "What ethical question does enjoying the taste of meat raise?",  
-    options: ["Eating meat is always necessary", "We may be supporting the killing of animals for pleasure", "Tasting meat has no impact on animals", "Humans cannot live without meat"],  
-    answer: "We may be supporting the killing of animals for pleasure"  
-  }  
-},
-9: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
-     lesson: "Animals often show signs of awareness and conscience. For example, most animals try to escape when they sense danger, showing they understand their situation and want to protect themselves. The question is: are their feelings in these situations different from ours? Reflecting on this can help us better understand and empathize with them.",
-  quiz: { 
-      question: "When animals sense danger and try to escape, what does this show?", 
-      options: ["They have no feelings", "They have awareness and desire to live", "It’s purely instinct", "They enjoy danger"], 
-      answer: "They have awareness and desire to live" 
+    question: {
+      en: "What ethical issue does eating meat for taste raise?",
+      es: "¿Qué problema ético plantea comer carne por su sabor?",
+      hu: "Milyen etikai kérdést vet fel a hús élvezetből történő fogyasztása?"
+    },
+    options: {
+      en: [
+        "Meat is always necessary",
+        "We may be supporting killing animals for pleasure",
+        "Taste has no ethical impact",
+        "Humans cannot live without meat"
+      ],
+      es: [
+        "La carne siempre es necesaria",
+        "Podemos estar apoyando la muerte de animales por placer",
+        "El sabor no tiene impacto ético",
+        "Los humanos no pueden vivir sin carne"
+      ],
+      hu: [
+        "A hús mindig szükséges",
+        "Az állatok élvezetből történő megölését támogathatjuk",
+        "Az íznek nincs etikai jelentősége",
+        "Az emberek nem tudnak hús nélkül élni"
+      ]
+    },
+    answer: 1
   }
+},
+
+9: {  
+  goal: "Protecting animals & animal welfare",  
+  diet: "omnivore",  
+  title: {
+    en: "Awareness and the will to live",
+    es: "Conciencia y deseo de vivir",
+    hu: "Tudatosság és élni akarás"
+  },
+  lesson: {
+    en: "Animals often show clear signs of awareness. When they sense danger, they try to escape, protect themselves, and avoid harm. These reactions suggest not just instinct, but an understanding of threat and a desire to live. Asking whether their feelings differ from ours invites deeper empathy and reflection.",
+    es: "Los animales a menudo muestran señales claras de conciencia. Cuando perciben peligro, intentan escapar, protegerse y evitar el daño. Estas reacciones sugieren no solo instinto, sino una comprensión de la amenaza y un deseo de vivir. Preguntarnos si sus sentimientos son diferentes a los nuestros invita a una empatía más profunda.",
+    hu: "Az állatok gyakran egyértelműen mutatják a tudatosság jeleit. Amikor veszélyt érzékelnek, menekülni próbálnak, védekeznek és elkerülik a sérülést. Ezek a reakciók nem csupán ösztönre, hanem a fenyegetés felismerésére és az élni akarásra utalnak. Annak megkérdőjelezése, hogy érzéseik különböznek-e a mieinktől, mélyebb empátiára ösztönöz."
+  },
+  quiz: {  
+    question: {
+      en: "What does an animal trying to escape danger show?",
+      es: "¿Qué demuestra que un animal intente escapar del peligro?",
+      hu: "Mit mutat, amikor egy állat menekülni próbál a veszély elől?"
     },
-10: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
-     lesson: "Pigs are highly intelligent animals, often outperforming dogs in various cognitive tasks. For instance, in problem-solving scenarios, pigs have demonstrated superior persistence and ability to solve complex tasks independently, whereas dogs tend to seek human assistance more readily. Additionally, pigs have been shown to possess advanced memory capabilities, long-term retention, and the ability to use tools, which are indicators of higher cognitive functions. Recognizing these abilities in pigs challenges us to reconsider our perceptions and treatment of them.",
-quiz: {
-question: "In problem-solving tasks, how do pigs compare to dogs?",
-options: ["Pigs are less persistent", "Dogs solve tasks more independently", "Pigs often outperform dogs", "Dogs have better memory"],
-answer: "Pigs often outperform dogs"
-} 
+    options: {
+      en: [
+        "Lack of feeling",
+        "Awareness and desire to live",
+        "Enjoyment of danger",
+        "Random movement"
+      ],
+      es: [
+        "Falta de sentimientos",
+        "Conciencia y deseo de vivir",
+        "Disfrute del peligro",
+        "Movimiento aleatorio"
+      ],
+      hu: [
+        "Érzelmek hiánya",
+        "Tudatosság és élni akarás",
+        "A veszély élvezete",
+        "Véletlenszerű mozgás"
+      ]
     },
+    answer: 1
+  }
+},
+
+10: {  
+  goal: "Protecting animals & animal welfare",  
+  diet: "omnivore",  
+  title: {
+    en: "The intelligence of pigs",
+    es: "La inteligencia de los cerdos",
+    hu: "A disznók intelligenciája"
+  },
+  lesson: {
+    en: "Pigs are highly intelligent animals, often outperforming dogs in cognitive tasks. In problem-solving experiments, pigs show strong persistence and can solve complex challenges independently, while dogs often seek human help. Pigs also demonstrate advanced memory, long-term learning, and even basic tool use. Recognizing these abilities challenges how we perceive and treat them.",
+    es: "Los cerdos son animales altamente inteligentes y, en muchas tareas cognitivas, superan a los perros. En experimentos de resolución de problemas, los cerdos muestran gran persistencia y pueden resolver desafíos complejos de forma independiente, mientras que los perros suelen buscar ayuda humana. También presentan memoria avanzada, aprendizaje a largo plazo e incluso uso básico de herramientas. Reconocer estas capacidades desafía nuestra forma de percibirlos y tratarlos.",
+    hu: "A disznók rendkívül intelligens állatok, és számos kognitív feladatban felülmúlják a kutyákat. Problémamegoldó kísérletekben a disznók nagy kitartást mutatnak, és képesek önállóan megoldani összetett feladatokat, míg a kutyák gyakran emberi segítséget keresnek. Emellett fejlett memóriával, hosszú távú tanulással és egyszerű eszközhasználattal is rendelkeznek. Ezeknek a képességeknek az felismerése megkérdőjelezi, hogyan tekintünk rájuk és hogyan bánunk velük."
+  },
+  quiz: {  
+    question: {
+      en: "How do pigs compare to dogs in problem-solving tasks?",
+      es: "¿Cómo se comparan los cerdos con los perros en tareas de resolución de problemas?",
+      hu: "Hogyan teljesítenek a disznók a kutyákhoz képest problémamegoldásban?"
+    },
+    options: {
+      en: [
+        "Pigs are less persistent",
+        "Dogs solve tasks more independently",
+        "Pigs often outperform dogs",
+        "Dogs have better memory"
+      ],
+      es: [
+        "Los cerdos son menos persistentes",
+        "Los perros resuelven tareas de forma más independiente",
+        "Los cerdos suelen superar a los perros",
+        "Los perros tienen mejor memoria"
+      ],
+      hu: [
+        "A disznók kevésbé kitartóak",
+        "A kutyák önállóbban oldják meg a feladatokat",
+        "A disznók gyakran felülmúlják a kutyákat",
+        "A kutyáknak jobb a memóriájuk"
+      ]
+    },
+    answer: 2
+  }
+},
 11: {  
-  goal: "Protecting animals & animal welfare",  diet: "omnivore",  
-  lesson: "We often condescend animals, assuming they are less valuable or capable than humans. But observing them closely, we can see their virtues—and even learn from them. Take dogs, for example: they can be happy simply because they have someone to love and the chance to play. Their loyalty, honesty in sharing love, kindness, and protective behavior are remarkable abilities. Reflecting on these traits challenges our sense of superiority and inspires us to consider what we value in ourselves and others.",  
+  goal: "Protecting animals & animal welfare",  
+  diet: "omnivore",  
+  title: {
+    en: "Lessons from animals",
+    es: "Lecciones de los animales",
+    hu: "Tanulás az állatoktól"
+  },
+  lesson: {
+    en: "We often look down on animals, assuming they are less valuable or capable than humans. Yet when we observe them closely, we can see their virtues—and even learn from them. Dogs, for example, can feel happy simply by having someone to love and time to play. Their loyalty, honesty in expressing affection, kindness, and protective behavior are remarkable qualities. Reflecting on these traits challenges our sense of superiority and invites us to reconsider what we truly value in ourselves and others.",
+    es: "A menudo menospreciamos a los animales, asumiendo que son menos valiosos o capaces que los humanos. Sin embargo, al observarlos de cerca, podemos ver sus virtudes e incluso aprender de ellos. Los perros, por ejemplo, pueden ser felices simplemente teniendo a alguien a quien amar y tiempo para jugar. Su lealtad, honestidad al expresar afecto, bondad y comportamiento protector son cualidades extraordinarias. Reflexionar sobre estos rasgos cuestiona nuestro sentido de superioridad y nos invita a reconsiderar qué valoramos realmente en nosotros mismos y en los demás.",
+    hu: "Gyakran lenézzük az állatokat, azt feltételezve, hogy kevésbé értékesek vagy kevésbé képesek, mint az emberek. Pedig ha közelebbről megfigyeljük őket, erényeiket is megláthatjuk, és tanulhatunk tőlük. A kutyák például képesek boldogok lenni pusztán attól, hogy van kit szeretniük és lehetőségük játszani. Hűségük, őszinte szeretetkifejezésük, kedvességük és védelmező viselkedésük figyelemre méltó tulajdonságok. Ezeken elgondolkodva megkérdőjelezhetjük felsőbbrendűségi érzésünket, és újragondolhatjuk, mit tartunk igazán értékesnek magunkban és másokban."
+  },
   quiz: {  
-    question: "What does observing animals like dogs encourage us to reflect on?",  
-    options: ["Our own superiority", "The values and abilities of animals", "How we can learn from them", "All of the above"],  
-    answer: "All of the above"  
-  }  
-},
-12: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
-     lesson: "Cows are deeply emotional beings, capable of forming strong bonds with their calves. In natural settings, a mother may grieve the loss of her calf for days, staying nearby and showing behaviors like nudging or licking the deceased calf. In industrial farming, however, calves are often separated from their mothers shortly after birth, preventing this natural bond and causing stress for both the cow and her calf. Understanding this reality can help us reflect on the impact of our choices and the treatment of animals in farming practices.",
-quiz: {
-question: "What impact does separating calves from their mothers in farming have?",
-options: ["It causes stress for both mother and calf", "It has no effect", "Cows forget their calves immediately", "It makes cows happier"],
-answer: "It causes stress for both mother and calf"
-}
+    question: {
+      en: "What does observing animals like dogs encourage us to reflect on?",
+      es: "¿Sobre qué nos invita a reflexionar observar animales como los perros?",
+      hu: "Mire ösztönöz minket az olyan állatok megfigyelése, mint a kutyák?"
     },
+    options: {
+      en: [
+        "Our own superiority",
+        "The values and abilities of animals",
+        "How we can learn from them",
+        "All of the above"
+      ],
+      es: [
+        "Nuestra propia superioridad",
+        "Los valores y capacidades de los animales",
+        "Cómo podemos aprender de ellos",
+        "Todas las anteriores"
+      ],
+      hu: [
+        "Saját felsőbbrendűségünkre",
+        "Az állatok értékeire és képességeire",
+        "Arra, hogyan tanulhatunk tőlük",
+        "Mindegyikre"
+      ]
+    },
+    answer: 3
+  }
+},
+
+12: {  
+  goal: "Protecting animals & animal welfare",  
+  diet: "omnivore",  
+  title: {
+    en: "The emotional lives of cows",
+    es: "La vida emocional de las vacas",
+    hu: "A tehenek érzelmi világa"
+  },
+  lesson: {
+    en: "Cows are deeply emotional animals and form strong bonds with their calves. In natural conditions, a mother cow may grieve for days after losing her calf, staying close and showing behaviors like nudging or licking. In industrial farming, calves are often separated from their mothers shortly after birth, breaking this natural bond and causing stress for both. Understanding this reality helps us reflect on how our food choices affect animals.",
+    es: "Las vacas son animales profundamente emocionales y forman fuertes vínculos con sus terneros. En condiciones naturales, una madre puede llorar la pérdida de su cría durante días, permaneciendo cerca y mostrando comportamientos como empujarla o lamerla. En la ganadería industrial, los terneros suelen ser separados de sus madres poco después de nacer, rompiendo este vínculo natural y causando estrés a ambos. Comprender esta realidad nos ayuda a reflexionar sobre cómo nuestras elecciones alimentarias afectan a los animales.",
+    hu: "A tehenek mélyen érző állatok, és erős kötődést alakítanak ki borjaikkal. Természetes körülmények között egy anya napokig is gyászolhatja elvesztett borját, a közelében maradva és olyan viselkedést mutatva, mint a bökdösés vagy nyalogatás. Az ipari állattartásban azonban a borjakat gyakran röviddel születésük után elválasztják az anyjuktól, megszakítva ezt a természetes kötődést, és stresszt okozva mindkettőjüknek. Ennek megértése segít átgondolni döntéseink hatását az állatokra."
+  },
+  quiz: {
+    question: {
+      en: "What impact does separating calves from their mothers have?",
+      es: "¿Qué impacto tiene separar a los terneros de sus madres?",
+      hu: "Milyen hatása van a borjak anyjuktól való elválasztásának?"
+    },
+    options: {
+      en: [
+        "It causes stress for both mother and calf",
+        "It has no effect",
+        "Cows forget their calves immediately",
+        "It makes cows happier"
+      ],
+      es: [
+        "Causa estrés tanto a la madre como al ternero",
+        "No tiene ningún efecto",
+        "Las vacas olvidan a sus crías inmediatamente",
+        "Hace más felices a las vacas"
+      ],
+      hu: [
+        "Stresszt okoz az anyának és a borjúnak is",
+        "Nincs hatása",
+        "A tehenek azonnal elfelejtik borjaikat",
+        "Boldogabbá teszi a teheneket"
+      ]
+    },
+    answer: 0
+  }
+},
+
 13: {  
-  goal: "Protecting animals & animal welfare",  diet: "omnivore",  
-  lesson: "An interesting question is how we draw the line between farm animals and companion animals. Is it intelligence? Their appearance? With people, we accept differences without feeling superior, so why do we treat animals differently? Reflecting on this can help us understand our biases and the arbitrary ways we value different animals.",  
+  goal: "Protecting animals & animal welfare",  
+  diet: "omnivore",  
+  title: {
+    en: "Drawing invisible lines",
+    es: "Líneas invisibles",
+    hu: "Láthatatlan határok"
+  },
+  lesson: {
+    en: "An important question is how we decide which animals deserve protection and which do not. Is it intelligence, appearance, or usefulness to humans? Among people, we accept differences without ranking lives by value—yet with animals, we often do. Reflecting on this reveals how cultural habits and biases shape the way we value different species.",
+    es: "Una pregunta importante es cómo decidimos qué animales merecen protección y cuáles no. ¿Es la inteligencia, la apariencia o su utilidad para los humanos? Entre las personas aceptamos las diferencias sin jerarquizar el valor de la vida, pero con los animales a menudo hacemos lo contrario. Reflexionar sobre esto revela cómo las normas culturales y los prejuicios influyen en la forma en que valoramos a distintas especies.",
+    hu: "Fontos kérdés, hogyan döntjük el, mely állatok érdemelnek védelmet és melyek nem. Intelligencia, megjelenés vagy az ember számára való hasznosság alapján? Az emberek között elfogadjuk a különbségeket anélkül, hogy az élet értékét rangsorolnánk, az állatok esetében viszont gyakran ezt tesszük. Ennek átgondolása rávilágít arra, hogy kulturális szokások és előítéletek alakítják, hogyan értékeljük a különböző fajokat."
+  },
   quiz: {  
-    question: "Which factor most helps explain why society values some animals more than others?",  
-    options: ["Cultural norms and habits", "Scientific measures of intelligence", "Random chance", "Their size or appearance"],  
-    answer: "Cultural norms and habits"  
-  }  
-},
-14: { goal: "Protecting animals & animal welfare", diet: "omnivore", 
-     lesson: "Chickens are much more intelligent and emotional than most people realize. They can recognize over 100 individual faces of other chickens and humans, communicate with dozens of distinct vocalizations, and even plan for the future. Hens show empathy, caring for their chicks and reacting to their distress. Despite being underestimated, chickens have rich social lives and complex minds, reminding us that intelligence and emotion are not limited to mammals.",  
-  quiz: {  
-    question: "Which of these is true about chickens?",  
-    options: ["They have no social awareness", "They can recognize individual faces and communicate", "They act purely on instinct", "They cannot plan ahead"],  
-    answer: "They can recognize individual faces and communicate"  
-  }  
+    question: {
+      en: "What most explains why society values some animals more than others?",
+      es: "¿Qué explica mejor por qué la sociedad valora más a unos animales que a otros?",
+      hu: "Mi magyarázza leginkább, hogy a társadalom miért értékel egyes állatokat többre, mint másokat?"
     },
-15: {  
-  goal: "Protecting animals & animal welfare",  diet: "omnivore",  
-  lesson: "We often think humans are the most intelligent beings on Earth, but nature tells a humbling story. Chimpanzees have better short-term memory than us, crows use tools and plan for the future, and elephants communicate across miles through vibrations. Each species has its own remarkable abilities, reminding us that intelligence takes many forms—and we’re just one piece of a much bigger picture.",  
+    options: {
+      en: [
+        "Cultural norms and habits",
+        "Scientific intelligence rankings",
+        "Random chance",
+        "Their size or appearance"
+      ],
+      es: [
+        "Normas y costumbres culturales",
+        "Mediciones científicas de inteligencia",
+        "Azar",
+        "Su tamaño o apariencia"
+      ],
+      hu: [
+        "Kulturális normák és szokások",
+        "Tudományos intelligenciamérések",
+        "Véletlen",
+        "Méretük vagy kinézetük"
+      ]
+    },
+    answer: 0
+  }
+},
+
+14: {  
+  goal: "Protecting animals & animal welfare",  
+  diet: "omnivore",  
+  title: {
+    en: "The hidden intelligence of chickens",
+    es: "La inteligencia oculta de las gallinas",
+    hu: "A csirkék rejtett intelligenciája"
+  },
+  lesson: {
+    en: "Chickens are far more intelligent and emotional than most people assume. They can recognize over 100 individual faces, communicate using dozens of vocalizations, and even anticipate future events. Hens show empathy by responding to their chicks’ distress and caring for them attentively. These abilities reveal that chickens have complex inner lives, despite being widely underestimated.",
+    es: "Las gallinas son mucho más inteligentes y emocionales de lo que la mayoría de la gente cree. Pueden reconocer más de 100 rostros individuales, comunicarse mediante docenas de vocalizaciones y anticipar eventos futuros. Las gallinas muestran empatía al reaccionar al sufrimiento de sus polluelos y cuidarlos con atención. Estas capacidades revelan que tienen una vida interior compleja, aunque a menudo se las subestime.",
+    hu: "A csirkék sokkal intelligensebbek és érzelmesebbek, mint azt a legtöbben gondolják. Több mint 100 egyedi arcot képesek felismerni, tucatnyi hangjelzéssel kommunikálnak, és képesek a jövőre előre tervezni. A tyúkok empátiát mutatnak, reagálnak csibéik szenvedésére és gondoskodnak róluk. Ezek a képességek megmutatják, hogy összetett belső világuk van, mégis gyakran alábecsülik őket."
+  },
   quiz: {  
-    question: "Which animal is proven to have better short-term memory than humans?",  
-    options: ["Crows", "Chimpanzees", "Dogs"],  
-    answer: "Chimpanzees"  
-  }  
+    question: {
+      en: "Which statement about chickens is true?",
+      es: "¿Cuál de las siguientes afirmaciones sobre las gallinas es verdadera?",
+      hu: "Melyik állítás igaz a csirkékre?"
+    },
+    options: {
+      en: [
+        "They lack social awareness",
+        "They can recognize faces and communicate",
+        "They act purely on instinct",
+        "They cannot plan ahead"
+      ],
+      es: [
+        "No tienen conciencia social",
+        "Pueden reconocer rostros y comunicarse",
+        "Actúan solo por instinto",
+        "No pueden planificar"
+      ],
+      hu: [
+        "Nincs szociális tudatosságuk",
+        "Képesek arcokat felismerni és kommunikálni",
+        "Csak ösztönből cselekszenek",
+        "Nem tudnak előre tervezni"
+      ]
+    },
+    answer: 1
+  }
+},
+
+15: {  
+  goal: "Protecting animals & animal welfare",  
+  diet: "omnivore",  
+  title: {
+    en: "Many forms of intelligence",
+    es: "Muchas formas de inteligencia",
+    hu: "Az intelligencia sokféle formája"
+  },
+  lesson: {
+    en: "Humans often see themselves as the most intelligent species, but nature tells a more humbling story. Chimpanzees outperform humans in short-term memory tasks, crows use tools and plan ahead, and elephants communicate over long distances through vibrations. Each species excels in its own way, reminding us that intelligence is diverse—and that humans are just one part of a much larger picture.",
+    es: "Los humanos solemos considerarnos la especie más inteligente, pero la naturaleza cuenta una historia más humilde. Los chimpancés superan a los humanos en memoria a corto plazo, los cuervos usan herramientas y planifican, y los elefantes se comunican a grandes distancias mediante vibraciones. Cada especie destaca a su manera, recordándonos que la inteligencia es diversa y que los humanos somos solo una parte de un panorama mucho más amplio.",
+    hu: "Az emberek gyakran a legintelligensebb fajnak tartják magukat, de a természet ennél jóval szerényebb történetet mesél. A csimpánzok rövid távú memóriában felülmúlják az embereket, a varjak eszközöket használnak és előre terveznek, az elefántok pedig rezgéseken keresztül kommunikálnak nagy távolságokon. Minden faj a maga módján kiemelkedő, ami emlékeztet arra, hogy az intelligencia sokféle formában létezik."
+  },
+  quiz: {  
+    question: {
+      en: "Which animal has been shown to outperform humans in short-term memory?",
+      es: "¿Qué animal ha demostrado superar a los humanos en memoria a corto plazo?",
+      hu: "Melyik állat teljesít jobban az embereknél a rövid távú memóriában?"
+    },
+    options: {
+      en: [
+        "Crows",
+        "Chimpanzees",
+        "Dogs"
+      ],
+      es: [
+        "Cuervos",
+        "Chimpancés",
+        "Perros"
+      ],
+      hu: [
+        "Varjak",
+        "Csimpánzok",
+        "Kutyák"
+      ]
+    },
+    answer: 1
+  }
 },
 16: {  
-  goal: "Protecting animals & animal welfare",  diet: "omnivore",  
-  lesson: "Are we just one of many species sharing Earth’s resources, or are we the superior species meant to rule over it? Our answer to this question shapes how we treat the world around us. If we see ourselves as part of nature, we seek harmony—finding balance and protecting the right of every species to live freely. But if we see ourselves as above nature, we justify using the Earth and its beings for our own benefit. The question then becomes: what truly defines the 'correct' way to live?",  
+  goal: "Protecting animals & animal welfare",  
+  diet: "omnivore",  
+  title: {
+    en: "Part of nature or rulers of it?",
+    es: "¿Parte de la naturaleza o sus dueños?",
+    hu: "A természet részei vagy urai?"
+  },
+  lesson: {
+    en: "Are humans simply one species among many, sharing Earth’s resources—or are we a superior species meant to dominate it? How we answer this question shapes how we treat animals, nature, and even each other. Seeing ourselves as part of nature encourages balance, respect, and protection of every species’ right to live freely. Seeing ourselves as above nature often leads to exploitation. This reflection invites us to ask what truly defines a ‘correct’ way to live.",
+    es: "¿Somos los humanos una especie más compartiendo los recursos de la Tierra, o una especie superior destinada a dominarla? La respuesta a esta pregunta determina cómo tratamos a los animales, a la naturaleza e incluso a otras personas. Si nos vemos como parte de la naturaleza, buscamos equilibrio, respeto y la protección del derecho de cada especie a vivir libremente. Si nos vemos por encima de ella, justificamos la explotación. Esta reflexión nos invita a preguntarnos qué define realmente una forma de vida ‘correcta’.",
+    hu: "Az emberek csupán egy faj a sok közül, akik megosztják a Föld erőforrásait, vagy felsőbbrendű lények vagyunk, akik uralkodhatnak rajta? A válasz erre a kérdésre meghatározza, hogyan bánunk az állatokkal, a természettel és egymással. Ha a természet részeként tekintünk magunkra, az egyensúlyra, tiszteletre és minden faj szabad élethez való jogának védelmére törekszünk. Ha fölé helyezzük magunkat, könnyebben igazoljuk a kizsákmányolást. Ez az elmélkedés arra hív, hogy megkérdőjelezzük, mi számít igazán ‘helyes’ életnek."
+  },
   quiz: {  
-    question: "What does yesterday's lesson encourage us to reflect on?",  
-    options: ["Whether humans should dominate or coexist with nature", "How to extract more resources", "If animals can survive alone", "Whether technology is natural"],  
-    answer: "Whether humans should dominate or coexist with nature"  
-  }  
-},    
+    question: {
+      en: "What does yesterday's lesson encourage us to reflect on?",
+      es: "¿Sobre qué nos invita a reflexionar la lección anterior?",
+      hu: "Mire ösztönöz az előző lecke?"
+    },
+    options: {
+      en: [
+        "Whether humans should dominate or coexist with nature",
+        "How to extract more resources",
+        "If animals can survive alone",
+        "Whether technology is natural"
+      ],
+      es: [
+        "Si los humanos deben dominar o convivir con la naturaleza",
+        "Cómo extraer más recursos",
+        "Si los animales pueden sobrevivir solos",
+        "Si la tecnología es natural"
+      ],
+      hu: [
+        "Az emberek uralkodjanak-e a természeten vagy együtt éljenek vele",
+        "Hogyan lehet több erőforrást kinyerni",
+        "Az állatok képesek-e egyedül túlélni",
+        "A technológia természetes-e"
+      ]
+    },
+    answer: 0
+  }
+},
+
 17: {  
-  goal: "Protecting animals & animal welfare",  diet: "omnivore",  
-  lesson: "Animals live with innocence. They don’t harm for pleasure, lie for benefit, or judge others by appearance. Their trust in us is pure—they approach with curiosity, not suspicion. Yet, this very innocence is often exploited in industries that take their lives for profit. Reflecting on this reminds us that innocence deserves protection, not betrayal.",  
+  goal: "Protecting animals & animal welfare",  
+  diet: "omnivore",  
+  title: {
+    en: "Innocence and trust",
+    es: "Inocencia y confianza",
+    hu: "Ártatlanság és bizalom"
+  },
+  lesson: {
+    en: "Animals live with a natural innocence. They do not harm for pleasure, deceive for gain, or judge by appearance. Their trust toward humans is open and sincere. Tragically, this very innocence is often exploited in industries that profit from their suffering and death. Reflecting on this reminds us that innocence calls for protection—not betrayal.",
+    es: "Los animales viven con una inocencia natural. No hacen daño por placer, no engañan para obtener beneficios ni juzgan por la apariencia. Su confianza hacia los humanos es abierta y sincera. Trágicamente, esta misma inocencia suele ser explotada por industrias que se benefician de su sufrimiento y muerte. Reflexionar sobre esto nos recuerda que la inocencia merece protección, no traición.",
+    hu: "Az állatok természetes ártatlansággal élnek. Nem okoznak fájdalmat élvezetből, nem hazudnak haszonért, és nem ítélkeznek külső alapján. Az emberek felé tanúsított bizalmuk őszinte és nyitott. Tragikus módon ezt az ártatlanságot gyakran használják ki olyan iparágak, amelyek a szenvedésükből és halálukból profitálnak. Ez az elmélkedés emlékeztet arra, hogy az ártatlanság védelmet érdemel, nem elárulást."
+  },
   quiz: {  
-    question: "What makes animals’ innocence particularly tragic in the context of exploitation?",  
-    options: ["They trust us and we use that trust against them", "They are dangerous to humans", "They don’t understand emotions", "They harm others intentionally"],  
-    answer: "They trust us and we use that trust against them"  
-  }  
+    question: {
+      en: "What makes animals’ innocence especially tragic when they are exploited?",
+      es: "¿Qué hace especialmente trágica la inocencia de los animales cuando son explotados?",
+      hu: "Mi teszi különösen tragikussá az állatok ártatlanságát kizsákmányolás esetén?"
+    },
+    options: {
+      en: [
+        "They trust us and that trust is used against them",
+        "They are dangerous to humans",
+        "They do not feel emotions",
+        "They intentionally harm others"
+      ],
+      es: [
+        "Confían en nosotros y usamos esa confianza en su contra",
+        "Son peligrosos para los humanos",
+        "No sienten emociones",
+        "Dañan a otros intencionalmente"
+      ],
+      hu: [
+        "Bíznak bennünk, és ezt a bizalmat ellenük fordítjuk",
+        "Veszélyesek az emberekre",
+        "Nem éreznek érzelmeket",
+        "Szándékosan ártanak másoknak"
+      ]
+    },
+    answer: 0
+  }
 },
+
 18: {  
-  goal: "Protecting animals & animal welfare",  diet: "omnivore",  
-  lesson: "Some people ask if killing plants is the same as killing animals. Science shows that plants don’t have a brain or central nervous system, so they don’t feel pain the way animals do. But there’s another important fact: around 77% of global agricultural land is used for livestock, while farm animals provide only about 18% of the world’s calories and 37% of its protein. This means most of the land and crops are used inefficiently, to feed animals instead of people. By adopting a plant-based diet, we can use far less land and still feed everyone, while sparing both animals and plants. Reflecting on this helps us see how our choices shape the planet and the lives of others.",  
+  goal: "Protecting animals & animal welfare",  
+  diet: "omnivore",  
+  title: {
+    en: "Plants, animals, and land use",
+    es: "Plantas, animales y uso de la tierra",
+    hu: "Növények, állatok és földhasználat"
+  },
+  lesson: {
+    en: "Some people ask whether killing plants is the same as killing animals. Science shows that plants lack a brain and central nervous system, so they do not experience pain the way animals do. Beyond this, around 77% of global agricultural land is used for livestock, yet animal farming provides a much smaller share of our calories and protein. Choosing plant-based foods allows us to use far less land while feeding more people and reducing harm to both animals and ecosystems.",
+    es: "Algunas personas se preguntan si matar plantas es lo mismo que matar animales. La ciencia muestra que las plantas no tienen cerebro ni sistema nervioso central, por lo que no sienten dolor como los animales. Además, alrededor del 77% de la tierra agrícola mundial se utiliza para la ganadería, aunque esta aporta una parte mucho menor de las calorías y proteínas globales. Elegir alimentos de origen vegetal permite usar mucha menos tierra, alimentar a más personas y reducir el daño a animales y ecosistemas.",
+    hu: "Sokan felteszik a kérdést, hogy a növények elpusztítása ugyanaz-e, mint az állatok megölése. A tudomány szerint a növényeknek nincs agyuk vagy központi idegrendszerük, ezért nem úgy érzékelik a fájdalmat, mint az állatok. Emellett a globális mezőgazdasági területek körülbelül 77%-át az állattenyésztés használja, miközben ez jóval kevesebb kalóriát és fehérjét biztosít. A növényi alapú étrend kevesebb földet igényel, több embert képes ellátni, és csökkenti az állatoknak és az ökoszisztémáknak okozott károkat."
+  },
   quiz: {  
-    question: "What percentage of global agricultural land is used for livestock?",  
-    options: ["36%", "50%", "77%", "90%"],  
-    answer: "77%"  
-  }  
+    question: {
+      en: "What percentage of global agricultural land is used for livestock?",
+      es: "¿Qué porcentaje de la tierra agrícola mundial se utiliza para la ganadería?",
+      hu: "A globális mezőgazdasági területek hány százalékát használják állattenyésztésre?"
+    },
+    options: {
+      en: ["36%", "50%", "77%", "90%"],
+      es: ["36%", "50%", "77%", "90%"],
+      hu: ["36%", "50%", "77%", "90%"]
+    },
+    answer: 2
+  }
 },
+
 19: {  
-  goal: "Protecting animals & animal welfare",  diet: "omnivore",  
-  lesson: "When we think of monkeys swinging through trees, sea turtles gliding in the ocean, or dolphins playing freely in the waves, we picture a healthy, thriving planet. But much of the natural world these animals depend on is disappearing — largely because of animal agriculture. About 77% of global agricultural land is used for livestock grazing or feed production, which drives deforestation in rainforests like the Amazon, where countless monkeys and other species lose their homes. Runoff from animal farms pollutes rivers and seas, harming marine life like turtles and dolphins. Every meal we choose has an impact far beyond our plate. We can help protect wild animals and the places they call home.",  
+  goal: "Protecting animals & animal welfare",  
+  diet: "omnivore",  
+  title: {
+    en: "Wild animals and disappearing homes",
+    es: "Animales salvajes y hogares que desaparecen",
+    hu: "Vadállatok és eltűnő élőhelyek"
+  },
+  lesson: {
+    en: "When we imagine wild animals living freely, we picture a healthy planet. Yet much of the natural world is disappearing due to animal agriculture. Large areas of land are cleared for grazing and animal feed, destroying forests and habitats. Pollution from farms contaminates rivers and oceans, harming marine life. Our daily food choices influence whether wild animals can continue to thrive in their natural homes.",
+    es: "Cuando imaginamos animales salvajes viviendo libres, pensamos en un planeta sano. Sin embargo, gran parte del mundo natural está desapareciendo debido a la ganadería. Grandes extensiones de tierra se destruyen para el pastoreo y el cultivo de alimento para animales, eliminando bosques y hábitats. La contaminación agrícola daña ríos y océanos, afectando a la vida marina. Nuestras elecciones alimentarias diarias influyen directamente en la supervivencia de estos animales.",
+    hu: "Amikor vadállatokat képzelünk el szabadon élni, egy egészséges bolygóra gondolunk. Ennek ellenére a természetes élőhelyek nagy része eltűnik az állattenyésztés miatt. Hatalmas területeket irtanak ki legeltetésre és takarmánytermelésre, elpusztítva erdőket és élőhelyeket. A mezőgazdasági szennyezés károsítja a folyókat és tengereket, veszélyeztetve a tengeri élővilágot. Mindennapi étkezési döntéseink hatással vannak arra, hogy a vadállatok megőrizhetik-e otthonaikat."
+  },
   quiz: {  
-    question: "How does animal agriculture harm wild animals like monkeys, turtles, and dolphins?",  
-    options: [  
-      "By destroying their habitats and polluting ecosystems",  
-      "By helping forests grow",  
-      "By creating more ocean life",  
-      "It has no effect"  
-    ],  
-    answer: "By destroying their habitats and polluting ecosystems"  
-  }  
-}, 
+    question: {
+      en: "How does animal agriculture harm wild animals?",
+      es: "¿Cómo daña la ganadería a los animales salvajes?",
+      hu: "Hogyan árt az állattenyésztés a vadállatoknak?"
+    },
+    options: {
+      en: [
+        "By destroying habitats and polluting ecosystems",
+        "By restoring forests",
+        "By increasing biodiversity everywhere",
+        "It has no effect"
+      ],
+      es: [
+        "Destruyendo hábitats y contaminando ecosistemas",
+        "Restaurando bosques",
+        "Aumentando la biodiversidad en todas partes",
+        "No tiene ningún efecto"
+      ],
+      hu: [
+        "Élőhelyek pusztításával és ökoszisztémák szennyezésével",
+        "Erdők helyreállításával",
+        "Mindenhol növeli a biodiverzitást",
+        "Nincs hatása"
+      ]
+    },
+    answer: 0
+  }
+},
+
 20: {  
   goal: "Protecting animals & animal welfare",  
   diet: "omnivore",  
-  lesson: "Most of us can agree that animals have feelings, unique personalities, and the ability to think and experience joy or fear. They are innocent, vulnerable, and, just like us, they want to live. Knowing this, an important question arises: Do I want to be someone who contributes to the exploitation of weaker, sentient beings — or someone who chooses compassion instead?",  
+  title: {
+    en: "Choosing compassion",
+    es: "Elegir la compasión",
+    hu: "Az együttérzés választása"
+  },
+  lesson: {
+    en: "Most people agree that animals feel emotions, have individual personalities, and experience joy or fear. They are vulnerable and, like us, want to live. Recognizing this leads to an important question: do we want to participate in systems that exploit sentient beings, or do we want our actions to reflect compassion and responsibility?",
+    es: "La mayoría de las personas reconoce que los animales sienten emociones, tienen personalidades únicas y experimentan alegría o miedo. Son vulnerables y, como nosotros, quieren vivir. Reconocer esto nos lleva a una pregunta clave: ¿queremos participar en sistemas que explotan a seres sintientes o elegir acciones que reflejen compasión y responsabilidad?",
+    hu: "A legtöbben egyetértenek abban, hogy az állatok éreznek, egyedi személyiségük van, és képesek örömöt vagy félelmet megélni. Sebezhetőek, és hozzánk hasonlóan élni szeretnének. Ennek felismerése fontos kérdést vet fel: részt akarunk-e venni olyan rendszerekben, amelyek kizsákmányolják az érző lényeket, vagy inkább az együttérzést és felelősséget tükröző döntéseket választjuk?"
+  },
   quiz: {  
-    question: "What does yesterday's lesson encourage us to reflect on?",  
-    options: [  
-      "Whether our actions align with our compassion",  
-      "If animals have no feelings",  
-      "How to eat more meat",  
-      "Whether guilt is necessary for change"  
-    ],  
-    answer: "Whether our actions align with our compassion"  
-  }  
+    question: {
+      en: "What does yesterday's lesson encourage us to reflect on?",
+      es: "¿Sobre qué nos invita a reflexionar la lección anterior?",
+      hu: "Mire ösztönöz az előző lecke?"
+    },
+    options: {
+      en: [
+        "Whether our actions align with our compassion",
+        "If animals have no feelings",
+        "How to consume more animal products",
+        "Whether guilt is required for change"
+      ],
+      es: [
+        "Si nuestras acciones están alineadas con nuestra compasión",
+        "Si los animales no tienen sentimientos",
+        "Cómo consumir más productos animales",
+        "Si la culpa es necesaria para el cambio"
+      ],
+      hu: [
+        "Összhangban vannak-e tetteink az együttérzésünkkel",
+        "Az állatok nem éreznek-e",
+        "Hogyan fogyasszunk több állati terméket",
+        "Szükséges-e a bűntudat a változáshoz"
+      ]
+    },
+    answer: 0
+  }
 },
-*/
+
 // --------------------------
 // Animal welfare - Vegetarian (21–40)
 // --------------------------
@@ -575,209 +1054,647 @@ answer: "It causes stress for both mother and calf"
     answer: 1
   }
 },
-/*  
 26: {  
-  goal: "Protecting animals & animal welfare", diet: "vegetarian",  
-  lesson: "Many of us choose 'free-range' or 'cage-free' products thinking that the animals don’t suffer. It’s a nice thought, but in cities or restaurants, we often can’t be sure of the true origin of these products. Labels can be misleading, and standards vary widely. By being aware of this, we can make more compassionate choices: either seek fully verified sources or opt for plant-based alternatives, reducing the risk of supporting hidden suffering.",  
+  goal: "Protecting animals & animal welfare",  
+  diet: "vegetarian",  
+  title: {
+    en: "The illusion of humane labels",
+    es: "La ilusión de las etiquetas éticas",
+    hu: "A humánus címkék illúziója"
+  },
+  lesson: {
+    en: "Many people choose 'free-range' or 'cage-free' products believing animals did not suffer. While this is a comforting idea, the reality is often unclear—especially in cities or restaurants where the true origin of products is hard to verify. Labels can be misleading, and welfare standards vary widely. Recognizing this uncertainty allows us to make more compassionate choices, such as seeking fully verified sources or choosing plant-based alternatives to reduce the risk of supporting hidden suffering.",
+    es: "Muchas personas eligen productos 'camperos' o 'libres de jaulas' pensando que los animales no sufrieron. Aunque es una idea reconfortante, la realidad suele ser incierta, especialmente en ciudades o restaurantes donde es difícil verificar el origen real de los productos. Las etiquetas pueden ser engañosas y los estándares varían mucho. Ser conscientes de esto nos permite tomar decisiones más compasivas, como buscar fuentes verificadas o elegir alternativas vegetales.",
+    hu: "Sokan választanak „szabadtartású” vagy „ketrecmentes” termékeket abban a hitben, hogy az állatok nem szenvedtek. Bár ez megnyugtató gondolat, a valóság gyakran bizonytalan — különösen városokban vagy éttermekben, ahol nehéz ellenőrizni az eredetet. A címkék félrevezetők lehetnek, és az állatjóléti szabványok nagyon eltérőek. Ennek felismerése segít együttérzőbb döntéseket hozni, például hiteles forrásokat keresni vagy növényi alternatívákat választani."
+  },
   quiz: {  
-    question: "Why might 'free-range' labels not guarantee that animals lived without suffering?",  
-    options: ["All animals live perfectly", "Plant-based products are worse", "Standards vary and labels can be misleading", "Free-range always means happy animals"],  
-    answer: "Standards vary and labels can be misleading"  
-  }  
-},
-27: {
-goal: "Protecting animals & animal welfare", diet: "vegetarian",
-lesson: "Imagine if humans could design animals to produce more eggs, milk, or meat. Would you do it? Genetic manipulation allows us to alter animals’ bodies and lifespans for maximum productivity, but it comes at a cost: increased health problems, stress, and shortened natural lives. By buying products from companies that practice this, we indirectly support these interventions. Understanding how our choices contribute to genetic manipulation helps us consider ethical alternatives and the impact of consumer demand on animal welfare.",
-quiz: {
-question: "What ethical concern does genetic manipulation in farmed animals raise?",
-options: [
-"It makes animals happier and healthier",
-"It has no impact on animal welfare",
-"It prioritizes human profit over animal health and natural life",
-"It only affects the taste of products"
-],
-answer: "It prioritizes human profit over animal health and natural life"
-}
-},
-28: {  
-  goal: "Protecting animals & animal welfare", diet: "vegetarian",  
-  lesson: "Labels like 'cage-free,' 'range-free,' or 'grass-fed' sound reassuring, but they can be misleading. In many cases, these terms don’t guarantee that animals had space to move freely, experienced natural behaviors, or lived without stress. Standards differ between countries, and enforcement is often limited. Being aware of this helps us make informed choices. If we want to truly reduce animal suffering, we can seek verified sources or consider plant-based alternatives, which avoid supporting hidden exploitation.",  
-  quiz: {  
-    question: "Why can labels like 'cage-free' or 'grass-fed' be misleading?",  
-    options: ["Animals always live happily", "They guarantee no suffering", "Standards vary and enforcement is limited", "They refer only to plant-based products"],  
-    answer: "Standards vary and enforcement is limited"  
-  }  
-},
-29: {  
-  goal: "Protecting animals & animal welfare", diet: "vegetarian",  
-  lesson: "Producing truly free-range animal products presents significant challenges. For instance, free-range egg production requires a minimum of 2.5 acres for every 1,000 hens, equating to about 108 square feet per bird. In contrast, factory-farmed systems can house thousands of hens in a fraction of that space. This expansive land requirement translates to higher operational costs, including land acquisition, maintenance, and rotational grazing practices. Consequently, the price of free-range products is often higher, reflecting these increased costs. While the welfare of animals is a priority in free-range systems, the scalability of such practices is limited by land availability and economic factors.",
-  quiz: {
-    question: "What is a significant challenge in producing free-range animal products?",
-    options: [
-      "Lower operational costs",
-      "Limited land availability",
-      "Higher animal welfare standards",
-      "Increased scalability"
-    ],
-    answer: "Limited land availability"
-  }
-},
-30: {
-goal: "Protecting animals & animal welfare", diet: "vegetarian",
-lesson: "When thinking about animal suffering, one question often arises: what is worse — killing an animal or forcing it to live its life in extreme confinement and suffering? Many philosophers and animal ethicists argue that while death ends suffering, the prolonged experience of living in harmful conditions, unable to express natural behaviors or enjoy a life worth living, can be far worse. Factory farms often subject animals to this second scenario: they live their entire lives in cramped, stressful environments and endure suffering daily until they are slaughtered.",
-quiz: {
-question: "Which scenario is often considered worse for an animal?",
-options: [
-"Being killed immediately",
-"Living a life in extreme confinement and suffering",
-"Being free in nature",
-"Living with human companions who love them"
-],
-answer: "Living a life in extreme confinement and suffering"
-}
-},
-31: {
-goal: "Protecting animals & animal welfare", diet: "vegetarian",
-lesson: "Modern egg-laying hens have been selectively bred to produce far more eggs than their wild ancestors. While a wild hen or red junglefowl lays around 10–15 eggs per year, domesticated hens in factory farms can lay over 300 eggs annually. This intense production puts enormous stress on their bodies, often leading to health problems like weakened bones, organ failure, and exhaustion. By understanding how genetic modifications and selective breeding affect animals, we can make more compassionate choices and reduce the demand for products that compromise their well-being.",
-quiz: {
-question: "How many eggs can a factory-farmed hen lay compared to a wild hen?",
-options: [
-"50 eggs per year vs. 100 eggs per year",
-"100 eggs per year vs. 200 eggs per year",
-"10–15 eggs per year vs. over 300 eggs per year",
-"Both lay about the same amount"
-],
-answer: "10–15 eggs per year vs. over 300 eggs per year"
-}
-},
-32: {
-goal: "Protecting animals & animal welfare", diet: "vegetarian",
-lesson: "Mother cows are highly social and emotional animals, forming strong bonds with their calves. In the dairy industry, these bonds are often cruelly broken: calves are separated from their mothers within hours or days of birth so that humans can take the milk for consumption. This separation causes immense stress and distress for both mother and calf. The mother is repeatedly impregnated to continue milk production, while calves are either raised for veal or dairy replacement.",
-quiz: {
-question: "Why is the separation of calves from their mothers in the dairy industry harmful?",
-options: [
-"It increases milk production",
-"Cows are highly emotional and form strong bonds with their calves",
-"It helps the calf grow faster",
-"It is only done in small farms"
-],
-answer: "Cows are highly emotional and form strong bonds with their calves"
-}
-},
-33: {
-goal: "Protecting animals & animal welfare", diet: "vegetarian",
-lesson: "In the dairy industry, male calves are considered 'by-products' because they cannot produce milk. Shortly after birth, most are either sold for veal production or raised for beef under harsh conditions. Many are separated from their mothers immediately, confined in small spaces, and often subjected to painful procedures like dehorning or castration without proper pain relief. This highlights that dairy farming not only exploits female cows for milk but also subjects male calves to suffering and early death.",
-quiz: {
-question: "What usually happens to male calves in the dairy industry?",
-options: [
-"They become dairy cows later",
-"They are kept as pets on the farm",
-"They are allowed to live freely on pastures",
-"They are sold for veal or beef under harsh conditions"
-],
-answer: "They are sold for veal or beef under harsh conditions"
-}
-},
-34: {
-goal: "Protecting animals & animal welfare", diet: "vegetarian",
-lesson: "In the egg industry, male chicks are considered useless because they cannot lay eggs. Within hours of hatching, billions of male chicks worldwide are killed, often through methods like maceration or gassing. This mass culling highlights the industrial view of animals as mere production units rather than sentient beings. Unlike females, they are denied the chance to live even a short life. ",
-quiz: {
-question: "Why are male chicks in the egg industry killed shortly after hatching?",
-options: [
-"They cannot lay eggs and are considered unprofitable",
-"They grow too slowly for meat",
-"They fight with other chickens",
-"They are kept for breeding instead"
-],
-answer: "They cannot lay eggs and are considered unprofitable"
-}
-},
-35: {
-goal: "Protecting animals & animal welfare", diet: "vegetarian",
-lesson: "Imagine being born into the farming industry — would you rather be male or female? Male animals, like calves or chicks, are often considered 'unnecessary' and may be killed shortly after birth or raised under harsh conditions. Female animals, meanwhile, are forced into cycles of exploitation: repeatedly bred, confined, and separated from their offspring, all while their natural behaviors are restricted until they are eventually slaughtered. This question encourages us to reflect on the limited choices and suffering imposed on farmed animals.",
-quiz: {
-question: "In the farming industry, what are typical fates of male and female animals?",
-options: [
-"Males and females both live free lives on pastures",
-"Males are often killed or raised for meat; females are repeatedly bred and exploited",
-"Males become producers of milk or eggs; females are used for meat",
-"All animals are treated equally and released after birth"
-],
-answer: "Males are often killed or raised for meat; females are repeatedly bred and exploited"
-}
-},
-36: {
-goal: "Protecting animals & animal welfare", diet: "vegetarian",
-lesson: "If you ran a farm, would you prioritize maximizing output or respecting animals’ natural behaviors? Would you manipulate genetics for profit? Imagine how it would feel if other companies gained advantages by harming animals, forcing you to compete under unethical conditions. This dilemma reflects a broader reality of capitalism: profit often outweighs ethics. As individuals, do you think the best choice we can make is to choose plant-based products?",
-quiz: {
-question: "What ethical tension does yesterday's lesson explore?",
-options: [
-"Choosing between profit and respecting animals’ natural behaviors",
-"Deciding which breed of chicken tastes best",
-"Maximizing milk output without considering ethics",
-"Only thinking about competition in farming"
-],
-answer: "Choosing between profit and respecting animals’ natural behaviors"
-}
-},
-37: {
-  goal: "Protecting animals & animal welfare", diet: "vegetarian",
-  lesson: "About 2,340 kcal of chicken meat equals the life of one broiler chicken, while roughly 15,750 kcal of eggs equals the life of one hen (including the male chick). These numbers reflect deaths only, not the suffering endured, but they highlight the real impact of our food choices. Which matters more? The number of lives lost, or the suffering experienced? Reflecting on this can help us make more compassionate decisions.",
-  quiz: {
-    question: "What does yesterday's lesson encourage us to consider?",
-    options: [
-      "Which animal tastes better",
-      "How to cook eggs efficiently",
-      "The number of lives lost and the suffering caused by our food choices",
-      "Which farm is most efficient"
-    ],
-    answer: "The number of lives lost and the suffering caused by our food choices"
-  }
-},
-38: {
-  goal: "Protecting animals & animal welfare", diet: "vegetarian",
-  lesson: "In the egg industry, hens are often subjected to debeaking, where the tip of their beak is removed to prevent pecking in crowded conditions. This is usually done shortly after hatching, often without anesthesia. While it reduces injuries among birds, it causes pain, stress, and limits their ability to peck and eat naturally. Debeaking highlights how industrial practices prioritize efficiency over the well-being and natural behavior of animals.",
-  quiz: {
-    question: "Why are hens often debeaked in the egg industry?",
-    options: [
-      "To prevent injuries from pecking in crowded conditions",
-      "To make their beaks look nicer",
-      "To help them lay more eggs",
-      "To make them grow faster"
-    ],
-    answer: "To prevent injuries from pecking in crowded conditions"
-  }
-},
-39: {
-  goal: "Protecting animals & animal welfare", diet: "vegetarian",
-  lesson: "Many people oppose wearing fur, yet the use of leather, wool, and down is widely accepted and normalized. Reflecting on how these everyday clothing choices affect sentient beings can help us consider alternatives like plant-based or synthetic materials, reducing harm and aligning our actions with our values.",
-  quiz: {
-    question: "What ethical consideration does this lesson highlight regarding clothing?",
-    options: [
-      "The style and fashion trends of animal products",
-      "How animals are exploited in the production of leather, wool, and down",
-      "Which clothing brand is the cheapest",
-      "How to wash clothes more efficiently"
-    ],
-    answer: "How animals are exploited in the production of leather, wool, and down"
-  }
-},
-40: {
-  goal: "Protecting animals & animal welfare", diet: "vegetarian",
-  lesson: "Zoos and circuses often present animals as entertainment rather than living beings with needs and feelings. Many are kept in small enclosures, separated from their natural habitats, and trained through stress or punishment. Do you think it is acceptable to use animals for entertainment, or should we seek alternative ways to enjoy ourselves?",
-  quiz: {
-    question: "What is the ethical concern about zoos and circuses?",
-    options: [
-      "How to get the best seats for a show",
-      "That animals are used for entertainment and profit rather than their well-being",
-      "Which animal performs the hardest tricks",
-      "How to take selfies with animals"
-    ],
-    answer: "That animals are used for entertainment and profit rather than their well-being"
+    question: {
+      en: "Why might 'free-range' labels not guarantee that animals lived without suffering?",
+      es: "¿Por qué las etiquetas 'campero' o 'free-range' no garantizan ausencia de sufrimiento?",
+      hu: "Miért nem garantálják a „szabadtartású” címkék az állatok szenvedésmentes életét?"
+    },
+    options: {
+      en: [
+        "All animals live perfectly",
+        "Plant-based products are worse",
+        "Standards vary and labels can be misleading",
+        "Free-range always means happy animals"
+      ],
+      es: [
+        "Todos los animales viven perfectamente",
+        "Los productos vegetales son peores",
+        "Los estándares varían y las etiquetas pueden engañar",
+        "Campero siempre significa animales felices"
+      ],
+      hu: [
+        "Minden állat tökéletesen él",
+        "A növényi termékek rosszabbak",
+        "A szabványok eltérnek, a címkék félrevezetők lehetnek",
+        "A szabadtartás mindig boldog állatokat jelent"
+      ]
+    },
+    answer: 2
   }
 },
 
-*/
+27: {  
+  goal: "Protecting animals & animal welfare",  
+  diet: "vegetarian",  
+  title: {
+    en: "Engineering animals for profit",
+    es: "Animales diseñados para el beneficio",
+    hu: "Állatok átalakítása a profitért"
+  },
+  lesson: {
+    en: "Imagine if humans could design animals to produce more eggs, milk, or meat. Genetic manipulation makes this possible, altering animals’ bodies and lifespans for maximum productivity. However, this often leads to serious health issues, chronic stress, and shortened natural lives. By purchasing products from such systems, we indirectly support these practices. Understanding this connection helps us reflect on ethical alternatives and the power of consumer demand.",
+    es: "Imagina que los humanos pudieran diseñar animales para producir más huevos, leche o carne. La manipulación genética lo permite, alterando cuerpos y vidas para maximizar la productividad. Sin embargo, esto suele causar problemas de salud, estrés crónico y vidas más cortas. Al comprar estos productos, apoyamos indirectamente estas prácticas. Comprender esta relación nos ayuda a reflexionar sobre alternativas éticas.",
+    hu: "Képzeld el, hogy az emberek állatokat tervezhetnének több tojás, tej vagy hús előállítására. A genetikai manipuláció ezt lehetővé teszi, megváltoztatva az állatok testét és élettartamát a maximális termelés érdekében. Ennek ára gyakran súlyos egészségügyi problémák, stressz és lerövidült élet. Az ilyen termékek megvásárlásával közvetetten támogatjuk ezeket a gyakorlatokat. Ennek felismerése segít etikus alternatívákon gondolkodni."
+  },
+  quiz: {
+    question: {
+      en: "What ethical concern does genetic manipulation in farmed animals raise?",
+      es: "¿Qué problema ético plantea la manipulación genética en animales de granja?",
+      hu: "Milyen etikai problémát vet fel a haszonállatok genetikai manipulációja?"
+    },
+    options: {
+      en: [
+        "It makes animals happier and healthier",
+        "It has no impact on animal welfare",
+        "It prioritizes human profit over animal health and natural life",
+        "It only affects the taste of products"
+      ],
+      es: [
+        "Hace a los animales más felices y sanos",
+        "No afecta al bienestar animal",
+        "Prioriza el beneficio humano sobre la salud y la vida natural",
+        "Solo afecta al sabor de los productos"
+      ],
+      hu: [
+        "Boldogabbá és egészségesebbé teszi az állatokat",
+        "Nincs hatással az állatjólétre",
+        "Az emberi profitot az állatok egészsége és természetes élete elé helyezi",
+        "Csak az ízt befolyásolja"
+      ]
+    },
+    answer: 2
+  }
+},
+
+28: {  
+  goal: "Protecting animals & animal welfare",  
+  diet: "vegetarian",  
+  title: {
+    en: "When labels hide reality",
+    es: "Cuando las etiquetas ocultan la realidad",
+    hu: "Amikor a címkék elfedik a valóságot"
+  },
+  lesson: {
+    en: "Labels like 'cage-free,' 'free-range,' or 'grass-fed' sound reassuring, but they often fail to reflect animals’ real living conditions. In many cases, these terms do not guarantee space, natural behavior, or low stress. Standards differ between countries, and enforcement is limited. Being aware of this helps us make informed decisions and consider plant-based options that avoid hidden exploitation.",
+    es: "Etiquetas como 'sin jaulas', 'campero' o 'alimentado con pasto' suenan tranquilizadoras, pero a menudo no reflejan las condiciones reales de los animales. No siempre garantizan espacio, comportamientos naturales o ausencia de estrés. Los estándares varían entre países y el control es limitado. Conocer esto nos ayuda a elegir con más conciencia.",
+    hu: "Az olyan címkék, mint a „ketrecmentes”, „szabadtartású” vagy „legeltetett”, megnyugtatónak hangzanak, de gyakran nem tükrözik az állatok valódi életkörülményeit. Sok esetben nem garantálják a mozgásteret, a természetes viselkedést vagy az alacsony stresszt. Az előírások országonként eltérnek, az ellenőrzés pedig gyakran hiányos. Ennek tudatosítása segít megalapozottabb döntéseket hozni."
+  },
+  quiz: {  
+    question: {
+      en: "Why can labels like 'cage-free' or 'grass-fed' be misleading?",
+      es: "¿Por qué pueden ser engañosas etiquetas como 'sin jaulas' o 'grass-fed'?",
+      hu: "Miért lehetnek félrevezetők a „ketrecmentes” vagy „legeltetett” címkék?"
+    },
+    options: {
+      en: [
+        "Animals always live happily",
+        "They guarantee no suffering",
+        "Standards vary and enforcement is limited",
+        "They refer only to plant-based products"
+      ],
+      es: [
+        "Los animales siempre viven felices",
+        "Garantizan que no hay sufrimiento",
+        "Los estándares varían y el control es limitado",
+        "Solo se refieren a productos vegetales"
+      ],
+      hu: [
+        "Az állatok mindig boldogan élnek",
+        "Garantálják a szenvedés hiányát",
+        "A szabványok eltérnek és az ellenőrzés korlátozott",
+        "Csak növényi termékekre vonatkoznak"
+      ]
+    },
+    answer: 2
+  }
+},
+
+29: {  
+  goal: "Protecting animals & animal welfare",  
+  diet: "vegetarian",  
+  title: {
+    en: "The limits of free-range farming",
+    es: "Los límites de la producción campera",
+    hu: "A szabadtartás korlátai"
+  },
+  lesson: {
+    en: "Producing genuinely free-range animal products requires large amounts of land. For example, free-range egg systems need far more space per hen than factory farms. This increases costs related to land, maintenance, and management, making such systems difficult to scale. While animal welfare improves, land availability and economics limit how widely these practices can be applied.",
+    es: "Producir productos animales verdaderamente camperos requiere grandes extensiones de tierra. Por ejemplo, los sistemas de huevos camperos necesitan mucho más espacio por gallina que las granjas industriales. Esto eleva los costes y dificulta su expansión. Aunque mejora el bienestar animal, la disponibilidad de tierra y los factores económicos limitan su viabilidad.",
+    hu: "A valóban szabadtartású állati termékek előállítása nagy földterületet igényel. Például a szabadtartású tojástermelés sokkal több helyet biztosít egy tyúknak, mint az ipari rendszerek. Ez növeli a költségeket, és korlátozza az ilyen rendszerek skálázhatóságát. Bár az állatjólét javul, a földhiány és a gazdasági tényezők határt szabnak."
+  },
+  quiz: {
+    question: {
+      en: "What is a major challenge in producing free-range animal products?",
+      es: "¿Cuál es un gran desafío en la producción campera?",
+      hu: "Mi a szabadtartású termelés egyik fő kihívása?"
+    },
+    options: {
+      en: [
+        "Lower operational costs",
+        "Limited land availability",
+        "Reduced animal welfare",
+        "Unlimited scalability"
+      ],
+      es: [
+        "Menores costes operativos",
+        "Disponibilidad limitada de tierra",
+        "Menor bienestar animal",
+        "Escalabilidad ilimitada"
+      ],
+      hu: [
+        "Alacsonyabb működési költségek",
+        "Korlátozott földterület",
+        "Csökkent állatjólét",
+        "Korlátlan skálázhatóság"
+      ]
+    },
+    answer: 1
+  }
+},
+
+30: {  
+  goal: "Protecting animals & animal welfare",  
+  diet: "vegetarian",  
+  title: {
+    en: "Life in suffering versus death",
+    es: "Vivir sufriendo o morir",
+    hu: "Szenvedő élet vagy halál"
+  },
+  lesson: {
+    en: "A difficult question often arises: is it worse to kill an animal, or to force it to live in extreme confinement and suffering? Many ethicists argue that prolonged suffering—being unable to move freely, express natural behaviors, or experience joy—can be worse than death itself. Factory farms frequently impose this reality, subjecting animals to lifelong stress until slaughter.",
+    es: "Surge una pregunta difícil: ¿es peor matar a un animal o obligarlo a vivir en confinamiento extremo y sufrimiento constante? Muchos filósofos sostienen que el sufrimiento prolongado —sin libertad ni comportamientos naturales— puede ser peor que la muerte. Las granjas industriales suelen imponer esta realidad durante toda la vida del animal.",
+    hu: "Gyakran felmerül egy nehéz kérdés: mi rosszabb — megölni egy állatot, vagy egész életére extrém szenvedésbe és bezártságba kényszeríteni? Sok etikus szerint a hosszan tartó szenvedés, mozgás és természetes viselkedés nélkül, súlyosabb lehet, mint maga a halál. Az ipari állattartás gyakran ezt a valóságot jelenti."
+  },
+  quiz: {
+    question: {
+      en: "Which situation is often considered worse for an animal?",
+      es: "¿Qué situación suele considerarse peor para un animal?",
+      hu: "Melyik helyzetet tartják gyakran rosszabbnak egy állat számára?"
+    },
+    options: {
+      en: [
+        "Being killed immediately",
+        "Living a life in extreme confinement and suffering",
+        "Living freely in nature",
+        "Living with loving humans"
+      ],
+      es: [
+        "Morir inmediatamente",
+        "Vivir una vida de confinamiento extremo y sufrimiento",
+        "Vivir libre en la naturaleza",
+        "Vivir con humanos cariñosos"
+      ],
+      hu: [
+        "Azonnali halál",
+        "Extrém bezártságban és szenvedésben élni",
+        "Szabadon élni a természetben",
+        "Szerető emberekkel élni"
+      ]
+    },
+    answer: 1
+  }
+},  31: {
+  goal: "Protecting animals & animal welfare",
+  diet: "vegetarian",
+  title: {
+    en: "Egg production beyond natural limits",
+    es: "Producción de huevos más allá de los límites naturales",
+    hu: "A természetes határokon túli tojástermelés"
+  },
+  lesson: {
+    en: "Modern egg-laying hens have been selectively bred to produce far more eggs than their wild ancestors. While a wild hen or red junglefowl lays around 10–15 eggs per year, domesticated hens in industrial systems can lay over 300 eggs annually. This extreme production places enormous strain on their bodies, often causing weakened bones, organ failure, and chronic exhaustion. Understanding how selective breeding affects animals helps us make more compassionate choices and reduce demand for products that harm their well-being.",
+    es: "Las gallinas ponedoras modernas han sido seleccionadas genéticamente para producir muchos más huevos que sus antepasados salvajes. Mientras que una gallina silvestre pone alrededor de 10–15 huevos al año, las gallinas domesticadas en sistemas industriales pueden poner más de 300. Esta producción extrema ejerce una gran presión sobre sus cuerpos, provocando problemas como huesos debilitados, fallos orgánicos y agotamiento crónico. Comprender este proceso nos ayuda a tomar decisiones más compasivas.",
+    hu: "A modern tojótyúkokat szelektív tenyésztéssel arra alakították ki, hogy sokkal több tojást termeljenek, mint vadon élő őseik. Míg egy vadon élő tyúk évente körülbelül 10–15 tojást rak, az ipari rendszerekben tartott tyúkok akár 300-at is. Ez az extrém terhelés súlyos egészségügyi problémákhoz vezethet, például csontgyengüléshez, szervi károsodáshoz és krónikus kimerültséghez. Ennek megértése segít együttérzőbb döntéseket hozni."
+  },
+  quiz: {
+    question: {
+      en: "How many eggs can a factory-farmed hen lay compared to a wild hen?",
+      es: "¿Cuántos huevos pone una gallina industrial comparada con una silvestre?",
+      hu: "Hány tojást rak egy ipari tyúk a vadon élőhöz képest?"
+    },
+    options: {
+      en: [
+        "50 eggs per year vs. 100 eggs per year",
+        "100 eggs per year vs. 200 eggs per year",
+        "10–15 eggs per year vs. over 300 eggs per year",
+        "Both lay about the same amount"
+      ],
+      es: [
+        "50 huevos al año frente a 100",
+        "100 huevos al año frente a 200",
+        "10–15 huevos al año frente a más de 300",
+        "Ambas ponen cantidades similares"
+      ],
+      hu: [
+        "Évi 50 tojás szemben 100-zal",
+        "Évi 100 tojás szemben 200-zal",
+        "Évi 10–15 tojás szemben több mint 300-zal",
+        "Nagyjából ugyanannyit tojnak"
+      ]
+    },
+    answer: 2
+  }
+},
+
+32: {
+  goal: "Protecting animals & animal welfare",
+  diet: "vegetarian",
+  title: {
+    en: "Breaking the bond in dairy farming",
+    es: "La ruptura del vínculo en la industria láctea",
+    hu: "Az anya és borjú kapcsolatának megszakítása"
+  },
+  lesson: {
+    en: "Mother cows are deeply social and emotional animals who form strong bonds with their calves. In the dairy industry, these bonds are routinely broken when calves are taken away within hours or days of birth so humans can take the milk. This separation causes intense stress and distress for both mother and calf. The mother is repeatedly impregnated to maintain milk production, while calves face uncertain and often harsh futures.",
+    es: "Las vacas madre son animales sociales y emocionales que crean fuertes vínculos con sus terneros. En la industria láctea, estos vínculos se rompen cuando los terneros son separados poco después del nacimiento para que la leche sea destinada al consumo humano. Esta separación provoca un gran sufrimiento tanto en la madre como en la cría. La vaca es inseminada repetidamente para mantener la producción de leche.",
+    hu: "A tehenek rendkívül szociális és érzelmes állatok, erős köteléket alakítanak ki borjaikkal. A tejiparban ezt a kapcsolatot gyakran órákon vagy napokon belül megszakítják, hogy az emberek elvehessék a tejet. Ez súlyos stresszt okoz mind az anya, mind a borjú számára. A tehenet újra és újra vemhesítik a tejtermelés fenntartásához."
+  },
+  quiz: {
+    question: {
+      en: "Why is the separation of calves from their mothers in the dairy industry harmful?",
+      es: "¿Por qué es perjudicial separar a los terneros de sus madres?",
+      hu: "Miért káros a borjak elválasztása az anyjuktól?"
+    },
+    options: {
+      en: [
+        "It increases milk production",
+        "Cows are highly emotional and form strong bonds with their calves",
+        "It helps the calf grow faster",
+        "It is only done in small farms"
+      ],
+      es: [
+        "Aumenta la producción de leche",
+        "Las vacas son emocionales y forman fuertes vínculos",
+        "Ayuda al crecimiento del ternero",
+        "Solo ocurre en pequeñas granjas"
+      ],
+      hu: [
+        "Növeli a tejtermelést",
+        "A tehenek érzelmesek és erős kötődést alakítanak ki",
+        "Segíti a borjú gyorsabb növekedését",
+        "Csak kis gazdaságokban történik"
+      ]
+    },
+    answer: 1
+  }
+},
+
+33: {
+  goal: "Protecting animals & animal welfare",
+  diet: "vegetarian",
+  title: {
+    en: "The hidden victims of dairy",
+    es: "Las víctimas invisibles de la industria láctea",
+    hu: "A tejipar rejtett áldozatai"
+  },
+  lesson: {
+    en: "In the dairy industry, male calves are considered by-products because they cannot produce milk. Shortly after birth, many are sold for veal or raised for beef, often under harsh conditions. They are commonly separated from their mothers immediately and may undergo painful procedures without adequate pain relief. This shows that dairy farming exploits not only cows, but also condemns male calves to suffering and early death.",
+    es: "En la industria láctea, los terneros machos se consideran subproductos porque no producen leche. Poco después de nacer, muchos son vendidos para la producción de ternera o carne, a menudo en condiciones duras. Son separados de sus madres y sometidos a procedimientos dolorosos. Esto demuestra que la industria láctea también causa sufrimiento a los terneros machos.",
+    hu: "A tejiparban a hím borjakat mellékterméknek tekintik, mivel nem termelnek tejet. Születésük után gyakran borjúhús vagy marhahús céljából értékesítik őket, sokszor kegyetlen körülmények között. Anyjuktól azonnal elszakítják őket, és fájdalmas beavatkozásoknak vetik alá őket. Ez rávilágít arra, hogy a tejtermelés a hím borjak szenvedésével is jár."
+  },
+  quiz: {
+    question: {
+      en: "What usually happens to male calves in the dairy industry?",
+      es: "¿Qué ocurre normalmente con los terneros machos?",
+      hu: "Mi történik általában a hím borjakkal?"
+    },
+    options: {
+      en: [
+        "They become dairy cows later",
+        "They are kept as pets",
+        "They live freely on pastures",
+        "They are sold for veal or beef under harsh conditions"
+      ],
+      es: [
+        "Se convierten en vacas lecheras",
+        "Se mantienen como mascotas",
+        "Viven libremente en pastos",
+        "Se venden para carne en condiciones duras"
+      ],
+      hu: [
+        "Később tejtermelő tehenekké válnak",
+        "Háziállatként tartják őket",
+        "Szabadon élnek a legelőkön",
+        "Húsipari célra adják el őket"
+      ]
+    },
+    answer: 3
+  }
+},
+
+34: {
+  goal: "Protecting animals & animal welfare",
+  diet: "vegetarian",
+  title: {
+    en: "Disposable lives in the egg industry",
+    es: "Vidas desechables en la industria del huevo",
+    hu: "Eldobható életek a tojásiparban"
+  },
+  lesson: {
+    en: "In the egg industry, male chicks are considered useless because they cannot lay eggs. Within hours of hatching, billions are killed worldwide using methods like gassing or maceration. This practice reveals how industrial systems treat animals as production units rather than sentient beings. Male chicks are denied even a short life simply because they are not profitable.",
+    es: "En la industria del huevo, los pollitos machos se consideran inútiles porque no ponen huevos. A las pocas horas de nacer, miles de millones son sacrificados mediante métodos como el gaseado o la trituración. Esta práctica muestra cómo el sistema industrial ve a los animales como objetos de producción y no como seres sintientes.",
+    hu: "A tojásiparban a hím csibéket haszontalannak tekintik, mert nem tojnak tojást. Kikelésük után órákon belül világszerte milliárdokat pusztítanak el. Ez a gyakorlat azt mutatja, hogy az ipari rendszer az állatokat puszta termelési egységként kezeli, megfosztva őket még egy rövid élettől is."
+  },
+  quiz: {
+    question: {
+      en: "Why are male chicks killed shortly after hatching?",
+      es: "¿Por qué se matan los pollitos machos tras nacer?",
+      hu: "Miért pusztítják el a hím csibéket kikelés után?"
+    },
+    options: {
+      en: [
+        "They cannot lay eggs and are considered unprofitable",
+        "They grow too slowly",
+        "They fight with others",
+        "They are kept for breeding"
+      ],
+      es: [
+        "No ponen huevos y no son rentables",
+        "Crecen demasiado lento",
+        "Pelean con otros",
+        "Se usan para reproducción"
+      ],
+      hu: [
+        "Nem tojnak tojást és nem nyereségesek",
+        "Túl lassan nőnek",
+        "Verekednek másokkal",
+        "Tenyésztésre tartják őket"
+      ]
+    },
+    answer: 0
+  }
+},
+
+35: {
+  goal: "Protecting animals & animal welfare",
+  diet: "vegetarian",
+  title: {
+    en: "No good choice in animal farming",
+    es: "Sin buenas opciones en la ganadería",
+    hu: "Nincs jó szerep az állattenyésztésben"
+  },
+  lesson: {
+    en: "Imagine being born into the farming industry—would you rather be male or female? Male animals are often killed shortly after birth or raised for meat under harsh conditions. Females are trapped in cycles of exploitation: repeatedly bred, confined, and separated from their offspring until they are no longer profitable. This reflection highlights how farmed animals are denied meaningful choices and subjected to suffering regardless of sex.",
+    es: "Imagina nacer en la industria ganadera: ¿preferirías ser macho o hembra? Los machos suelen ser sacrificados pronto o criados para carne, mientras que las hembras son explotadas repetidamente mediante reproducción forzada y separación de sus crías. Esta reflexión muestra que no hay un destino justo para los animales en estos sistemas.",
+    hu: "Képzeld el, hogy az állattenyésztésbe születsz — inkább hím vagy nőstény lennél? A hímeket gyakran hamar elpusztítják vagy húsipari célokra nevelik, míg a nőstényeket újra és újra vemhesítik, bezárják és elválasztják utódaiktól. Ez rávilágít arra, hogy az állatok számára nincs valódi választás vagy méltányos sors."
+  },
+  quiz: {
+    question: {
+      en: "In the farming industry, what are typical fates of male and female animals?",
+      es: "En la ganadería, ¿cuál es el destino típico de machos y hembras?",
+      hu: "Mi jellemző a hím és nőstény állatok sorsára az iparban?"
+    },
+    options: {
+      en: [
+        "Both live free lives",
+        "Males are killed or raised for meat; females are repeatedly bred and exploited",
+        "Males produce milk or eggs; females are used for meat",
+        "All are released after birth"
+      ],
+      es: [
+        "Ambos viven libres",
+        "Los machos mueren o se crían para carne; las hembras son explotadas",
+        "Los machos producen leche o huevos; las hembras carne",
+        "Todos son liberados"
+      ],
+      hu: [
+        "Mindkettő szabadon él",
+        "A hímeket megölik vagy húsért nevelik; a nőstényeket kizsákmányolják",
+        "A hímek tejet vagy tojást termelnek; a nőstények húst",
+        "Születés után elengedik őket"
+      ]
+    },
+    answer: 1
+  }
+},
+36: {
+  goal: "Protecting animals & animal welfare",
+  diet: "vegetarian",
+  title: {
+    en: "Profit versus compassion",
+    es: "Beneficio frente a compasión",
+    hu: "Profit kontra együttérzés"
+  },
+  lesson: {
+    en: "If you ran a farm, would you prioritize maximizing output or respecting animals’ natural behaviors? Would you manipulate genetics purely for profit? Imagine competing with companies that harm animals to gain advantages, forcing you into unethical choices. This dilemma reflects a broader reality of capitalism, where profit often outweighs ethics. As individuals, choosing plant-based products may be one of the most effective ways to step out of this system.",
+    es: "Si dirigieras una granja, ¿priorizarías maximizar la producción o respetar el comportamiento natural de los animales? ¿Modificarías la genética solo por beneficio económico? Imagina competir con empresas que dañan a los animales para obtener ventajas. Este dilema refleja una realidad más amplia del capitalismo, donde el beneficio suele pesar más que la ética. Como individuos, elegir productos vegetales puede ser una forma de romper con este sistema.",
+    hu: "Ha te irányítanál egy gazdaságot, a maximális termelést vagy az állatok természetes viselkedésének tiszteletben tartását választanád? Genetikailag módosítanál pusztán profitért? Képzeld el, hogy olyan cégekkel kell versenyezned, amelyek állatkínzással jutnak előnyhöz. Ez a dilemma a kapitalizmus egyik alapvető problémáját tükrözi, ahol gyakran a profit megelőzi az etikát. Egyéni szinten a növényi alapú választások jelenthetnek kiutat."
+  },
+  quiz: {
+    question: {
+      en: "What ethical tension does this lesson explore?",
+      es: "¿Qué conflicto ético explora esta lección?",
+      hu: "Milyen etikai feszültséget mutat be a lecke?"
+    },
+    options: {
+      en: [
+        "Choosing between profit and respecting animals’ natural behaviors",
+        "Deciding which breed tastes best",
+        "Maximizing output without ethics",
+        "Only focusing on competition"
+      ],
+      es: [
+        "Elegir entre beneficio y respeto a los animales",
+        "Decidir qué raza sabe mejor",
+        "Maximizar la producción sin ética",
+        "Pensar solo en la competencia"
+      ],
+      hu: [
+        "A profit és az állatok tisztelete közötti választás",
+        "Melyik fajta ízlik jobban",
+        "Termelés maximalizálása etika nélkül",
+        "Csak a verseny figyelembevétele"
+      ]
+    },
+    answer: 0
+  }
+},
+
+37: {
+  goal: "Protecting animals & animal welfare",
+  diet: "vegetarian",
+  title: {
+    en: "Calories versus lives",
+    es: "Calorías frente a vidas",
+    hu: "Kalóriák kontra életek"
+  },
+  lesson: {
+    en: "About 2,340 kcal of chicken meat equals the life of one broiler chicken, while roughly 15,750 kcal of eggs equals the life of one hen, including the male chick. These figures reflect deaths only, not the suffering endured. They invite us to reflect: is it the number of lives lost, or the amount of suffering caused, that matters more when we choose what to eat?",
+    es: "Aproximadamente 2.340 kcal de carne de pollo equivalen a la vida de un pollo de engorde, mientras que unas 15.750 kcal de huevos equivalen a la vida de una gallina, incluido el pollito macho. Estas cifras reflejan muertes, no sufrimiento. Nos invitan a reflexionar sobre qué pesa más en nuestras decisiones alimentarias.",
+    hu: "Körülbelül 2 340 kcal csirkehús egy brojlercsirke életével egyenlő, míg nagyjából 15 750 kcal tojás egy tojó életét jelenti, beleértve a hím csibét is. Ezek a számok csak a halált mutatják, nem a szenvedést. Arra ösztönöznek, hogy elgondolkodjunk: mi számít jobban?"
+  },
+  quiz: {
+    question: {
+      en: "What does this lesson encourage us to consider?",
+      es: "¿Qué nos invita a considerar esta lección?",
+      hu: "Mire ösztönöz ez a lecke?"
+    },
+    options: {
+      en: [
+        "Which animal tastes better",
+        "Cooking efficiency",
+        "The lives lost and suffering caused by our food choices",
+        "Farm productivity"
+      ],
+      es: [
+        "Qué animal sabe mejor",
+        "La eficiencia al cocinar",
+        "Las vidas perdidas y el sufrimiento causado",
+        "La productividad agrícola"
+      ],
+      hu: [
+        "Melyik állat ízletesebb",
+        "Főzési hatékonyság",
+        "Az életek elvesztése és a szenvedés",
+        "A gazdaság hatékonysága"
+      ]
+    },
+    answer: 2
+  }
+},
+
+38: {
+  goal: "Protecting animals & animal welfare",
+  diet: "vegetarian",
+  title: {
+    en: "Debeaking and control",
+    es: "El despique y el control",
+    hu: "Csőrkurtítás és kontroll"
+  },
+  lesson: {
+    en: "In the egg industry, hens are often debeaked to prevent pecking injuries caused by overcrowding. The tip of the beak is removed shortly after hatching, usually without anesthesia. Although it reduces visible injuries, it causes pain, stress, and limits natural behaviors like pecking and eating. Debeaking shows how industrial systems prioritize efficiency over animal well-being.",
+    es: "En la industria del huevo, a las gallinas se les corta el pico para evitar heridas por picoteo en espacios saturados. Este procedimiento suele hacerse sin anestesia y causa dolor y estrés, además de limitar comportamientos naturales. Refleja cómo la eficiencia se prioriza sobre el bienestar animal.",
+    hu: "A tojásiparban gyakran csőrkurtítást alkalmaznak, hogy megelőzzék a zsúfoltság miatti sérüléseket. A beavatkozást rendszerint érzéstelenítés nélkül végzik, fájdalmat és stresszt okozva, valamint korlátozva a természetes viselkedést. Ez jól mutatja az ipari szemléletet."
+  },
+  quiz: {
+    question: {
+      en: "Why are hens often debeaked in the egg industry?",
+      es: "¿Por qué se les corta el pico a las gallinas?",
+      hu: "Miért kurtítják meg a tyúkok csőrét?"
+    },
+    options: {
+      en: [
+        "To prevent injuries from pecking in crowded conditions",
+        "For appearance",
+        "To increase egg production",
+        "To speed up growth"
+      ],
+      es: [
+        "Para evitar heridas por picoteo",
+        "Por estética",
+        "Para poner más huevos",
+        "Para crecer más rápido"
+      ],
+      hu: [
+        "A csipkedés okozta sérülések megelőzésére",
+        "Esztétikai okokból",
+        "A tojástermelés növelésére",
+        "Gyorsabb növekedésért"
+      ]
+    },
+    answer: 0
+  }
+},
+
+39: {
+  goal: "Protecting animals & animal welfare",
+  diet: "vegetarian",
+  title: {
+    en: "The double standard in clothing",
+    es: "El doble estándar en la ropa",
+    hu: "Kettős mérce az öltözködésben"
+  },
+  lesson: {
+    en: "Many people reject fur but accept leather, wool, and down without question. Reflecting on how these everyday materials affect sentient beings can help us align our clothing choices with our values. Plant-based and synthetic alternatives allow us to reduce harm without sacrificing comfort or style.",
+    es: "Muchas personas rechazan la piel, pero aceptan el cuero, la lana y el plumón como algo normal. Reflexionar sobre el impacto de estos materiales en los animales puede ayudarnos a elegir alternativas más coherentes con nuestros valores.",
+    hu: "Sokan elutasítják a szőrmét, miközben a bőr, a gyapjú és a toll elfogadott marad. Ha végiggondoljuk ezek hatását az érző lényekre, közelebb kerülhetünk értékeinkhez illeszkedő döntésekhez."
+  },
+  quiz: {
+    question: {
+      en: "What ethical issue does this lesson highlight?",
+      es: "¿Qué cuestión ética destaca esta lección?",
+      hu: "Milyen etikai kérdést emel ki a lecke?"
+    },
+    options: {
+      en: [
+        "Fashion trends",
+        "Animal exploitation in clothing production",
+        "Brand prices",
+        "Laundry efficiency"
+      ],
+      es: [
+        "Las tendencias de moda",
+        "La explotación animal en la ropa",
+        "Los precios de marcas",
+        "Cómo lavar la ropa"
+      ],
+      hu: [
+        "Divatirányzatok",
+        "Állatok kizsákmányolása a ruházatban",
+        "Márkaárak",
+        "Ruhamosás hatékonysága"
+      ]
+    },
+    answer: 1
+  }
+},
+
+40: {
+  goal: "Protecting animals & animal welfare",
+  diet: "vegetarian",
+  title: {
+    en: "Animals as entertainment",
+    es: "Animales como entretenimiento",
+    hu: "Állatok szórakoztatásra"
+  },
+  lesson: {
+    en: "Zoos and circuses often frame animals as entertainment rather than individuals with needs and emotions. Many live in confined spaces, far from their natural habitats, and are trained through stress or punishment. This raises an important question: should animals exist for our amusement, or should we seek cruelty-free ways to enjoy ourselves?",
+    es: "Los zoológicos y circos suelen presentar a los animales como entretenimiento, no como seres con necesidades y emociones. Muchos viven en espacios reducidos y son entrenados mediante estrés. Esto plantea la pregunta de si es ético usarlos para nuestro ocio.",
+    hu: "Az állatkertek és cirkuszok gyakran szórakoztatásként kezelik az állatokat, nem pedig érző lényekként. Sokukat kis helyeken tartják és stresszel idomítják. Felmerül a kérdés: helyes-e ez?"
+  },
+  quiz: {
+    question: {
+      en: "What is the main ethical concern about zoos and circuses?",
+      es: "¿Cuál es la principal preocupación ética?",
+      hu: "Mi a fő etikai probléma?"
+    },
+    options: {
+      en: [
+        "Seat quality",
+        "Animals used for profit and entertainment",
+        "Difficulty of tricks",
+        "Taking photos"
+      ],
+      es: [
+        "La calidad de los asientos",
+        "El uso de animales para lucro y entretenimiento",
+        "La dificultad de los trucos",
+        "Tomar fotos"
+      ],
+      hu: [
+        "Ülőhelyek minősége",
+        "Állatok használata profitért és szórakozásért",
+        "Mutatványok nehézsége",
+        "Fényképezés"
+      ]
+    },
+    answer: 1
+  }
+},
 
 // --------------------------
 // Animal welfare - Vegan (41–100)
@@ -979,163 +1896,474 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
     answer: 1
   }
 },
+ 46: {
+  goal: "Protecting animals & animal welfare",
+  diet: "vegan",
+  title: {
+    en: "Equal where it matters",
+    es: "Iguales en lo que importa",
+    hu: "Egyenlők abban, ami számít"
+  },
+  lesson: {
+    en: "Some people argue that animals aren’t equal to humans, yet it’s unclear what makes humans inherently superior. We accept vast differences in intelligence and abilities among people without denying their moral worth. Pigs, among the most intelligent animals, are still raised for food. In all ways that truly matter ethically, humans and animals are alike: they feel fear, experience emotions, and can suffer. That capacity is what gives beings moral value.",
+    es: "Algunas personas sostienen que los animales no son iguales a los humanos, aunque no está claro qué hace a los humanos inherentemente superiores. Aceptamos grandes diferencias entre personas sin negar su valor moral. Los cerdos, animales muy inteligentes, siguen siendo criados para alimento. En lo que realmente importa éticamente, humanos y animales son iguales: sienten miedo, emociones y sufrimiento.",
+    hu: "Sokan állítják, hogy az állatok nem egyenlők az emberekkel, mégis nehéz megmondani, miben áll az ember veleszületett felsőbbrendűsége. Az emberek közötti különbségeket elfogadjuk erkölcsi értékük megkérdőjelezése nélkül. A sertések — az egyik legintelligensebb állat — mégis élelmiszerként vannak kezelve. Ami etikailag számít, abban egyenlők vagyunk: félelmet, érzelmeket és szenvedést élünk át."
+  },
+  quiz: {
+    question: {
+      en: "Why are humans and animals considered equal in important ways?",
+      es: "¿Por qué se considera que humanos y animales son iguales en aspectos importantes?",
+      hu: "Miért tekinthetők az emberek és az állatok egyenlőnek fontos szempontokból?"
+    },
+    options: {
+      en: [
+        "Because animals are smarter than humans",
+        "Because both experience fears, feelings, and suffering",
+        "Because humans are naturally stronger"
+      ],
+      es: [
+        "Porque los animales son más inteligentes que los humanos",
+        "Porque ambos experimentan miedo, emociones y sufrimiento",
+        "Porque los humanos son naturalmente más fuertes"
+      ],
+      hu: [
+        "Mert az állatok intelligensebbek az embereknél",
+        "Mert mindkettő képes félelmet, érzelmeket és szenvedést átélni",
+        "Mert az emberek természetüknél fogva erősebbek"
+      ]
+    },
+    answer: 1
+  }
+},
 
-/*  
-46: {
-  goal: "Protecting animals & animal welfare", diet: "vegan",
-  lesson: "Some people argue that animals aren’t equal to humans. It’s unclear what makes humans inherently superior. We accept differences in intelligence and abilities among people, yet pigs — one of the smartest animals on Earth — are still raised for food. In fact, in all ways that truly matter, humans and animals are the same: we share the same fears, feelings, and capacity to suffer. This is what counts ethically.",
+47: {
+  goal: "Protecting animals & animal welfare",
+  diet: "vegan",
+  title: {
+    en: "Plants, pain, and land use",
+    es: "Plantas, dolor y uso del suelo",
+    hu: "Növények, fájdalom és földhasználat"
+  },
+  lesson: {
+    en: "Some people claim that plants have feelings. Science shows that plants lack a brain or central nervous system, so they do not experience pain like animals do. Beyond that, there is a crucial efficiency issue: about 77% of global agricultural land is used for livestock, yet animal farming provides only a small fraction of the world’s calories and protein. Feeding plants directly to humans requires far less land and causes far less harm.",
+    es: "Algunas personas dicen que las plantas sienten. La ciencia muestra que no tienen cerebro ni sistema nervioso central, por lo que no sienten dolor como los animales. Además, existe un enorme problema de eficiencia: el 77% de la tierra agrícola se usa para ganadería, pero aporta solo una pequeña parte de las calorías y proteínas mundiales.",
+    hu: "Egyesek szerint a növények is éreznek. A tudomány szerint nincs agyuk vagy központi idegrendszerük, így nem éreznek fájdalmat úgy, mint az állatok. Emellett komoly hatékonysági probléma is fennáll: a mezőgazdasági területek 77%-át az állattenyésztés használja, mégis kevés kalóriát és fehérjét biztosít."
+  },
   quiz: {
-    question: "Why are humans and animals considered equal in important ways?",
-    options: [
-      "Because animals are smarter than humans",
-      "Because both experience fears, feelings, and suffering",
-      "Because humans are naturally stronger"
-    ],
-    answer: "Because both experience fears, feelings, and suffering"
+    question: {
+      en: "What percentage of global agricultural land is used for livestock?",
+      es: "¿Qué porcentaje de la tierra agrícola mundial se utiliza para la ganadería?",
+      hu: "A globális mezőgazdasági területek hány százalékát használják állattenyésztésre?"
+    },
+    options: {
+      en: ["36%", "50%", "77%", "90%"],
+      es: ["36%", "50%", "77%", "90%"],
+      hu: ["36%", "50%", "77%", "90%"]
+    },
+    answer: 2
   }
 },
-47: {  
-  goal: "Protecting animals & animal welfare", diet: "vegan",
-  lesson: "Some people claim that plants have feelings. Science shows that plants don’t have a brain or central nervous system, so they don’t feel pain the way animals do.  But there’s another important fact: around 77% of global agricultural land is used for livestock, while farm animals provide only about 18% of the world’s calories and 37% of its protein. This means most of the land and crops are used inefficiently, to feed animals instead of people.",  
-  quiz: {  
-    question: "What percentage of global agricultural land is used for livestock?",  
-    options: ["36%", "50%", "77%", "90%"],  
-    answer: "77%"  
-  }  
-},
-48: {  
-  goal: "Protecting animals & animal welfare", diet: "vegan",
-  lesson: "Some people say, 'A little meat won’t hurt,' thinking that their personal consumption is too small to matter. While one person alone may seem insignificant, collective behavior adds up. If more people reduce or eliminate animal products, the cumulative impact on animal welfare, climate change, and resource use would be enormous. Every choice counts.",
+
+48: {
+  goal: "Protecting animals & animal welfare",
+  diet: "vegan",
+  title: {
+    en: "Every choice counts",
+    es: "Cada elección cuenta",
+    hu: "Minden döntés számít"
+  },
+  lesson: {
+    en: "Some people say that a little meat won’t make a difference, believing individual actions are too small to matter. While one person alone may seem insignificant, collective behavior shapes entire systems. When many individuals reduce or eliminate animal products, the combined effect on animal suffering, climate change, and resource use becomes enormous. Change starts with small, repeated choices.",
+    es: "Algunas personas dicen que un poco de carne no importa. Aunque una sola persona parezca insignificante, el comportamiento colectivo crea grandes impactos. Cuando muchas personas reducen o eliminan productos animales, el efecto combinado es enorme.",
+    hu: "Sokan gondolják, hogy egy kis hús nem számít. Egyéni szinten kicsinek tűnhet, de a kollektív döntések rendszereket alakítanak. Sok apró választás együtt óriási hatást gyakorol."
+  },
   quiz: {
-    question: "Why does even small individual meat consumption matter?",
-    options: [
-      "Because collective choices add up and create large impact",
-      "Because one person cannot survive without meat",
-      "Because plants can replace meat immediately without planning"
-    ],
-    answer: "Because collective choices add up and create large impact"
+    question: {
+      en: "Why does even small individual meat consumption matter?",
+      es: "¿Por qué importa incluso un pequeño consumo individual de carne?",
+      hu: "Miért számít a kis egyéni húsfogyasztás is?"
+    },
+    options: {
+      en: [
+        "Because collective choices add up and create large impact",
+        "Because humans cannot live without meat",
+        "Because plants instantly replace meat"
+      ],
+      es: [
+        "Porque las elecciones colectivas se suman y crean un gran impacto",
+        "Porque los humanos no pueden vivir sin carne",
+        "Porque las plantas reemplazan la carne inmediatamente"
+      ],
+      hu: [
+        "Mert az egyéni döntések összeadódnak és nagy hatást fejtenek ki",
+        "Mert az emberek nem élhetnek hús nélkül",
+        "Mert a növények azonnal helyettesítik a húst"
+      ]
+    },
+    answer: 0
   }
-}, 
+},
+
 49: {
-  goal: "Protecting animals & animal welfare", diet: "vegan",
-  lesson: "Most mammals on Earth today are not wild animals. When we look at the total biomass of mammals, about 60% are farmed animals like cows and pigs. Humans make up another 36%. That leaves only 4% as truly wild mammals.",
+  goal: "Protecting animals & animal welfare",
+  diet: "vegan",
+  title: {
+    en: "Where the mammals are",
+    es: "Dónde están los mamíferos",
+    hu: "Hol vannak a mamutok… és a többiek"
+  },
+  lesson: {
+    en: "When we look at the total biomass of mammals on Earth, most are not wild. Around 60% are farmed animals such as cows and pigs, while humans make up about 36%. That leaves only a tiny fraction — roughly 4% — as truly wild mammals. This stark imbalance reveals how deeply human activity has reshaped life on Earth.",
+    es: "Al observar la biomasa total de mamíferos, la mayoría no son salvajes. Aproximadamente el 60% son animales de granja y el 36% humanos. Solo alrededor del 4% son mamíferos realmente salvajes.",
+    hu: "Ha megnézzük a Föld emlős biomasszáját, a többség nem vadon él. Körülbelül 60% haszonállat, 36% ember, és mindössze 4% vadon élő emlős."
+  },
   quiz: {
-    question: "What percentage of mammals are truly wild?",
-    options: ["4%", "36%", "60%"],
-    answer: "4%"
+    question: {
+      en: "What percentage of mammals are truly wild?",
+      es: "¿Qué porcentaje de mamíferos son realmente salvajes?",
+      hu: "Az emlősök hány százaléka él valóban vadon?"
+    },
+    options: {
+      en: ["4%", "36%", "60%"],
+      es: ["4%", "36%", "60%"],
+      hu: ["4%", "36%", "60%"]
+    },
+    answer: 0
   }
 },
+
 50: {
-  goal: "Protecting animals & animal welfare", diet: "vegan",
-  lesson: "About 25% of mammal species are currently threatened with extinction, according to the IUCN. Species like primates, big cats, and elephants are among the most iconic and widely loved, while less charismatic species, like small rodents or bats, are often overlooked despite being equally important for ecosystems.",
+  goal: "Protecting animals & animal welfare",
+  diet: "vegan",
+  title: {
+    en: "Extinction in progress",
+    es: "Extinción en curso",
+    hu: "Folyamatban lévő kihalás"
+  },
+  lesson: {
+    en: "About 25% of mammal species are currently threatened with extinction. Well-known animals like elephants, big cats, and primates often receive attention, while less charismatic species are overlooked despite playing vital roles in ecosystems. Protecting animals means caring not only for the ones we love, but also for those we rarely notice.",
+    es: "Aproximadamente el 25% de las especies de mamíferos están amenazadas de extinción. Las especies más icónicas reciben atención, mientras que otras igualmente importantes suelen ser ignoradas.",
+    hu: "Az emlősfajok körülbelül 25%-a jelenleg kihalással fenyegetett. A látványos fajok figyelmet kapnak, míg más, kevésbé feltűnő, de kulcsfontosságú fajok gyakran háttérbe szorulnak."
+  },
   quiz: {
-    question: "What percentage of mammal species are currently threatened with extinction?",
-    options: ["10%", "25%", "50%"],
-    answer: "25%"
+    question: {
+      en: "What percentage of mammal species are currently threatened with extinction?",
+      es: "¿Qué porcentaje de especies de mamíferos está amenazado?",
+      hu: "Az emlősfajok hány százaléka van veszélyben?"
+    },
+    options: {
+      en: ["10%", "25%", "50%"],
+      es: ["10%", "25%", "50%"],
+      hu: ["10%", "25%", "50%"]
+    },
+    answer: 1
   }
 },
 51: {
-  goal: "Protecting animals & animal welfare", diet: "vegan",
-  lesson: "Chickens today grow much faster and larger than their wild ancestors due to selective breeding and genetic modification. While wild chickens laid about 12 eggs per year, modern farmed chickens can lay over 240 eggs annually. This rapid growth impacts their health, mobility, and quality of life.",
+  goal: "Protecting animals & animal welfare",
+  diet: "vegan",
+  title: {
+    en: "Engineered to produce",
+    es: "Diseñadas para producir",
+    hu: "Termelésre alakítva"
+  },
+  lesson: {
+    en: "Chickens today grow much faster and larger than their wild ancestors due to selective breeding and genetic modification. While wild chickens laid about 12 eggs per year, modern farmed chickens can lay over 240 eggs annually. This extreme production places heavy strain on their bodies, affecting their health, mobility, and overall quality of life.",
+    es: "Las gallinas actuales crecen mucho más rápido y grandes que sus antepasados salvajes debido a la cría selectiva y la modificación genética. Mientras que las gallinas salvajes ponían unas 12 huevos al año, las gallinas de granja modernas pueden poner más de 240. Esta producción extrema afecta gravemente a su salud y calidad de vida.",
+    hu: "A mai csirkék a szelektív tenyésztés és genetikai módosítás miatt sokkal gyorsabban nőnek és nagyobbak, mint vad őseik. Míg a vad csirkék évente körülbelül 12 tojást tojtak, a modern haszoncsirkék több mint 240-et. Ez komoly terhelést jelent a szervezetük számára."
+  },
   quiz: {
-    question: "How many eggs did wild chickens lay annually?",
-    options: ["100", "240", "12"],
-    answer: "12"
+    question: {
+      en: "How many eggs did wild chickens lay annually?",
+      es: "¿Cuántos huevos ponían las gallinas salvajes al año?",
+      hu: "Évente hány tojást tojtak a vad csirkék?"
+    },
+    options: {
+      en: ["100", "240", "12"],
+      es: ["100", "240", "12"],
+      hu: ["100", "240", "12"]
+    },
+    answer: 2
   }
 },
+
 52: {
-  goal: "Protecting animals & animal welfare", diet: "vegan",
-  lesson: "Around 70% of global antibiotic supply is used in livestock farming, not in humans. Antibiotics are given to animals to promote growth and prevent disease in crowded conditions, which contributes to antibiotic resistance—a major public health concern.",
+  goal: "Protecting animals & animal welfare",
+  diet: "vegan",
+  title: {
+    en: "Antibiotics for animals, risks for humans",
+    es: "Antibióticos para animales, riesgos para humanos",
+    hu: "Antibiotikumok az állatoknak, kockázat az embereknek"
+  },
+  lesson: {
+    en: "Around 70% of the world’s antibiotic supply is used in livestock farming, not for humans. These drugs are routinely given to animals to prevent disease and promote growth in crowded conditions. This practice accelerates antibiotic resistance, creating serious public health risks that affect everyone.",
+    es: "Alrededor del 70% de los antibióticos del mundo se utilizan en la ganadería, no en humanos. Se administran a los animales para prevenir enfermedades y favorecer el crecimiento en condiciones de hacinamiento, contribuyendo a la resistencia a los antibióticos.",
+    hu: "A világ antibiotikumainak körülbelül 70%-át az állattenyésztésben használják. Ezeket zsúfolt körülmények között betegségek megelőzésére és növekedés serkentésére adják, ami súlyos antibiotikum-rezisztenciát okoz."
+  },
   quiz: {
-    question: "What percentage of antibiotics is used in livestock farming?",
-    options: ["70%", "30%", "50%"],
-    answer: "70%"
+    question: {
+      en: "What percentage of antibiotics is used in livestock farming?",
+      es: "¿Qué porcentaje de antibióticos se utiliza en la ganadería?",
+      hu: "Az antibiotikumok hány százalékát használják az állattenyésztésben?"
+    },
+    options: {
+      en: ["70%", "30%", "50%"],
+      es: ["70%", "30%", "50%"],
+      hu: ["70%", "30%", "50%"]
+    },
+    answer: 0
   }
 },
+
 53: {
-  goal: "Protecting animals & animal welfare", diet: "vegan",
-  lesson: "Many farmed animals are kept in extremely small cages, often unable to turn around or move freely. This raises ethical questions: is severe confinement worse than the act of slaughter itself?",
+  goal: "Protecting animals & animal welfare",
+  diet: "vegan",
+  title: {
+    en: "A life without movement",
+    es: "Una vida sin movimiento",
+    hu: "Mozgás nélküli élet"
+  },
+  lesson: {
+    en: "Many farmed animals are confined to extremely small cages where they cannot turn around, stretch, or move freely. This constant restriction causes physical pain, psychological stress, and frustration. It raises a profound ethical question: is forcing an animal to live in lifelong confinement worse than killing it?",
+    es: "Muchos animales de granja viven en jaulas tan pequeñas que no pueden girarse ni moverse libremente. Esta restricción constante causa dolor físico y estrés psicológico, planteando una profunda cuestión ética.",
+    hu: "Sok haszonállat rendkívül kis ketrecekben él, ahol nem tud megfordulni vagy szabadon mozogni. Ez folyamatos fizikai és mentális szenvedést okoz, és komoly etikai kérdéseket vet fel."
+  },
   quiz: {
-    question: "What ethical issue arises from very small cages?",
-    options: ["Animals become smarter", "Severe confinement limits movement", "Cages improve health"],
-    answer: "Severe confinement limits movement"
+    question: {
+      en: "What ethical issue arises from very small cages?",
+      es: "¿Qué problema ético surge de las jaulas muy pequeñas?",
+      hu: "Milyen etikai probléma merül fel a túl kicsi ketrecek miatt?"
+    },
+    options: {
+      en: ["Animals become smarter", "Severe confinement limits movement", "Cages improve health"],
+      es: ["Los animales se vuelven más inteligentes", "El confinamiento severo limita el movimiento", "Las jaulas mejoran la salud"],
+      hu: ["Az állatok okosabbak lesznek", "A súlyos bezártság korlátozza a mozgást", "A ketrecek javítják az egészséget"]
+    },
+    answer: 1
   }
 },
+
 54: {
-  goal: "Protecting animals & animal welfare", diet: "vegan",
-  lesson: "Companies that provide better conditions for animals cannot compete with conventional industrial farms due to higher costs. This raises a philosophical question about the value of life and whether profit should outweigh the well-being of sentient beings.",
+  goal: "Protecting animals & animal welfare",
+  diet: "vegan",
+  title: {
+    en: "When ethics can’t compete",
+    es: "Cuando la ética no puede competir",
+    hu: "Amikor az etika nem versenyképes"
+  },
+  lesson: {
+    en: "Farms that provide better living conditions for animals face much higher costs and often cannot compete with large industrial operations. This exposes a deeper moral question: should profit outweigh the lives and well-being of sentient beings, or should economic systems adapt to ethical responsibility?",
+    es: "Las empresas que ofrecen mejores condiciones a los animales tienen costos más altos y no pueden competir con granjas industriales. Esto plantea una pregunta moral sobre si el beneficio debe estar por encima del bienestar de los seres sintientes.",
+    hu: "Azok a gazdaságok, amelyek jobb körülményeket biztosítanak az állatoknak, magasabb költségekkel működnek, és nehezen versenyeznek az ipari farmokkal. Ez mély erkölcsi kérdést vet fel."
+  },
   quiz: {
-    question: "Why can't companies with better animal conditions compete?",
-    options: ["They don't care about animals", "They produce less milk", "Higher costs than industrial farms"],
-    answer: "Higher costs than industrial farms"
+    question: {
+      en: "Why can't companies with better animal conditions compete?",
+      es: "¿Por qué las empresas con mejores condiciones para los animales no pueden competir?",
+      hu: "Miért nem tudnak versenyezni a jobb állattartást biztosító cégek?"
+    },
+    options: {
+      en: ["They don't care about animals", "They produce less milk", "Higher costs than industrial farms"],
+      es: ["No les importan los animales", "Producen menos leche", "Costes más altos que las granjas industriales"],
+      hu: ["Nem törődnek az állatokkal", "Kevesebb tejet termelnek", "Magasabb költségek, mint az ipari farmokon"]
+    },
+    answer: 2
   }
 },
+
 55: {
-  goal: "Protecting animals & animal welfare", diet: "vegan",
-  lesson: "Debeaking, the removal of parts of chickens' beaks, is common in industrial farms to prevent pecking injuries in crowded conditions. This procedure causes both physical pain and behavioral stress for the birds.",
+  goal: "Protecting animals & animal welfare",
+  diet: "vegan",
+  title: {
+    en: "Cutting away natural behavior",
+    es: "Eliminar comportamientos naturales",
+    hu: "Természetes viselkedés megcsonkítása"
+  },
+  lesson: {
+    en: "Debeaking involves cutting or burning parts of a chicken’s beak to reduce injuries caused by stress and overcrowding. While it serves industrial efficiency, it causes pain, long-term discomfort, and limits natural behaviors such as pecking and exploring. This practice highlights how systems adapt animals to cruelty instead of fixing the conditions that cause it.",
+    es: "El despique consiste en cortar o quemar parte del pico para evitar lesiones en condiciones de hacinamiento. Aunque mejora la eficiencia industrial, causa dolor y estrés, y limita comportamientos naturales.",
+    hu: "A csőrkurtítás során a csirkék csőrének egy részét eltávolítják, hogy csökkentsék a sérüléseket zsúfolt körülmények között. Ez fájdalmat okoz és korlátozza a természetes viselkedést."
+  },
   quiz: {
-    question: "Why is debeaking performed on farmed chickens?",
-    options: ["To prevent pecking injuries", "To make them grow faster", "For decoration"],
-    answer: "To prevent pecking injuries"
+    question: {
+      en: "Why is debeaking performed on farmed chickens?",
+      es: "¿Por qué se practica el despique en las gallinas de granja?",
+      hu: "Miért végzik a csőrkurtítást a haszoncsirkéken?"
+    },
+    options: {
+      en: ["To prevent pecking injuries", "To make them grow faster", "For decoration"],
+      es: ["Para prevenir heridas por picoteo", "Para que crezcan más rápido", "Por decoración"],
+      hu: ["A csipkedésből eredő sérülések megelőzésére", "Gyorsabb növekedés érdekében", "Díszítés céljából"]
+    },
+    answer: 0
   }
 },
+
 56: {
-  goal: "Protecting animals & animal welfare", diet: "vegan",
-  lesson: "The dairy industry often grinds up male chicks alive and repeatedly artificially inseminates cows, separating mothers from their calves. These practices cause significant suffering and raise questions about the ethics of animal exploitation.",
+  goal: "Protecting animals & animal welfare",
+  diet: "vegan",
+  title: {
+    en: "Hidden cruelty in dairy",
+    es: "Crueldad oculta en los lácteos",
+    hu: "Rejtett kegyetlenség a tejiparban"
+  },
+  lesson: {
+    en: "The dairy industry often grinds up male chicks alive and repeatedly artificially inseminates cows, separating mothers from their calves. These practices cause significant suffering and raise questions about the ethics of animal exploitation.",
+    es: "En la industria láctea, a menudo se trituran vivos a los pollitos macho y se inseminan artificialmente a las vacas repetidamente, separando a las madres de sus terneros. Estas prácticas causan un sufrimiento considerable y cuestionan la ética de la explotación animal.",
+    hu: "A tejipar gyakran élve darálja a hímcsibéket, és ismételten mesterségesen termékenyítik a teheneket, elválasztva az anyákat borjaiktól. Ezek a gyakorlatok jelentős szenvedést okoznak és kérdéseket vetnek fel az állatok kizsákmányolásának etikájáról."
+  },
   quiz: {
-    question: "What happens to male chicks in the dairy industry?",
-    options: ["They live freely on farms", "They are often ground alive", "They are given special care"],
-    answer: "They are often ground alive"
+    question: {
+      en: "What happens to male chicks in the dairy industry?",
+      es: "¿Qué les sucede a los pollitos macho en la industria láctea?",
+      hu: "Mi történik a hímcsibékkel a tejiparban?"
+    },
+    options: {
+      en: ["They live freely on farms", "They are often ground alive", "They are given special care"],
+      es: ["Viven libremente en las granjas", "A menudo se trituran vivos", "Reciben cuidados especiales"],
+      hu: ["Szabadon élnek a farmokon", "Gyakran élve darálják őket", "Különleges gondozásban részesülnek"]
+    },
+    answer: 1
   }
 },
+
 57: {
-  goal: "Protecting animals & animal welfare", diet: "vegan",
-  lesson: "Chickens originally laid about 12 eggs per year in natural conditions. Through selective breeding and genetic modification, modern hens can lay over 240 eggs annually. This demonstrates how human intervention can drastically alter an animal’s biology for production purposes.",
+  goal: "Protecting animals & animal welfare",
+  diet: "vegan",
+  title: {
+    en: "Egg production and genetic manipulation",
+    es: "Producción de huevos y manipulación genética",
+    hu: "Tojástermelés és genetikai beavatkozás"
+  },
+  lesson: {
+    en: "Chickens originally laid about 12 eggs per year in natural conditions. Through selective breeding and genetic modification, modern hens can lay over 240 eggs annually. This demonstrates how human intervention can drastically alter an animal’s biology for production purposes.",
+    es: "Originalmente, las gallinas ponían alrededor de 12 huevos al año en condiciones naturales. A través de la selección y modificación genética, las gallinas modernas pueden poner más de 240 huevos anuales. Esto demuestra cómo la intervención humana puede alterar drásticamente la biología de un animal para fines de producción.",
+    hu: "A csirkék eredetileg évente körülbelül 12 tojást raktak természetes körülmények között. Szelektív tenyésztés és genetikai módosítás révén a modern tyúkok évente több mint 240 tojást rakhatnak. Ez jól mutatja, hogyan változtathatja meg drasztikusan az ember az állatok biológiáját a termelés érdekében."
+  },
   quiz: {
-    question: "How many eggs did chickens originally lay per year?",
-    options: ["240", "100", "12"],
-    answer: "12"
+    question: {
+      en: "How many eggs did chickens originally lay per year?",
+      es: "¿Cuántos huevos ponían originalmente las gallinas al año?",
+      hu: "Hány tojást raktak eredetileg a csirkék évente?"
+    },
+    options: {
+      en: ["240", "100", "12"],
+      es: ["240", "100", "12"],
+      hu: ["240", "100", "12"]
+    },
+    answer: 2
   }
 },
+
 58: {
-  goal: "Protecting animals & recognizing hidden suffering in clothing", diet: "vegan",
-  lesson: "Many people strongly oppose wearing fur, because it is seen as cruel to kill animals for fashion. However, we often ignore that leather, wool, and down also come from animals who suffer. Leather typically comes from cows raised and killed in the meat and dairy industry, wool often comes from sheep who undergo painful shearing and breeding practices, and down is taken from ducks and geese who are plucked or slaughtered. The main difference is not the animal's experience, but our cultural habits and what we were taught to see as 'normal.'",
+  goal: "Protecting animals & recognizing hidden suffering in clothing",
+  diet: "vegan",
+  title: {
+    en: "Animal suffering in clothing",
+    es: "Sufrimiento animal en la ropa",
+    hu: "Állati szenvedés a ruházatban"
+  },
+  lesson: {
+    en: "Many people strongly oppose wearing fur, because it is seen as cruel to kill animals for fashion. However, we often ignore that leather, wool, and down also come from animals who suffer. Leather typically comes from cows raised and killed in the meat and dairy industry, wool often comes from sheep who undergo painful shearing and breeding practices, and down is taken from ducks and geese who are plucked or slaughtered. The main difference is not the animal's experience, but our cultural habits and what we were taught to see as 'normal.'",
+    es: "Muchas personas se oponen firmemente a usar pieles, porque se considera cruel matar animales por moda. Sin embargo, a menudo ignoramos que el cuero, la lana y el plumón también provienen de animales que sufren. El cuero proviene típicamente de vacas criadas y sacrificadas en la industria de carne y lácteos, la lana de ovejas que sufren esquila y prácticas de cría dolorosas, y el plumón de patos y gansos que son desplumados o sacrificados. La diferencia principal no es la experiencia del animal, sino nuestros hábitos culturales y lo que nos enseñaron a ver como 'normal.'",
+    hu: "Sok ember erősen ellenzi a szőrme viselését, mert kegyetlennek tartják az állatok megölését divat miatt. Azonban gyakran figyelmen kívül hagyjuk, hogy a bőr, a gyapjú és a toll is állatoktól származik, akik szenvednek. A bőr általában hús- és tejipari tehenektől származik, a gyapjú olyan juhoktól, akik fájdalmas nyíráson és tenyésztési eljárásokon mennek keresztül, a toll pedig kacsáktól és libáktól, akiket kitépnek vagy leölnek. A fő különbség nem az állatok tapasztalata, hanem kulturális szokásaink és az, amit 'normálisnak' tanultunk látni."
+  },
   quiz: {
-    question: "Which of these clothing materials can involve animal suffering?",
-    options: ["Leather", "Wool", "Down", "All of the above"],
-    answer: "All of the above"
+    question: {
+      en: "Which of these clothing materials can involve animal suffering?",
+      es: "¿Cuál de estos materiales de ropa puede implicar sufrimiento animal?",
+      hu: "Melyik ruházati anyag járhat állati szenvedéssel?"
+    },
+    options: {
+      en: ["Leather", "Wool", "Down", "All of the above"],
+      es: ["Cuero", "Lana", "Plumón", "Todos los anteriores"],
+      hu: ["Bőr", "Gyapjú", "Toll", "Mindegyik"]
+    },
+    answer: 3
   }
 },
+
 59: {
-  goal: "Understanding animal captivity in entertainment", diet: "vegan",
-  lesson: "Circuses and many traditional zoos keep animals in environments that cannot meet their physical and emotional needs. Wild animals such as elephants, lions, or dolphins are used to living in large natural spaces, forming social groups, exploring, and making choices. In circuses, they are often trained using fear, punishment, and confinement, spending most of their time in cages or transport trucks. Even when the animals are fed and kept alive, their freedom, autonomy, and social lives are taken away. Choosing not to support these industries encourages the shift toward sanctuaries and conservation efforts that truly protect animals.",
+  goal: "Understanding animal captivity in entertainment",
+  diet: "vegan",
+  title: {
+    en: "Animals in circuses and zoos",
+    es: "Animales en circos y zoológicos",
+    hu: "Állatok a cirkuszokban és állatkertekben"
+  },
+  lesson: {
+    en: "Circuses and many traditional zoos keep animals in environments that cannot meet their physical and emotional needs. Wild animals such as elephants, lions, or dolphins are used to living in large natural spaces, forming social groups, exploring, and making choices. In circuses, they are often trained using fear, punishment, and confinement, spending most of their time in cages or transport trucks. Even when the animals are fed and kept alive, their freedom, autonomy, and social lives are taken away. Choosing not to support these industries encourages the shift toward sanctuaries and conservation efforts that truly protect animals.",
+    es: "Los circos y muchos zoológicos tradicionales mantienen animales en entornos que no pueden satisfacer sus necesidades físicas y emocionales. Animales salvajes como elefantes, leones o delfines están acostumbrados a vivir en grandes espacios naturales, formar grupos sociales, explorar y tomar decisiones. En los circos, a menudo se los entrena mediante miedo, castigo y confinamiento, pasando la mayor parte del tiempo en jaulas o camiones de transporte. Incluso cuando los animales son alimentados y mantenidos vivos, se les quita la libertad, autonomía y vida social. Elegir no apoyar estas industrias fomenta el cambio hacia santuarios y esfuerzos de conservación que realmente protegen a los animales.",
+    hu: "A cirkuszok és sok hagyományos állatkert olyan környezetben tartja az állatokat, amely nem képes kielégíteni fizikai és érzelmi szükségleteiket. A vadon élő állatok, mint az elefántok, oroszlánok vagy delfinek nagy természetes tereken élnek, társas csoportokat alkotnak, felfedeznek és döntenek. A cirkuszokban gyakran félelem, büntetés és bezárás révén tanítják őket, és idejük nagy részét ketrecekben vagy szállító járművekben töltik. Még ha etetik és életben tartják is az állatokat, szabadságukat, autonómiájukat és társas életüket elveszik. Az iparágak támogatásának mellőzése elősegíti a menhelyek és a valódi állatvédelmi erőfeszítések felé való elmozdulást."
+  },
   quiz: {
-    question: "Why is it better to avoid supporting circuses and certain zoos?",
-    options: [
-      "Because animals in these industries are often confined and cannot express natural behaviors",
-      "Because animals enjoy performing tricks",
-      "Because zoos are always focused on conservation"
-    ],
-    answer: "Because animals in these industries are often confined and cannot express natural behaviors"
+    question: {
+      en: "Why is it better to avoid supporting circuses and certain zoos?",
+      es: "¿Por qué es mejor no apoyar circos y ciertos zoológicos?",
+      hu: "Miért jobb elkerülni a cirkuszok és bizonyos állatkertek támogatását?"
+    },
+    options: {
+      en: [
+        "Because animals in these industries are often confined and cannot express natural behaviors",
+        "Because animals enjoy performing tricks",
+        "Because zoos are always focused on conservation"
+      ],
+      es: [
+        "Porque los animales en estas industrias a menudo están confinados y no pueden expresar comportamientos naturales",
+        "Porque los animales disfrutan haciendo trucos",
+        "Porque los zoológicos siempre se enfocan en la conservación"
+      ],
+      hu: [
+        "Mert az állatokat ezekben az iparágakban gyakran bezárják, és nem tudják kifejezni természetes viselkedésüket",
+        "Mert az állatok élvezik a mutatványokat",
+        "Mert az állatkertek mindig a természetvédelemre összpontosítanak"
+      ]
+    },
+    answer: 0
   }
 },
+
 60: {
-  goal: "Choosing ethical products", diet: "vegan",
-  lesson: "A product can be labeled “vegan” and still not be cruelty-free. “Vegan” means it does not contain animal ingredients, but it does not guarantee that the product or its ingredients were not tested on animals. Some brands remove animal products for marketing, while still supporting animal testing through suppliers or distribution in countries that require testing. To avoid this, look for products that are both labeled 'vegan' and 'cruelty-free.' Certifications like the Leaping Bunny, PETA Cruelty-Free, or Vegan Society logo help confirm that no animal ingredients or animal testing were involved.",
+  goal: "Choosing ethical products",
+  diet: "vegan",
+  title: {
+    en: "Vegan vs Cruelty-Free",
+    es: "Vegano vs libre de crueldad",
+    hu: "Vegán vs állatkísérlet-mentes"
+  },
+  lesson: {
+    en: "A product can be labeled “vegan” and still not be cruelty-free. “Vegan” means it does not contain animal ingredients, but it does not guarantee that the product or its ingredients were not tested on animals. Some brands remove animal products for marketing, while still supporting animal testing through suppliers or distribution in countries that require testing. To avoid this, look for products that are both labeled 'vegan' and 'cruelty-free.' Certifications like the Leaping Bunny, PETA Cruelty-Free, or Vegan Society logo help confirm that no animal ingredients or animal testing were involved.",
+    es: "Un producto puede estar etiquetado como 'vegano' y aun así no ser libre de crueldad. 'Vegano' significa que no contiene ingredientes animales, pero no garantiza que el producto o sus ingredientes no hayan sido probados en animales. Algunas marcas eliminan productos animales por marketing, mientras aún apoyan las pruebas en animales a través de proveedores o distribución en países que lo requieren. Para evitar esto, busque productos etiquetados tanto como 'vegano' como 'libre de crueldad'. Certificaciones como Leaping Bunny, PETA Cruelty-Free o el logo de Vegan Society ayudan a confirmar que no se usaron ingredientes animales ni pruebas en animales.",
+    hu: "Egy termék lehet 'vegán' címkével ellátva, mégsem biztos, hogy állatkísérlet-mentes. A 'vegán' azt jelenti, hogy nem tartalmaz állati összetevőket, de nem garantálja, hogy a terméket vagy összetevőit nem tesztelték állatokon. Néhány márka marketing célból eltávolítja az állati termékeket, miközben beszállítókon vagy olyan országokba történő forgalmazáson keresztül támogatja az állatkísérleteket, ahol ez kötelező. Ennek elkerülésére keressen olyan termékeket, amelyek mind 'vegán', mind 'állatkísérlet-mentes' címkével rendelkeznek. A Leaping Bunny, a PETA Cruelty-Free vagy a Vegan Society logók segítenek megerősíteni, hogy nem használtak állati összetevőket és állatkísérletet."
+  },
   quiz: {
-    question: "What is the difference between 'vegan' and 'cruelty-free' on a product label?",
-    options: [
-      "'Vegan' means no animal ingredients, 'cruelty-free' means no animal testing",
-      "They mean the same thing",
-      "'Cruelty-free' means no animal ingredients"
-    ],
-    answer: "'Vegan' means no animal ingredients, 'cruelty-free' means no animal testing"
+    question: {
+      en: "What is the difference between 'vegan' and 'cruelty-free' on a product label?",
+      es: "¿Cuál es la diferencia entre 'vegano' y 'libre de crueldad' en una etiqueta de producto?",
+      hu: "Mi a különbség a 'vegán' és az 'állatkísérlet-mentes' címke között egy terméken?"
+    },
+    options: {
+      en: [
+        "'Vegan' means no animal ingredients, 'cruelty-free' means no animal testing",
+        "They mean the same thing",
+        "'Cruelty-free' means no animal ingredients"
+      ],
+      es: [
+        "'Vegano' significa sin ingredientes animales, 'libre de crueldad' significa sin pruebas en animales",
+        "Significan lo mismo",
+        "'Libre de crueldad' significa sin ingredientes animales"
+      ],
+      hu: [
+        "'Vegán' = nincs állati összetevő, 'állatkísérlet-mentes' = nincs állatkísérlet",
+        "Ugyanazt jelentik",
+        "'Állatkísérlet-mentes' = nincs állati összetevő"
+      ]
+    },
+    answer: 0
   }
 },
 
 // continue
-
-*/
 
 
 
@@ -1342,178 +2570,462 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
 },
 
 
-/*  
 1006: {
   goal: "Caring for the environment & fighting climate change",
   diet: "omnivore",
-  lesson: "Biodiversity means the variety of all living organisms on Earth — from tiny insects to large mammals and diverse ecosystems. It keeps our planet healthy by regulating the climate, purifying air and water, pollinating crops, and maintaining soil fertility. Human activities like deforestation, pollution, and overfishing threaten this balance.",
+  title: {
+    en: "Biodiversity and climate health",
+    es: "Biodiversidad y salud climática",
+    hu: "Biodiverzitás és éghajlati egészség"
+  },
+  lesson: {
+    en: "Biodiversity means the variety of all living organisms on Earth — from tiny insects to large mammals and diverse ecosystems. It keeps our planet healthy by regulating the climate, purifying air and water, pollinating crops, and maintaining soil fertility. Human activities like deforestation, pollution, and overfishing threaten this balance.",
+    es: "La biodiversidad significa la variedad de todos los organismos vivos en la Tierra, desde pequeños insectos hasta grandes mamíferos y ecosistemas diversos. Mantiene nuestro planeta saludable regulando el clima, purificando el aire y el agua, polinizando cultivos y manteniendo la fertilidad del suelo. Las actividades humanas como la deforestación, la contaminación y la sobrepesca amenazan este equilibrio.",
+    hu: "A biodiverzitás a Föld összes élőlényének változatosságát jelenti — a kicsi rovaroktól a nagy emlősökig és különböző ökoszisztémákig. Egészségesen tartja bolygónkat azáltal, hogy szabályozza az éghajlatot, tisztítja a levegőt és a vizet, beporozza a terményeket és fenntartja a talaj termékenységét. Az emberi tevékenységek, mint az erdőirtás, a szennyezés és a túlhalászat veszélyeztetik ezt az egyensúlyt."
+  },
   quiz: {
-    question: "Why is biodiversity important in the fight against climate change?",
-    options: [
-      "It helps ecosystems stay healthy and absorb carbon",
-      "It increases pollution levels",
-      "It reduces soil fertility"
-    ],
-    answer: "It helps ecosystems stay healthy and absorb carbon"
+    question: {
+      en: "Why is biodiversity important in the fight against climate change?",
+      es: "¿Por qué es importante la biodiversidad en la lucha contra el cambio climático?",
+      hu: "Miért fontos a biodiverzitás az éghajlatváltozás elleni küzdelemben?"
+    },
+    options: {
+      en: [
+        "It helps ecosystems stay healthy and absorb carbon",
+        "It increases pollution levels",
+        "It reduces soil fertility"
+      ],
+      es: [
+        "Ayuda a que los ecosistemas se mantengan saludables y absorban carbono",
+        "Aumenta los niveles de contaminación",
+        "Reduce la fertilidad del suelo"
+      ],
+      hu: [
+        "Segít az ökoszisztémáknak egészségesek maradni és elnyelni a szén-dioxidot",
+        "Növeli a szennyezés szintjét",
+        "Csökkenti a talaj termékenységét"
+      ]
+    },
+    answer: 0
   }
 },
+
 1007: {
   goal: "Caring for the environment & fighting climate change",
   diet: "omnivore",
-  lesson: "Returning land to nature, or rewilding, helps ecosystems recover, stores carbon, and protects biodiversity. Since animal agriculture is the largest global land user, reducing its footprint is one of the most effective ways to free land for nature. Efficient strategies include: restoring forests, grasslands, and wetlands, planting native trees, creating wildlife corridors, and adopting sustainable farming practices.",
+  title: {
+    en: "Rewilding land",
+    es: "Devolver la tierra a la naturaleza",
+    hu: "A terület visszaadása a természetnek"
+  },
+  lesson: {
+    en: "Returning land to nature, or rewilding, helps ecosystems recover, stores carbon, and protects biodiversity. Since animal agriculture is the largest global land user, reducing its footprint is one of the most effective ways to free land for nature. Efficient strategies include: restoring forests, grasslands, and wetlands, planting native trees, creating wildlife corridors, and adopting sustainable farming practices.",
+    es: "Devolver la tierra a la naturaleza, o rewilding, ayuda a que los ecosistemas se recuperen, almacena carbono y protege la biodiversidad. Dado que la agricultura animal es la mayor usuaria de tierras a nivel mundial, reducir su huella es una de las formas más efectivas de liberar tierra para la naturaleza. Estrategias eficaces incluyen: restaurar bosques, pastizales y humedales, plantar árboles nativos, crear corredores para la vida silvestre y adoptar prácticas agrícolas sostenibles.",
+    hu: "A föld visszaadása a természetnek, vagyis a rewilding, segít az ökoszisztémák helyreállításában, szén-dioxidot tárol és védi a biodiverzitást. Mivel az állattenyésztés a legnagyobb földhasználó a világon, annak csökkentése az egyik leghatékonyabb módja annak, hogy terület szabaduljon fel a természet számára. Hatékony stratégiák: erdők, gyepek és vizes élőhelyek helyreállítása, őshonos fák ültetése, vadvilági folyosók létrehozása és fenntartható mezőgazdasági gyakorlatok alkalmazása."
+  },
   quiz: {
-    question: "Which human activity uses the most land globally and affects rewilding efforts?",
-    options: [
-      "Animal agriculture",
-      "Urban development",
-      "Renewable energy installations"
-    ],
-    answer: "Animal agriculture"
+    question: {
+      en: "Which human activity uses the most land globally and affects rewilding efforts?",
+      es: "¿Qué actividad humana utiliza más tierra a nivel mundial y afecta los esfuerzos de rewilding?",
+      hu: "Melyik emberi tevékenység használja a legtöbb földet a világon és befolyásolja a rewilding erőfeszítéseket?"
+    },
+    options: {
+      en: ["Animal agriculture", "Urban development", "Renewable energy installations"],
+      es: ["Agricultura animal", "Desarrollo urbano", "Instalaciones de energía renovable"],
+      hu: ["Állattenyésztés", "Városfejlesztés", "Megújuló energia létesítmények"]
+    },
+    answer: 0
   }
 },
+
 1008: {
   goal: "Caring for the environment & fighting climate change",
   diet: "omnivore",
-  lesson: "Switching to renewable energy is a powerful way to reduce your carbon footprint. Electric vehicles (EVs) are a prime example. In Europe, EVs produce up to 73% fewer greenhouse gas emissions over their lifetime compared to gasoline cars, even when accounting for battery production. This reduction is achieved through higher energy efficiency and the decarbonization of the electricity grid. The climate benefits are even greater when EVs are charged using renewable energy sources like wind or solar power.",
+  title: {
+    en: "Renewable energy and EVs",
+    es: "Energía renovable y vehículos eléctricos",
+    hu: "Megújuló energia és elektromos járművek"
+  },
+  lesson: {
+    en: "Switching to renewable energy is a powerful way to reduce your carbon footprint. Electric vehicles (EVs) are a prime example. In Europe, EVs produce up to 73% fewer greenhouse gas emissions over their lifetime compared to gasoline cars, even when accounting for battery production. This reduction is achieved through higher energy efficiency and the decarbonization of the electricity grid. The climate benefits are even greater when EVs are charged using renewable energy sources like wind or solar power.",
+    es: "Cambiar a energía renovable es una forma poderosa de reducir tu huella de carbono. Los vehículos eléctricos (VE) son un ejemplo destacado. En Europa, los VE producen hasta un 73% menos de emisiones de gases de efecto invernadero durante su vida útil en comparación con los coches de gasolina, incluso considerando la producción de baterías. Esta reducción se logra mediante una mayor eficiencia energética y la descarbonización de la red eléctrica. Los beneficios climáticos son aún mayores cuando los VE se cargan con fuentes de energía renovable como el viento o la energía solar.",
+    hu: "A megújuló energia használata hatékony módja a szénlábnyom csökkentésének. Az elektromos járművek (EV-k) jó példa erre. Európában az EV-k élettartamuk alatt akár 73%-kal kevesebb üvegházhatású gázt bocsátanak ki, mint a benzinautók, még az akkumulátorgyártás figyelembevételével is. Ezt a csökkenést a magasabb energiahatékonyság és az elektromos hálózat dekarbonizációja révén érik el. Az éghajlati előnyök még nagyobbak, ha az EV-ket megújuló energiaforrásokból, például szél- vagy napenergiával töltik."
+  },
   quiz: {
-    question: "By what percentage can electric vehicles reduce lifetime greenhouse gas emissions compared to gasoline cars in Europe?",
-    options: ["Up to 50%", "Up to 73%", "Up to 90%"],
-    answer: "Up to 73%"
+    question: {
+      en: "By what percentage can electric vehicles reduce lifetime greenhouse gas emissions compared to gasoline cars in Europe?",
+      es: "¿En qué porcentaje pueden los vehículos eléctricos reducir las emisiones de gases de efecto invernadero durante su vida útil en comparación con los coches de gasolina en Europa?",
+      hu: "Milyen százalékkal csökkenthetik az elektromos járművek az élettartamuk alatt az üvegházhatású gázok kibocsátását az európai benzinautókhoz képest?"
+    },
+    options: {
+      en: ["Up to 50%", "Up to 73%", "Up to 90%"],
+      es: ["Hasta un 50%", "Hasta un 73%", "Hasta un 90%"],
+      hu: ["Akár 50%", "Akár 73%", "Akár 90%"]
+    },
+    answer: 1
   }
 },
+
 1009: {
   goal: "Caring for the environment & fighting climate change",
   diet: "omnivore",
-  lesson: "Forests are being lost at an alarming rate — in 2024 alone, the world lost 8.1 million hectares of forest, equivalent to 18 soccer fields every minute. The primary driver of this deforestation is agriculture, particularly beef production, which is responsible for about 41% of tropical deforestation. This includes land cleared for cattle grazing and feed crops like soy. Protecting forests and reducing the demand for land-intensive animal products are crucial steps in combating climate change.",
+  title: {
+    en: "Deforestation and beef production",
+    es: "Deforestación y producción de carne de res",
+    hu: "Erdőirtás és marhahús-termelés"
+  },
+  lesson: {
+    en: "Forests are being lost at an alarming rate — in 2024 alone, the world lost 8.1 million hectares of forest, equivalent to 18 soccer fields every minute. The primary driver of this deforestation is agriculture, particularly beef production, which is responsible for about 41% of tropical deforestation. This includes land cleared for cattle grazing and feed crops like soy. Protecting forests and reducing the demand for land-intensive animal products are crucial steps in combating climate change.",
+    es: "Se están perdiendo bosques a un ritmo alarmante: solo en 2024, el mundo perdió 8,1 millones de hectáreas de bosque, equivalentes a 18 campos de fútbol cada minuto. El principal impulsor de esta deforestación es la agricultura, especialmente la producción de carne de res, responsable de aproximadamente el 41% de la deforestación tropical. Esto incluye tierras despejadas para pastoreo de ganado y cultivos de alimento como la soja. Proteger los bosques y reducir la demanda de productos animales que requieren mucha tierra son pasos cruciales para combatir el cambio climático.",
+    hu: "Az erdők vesztesége riasztó ütemű — csak 2024-ben a világ 8,1 millió hektár erdőt veszített el, ami percenként 18 futballpályának felel meg. Az erdőirtás fő oka a mezőgazdaság, különösen a marhahús-termelés, amely a trópusi erdőirtás körülbelül 41%-áért felelős. Ez magában foglalja az állattartás és takarmánytermesztés (pl. szója) számára megtisztított területeket. Az erdők védelme és a földigényes állati termékek iránti kereslet csökkentése kulcsfontosságú lépések az éghajlatváltozás elleni küzdelemben."
+  },
   quiz: {
-    question: "What percentage of tropical deforestation is linked to beef production?",
-    options: ["About 20%", "About 41%", "About 60%"],
-    answer: "About 41%"
+    question: {
+      en: "What percentage of tropical deforestation is linked to beef production?",
+      es: "¿Qué porcentaje de la deforestación tropical está vinculado a la producción de carne de res?",
+      hu: "A trópusi erdőirtás hány százaléka kapcsolódik a marhahús-termeléshez?"
+    },
+    options: {
+      en: ["About 20%", "About 41%", "About 60%"],
+      es: ["Alrededor del 20%", "Alrededor del 41%", "Alrededor del 60%"],
+      hu: ["Kb. 20%", "Kb. 41%", "Kb. 60%"]
+    },
+    answer: 1
   }
 },
+
 1010: {
   goal: "Caring for the environment & fighting climate change",
   diet: "omnivore",
-  lesson: "Around one-third of all food produced globally is wasted each year. This means that 33% of agricultural land, water, and energy is used for food that is never eaten, and the greenhouse gases emitted in producing it — including CO₂ and methane — are effectively for nothing. Reducing food waste by planning meals, storing food properly, using leftovers, and composting organic waste can significantly cut emissions, save resources, and help fight climate change.",
+  title: {
+    en: "Food waste and climate impact",
+    es: "Desperdicio de alimentos e impacto climático",
+    hu: "Élelmiszer-pazarlás és éghajlati hatás"
+  },
+  lesson: {
+    en: "Around one-third of all food produced globally is wasted each year. This means that 33% of agricultural land, water, and energy is used for food that is never eaten, and the greenhouse gases emitted in producing it — including CO₂ and methane — are effectively for nothing. Reducing food waste by planning meals, storing food properly, using leftovers, and composting organic waste can significantly cut emissions, save resources, and help fight climate change.",
+    es: "Alrededor de un tercio de todos los alimentos producidos en el mundo se desperdicia cada año. Esto significa que el 33% de la tierra agrícola, el agua y la energía se utilizan para alimentos que nunca se comen, y los gases de efecto invernadero emitidos en su producción, incluidos CO₂ y metano, son efectivamente en vano. Reducir el desperdicio de alimentos mediante la planificación de comidas, el almacenamiento adecuado, el uso de sobras y el compostaje de residuos orgánicos puede reducir significativamente las emisiones, ahorrar recursos y ayudar a combatir el cambio climático.",
+    hu: "A világon előállított élelmiszer körülbelül egyharmada vész kárba évente. Ez azt jelenti, hogy a mezőgazdasági föld, víz és energia 33%-át olyan élelmiszer előállítására használják, amit sosem esznek meg, és a termelés során kibocsátott üvegházhatású gázok — beleértve a CO₂-t és a metánt — gyakorlatilag hiábavalók. Az élelmiszer-pazarlás csökkentése étkezés-tervezéssel, megfelelő tárolással, maradékok felhasználásával és szerves hulladék komposztálásával jelentősen csökkentheti a kibocsátást, megtakaríthatja az erőforrásokat és segíthet az éghajlatváltozás elleni küzdelemben."
+  },
   quiz: {
-    question: "Approximately what portion of global food production is wasted each year?",
-    options: ["About 10%", "About 33%", "About 50%"],
-    answer: "About 33%"
+    question: {
+      en: "Approximately what portion of global food production is wasted each year?",
+      es: "¿Qué porción de la producción mundial de alimentos se desperdicia aproximadamente cada año?",
+      hu: "Körülbelül a globális élelmiszertermelés mely része vész kárba évente?"
+    },
+    options: {
+      en: ["About 10%", "About 33%", "About 50%"],
+      es: ["Alrededor del 10%", "Alrededor del 33%", "Alrededor del 50%"],
+      hu: ["Kb. 10%", "Kb. 33%", "Kb. 50%"]
+    },
+    answer: 1
   }
-},
+}, 
+
 1011: {
   goal: "Caring for the environment & fighting climate change",
   diet: "omnivore",
-  lesson: "Our daily habits can have a significant impact on the environment. For example, reducing food waste by half can lower your carbon footprint by around 16%, while choosing a mostly plant-based diet can reduce it by up to 50%. Supporting sustainable products, conserving water, and protecting natural habitats further help reduce the land and resources we need. Small, consistent changes in our lifestyle collectively make a huge difference for biodiversity and climate.",
+  title: {
+    en: "Daily habits and carbon footprint",
+    es: "Hábitos diarios y huella de carbono",
+    hu: "Napi szokások és szénlábnyom"
+  },
+  lesson: {
+    en: "Our daily habits can have a significant impact on the environment. For example, reducing food waste by half can lower your carbon footprint by around 16%, while choosing a mostly plant-based diet can reduce it by up to 50%. Supporting sustainable products, conserving water, and protecting natural habitats further help reduce the land and resources we need. Small, consistent changes in our lifestyle collectively make a huge difference for biodiversity and climate.",
+    es: "Nuestros hábitos diarios pueden tener un impacto significativo en el medio ambiente. Por ejemplo, reducir a la mitad el desperdicio de alimentos puede disminuir tu huella de carbono en alrededor del 16%, mientras que optar por una dieta mayormente basada en plantas puede reducirla hasta un 50%. Apoyar productos sostenibles, conservar agua y proteger hábitats naturales ayuda aún más a reducir la tierra y los recursos que necesitamos. Cambios pequeños y constantes en nuestro estilo de vida hacen colectivamente una gran diferencia para la biodiversidad y el clima.",
+    hu: "Napi szokásaink jelentős hatással lehetnek a környezetre. Például az élelmiszer-pazarlás felére csökkentése kb. 16%-kal csökkentheti a szénlábnyomot, míg a főleg növényi alapú étrend akár 50%-kal is mérsékelheti azt. A fenntartható termékek támogatása, a víz megőrzése és a természetes élőhelyek védelme tovább csökkenti a szükséges föld- és erőforrásigényt. Kis, következetes változtatások az életmódunkban összességében nagy hatást gyakorolnak a biodiverzitásra és az éghajlatra."
+  },
   quiz: {
-    question: "Approximately how much can reducing food waste by half decrease your carbon footprint?",
-    options: ["About 10%", "About 16%", "About 25%"],
-    answer: "About 16%"
+    question: {
+      en: "Approximately how much can reducing food waste by half decrease your carbon footprint?",
+      es: "¿Aproximadamente cuánto puede disminuir tu huella de carbono reducir a la mitad el desperdicio de alimentos?",
+      hu: "Körülbelül mennyivel csökkentheti szénlábnyomunkat az élelmiszer-pazarlás felére csökkentése?"
+    },
+    options: {
+      en: ["About 10%", "About 16%", "About 25%"],
+      es: ["Alrededor del 10%", "Alrededor del 16%", "Alrededor del 25%"],
+      hu: ["Kb. 10%", "Kb. 16%", "Kb. 25%"]
+    },
+    answer: 1
   }
 },
+
 1012: {
   goal: "Caring for the environment & fighting climate change",
   diet: "omnivore",
-  lesson: "Adopting a mostly plant-based diet globally could dramatically free up land for nature. Currently, livestock farming occupies about 77% of agricultural land but provides less than 20% of calories. Shifting to plant-based foods could reduce agricultural land use by up to 75%, roughly 3.1 billion hectares, equivalent to the size of North America and Brazil combined. This land could be restored to forests, grasslands, and wetlands, supporting biodiversity, capturing carbon, and creating thriving ecosystems.",
+  title: {
+    en: "Plant-based diets and land use",
+    es: "Dietas basadas en plantas y uso de la tierra",
+    hu: "Növényi alapú étrendek és földhasználat"
+  },
+  lesson: {
+    en: "Adopting a mostly plant-based diet globally could dramatically free up land for nature. Currently, livestock farming occupies about 77% of agricultural land but provides less than 20% of calories. Shifting to plant-based foods could reduce agricultural land use by up to 75%, roughly 3.1 billion hectares, equivalent to the size of North America and Brazil combined. This land could be restored to forests, grasslands, and wetlands, supporting biodiversity, capturing carbon, and creating thriving ecosystems.",
+    es: "Adoptar una dieta mayormente basada en plantas a nivel global podría liberar drásticamente tierra para la naturaleza. Actualmente, la ganadería ocupa aproximadamente el 77% de la tierra agrícola pero proporciona menos del 20% de las calorías. Cambiar a alimentos basados en plantas podría reducir el uso agrícola de tierras hasta en un 75%, aproximadamente 3.100 millones de hectáreas, equivalente al tamaño combinado de Norteamérica y Brasil. Esta tierra podría restaurarse a bosques, pastizales y humedales, apoyando la biodiversidad, capturando carbono y creando ecosistemas prósperos.",
+    hu: "A világon főleg növényi alapú étrendre való átállás drámaian felszabadíthatna területeket a természet számára. Jelenleg a szarvasmarha- és állattenyésztés a mezőgazdasági földek kb. 77%-át foglalja el, de kevesebb, mint 20%-át biztosítja a kalóriáknak. A növényi alapú élelmiszerekre való áttérés akár 75%-kal csökkentheti a mezőgazdasági földhasználatot, kb. 3,1 milliárd hektárt, ami Észak-Amerika és Brazília együttes területének felel meg. Ezt a földet vissza lehetne állítani erdőkké, gyeppé és vizes élőhelyekké, támogatva a biodiverzitást, elnyelve a szenet és létrehozva élő, virágzó ökoszisztémákat."
+  },
   quiz: {
-    question: "Approximately how much agricultural land could be freed if the world shifted to a mostly plant-based diet?",
-    options: ["About 1 billion hectares", "About 3 billion hectares", "About 5 billion hectares"],
-    answer: "About 3 billion hectares"
+    question: {
+      en: "Approximately how much agricultural land could be freed if the world shifted to a mostly plant-based diet?",
+      es: "¿Cuánta tierra agrícola podría liberarse aproximadamente si el mundo cambiara a una dieta mayormente basada en plantas?",
+      hu: "Körülbelül mennyi mezőgazdasági föld szabadulna fel, ha a világ főleg növényi alapú étrendre állna át?"
+    },
+    options: {
+      en: ["About 1 billion hectares", "About 3 billion hectares", "About 5 billion hectares"],
+      es: ["Alrededor de 1.000 millones de hectáreas", "Alrededor de 3.000 millones de hectáreas", "Alrededor de 5.000 millones de hectáreas"],
+      hu: ["Kb. 1 milliárd hektár", "Kb. 3 milliárd hektár", "Kb. 5 milliárd hektár"]
+    },
+    answer: 1
   }
 },
+
 1013: {
   goal: "Caring for the environment & fighting climate change",
   diet: "omnivore",
-  lesson: "The water footprint of our food choices is a critical but often overlooked environmental impact. Animal products, especially beef and dairy, require significantly more water to produce than plant-based foods. For instance, producing 1 kilogram of beef can consume up to 15,000 liters of water, whereas the same amount of tofu requires only about 302 liters.",
+  title: {
+    en: "Water footprint of food choices",
+    es: "Huella hídrica de las elecciones alimentarias",
+    hu: "Élelmiszerválasztások vízlábnyoma"
+  },
+  lesson: {
+    en: "The water footprint of our food choices is a critical but often overlooked environmental impact. Animal products, especially beef and dairy, require significantly more water to produce than plant-based foods. For instance, producing 1 kilogram of beef can consume up to 15,000 liters of water, whereas the same amount of tofu requires only about 302 liters.",
+    es: "La huella hídrica de nuestras elecciones alimentarias es un impacto ambiental crítico pero a menudo pasado por alto. Los productos animales, especialmente la carne de res y los lácteos, requieren significativamente más agua para producirse que los alimentos de origen vegetal. Por ejemplo, producir 1 kilogramo de carne de res puede consumir hasta 15.000 litros de agua, mientras que la misma cantidad de tofu requiere solo unos 302 litros.",
+    hu: "Az élelmiszerválasztásunk vízlábnyoma kritikus, de gyakran figyelmen kívül hagyott környezeti hatás. Az állati termékek, különösen a marhahús és tejtermékek, jelentősen több vizet igényelnek az előállításhoz, mint a növényi alapú ételek. Például 1 kilogramm marhahús előállítása akár 15 000 liter vizet is igényel, míg ugyanennyi tofu körülbelül 302 litert."
+  },
   quiz: {
-    question: "How does the water needed to produce 1 kg of beef compare to 1 kg of tofu?",
-    options: [
-      "Beef: 15,000 liters, Tofu: 302 liters",
-      "Beef: 5,000 liters, Tofu: 3,000 liters",
-      "Beef: 1,500 liters, Tofu: 500 liters"
-    ],
-    answer: "Beef: 15,000 liters, Tofu: 302 liters"
+    question: {
+      en: "How does the water needed to produce 1 kg of beef compare to 1 kg of tofu?",
+      es: "¿Cómo se compara el agua necesaria para producir 1 kg de carne de res con 1 kg de tofu?",
+      hu: "Hogyan viszonyul 1 kg marhahús előállításához szükséges vízmennyiség 1 kg tofuhoz képest?"
+    },
+    options: {
+      en: [
+        "Beef: 15,000 liters, Tofu: 302 liters",
+        "Beef: 5,000 liters, Tofu: 3,000 liters",
+        "Beef: 1,500 liters, Tofu: 500 liters"
+      ],
+      es: [
+        "Carne de res: 15.000 litros, Tofu: 302 litros",
+        "Carne de res: 5.000 litros, Tofu: 3.000 litros",
+        "Carne de res: 1.500 litros, Tofu: 500 litros"
+      ],
+      hu: [
+        "Marhahús: 15 000 liter, Tofu: 302 liter",
+        "Marhahús: 5 000 liter, Tofu: 3 000 liter",
+        "Marhahús: 1 500 liter, Tofu: 500 liter"
+      ]
+    },
+    answer: 0
   }
 },
+
 1014: {
   goal: "Caring for the environment & fighting climate change",
   diet: "omnivore",
-  lesson: "Soy production has a big environmental impact, but most of it is not used directly for human consumption. Around 77% of global soy is grown to feed livestock like cattle, pigs, and chickens. This demand drives deforestation, especially in the Amazon and Cerrado regions, releases large amounts of CO₂, and threatens biodiversity.",
+  title: {
+    en: "Soy production and livestock",
+    es: "Producción de soja y ganadería",
+    hu: "Szójatermelés és állattenyésztés"
+  },
+  lesson: {
+    en: "Soy production has a big environmental impact, but most of it is not used directly for human consumption. Around 77% of global soy is grown to feed livestock like cattle, pigs, and chickens. This demand drives deforestation, especially in the Amazon and Cerrado regions, releases large amounts of CO₂, and threatens biodiversity.",
+    es: "La producción de soja tiene un gran impacto ambiental, pero la mayor parte no se utiliza directamente para el consumo humano. Alrededor del 77% de la soja mundial se cultiva para alimentar al ganado como vacas, cerdos y pollos. Esta demanda impulsa la deforestación, especialmente en las regiones del Amazonas y Cerrado, libera grandes cantidades de CO₂ y amenaza la biodiversidad.",
+    hu: "A szója termesztése nagy környezeti hatással jár, de a legtöbbje nem kerül közvetlenül emberi fogyasztásra. A világ szójatermelésének kb. 77%-át az állatok, például szarvasmarhák, sertések és csirkék takarmányozására termesztik. Ez a kereslet erdőirtást okoz, különösen az Amazonas és Cerrado régióiban, nagy mennyiségű CO₂-t bocsát ki, és veszélyezteti a biodiverzitást."
+  },
   quiz: {
-    question: "What percentage of global soy production is used to feed farm animals?",
-    options: ["About 50%", "About 77%", "About 90%"],
-    answer: "About 77%"
+    question: {
+      en: "What percentage of global soy production is used to feed farm animals?",
+      es: "¿Qué porcentaje de la producción mundial de soja se utiliza para alimentar a los animales de granja?",
+      hu: "A világ szójatermelésének hány százalékát használják állati takarmánynak?"
+    },
+    options: {
+      en: ["About 50%", "About 77%", "About 90%"],
+      es: ["Alrededor del 50%", "Alrededor del 77%", "Alrededor del 90%"],
+      hu: ["Kb. 50%", "Kb. 77%", "Kb. 90%"]
+    },
+    answer: 1
   }
 },
+
 1015: {
   goal: "Caring for the environment & fighting climate change",
   diet: "omnivore",
-  lesson: "In natural ecosystems, a balance between herbivores and carnivores is crucial. Today, human activities have heavily disrupted this balance. The global population of wild herbivores is around 60 million, and wild carnivores number about 3 million. In contrast, the global livestock population exceeds 70 billion, with cattle alone over 1.5 billion. This huge imbalance affects habitats, biodiversity, and the natural functioning of ecosystems.",
+  title: {
+    en: "Wild vs farmed animal populations",
+    es: "Poblaciones de animales salvajes vs de granja",
+    hu: "Vad vs tenyésztett állatpopulációk"
+  },
+  lesson: {
+    en: "In natural ecosystems, a balance between herbivores and carnivores is crucial. Today, human activities have heavily disrupted this balance. The global population of wild herbivores is around 60 million, and wild carnivores number about 3 million. In contrast, the global livestock population exceeds 70 billion, with cattle alone over 1.5 billion. This huge imbalance affects habitats, biodiversity, and the natural functioning of ecosystems.",
+    es: "En los ecosistemas naturales, el equilibrio entre herbívoros y carnívoros es crucial. Hoy, las actividades humanas han alterado gravemente este equilibrio. La población mundial de herbívoros salvajes es de aproximadamente 60 millones, y la de carnívoros salvajes alrededor de 3 millones. En contraste, la población mundial de ganado supera los 70.000 millones, solo el ganado vacuno más de 1.500 millones. Este enorme desequilibrio afecta hábitats, biodiversidad y el funcionamiento natural de los ecosistemas.",
+    hu: "A természetes ökoszisztémákban létfontosságú a növényevők és húsevők közötti egyensúly. Ma az emberi tevékenységek ezt az egyensúlyt súlyosan felborították. A vadon élő növényevők globális populációja kb. 60 millió, a vadon élő húsevőké kb. 3 millió. Ezzel szemben a globális haszonállat-populáció meghaladja a 70 milliárdot, csak a szarvasmarha több mint 1,5 milliárd. Ez a hatalmas egyensúlyhiány befolyásolja az élőhelyeket, a biodiverzitást és az ökoszisztémák természetes működését."
+  },
   quiz: {
-    question: "Approximately how many wild herbivores are there compared to livestock worldwide?",
-    options: [
-      "Wild herbivores: 60 million, Livestock: 70 billion",
-      "Wild herbivores: 600 million, Livestock: 7 billion",
-      "Wild herbivores: 6 million, Livestock: 700 million"
-    ],
-    answer: "Wild herbivores: 60 million, Livestock: 70 billion"
+    question: {
+      en: "Approximately how many wild herbivores are there compared to livestock worldwide?",
+      es: "¿Aproximadamente cuántos herbívoros salvajes hay en comparación con el ganado en el mundo?",
+      hu: "Körülbelül hány vad növényevő él a világon a háziállatokhoz képest?"
+    },
+    options: {
+      en: [
+        "Wild herbivores: 60 million, Livestock: 70 billion",
+        "Wild herbivores: 600 million, Livestock: 7 billion",
+        "Wild herbivores: 6 million, Livestock: 700 million"
+      ],
+      es: [
+        "Herbívoros salvajes: 60 millones, Ganado: 70.000 millones",
+        "Herbívoros salvajes: 600 millones, Ganado: 7.000 millones",
+        "Herbívoros salvajes: 6 millones, Ganado: 700 millones"
+      ],
+      hu: [
+        "Vad növényevők: 60 millió, Haszonállat: 70 milliárd",
+        "Vad növényevők: 600 millió, Haszonállat: 7 milliárd",
+        "Vad növényevők: 6 millió, Haszonállat: 700 millió"
+      ]
+    },
+    answer: 0
   }
 },
+
 1016: {
   goal: "Caring for the environment & fighting climate change",
   diet: "omnivore",
-  lesson: "The biomass of large land mammals today is extremely unbalanced. Humans make up about 36% of the total mammalian biomass, livestock accounts for around 60%, and all wild mammals combined represent only about 4%. This shows how human activities, especially industrial agriculture, dominate the planet and leave very little room for wild species. Restoring balance requires reducing livestock demand, rewilding, and supporting sustainable land use.",
+  title: {
+    en: "Mammalian biomass imbalance",
+    es: "Desequilibrio de la biomasa de mamíferos",
+    hu: "Emlősbimassza egyensúlytalansága"
+  },
+  lesson: {
+    en: "The biomass of large land mammals today is extremely unbalanced. Humans make up about 36% of the total mammalian biomass, livestock accounts for around 60%, and all wild mammals combined represent only about 4%. This shows how human activities, especially industrial agriculture, dominate the planet and leave very little room for wild species. Restoring balance requires reducing livestock demand, rewilding, and supporting sustainable land use.",
+    es: "La biomasa de los grandes mamíferos terrestres hoy está extremadamente desequilibrada. Los humanos representan aproximadamente el 36% de la biomasa total de mamíferos, el ganado alrededor del 60%, y todos los mamíferos salvajes juntos solo representan cerca del 4%. Esto muestra cómo las actividades humanas, especialmente la agricultura industrial, dominan el planeta y dejan muy poco espacio para las especies salvajes. Restaurar el equilibrio requiere reducir la demanda de ganado, permitir la reforestación natural y apoyar el uso sostenible de la tierra.",
+    hu: "A nagy szárazföldi emlősök biomasszája ma rendkívül kiegyensúlyozatlan. Az emberek az összes emlősbimassza kb. 36%-át teszik ki, a haszonállatok kb. 60%-ot, míg az összes vadon élő emlős csupán kb. 4%-ot. Ez jól mutatja, hogy az emberi tevékenységek, különösen az ipari mezőgazdaság, dominálják a bolygót, és nagyon kevés teret hagynak a vad fajoknak. Az egyensúly visszaállításához csökkenteni kell a haszonállat-igényt, elő kell segíteni a visszavadítást, és támogatni kell a fenntartható földhasználatot."
+  },
   quiz: {
-    question: "What percentage of the total mammalian biomass is made up by humans and livestock combined?",
-    options: [
-      "About 50%",
-      "About 96%",
-      "About 70%"
-    ],
-    answer: "About 96%"
+    question: {
+      en: "What percentage of the total mammalian biomass is made up by humans and livestock combined?",
+      es: "¿Qué porcentaje de la biomasa total de mamíferos representan los humanos y el ganado juntos?",
+      hu: "Az összes emlősbimassza hány százalékát teszik ki együtt az emberek és a haszonállatok?"
+    },
+    options: {
+      en: ["About 50%", "About 96%", "About 70%"],
+      es: ["Alrededor del 50%", "Alrededor del 96%", "Alrededor del 70%"],
+      hu: ["Kb. 50%", "Kb. 96%", "Kb. 70%"]
+    },
+    answer: 1
   }
 },
+
 1017: {
   goal: "Caring for the environment & fighting climate change",
   diet: "omnivore",
-  lesson: "Biodiversity has declined dramatically over the past 100 years. Populations of vertebrate species — mammals, birds, amphibians, reptiles, and fish — have dropped by an average of 70% since 1970, and many habitats have been lost or fragmented. Human activities such as deforestation, industrial agriculture, overfishing, and urban expansion are the main drivers. This decline weakens ecosystems, reduces nature's ability to regulate climate, and threatens food security and water quality. Protecting and restoring biodiversity is essential for a resilient planet.",
+  title: {
+    en: "Decline of biodiversity",
+    es: "Declive de la biodiversidad",
+    hu: "Biodiverzitás csökkenése"
+  },
+  lesson: {
+    en: "Biodiversity has declined dramatically over the past 100 years. Populations of vertebrate species — mammals, birds, amphibians, reptiles, and fish — have dropped by an average of 70% since 1970, and many habitats have been lost or fragmented. Human activities such as deforestation, industrial agriculture, overfishing, and urban expansion are the main drivers. This decline weakens ecosystems, reduces nature's ability to regulate climate, and threatens food security and water quality. Protecting and restoring biodiversity is essential for a resilient planet.",
+    es: "La biodiversidad ha disminuido dramáticamente en los últimos 100 años. Las poblaciones de especies de vertebrados — mamíferos, aves, anfibios, reptiles y peces — han caído en promedio un 70% desde 1970, y muchos hábitats se han perdido o fragmentado. Las actividades humanas como la deforestación, la agricultura industrial, la sobrepesca y la expansión urbana son los principales impulsores. Este declive debilita los ecosistemas, reduce la capacidad de la naturaleza para regular el clima y amenaza la seguridad alimentaria y la calidad del agua. Proteger y restaurar la biodiversidad es esencial para un planeta resiliente.",
+    hu: "A biodiverzitás az elmúlt 100 évben drámaian csökkent. A gerinces fajok – emlősök, madarak, kétéltűek, hüllők és halak – populációi 1970 óta átlagosan 70%-kal estek vissza, és sok élőhely elveszett vagy feldarabolódott. Az emberi tevékenységek, mint az erdőirtás, az ipari mezőgazdaság, a túlhalászat és a városiasodás a fő mozgatórugók. Ez a csökkenés gyengíti az ökoszisztémákat, csökkenti a természet klímát szabályozó képességét, és veszélyezteti az élelmiszerbiztonságot és a vízminőséget. A biodiverzitás védelme és helyreállítása elengedhetetlen a reziliens bolygóhoz."
+  },
   quiz: {
-    question: "By approximately how much have vertebrate populations declined since 1970?",
-    options: ["About 30%", "About 50%", "About 70%"],
-    answer: "About 70%"
+    question: {
+      en: "By approximately how much have vertebrate populations declined since 1970?",
+      es: "¿Aproximadamente cuánto han disminuido las poblaciones de vertebrados desde 1970?",
+      hu: "Körülbelül mennyivel csökkent a gerinces populációk száma 1970 óta?"
+    },
+    options: {
+      en: ["About 30%", "About 50%", "About 70%"],
+      es: ["Alrededor del 30%", "Alrededor del 50%", "Alrededor del 70%"],
+      hu: ["Kb. 30%", "Kb. 50%", "Kb. 70%"]
+    },
+    answer: 2
   }
 },
+
 1018: {
   goal: "Caring for the environment & fighting climate change",
   diet: "omnivore",
-  lesson: "Since 1970, the Earth's average surface temperature has increased rapidly. By 2024, the global temperature was about 1.46°C higher than the pre-industrial baseline (1850–1900), making it the warmest year on record. If greenhouse gas emissions continue at the current rate, temperatures could rise by 4.5–5°C by 2100, causing severe climate impacts. There is also an 80% chance that at least one year between 2025 and 2029 will exceed 1.5°C above pre-industrial levels, a critical threshold set by the Paris Agreement. This highlights the urgent need for immediate action to reduce emissions and slow global warming.",
+  title: {
+    en: "Global temperature rise",
+    es: "Aumento de la temperatura global",
+    hu: "Globális hőmérséklet-emelkedés"
+  },
+  lesson: {
+    en: "Since 1970, the Earth's average surface temperature has increased rapidly. By 2024, the global temperature was about 1.46°C higher than the pre-industrial baseline (1850–1900), making it the warmest year on record. If greenhouse gas emissions continue at the current rate, temperatures could rise by 4.5–5°C by 2100, causing severe climate impacts. There is also an 80% chance that at least one year between 2025 and 2029 will exceed 1.5°C above pre-industrial levels, a critical threshold set by the Paris Agreement. This highlights the urgent need for immediate action to reduce emissions and slow global warming.",
+    es: "Desde 1970, la temperatura media de la superficie de la Tierra ha aumentado rápidamente. Para 2024, la temperatura global era aproximadamente 1,46°C superior al nivel preindustrial (1850–1900), convirtiéndose en el año más cálido registrado. Si las emisiones de gases de efecto invernadero continúan al ritmo actual, las temperaturas podrían aumentar entre 4,5–5°C para 2100, causando graves impactos climáticos. También existe un 80% de probabilidad de que al menos un año entre 2025 y 2029 supere los 1,5°C por encima de los niveles preindustriales, un umbral crítico establecido por el Acuerdo de París. Esto resalta la necesidad urgente de tomar medidas inmediatas para reducir las emisiones y frenar el calentamiento global.",
+    hu: "1970 óta a Föld átlagos felszíni hőmérséklete gyorsan emelkedett. 2024-re a globális hőmérséklet körülbelül 1,46°C-kal volt magasabb az ipari forradalom előtti alapvonalnál (1850–1900), így ez volt a rekordmeleg év. Ha az üvegházhatású gázok kibocsátása a jelenlegi ütemben folytatódik, a hőmérséklet 2100-ra 4,5–5°C-kal emelkedhet, súlyos klímaváltozási hatásokat okozva. Van 80% esély arra, hogy 2025 és 2029 között legalább egy év meghaladja az ipari forradalom előtti szint +1,5°C-ját, ami a Párizsi Megállapodás által meghatározott kritikus küszöb. Ez kiemeli a sürgős szükségét annak, hogy azonnali intézkedéseket tegyünk a kibocsátás csökkentésére és a globális felmelegedés lassítására."
+  },
   quiz: {
-    question: "By approximately how much has the Earth's average surface temperature increased since the pre-industrial era?",
-    options: ["About 0.5°C", "About 1.5°C", "About 3°C"],
-    answer: "About 1.5°C"
+    question: {
+      en: "By approximately how much has the Earth's average surface temperature increased since the pre-industrial era?",
+      es: "¿Aproximadamente cuánto ha aumentado la temperatura media de la superficie terrestre desde la era preindustrial?",
+      hu: "Körülbelül mennyivel emelkedett a Föld átlagos felszíni hőmérséklete az ipari forradalom óta?"
+    },
+    options: {
+      en: ["About 0.5°C", "About 1.5°C", "About 3°C"],
+      es: ["Alrededor de 0,5°C", "Alrededor de 1,5°C", "Alrededor de 3°C"],
+      hu: ["Kb. 0,5°C", "Kb. 1,5°C", "Kb. 3°C"]
+    },
+    answer: 1
   }
 },
+
 1019: {
   goal: "Caring for the environment & fighting climate change",
   diet: "omnivore",
-  lesson: "Plastic fishing gear, known as 'ghost gear,' is a major contributor to marine plastic pollution. Every year, at least 640,000 tonnes of fishing gear enter the oceans, representing around 8–10% of all marine plastic pollution. Lost or abandoned gear continues to trap and kill marine life, harming 66% of marine mammal species, 50% of seabird species, and all seven species of sea turtles. Tackling ghost gear requires sustainable fishing practices, better gear management, and global cooperation to protect marine ecosystems.",
+  title: {
+    en: "Ghost fishing gear and marine pollution",
+    es: "Equipo de pesca fantasma y contaminación marina",
+    hu: "Elveszett halászeszközök és tengeri szennyezés"
+  },
+  lesson: {
+    en: "Plastic fishing gear, known as 'ghost gear,' is a major contributor to marine plastic pollution. Every year, at least 640,000 tonnes of fishing gear enter the oceans, representing around 8–10% of all marine plastic pollution. Lost or abandoned gear continues to trap and kill marine life, harming 66% of marine mammal species, 50% of seabird species, and all seven species of sea turtles. Tackling ghost gear requires sustainable fishing practices, better gear management, and global cooperation to protect marine ecosystems.",
+    es: "El equipo de pesca de plástico, conocido como 'ghost gear', es un importante contribuyente a la contaminación plástica marina. Cada año, al menos 640.000 toneladas de equipo de pesca llegan a los océanos, representando alrededor del 8–10% de toda la contaminación plástica marina. El equipo perdido o abandonado sigue atrapando y matando vida marina, dañando al 66% de las especies de mamíferos marinos, al 50% de las aves marinas y a las siete especies de tortugas marinas. Abordar el problema del ghost gear requiere prácticas de pesca sostenibles, mejor gestión del equipo y cooperación global para proteger los ecosistemas marinos.",
+    hu: "A műanyag halászeszközök, az úgynevezett „ghost gear”, jelentős hozzájárulók a tengeri műanyagszennyezéshez. Évente legalább 640 000 tonna halászeszköz kerül az óceánokba, ami a teljes tengeri műanyagszennyezés kb. 8–10%-át jelenti. Az elveszett vagy elhagyott eszközök továbbra is csapdába ejtik és elpusztítják a tengeri élőlényeket, károsítva a tengeri emlősök 66%-át, a tengeri madarak 50%-át és mind a hét tengeri teknősfajt. A ghost gear problémájának kezelése fenntartható halászati gyakorlatokat, jobb eszközkezelést és globális együttműködést igényel a tengeri ökoszisztémák védelmében."
+  },
   quiz: {
-    question: "Approximately what percentage of global marine plastic pollution comes from fishing gear?",
-    options: ["About 5%", "About 8–10%", "About 25%"],
-    answer: "About 8–10%"
+    question: {
+      en: "Approximately what percentage of global marine plastic pollution comes from fishing gear?",
+      es: "¿Qué porcentaje aproximado de la contaminación plástica marina global proviene del equipo de pesca?",
+      hu: "A globális tengeri műanyagszennyezés hány százaléka származik halászeszközökből?"
+    },
+    options: {
+      en: ["About 5%", "About 8–10%", "About 25%"],
+      es: ["Alrededor del 5%", "Alrededor del 8–10%", "Alrededor del 25%"],
+      hu: ["Kb. 5%", "Kb. 8–10%", "Kb. 25%"]
+    },
+    answer: 1
   }
 },
+
 1020: {
   goal: "Caring for the environment & fighting climate change",
   diet: "omnivore",
-  lesson: "Our daily food choices have a huge impact on the environment. They influence deforestation, greenhouse gas emissions, water use, and ocean health. Choosing more plant-based meals, reducing food waste, and supporting sustainable products are some of the most effective ways to protect the planet. Simply put, the most powerful environmental tool you have is your plate.",
+  title: {
+    en: "Your plate as a tool for the planet",
+    es: "Tu plato como herramienta para el planeta",
+    hu: "A tányérod, mint eszköz a bolygó védelmében"
+  },
+  lesson: {
+    en: "Our daily food choices have a huge impact on the environment. They influence deforestation, greenhouse gas emissions, water use, and ocean health. Choosing more plant-based meals, reducing food waste, and supporting sustainable products are some of the most effective ways to protect the planet. Simply put, the most powerful environmental tool you have is your plate.",
+    es: "Nuestras elecciones alimentarias diarias tienen un gran impacto en el medio ambiente. Influyen en la deforestación, las emisiones de gases de efecto invernadero, el uso del agua y la salud de los océanos. Elegir comidas más basadas en plantas, reducir el desperdicio de alimentos y apoyar productos sostenibles son algunas de las formas más efectivas de proteger el planeta. En pocas palabras, la herramienta ambiental más poderosa que tienes es tu plato.",
+    hu: "Napi étkezési választásaink hatalmas hatással vannak a környezetre. Befolyásolják az erdőirtást, az üvegházhatású gázkibocsátást, a vízfelhasználást és az óceánok egészségét. Több növényi alapú étel választása, az élelmiszer-pazarlás csökkentése és a fenntartható termékek támogatása a leghatékonyabb módok a bolygó védelmére. Egyszerűen fogalmazva, a legnagyobb környezeti eszközöd a tányérod."
+  },
   quiz: {
-    question: "What is considered your most powerful tool to protect the environment?",
-    options: ["Your plate", "Your phone", "Your car"],
-    answer: "Your plate"
+    question: {
+      en: "What is considered your most powerful tool to protect the environment?",
+      es: "¿Cuál se considera tu herramienta más poderosa para proteger el medio ambiente?",
+      hu: "Mi számít a legnagyobb hatékonyságú eszköznek a környezet védelmére?"
+    },
+    options: {
+      en: ["Your plate", "Your phone", "Your car"],
+      es: ["Tu plato", "Tu teléfono", "Tu coche"],
+      hu: ["A tányérod", "A telefonod", "Az autód"]
+    },
+    answer: 0
   }
 },
-*/
+
   // --------------------------
   // Environment - Vegetarian (1021–1040)
   // --------------------------
@@ -1715,161 +3227,438 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
 },
 
 
-/*  
 1026: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegetarian",
-  lesson: "Producing 1 kg of beef emits about 60 kg of CO₂-equivalent and uses around 15,400 liters of water, making it one of the most resource-intensive foods. In comparison, producing 1 kg of eggs emits about 4.2 kg of CO₂-equivalent, uses roughly 3,300 liters of water, and requires about 7.9 m² of land. Meanwhile, lentils are one of the most environmentally efficient protein sources: producing 1 kg of lentils emits only about 0.9 kg of CO₂-equivalent, uses around 1.4 m² of land, and requires approximately 1,250 liters of irrigation water, which is much lower than animal products.",
+  title: {
+    en: "Environmental impact of protein sources",
+    es: "Impacto ambiental de las fuentes de proteína",
+    hu: "Fehérjeforrások környezeti hatása"
+  },
+  lesson: {
+    en: "Producing 1 kg of beef emits about 60 kg of CO₂-equivalent and uses around 15,400 liters of water, making it one of the most resource-intensive foods. In comparison, producing 1 kg of eggs emits about 4.2 kg of CO₂-equivalent, uses roughly 3,300 liters of water, and requires about 7.9 m² of land. Meanwhile, lentils are one of the most environmentally efficient protein sources: producing 1 kg of lentils emits only about 0.9 kg of CO₂-equivalent, uses around 1.4 m² of land, and requires approximately 1,250 liters of irrigation water, which is much lower than animal products.",
+    es: "Producir 1 kg de carne de res emite aproximadamente 60 kg de CO₂ equivalente y utiliza alrededor de 15.400 litros de agua, convirtiéndola en uno de los alimentos más intensivos en recursos. En comparación, producir 1 kg de huevos emite unos 4,2 kg de CO₂ equivalente, utiliza alrededor de 3.300 litros de agua y requiere unos 7,9 m² de tierra. Mientras tanto, las lentejas son una de las fuentes de proteína más eficientes ambientalmente: producir 1 kg de lentejas emite solo unos 0,9 kg de CO₂ equivalente, utiliza alrededor de 1,4 m² de tierra y requiere aproximadamente 1.250 litros de agua de riego, mucho menos que los productos animales.",
+    hu: "1 kg marhahús előállítása körülbelül 60 kg CO₂-egyenérték kibocsátással jár, és kb. 15 400 liter vizet igényel, így az egyik leginkább erőforrás-igényes étel. Ezzel szemben 1 kg tojás előállítása kb. 4,2 kg CO₂-egyenérték kibocsátással jár, kb. 3 300 liter vizet használ fel, és kb. 7,9 m² földet igényel. A lencse ezzel szemben az egyik legkörnyezettudatosabb fehérjeforrás: 1 kg lencse előállítása mindössze kb. 0,9 kg CO₂-egyenértéket bocsát ki, kb. 1,4 m² földet használ, és kb. 1 250 liter öntözővizet igényel, ami sokkal kevesebb, mint az állati termékeknél."
+  },
   quiz: {
-    question: "Which food has the lowest environmental impact per kilogram?",
-    options: ["Eggs", "Lentils", "Beef"],
-    answer: "Lentils"
+    question: {
+      en: "Which food has the lowest environmental impact per kilogram?",
+      es: "¿Qué alimento tiene el menor impacto ambiental por kilogramo?",
+      hu: "Melyik élelmiszernek van a legalacsonyabb környezeti hatása kilogrammonként?"
+    },
+    options: {
+      en: ["Eggs", "Lentils", "Beef"],
+      es: ["Huevos", "Lentejas", "Carne de res"],
+      hu: ["Tojás", "Lencse", "Marhahús"]
+    },
+    answer: 1
   }
 },
-1027: { 
-  goal: "Caring for the environment & fighting climate change", 
+
+1027: {
+  goal: "Caring for the environment & fighting climate change",
   diet: "vegetarian",
-  lesson: "Transportation is a major source of greenhouse gas emissions. For example, a medium car emits about 120 grams of CO₂ per kilometer. Flying is even worse: a return flight from New York to London produces roughly 1.2 tons of CO₂ per passenger. In contrast, taking the train emits around 14 grams of CO₂ per kilometer. Choosing public transport, biking, walking, or even combining trips can drastically reduce your carbon footprint.",
-  quiz: { 
-    question: "Which mode of transport emits the least CO₂ per kilometer?", 
-    options: ["Car", "Plane", "Train"], 
-    answer: "Train" 
-  } 
+  title: {
+    en: "Transport and carbon emissions",
+    es: "Transporte y emisiones de carbono",
+    hu: "Közlekedés és szén-dioxid kibocsátás"
+  },
+  lesson: {
+    en: "Transportation is a major source of greenhouse gas emissions. For example, a medium car emits about 120 grams of CO₂ per kilometer. Flying is even worse: a return flight from New York to London produces roughly 1.2 tons of CO₂ per passenger. In contrast, taking the train emits around 14 grams of CO₂ per kilometer. Choosing public transport, biking, walking, or even combining trips can drastically reduce your carbon footprint.",
+    es: "El transporte es una fuente importante de emisiones de gases de efecto invernadero. Por ejemplo, un coche mediano emite alrededor de 120 gramos de CO₂ por kilómetro. Volar es aún peor: un vuelo de ida y vuelta de Nueva York a Londres produce aproximadamente 1,2 toneladas de CO₂ por pasajero. En cambio, viajar en tren emite alrededor de 14 gramos de CO₂ por kilómetro. Elegir transporte público, bicicleta, caminar o combinar viajes puede reducir drásticamente tu huella de carbono.",
+    hu: "A közlekedés jelentős forrása az üvegházhatású gázok kibocsátásának. Például egy közepes autó kb. 120 g CO₂-t bocsát ki kilométerenként. A repülés még rosszabb: egy New York–London retúr repülőút kb. 1,2 tonna CO₂-t termel utasonként. Ezzel szemben a vonat kb. 14 g CO₂-t bocsát ki kilométerenként. A tömegközlekedés, a biciklizés, a gyaloglás vagy az utak kombinálása drasztikusan csökkentheti a szénlábnyomot."
+  },
+  quiz: {
+    question: {
+      en: "Which mode of transport emits the least CO₂ per kilometer?",
+      es: "¿Qué medio de transporte emite menos CO₂ por kilómetro?",
+      hu: "Melyik közlekedési mód bocsátja ki a legkevesebb CO₂-t kilométerenként?"
+    },
+    options: {
+      en: ["Car", "Plane", "Train"],
+      es: ["Coche", "Avión", "Tren"],
+      hu: ["Autó", "Repülő", "Vonat"]
+    },
+    answer: 2
+  }
 },
-1028: { 
-  goal: "Caring for the environment & fighting climate change", 
+
+1028: {
+  goal: "Caring for the environment & fighting climate change",
   diet: "vegetarian",
-  lesson: "Around 77% of global cropland is used to produce meat and dairy, but it only provides about 18% of our calories. This means producing these foods emits 2–5 times more CO₂ than necessary compared to growing crops directly for humans.",
-  quiz: { 
-    question: "Producing meat and dairy emits how many times more CO₂ than necessary?", 
-    options: ["1x", "2–5x", "10x"], 
-    answer: "2–5x" 
-  } 
+  title: {
+    en: "Inefficiency of meat and dairy production",
+    es: "Ineficiencia en la producción de carne y lácteos",
+    hu: "Hús- és tejtermelés hatékonysága"
+  },
+  lesson: {
+    en: "Around 77% of global cropland is used to produce meat and dairy, but it only provides about 18% of our calories. This means producing these foods emits 2–5 times more CO₂ than necessary compared to growing crops directly for humans.",
+    es: "Alrededor del 77% de las tierras de cultivo mundiales se utilizan para producir carne y lácteos, pero solo proporcionan aproximadamente el 18% de nuestras calorías. Esto significa que producir estos alimentos emite 2–5 veces más CO₂ de lo necesario en comparación con cultivar directamente alimentos para humanos.",
+    hu: "A globális mezőgazdasági területek kb. 77%-át hús- és tejtermelésre használják, de ez csupán az energiabevitelünk kb. 18%-át fedezi. Ez azt jelenti, hogy ezeknek az élelmiszereknek a termelése 2–5-ször több CO₂-t bocsát ki, mint ami szükséges lenne, ha közvetlenül embereknek termelnénk növényeket."
+  },
+  quiz: {
+    question: {
+      en: "Producing meat and dairy emits how many times more CO₂ than necessary?",
+      es: "¿Cuántas veces más CO₂ se emite al producir carne y lácteos de lo necesario?",
+      hu: "Hányszor több CO₂-t bocsát ki a hús- és tejtermelés a szükségesnél?"
+    },
+    options: {
+      en: ["1x", "2–5x", "10x"],
+      es: ["1x", "2–5x", "10x"],
+      hu: ["1x", "2–5x", "10x"]
+    },
+    answer: 1
+  }
 },
-1029: { 
-  goal: "Caring for the environment & fighting climate change", 
+
+1029: {
+  goal: "Caring for the environment & fighting climate change",
   diet: "vegetarian",
-  lesson: "Cheese is one of the most carbon-intensive foods. Producing 1 kilogram of cheese emits about 23 kg of CO₂, while 1 liter of cow’s milk emits only about 3 kg CO₂. This is because it takes around 10 liters of milk to make 1 kilogram of cheese. Compared to plant-based alternatives like tofu or nuts, cheese produces 5–10 times more emissions per kilogram.",
-  quiz: { 
-    question: "How many kilograms of CO₂ are emitted to produce 1 kg of cheese?", 
-    options: ["3 kg", "10 kg", "23 kg"], 
-    answer: "23 kg" 
-  } 
+  title: {
+    en: "Carbon footprint of cheese",
+    es: "Huella de carbono del queso",
+    hu: "A sajt szénlábnyoma"
+  },
+  lesson: {
+    en: "Cheese is one of the most carbon-intensive foods. Producing 1 kilogram of cheese emits about 23 kg of CO₂, while 1 liter of cow’s milk emits only about 3 kg CO₂. This is because it takes around 10 liters of milk to make 1 kilogram of cheese. Compared to plant-based alternatives like tofu or nuts, cheese produces 5–10 times more emissions per kilogram.",
+    es: "El queso es uno de los alimentos con mayor intensidad de carbono. Producir 1 kilogramo de queso emite aproximadamente 23 kg de CO₂, mientras que 1 litro de leche de vaca emite solo unos 3 kg de CO₂. Esto se debe a que se necesitan alrededor de 10 litros de leche para hacer 1 kg de queso. En comparación con alternativas vegetales como el tofu o los frutos secos, el queso produce de 5 a 10 veces más emisiones por kilogramo.",
+    hu: "A sajt az egyik legnagyobb szén-dioxid-intenzitású élelmiszer. 1 kg sajt előállítása kb. 23 kg CO₂-t bocsát ki, míg 1 liter tehéntej csupán kb. 3 kg CO₂-t. Ennek oka, hogy kb. 10 liter tej szükséges 1 kg sajt elkészítéséhez. A növényi alternatívákhoz, például tofuhoz vagy diófélékhez képest a sajt kilogrammonként 5–10-szer több kibocsátást okoz."
+  },
+  quiz: {
+    question: {
+      en: "How many kilograms of CO₂ are emitted to produce 1 kg of cheese?",
+      es: "¿Cuántos kilogramos de CO₂ se emiten para producir 1 kg de queso?",
+      hu: "Hány kg CO₂-t bocsátanak ki 1 kg sajt előállításához?"
+    },
+    options: {
+      en: ["3 kg", "10 kg", "23 kg"],
+      es: ["3 kg", "10 kg", "23 kg"],
+      hu: ["3 kg", "10 kg", "23 kg"]
+    },
+    answer: 2
+  }
 },
+
 1030: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegetarian",
-  lesson: "Free-range and regenerative farming can cut emissions by up to 50% compared to conventional methods. However, these practices need 2–2.5 times more land to produce the same amount of food. Lower emissions come at the cost of higher land use.",
+  title: {
+    en: "Land use trade-offs in sustainable farming",
+    es: "Compromisos de uso de la tierra en la agricultura sostenible",
+    hu: "Földhasználati kompromisszumok a fenntartható gazdálkodásban"
+  },
+  lesson: {
+    en: "Free-range and regenerative farming can cut emissions by up to 50% compared to conventional methods. However, these practices need 2–2.5 times more land to produce the same amount of food. Lower emissions come at the cost of higher land use.",
+    es: "La agricultura de libre pastoreo y regenerativa puede reducir las emisiones hasta un 50% en comparación con los métodos convencionales. Sin embargo, estas prácticas necesitan de 2 a 2,5 veces más tierra para producir la misma cantidad de alimentos. Las menores emisiones tienen el costo de un mayor uso de la tierra.",
+    hu: "A szabad tartású és regeneratív gazdálkodás akár 50%-kal csökkentheti a kibocsátást a hagyományos módszerekhez képest. Ezekhez a gyakorlatokhoz azonban 2–2,5-szer több földre van szükség ugyanannyi élelmiszer előállításához. Az alacsonyabb kibocsátás magasabb földhasználat árán jár."
+  },
   quiz: {
-    question: "Compared to conventional farming, how much more land do free-range products typically need?",
-    options: ["1.5x", "2–2.5x", "3x"],
-    answer: "2–2.5x"
+    question: {
+      en: "Compared to conventional farming, how much more land do free-range products typically need?",
+      es: "En comparación con la agricultura convencional, ¿cuánta más tierra necesitan normalmente los productos de libre pastoreo?",
+      hu: "A hagyományos gazdálkodáshoz képest mennyi földre van szükség tipikusan a szabad tartású termékeknek?"
+    },
+    options: {
+      en: ["1.5x", "2–2.5x", "3x"],
+      es: ["1,5x", "2–2,5x", "3x"],
+      hu: ["1,5x", "2–2,5x", "3x"]
+    },
+    answer: 1
   }
 },
+
 1031: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegetarian",
-  lesson: "Producing 1 m² of cowhide leather emits around 65–110 kg of CO₂ and requires about 15,000 liters of water. Synthetic leather (PU) has a much smaller footprint — roughly 15–20 kg of CO₂ and 400–600 liters of water per m². Plant-based leathers made from mushrooms or pineapples are even cleaner, producing only 1–8 kg of CO₂ and using less than 100 liters of water per m². Choosing these materials helps save both water and emissions.",
+  title: {
+    en: "Environmental impact of leather",
+    es: "Impacto ambiental del cuero",
+    hu: "A bőr környezeti hatása"
+  },
+  lesson: {
+    en: "Producing 1 m² of cowhide leather emits around 65–110 kg of CO₂ and requires about 15,000 liters of water. Synthetic leather (PU) has a much smaller footprint — roughly 15–20 kg of CO₂ and 400–600 liters of water per m². Plant-based leathers made from mushrooms or pineapples are even cleaner, producing only 1–8 kg of CO₂ and using less than 100 liters of water per m². Choosing these materials helps save both water and emissions.",
+    es: "Producir 1 m² de cuero de vaca emite entre 65 y 110 kg de CO₂ y requiere unos 15.000 litros de agua. El cuero sintético (PU) tiene una huella mucho menor: aproximadamente 15–20 kg de CO₂ y 400–600 litros de agua por m². Los cueros de origen vegetal, hechos de hongos o piñas, son aún más limpios, produciendo solo 1–8 kg de CO₂ y usando menos de 100 litros de agua por m². Elegir estos materiales ayuda a ahorrar tanto agua como emisiones.",
+    hu: "1 m² marhabőr előállítása körülbelül 65–110 kg CO₂-t bocsát ki és kb. 15 000 liter vizet igényel. A szintetikus bőr (PU) sokkal kisebb lábnyommal rendelkezik — kb. 15–20 kg CO₂ és 400–600 liter víz m²-ként. A növényi alapú bőrök, például gombából vagy ananászból készült anyagok még tisztábbak, csupán 1–8 kg CO₂-t bocsátanak ki és kevesebb mint 100 liter vizet igényelnek m²-ként. Ezeknek az anyagoknak a választása víz- és kibocsátás-megtakarítást jelent."
+  },
   quiz: {
-    question: "How many kilograms of CO₂ does 1 m² of cowhide leather emit?",
-    options: ["10–20 kg", "30–50 kg", "65–110 kg"],
-    answer: "65–110 kg"
+    question: {
+      en: "How many kilograms of CO₂ does 1 m² of cowhide leather emit?",
+      es: "¿Cuántos kilogramos de CO₂ emite 1 m² de cuero de vaca?",
+      hu: "Hány kg CO₂-t bocsát ki 1 m² marhabőr?"
+    },
+    options: {
+      en: ["10–20 kg", "30–50 kg", "65–110 kg"],
+      es: ["10–20 kg", "30–50 kg", "65–110 kg"],
+      hu: ["10–20 kg", "30–50 kg", "65–110 kg"]
+    },
+    answer: 2
   }
 },
+
 1032: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegetarian",
-  lesson: "Producing 1 kg of cheese requires about 5,000 liters of water, mostly to grow the milk needed for production (around 10 liters of milk per kg of cheese). In comparison, 1 kg of lentils only requires 1,250 liters of water.",
+  title: {
+    en: "Water use in cheese production",
+    es: "Uso de agua en la producción de queso",
+    hu: "Vízfelhasználás a sajt előállításában"
+  },
+  lesson: {
+    en: "Producing 1 kg of cheese requires about 5,000 liters of water, mostly to grow the milk needed for production (around 10 liters of milk per kg of cheese). In comparison, 1 kg of lentils only requires 1,250 liters of water.",
+    es: "Producir 1 kg de queso requiere unos 5.000 litros de agua, principalmente para cultivar la leche necesaria para su producción (aproximadamente 10 litros de leche por kg de queso). En comparación, 1 kg de lentejas solo requiere 1.250 litros de agua.",
+    hu: "1 kg sajt előállítása körülbelül 5 000 liter vizet igényel, főként a szükséges tej előállításához (kb. 10 liter tej 1 kg sajt előállításához). Ezzel szemben 1 kg lencse csupán 1 250 liter vizet igényel."
+  },
   quiz: {
-    question: "How much water is needed to produce 1 kg of cheese?",
-    options: ["1,250 liters", "3,000 liters", "5,000 liters"],
-    answer: "5,000 liters"
+    question: {
+      en: "How much water is needed to produce 1 kg of cheese?",
+      es: "¿Cuánta agua se necesita para producir 1 kg de queso?",
+      hu: "Mennyi víz szükséges 1 kg sajt előállításához?"
+    },
+    options: {
+      en: ["1,250 liters", "3,000 liters", "5,000 liters"],
+      es: ["1.250 litros", "3.000 litros", "5.000 litros"],
+      hu: ["1 250 liter", "3 000 liter", "5 000 liter"]
+    },
+    answer: 2
   }
 },
+
 1033: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegetarian",
-  lesson: "Abandoned fishing gear, or 'ghost nets,' can float in the ocean for over 600 years, continuously trapping fish, turtles, seabirds, and other marine life. Each year, hundreds of thousands of tons of this gear enter the oceans, slowly breaking down into microplastics that pollute the food chain. Choosing plant-based foods reduces demand on industrial fishing, helping protect marine ecosystems and prevent plastic pollution at its source.",
+  title: {
+    en: "Impact of abandoned fishing gear",
+    es: "Impacto de las redes de pesca abandonadas",
+    hu: "A elhagyott halászfelszerelés hatása"
+  },
+  lesson: {
+    en: "Abandoned fishing gear, or 'ghost nets,' can float in the ocean for over 600 years, continuously trapping fish, turtles, seabirds, and other marine life. Each year, hundreds of thousands of tons of this gear enter the oceans, slowly breaking down into microplastics that pollute the food chain. Choosing plant-based foods reduces demand on industrial fishing, helping protect marine ecosystems and prevent plastic pollution at its source.",
+    es: "Las redes de pesca abandonadas, o 'redes fantasma', pueden flotar en el océano durante más de 600 años, atrapando continuamente peces, tortugas, aves marinas y otros seres marinos. Cada año, cientos de miles de toneladas de este equipo llegan a los océanos, descomponiéndose lentamente en microplásticos que contaminan la cadena alimentaria. Elegir alimentos vegetales reduce la demanda de pesca industrial, ayudando a proteger los ecosistemas marinos y prevenir la contaminación por plásticos desde su origen.",
+    hu: "Az elhagyott halászfelszerelés, az ún. „szellemhálók” több mint 600 évig úszhatnak az óceánban, folyamatosan fogva tartva halakat, teknősöket, tengeri madarakat és más tengeri élőlényeket. Évente több száz ezer tonna ilyen felszerelés kerül az óceánokba, lassan mikroplasztikokká bomolva, amelyek szennyezik az élelmiszerláncot. Növényi alapú ételek választása csökkenti az ipari halászat iránti keresletet, segítve a tengeri ökoszisztémák védelmét és a műanyag szennyezés megelőzését."
+  },
   quiz: {
-    question: "How long can abandoned fishing nets continue to trap marine animals in the ocean?",
-    options: ["10–50 years", "100–200 years", "Over 600 years"],
-    answer: "Over 600 years"
+    question: {
+      en: "How long can abandoned fishing nets continue to trap marine animals in the ocean?",
+      es: "¿Cuánto tiempo pueden las redes de pesca abandonadas seguir atrapando animales marinos en el océano?",
+      hu: "Meddig képesek az elhagyott halászhálók tengeri állatokat fogva tartani az óceánban?"
+    },
+    options: {
+      en: ["10–50 years", "100–200 years", "Over 600 years"],
+      es: ["10–50 años", "100–200 años", "Más de 600 años"],
+      hu: ["10–50 év", "100–200 év", "Több mint 600 év"]
+    },
+    answer: 2
   }
 },
+
 1034: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegetarian",
-  lesson: "Dairy milk is water-intensive: producing 1 liter of cow’s milk requires about 1,000 liters of water. In contrast, plant-based alternatives need far less — oat milk uses around 48 liters per liter, soy milk about 28 liters, and almond milk roughly 371 liter.",
+  title: {
+    en: "Water use in milk production",
+    es: "Uso de agua en la producción de leche",
+    hu: "Vízfelhasználás a tejtermelésben"
+  },
+  lesson: {
+    en: "Dairy milk is water-intensive: producing 1 liter of cow’s milk requires about 1,000 liters of water. In contrast, plant-based alternatives need far less — oat milk uses around 48 liters per liter, soy milk about 28 liters, and almond milk roughly 371 liters.",
+    es: "La leche de vaca requiere mucha agua: producir 1 litro de leche necesita aproximadamente 1.000 litros de agua. En cambio, las alternativas vegetales requieren mucho menos: la leche de avena utiliza alrededor de 48 litros por litro, la leche de soja unos 28 litros y la leche de almendras aproximadamente 371 litros.",
+    hu: "A tehéntej vízigényes: 1 liter tej előállítása kb. 1 000 liter vizet igényel. Ezzel szemben a növényi alternatívák sokkal kevesebbet igényelnek — az zabtej kb. 48 liter/liter, a szójatej kb. 28 liter, a mandulatej kb. 371 liter."
+  },
   quiz: {
-    question: "Which type of milk uses the most water per liter?",
-    options: ["Cow’s milk", "Oat milk", "Soy milk"],
-    answer: "Cow’s milk"
+    question: {
+      en: "Which type of milk uses the most water per liter?",
+      es: "¿Qué tipo de leche utiliza más agua por litro?",
+      hu: "Melyik tejfajta használja a legtöbb vizet literenként?"
+    },
+    options: {
+      en: ["Cow’s milk", "Oat milk", "Soy milk"],
+      es: ["Leche de vaca", "Leche de avena", "Leche de soja"],
+      hu: ["Tehéntej", "Zabtej", "Szójatej"]
+    },
+    answer: 0
   }
 },
+
 1035: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegetarian",
-  lesson: "Industrial fishing kills around 300,000 whales, dolphins, and porpoises every year through bycatch. Overfishing has caused populations of many large predatory fish, like tuna and sharks, to drop by over 90% in the last 50 years, disrupting the marine food chain. These losses force marine mammals to travel further for food, reduce their breeding success, and threaten entire ocean ecosystems.",
+  title: {
+    en: "Impact of industrial fishing on marine mammals",
+    es: "Impacto de la pesca industrial en mamíferos marinos",
+    hu: "Az ipari halászat hatása a tengeri emlősökre"
+  },
+  lesson: {
+    en: "Industrial fishing kills around 300,000 whales, dolphins, and porpoises every year through bycatch. Overfishing has caused populations of many large predatory fish, like tuna and sharks, to drop by over 90% in the last 50 years, disrupting the marine food chain. These losses force marine mammals to travel further for food, reduce their breeding success, and threaten entire ocean ecosystems.",
+    es: "La pesca industrial mata cada año a unos 300.000 ballenas, delfines y marsopas como captura incidental. La sobrepesca ha hecho que las poblaciones de muchos peces depredadores grandes, como atunes y tiburones, disminuyan más del 90% en los últimos 50 años, perturbando la cadena alimentaria marina. Estas pérdidas obligan a los mamíferos marinos a desplazarse más lejos en busca de alimento, reducen su éxito reproductivo y amenazan ecosistemas oceánicos completos.",
+    hu: "Az ipari halászat évente körülbelül 300 000 bálna, delfin és gömböc elpusztulását okozza mellékfogásként. A túlhalászás következtében sok nagy ragadozó hal, például tonhal és cápa populációja az elmúlt 50 évben több mint 90%-kal csökkent, ami felborította a tengeri táplálékláncot. Ezek a veszteségek arra kényszerítik a tengeri emlősöket, hogy távolabb utazzanak táplálékért, csökkentik szaporodási sikerüket, és veszélyeztetik az egész óceáni ökoszisztémát."
+  },
   quiz: {
-    question: "Approximately how many large marine mammals are killed by bycatch each year?",
-    options: ["50,000", "300,000", "1,000,000"],
-    answer: "300,000"
-  }
-},1036: {
-  goal: "Caring for the environment & fighting climate change",
-  diet: "vegetarian",
-  lesson: "Oceans play a crucial role in regulating the climate. They absorb about 25–30% of human CO₂ emissions and store more heat than the atmosphere, slowing global warming. Phytoplankton alone captures roughly 50 billion tons of CO₂ each year through photosynthesis. However, in some regions, phytoplankton populations have declined significantly — for example, in Narragansett Bay, USA, biomass decreased by about 49% between 1968 and 2019—reducing the ocean’s capacity to store carbon.",
-  quiz: {
-    question: "Approximately what percentage of human CO₂ emissions do oceans absorb?",
-    options: ["10–15%", "25–30%", "50–60%"],
-    answer: "25–30%"
+    question: {
+      en: "Approximately how many large marine mammals are killed by bycatch each year?",
+      es: "Aproximadamente, ¿cuántos grandes mamíferos marinos mueren cada año por captura incidental?",
+      hu: "Körülbelül hány nagy tengeri emlőst öl meg az ipari halászat mellékfogásként évente?"
+    },
+    options: {
+      en: ["50,000", "300,000", "1,000,000"],
+      es: ["50.000", "300.000", "1.000.000"],
+      hu: ["50 000", "300 000", "1 000 000"]
+    },
+    answer: 1
   }
 },
+
+1036: {
+  goal: "Caring for the environment & fighting climate change",
+  diet: "vegetarian",
+  title: {
+    en: "Oceans and climate regulation",
+    es: "Océanos y regulación climática",
+    hu: "Óceánok és az éghajlat szabályozása"
+  },
+  lesson: {
+    en: "Oceans play a crucial role in regulating the climate. They absorb about 25–30% of human CO₂ emissions and store more heat than the atmosphere, slowing global warming. Phytoplankton alone captures roughly 50 billion tons of CO₂ each year through photosynthesis. However, in some regions, phytoplankton populations have declined significantly — for example, in Narragansett Bay, USA, biomass decreased by about 49% between 1968 and 2019—reducing the ocean’s capacity to store carbon.",
+    es: "Los océanos desempeñan un papel crucial en la regulación del clima. Absorben alrededor del 25–30% de las emisiones humanas de CO₂ y almacenan más calor que la atmósfera, frenando el calentamiento global. Solo el fitoplancton captura aproximadamente 50 mil millones de toneladas de CO₂ cada año mediante la fotosíntesis. Sin embargo, en algunas regiones, las poblaciones de fitoplancton han disminuido significativamente —por ejemplo, en Narragansett Bay, EE. UU., la biomasa disminuyó alrededor del 49% entre 1968 y 2019— reduciendo la capacidad del océano para almacenar carbono.",
+    hu: "Az óceánok kulcsszerepet játszanak az éghajlat szabályozásában. A globális CO₂-kibocsátás körülbelül 25–30%-át nyelik el, és több hőt tárolnak, mint a légkör, lassítva a globális felmelegedést. Maguk a fitoplanktonok évente körülbelül 50 milliárd tonna CO₂-t kötnek meg fotoszintézis útján. Egyes régiókban azonban a fitoplankton-populáció jelentősen csökkent — például az USA-beli Narragansett-öbölben 1968 és 2019 között a biomassza kb. 49%-kal csökkent — csökkentve az óceán szénmegkötő kapacitását."
+  },
+  quiz: {
+    question: {
+      en: "Approximately what percentage of human CO₂ emissions do oceans absorb?",
+      es: "¿Qué porcentaje aproximado de las emisiones humanas de CO₂ absorben los océanos?",
+      hu: "Körülbelül a globális CO₂-kibocsátás hány százalékát nyelik el az óceánok?"
+    },
+    options: {
+      en: ["10–15%", "25–30%", "50–60%"],
+      es: ["10–15%", "25–30%", "50–60%"],
+      hu: ["10–15%", "25–30%", "50–60%"]
+    },
+    answer: 1
+  }
+},
+
 1037: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegetarian",
-  lesson: "Producing 1 kg of eggs requires around 3,300 liters of water, mostly to grow the feed for the hens. In comparison, 1 kg of lentils only requires about 1,250 liters of water.",
+  title: {
+    en: "Water use in egg production",
+    es: "Uso de agua en la producción de huevos",
+    hu: "Vízfelhasználás a tojás előállításában"
+  },
+  lesson: {
+    en: "Producing 1 kg of eggs requires around 3,300 liters of water, mostly to grow the feed for the hens. In comparison, 1 kg of lentils only requires about 1,250 liters of water.",
+    es: "Producir 1 kg de huevos requiere alrededor de 3.300 litros de agua, principalmente para cultivar el alimento de las gallinas. En comparación, 1 kg de lentejas solo necesita aproximadamente 1.250 litros de agua.",
+    hu: "1 kg tojás előállítása körülbelül 3 300 liter vizet igényel, főként a tyúkok takarmányának előállításához. Ezzel szemben 1 kg lencse csak kb. 1 250 liter vizet igényel."
+  },
   quiz: {
-    question: "How much water is needed to produce 1 kg of eggs?",
-    options: ["1,250 liters", "3,300 liters", "5,000 liters"],
-    answer: "3,300 liters"
+    question: {
+      en: "How much water is needed to produce 1 kg of eggs?",
+      es: "¿Cuánta agua se necesita para producir 1 kg de huevos?",
+      hu: "Mennyi víz szükséges 1 kg tojás előállításához?"
+    },
+    options: {
+      en: ["1,250 liters", "3,300 liters", "5,000 liters"],
+      es: ["1.250 litros", "3.300 litros", "5.000 litros"],
+      hu: ["1 250 liter", "3 300 liter", "5 000 liter"]
+    },
+    answer: 1
   }
 },
+
 1038: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegetarian",
-  lesson: "Bottom trawling is a fishing method where large, heavy nets are dragged along the ocean floor to catch fish and shrimp. These nets scrape and crush everything in their path, including coral reefs, seagrass beds, and slow-growing bottom-dwelling species. About 15% of the world’s continental shelf is affected by bottom trawling. This destruction releases stored carbon from sediments, kills countless marine organisms, and permanently damages habitats, making it one of the most environmentally harmful fishing practices.",
+  title: {
+    en: "Destruction caused by bottom trawling",
+    es: "Destrucción causada por la pesca de arrastre de fondo",
+    hu: "Az aljzati vonóhálózás pusztító hatása"
+  },
+  lesson: {
+    en: "Bottom trawling is a fishing method where large, heavy nets are dragged along the ocean floor to catch fish and shrimp. These nets scrape and crush everything in their path, including coral reefs, seagrass beds, and slow-growing bottom-dwelling species. About 15% of the world’s continental shelf is affected by bottom trawling. This destruction releases stored carbon from sediments, kills countless marine organisms, and permanently damages habitats, making it one of the most environmentally harmful fishing practices.",
+    es: "La pesca de arrastre de fondo es un método donde grandes redes pesadas se arrastran por el fondo del océano para capturar peces y camarones. Estas redes raspan y aplastan todo a su paso, incluidos los arrecifes de coral, los pastos marinos y las especies bentónicas de crecimiento lento. Aproximadamente el 15% del talud continental mundial se ve afectado por esta práctica. Esta destrucción libera carbono almacenado en los sedimentos, mata innumerables organismos marinos y daña permanentemente los hábitats, convirtiéndola en una de las prácticas de pesca más dañinas para el medio ambiente.",
+    hu: "Az aljzati vonóhálózás olyan halászati módszer, ahol nagy, nehéz hálókat húznak az óceán fenekén, hogy halakat és garnélákat fogjanak. Ezek a hálók mindent összetörnek az útjukban, beleértve a korallzátonyokat, tengerifüves élőhelyeket és lassan növő aljzati fajokat. A világ kontinentális talapzatának kb. 15%-át érinti ez a gyakorlat. A pusztítás felszabadítja az üledékekben tárolt szenet, számtalan tengeri élőlényt pusztít el, és tartósan károsítja az élőhelyeket, így ez az egyik legkörnyezetkárosítóbb halászati módszer."
+  },
   quiz: {
-    question: "Why is bottom trawling considered highly destructive?",
-    options: [
-      "It selectively catches only large fish",
-      "It scrapes the ocean floor, destroying habitats and releasing carbon",
-      "It uses too much fuel"
-    ],
-    answer: "It scrapes the ocean floor, destroying habitats and releasing carbon"
+    question: {
+      en: "Why is bottom trawling considered highly destructive?",
+      es: "¿Por qué se considera muy destructiva la pesca de arrastre de fondo?",
+      hu: "Miért tekintik az aljzati vonóhálózást rendkívül károsnak?"
+    },
+    options: {
+      en: [
+        "It selectively catches only large fish",
+        "It scrapes the ocean floor, destroying habitats and releasing carbon",
+        "It uses too much fuel"
+      ],
+      es: [
+        "Solo captura selectivamente peces grandes",
+        "Raspa el fondo del océano, destruyendo hábitats y liberando carbono",
+        "Consume demasiado combustible"
+      ],
+      hu: [
+        "Csak a nagy halakat fogja szelektíven",
+        "Lehorzsolja az óceánfeneket, tönkreteszi az élőhelyeket és szenet szabadít fel",
+        "Túl sok üzemanyagot használ"
+      ]
+    },
+    answer: 1
   }
 },
+
 1039: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegetarian",
-  lesson: "Every year, about 1.3 billion tons of food is wasted globally, producing roughly 8–10% of all human greenhouse gas emissions. That means the water, land, and energy used to grow this food is wasted too. Reducing food waste — by planning meals, storing food properly, and eating leftovers — can significantly cut your environmental impact.",
+  title: {
+    en: "Food waste and emissions",
+    es: "Desperdicio de alimentos y emisiones",
+    hu: "Élelmiszer-pazarlás és kibocsátás"
+  },
+  lesson: {
+    en: "Every year, about 1.3 billion tons of food is wasted globally, producing roughly 8–10% of all human greenhouse gas emissions. That means the water, land, and energy used to grow this food is wasted too. Reducing food waste — by planning meals, storing food properly, and eating leftovers — can significantly cut your environmental impact.",
+    es: "Cada año se desperdician aproximadamente 1.300 millones de toneladas de alimentos a nivel mundial, generando alrededor del 8–10% de todas las emisiones de gases de efecto invernadero humanas. Esto significa que también se desperdicia el agua, la tierra y la energía utilizada para producir estos alimentos. Reducir el desperdicio de alimentos —planificando las comidas, almacenando correctamente los alimentos y consumiendo las sobras— puede reducir significativamente tu impacto ambiental.",
+    hu: "Évente körülbelül 1,3 milliárd tonna élelmiszer vész kárba a világon, ami a globális üvegházhatású gázok kb. 8–10%-át termeli. Ez azt jelenti, hogy az élelmiszer előállításához használt víz, föld és energia is kárba vész. Az élelmiszer-pazarlás csökkentése — étkezés-tervezéssel, megfelelő tárolással és maradékok elfogyasztásával — jelentősen csökkentheti a környezeti hatásodat."
+  },
   quiz: {
-    question: "Approximately what percentage of global greenhouse gas emissions comes from food waste?",
-    options: ["3–5%", "8–10%", "15–20%"],
-    answer: "8–10%"
+    question: {
+      en: "Approximately what percentage of global greenhouse gas emissions comes from food waste?",
+      es: "¿Qué porcentaje aproximado de las emisiones globales de gases de efecto invernadero proviene del desperdicio de alimentos?",
+      hu: "Körülbelül a globális üvegházhatású gázkibocsátás hány százaléka származik élelmiszer-pazarlásból?"
+    },
+    options: {
+      en: ["3–5%", "8–10%", "15–20%"],
+      es: ["3–5%", "8–10%", "15–20%"],
+      hu: ["3–5%", "8–10%", "15–20%"]
+    },
+    answer: 1
   }
 },
- 1040: {
+
+1040: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegetarian",
-  lesson: "Not all plant-based foods are equally sustainable. Highly processed vegetarian foods, like veggie burgers and packaged snacks, can have up to 4 times the CO₂ emissions of fresh vegetables due to production energy, packaging, and transport. Choosing minimally processed plant foods maximizes environmental benefits.",
+  title: {
+    en: "Processed vs fresh plant-based foods",
+    es: "Alimentos vegetales procesados vs frescos",
+    hu: "Feldolgozott és friss növényi ételek"
+  },
+  lesson: {
+    en: "Not all plant-based foods are equally sustainable. Highly processed vegetarian foods, like veggie burgers and packaged snacks, can have up to 4 times the CO₂ emissions of fresh vegetables due to production energy, packaging, and transport. Choosing minimally processed plant foods maximizes environmental benefits.",
+    es: "No todos los alimentos vegetales son igualmente sostenibles. Los alimentos vegetarianos altamente procesados, como hamburguesas vegetales y snacks envasados, pueden generar hasta 4 veces más emisiones de CO₂ que los vegetales frescos debido a la energía de producción, el envasado y el transporte. Elegir alimentos vegetales mínimamente procesados maximiza los beneficios ambientales.",
+    hu: "Nem minden növényi alapú étel egyformán fenntartható. A nagy mértékben feldolgozott vegetáriánus ételek, például a vegán hamburgerek és csomagolt snackek akár négyszer annyi CO₂-t bocsáthatnak ki, mint a friss zöldségek a gyártási energia, csomagolás és szállítás miatt. A minimálisan feldolgozott növényi ételek választása maximalizálja a környezeti előnyöket."
+  },
   quiz: {
-    question: "How much higher can emissions be for processed vegetarian foods compared to fresh vegetables?",
-    options: ["About the same", "2x higher", "Up to 4x higher"],
-    answer: "Up to 4x higher"
+    question: {
+      en: "How much higher can emissions be for processed vegetarian foods compared to fresh vegetables?",
+      es: "¿Cuánto más altas pueden ser las emisiones de los alimentos vegetarianos procesados en comparación con los vegetales frescos?",
+      hu: "Mennyivel lehet magasabb a feldolgozott vegetáriánus ételek kibocsátása a friss zöldségekhez képest?"
+    },
+    options: {
+      en: ["About the same", "2x higher", "Up to 4x higher"],
+      es: ["Aproximadamente igual", "2 veces más", "Hasta 4 veces más"],
+      hu: ["Körülbelül ugyanannyi", "2-szer több", "Akár 4-szer több"]
+    },
+    answer: 2
   }
 },
-  */
+  
   // -------------------------------
   // Environment & Climate – Vegan
   // -------------------------------
@@ -2081,165 +3870,441 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
   }
 },
 
-/*  
 1046: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegan",
-  lesson: "Around 46% of ocean plastic comes from abandoned or lost fishing gear, like nets and lines. These “ghost nets” entangle fish, turtles, and marine mammals, causing injuries and death, and have long-lasting effects on marine ecosystems.",
+  title: {
+    en: "Fishing gear and ocean plastic",
+    es: "Redes de pesca y plástico en el océano",
+    hu: "Halászati eszközök és óceáni műanyag"
+  },
+  lesson: {
+    en: "Around 46% of ocean plastic comes from abandoned or lost fishing gear, like nets and lines. These “ghost nets” entangle fish, turtles, and marine mammals, causing injuries and death, and have long-lasting effects on marine ecosystems.",
+    es: "Alrededor del 46% del plástico oceánico proviene de redes y aparejos de pesca abandonados o perdidos. Estas “redes fantasma” atrapan peces, tortugas y mamíferos marinos, causando lesiones y muerte, y tienen efectos duraderos en los ecosistemas marinos.",
+    hu: "Az óceáni műanyag körülbelül 46%-a elhagyott vagy elveszett halászati eszközökből származik, például hálókból és kötelekből. Ezek az „szellemhálók” beleakadnak a halakba, teknősökbe és tengeri emlősökbe, sérülést és halált okozva, és hosszú távú hatással vannak a tengeri ökoszisztémákra."
+  },
   quiz: {
-    question: "What percentage of ocean plastic comes from fishing gear?",
-    options: ["10%", "75%", "Around 46%"],
-    answer: "Around 46%"
+    question: {
+      en: "What percentage of ocean plastic comes from fishing gear?",
+      es: "¿Qué porcentaje del plástico oceánico proviene de redes de pesca?",
+      hu: "Az óceáni műanyag hány százaléka származik halászati eszközökből?"
+    },
+    options: {
+      en: ["10%", "75%", "Around 46%"],
+      es: ["10%", "75%", "Alrededor del 46%"],
+      hu: ["10%", "75%", "Körülbelül 46%"]
+    },
+    answer: 2
   }
 },
+
 1047: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegan",
-  lesson: "If humanity shifted to a mostly plant-based diet, we could potentially free up around 70% of agricultural land currently used for livestock and feed crops. Returning this land to nature could restore habitats, greatly increase biodiversity, and allow wild species to recover in numbers and variety.",
+  title: {
+    en: "Land saved by plant-based diets",
+    es: "Tierra salvada por dietas basadas en plantas",
+    hu: "A növényi alapú étrenddel felszabadított földterület"
+  },
+  lesson: {
+    en: "If humanity shifted to a mostly plant-based diet, we could potentially free up around 70% of agricultural land currently used for livestock and feed crops. Returning this land to nature could restore habitats, greatly increase biodiversity, and allow wild species to recover in numbers and variety.",
+    es: "Si la humanidad adoptara una dieta mayormente basada en plantas, se podría liberar alrededor del 70% de la tierra agrícola actualmente usada para el ganado y cultivos para alimento animal. Devolver esta tierra a la naturaleza podría restaurar hábitats, aumentar significativamente la biodiversidad y permitir que las especies salvajes se recuperen en número y variedad.",
+    hu: "Ha az emberiség túlnyomórészt növényi alapú étrendre váltana, potenciálisan felszabadítható lenne a jelenleg állattenyésztésre és takarmánynövényekre használt mezőgazdasági földterület körülbelül 70%-a. Ennek a területnek a természetnek való visszaadása helyreállíthatja az élőhelyeket, jelentősen növelheti a biodiverzitást, és lehetővé teheti a vadon élő fajok számának és változatosságának helyreállítását."
+  },
   quiz: {
-    question: "What percentage of agricultural land could be freed by adopting a plant-based diet?",
-    options: ["Around 70%", "10%", "50%"],
-    answer: "Around 70%"
+    question: {
+      en: "What percentage of agricultural land could be freed by adopting a plant-based diet?",
+      es: "¿Qué porcentaje de tierra agrícola podría liberarse adoptando una dieta basada en plantas?",
+      hu: "A mezőgazdasági földterület hány százaléka szabadítható fel növényi alapú étrenddel?"
+    },
+    options: {
+      en: ["Around 70%", "10%", "50%"],
+      es: ["Alrededor del 70%", "10%", "50%"],
+      hu: ["Körülbelül 70%", "10%", "50%"]
+    },
+    answer: 0
   }
 },
+
 1048: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegan",
-  lesson: "Bottom trawling is a fishing method where large, heavy nets are dragged along the ocean floor to catch fish and shrimp. These nets scrape and crush everything in their path, including coral reefs, seagrass beds, and slow-growing bottom-dwelling species. About 15% of the world’s continental shelf is affected by bottom trawling. This destruction releases stored carbon from sediments, kills countless marine organisms, and permanently damages habitats, making it one of the most environmentally harmful fishing practices.",
+  title: {
+    en: "Destruction caused by bottom trawling",
+    es: "Destrucción causada por la pesca de arrastre de fondo",
+    hu: "Az aljzati vonóhálózás pusztító hatása"
+  },
+  lesson: {
+    en: "Bottom trawling is a fishing method where large, heavy nets are dragged along the ocean floor to catch fish and shrimp. These nets scrape and crush everything in their path, including coral reefs, seagrass beds, and slow-growing bottom-dwelling species. About 15% of the world’s continental shelf is affected by bottom trawling. This destruction releases stored carbon from sediments, kills countless marine organisms, and permanently damages habitats, making it one of the most environmentally harmful fishing practices.",
+    es: "La pesca de arrastre de fondo es un método donde grandes redes pesadas se arrastran por el fondo del océano para capturar peces y camarones. Estas redes raspan y aplastan todo a su paso, incluidos los arrecifes de coral, los pastos marinos y las especies bentónicas de crecimiento lento. Aproximadamente el 15% del talud continental mundial se ve afectado por esta práctica. Esta destrucción libera carbono almacenado en los sedimentos, mata innumerables organismos marinos y daña permanentemente los hábitats, convirtiéndola en una de las prácticas de pesca más dañinas para el medio ambiente.",
+    hu: "Az aljzati vonóhálózás olyan halászati módszer, ahol nagy, nehéz hálókat húznak az óceán fenekén, hogy halakat és garnélákat fogjanak. Ezek a hálók mindent összetörnek az útjukban, beleértve a korallzátonyokat, a tengerifüves élőhelyeket és a lassan növő aljzati fajokat. A világ kontinentális talapzatának kb. 15%-át érinti ez a gyakorlat. A pusztítás felszabadítja az üledékekben tárolt szenet, számtalan tengeri élőlényt pusztít el, és tartósan károsítja az élőhelyeket, így ez az egyik legkörnyezetkárosítóbb halászati módszer."
+  },
   quiz: {
-    question: "Why is bottom trawling considered highly destructive?",
-    options: [
-      "It selectively catches only large fish",
-      "It scrapes the ocean floor, destroying habitats and releasing carbon",
-      "It uses too much fuel"
-    ],
-    answer: "It scrapes the ocean floor, destroying habitats and releasing carbon"
+    question: {
+      en: "Why is bottom trawling considered highly destructive?",
+      es: "¿Por qué se considera muy destructiva la pesca de arrastre de fondo?",
+      hu: "Miért tekintik az aljzati vonóhálózást rendkívül károsnak?"
+    },
+    options: {
+      en: [
+        "It selectively catches only large fish",
+        "It scrapes the ocean floor, destroying habitats and releasing carbon",
+        "It uses too much fuel"
+      ],
+      es: [
+        "Solo captura selectivamente peces grandes",
+        "Raspa el fondo del océano, destruyendo hábitats y liberando carbono",
+        "Consume demasiado combustible"
+      ],
+      hu: [
+        "Csak a nagy halakat fogja szelektíven",
+        "Lehorzsolja az óceánfeneket, tönkreteszi az élőhelyeket és szenet szabadít fel",
+        "Túl sok üzemanyagot használ"
+      ]
+    },
+    answer: 1
   }
 },
+
 1049: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegan",
-  lesson: "Oceans act as a major carbon sink, absorbing about 25–30% of human CO₂ emissions. Phytoplankton alone captures roughly 50 billion tons of CO₂ each year through photosynthesis. However, in some regions, phytoplankton populations have declined significantly — for example, in Narragansett Bay, USA, biomass decreased by about 49% between 1968 and 2019 — reducing the ocean’s ability to store carbon and harming marine ecosystems.",
+  title: {
+    en: "Oceans as carbon sinks",
+    es: "Océanos como sumideros de carbono",
+    hu: "Óceánok mint szénelnyelők"
+  },
+  lesson: {
+    en: "Oceans act as a major carbon sink, absorbing about 25–30% of human CO₂ emissions. Phytoplankton alone captures roughly 50 billion tons of CO₂ each year through photosynthesis. However, in some regions, phytoplankton populations have declined significantly — for example, in Narragansett Bay, USA, biomass decreased by about 49% between 1968 and 2019 — reducing the ocean’s ability to store carbon and harming marine ecosystems.",
+    es: "Los océanos actúan como un sumidero de carbono importante, absorbiendo alrededor del 25–30% de las emisiones humanas de CO₂. Solo el fitoplancton captura aproximadamente 50 mil millones de toneladas de CO₂ cada año mediante la fotosíntesis. Sin embargo, en algunas regiones, las poblaciones de fitoplancton han disminuido significativamente —por ejemplo, en Narragansett Bay, EE. UU., la biomasa disminuyó alrededor del 49% entre 1968 y 2019— reduciendo la capacidad del océano para almacenar carbono y dañando los ecosistemas marinos.",
+    hu: "Az óceánok fontos szénelnyelők, az emberi CO₂-kibocsátás körülbelül 25–30%-át nyelik el. Maguk a fitoplanktonok évente kb. 50 milliárd tonna CO₂-t kötnek meg fotoszintézis útján. Egyes régiókban azonban a fitoplankton-populáció jelentősen csökkent — például az USA-beli Narragansett-öbölben 1968 és 2019 között a biomassza kb. 49%-kal csökkent — csökkentve az óceán szénmegkötő képességét és károsítva a tengeri ökoszisztémákat."
+  },
   quiz: {
-    question: "How does declining ocean biodiversity affect CO₂ absorption?",
-    options: ["Increases carbon storage", "Has no effect","Reduces the ocean's ability to store carbon"],
-    answer: "Reduces the ocean's ability to store carbon"
+    question: {
+      en: "How does declining ocean biodiversity affect CO₂ absorption?",
+      es: "¿Cómo afecta la disminución de la biodiversidad oceánica a la absorción de CO₂?",
+      hu: "Hogyan befolyásolja a csökkenő óceáni biodiverzitás a CO₂ megkötést?"
+    },
+    options: {
+      en: ["Increases carbon storage", "Has no effect", "Reduces the ocean's ability to store carbon"],
+      es: ["Aumenta el almacenamiento de carbono", "No tiene efecto", "Reduce la capacidad del océano para almacenar carbono"],
+      hu: ["Növeli a szénmegkötést", "Nincs hatása", "Csökkenti az óceán szénmegkötő képességét"]
+    },
+    answer: 2
   }
 },
+
 1050: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegan",
-  lesson: "Agriculture is responsible for nearly 25% of global greenhouse gas emissions. Most of these emissions come from livestock, including methane from cows and nitrous oxide from fertilized soils. Reducing animal product consumption directly lowers emissions.",
+  title: {
+    en: "Agriculture and greenhouse gas emissions",
+    es: "Agricultura y emisiones de gases de efecto invernadero",
+    hu: "Mezőgazdaság és üvegházhatású gázok kibocsátása"
+  },
+  lesson: {
+    en: "Agriculture is responsible for nearly 25% of global greenhouse gas emissions. Most of these emissions come from livestock, including methane from cows and nitrous oxide from fertilized soils. Reducing animal product consumption directly lowers emissions.",
+    es: "La agricultura es responsable de casi el 25% de las emisiones globales de gases de efecto invernadero. La mayor parte de estas emisiones provienen del ganado, incluido el metano de las vacas y el óxido nitroso de los suelos fertilizados. Reducir el consumo de productos animales disminuye directamente las emisiones.",
+    hu: "A mezőgazdaság a globális üvegházhatású gázok közel 25%-áért felelős. A kibocsátások többsége az állattartásból származik, beleértve a szarvasmarhák metánját és a műtrágyázott talajok dinitrogén-oxidját. Az állati termékek fogyasztásának csökkentése közvetlenül csökkenti a kibocsátásokat."
+  },
   quiz: {
-    question: "What percentage of global greenhouse gas emissions comes from agriculture?",
-    options: ["10%", "25%", "50%"],
-    answer: "25%"
+    question: {
+      en: "What percentage of global greenhouse gas emissions comes from agriculture?",
+      es: "¿Qué porcentaje de las emisiones globales de gases de efecto invernadero proviene de la agricultura?",
+      hu: "A globális üvegházhatású gázkibocsátás hány százaléka származik a mezőgazdaságból?"
+    },
+    options: {
+      en: ["10%", "25%", "50%"],
+      es: ["10%", "25%", "50%"],
+      hu: ["10%", "25%", "50%"]
+    },
+    answer: 1
   }
 },
+
 1051: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegan",
-  lesson: "Deforestation is largely driven by the need for pasture and feed crops for animals. Each year, millions of hectares of forests are cleared, releasing stored carbon into the atmosphere and accelerating climate change.",
+  title: {
+    en: "Deforestation drivers",
+    es: "Causas de la deforestación",
+    hu: "Erdőirtás okai"
+  },
+  lesson: {
+    en: "Deforestation is largely driven by the need for pasture and feed crops for animals. Each year, millions of hectares of forests are cleared, releasing stored carbon into the atmosphere and accelerating climate change.",
+    es: "La deforestación se debe en gran parte a la necesidad de pastos y cultivos para alimentar animales. Cada año se talan millones de hectáreas de bosques, liberando carbono almacenado en la atmósfera y acelerando el cambio climático.",
+    hu: "Az erdőirtást nagyrészt a legelők és takarmánynövények iránti igény hajtja az állatok számára. Évente millió hektár erdőt vágnak ki, ami a légkörbe engedi a tárolt szenet, és felgyorsítja az éghajlatváltozást."
+  },
   quiz: {
-    question: "What is a primary driver of deforestation?",
-    options: ["Urban expansion only", "Natural causes", "Pasture and feed crops for animals"],
-    answer: "Pasture and feed crops for animals"
+    question: {
+      en: "What is a primary driver of deforestation?",
+      es: "¿Cuál es un impulsor principal de la deforestación?",
+      hu: "Mi az erdőirtás fő oka?"
+    },
+    options: {
+      en: ["Urban expansion only", "Natural causes", "Pasture and feed crops for animals"],
+      es: ["Solo expansión urbana", "Causas naturales", "Pastos y cultivos para alimentar animales"],
+      hu: ["Csak városi terjeszkedés", "Természetes okok", "Legelők és takarmánynövények az állatoknak"]
+    },
+    answer: 2
   }
 },
+
 1052: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegan",
-  lesson: "Animal agriculture produces massive amounts of manure, which can run off into rivers and oceans. This nutrient pollution causes algal blooms, oxygen-depleted dead zones, and damages aquatic ecosystems. For example, the Gulf of Mexico dead zone covers up to 22,000 km² in some years due to agricultural runoff.",
+  title: {
+    en: "Manure runoff impacts",
+    es: "Impactos del escurrimiento de estiércol",
+    hu: "Trágyakimosódás hatásai"
+  },
+  lesson: {
+    en: "Animal agriculture produces massive amounts of manure, which can run off into rivers and oceans. This nutrient pollution causes algal blooms, oxygen-depleted dead zones, and damages aquatic ecosystems. For example, the Gulf of Mexico dead zone covers up to 22,000 km² in some years due to agricultural runoff.",
+    es: "La agricultura animal produce enormes cantidades de estiércol, que puede escurrirse hacia ríos y océanos. Esta contaminación por nutrientes causa proliferación de algas, zonas muertas con falta de oxígeno y daña los ecosistemas acuáticos. Por ejemplo, la zona muerta del Golfo de México cubre hasta 22,000 km² en algunos años debido a escurrimientos agrícolas.",
+    hu: "Az állattenyésztés hatalmas mennyiségű trágyát termel, amely a folyókba és óceánokba mosódhat. Ez a tápanyag-szennyezés algavirágzást, oxigénhiányos holt zónákat okoz, és károsítja a vízi ökoszisztémákat. Például a Mexikói-öböl holt zónája egyes években akár 22 000 km²-t is lefed az mezőgazdasági lefolyás miatt."
+  },
   quiz: {
-    question: "What is one major effect of manure runoff from livestock?",
-    options: ["Increases fish populations", "Causes algal blooms and dead zones", "Purifies rivers"],
-    answer: "Causes algal blooms and dead zones"
+    question: {
+      en: "What is one major effect of manure runoff from livestock?",
+      es: "¿Cuál es un efecto principal del escurrimiento de estiércol del ganado?",
+      hu: "Mi az egyik fő hatása az állati trágyakimosódásnak?"
+    },
+    options: {
+      en: ["Increases fish populations", "Causes algal blooms and dead zones", "Purifies rivers"],
+      es: ["Aumenta las poblaciones de peces", "Provoca proliferación de algas y zonas muertas", "Purifica los ríos"],
+      hu: ["Növeli a halpopulációt", "Algavirágzást és holt zónákat okoz", "Tisztítja a folyókat"]
+    },
+    answer: 1
   }
 },
+
 1053: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegan",
-  lesson: "Producing 1 kg of beef requires about 25 times more land than producing 1 kg of lentils. Animal agriculture uses around 77% of global farmland but provides only 18% of calories, showing extreme land inefficiency. Shifting to a plant-based diet could free up billions of hectares for forests and wildlife.",
+  title: {
+    en: "Land inefficiency of animal agriculture",
+    es: "Ineficiencia de la tierra en la agricultura animal",
+    hu: "Az állattenyésztés földhatékonysága"
+  },
+  lesson: {
+    en: "Producing 1 kg of beef requires about 25 times more land than producing 1 kg of lentils. Animal agriculture uses around 77% of global farmland but provides only 18% of calories, showing extreme land inefficiency. Shifting to a plant-based diet could free up billions of hectares for forests and wildlife.",
+    es: "Producir 1 kg de carne de res requiere aproximadamente 25 veces más tierra que producir 1 kg de lentejas. La agricultura animal utiliza alrededor del 77% de la tierra cultivable global, pero solo proporciona el 18% de las calorías, mostrando una extrema ineficiencia de la tierra. Cambiar a una dieta basada en plantas podría liberar miles de millones de hectáreas para bosques y vida silvestre.",
+    hu: "1 kg marhahús előállítása körülbelül 25-ször több földet igényel, mint 1 kg lencséé. Az állattenyésztés a világ mezőgazdasági földterületének kb. 77%-át használja, de csak a kalóriák 18%-át adja, ami extrém földhatékonysági problémát jelez. A növényi alapú étrendre váltás milliárd hektárokat szabadíthat fel erdők és vadon élő állatok számára."
+  },
   quiz: {
-    question: "Why is animal agriculture considered land-inefficient?",
-    options: ["It produces fewer calories per hectare than plants", "Animals need no land", "It grows more food than needed"],
-    answer: "It produces fewer calories per hectare than plants"
+    question: {
+      en: "Why is animal agriculture considered land-inefficient?",
+      es: "¿Por qué se considera ineficiente en el uso de la tierra la agricultura animal?",
+      hu: "Miért tekinthető földhatékonytalan az állattenyésztés?"
+    },
+    options: {
+      en: ["It produces fewer calories per hectare than plants", "Animals need no land", "It grows more food than needed"],
+      es: ["Produce menos calorías por hectárea que las plantas", "Los animales no necesitan tierra", "Produce más alimentos de los necesarios"],
+      hu: ["Kevesebb kalóriát termel hektáronként, mint a növények", "Az állatoknak nincs szükségük földre", "Több ételt termel, mint amennyire szükség van"]
+    },
+    answer: 0
   }
 },
+
 1054: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegan",
-  lesson: "Overfishing and fish farming harm oceans. Wild-caught fish often involve bycatch — accidentally killing turtles, dolphins, and seabirds. Bottom trawling destroys seafloor habitats, while intensive fish farms can pollute water with waste and chemicals. These practices reduce biodiversity and compromise ocean health.",
+  title: {
+    en: "Problems with overfishing and fish farming",
+    es: "Problemas con la sobrepesca y acuicultura",
+    hu: "Túlhalászat és halgazdálkodás problémái"
+  },
+  lesson: {
+    en: "Overfishing and fish farming harm oceans. Wild-caught fish often involve bycatch — accidentally killing turtles, dolphins, and seabirds. Bottom trawling destroys seafloor habitats, while intensive fish farms can pollute water with waste and chemicals. These practices reduce biodiversity and compromise ocean health.",
+    es: "La sobrepesca y la acuicultura dañan los océanos. Los peces capturados en estado salvaje a menudo implican captura incidental, matando accidentalmente tortugas, delfines y aves marinas. La pesca de arrastre de fondo destruye hábitats del lecho marino, mientras que las granjas piscícolas intensivas pueden contaminar el agua con desechos y productos químicos. Estas prácticas reducen la biodiversidad y comprometen la salud de los océanos.",
+    hu: "A túlhalászat és a halgazdálkodás károsítja az óceánokat. A vadon fogott halak gyakran járnak mellékfogással — véletlenül elpusztítva teknősöket, delfineket és tengeri madarakat. Az aljzati vonóhálózás elpusztítja a tengerfenék élőhelyeit, míg az intenzív halgazdaságok a vizet hulladékkal és vegyszerekkel szennyezhetik. Ezek a gyakorlatok csökkentik a biodiverzitást és veszélyeztetik az óceán egészségét."
+  },
   quiz: {
-    question: "What is a major problem with overfishing and fish farming?",
-    options: ["They improve ocean biodiversity", "They cause bycatch and habitat destruction", "They reduce greenhouse gases"],
-    answer: "They cause bycatch and habitat destruction"
+    question: {
+      en: "What is a major problem with overfishing and fish farming?",
+      es: "¿Cuál es un problema importante de la sobrepesca y la acuicultura?",
+      hu: "Mi a fő probléma a túlhalászattal és a halgazdálkodással?"
+    },
+    options: {
+      en: ["They improve ocean biodiversity", "They cause bycatch and habitat destruction", "They reduce greenhouse gases"],
+      es: ["Mejoran la biodiversidad oceánica", "Causan captura incidental y destrucción de hábitats", "Reducen los gases de efecto invernadero"],
+      hu: ["Növelik az óceán biodiverzitását", "Mellékfogást és élőhelypusztítást okoznak", "Csökkentik az üvegházhatású gázokat"]
+    },
+    answer: 1
   }
 },
+
 1055: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegan",
-  lesson: "Greenhouse gas emissions vary greatly between foods. Producing 1 kg of beef emits around 60 kg CO₂-eq, 1 kg of eggs emits ~4.2 kg CO₂-eq, while 1 kg of lentils emits only ~0.9 kg CO₂-eq. Plant-based proteins have a much lower environmental footprint, making diet choices a powerful way to reduce climate impact.",
+  title: {
+    en: "Greenhouse gas emissions by food type",
+    es: "Emisiones de gases de efecto invernadero por tipo de alimento",
+    hu: "Üvegházhatású gázok kibocsátása élelmiszerenként"
+  },
+  lesson: {
+    en: "Greenhouse gas emissions vary greatly between foods. Producing 1 kg of beef emits around 60 kg CO₂-eq, 1 kg of eggs emits ~4.2 kg CO₂-eq, while 1 kg of lentils emits only ~0.9 kg CO₂-eq. Plant-based proteins have a much lower environmental footprint, making diet choices a powerful way to reduce climate impact.",
+    es: "Las emisiones de gases de efecto invernadero varían mucho entre los alimentos. Producir 1 kg de carne de res emite alrededor de 60 kg de CO₂-eq, 1 kg de huevos emite ~4,2 kg de CO₂-eq, mientras que 1 kg de lentejas emite solo ~0,9 kg de CO₂-eq. Las proteínas vegetales tienen una huella ambiental mucho menor, haciendo que las elecciones dietéticas sean una forma poderosa de reducir el impacto climático.",
+    hu: "Az üvegházhatású gázok kibocsátása nagyban változik az élelmiszerek között. 1 kg marhahús előállítása kb. 60 kg CO₂-egyenértéket bocsát ki, 1 kg tojás kb. 4,2 kg CO₂-egyenértéket, míg 1 kg lencse csak kb. 0,9 kg CO₂-egyenértéket. A növényi fehérjék sokkal kisebb környezeti lábnyommal rendelkeznek, így az étrendi választások erőteljes eszközei az éghajlati hatás csökkentésének."
+  },
   quiz: {
-    question: "Which food has the lowest greenhouse gas emissions per kilogram?",
-    options: ["Beef", "Eggs", "Lentils"],
-    answer: "Lentils"
+    question: {
+      en: "Which food has the lowest greenhouse gas emissions per kilogram?",
+      es: "¿Qué alimento tiene las menores emisiones de gases de efecto invernadero por kilogramo?",
+      hu: "Melyik étel bocsát ki a legkevesebb üvegházhatású gázt kilogrammonként?"
+    },
+    options: {
+      en: ["Beef", "Eggs", "Lentils"],
+      es: ["Carne de res", "Huevos", "Lentejas"],
+      hu: ["Marhahús", "Tojás", "Lencse"]
+    },
+    answer: 2
   }
 },
+ 
 1056: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegan",
-  lesson: "Abandoned or lost fishing gear, also called “ghost gear,” is a major source of ocean plastic. About 46% of ocean plastic comes from fishing nets, lines, and traps. This debris entangles marine life, damages coral reefs, and persists in the environment for decades, harming biodiversity and marine ecosystems.",
+  title: {
+    en: "Ghost gear and ocean plastic",
+    es: "Redes fantasma y plástico oceánico",
+    hu: "Elhagyott halászeszközök és óceáni műanyag"
+  },
+  lesson: {
+    en: "Abandoned or lost fishing gear, also called “ghost gear,” is a major source of ocean plastic. About 46% of ocean plastic comes from fishing nets, lines, and traps. This debris entangles marine life, damages coral reefs, and persists in the environment for decades, harming biodiversity and marine ecosystems.",
+    es: "Los equipos de pesca abandonados o perdidos, también llamados “redes fantasma”, son una fuente importante de plástico en los océanos. Aproximadamente el 46% del plástico oceánico proviene de redes, líneas y trampas de pesca. Estos desechos atrapan la vida marina, dañan los arrecifes de coral y persisten en el medio ambiente durante décadas, afectando la biodiversidad y los ecosistemas marinos.",
+    hu: "Az elhagyott vagy elveszett halászeszközök, más néven „szellemhálók”, az óceáni műanyag fő forrásai. Az óceáni műanyag körülbelül 46%-a hálókból, zsinórokból és csapdákból származik. Ezek az eszközök összekuszálják a tengeri élőlényeket, károsítják a korallzátonyokat, és évtizedekig megmaradnak a környezetben, veszélyeztetve a biodiverzitást és a tengeri ökoszisztémákat."
+  },
   quiz: {
-    question: "What percentage of ocean plastic comes from abandoned or lost fishing gear?",
-    options: ["10%", "46%", "75%"],
-    answer: "46%"
+    question: {
+      en: "What percentage of ocean plastic comes from abandoned or lost fishing gear?",
+      es: "¿Qué porcentaje del plástico oceánico proviene de redes de pesca abandonadas o perdidas?",
+      hu: "Az óceáni műanyag hány százaléka származik elhagyott vagy elveszett halászeszközökből?"
+    },
+    options: {
+      en: ["10%", "46%", "75%"],
+      es: ["10%", "46%", "75%"],
+      hu: ["10%", "46%", "75%"]
+    },
+    answer: 1
   }
 },
+
 1057: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegan",
-  lesson: "By switching to a vegan diet, your land use can be reduced by about 76% compared to an average omnivorous diet. This is because animal agriculture uses most of the world’s farmland while providing fewer calories. The land you save could be returned to forests and wildlife, restoring ecosystems.",
+  title: {
+    en: "Land use reduction by going vegan",
+    es: "Reducción de uso de tierra al volverse vegano",
+    hu: "Földhasználat csökkentése vegán étrenddel"
+  },
+  lesson: {
+    en: "By switching to a vegan diet, your land use can be reduced by about 76% compared to an average omnivorous diet. This is because animal agriculture uses most of the world’s farmland while providing fewer calories. The land you save could be returned to forests and wildlife, restoring ecosystems.",
+    es: "Al cambiar a una dieta vegana, tu uso de la tierra puede reducirse alrededor del 76% en comparación con una dieta omnívora promedio. Esto se debe a que la agricultura animal utiliza la mayor parte de la tierra cultivable mundial mientras proporciona menos calorías. La tierra que ahorras podría volver a bosques y hábitats silvestres, restaurando los ecosistemas.",
+    hu: "A vegán étrendre váltással a földhasználat kb. 76%-kal csökkenthető egy átlagos mindenevő étrendhez képest. Ennek oka, hogy az állattenyésztés a világ mezőgazdasági földjeinek többségét használja, miközben kevesebb kalóriát biztosít. A megtakarított föld visszaadható erdőknek és vadvilágnak, helyreállítva az ökoszisztémákat."
+  },
   quiz: {
-    question: "How much can your land use be reduced by going vegan?",
-    options: ["10%", "50%", "76%", "90%"],
-    answer: "76%"
+    question: {
+      en: "How much can your land use be reduced by going vegan?",
+      es: "¿Cuánto se puede reducir tu uso de tierra al volverse vegano?",
+      hu: "Mennyivel csökkenthető a földhasználat vegán étrendre váltással?"
+    },
+    options: {
+      en: ["10%", "50%", "76%", "90%"],
+      es: ["10%", "50%", "76%", "90%"],
+      hu: ["10%", "50%", "76%", "90%"]
+    },
+    answer: 2
   }
 },
+
 1058: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegan",
-  lesson: "Adopting a plant-based diet can cut your water footprint by roughly 50% compared to a typical omnivorous diet. Producing plant-based foods requires far less irrigation water than producing meat and dairy, helping protect freshwater resources worldwide.",
+  title: {
+    en: "Water footprint reduction",
+    es: "Reducción de la huella hídrica",
+    hu: "Vízlábnyom csökkentése"
+  },
+  lesson: {
+    en: "Adopting a plant-based diet can cut your water footprint by roughly 50% compared to a typical omnivorous diet. Producing plant-based foods requires far less irrigation water than producing meat and dairy, helping protect freshwater resources worldwide.",
+    es: "Adoptar una dieta basada en plantas puede reducir tu huella hídrica aproximadamente en un 50% en comparación con una dieta omnívora típica. Producir alimentos vegetales requiere mucha menos agua de riego que producir carne y lácteos, ayudando a proteger los recursos de agua dulce en todo el mundo.",
+    hu: "A növényi alapú étrend kb. 50%-kal csökkentheti a vízlábnyomot egy átlagos mindenevő étrendhez képest. A növényi élelmiszerek előállítása sokkal kevesebb öntözővizet igényel, mint a hús és tejtermékek, segítve az édesvízi erőforrások védelmét világszerte."
+  },
   quiz: {
-    question: "Approximately how much can your water use decrease by eating a vegan diet?",
-    options: ["10%", "25%", "50%", "75%"],
-    answer: "50%"
+    question: {
+      en: "Approximately how much can your water use decrease by eating a vegan diet?",
+      es: "¿Aproximadamente cuánto puede disminuir tu consumo de agua al seguir una dieta vegana?",
+      hu: "Körülbelül mennyivel csökkenthető a vízhasználat vegán étrenddel?"
+    },
+    options: {
+      en: ["10%", "25%", "50%", "75%"],
+      es: ["10%", "25%", "50%", "75%"],
+      hu: ["10%", "25%", "50%", "75%"]
+    },
+    answer: 2
   }
 },
+
 1059: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegan",
-  lesson: "Switching to a vegan diet can lower your diet-related greenhouse gas emissions by around 50–55%. For example, producing 1 kg of beef emits ~60 kg CO₂-eq, while 1 kg of lentils emits only ~0.9 kg. Over a year, this reduction is equivalent to eliminating several long car trips or short flights.",
+  title: {
+    en: "GHG emission reduction by vegan diet",
+    es: "Reducción de emisiones de GEI con dieta vegana",
+    hu: "ÜHG-kibocsátás csökkentése vegán étrenddel"
+  },
+  lesson: {
+    en: "Switching to a vegan diet can lower your diet-related greenhouse gas emissions by around 50–55%. For example, producing 1 kg of beef emits ~60 kg CO₂-eq, while 1 kg of lentils emits only ~0.9 kg. Over a year, this reduction is equivalent to eliminating several long car trips or short flights.",
+    es: "Cambiar a una dieta vegana puede reducir tus emisiones de gases de efecto invernadero relacionadas con la alimentación en alrededor de 50–55%. Por ejemplo, producir 1 kg de carne de res emite ~60 kg CO₂-eq, mientras que 1 kg de lentejas emite solo ~0,9 kg. En un año, esta reducción equivale a eliminar varios viajes largos en coche o vuelos cortos.",
+    hu: "A vegán étrendre váltás csökkentheti az étrenddel kapcsolatos üvegházhatású gázkibocsátást kb. 50–55%-kal. Például 1 kg marhahús előállítása ~60 kg CO₂-egyenértéket bocsát ki, míg 1 kg lencse csak ~0,9 kg-ot. Egy év alatt ez a csökkenés több hosszú autós út vagy rövid repülés megszüntetésének felel meg."
+  },
   quiz: {
-    question: "How much can your greenhouse gas emissions be reduced by adopting a vegan diet?",
-    options: ["10%", "25%", "50–55%", "80%"],
-    answer: "50–55%"
+    question: {
+      en: "How much can your greenhouse gas emissions be reduced by adopting a vegan diet?",
+      es: "¿Cuánto se pueden reducir tus emisiones de gases de efecto invernadero al adoptar una dieta vegana?",
+      hu: "Mennyivel csökkenthető az üvegházhatású gázkibocsátás vegán étrenddel?"
+    },
+    options: {
+      en: ["10%", "25%", "50–55%", "80%"],
+      es: ["10%", "25%", "50–55%", "80%"],
+      hu: ["10%", "25%", "50–55%", "80%"]
+    },
+    answer: 2
   }
 },
+
 1060: {
   goal: "Caring for the environment & fighting climate change",
   diet: "vegan",
-  lesson: "Eating a plant-based diet reduces energy use and pollution from animal farming. Overall, your diet-related energy footprint can drop by roughly 30–40%, because producing plants requires less fuel for feed, transport, and housing animals, and produces less water pollution from manure and fertilizers.",
+  title: {
+    en: "Diet-related energy footprint reduction",
+    es: "Reducción de la huella energética de la dieta",
+    hu: "Az étrendhez kapcsolódó energiafelhasználás csökkentése"
+  },
+  lesson: {
+    en: "Eating a plant-based diet reduces energy use and pollution from animal farming. Overall, your diet-related energy footprint can drop by roughly 30–40%, because producing plants requires less fuel for feed, transport, and housing animals, and produces less water pollution from manure and fertilizers.",
+    es: "Seguir una dieta basada en plantas reduce el uso de energía y la contaminación de la ganadería. En general, tu huella energética relacionada con la alimentación puede disminuir alrededor de 30–40%, porque producir plantas requiere menos combustible para alimento, transporte y alojamiento de animales, y genera menos contaminación del agua por estiércol y fertilizantes.",
+    hu: "A növényi alapú étrend csökkenti az állattenyésztésből származó energiafelhasználást és szennyezést. Összességében az étrenddel kapcsolatos energiafelhasználás kb. 30–40%-kal csökkenhet, mivel a növények előállítása kevesebb üzemanyagot igényel az takarmány, szállítás és állattartás számára, és kevesebb vízszennyezést okoz a trágya és a műtrágyák miatt."
+  },
   quiz: {
-    question: "By how much can your diet-related energy footprint decrease by going vegan?",
-    options: ["10–15%", "20–25%", "30–40%", "50–60%"],
-    answer: "30–40%"
+    question: {
+      en: "By how much can your diet-related energy footprint decrease by going vegan?",
+      es: "¿En cuánto puede disminuir tu huella energética relacionada con la dieta al volverse vegano?",
+      hu: "Mennyivel csökkenthető az étrendhez kapcsolódó energiafelhasználás vegán étrendre váltással?"
+    },
+    options: {
+      en: ["10–15%", "20–25%", "30–40%", "50–60%"],
+      es: ["10–15%", "20–25%", "30–40%", "50–60%"],
+      hu: ["10–15%", "20–25%", "30–40%", "50–60%"]
+    },
+    answer: 2
   }
 },
 
 // continue
 
-*/
+
 
 
 
@@ -2447,187 +4512,498 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
   }
 },
 
-
-/*  
 2006: {
   goal: "Healthy living & wellness",
   diet: "omnivore",
-  lesson: "Will you gain weight because of carbohydrates or become malnourished from a lack of calories without meat? Neither! Whole plant foods provide balanced energy without the excess calories or unhealthy fats found in many processed animal products. Carbohydrates from fruits, grains, and vegetables fuel your brain and muscles efficiently. When you eat a variety of whole foods, it’s easy to meet your energy needs and maintain a healthy weight.",
+  title: {
+    en: "Healthy carbohydrates",
+    es: "Carbohidratos saludables",
+    hu: "Egészséges szénhidrátok"
+  },
+  lesson: {
+    en: "Will you gain weight because of carbohydrates or become malnourished from a lack of calories without meat? Neither! Whole plant foods provide balanced energy without the excess calories or unhealthy fats found in many processed animal products. Carbohydrates from fruits, grains, and vegetables fuel your brain and muscles efficiently. When you eat a variety of whole foods, it’s easy to meet your energy needs and maintain a healthy weight.",
+    es: "¿Aumentarás de peso por los carbohidratos o te desnutrirás por la falta de calorías sin carne? ¡Ninguno! Los alimentos vegetales enteros proporcionan energía equilibrada sin las calorías excesivas ni las grasas poco saludables que se encuentran en muchos productos animales procesados. Los carbohidratos de frutas, cereales y verduras alimentan tu cerebro y músculos de manera eficiente. Cuando comes una variedad de alimentos completos, es fácil satisfacer tus necesidades energéticas y mantener un peso saludable.",
+    hu: "Hízni fogsz a szénhidrátoktól, vagy hiányt szenvedsz kalóriából hús nélkül? Egyik sem! A teljes növényi ételek kiegyensúlyozott energiát biztosítanak anélkül, hogy a feldolgozott állati termékek túlzott kalóriáit vagy egészségtelen zsírokat adnák. A gyümölcsök, gabonák és zöldségek szénhidrátjai hatékonyan táplálják az agyat és az izmokat. Ha változatos teljes ételeket eszel, könnyen fedezheted az energiád és megtarthatod az egészséges testsúlyt."
+  },
   quiz: {
-    question: "What do healthy carbohydrates mainly provide for your body?",
-    options: ["Excess fat storage", "Energy for the brain and muscles", "No nutritional value"],
-    answer: "Energy for the brain and muscles"
+    question: {
+      en: "What do healthy carbohydrates mainly provide for your body?",
+      es: "¿Qué proporcionan principalmente los carbohidratos saludables a tu cuerpo?",
+      hu: "Mit biztosítanak elsősorban az egészséges szénhidrátok a tested számára?"
+    },
+    options: {
+      en: ["Excess fat storage", "Energy for the brain and muscles", "No nutritional value"],
+      es: ["Almacenamiento excesivo de grasa", "Energía para el cerebro y los músculos", "Sin valor nutricional"],
+      hu: ["Túlzott zsírraktározás", "Energia az agynak és az izmoknak", "Nincs tápértéke"]
+    },
+    answer: 1
   }
 },
+
 2007: {
   goal: "Healthy living & wellness",
   diet: "omnivore",
-  lesson: "How does plant-based protein compare to meat? Let’s compare textured soy (100g dry) to chicken breast (100g raw):\n\n- Calories: Textured soy ~336 kcal | Chicken breast ~165 kcal\n- Protein: Textured soy ~52g | Chicken breast ~31g\n- Calcium: Textured soy ~350mg | Chicken breast ~13mg\n- Iron: Textured soy ~15mg | Chicken breast ~1mg\n- Fat: Textured soy ~0.5g | Chicken breast ~3.6g\n\nTextured soy is very high in protein, rich in calcium and iron, and low in fat. Chicken provides protein with moderate fat but very little calcium or iron.",
+  title: {
+    en: "Plant-based vs meat protein",
+    es: "Proteína vegetal vs proteína animal",
+    hu: "Növényi és állati fehérje összehasonlítás"
+  },
+  lesson: {
+    en: "How does plant-based protein compare to meat? Let’s compare textured soy (100g dry) to chicken breast (100g raw):\n\n- Calories: Textured soy ~336 kcal | Chicken breast ~165 kcal\n- Protein: Textured soy ~52g | Chicken breast ~31g\n- Calcium: Textured soy ~350mg | Chicken breast ~13mg\n- Iron: Textured soy ~15mg | Chicken breast ~1mg\n- Fat: Textured soy ~0.5g | Chicken breast ~3.6g\n\nTextured soy is very high in protein, rich in calcium and iron, and low in fat. Chicken provides protein with moderate fat but very little calcium or iron.",
+    es: "¿Cómo se compara la proteína vegetal con la carne? Comparando soja texturizada (100 g seca) con pechuga de pollo (100 g cruda):\n\n- Calorías: soja texturizada ~336 kcal | pechuga de pollo ~165 kcal\n- Proteína: soja texturizada ~52 g | pechuga de pollo ~31 g\n- Calcio: soja texturizada ~350 mg | pechuga de pollo ~13 mg\n- Hierro: soja texturizada ~15 mg | pechuga de pollo ~1 mg\n- Grasa: soja texturizada ~0,5 g | pechuga de pollo ~3,6 g\n\nLa soja texturizada es muy alta en proteínas, rica en calcio y hierro, y baja en grasa. El pollo proporciona proteínas con grasa moderada pero muy poco calcio o hierro.",
+    hu: "Hogyan viszonyul a növényi fehérje a húshoz? Hasonlítsuk össze a texturált szóját (100 g száraz) a csirkemellel (100 g nyers):\n\n- Kalória: szójatextúra ~336 kcal | csirkemell ~165 kcal\n- Fehérje: szójatextúra ~52 g | csirkemell ~31 g\n- Kalcium: szójatextúra ~350 mg | csirkemell ~13 mg\n- Vas: szójatextúra ~15 mg | csirkemell ~1 mg\n- Zsír: szójatextúra ~0,5 g | csirkemell ~3,6 g\n\nA texturált szója nagyon magas fehérjetartalmú, gazdag kalciumban és vasban, és alacsony zsírtartalmú. A csirke fehérjét biztosít mérsékelt zsírral, de nagyon kevés kalciummal és vassal."
+  },
   quiz: {
-    question: "Which protein source is richer in calcium and iron?",
-    options: ["Chicken breast", "Textured soy", "Both are the same"],
-    answer: "Textured soy"
+    question: {
+      en: "Which protein source is richer in calcium and iron?",
+      es: "¿Qué fuente de proteína es más rica en calcio y hierro?",
+      hu: "Melyik fehérjeforrás gazdagabb kalciumban és vasban?"
+    },
+    options: {
+      en: ["Chicken breast", "Textured soy", "Both are the same"],
+      es: ["Pechuga de pollo", "Soja texturizada", "Ambas son iguales"],
+      hu: ["Csirkemell", "Texturált szója", "Mindkettő ugyanaz"]
+    },
+    answer: 1
   }
 },
+
 2008: {
   goal: "Healthy living & wellness",
   diet: "omnivore",
-  lesson: "What causes plaques and high blood pressure? Plaques form when cholesterol and saturated fats build up inside your arteries, narrowing them and making it harder for blood to flow. This can lead to high blood pressure and heart disease over time. Diets rich in fruits, vegetables, whole grains, and legumes help prevent plaque buildup thanks to their fiber, antioxidants, and lack of cholesterol. A plant-forward diet keeps your arteries flexible and your heart strong.",
+  title: {
+    en: "Plaques and blood pressure",
+    es: "Placas y presión arterial",
+    hu: "Plakkok és vérnyomás"
+  },
+  lesson: {
+    en: "What causes plaques and high blood pressure? Plaques form when cholesterol and saturated fats build up inside your arteries, narrowing them and making it harder for blood to flow. This can lead to high blood pressure and heart disease over time. Diets rich in fruits, vegetables, whole grains, and legumes help prevent plaque buildup thanks to their fiber, antioxidants, and lack of cholesterol. A plant-forward diet keeps your arteries flexible and your heart strong.",
+    es: "¿Qué causa placas y presión arterial alta? Las placas se forman cuando el colesterol y las grasas saturadas se acumulan dentro de las arterias, estrechándolas y dificultando el flujo sanguíneo. Esto puede conducir a hipertensión y enfermedades cardíacas con el tiempo. Las dietas ricas en frutas, verduras, granos integrales y legumbres ayudan a prevenir la acumulación de placas gracias a su fibra, antioxidantes y ausencia de colesterol. Una dieta basada en plantas mantiene tus arterias flexibles y tu corazón fuerte.",
+    hu: "Mi okozza a plakkokat és a magas vérnyomást? A plakkok akkor képződnek, amikor a koleszterin és a telített zsírok felhalmozódnak az artériáidban, szűkítve azokat és megnehezítve a vér áramlását. Ez hosszú távon magas vérnyomáshoz és szívbetegségekhez vezethet. A gyümölcsökben, zöldségekben, teljes kiőrlésű gabonákban és hüvelyesekben gazdag étrend segít megelőzni a plakk felhalmozódását a rostok, antioxidánsok és a koleszterin hiánya miatt. A növényközpontú étrend rugalmasan tartja az artériákat és erősíti a szívet."
+  },
   quiz: {
-    question: "What mainly causes plaque buildup in the arteries?",
-    options: ["Fiber and antioxidants", "Water and vitamins", "Cholesterol and saturated fats"],
-    answer: "Cholesterol and saturated fats"
+    question: {
+      en: "What mainly causes plaque buildup in the arteries?",
+      es: "¿Qué causa principalmente la acumulación de placas en las arterias?",
+      hu: "Mi okozza elsősorban az artériákban a plakk felhalmozódást?"
+    },
+    options: {
+      en: ["Fiber and antioxidants", "Water and vitamins", "Cholesterol and saturated fats"],
+      es: ["Fibra y antioxidantes", "Agua y vitaminas", "Colesterol y grasas saturadas"],
+      hu: ["Rost és antioxidánsok", "Víz és vitaminok", "Koleszterin és telített zsírok"]
+    },
+    answer: 2
   }
 },
+
 2009: {
   goal: "Healthy living & wellness",
   diet: "omnivore",
-  lesson: "How can you keep your heart healthy? Your heart thrives on movement and nourishment from whole plant foods. Fruits, vegetables, nuts, seeds, and whole grains support strong circulation and reduce inflammation. Fiber helps keep your cholesterol low, while antioxidants protect your arteries from damage. Combined with regular exercise and good sleep, a balanced vegan or plant-forward diet keeps your heart vibrant and resilient.",
+  title: {
+    en: "Heart health habits",
+    es: "Hábitos para un corazón saludable",
+    hu: "Szív egészségét támogató szokások"
+  },
+  lesson: {
+    en: "How can you keep your heart healthy? Your heart thrives on movement and nourishment from whole plant foods. Fruits, vegetables, nuts, seeds, and whole grains support strong circulation and reduce inflammation. Fiber helps keep your cholesterol low, while antioxidants protect your arteries from damage. Combined with regular exercise and good sleep, a balanced vegan or plant-forward diet keeps your heart vibrant and resilient.",
+    es: "¿Cómo puedes mantener tu corazón saludable? Tu corazón prospera con el movimiento y la nutrición de alimentos vegetales completos. Frutas, verduras, nueces, semillas y granos integrales apoyan una circulación fuerte y reducen la inflamación. La fibra ayuda a mantener bajo el colesterol, mientras que los antioxidantes protegen las arterias del daño. Combinado con ejercicio regular y buen sueño, una dieta vegana o basada en plantas equilibrada mantiene tu corazón vibrante y resistente.",
+    hu: "Hogyan tarthatod egészségesen a szíved? A szív a mozgásból és a teljes növényi ételek tápanyagából fejlődik. A gyümölcsök, zöldségek, magvak, magok és teljes kiőrlésű gabonák támogatják az erős vérkeringést és csökkentik a gyulladást. A rost alacsonyan tartja a koleszterint, az antioxidánsok védik az artériákat a károsodástól. A rendszeres testmozgással és jó alvással kombinálva a kiegyensúlyozott vegán vagy növényközpontú étrend élénk és ellenálló szívet biztosít."
+  },
   quiz: {
-    question: "Which habit best supports a healthy heart?",
-    options: [
-      "Eating whole plant foods and exercising regularly",
-      "Eating processed meats and avoiding physical activity",
-      "Consuming more salt and sugar"
-    ],
-    answer: "Eating whole plant foods and exercising regularly"
+    question: {
+      en: "Which habit best supports a healthy heart?",
+      es: "¿Qué hábito apoya mejor un corazón saludable?",
+      hu: "Melyik szokás támogatja legjobban a szív egészségét?"
+    },
+    options: {
+      en: ["Eating whole plant foods and exercising regularly", "Eating processed meats and avoiding physical activity", "Consuming more salt and sugar"],
+      es: ["Comer alimentos vegetales completos y hacer ejercicio regularmente", "Comer carnes procesadas y evitar la actividad física", "Consumir más sal y azúcar"],
+      hu: ["Teljes növényi ételek fogyasztása és rendszeres testmozgás", "Feldolgozott húsok fogyasztása és a testmozgás kerülése", "Több só és cukor fogyasztása"]
+    },
+    answer: 0
   }
 },
+
 2010: {
   goal: "Healthy living & wellness",
   diet: "omnivore",
-  lesson: "How does a plant-based diet affect your digestion and gut health? Plants are full of fiber, which feeds the beneficial bacteria living in your gut — your microbiome. A diverse, fiber-rich diet helps these bacteria thrive, improving digestion, nutrient absorption, and even your mood and immunity. In contrast, diets high in animal products and low in fiber can lead to inflammation and digestive problems.",
+  title: {
+    en: "Gut health and fiber",
+    es: "Salud intestinal y fibra",
+    hu: "Bél egészség és rost"
+  },
+  lesson: {
+    en: "How does a plant-based diet affect your digestion and gut health? Plants are full of fiber, which feeds the beneficial bacteria living in your gut — your microbiome. A diverse, fiber-rich diet helps these bacteria thrive, improving digestion, nutrient absorption, and even your mood and immunity. In contrast, diets high in animal products and low in fiber can lead to inflammation and digestive problems.",
+    es: "¿Cómo afecta la dieta basada en plantas a tu digestión y salud intestinal? Las plantas están llenas de fibra, que alimenta a las bacterias beneficiosas de tu intestino, tu microbioma. Una dieta diversa y rica en fibra ayuda a estas bacterias a prosperar, mejorando la digestión, la absorción de nutrientes e incluso tu estado de ánimo e inmunidad. En contraste, las dietas altas en productos animales y bajas en fibra pueden provocar inflamación y problemas digestivos.",
+    hu: "Hogyan befolyásolja a növényi étrend az emésztést és a bél egészségét? A növények tele vannak rosttal, ami táplálja a bélben élő hasznos baktériumokat — a mikrobiomodat. A változatos, rostban gazdag étrend segít ezeknek a baktériumoknak virágozni, javítja az emésztést, a tápanyagfelszívódást, sőt a hangulatot és az immunitást is. Ezzel szemben az állati termékekben gazdag, rostszegény étrend gyulladáshoz és emésztési problémákhoz vezethet."
+  },
   quiz: {
-    question: "What helps beneficial gut bacteria thrive?",
-    options: [ "High-fat animal products", "Refined sugar", "Fiber from plant foods"],
-    answer: "Fiber from plant foods"
+    question: {
+      en: "What helps beneficial gut bacteria thrive?",
+      es: "¿Qué ayuda a prosperar a las bacterias intestinales beneficiosas?",
+      hu: "Mi segíti a hasznos bélbaktériumok növekedését?"
+    },
+    options: {
+      en: ["High-fat animal products", "Refined sugar", "Fiber from plant foods"],
+      es: ["Productos animales con alto contenido de grasa", "Azúcar refinada", "Fibra de alimentos vegetales"],
+      hu: ["Magas zsírtartalmú állati termékek", "Finomított cukor", "Növényi ételekből származó rost"]
+    },
+    answer: 2
   }
 },
-2011: {
+
+ 2011: {
   goal: "Healthy living & wellness",
   diet: "omnivore",
-  lesson: "Are dairy products actually healthier than meat? Not necessarily. While dairy provides protein and calcium, it also contains saturated fats and cholesterol, similar to many meats. Plant-based alternatives like fortified oat, soy, or almond milk can provide calcium and vitamin D without the harmful saturated fats. Choosing plant-forward options reduces your risk of heart disease and supports overall wellness, while still giving you essential nutrients.",
+  title: {
+    en: "Plant-based dairy alternatives",
+    es: "Alternativas lácteas vegetales",
+    hu: "Növényi alapú tejhelyettesítők"
+  },
+  lesson: {
+    en: "Are dairy products actually healthier than meat? Not necessarily. While dairy provides protein and calcium, it also contains saturated fats and cholesterol, similar to many meats. Plant-based alternatives like fortified oat, soy, or almond milk can provide calcium and vitamin D without the harmful saturated fats. Choosing plant-forward options reduces your risk of heart disease and supports overall wellness, while still giving you essential nutrients.",
+    es: "¿Son los productos lácteos realmente más saludables que la carne? No necesariamente. Aunque los lácteos aportan proteínas y calcio, también contienen grasas saturadas y colesterol, al igual que muchas carnes. Las alternativas vegetales, como la leche de avena, soja o almendra fortificada, pueden proporcionar calcio y vitamina D sin las grasas saturadas dañinas. Elegir opciones basadas en plantas reduce el riesgo de enfermedades cardíacas y apoya el bienestar general, al mismo tiempo que aporta nutrientes esenciales.",
+    hu: "Valóban egészségesebbek a tejtermékek, mint a hús? Nem feltétlenül. Bár a tejtermékek fehérjét és kalciumot biztosítanak, telített zsírokat és koleszterint is tartalmaznak, hasonlóan sok húshoz. A megerősített zab-, szója- vagy mandulatej növényi alternatívák kalciumot és D-vitamint biztosítanak a káros telített zsírok nélkül. A növényközpontú választások csökkentik a szívbetegségek kockázatát és támogatják az általános jólétet, miközben alapvető tápanyagokat biztosítanak."
+  },
   quiz: {
-    question: "Why might plant-based dairy alternatives be considered healthier than regular dairy?",
-    options: [
-      "They provide essential nutrients without harmful saturated fats",
-      "They contain more cholesterol",
-      "They are higher in saturated fat"
-    ],
-    answer: "They provide essential nutrients without harmful saturated fats"
+    question: {
+      en: "Why might plant-based dairy alternatives be considered healthier than regular dairy?",
+      es: "¿Por qué las alternativas lácteas vegetales pueden considerarse más saludables que los lácteos normales?",
+      hu: "Miért tekinthetők egészségesebbnek a növényi tejhelyettesítők, mint a hagyományos tejtermékek?"
+    },
+    options: {
+      en: [
+        "They provide essential nutrients without harmful saturated fats",
+        "They contain more cholesterol",
+        "They are higher in saturated fat"
+      ],
+      es: [
+        "Proporcionan nutrientes esenciales sin grasas saturadas dañinas",
+        "Contienen más colesterol",
+        "Tienen más grasas saturadas"
+      ],
+      hu: [
+        "Alapvető tápanyagokat biztosítanak káros telített zsírok nélkül",
+        "Több koleszterint tartalmaznak",
+        "Több telített zsírt tartalmaznak"
+      ]
+    },
+    answer: 0
   }
 },
+
 2012: {
   goal: "Healthy living & wellness",
   diet: "omnivore",
-  lesson: "What are Blue Zones and what can we learn from them? Blue Zones are regions around the world where people live significantly longer and healthier lives, such as Okinawa (Japan), Sardinia (Italy), and Nicoya (Costa Rica). A common factor in these populations is a diet rich in plant foods — beans, vegetables, fruits, whole grains, nuts — with limited meat and dairy. Their eating habits, combined with daily movement, strong social connections, and purposeful living, contribute to their longevity and reduced risk of chronic diseases.",
+  title: {
+    en: "Blue Zones",
+    es: "Zonas Azules",
+    hu: "Kék zónák"
+  },
+  lesson: {
+    en: "What are Blue Zones and what can we learn from them? Blue Zones are regions around the world where people live significantly longer and healthier lives, such as Okinawa (Japan), Sardinia (Italy), and Nicoya (Costa Rica). A common factor in these populations is a diet rich in plant foods — beans, vegetables, fruits, whole grains, nuts — with limited meat and dairy. Their eating habits, combined with daily movement, strong social connections, and purposeful living, contribute to their longevity and reduced risk of chronic diseases.",
+    es: "¿Qué son las Zonas Azules y qué podemos aprender de ellas? Las Zonas Azules son regiones del mundo donde las personas viven significativamente más tiempo y con mejor salud, como Okinawa (Japón), Cerdeña (Italia) y Nicoya (Costa Rica). Un factor común en estas poblaciones es una dieta rica en alimentos vegetales — frijoles, verduras, frutas, granos enteros, nueces — con carne y lácteos limitados. Sus hábitos alimenticios, combinados con movimiento diario, fuertes conexiones sociales y vida con propósito, contribuyen a su longevidad y menor riesgo de enfermedades crónicas.",
+    hu: "Mik azok a Kék zónák és mit tanulhatunk belőlük? A Kék zónák a világ olyan régiói, ahol az emberek jelentősen tovább és egészségesebben élnek, például Okinawa (Japán), Szardínia (Olaszország) és Nicoya (Costa Rica). Ezeknél a populációknál a közös tényező a növényi ételekben gazdag étrend — bab, zöldségek, gyümölcsök, teljes kiőrlésű gabonák, magvak — korlátozott hús- és tejtermék-fogyasztással. Étkezési szokásaik, a napi mozgás, erős társas kapcsolatok és célorientált életmód hozzájárul hosszú életükhöz és a krónikus betegségek alacsonyabb kockázatához."
+  },
   quiz: {
-    question: "What is a common feature of diets in Blue Zones?",
-    options: [
-      "High amounts of red meat and processed foods",
-      "Mostly plant-based foods with limited meat and dairy",
-      "Low in vegetables and fruits"
-    ],
-    answer: "Mostly plant-based foods with limited meat and dairy"
+    question: {
+      en: "What is a common feature of diets in Blue Zones?",
+      es: "¿Cuál es una característica común de las dietas en las Zonas Azules?",
+      hu: "Mi a közös jellemzője a Kék zónák étrendjének?"
+    },
+    options: {
+      en: [
+        "High amounts of red meat and processed foods",
+        "Mostly plant-based foods with limited meat and dairy",
+        "Low in vegetables and fruits"
+      ],
+      es: [
+        "Grandes cantidades de carne roja y alimentos procesados",
+        "Principalmente alimentos vegetales con carne y lácteos limitados",
+        "Bajos en verduras y frutas"
+      ],
+      hu: [
+        "Sok vörös hús és feldolgozott élelmiszer",
+        "Többnyire növényi alapú ételek, kevés hús- és tejtermék",
+        "Kevés zöldség és gyümölcs"
+      ]
+    },
+    answer: 1
   }
 },
+
 2013: {
   goal: "Healthy living & wellness",
   diet: "omnivore",
-  lesson: "How can you get enough calcium without dairy? Many plant foods are excellent sources of calcium, including tofu, tempeh, almonds, chia seeds, sesame seeds, broccoli, and leafy greens like kale and bok choy. Fortified plant milks and juices also help meet your daily needs. Eating a variety of these foods, combined with regular exercise like walking or strength training, keeps your bones strong and supports long-term health.",
+  title: {
+    en: "Calcium without dairy",
+    es: "Calcio sin lácteos",
+    hu: "Kalcium tej nélkül"
+  },
+  lesson: {
+    en: "How can you get enough calcium without dairy? Many plant foods are excellent sources of calcium, including tofu, tempeh, almonds, chia seeds, sesame seeds, broccoli, and leafy greens like kale and bok choy. Fortified plant milks and juices also help meet your daily needs. Eating a variety of these foods, combined with regular exercise like walking or strength training, keeps your bones strong and supports long-term health.",
+    es: "¿Cómo puedes obtener suficiente calcio sin lácteos? Muchos alimentos vegetales son excelentes fuentes de calcio, incluyendo tofu, tempeh, almendras, semillas de chía, semillas de sésamo, brócoli y verduras de hoja como kale y bok choy. Las leches y jugos vegetales fortificados también ayudan a cubrir tus necesidades diarias. Comer una variedad de estos alimentos, combinado con ejercicio regular como caminar o entrenamiento de fuerza, mantiene tus huesos fuertes y apoya la salud a largo plazo.",
+    hu: "Hogyan juthatsz elegendő kalciumhoz tejtermék nélkül? Sok növényi étel kiváló kalciumforrás, például tofu, tempeh, mandula, chia mag, szezámmag, brokkoli és leveles zöldek, mint a kelkáposzta és a bok choy. A megerősített növényi tejek és gyümölcslevek is segítenek a napi szükséglet fedezésében. Ezeknek az ételeknek a változatos fogyasztása, rendszeres testmozgással, például sétával vagy erőedzéssel kombinálva erős csontokat és hosszú távú egészséget biztosít."
+  },
   quiz: {
-    question: "Which of the following plant foods is rich in calcium?",
-    options: ["Tofu", "Potato", "Apple"],
-    answer: "Tofu"
+    question: {
+      en: "Which of the following plant foods is rich in calcium?",
+      es: "¿Cuál de los siguientes alimentos vegetales es rico en calcio?",
+      hu: "Melyik növényi étel gazdag kalciumban?"
+    },
+    options: {
+      en: ["Tofu", "Potato", "Apple"],
+      es: ["Tofu", "Patata", "Manzana"],
+      hu: ["Tofu", "Burgonya", "Alma"]
+    },
+    answer: 0
   }
 },
+
 2014: {
   goal: "Healthy living & wellness",
   diet: "omnivore",
-  lesson: "Why is vitamin B12 important and how can you get it on a plant-forward diet? Vitamin B12 is essential for healthy nerves, red blood cells, and energy levels. It is naturally produced by bacteria, not by plants or animals. In modern farming, animals are often supplemented with B12 because natural bacterial sources are limited, so meat and dairy aren’t guaranteed to provide enough either. Plant-based eaters can reliably get B12 from fortified foods like plant milks, breakfast cereals, nutritional yeast, or supplements, ensuring they stay energized and healthy.",
+  title: {
+    en: "Vitamin B12",
+    es: "Vitamina B12",
+    hu: "B12-vitamin"
+  },
+  lesson: {
+    en: "Why is vitamin B12 important and how can you get it on a plant-forward diet? Vitamin B12 is essential for healthy nerves, red blood cells, and energy levels. It is naturally produced by bacteria, not by plants or animals. In modern farming, animals are often supplemented with B12 because natural bacterial sources are limited, so meat and dairy aren’t guaranteed to provide enough either. Plant-based eaters can reliably get B12 from fortified foods like plant milks, breakfast cereals, nutritional yeast, or supplements, ensuring they stay energized and healthy.",
+    es: "¿Por qué es importante la vitamina B12 y cómo obtenerla con una dieta basada en plantas? La B12 es esencial para los nervios, los glóbulos rojos y los niveles de energía. Se produce naturalmente por bacterias, no por plantas o animales. En la agricultura moderna, a menudo se suplementa a los animales con B12 porque las fuentes bacterianas naturales son limitadas, por lo que la carne y los lácteos tampoco garantizan suficiente B12. Los consumidores de alimentos vegetales pueden obtener B12 de manera confiable de alimentos fortificados como leches vegetales, cereales, levadura nutricional o suplementos, asegurando energía y salud.",
+    hu: "Miért fontos a B12-vitamin és hogyan szerezhető növényközpontú étrenddel? A B12-vitamin elengedhetetlen az egészséges idegekhez, vörösvérsejtekhez és energiaszinthez. Természetesen baktériumok termelik, nem növények vagy állatok. A modern állattenyésztésben az állatokat gyakran B12-vel kiegészítik, mert a természetes baktériumforrások korlátozottak, így a hús és a tej sem biztosít elegendőt. A növényi étrendet követők megbízhatóan juthatnak B12-höz megerősített ételekből, például növényi tejekből, reggeli gabonákból, táplálékkiegészítő élesztőből vagy kiegészítőkből, így energikusak és egészségesek maradnak."
+  },
   quiz: {
-    question: "Why do plant-based eaters need fortified foods or supplements for B12?",
-    options: ["Plants naturally contain enough B12", "B12 comes from bacteria, not plants", "Animals always provide sufficient B12"],
-    answer: "B12 comes from bacteria, not plants"
+    question: {
+      en: "Why do plant-based eaters need fortified foods or supplements for B12?",
+      es: "¿Por qué los consumidores de plantas necesitan alimentos fortificados o suplementos para B12?",
+      hu: "Miért van szüksége a növényi étrendet követőknek megerősített ételekre vagy kiegészítőkre B12-ből?"
+    },
+    options: {
+      en: ["Plants naturally contain enough B12", "B12 comes from bacteria, not plants", "Animals always provide sufficient B12"],
+      es: ["Las plantas contienen suficiente B12 naturalmente", "La B12 proviene de bacterias, no de plantas", "Los animales siempre proporcionan suficiente B12"],
+      hu: ["A növények természetesen elegendő B12-t tartalmaznak", "A B12 baktériumoktól származik, nem növényektől", "Az állatok mindig elegendő B12-t biztosítanak"]
+    },
+    answer: 1
   }
 },
+
 2015: {
   goal: "Healthy living & wellness",
   diet: "omnivore",
-  lesson: "Why are healthy fats important and where can you get them? Fats are essential for brain function, hormone production, and heart health. Plant-based sources like avocados, nuts, seeds, and olive oil provide beneficial monounsaturated and polyunsaturated fats. Omega-3 fatty acids, important for the heart and brain, can be found in flaxseeds, chia seeds, hemp seeds, and walnuts. Incorporating these fats into your diet supports energy, reduces inflammation, and keeps your heart strong.",
+  title: {
+    en: "Healthy fats",
+    es: "Grasas saludables",
+    hu: "Egészséges zsírok"
+  },
+  lesson: {
+    en: "Why are healthy fats important and where can you get them? Fats are essential for brain function, hormone production, and heart health. Plant-based sources like avocados, nuts, seeds, and olive oil provide beneficial monounsaturated and polyunsaturated fats. Omega-3 fatty acids, important for the heart and brain, can be found in flaxseeds, chia seeds, hemp seeds, and walnuts. Incorporating these fats into your diet supports energy, reduces inflammation, and keeps your heart strong.",
+    es: "¿Por qué son importantes las grasas saludables y dónde puedes obtenerlas? Las grasas son esenciales para la función cerebral, la producción de hormonas y la salud del corazón. Las fuentes vegetales como aguacates, nueces, semillas y aceite de oliva proporcionan grasas monoinsaturadas y poliinsaturadas beneficiosas. Los ácidos grasos omega-3, importantes para el corazón y el cerebro, se encuentran en semillas de lino, chía, cáñamo y nueces. Incorporar estas grasas en tu dieta apoya la energía, reduce la inflamación y mantiene tu corazón fuerte.",
+    hu: "Miért fontosak az egészséges zsírok és honnan szerezhetők? A zsírok elengedhetetlenek az agyműködéshez, hormontermeléshez és a szív egészségéhez. A növényi források, például avokádó, magvak, olajbogyó és olívaolaj hasznos egyszeresen és többszörösen telítetlen zsírokat biztosítanak. Az omega-3 zsírsavak, amelyek fontosak a szív és az agy számára, megtalálhatók lenmagban, chia magban, kendermagban és dióban. Ezeknek a zsíroknak az étrendbe illesztése energiát biztosít, csökkenti a gyulladást és erősíti a szívet."
+  },
   quiz: {
-    question: "Which of the following plant foods is rich in omega-3 fatty acids?",
-    options: ["Flaxseeds", "Bananas", "Potatoes"],
-    answer: "Flaxseeds"
+    question: {
+      en: "Which of the following plant foods is rich in omega-3 fatty acids?",
+      es: "¿Cuál de los siguientes alimentos vegetales es rico en ácidos grasos omega-3?",
+      hu: "Melyik növényi étel gazdag omega-3 zsírsavakban?"
+    },
+    options: {
+      en: ["Flaxseeds", "Bananas", "Potatoes"],
+      es: ["Semillas de lino", "Plátanos", "Patatas"],
+      hu: ["Lenmag", "Banán", "Burgonya"]
+    },
+    answer: 0
   }
-},
+}, 
+
 2016: {
   goal: "Healthy living & wellness",
   diet: "omnivore",
-  lesson: "Does soy affect your hormones? Soy contains compounds called phytoestrogens, which are plant-based molecules that can mimic estrogen in the body, but much more weakly than human estrogen. Research shows that moderate consumption of soy foods like tofu, tempeh, and soy milk is safe for most people and does not negatively affect hormone levels. In fact, soy can be part of a heart-healthy and balanced diet.",
+  title: {
+    en: "Soy and hormones",
+    es: "Soja y hormonas",
+    hu: "Szója és hormonok"
+  },
+  lesson: {
+    en: "Does soy affect your hormones? Soy contains compounds called phytoestrogens, which are plant-based molecules that can mimic estrogen in the body, but much more weakly than human estrogen. Research shows that moderate consumption of soy foods like tofu, tempeh, and soy milk is safe for most people and does not negatively affect hormone levels. In fact, soy can be part of a heart-healthy and balanced diet.",
+    es: "¿La soja afecta tus hormonas? La soja contiene compuestos llamados fitoestrógenos, que son moléculas de origen vegetal que pueden imitar el estrógeno en el cuerpo, pero mucho más débilmente que el estrógeno humano. La investigación muestra que el consumo moderado de alimentos de soja como el tofu, tempeh y la leche de soja es seguro para la mayoría de las personas y no afecta negativamente los niveles hormonales. De hecho, la soja puede formar parte de una dieta equilibrada y saludable para el corazón.",
+    hu: "A szója befolyásolja a hormonjaidat? A szója fitoösztrogéneket tartalmaz, amelyek növényi molekulák, és képesek utánozni az ösztrogént a testben, de sokkal gyengébben, mint a humán ösztrogén. Kutatások szerint a szójaételek, például tofu, tempeh és szójatej mérsékelt fogyasztása a legtöbb ember számára biztonságos, és nem befolyásolja hátrányosan a hormonokat. Valójában a szója része lehet egy szívbarát és kiegyensúlyozott étrendnek."
+  },
   quiz: {
-    question: "What are the plant compounds in soy that can mimic estrogen?",
-    options: ["Saturated fats", "Phytoestrogens", "Cholesterol"],
-    answer: "Phytoestrogens"
+    question: {
+      en: "What are the plant compounds in soy that can mimic estrogen?",
+      es: "¿Cuáles son los compuestos vegetales en la soja que pueden imitar el estrógeno?",
+      hu: "Mely növényi vegyületek képesek utánozni az ösztrogént a szójában?"
+    },
+    options: {
+      en: ["Saturated fats", "Phytoestrogens", "Cholesterol"],
+      es: ["Grasas saturadas", "Fitoestrógenos", "Colesterol"],
+      hu: ["Telített zsírok", "Fitoösztrogének", "Koleszterin"]
+    },
+    answer: 1
   }
 },
+
 2017: {
   goal: "Healthy living & wellness",
   diet: "omnivore",
-  lesson: "Do our canines prove we are meant to eat meat? Not really. While humans do have small canine teeth, they are nothing like the sharp, long canines of carnivores like lions or wolves, which are designed for tearing flesh. Human teeth are more suited for grinding and chewing a variety of foods, especially plant-based ones. Our digestive system is also much longer than carnivores’, which helps process fiber-rich plants. This suggests humans are naturally adapted to a mixed or plant-forward diet, rather than being strict carnivores.",
+  title: {
+    en: "Human teeth and diet",
+    es: "Dientes humanos y dieta",
+    hu: "Az emberi fogak és étrend"
+  },
+  lesson: {
+    en: "Do our canines prove we are meant to eat meat? Not really. While humans do have small canine teeth, they are nothing like the sharp, long canines of carnivores like lions or wolves, which are designed for tearing flesh. Human teeth are more suited for grinding and chewing a variety of foods, especially plant-based ones. Our digestive system is also much longer than carnivores’, which helps process fiber-rich plants. This suggests humans are naturally adapted to a mixed or plant-forward diet, rather than being strict carnivores.",
+    es: "¿Nuestros colmillos demuestran que estamos hechos para comer carne? No realmente. Aunque los humanos tenemos colmillos pequeños, no se parecen en nada a los largos y afilados colmillos de carnívoros como leones o lobos, diseñados para desgarrar carne. Los dientes humanos son más adecuados para moler y masticar una variedad de alimentos, especialmente vegetales. Nuestro sistema digestivo también es mucho más largo que el de los carnívoros, lo que ayuda a procesar plantas ricas en fibra. Esto sugiere que los humanos estamos naturalmente adaptados a una dieta mixta o basada en plantas, no a una dieta estrictamente carnívora.",
+    hu: "Bizonyítják a szemfogaink, hogy húst kell ennünk? Nem igazán. Bár az embereknek vannak kis szemfogai, ezek egyáltalán nem hasonlítanak a ragadozók, például oroszlánok vagy farkasok hosszú, éles szemfogaikhoz, amelyek a hús tépésére szolgálnak. Az emberi fogak inkább különféle ételek, főként növényi alapúak őrlésére és rágására alkalmasak. Az emésztőrendszerünk is sokkal hosszabb, mint a ragadozóké, ami segít a rostban gazdag növények feldolgozásában. Ez arra utal, hogy az emberek természetesen kevert vagy növényközpontú étrendre vannak adaptálódva, nem szigorúan húsevő étrendre."
+  },
   quiz: {
-    question: "What do human canines suggest about our natural diet?",
-    options: [
-      "Humans are strict carnivores",
-      "Humans cannot digest plants",
-      "Humans are adapted for a mixed or plant-forward diet"
-    ],
-    answer: "Humans are adapted for a mixed or plant-forward diet"
+    question: {
+      en: "What do human canines suggest about our natural diet?",
+      es: "¿Qué sugieren los colmillos humanos sobre nuestra dieta natural?",
+      hu: "Mit sugallnak az emberi szemfogak a természetes étrendről?"
+    },
+    options: {
+      en: [
+        "Humans are strict carnivores",
+        "Humans cannot digest plants",
+        "Humans are adapted for a mixed or plant-forward diet"
+      ],
+      es: [
+        "Los humanos son carnívoros estrictos",
+        "Los humanos no pueden digerir plantas",
+        "Los humanos están adaptados a una dieta mixta o basada en plantas"
+      ],
+      hu: [
+        "Az emberek szigorúan húsevők",
+        "Az emberek nem tudnak növényeket emészteni",
+        "Az emberek kevert vagy növényközpontú étrendre vannak adaptálódva"
+      ]
+    },
+    answer: 2
   }
 },
+
 2018: {
   goal: "Healthy living & wellness",
   diet: "omnivore",
-  lesson: "What does stomach acidity tell us about our diet? Carnivores have very acidic stomachs to break down meat and kill bacteria, while humans have moderately acidic stomachs. This acidity is enough to digest protein efficiently but not as extreme as strict meat-eaters. Our longer intestines are better suited for breaking down fiber from plants. This shows that humans are naturally adapted to a mixed diet with plenty of plant foods, rather than a meat-only diet.",
+  title: {
+    en: "Stomach acidity and diet",
+    es: "Acidez estomacal y dieta",
+    hu: "Gyomorsavasság és étrend"
+  },
+  lesson: {
+    en: "What does stomach acidity tell us about our diet? Carnivores have very acidic stomachs to break down meat and kill bacteria, while humans have moderately acidic stomachs. This acidity is enough to digest protein efficiently but not as extreme as strict meat-eaters. Our longer intestines are better suited for breaking down fiber from plants. This shows that humans are naturally adapted to a mixed diet with plenty of plant foods, rather than a meat-only diet.",
+    es: "¿Qué nos dice la acidez estomacal sobre nuestra dieta? Los carnívoros tienen estómagos muy ácidos para descomponer la carne y matar bacterias, mientras que los humanos tenemos estómagos moderadamente ácidos. Esta acidez es suficiente para digerir proteínas de manera eficiente, pero no tan extrema como la de los carnívoros estrictos. Nuestros intestinos más largos están mejor adaptados a descomponer la fibra de las plantas. Esto muestra que los humanos estamos naturalmente adaptados a una dieta mixta con muchas plantas, en lugar de solo carne.",
+    hu: "Mit mond el a gyomorsavasság az étrendünkről? A ragadozóknak nagyon savas a gyomruk a hús lebontására és a baktériumok elpusztítására, míg az emberek mérsékelten savas gyomorral rendelkeznek. Ez a savasság elegendő a fehérjék hatékony emésztéséhez, de nem olyan extrém, mint a szigorúan húsevők esetében. A hosszabb bélrendszerünk jobban alkalmas a növényi rostok lebontására. Ez azt mutatja, hogy az emberek természetesen kevert étrendre, sok növénnyel vannak adaptálódva, nem kizárólag húsra."
+  },
   quiz: {
-    question: "What does human stomach acidity suggest about our natural diet?",
-    options: [
-      "We are adapted to a mixed diet with plenty of plant foods",
-      "We are strict carnivores",
-      "We can only digest meat"
-    ],
-    answer: "We are adapted to a mixed diet with plenty of plant foods"
+    question: {
+      en: "What does human stomach acidity suggest about our natural diet?",
+      es: "¿Qué sugiere la acidez estomacal humana sobre nuestra dieta natural?",
+      hu: "Mit sugall az emberi gyomorsavasság a természetes étrendről?"
+    },
+    options: {
+      en: [
+        "We are adapted to a mixed diet with plenty of plant foods",
+        "We are strict carnivores",
+        "We can only digest meat"
+      ],
+      es: [
+        "Estamos adaptados a una dieta mixta con muchas plantas",
+        "Somos carnívoros estrictos",
+        "Solo podemos digerir carne"
+      ],
+      hu: [
+        "Kevert étrendre vagyunk adaptálódva, sok növénnyel",
+        "Szigorúan húsevők vagyunk",
+        "Csak húst tudunk emészteni"
+      ]
+    },
+    answer: 0
   }
 },
+
 2019: {
   goal: "Healthy living & wellness",
   diet: "omnivore",
-  lesson: "Are plant-based foods ultra-processed? Not usually. Whole plant foods like fruits, vegetables, beans, nuts, and whole grains are minimally processed and full of nutrients. In contrast, many meat and dairy products we consume today are highly processed, often containing added salt, sugars, preservatives, and unhealthy fats. Eating more whole, plant-based foods and fewer ultra-processed animal products supports better health, more energy, and lower risk of chronic diseases.",
+  title: {
+    en: "Whole vs processed foods",
+    es: "Alimentos enteros vs procesados",
+    hu: "Teljes vs feldolgozott ételek"
+  },
+  lesson: {
+    en: "Are plant-based foods ultra-processed? Not usually. Whole plant foods like fruits, vegetables, beans, nuts, and whole grains are minimally processed and full of nutrients. In contrast, many meat and dairy products we consume today are highly processed, often containing added salt, sugars, preservatives, and unhealthy fats. Eating more whole, plant-based foods and fewer ultra-processed animal products supports better health, more energy, and lower risk of chronic diseases.",
+    es: "¿Son los alimentos vegetales ultraprocesados? No generalmente. Los alimentos vegetales enteros, como frutas, verduras, frijoles, nueces y granos enteros, están mínimamente procesados y llenos de nutrientes. En contraste, muchos productos de carne y lácteos que consumimos hoy están muy procesados, a menudo contienen sal, azúcares, conservantes y grasas no saludables. Comer más alimentos vegetales enteros y menos productos animales ultraprocesados apoya mejor la salud, más energía y menor riesgo de enfermedades crónicas.",
+    hu: "A növényi ételek ultrafeldolgozottak? Általában nem. A teljes növényi ételek, például gyümölcsök, zöldségek, bab, magvak és teljes kiőrlésű gabonák minimálisan feldolgozottak és tápanyagokban gazdagok. Ezzel szemben a mai hús- és tejtermékek nagy része erősen feldolgozott, gyakran hozzáadott sót, cukrot, tartósítószereket és egészségtelen zsírokat tartalmaz. Több teljes növényi étel és kevesebb ultrafeldolgozott állati termék fogyasztása jobb egészséget, több energiát és alacsonyabb krónikus betegség kockázatot támogat."
+  },
   quiz: {
-    question: "Which of the following is usually minimally processed and nutrient-rich?",
-    options: [
-      "Processed meats and cheeses",
-      "Whole plant foods like beans and vegetables",
-      "Packaged sugary snacks"
-    ],
-    answer: "Whole plant foods like beans and vegetables"
+    question: {
+      en: "Which of the following is usually minimally processed and nutrient-rich?",
+      es: "¿Cuál de los siguientes alimentos generalmente está mínimamente procesado y es rico en nutrientes?",
+      hu: "Melyik az alábbiak közül általában minimálisan feldolgozott és tápanyagokban gazdag?"
+    },
+    options: {
+      en: [
+        "Processed meats and cheeses",
+        "Whole plant foods like beans and vegetables",
+        "Packaged sugary snacks"
+      ],
+      es: [
+        "Carnes y quesos procesados",
+        "Alimentos vegetales enteros como frijoles y verduras",
+        "Bocadillos azucarados envasados"
+      ],
+      hu: [
+        "Feldolgozott húsok és sajtok",
+        "Teljes növényi ételek, pl. bab és zöldségek",
+        "Csomagolt cukros nassolnivalók"
+      ]
+    },
+    answer: 1
   }
 },
+
 2020: {
   goal: "Healthy living & wellness",
   diet: "omnivore",
-  lesson: "The human brain consumes about 120 grams of glucose per day, which is mainly supplied by carbohydrates from fruits, vegetables, grains, and legumes. Meat and dairy are very low in carbs, so if humans were strict carnivores, meeting the brain’s energy needs would be difficult. This suggests that humans are naturally adapted to a mixed or plant-forward diet that includes sufficient carbohydrates to fuel our brains efficiently.",
+  title: {
+    en: "Brain energy and diet",
+    es: "Energía cerebral y dieta",
+    hu: "Az agy energiaigénye és étrend"
+  },
+  lesson: {
+    en: "The human brain consumes about 120 grams of glucose per day, which is mainly supplied by carbohydrates from fruits, vegetables, grains, and legumes. Meat and dairy are very low in carbs, so if humans were strict carnivores, meeting the brain’s energy needs would be difficult. This suggests that humans are naturally adapted to a mixed or plant-forward diet that includes sufficient carbohydrates to fuel our brains efficiently.",
+    es: "El cerebro humano consume aproximadamente 120 gramos de glucosa al día, que se suministra principalmente mediante carbohidratos de frutas, verduras, cereales y legumbres. La carne y los lácteos tienen muy pocos carbohidratos, por lo que si los humanos fuéramos carnívoros estrictos, sería difícil satisfacer las necesidades energéticas del cerebro. Esto sugiere que los humanos estamos naturalmente adaptados a una dieta mixta o basada en plantas que incluye suficientes carbohidratos para alimentar nuestro cerebro de manera eficiente.",
+    hu: "Az emberi agy naponta körülbelül 120 gramm glükózt fogyaszt, amelyet főként gyümölcsök, zöldségek, gabonák és hüvelyesek szénhidrátjai biztosítanak. A hús és tejtermékek nagyon szegények szénhidrátban, így ha az emberek szigorúan húsevők lennénk, nehéz lenne kielégíteni az agy energiaigényét. Ez arra utal, hogy az emberek természetesen kevert vagy növényközpontú étrendre vannak adaptálódva, amely elegendő szénhidrátot tartalmaz az agy hatékony működéséhez."
+  },
   quiz: {
-    question: "What does our brain’s need for glucose suggest about our natural diet?",
-    options: [
-      "Humans are strict carnivores",
-      "Humans don’t need carbohydrates",
-      "Humans are adapted to a mixed or plant-forward diet"
-    ],
-    answer: "Humans are adapted to a mixed or plant-forward diet"
+    question: {
+      en: "What does our brain’s need for glucose suggest about our natural diet?",
+      es: "¿Qué sugiere la necesidad de glucosa de nuestro cerebro sobre nuestra dieta natural?",
+      hu: "Mit sugall az agyunk glükózigénye a természetes étrendről?"
+    },
+    options: {
+      en: [
+        "Humans are strict carnivores",
+        "Humans don’t need carbohydrates",
+        "Humans are adapted to a mixed or plant-forward diet"
+      ],
+      es: [
+        "Los humanos son carnívoros estrictos",
+        "Los humanos no necesitan carbohidratos",
+        "Los humanos están adaptados a una dieta mixta o basada en plantas"
+      ],
+      hu: [
+        "Az emberek szigorúan húsevők",
+        "Az embereknek nincs szükségük szénhidrátra",
+        "Az emberek kevert vagy növényközpontú étrendre vannak adaptálódva"
+      ]
+    },
+    answer: 2
   }
 },
-*/
+
 // --------------------------
 // Healthy living & wellness – Vegetarian
 // --------------------------
@@ -2829,218 +5205,497 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
   }
 },
 
-/*  
 2026: {
   goal: "Healthy living & wellness",
   diet: "vegetarian",
-  lesson: "Why are plant-based fats good for your heart? Fats from nuts, seeds, avocados, and olive oil are mostly unsaturated, which helps lower LDL (“bad”) cholesterol and increase HDL (“good”) cholesterol. They also contain antioxidants and anti-inflammatory compounds that protect arteries from damage. Including these fats regularly in your diet supports healthy blood flow, reduces the risk of heart disease, and provides lasting energy, all while keeping saturated fat intake in check.",
+  title: {
+    en: "Plant-based fats and heart health",
+    es: "Grasas vegetales y salud del corazón",
+    hu: "Növényi zsírok és a szív egészsége"
+  },
+  lesson: {
+    en: "Why are plant-based fats good for your heart? Fats from nuts, seeds, avocados, and olive oil are mostly unsaturated, which helps lower LDL (“bad”) cholesterol and increase HDL (“good”) cholesterol. They also contain antioxidants and anti-inflammatory compounds that protect arteries from damage. Including these fats regularly in your diet supports healthy blood flow, reduces the risk of heart disease, and provides lasting energy, all while keeping saturated fat intake in check.",
+    es: "¿Por qué las grasas vegetales son buenas para tu corazón? Las grasas de frutos secos, semillas, aguacates y aceite de oliva son principalmente insaturadas, lo que ayuda a reducir el colesterol LDL (“malo”) y aumentar el colesterol HDL (“bueno”). También contienen antioxidantes y compuestos antiinflamatorios que protegen las arterias del daño. Incluir estas grasas regularmente en tu dieta favorece un flujo sanguíneo saludable, reduce el riesgo de enfermedades del corazón y proporciona energía duradera, manteniendo bajo control la ingesta de grasas saturadas.",
+    hu: "Miért jók a növényi zsírok a szívnek? A diófélék, magvak, avokádó és olívaolaj zsírsavai főként telítetlenek, ami segít csökkenteni az LDL („rossz”) koleszterint és növelni a HDL („jó”) koleszterint. Emellett antioxidánsokat és gyulladáscsökkentő vegyületeket is tartalmaznak, amelyek védik az artériákat a károsodástól. Ezeknek a zsíroknak a rendszeres fogyasztása támogatja az egészséges véráramlást, csökkenti a szívbetegségek kockázatát és tartós energiát biztosít, miközben a telített zsírfogyasztást ellenőrzés alatt tartja."
+  },
   quiz: {
-    question: "Which type of fat helps lower LDL cholesterol and supports heart health?",
-    options: [
-      "Saturated fats from butter and cheese",
-      "Trans fats from processed foods",
-      "Unsaturated fats from plant foods"
-    ],
-    answer: "Unsaturated fats from plant foods"
+    question: {
+      en: "Which type of fat helps lower LDL cholesterol and supports heart health?",
+      es: "¿Qué tipo de grasa ayuda a reducir el colesterol LDL y protege el corazón?",
+      hu: "Melyik zsírtípus csökkenti az LDL-koleszterint és támogatja a szív egészségét?"
+    },
+    options: {
+      en: [
+        "Saturated fats from butter and cheese",
+        "Trans fats from processed foods",
+        "Unsaturated fats from plant foods"
+      ],
+      es: [
+        "Grasas saturadas de mantequilla y queso",
+        "Grasas trans de alimentos procesados",
+        "Grasas insaturadas de alimentos vegetales"
+      ],
+      hu: [
+        "Telített zsírok vajból és sajtból",
+        "Transzzsírok feldolgozott ételekből",
+        "Telítetlen zsírok növényi ételekből"
+      ]
+    },
+    answer: 2
   }
 },
+
 2027: {
   goal: "Healthy living & wellness",
   diet: "vegetarian",
-  lesson: "Do you need dairy or meat to get complete protein? Not necessarily. A complete protein contains all nine essential amino acids your body cannot produce. Dairy is a complete protein, but so are some plant-based foods like soy, quinoa, buckwheat, and hemp seeds. Most other plant foods may be lower in one or more essential amino acids, but by eating a variety of plant foods throughout the day — for example, beans with grains or nuts with legumes — you can easily obtain all essential amino acids. This shows that well-planned plant-based diets fully support protein needs without dairy.",
+  title: {
+    en: "Getting complete protein from plants",
+    es: "Obtener proteína completa de plantas",
+    hu: "Teljes értékű fehérje növényekből"
+  },
+  lesson: {
+    en: "Do you need dairy or meat to get complete protein? Not necessarily. A complete protein contains all nine essential amino acids your body cannot produce. Dairy is a complete protein, but so are some plant-based foods like soy, quinoa, buckwheat, and hemp seeds. Most other plant foods may be lower in one or more essential amino acids, but by eating a variety of plant foods throughout the day — for example, beans with grains or nuts with legumes — you can easily obtain all essential amino acids. This shows that well-planned plant-based diets fully support protein needs without dairy.",
+    es: "¿Necesitas lácteos o carne para obtener proteína completa? No necesariamente. Una proteína completa contiene los nueve aminoácidos esenciales que tu cuerpo no puede producir. Los lácteos son proteínas completas, pero también algunos alimentos vegetales como la soja, quinoa, trigo sarraceno y semillas de cáñamo. La mayoría de otros alimentos vegetales pueden ser bajos en uno o más aminoácidos esenciales, pero al comer una variedad de alimentos vegetales a lo largo del día —por ejemplo, legumbres con cereales o frutos secos con legumbres— puedes obtener fácilmente todos los aminoácidos esenciales. Esto demuestra que las dietas vegetales bien planificadas satisfacen completamente las necesidades de proteína sin lácteos.",
+    hu: "Szükséged van tejre vagy húsra a teljes értékű fehérjéhez? Nem feltétlenül. A teljes értékű fehérje tartalmazza mind a kilenc esszenciális aminosavat, amelyet a szervezet nem képes előállítani. A tejtermék teljes fehérjét biztosít, de néhány növényi étel, például szója, quinoa, hajdina és kendermag is teljes értékű. A legtöbb más növényi étel alacsonyabb lehet egy vagy több esszenciális aminosavban, de ha a nap folyamán változatos növényi ételeket eszel — például babot gabonával vagy magvakat hüvelyesekkel — könnyen biztosíthatod az összes esszenciális aminosavat. Ez azt mutatja, hogy a jól megtervezett növényi étrend teljes mértékben fedezi a fehérjeszükségletet tejtermékek nélkül."
+  },
   quiz: {
-    question: "How can plant-based eaters get all essential amino acids?",
-    options: [
-      "It’s impossible without dairy",
-      "By eating only one type of plant food",
-      "By combining different plant foods like beans and grains throughout the day"
-    ],
-    answer: "By combining different plant foods like beans and grains throughout the day"
+    question: {
+      en: "How can plant-based eaters get all essential amino acids?",
+      es: "¿Cómo pueden los vegetarianos obtener todos los aminoácidos esenciales?",
+      hu: "Hogyan szerezhetnek a növényevők minden esszenciális aminosavat?"
+    },
+    options: {
+      en: [
+        "It’s impossible without dairy",
+        "By eating only one type of plant food",
+        "By combining different plant foods like beans and grains throughout the day"
+      ],
+      es: [
+        "Es imposible sin lácteos",
+        "Comiendo solo un tipo de alimento vegetal",
+        "Combinando diferentes alimentos vegetales como legumbres y cereales a lo largo del día"
+      ],
+      hu: [
+        "Tej nélkül lehetetlen",
+        "Csak egyféle növényi étel fogyasztásával",
+        "Különböző növényi ételek, például bab és gabona kombinálásával a nap folyamán"
+      ]
+    },
+    answer: 2
   }
 },
+
 2028: {
   goal: "Healthy living & wellness",
   diet: "vegetarian",
-  lesson: "Your skin reflects what you eat. A vegetarian diet is packed with antioxidants, vitamins, and healthy fats that protect your skin from damage and premature aging. Vitamin C from fruits helps build collagen, vitamin E from nuts and seeds guards against oxidative stress, and beta-carotene from colorful vegetables supports a natural, healthy glow. Plant-based diets are also lower in compounds that promote inflammation, which means fewer skin breakouts and slower aging. By eating more plants, you’re not only nourishing your body but also giving your skin the nutrients it needs to stay radiant and youthful.",
+  title: {
+    en: "Skin health and plant-based diet",
+    es: "Salud de la piel y dieta vegetal",
+    hu: "Bőrápolás és növényi étrend"
+  },
+  lesson: {
+    en: "Your skin reflects what you eat. A vegetarian diet is packed with antioxidants, vitamins, and healthy fats that protect your skin from damage and premature aging. Vitamin C from fruits helps build collagen, vitamin E from nuts and seeds guards against oxidative stress, and beta-carotene from colorful vegetables supports a natural, healthy glow. Plant-based diets are also lower in compounds that promote inflammation, which means fewer skin breakouts and slower aging. By eating more plants, you’re not only nourishing your body but also giving your skin the nutrients it needs to stay radiant and youthful.",
+    es: "Tu piel refleja lo que comes. Una dieta vegetariana está llena de antioxidantes, vitaminas y grasas saludables que protegen tu piel del daño y el envejecimiento prematuro. La vitamina C de las frutas ayuda a producir colágeno, la vitamina E de frutos secos y semillas protege contra el estrés oxidativo, y el betacaroteno de vegetales coloridos aporta un brillo natural y saludable. Las dietas vegetales también tienen menos compuestos que promueven la inflamación, lo que significa menos brotes de piel y envejecimiento más lento. Al comer más plantas, no solo nutres tu cuerpo, sino también tu piel.",
+    hu: "A bőröd tükrözi, mit eszel. A vegetáriánus étrend tele van antioxidánsokkal, vitaminokkal és egészséges zsírokkal, amelyek védik a bőrt a károsodástól és az idő előtti öregedéstől. A gyümölcsök C-vitaminja segíti a kollagénépítést, a diófélék és magvak E-vitaminja védi az oxidatív stressztől, a színes zöldségek béta-karotinja pedig természetes, egészséges ragyogást biztosít. A növényi étrend alacsonyabb az olyan vegyületekben, amelyek gyulladást okoznak, így kevesebb bőrprobléma és lassabb öregedés tapasztalható. Több növény fogyasztásával nemcsak a testedet táplálod, hanem a bőröd is megkapja a szükséges tápanyagokat a fiatalos, ragyogó megjelenéshez."
+  },
   quiz: {
-    question: "Which nutrient from fruits helps your skin produce collagen and stay firm?",
-    options: [
-      "Vitamin B12",
-      "Vitamin C",
-      "Iron"
-    ],
-    answer: "Vitamin C"
+    question: {
+      en: "Which nutrient from fruits helps your skin produce collagen and stay firm?",
+      es: "¿Qué nutriente de las frutas ayuda a la piel a producir colágeno y mantenerse firme?",
+      hu: "Melyik tápanyag segíti a bőrt a kollagén termelésében és a feszesség megőrzésében?"
+    },
+    options: {
+      en: ["Vitamin B12", "Vitamin C", "Iron"],
+      es: ["Vitamina B12", "Vitamina C", "Hierro"],
+      hu: ["B12-vitamin", "C-vitamin", "Vas"]
+    },
+    answer: 1
   }
 },
+
 2029: {
   goal: "Healthy living & wellness",
   diet: "vegetarian",
-  lesson: "What is inflammation and how does diet affect it? Inflammation is your body’s natural response to injury or infection, but chronic inflammation can contribute to heart disease, diabetes, arthritis, and other health problems. Diet plays a big role: foods high in saturated fat, added sugars, and ultra-processed ingredients can increase inflammation, while plant-based foods rich in antioxidants, fiber, and healthy fats — like fruits, vegetables, whole grains, nuts, seeds, and olive oil — help reduce it. Eating a variety of these foods supports long-term health and can help manage inflammation naturally.",
+  title: {
+    en: "Inflammation and diet",
+    es: "Inflamación y dieta",
+    hu: "Gyulladás és étrend"
+  },
+  lesson: {
+    en: "What is inflammation and how does diet affect it? Inflammation is your body’s natural response to injury or infection, but chronic inflammation can contribute to heart disease, diabetes, arthritis, and other health problems. Diet plays a big role: foods high in saturated fat, added sugars, and ultra-processed ingredients can increase inflammation, while plant-based foods rich in antioxidants, fiber, and healthy fats — like fruits, vegetables, whole grains, nuts, seeds, and olive oil — help reduce it. Eating a variety of these foods supports long-term health and can help manage inflammation naturally.",
+    es: "¿Qué es la inflamación y cómo afecta la dieta? La inflamación es la respuesta natural del cuerpo a lesiones o infecciones, pero la inflamación crónica puede contribuir a enfermedades del corazón, diabetes, artritis y otros problemas de salud. La dieta juega un papel importante: los alimentos altos en grasas saturadas, azúcares añadidos e ingredientes ultraprocesados pueden aumentar la inflamación, mientras que los alimentos vegetales ricos en antioxidantes, fibra y grasas saludables —como frutas, verduras, granos enteros, frutos secos, semillas y aceite de oliva— ayudan a reducirla. Comer una variedad de estos alimentos apoya la salud a largo plazo y ayuda a controlar la inflamación de forma natural.",
+    hu: "Mi a gyulladás és hogyan befolyásolja az étrend? A gyulladás a test természetes reakciója sérülésre vagy fertőzésre, de a krónikus gyulladás hozzájárulhat szívbetegségekhez, cukorbetegséghez, ízületi gyulladáshoz és más egészségügyi problémákhoz. Az étrend nagy szerepet játszik: a telített zsírokban, hozzáadott cukrokban és ultrafeldolgozott összetevőkben gazdag ételek fokozhatják a gyulladást, míg az antioxidánsokban, rostban és egészséges zsírokban gazdag növényi ételek — például gyümölcsök, zöldségek, teljes kiőrlésű gabonák, diófélék, magvak és olívaolaj — csökkentik azt. Ezek változatos fogyasztása támogatja a hosszú távú egészséget és természetes módon segít a gyulladás kezelésében."
+  },
   quiz: {
-    question: "Which type of foods help reduce chronic inflammation?",
-    options: [
-      "Processed foods high in sugar and saturated fat",
-      "Plant-based foods rich in antioxidants and healthy fats",
-      "Fried fast foods"
-    ],
-    answer: "Plant-based foods rich in antioxidants and healthy fats"
+    question: {
+      en: "Which type of foods help reduce chronic inflammation?",
+      es: "¿Qué tipo de alimentos ayudan a reducir la inflamación crónica?",
+      hu: "Melyik ételtípus csökkenti a krónikus gyulladást?"
+    },
+    options: {
+      en: [
+        "Processed foods high in sugar and saturated fat",
+        "Plant-based foods rich in antioxidants and healthy fats",
+        "Fried fast foods"
+      ],
+      es: [
+        "Alimentos procesados altos en azúcar y grasa saturada",
+        "Alimentos vegetales ricos en antioxidantes y grasas saludables",
+        "Comida rápida frita"
+      ],
+      hu: [
+        "Magas cukor- és telített zsírtartalmú feldolgozott ételek",
+        "Antioxidánsokban és egészséges zsírokban gazdag növényi ételek",
+        "Sült gyorsételek"
+      ]
+    },
+    answer: 1
   }
 },
+
 2030: {
   goal: "Healthy living & wellness",
   diet: "vegetarian",
-  lesson: "Is there something in dairy you can’t get from plants? The main nutrient not naturally found in plants is vitamin B12, which is essential for nerves and red blood cells. Calcium, protein, and other vitamins can be easily obtained from plant foods like tofu, tempeh, leafy greens, nuts, seeds, and fortified plant milks. By including these foods and a reliable B12 source — either fortified foods or supplements — you can meet all your nutritional needs without dairy.",
+  title: {
+    en: "Vitamin B12 and plant-based diets",
+    es: "Vitamina B12 y dietas vegetales",
+    hu: "B12-vitamin és növényi étrend"
+  },
+  lesson: {
+    en: "Is there something in dairy you can’t get from plants? The main nutrient not naturally found in plants is vitamin B12, which is essential for nerves and red blood cells. Calcium, protein, and other vitamins can be easily obtained from plant foods like tofu, tempeh, leafy greens, nuts, seeds, and fortified plant milks. By including these foods and a reliable B12 source — either fortified foods or supplements — you can meet all your nutritional needs without dairy.",
+    es: "¿Hay algo en los lácteos que no puedas obtener de las plantas? El nutriente principal que no se encuentra naturalmente en las plantas es la vitamina B12, esencial para los nervios y los glóbulos rojos. El calcio, la proteína y otras vitaminas se pueden obtener fácilmente de alimentos vegetales como tofu, tempeh, verduras de hoja, nueces, semillas y leches vegetales fortificadas. Incluyendo estos alimentos y una fuente confiable de B12 —ya sea alimentos fortificados o suplementos— puedes satisfacer todas tus necesidades nutricionales sin lácteos.",
+    hu: "Van valami a tejtermékekben, amit nem kaphatsz meg növényekből? A legfontosabb tápanyag, amely természetesen nem található meg a növényekben, a B12-vitamin, amely létfontosságú az idegek és a vörösvértestek számára. A kalcium, fehérje és más vitaminok könnyen beszerezhetők növényi ételekből, például tofu, tempeh, leveles zöldségek, diófélék, magvak és dúsított növényi tejek formájában. Ezeknek az ételeknek és egy megbízható B12-forrásnak — dúsított ételek vagy kiegészítők — a bevonásával minden tápanyagszükségleted fedezheted tejtermékek nélkül."
+  },
   quiz: {
-    question: "Which nutrient in dairy is not naturally found in plants?",
-    options: [
-      "Calcium",
-      "Protein",
-      "Vitamin B12"
-    ],
-    answer: "Vitamin B12"
+    question: {
+      en: "Which nutrient in dairy is not naturally found in plants?",
+      es: "¿Qué nutriente de los lácteos no se encuentra naturalmente en las plantas?",
+      hu: "Melyik tápanyag nincs természetesen a növényekben a tejtermékekhez képest?"
+    },
+    options: {
+      en: ["Calcium", "Protein", "Vitamin B12"],
+      es: ["Calcio", "Proteína", "Vitamina B12"],
+      hu: ["Kalcium", "Fehérje", "B12-vitamin"]
+    },
+    answer: 2
   }
 },
 2031: {
   goal: "Healthy living & wellness",
   diet: "vegetarian",
-  lesson: "Your gut is home to trillions of bacteria that play a key role in digestion, immunity, and even mood. A vegetarian diet naturally supports gut health because it’s rich in fiber, which feeds beneficial gut bacteria and keeps digestion smooth. Fruits, vegetables, legumes, and whole grains create a diverse microbiome, reducing inflammation and improving nutrient absorption. In contrast, animal-based foods contain no fiber and can encourage harmful bacteria linked to bloating or digestive discomfort. By eating more plants, you nurture a balanced gut ecosystem that keeps your body strong from the inside out.",
+  title: {
+    en: "Gut health and plant-based diets",
+    es: "Salud intestinal y dietas vegetales",
+    hu: "Bélflóra és növényi étrend"
+  },
+  lesson: {
+    en: "Your gut is home to trillions of bacteria that play a key role in digestion, immunity, and even mood. A vegetarian diet naturally supports gut health because it’s rich in fiber, which feeds beneficial gut bacteria and keeps digestion smooth. Fruits, vegetables, legumes, and whole grains create a diverse microbiome, reducing inflammation and improving nutrient absorption. In contrast, animal-based foods contain no fiber and can encourage harmful bacteria linked to bloating or digestive discomfort. By eating more plants, you nurture a balanced gut ecosystem that keeps your body strong from the inside out.",
+    es: "Tu intestino alberga billones de bacterias que juegan un papel clave en la digestión, la inmunidad e incluso el estado de ánimo. Una dieta vegetariana apoya naturalmente la salud intestinal porque es rica en fibra, que alimenta las bacterias beneficiosas y mantiene la digestión suave. Frutas, verduras, legumbres y granos enteros crean un microbioma diverso, reduciendo la inflamación y mejorando la absorción de nutrientes. En contraste, los alimentos de origen animal no contienen fibra y pueden favorecer bacterias dañinas asociadas con hinchazón o malestar digestivo. Al comer más plantas, fomentas un ecosistema intestinal equilibrado que mantiene tu cuerpo fuerte desde adentro.",
+    hu: "A bélflórádban billió baktérium él, amelyek kulcsszerepet játszanak az emésztésben, az immunitásban és akár a hangulatban is. A vegetáriánus étrend természetes módon támogatja a bél egészségét, mivel gazdag rostokban, amelyek táplálják a jótékony baktériumokat és simán tartják az emésztést. A gyümölcsök, zöldségek, hüvelyesek és teljes kiőrlésű gabonák változatos mikrobiomot hoznak létre, csökkentik a gyulladást és javítják a tápanyagfelszívódást. Ezzel szemben az állati eredetű ételek nem tartalmaznak rostot, és elősegíthetik a káros baktériumok szaporodását, ami puffadáshoz vagy emésztési kellemetlenségekhez vezethet. Több növény fogyasztásával kiegyensúlyozott bélflórát támogatsz, ami belülről erősíti a tested."
+  },
   quiz: {
-    question: "What nutrient in plant foods helps feed beneficial gut bacteria?",
-    options: [
-      "Cholesterol",
-      "Saturated fat",
-      "Fiber"
-    ],
-    answer: "Fiber"
+    question: {
+      en: "What nutrient in plant foods helps feed beneficial gut bacteria?",
+      es: "¿Qué nutriente de los alimentos vegetales alimenta a las bacterias intestinales beneficiosas?",
+      hu: "Melyik tápanyag táplálja a jótékony bélbaktériumokat a növényi ételekben?"
+    },
+    options: {
+      en: ["Cholesterol", "Saturated fat", "Fiber"],
+      es: ["Colesterol", "Grasa saturada", "Fibra"],
+      hu: ["Koleszterin", "Telített zsír", "Rost"]
+    },
+    answer: 2
   }
 },
+
 2032: {
   goal: "Healthy living & wellness",
   diet: "vegetarian",
-  lesson: "How can you get strong bones without relying on milk? While milk contains calcium, some studies suggest that digesting its animal protein may cause calcium to be excreted in urine, meaning the net benefit for bones can be limited. Bone health depends on a combination of calcium, vitamin D, exercise, and other nutrients. Plant-based foods like leafy greens, tofu, almonds, chia seeds, and fortified plant milks provide calcium without this potential drawback, along with fiber, antioxidants, and other nutrients that support overall health.",
+  title: {
+    en: "Strengthening bones without milk",
+    es: "Fortalecer los huesos sin leche",
+    hu: "Erős csontok tej nélkül"
+  },
+  lesson: {
+    en: "How can you get strong bones without relying on milk? While milk contains calcium, some studies suggest that digesting its animal protein may cause calcium to be excreted in urine, meaning the net benefit for bones can be limited. Bone health depends on a combination of calcium, vitamin D, exercise, and other nutrients. Plant-based foods like leafy greens, tofu, almonds, chia seeds, and fortified plant milks provide calcium without this potential drawback, along with fiber, antioxidants, and other nutrients that support overall health.",
+    es: "¿Cómo obtener huesos fuertes sin depender de la leche? Aunque la leche contiene calcio, algunos estudios sugieren que digerir su proteína animal puede causar que se excrete calcio en la orina, lo que limita el beneficio neto para los huesos. La salud ósea depende de una combinación de calcio, vitamina D, ejercicio y otros nutrientes. Los alimentos vegetales como verduras de hoja, tofu, almendras, semillas de chía y leches vegetales fortificadas proporcionan calcio sin este posible inconveniente, junto con fibra, antioxidantes y otros nutrientes que apoyan la salud general.",
+    hu: "Hogyan lehet erős csontokat szerezni tej nélkül? Bár a tej kalciumot tartalmaz, egyes tanulmányok szerint a tej állati fehérjéjének emésztése növelheti a kalcium kiválasztását a vizelettel, így a csontoknak szánt nettó haszon korlátozott lehet. A csontok egészsége a kalcium, a D-vitamin, a mozgás és más tápanyagok kombinációjától függ. A növényi ételek, például leveles zöldségek, tofu, mandula, chia magvak és dúsított növényi tejek kalciumot biztosítanak ezen potenciális hátrány nélkül, emellett rostot, antioxidánsokat és más tápanyagokat is, amelyek támogatják az általános egészséget."
+  },
   quiz: {
-    question: "Why might milk not always be the most efficient way to strengthen bones?",
-    options: [
-      "Milk contains no calcium",
-      "Digesting milk protein can increase calcium excretion",
-      "Milk automatically prevents fractures without exercise"
-    ],
-    answer: "Digesting milk protein can increase calcium excretion"
+    question: {
+      en: "Why might milk not always be the most efficient way to strengthen bones?",
+      es: "¿Por qué la leche puede no ser siempre la forma más eficiente de fortalecer los huesos?",
+      hu: "Miért nem mindig a tej a leghatékonyabb módja a csontok erősítésének?"
+    },
+    options: {
+      en: [
+        "Milk contains no calcium",
+        "Digesting milk protein can increase calcium excretion",
+        "Milk automatically prevents fractures without exercise"
+      ],
+      es: [
+        "La leche no contiene calcio",
+        "Digestionar la proteína de la leche puede aumentar la excreción de calcio",
+        "La leche previene automáticamente las fracturas sin ejercicio"
+      ],
+      hu: [
+        "A tej nem tartalmaz kalciumot",
+        "A tej fehérjéjének emésztése növelheti a kalcium kiválasztását",
+        "A tej automatikusan megelőzi a töréseket testmozgás nélkül"
+      ]
+    },
+    answer: 1
   }
 },
+
 2033: {
   goal: "Healthy living & wellness",
   diet: "vegetarian",
-  lesson: "Should we be afraid of leaving dairy? Not really. Unlike meat, removing dairy is generally safe and can even be beneficial. Calcium, protein, and other nutrients found in dairy can be easily obtained from plant foods like leafy greens, tofu, almonds, chia seeds, and fortified plant milks. By including a variety of these foods you can maintain bone and overall health without difficulty. With a balanced approach, leaving dairy is safe and often supports heart health, digestion, and reduced saturated fat intake.",
+  title: {
+    en: "Is removing dairy safe?",
+    es: "¿Es seguro eliminar los lácteos?",
+    hu: "Biztonságos-e a tejtermék elhagyása?"
+  },
+  lesson: {
+    en: "Should we be afraid of leaving dairy? Not really. Unlike meat, removing dairy is generally safe and can even be beneficial. Calcium, protein, and other nutrients found in dairy can be easily obtained from plant foods like leafy greens, tofu, almonds, chia seeds, and fortified plant milks. By including a variety of these foods you can maintain bone and overall health without difficulty. With a balanced approach, leaving dairy is safe and often supports heart health, digestion, and reduced saturated fat intake.",
+    es: "¿Debemos tener miedo de eliminar los lácteos? No realmente. A diferencia de la carne, eliminar los lácteos generalmente es seguro e incluso beneficioso. El calcio, la proteína y otros nutrientes que se encuentran en los lácteos se pueden obtener fácilmente de alimentos vegetales como verduras de hoja, tofu, almendras, semillas de chía y leches vegetales fortificadas. Al incluir una variedad de estos alimentos, puedes mantener la salud ósea y general sin dificultad. Con un enfoque equilibrado, dejar los lácteos es seguro y a menudo apoya la salud del corazón, la digestión y la reducción de grasas saturadas.",
+    hu: "Félnünk kellene a tejtermék elhagyásától? Nem igazán. A hús eltávolításával ellentétben a tejtermékek elhagyása általában biztonságos, sőt előnyös is lehet. A tejben található kalcium, fehérje és más tápanyagok könnyen beszerezhetők növényi ételekből, például leveles zöldségekből, tofu-ból, mandulából, chia magvakból és dúsított növényi tejekből. Ha változatosan fogyasztod ezeket az ételeket, könnyen fenntarthatod a csont- és az általános egészséget. Egy kiegyensúlyozott megközelítéssel a tejtermékek elhagyása biztonságos, és gyakran támogatja a szív egészségét, az emésztést és a csökkentett telített zsírbevitelt."
+  },
   quiz: {
-    question: "Is it safe to remove dairy from your diet when done thoughtfully?",
-    options: [
-      "No, it always causes nutrient deficiencies",
-      "Only if you eat more meat",
-      "Yes, with plant-based calcium and protein sources"
-    ],
-    answer: "Yes, with plant-based calcium and protein sources"
+    question: {
+      en: "Is it safe to remove dairy from your diet when done thoughtfully?",
+      es: "¿Es seguro eliminar los lácteos de tu dieta si se hace de manera consciente?",
+      hu: "Biztonságos a tejtermékek elhagyása, ha tudatosan történik?"
+    },
+    options: {
+      en: [
+        "No, it always causes nutrient deficiencies",
+        "Only if you eat more meat",
+        "Yes, with plant-based calcium and protein sources"
+      ],
+      es: [
+        "No, siempre causa deficiencias nutricionales",
+        "Solo si comes más carne",
+        "Sí, con fuentes vegetales de calcio y proteína"
+      ],
+      hu: [
+        "Nem, mindig tápanyaghiányt okoz",
+        "Csak ha több húst eszel",
+        "Igen, növényi kalcium- és fehérjeforrásokkal"
+      ]
+    },
+    answer: 2
   }
 },
+
 2034: {
   goal: "Healthy living & wellness",
   diet: "vegetarian",
-  lesson: "Practical tips for reducing dairy without compromising health: \n\n1. Swap cow’s milk for fortified plant milks like soy, oat, or almond milk. \n2. Replace cheese with tofu-based spreads, nutritional yeast, or cashew cheeses. \n3. Use plant-based yogurt made from soy, coconut, or almond. \n4. Include calcium-rich plants daily — leafy greens, broccoli, almonds, chia, sesame seeds. \n\nWith these simple swaps, you can enjoy the benefits of a plant-forward diet while keeping your bones, muscles, and overall health strong.",
+  title: {
+    en: "Practical tips to reduce dairy",
+    es: "Consejos prácticos para reducir lácteos",
+    hu: "Gyakorlati tippek a tejtermék csökkentéséhez"
+  },
+  lesson: {
+    en: "Practical tips for reducing dairy without compromising health: \n\n1. Swap cow’s milk for fortified plant milks like soy, oat, or almond milk. \n2. Replace cheese with tofu-based spreads, nutritional yeast, or cashew cheeses. \n3. Use plant-based yogurt made from soy, coconut, or almond. \n4. Include calcium-rich plants daily — leafy greens, broccoli, almonds, chia, sesame seeds. \n\nWith these simple swaps, you can enjoy the benefits of a plant-forward diet while keeping your bones, muscles, and overall health strong.",
+    es: "Consejos prácticos para reducir los lácteos sin comprometer la salud: \n\n1. Sustituye la leche de vaca por leches vegetales fortificadas como soja, avena o almendra. \n2. Reemplaza el queso con untables de tofu, levadura nutricional o quesos de anacardo. \n3. Usa yogur vegetal hecho de soja, coco o almendra. \n4. Incluye plantas ricas en calcio diariamente: verduras de hoja, brócoli, almendras, chía, semillas de sésamo. \n\nCon estos simples cambios, puedes disfrutar los beneficios de una dieta basada en plantas mientras mantienes tus huesos, músculos y salud general fuertes.",
+    hu: "Gyakorlati tippek a tejtermékek csökkentéséhez az egészség veszélyeztetése nélkül: \n\n1. Cseréld le a tehéntejet dúsított növényi tejekre, például szója-, zab- vagy mandulatejre. \n2. A sajtot tofu-alapú krémekkel, táplálékkovász- vagy kesudió sajttal helyettesítsd. \n3. Használj növényi joghurtot szója-, kókusz- vagy mandulatejből. \n4. Fogyassz naponta kalciumban gazdag növényeket — leveles zöldségek, brokkoli, mandula, chia, szezámmag. \n\nEzekkel az egyszerű cserékkel élvezheted a növényi étrend előnyeit, miközben csontjaid, izmaid és az általános egészséged erős marad."
+  },
   quiz: {
-    question: "Which of the following is a practical way to reduce dairy intake safely?",
-    options: [
-      "Swap cow’s milk with fortified plant milk",
-      "Remove all calcium sources",
-      "Eat more butter instead"
-    ],
-    answer: "Swap cow’s milk with fortified plant milk"
+    question: {
+      en: "Which of the following is a practical way to reduce dairy intake safely?",
+      es: "¿Cuál de las siguientes es una forma práctica de reducir el consumo de lácteos de manera segura?",
+      hu: "Melyik a gyakorlati módja a tejtermék bevitel biztonságos csökkentésének?"
+    },
+    options: {
+      en: [
+        "Swap cow’s milk with fortified plant milk",
+        "Remove all calcium sources",
+        "Eat more butter instead"
+      ],
+      es: [
+        "Sustituir la leche de vaca por leche vegetal fortificada",
+        "Eliminar todas las fuentes de calcio",
+        "Comer más mantequilla en su lugar"
+      ],
+      hu: [
+        "Cseréld le a tehéntejet dúsított növényi tejre",
+        "Távolíts el minden kalciumforrást",
+        "Ehelyett egyél több vajat"
+      ]
+    },
+    answer: 0
   }
 },
+
 2035: {
   goal: "Healthy living & wellness",
   diet: "vegetarian",
-  lesson: "Let’s look at calories and saturated fat in milk: whole cow’s milk typically has about 3.5% fat by weight. In 1 liter (~1000g), that’s roughly 35g of fat. Since fat provides 9 kcal per gram, this amounts to 315 kcal from fat alone. The total caloric content of 1 liter of whole milk is around 640 kcal, so nearly 50% of calories come from fat, mostly saturated fat — much higher than the 3–4% fat number on the label suggests, which is calculated by weight, not calories. This shows how easy it is for dairy to contribute a significant amount of saturated fat and calories to your diet.",
+  title: {
+    en: "Calories and saturated fat in milk",
+    es: "Calorías y grasa saturada en la leche",
+    hu: "Kalória és telített zsír a tejben"
+  },
+  lesson: {
+    en: "Let’s look at calories and saturated fat in milk: whole cow’s milk typically has about 3.5% fat by weight. In 1 liter (~1000g), that’s roughly 35g of fat. Since fat provides 9 kcal per gram, this amounts to 315 kcal from fat alone. The total caloric content of 1 liter of whole milk is around 640 kcal, so nearly 50% of calories come from fat, mostly saturated fat — much higher than the 3–4% fat number on the label suggests, which is calculated by weight, not calories. This shows how easy it is for dairy to contribute a significant amount of saturated fat and calories to your diet.",
+    es: "Veamos las calorías y la grasa saturada en la leche: la leche entera de vaca tiene típicamente alrededor del 3,5% de grasa por peso. En 1 litro (~1000 g), eso es aproximadamente 35 g de grasa. Dado que la grasa proporciona 9 kcal por gramo, esto equivale a 315 kcal solo de grasa. El contenido calórico total de 1 litro de leche entera es de alrededor de 640 kcal, por lo que casi el 50% de las calorías provienen de la grasa, en su mayoría saturada, mucho más alto que el 3-4% que indica la etiqueta, que se calcula por peso, no por calorías. Esto muestra lo fácil que es que los lácteos contribuyan con una cantidad significativa de grasas saturadas y calorías a tu dieta.",
+    hu: "Nézzük meg a kalóriát és a telített zsírt a tejben: a teljes tej általában kb. 3,5% zsírt tartalmaz súly szerint. 1 liter (~1000 g) esetén ez kb. 35 g zsírnak felel meg. Mivel a zsír 9 kcal-t ad grammonként, ez önmagában 315 kcal-t jelent a zsírból. 1 liter teljes tej teljes kalóriatartalma kb. 640 kcal, így a kalóriák közel 50%-a zsírból származik, főként telített zsírból — sokkal több, mint a címkén szereplő 3–4%, ami súly szerint van számítva, nem kalóriában. Ez megmutatja, milyen könnyen járulhatnak hozzá a tejtermékek jelentős mennyiségű telített zsírhoz és kalóriához az étrendedben."
+  },
   quiz: {
-    question: "Approximately what percentage of calories in whole milk comes from fat?",
-    options: [
-      "About 3–4%",
-      "About 50%",
-      "About 10%"
-    ],
-    answer: "About 50%"
+    question: {
+      en: "Approximately what percentage of calories in whole milk comes from fat?",
+      es: "Aproximadamente, ¿qué porcentaje de calorías de la leche entera proviene de la grasa?",
+      hu: "Kb. hány százalék kalória származik a teljes tej zsírtartalmából?"
+    },
+    options: {
+      en: ["About 3–4%", "About 50%", "About 10%"],
+      es: ["Aproximadamente 3–4%", "Aproximadamente 50%", "Aproximadamente 10%"],
+      hu: ["Kb. 3–4%", "Kb. 50%", "Kb. 10%"]
+    },
+    answer: 1
   }
 },
+
 2036: {
   goal: "Healthy living & wellness",
   diet: "vegetarian",
-  lesson: "Which foods provide the most protein? Dairy products like milk, yogurt, and cheese do contain protein — for example, 100g of milk has about 3.5g, yogurt around 5g, and cheddar cheese about 25g. However, many plant-based foods are also rich in protein: 100g of cooked lentils has about 9g, tofu around 8g, tempeh 19g, chickpeas 9g, and almonds 21g. By choosing a variety of these foods, vegetarians can easily meet protein needs while also gaining fiber, antioxidants, and lower saturated fat.",
+  title: {
+    en: "Protein-rich foods for vegetarians",
+    es: "Alimentos ricos en proteínas para vegetarianos",
+    hu: "Fehérjében gazdag ételek vegetáriánusoknak"
+  },
+  lesson: {
+    en: "Which foods provide the most protein? Dairy products like milk, yogurt, and cheese do contain protein — for example, 100g of milk has about 3.5g, yogurt around 5g, and cheddar cheese about 25g. However, many plant-based foods are also rich in protein: 100g of cooked lentils has about 9g, tofu around 8g, tempeh 19g, chickpeas 9g, and almonds 21g. By choosing a variety of these foods, vegetarians can easily meet protein needs while also gaining fiber, antioxidants, and lower saturated fat.",
+    es: "¿Qué alimentos proporcionan más proteína? Los productos lácteos como la leche, el yogur y el queso contienen proteínas: por ejemplo, 100 g de leche tienen unos 3,5 g, el yogur alrededor de 5 g y el queso cheddar unos 25 g. Sin embargo, muchos alimentos vegetales también son ricos en proteínas: 100 g de lentejas cocidas tienen unos 9 g, tofu alrededor de 8 g, tempeh 19 g, garbanzos 9 g y almendras 21 g. Al elegir una variedad de estos alimentos, los vegetarianos pueden cubrir fácilmente sus necesidades de proteínas y obtener fibra, antioxidantes y menor grasa saturada.",
+    hu: "Mely ételek biztosítanak a legtöbb fehérjét? A tejtermékek, mint a tej, joghurt és sajt tartalmaznak fehérjét — például 100 g tej kb. 3,5 g, a joghurt kb. 5 g, a cheddar sajt kb. 25 g. Azonban sok növényi alapú étel is gazdag fehérjében: 100 g főtt lencse kb. 9 g, tofu kb. 8 g, tempeh 19 g, csicseriborsó 9 g, mandula 21 g. Ha változatosan fogyasztod ezeket, a vegetáriánusok könnyen fedezhetik fehérjeszükségletüket, miközben rostot, antioxidánsokat és alacsony telített zsírt is kapnak."
+  },
   quiz: {
-    question: "Which plant-based food is highest in protein per 100g?",
-    options: [
-      "Tempeh",
-      "Milk",
-      "Lettuce"
-    ],
-    answer: "Tempeh"
+    question: {
+      en: "Which plant-based food is highest in protein per 100g?",
+      es: "¿Qué alimento vegetal tiene más proteína por 100 g?",
+      hu: "Melyik növényi étel a leggazdagabb fehérjében 100 g-onként?"
+    },
+    options: {
+      en: ["Tempeh", "Milk", "Lettuce"],
+      es: ["Tempeh", "Leche", "Lechuga"],
+      hu: ["Tempeh", "Tej", "Saláta"]
+    },
+    answer: 0
   }
 },
+
 2037: {
   goal: "Healthy living & wellness",
   diet: "vegetarian",
-  lesson: "How does calcium in dairy compare to plant-based sources? Dairy products like milk, yogurt, and cheese are well-known for calcium — 100g of milk has about 120mg, yogurt around 110mg, and cheddar cheese 720mg. But many plant foods are excellent sources too: 100g of tofu made with calcium sulfate can have 350mg, 100g of kale has about 150mg, almonds 264mg per 100g, chia seeds around 631mg, and sesame seeds 975mg. Plant sources also come with fiber, antioxidants, and less saturated fat, making them very beneficial for bone health.",
+  title: {
+    en: "Calcium from plants versus dairy",
+    es: "Calcio de plantas versus lácteos",
+    hu: "Kalcium növényekből vs. tejtermékekből"
+  },
+  lesson: {
+    en: "How does calcium in dairy compare to plant-based sources? Dairy products like milk, yogurt, and cheese are well-known for calcium — 100g of milk has about 120mg, yogurt around 110mg, and cheddar cheese 720mg. But many plant foods are excellent sources too: 100g of tofu made with calcium sulfate can have 350mg, 100g of kale has about 150mg, almonds 264mg per 100g, chia seeds around 631mg, and sesame seeds 975mg. Plant sources also come with fiber, antioxidants, and less saturated fat, making them very beneficial for bone health.",
+    es: "¿Cómo se compara el calcio de los lácteos con las fuentes vegetales? Los productos lácteos como la leche, el yogur y el queso son conocidos por su calcio: 100 g de leche tienen unos 120 mg, el yogur alrededor de 110 mg y el queso cheddar 720 mg. Pero muchos alimentos vegetales también son excelentes fuentes: 100 g de tofu preparado con sulfato de calcio puede tener 350 mg, 100 g de col rizada unos 150 mg, almendras 264 mg por 100 g, semillas de chía alrededor de 631 mg y semillas de sésamo 975 mg. Las fuentes vegetales también aportan fibra, antioxidantes y menos grasa saturada, siendo muy beneficiosas para la salud ósea.",
+    hu: "Hogyan viszonyul a tej kalciumtartalma a növényi forrásokhoz? A tejtermékek, mint a tej, joghurt és sajt jól ismertek kalciumtartalmukról: 100 g tej kb. 120 mg, joghurt kb. 110 mg, cheddar sajt 720 mg. De sok növényi étel is kiváló forrás: 100 g kalciumszulfáttal készült tofu 350 mg-ot tartalmazhat, 100 g kelkáposzta kb. 150 mg, mandula 264 mg/100 g, chia mag kb. 631 mg, szezámmag 975 mg. A növényi források rostot, antioxidánsokat és kevesebb telített zsírt is biztosítanak, ami nagyon előnyös a csontok egészségének."
+  },
   quiz: {
-    question: "Which plant-based food provides the most calcium per 100g?",
-    options: [
-      "Milk",
-      "Sesame seeds",
-      "Apple"
-    ],
-    answer: "Sesame seeds"
+    question: {
+      en: "Which plant-based food provides the most calcium per 100g?",
+      es: "¿Qué alimento vegetal proporciona más calcio por 100 g?",
+      hu: "Melyik növényi étel tartalmazza a legtöbb kalciumot 100 g-onként?"
+    },
+    options: {
+      en: ["Milk", "Sesame seeds", "Apple"],
+      es: ["Leche", "Semillas de sésamo", "Manzana"],
+      hu: ["Tej", "Szezámmag", "Alma"]
+    },
+    answer: 1
   }
 },
+
 2038: {
   goal: "Healthy living & wellness",
   diet: "vegetarian",
-  lesson: "Where does iron really come from — dairy or plants? Surprisingly, dairy products contain very little iron. For example, 100g of milk has only about 0.03mg of iron, and cheese has nearly none. In contrast, many plant-based foods are rich in iron: lentils provide about 3.3mg per 100g, tofu around 5.4mg, chickpeas 2.9mg, pumpkin seeds 8.8mg, and spinach 2.7mg. While plant-based (non-heme) iron is absorbed slightly less efficiently, vitamin C from fruits and vegetables can significantly boost absorption. This makes a plant-rich diet an excellent and balanced source of iron.",
+  title: {
+    en: "Iron in plants versus dairy",
+    es: "Hierro en plantas vs lácteos",
+    hu: "Vas növényekből vs. tejtermékekből"
+  },
+  lesson: {
+    en: "Where does iron really come from — dairy or plants? Surprisingly, dairy products contain very little iron. For example, 100g of milk has only about 0.03mg of iron, and cheese has nearly none. In contrast, many plant-based foods are rich in iron: lentils provide about 3.3mg per 100g, tofu around 5.4mg, chickpeas 2.9mg, pumpkin seeds 8.8mg, and spinach 2.7mg. While plant-based (non-heme) iron is absorbed slightly less efficiently, vitamin C from fruits and vegetables can significantly boost absorption. This makes a plant-rich diet an excellent and balanced source of iron.",
+    es: "¿De dónde proviene realmente el hierro, de los lácteos o de las plantas? Sorprendentemente, los lácteos contienen muy poco hierro. Por ejemplo, 100 g de leche tienen solo unos 0,03 mg de hierro, y el queso casi ninguno. En contraste, muchos alimentos vegetales son ricos en hierro: las lentejas aportan unos 3,3 mg por 100 g, el tofu alrededor de 5,4 mg, los garbanzos 2,9 mg, semillas de calabaza 8,8 mg y espinaca 2,7 mg. Aunque el hierro no hemo de plantas se absorbe un poco menos eficientemente, la vitamina C de frutas y verduras puede mejorar significativamente la absorción. Esto hace que una dieta rica en plantas sea una fuente excelente y equilibrada de hierro.",
+    hu: "Honnan származik a vas — tejből vagy növényekből? Meglepő módon a tejtermékek nagyon kevés vasat tartalmaznak. Például 100 g tej mindössze kb. 0,03 mg vasat tartalmaz, a sajtban pedig szinte nincs. Ezzel szemben sok növényi étel gazdag vasban: a lencse kb. 3,3 mg/100 g, tofu kb. 5,4 mg, csicseriborsó 2,9 mg, tökmag 8,8 mg, spenót 2,7 mg. Bár a növényi (nem-hem) vas kevésbé hatékonyan szívódik fel, a gyümölcsök és zöldségek C-vitamintartalma jelentősen növelheti a felszívódást. Ezért a növényekben gazdag étrend kiváló és kiegyensúlyozott vasforrás."
+  },
   quiz: {
-    question: "Which of the following is a rich plant-based source of iron?",
-    options: [
-      "Milk",
-      "Cheese",
-      "Pumpkin seeds"
-    ],
-    answer: "Pumpkin seeds"
+    question: {
+      en: "Which of the following is a rich plant-based source of iron?",
+      es: "¿Cuál de los siguientes es una fuente vegetal rica en hierro?",
+      hu: "Melyik a vasban gazdag növényi forrás?"
+    },
+    options: {
+      en: ["Milk", "Cheese", "Pumpkin seeds"],
+      es: ["Leche", "Queso", "Semillas de calabaza"],
+      hu: ["Tej", "Sajt", "Tökmag"]
+    },
+    answer: 2
   }
 },
+
 2039: {
   goal: "Healthy living & wellness",
   diet: "vegetarian",
-  lesson: "Are zinc and magnesium only in dairy products? Not at all. Dairy contains small amounts — 100g of milk has about 0.4mg of zinc and 11mg of magnesium. In comparison, plant foods are much richer: pumpkin seeds contain around 7.6mg of zinc and 530mg of magnesium per 100g, cashews have 5.8mg of zinc and 292mg of magnesium, and lentils about 3mg of zinc and 47mg of magnesium. These minerals support immunity, muscle function, and energy production. A balanced plant-based diet easily meets zinc and magnesium needs, often with added fiber and antioxidants.",
+  title: {
+    en: "Zinc and magnesium from plants",
+    es: "Zinc y magnesio de plantas",
+    hu: "Cink és magnézium növényekből"
+  },
+  lesson: {
+    en: "Are zinc and magnesium only in dairy products? Not at all. Dairy contains small amounts — 100g of milk has about 0.4mg of zinc and 11mg of magnesium. In comparison, plant foods are much richer: pumpkin seeds contain around 7.6mg of zinc and 530mg of magnesium per 100g, cashews have 5.8mg of zinc and 292mg of magnesium, and lentils about 3mg of zinc and 47mg of magnesium. These minerals support immunity, muscle function, and energy production. A balanced plant-based diet easily meets zinc and magnesium needs, often with added fiber and antioxidants.",
+    es: "¿El zinc y el magnesio solo se encuentran en los lácteos? Para nada. Los lácteos contienen pequeñas cantidades: 100 g de leche tiene unos 0,4 mg de zinc y 11 mg de magnesio. En comparación, los alimentos vegetales son mucho más ricos: las semillas de calabaza contienen unos 7,6 mg de zinc y 530 mg de magnesio por 100 g, los anacardos 5,8 mg de zinc y 292 mg de magnesio, y las lentejas alrededor de 3 mg de zinc y 47 mg de magnesio. Estos minerales apoyan la inmunidad, la función muscular y la producción de energía. Una dieta equilibrada basada en plantas cubre fácilmente las necesidades de zinc y magnesio, a menudo con fibra y antioxidantes adicionales.",
+    hu: "A cink és magnézium csak a tejtermékekben van? Egyáltalán nem. A tej kis mennyiséget tartalmaz — 100 g tej kb. 0,4 mg cinket és 11 mg magnéziumot. Ezzel szemben a növényi ételek sokkal gazdagabbak: a tökmag kb. 7,6 mg cinket és 530 mg magnéziumot tartalmaz 100 g-onként, a kesudió 5,8 mg cinket és 292 mg magnéziumot, a lencse kb. 3 mg cinket és 47 mg magnéziumot. Ezek az ásványi anyagok támogatják az immunrendszert, az izomműködést és az energiatermelést. Egy kiegyensúlyozott növényi étrend könnyen fedezi a cink- és magnéziumigényt, gyakran plusz rosttal és antioxidánsokkal."
+  },
   quiz: {
-    question: "Which plant-based food is rich in both zinc and magnesium?",
-    options: [
-      "Pumpkin seeds",
-      "Milk",
-      "White bread"
-    ],
-    answer: "Pumpkin seeds"
+    question: {
+      en: "Which plant-based food is rich in both zinc and magnesium?",
+      es: "¿Qué alimento vegetal es rico en zinc y magnesio?",
+      hu: "Melyik növényi étel gazdag mind cinkben, mind magnéziumban?"
+    },
+    options: {
+      en: ["Pumpkin seeds", "Milk", "White bread"],
+      es: ["Semillas de calabaza", "Leche", "Pan blanco"],
+      hu: ["Tökmag", "Tej", "Fehér kenyér"]
+    },
+    answer: 0
   }
 },
+
 2040: {
   goal: "Healthy living & wellness",
   diet: "vegetarian",
-  lesson: "When we think about vitamins, we often imagine milk for vitamin B2 or meat for B12 — but in reality, the plant kingdom is full of vitamin-rich foods. Fruits and vegetables are the best sources of vitamin C, K, and folate; nuts and seeds are rich in vitamin E; and whole grains and legumes provide B1, B3, and B6. The only vitamin that needs attention in a fully plant-based diet is B12, which even farm animals receive through supplementation today. So, while dairy and meat contain vitamins, plants offer a much wider spectrum — without cholesterol or excess saturated fats.",
+  title: {
+    en: "Vitamins in a plant-based diet",
+    es: "Vitaminas en una dieta basada en plantas",
+    hu: "Vitaminok növényi étrendben"
+  },
+  lesson: {
+    en: "When we think about vitamins, we often imagine milk for vitamin B2 or meat for B12 — but in reality, the plant kingdom is full of vitamin-rich foods. Fruits and vegetables are the best sources of vitamin C, K, and folate; nuts and seeds are rich in vitamin E; and whole grains and legumes provide B1, B3, and B6. The only vitamin that needs attention in a fully plant-based diet is B12, which even farm animals receive through supplementation today. So, while dairy and meat contain vitamins, plants offer a much wider spectrum — without cholesterol or excess saturated fats.",
+    es: "Cuando pensamos en vitaminas, a menudo imaginamos la leche para la B2 o la carne para la B12, pero en realidad, el reino vegetal está lleno de alimentos ricos en vitaminas. Las frutas y verduras son las mejores fuentes de vitamina C, K y ácido fólico; los frutos secos y semillas son ricos en vitamina E; y los granos enteros y legumbres aportan B1, B3 y B6. La única vitamina que necesita atención en una dieta totalmente vegetal es la B12, que incluso los animales de granja reciben hoy mediante suplementación. Así que, aunque los lácteos y la carne contienen vitaminas, las plantas ofrecen un espectro mucho más amplio — sin colesterol ni exceso de grasas saturadas.",
+    hu: "Amikor a vitaminokra gondolunk, gyakran a tejre B2-vitaminért vagy a húsra B12-vitaminért gondolunk — de valójában a növények világa tele van vitaminokban gazdag ételekkel. A gyümölcsök és zöldségek a legjobb C-, K-vitamin és folsavforrások; a diófélék és magvak gazdagok E-vitaminban; a teljes kiőrlésű gabonák és hüvelyesek B1-, B3- és B6-vitamint biztosítanak. Az egyetlen vitamin, amire egy teljesen növényi étrendben figyelni kell, a B12, amit ma még az állatok is kiegészítésként kapnak. Tehát bár a tej és hús tartalmaz vitaminokat, a növények sokkal szélesebb spektrumot kínálnak — koleszterin és túlzott telített zsír nélkül."
+  },
   quiz: {
-    question: "Which vitamin typically requires supplementation in a plant-based diet?",
-    options: [
-      "Vitamin C",
-      "Vitamin B12",
-      "Vitamin E"
-    ],
-    answer: "Vitamin B12"
+    question: {
+      en: "Which vitamin typically requires supplementation in a plant-based diet?",
+      es: "¿Qué vitamina generalmente requiere suplementación en una dieta basada en plantas?",
+      hu: "Melyik vitamint kell általában kiegészíteni növényi étrendben?"
+    },
+    options: {
+      en: ["Vitamin C", "Vitamin B12", "Vitamin E"],
+      es: ["Vitamina C", "Vitamina B12", "Vitamina E"],
+      hu: ["C-vitamin", "B12-vitamin", "E-vitamin"]
+    },
+    answer: 1
   }
 },
-*/
+
 // --------------------------
 // Healthy living & wellness – Vegan
 // --------------------------
@@ -3242,162 +5897,464 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
     answer: 0
   }
 },
-
-/* 
+ 
 2046: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "Some people think they 'need meat' because their body is different, but all humans share the same digestive system, teeth, and gut microbiota. We are not naturally carnivores or herbivores — our anatomy is adapted for a mostly plant-based diet. With a variety of plant foods, humans can get all the nutrients they need for strength, energy, and overall health, regardless of individual differences.",
+  title: {
+    en: "Humans don’t need meat for nutrients",
+    es: "Los humanos no necesitan carne para obtener nutrientes",
+    hu: "Az embernek nincs szüksége húsra a tápanyagokhoz"
+  },
+  lesson: {
+    en: "Some people think they 'need meat' because their body is different, but all humans share the same digestive system, teeth, and gut microbiota. We are not naturally carnivores or herbivores — our anatomy is adapted for a mostly plant-based diet. With a variety of plant foods, humans can get all the nutrients they need for strength, energy, and overall health, regardless of individual differences.",
+    es: "Algunas personas piensan que 'necesitan carne' porque su cuerpo es diferente, pero todos los humanos compartimos el mismo sistema digestivo, dientes y microbiota intestinal. No somos naturalmente carnívoros ni herbívoros: nuestra anatomía está adaptada para una dieta principalmente basada en plantas. Con una variedad de alimentos vegetales, los humanos pueden obtener todos los nutrientes que necesitan para fuerza, energía y salud general, independientemente de las diferencias individuales.",
+    hu: "Sokan azt gondolják, hogy 'húsra van szükségük', mert a testük más, de minden embernek ugyanaz az emésztőrendszere, foga és bélmikrobiotája van. Nem vagyunk természetes ragadozók vagy növényevők — az anatómiánk főként növényi étrendre van adaptálva. Változatos növényi ételekkel minden ember megkaphatja az összes szükséges tápanyagot az erőhöz, energiához és általános egészséghez, függetlenül az egyéni különbségektől."
+  },
   quiz: {
-    question: "Why don’t some humans need meat to get nutrients?",
-    options: ["Because our digestive system is the same for all humans and can process plants for all nutrients", "Because some people are natural carnivores", "Because meat is the only source of protein"],
-    answer: "Because our digestive system is the same for all humans and can process plants for all nutrients"
+    question: {
+      en: "Why don’t some humans need meat to get nutrients?",
+      es: "¿Por qué algunos humanos no necesitan carne para obtener nutrientes?",
+      hu: "Miért nincs szükségük egyes embereknek húsra a tápanyagokhoz?"
+    },
+    options: {
+      en: [
+        "Because our digestive system is the same for all humans and can process plants for all nutrients",
+        "Because some people are natural carnivores",
+        "Because meat is the only source of protein"
+      ],
+      es: [
+        "Porque nuestro sistema digestivo es el mismo para todos los humanos y puede procesar plantas para obtener todos los nutrientes",
+        "Porque algunas personas son carnívoros naturales",
+        "Porque la carne es la única fuente de proteínas"
+      ],
+      hu: [
+        "Mert az emésztőrendszerünk minden embernél ugyanaz, és a növényekből minden tápanyagot fel tud dolgozni",
+        "Mert egyes emberek természetes ragadozók",
+        "Mert a hús az egyetlen fehérjeforrás"
+      ]
+    },
+    answer: 0
   }
 },
+
 2047: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "Some people think vegans are weak or unhealthy, but this isn’t true. Many athletes, bodybuilders, and high-performance individuals thrive on vegan diets. For example, ultramarathoner Scott Jurek, bodybuilder Torre Washington, and tennis champion Venus Williams all maintain strength, endurance, and energy on plant-based diets. With proper planning, vegan diets can support all activity levels and promote overall health.",
+  title: {
+    en: "Vegan athletes can be strong and healthy",
+    es: "Los atletas veganos pueden ser fuertes y saludables",
+    hu: "A vegán sportolók lehetnek erősek és egészségesek"
+  },
+  lesson: {
+    en: "Some people think vegans are weak or unhealthy, but this isn’t true. Many athletes, bodybuilders, and high-performance individuals thrive on vegan diets. For example, ultramarathoner Scott Jurek, bodybuilder Torre Washington, and tennis champion Venus Williams all maintain strength, endurance, and energy on plant-based diets. With proper planning, vegan diets can support all activity levels and promote overall health.",
+    es: "Algunas personas piensan que los veganos son débiles o poco saludables, pero esto no es cierto. Muchos atletas, culturistas y personas de alto rendimiento prosperan con dietas veganas. Por ejemplo, el ultramaratonista Scott Jurek, el culturista Torre Washington y la campeona de tenis Venus Williams mantienen fuerza, resistencia y energía con dietas basadas en plantas. Con una planificación adecuada, las dietas veganas pueden apoyar todos los niveles de actividad y promover la salud general.",
+    hu: "Sokan azt gondolják, hogy a vegánok gyengék vagy egészségtelenek, de ez nem igaz. Sok sportoló, testépítő és nagy teljesítményű egyén jól teljesít vegán étrenden. Például Scott Jurek ultramaratonista, Torre Washington testépítő és Venus Williams teniszbajnok mind erőt, állóképességet és energiát tartanak fenn növényi alapú étrenden. Megfelelő tervezéssel a vegán étrend minden aktivitási szintet támogat és elősegíti az általános egészséget."
+  },
   quiz: {
-    question: "Which statement is true about vegan athletes?",
-    options: [ "Vegans are always weak", "Vegans can be strong and energetic like Scott Jurek and Venus Williams", "Vegans cannot build muscle"],
-    answer: "Vegans can be strong and energetic like Scott Jurek and Venus Williams"
+    question: {
+      en: "Which statement is true about vegan athletes?",
+      es: "¿Qué afirmación es verdadera sobre los atletas veganos?",
+      hu: "Melyik állítás igaz a vegán sportolókról?"
+    },
+    options: {
+      en: [
+        "Vegans are always weak",
+        "Vegans can be strong and energetic like Scott Jurek and Venus Williams",
+        "Vegans cannot build muscle"
+      ],
+      es: [
+        "Los veganos siempre son débiles",
+        "Los veganos pueden ser fuertes y enérgicos como Scott Jurek y Venus Williams",
+        "Los veganos no pueden desarrollar músculo"
+      ],
+      hu: [
+        "A vegánok mindig gyengék",
+        "A vegánok lehetnek erősek és energikusak, mint Scott Jurek és Venus Williams",
+        "A vegánok nem tudnak izmot építeni"
+      ]
+    },
+    answer: 1
   }
 },
+
 2048: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "Some people think vegan diets are restrictive and boring, but in reality there is an enormous variety of plant foods to enjoy. There are over 30,000 edible plant species worldwide, including fruits, vegetables, grains, legumes, nuts, and seeds. By comparison, the average person consumes only a few dozen animal species in their lifetime, mainly chicken, beef, pork, and fish. A vegan diet can be far more diverse, colorful, and flavorful than most typical omnivorous diets.",
+  title: {
+    en: "Vegan diets are diverse and exciting",
+    es: "Las dietas veganas son diversas y emocionantes",
+    hu: "A vegán étrend változatos és izgalmas"
+  },
+  lesson: {
+    en: "Some people think vegan diets are restrictive and boring, but in reality there is an enormous variety of plant foods to enjoy. There are over 30,000 edible plant species worldwide, including fruits, vegetables, grains, legumes, nuts, and seeds. By comparison, the average person consumes only a few dozen animal species in their lifetime, mainly chicken, beef, pork, and fish. A vegan diet can be far more diverse, colorful, and flavorful than most typical omnivorous diets.",
+    es: "Algunas personas piensan que las dietas veganas son restrictivas y aburridas, pero en realidad existe una enorme variedad de alimentos vegetales para disfrutar. Hay más de 30.000 especies de plantas comestibles en todo el mundo, incluidos frutas, verduras, cereales, legumbres, frutos secos y semillas. En comparación, la persona promedio consume solo unas pocas docenas de especies animales a lo largo de su vida, principalmente pollo, carne de res, cerdo y pescado. Una dieta vegana puede ser mucho más diversa, colorida y sabrosa que la mayoría de las dietas omnívoras típicas.",
+    hu: "Sokan azt gondolják, hogy a vegán étrend korlátozó és unalmas, de valójában hatalmas a növényi ételek választéka. Világszerte több mint 30 000 ehető növényfaj létezik, beleértve a gyümölcsöket, zöldségeket, gabonákat, hüvelyeseket, dióféléket és magvakat. Ezzel szemben az átlagember élete során csak néhány tucat állati fajt fogyaszt, főleg csirkét, marhát, sertést és halat. Egy vegán étrend sokkal változatosabb, színesebb és ízletesebb lehet, mint a tipikus mindenevő étrend."
+  },
   quiz: {
-    question: "Approximately how many edible plant species exist worldwide?",
-    options: ["About 100", "Only 500", "Over 30,000"],
-    answer: "Over 30,000"
+    question: {
+      en: "Approximately how many edible plant species exist worldwide?",
+      es: "¿Aproximadamente cuántas especies de plantas comestibles existen en el mundo?",
+      hu: "Megközelítőleg hány ehető növényfaj létezik a világon?"
+    },
+    options: {
+      en: ["About 100", "Only 500", "Over 30,000"],
+      es: ["Alrededor de 100", "Solo 500", "Más de 30,000"],
+      hu: ["Kb. 100", "Csak 500", "Több mint 30 000"]
+    },
+    answer: 2
   }
 },
+
 2049: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "Some people argue that vegan diets are unnatural because humans evolved eating meat. While humans are biologically omnivores and can digest both plants and animal products, science shows that a predominantly plant-based diet is fully compatible with human health. Research demonstrates that such diets can prevent, and in some cases even reverse, chronic diseases like heart disease, type 2 diabetes, and high blood pressure. Eating plants is not only natural for humans but also highly beneficial for long-term wellness.",
+  title: {
+    en: "Plant-based diets prevent chronic disease",
+    es: "Las dietas basadas en plantas previenen enfermedades crónicas",
+    hu: "A növényi alapú étrend megelőzi a krónikus betegségeket"
+  },
+  lesson: {
+    en: "Some people argue that vegan diets are unnatural because humans evolved eating meat. While humans are biologically omnivores and can digest both plants and animal products, science shows that a predominantly plant-based diet is fully compatible with human health. Research demonstrates that such diets can prevent, and in some cases even reverse, chronic diseases like heart disease, type 2 diabetes, and high blood pressure. Eating plants is not only natural for humans but also highly beneficial for long-term wellness.",
+    es: "Algunas personas argumentan que las dietas veganas son antinaturales porque los humanos evolucionaron comiendo carne. Aunque los humanos son biológicamente omnívoros y pueden digerir tanto plantas como productos animales, la ciencia muestra que una dieta predominantemente basada en plantas es totalmente compatible con la salud humana. La investigación demuestra que estas dietas pueden prevenir, y en algunos casos incluso revertir, enfermedades crónicas como enfermedades cardíacas, diabetes tipo 2 e hipertensión. Comer plantas no solo es natural para los humanos, sino también muy beneficioso para el bienestar a largo plazo.",
+    hu: "Sokan azzal érvelnek, hogy a vegán étrend nem természetes, mert az ember húsfogyasztás mellett fejlődött. Bár az emberek biológiailag mindenevők és tudják emészteni a növényeket és állati termékeket is, a tudomány kimutatja, hogy a főként növényi étrend teljesen kompatibilis az emberi egészséggel. Kutatások bizonyítják, hogy az ilyen étrend megelőzheti, és bizonyos esetekben akár vissza is fordíthatja a krónikus betegségeket, például a szívbetegséget, 2-es típusú cukorbetegséget és magas vérnyomást. A növények fogyasztása nemcsak természetes az ember számára, hanem nagyon előnyös a hosszú távú egészség szempontjából."
+  },
   quiz: {
-    question: "What does science say about plant-based diets for humans?",
-    options: ["They are unnatural and harmful", "They can prevent or reverse chronic diseases", "They only work for children"],
-    answer: "They can prevent or reverse chronic diseases"
+    question: {
+      en: "What does science say about plant-based diets for humans?",
+      es: "¿Qué dice la ciencia sobre las dietas basadas en plantas para los humanos?",
+      hu: "Mit mond a tudomány a növényi étrendről az emberek számára?"
+    },
+    options: {
+      en: ["They are unnatural and harmful", "They can prevent or reverse chronic diseases", "They only work for children"],
+      es: ["Son antinaturales y dañinas", "Pueden prevenir o revertir enfermedades crónicas", "Solo funcionan para niños"],
+      hu: ["Nem természetesek és károsak", "Megelőzhetik vagy visszafordíthatják a krónikus betegségeket", "Csak gyerekeknél működnek"]
+    },
+    answer: 1
   }
 },
+
 2050: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "Over the last ~60 years, global production of meat has increased by about 403% (from 1961 to 2020), and milk and milk products by about 167%. At the same time, chronic illnesses have surged: the number of adults with diabetes has more than quadrupled since 1980 (from ~108 million to over 537 million). Meanwhile, global obesity prevalence among adults more than doubled between 1990 and 2022 (from ~6%–8% to ~14%–18% in many regions). These parallel trends suggest a strong correlation between rising consumption of meat and dairy and increases in heart disease, type 2 diabetes, and obesity worldwide.",
+  title: {
+    en: "Global trends: meat, dairy, and chronic disease",
+    es: "Tendencias globales: carne, lácteos y enfermedades crónicas",
+    hu: "Globális trendek: hús, tejtermékek és krónikus betegségek"
+  },
+  lesson: {
+    en: "Over the last ~60 years, global production of meat has increased by about 403% (from 1961 to 2020), and milk and milk products by about 167%. At the same time, chronic illnesses have surged: the number of adults with diabetes has more than quadrupled since 1980 (from ~108 million to over 537 million). Meanwhile, global obesity prevalence among adults more than doubled between 1990 and 2022 (from ~6%–8% to ~14%–18% in many regions). These parallel trends suggest a strong correlation between rising consumption of meat and dairy and increases in heart disease, type 2 diabetes, and obesity worldwide.",
+    es: "En los últimos ~60 años, la producción mundial de carne ha aumentado aproximadamente un 403% (de 1961 a 2020), y la de leche y productos lácteos alrededor del 167%. Al mismo tiempo, las enfermedades crónicas han aumentado: el número de adultos con diabetes se ha cuadruplicado desde 1980 (~108 millones a más de 537 millones). Mientras tanto, la prevalencia mundial de obesidad en adultos se más que duplicó entre 1990 y 2022 (de ~6%-8% a ~14%-18% en muchas regiones). Estas tendencias paralelas sugieren una fuerte correlación entre el aumento del consumo de carne y lácteos y el incremento de enfermedades cardíacas, diabetes tipo 2 y obesidad en todo el mundo.",
+    hu: "Az elmúlt kb. 60 évben a globális hústermelés mintegy 403%-kal nőtt (1961–2020), a tej és tejtermékek pedig kb. 167%-kal. Ugyanakkor a krónikus betegségek drámaian emelkedtek: a cukorbeteg felnőttek száma 1980 óta több mint négyszeresére nőtt (~108 millióról több mint 537 millióra). Eközben a felnőttek elhízottsági aránya világszerte több mint duplázódott 1990 és 2022 között (~6–8%-ról ~14–18%-ra sok régióban). Ezek a párhuzamos trendek erős összefüggést sugallnak a hús- és tejfogyasztás növekedése és a szívbetegségek, 2-es típusú cukorbetegség, valamint az elhízás emelkedése között világszerte."
+  },
   quiz: {
-    question: "What trend coincided with increased meat and dairy consumption over the last decades?",
-    options: ["Rise in chronic diseases like diabetes and heart disease", "Decline in obesity", "Decrease in cancer rates"],
-    answer: "Rise in chronic diseases like diabetes and heart disease"
+    question: {
+      en: "What trend coincided with increased meat and dairy consumption over the last decades?",
+      es: "¿Qué tendencia coincidió con el aumento del consumo de carne y lácteos en las últimas décadas?",
+      hu: "Milyen trend követte a hús- és tejfogyasztás növekedését az elmúlt évtizedekben?"
+    },
+    options: {
+      en: [
+        "Rise in chronic diseases like diabetes and heart disease",
+        "Decline in obesity",
+        "Decrease in cancer rates"
+      ],
+      es: [
+        "Aumento de enfermedades crónicas como diabetes y cardiopatías",
+        "Disminución de la obesidad",
+        "Disminución de la tasa de cáncer"
+      ],
+      hu: [
+        "A krónikus betegségek, például a cukorbetegség és szívbetegségek növekedése",
+        "Az elhízás csökkenése",
+        "A rák előfordulásának csökkenése"
+      ]
+    },
+    answer: 0
   }
 },
 2051: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "Although milk contains calcium, the digestion of milk protein can cause your body to use more calcium than it provides. This means that high dairy consumption does not necessarily strengthen bones and may even affect bone health negatively.",
+  title: {
+    en: "Milk may not always strengthen bones",
+    es: "La leche no siempre fortalece los huesos",
+    hu: "A tej nem mindig erősíti a csontokat"
+  },
+  lesson: {
+    en: "Although milk contains calcium, the digestion of milk protein can cause your body to use more calcium than it provides. This means that high dairy consumption does not necessarily strengthen bones and may even affect bone health negatively.",
+    es: "Aunque la leche contiene calcio, la digestión de la proteína de la leche puede hacer que el cuerpo use más calcio del que proporciona. Esto significa que el alto consumo de lácteos no necesariamente fortalece los huesos e incluso puede afectar negativamente la salud ósea.",
+    hu: "Bár a tej kalciumot tartalmaz, a tejfehérje emésztése miatt a szervezet több kalciumot használ fel, mint amennyit biztosít. Ez azt jelenti, hogy a magas tejfogyasztás nem feltétlenül erősíti a csontokat, sőt, negatívan befolyásolhatja a csontok egészségét."
+  },
   quiz: {
-    question: "Does milk always strengthen bones?",
-    options: ["Yes, always", "No, it can cause net calcium loss", "Only if drunk with sugar"],
-    answer: "No, it can cause net calcium loss"
+    question: {
+      en: "Does milk always strengthen bones?",
+      es: "¿La leche siempre fortalece los huesos?",
+      hu: "A tej mindig erősíti a csontokat?"
+    },
+    options: {
+      en: ["Yes, always", "No, it can cause net calcium loss", "Only if drunk with sugar"],
+      es: ["Sí, siempre", "No, puede causar pérdida neta de calcio", "Solo si se toma con azúcar"],
+      hu: ["Igen, mindig", "Nem, nettó kalciumvesztést okozhat", "Csak cukorral fogyasztva"]
+    },
+    answer: 1
   }
 },
+
 2052: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "Humans are biologically closer to frugivores and herbivores like gorillas. Our digestive system, teeth, and gut microbiota are adapted for high-fiber, plant-based foods. While we can digest meat, our anatomy suggests that a mostly plant-based diet is optimal for long-term health.",
+  title: {
+    en: "Humans are biologically closer to frugivores",
+    es: "Los humanos son biológicamente más similares a frugívoros",
+    hu: "Az emberek biológiailag inkább gyümölsevőkhöz hasonlítanak"
+  },
+  lesson: {
+    en: "Humans are biologically closer to frugivores and herbivores like gorillas. Our digestive system, teeth, and gut microbiota are adapted for high-fiber, plant-based foods. While we can digest meat, our anatomy suggests that a mostly plant-based diet is optimal for long-term health.",
+    es: "Los humanos son biológicamente más cercanos a frugívoros y herbívoros como los gorilas. Nuestro sistema digestivo, dientes y microbiota intestinal están adaptados para alimentos vegetales ricos en fibra. Aunque podemos digerir carne, nuestra anatomía sugiere que una dieta mayormente basada en plantas es óptima para la salud a largo plazo.",
+    hu: "Az emberek biológiailag inkább gyümölsevőkhöz és növényevőkhez, például gorillákhoz hasonlítanak. Az emésztőrendszerünk, a fogaink és a bélmikrobiotánk a magas rosttartalmú, növényi ételekre van adaptálva. Bár húst is meg tudunk emészteni, az anatómia azt sugallja, hogy a főként növényi étrend optimális a hosszú távú egészséghez."
+  },
   quiz: {
-    question: "Humans are most similar in diet to which group?",
-    options: ["Carnivores like lions", "Omnivores like pigs", "Frugivores/herbivores like gorillas"],
-    answer: "Frugivores/herbivores like gorillas"
+    question: {
+      en: "Humans are most similar in diet to which group?",
+      es: "¿A qué grupo son más similares los humanos en su dieta?",
+      hu: "Melyik csoport étrendjéhez hasonlítanak leginkább az emberek?"
+    },
+    options: {
+      en: ["Carnivores like lions", "Omnivores like pigs", "Frugivores/herbivores like gorillas"],
+      es: ["Carnívoros como los leones", "Omnívoros como los cerdos", "Frugívoros/herbívoros como los gorilas"],
+      hu: ["Ragadozók, mint az oroszlán", "Mindenevők, mint a disznó", "Gyümölsevők/növényevők, mint a gorillák"]
+    },
+    answer: 2
   }
 },
+
 2053: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "Blue Zones — regions where people live exceptionally long lives — primarily eat plant-based diets rich in vegetables, legumes, and whole grains. The arrival of fast, meat-heavy foods has eroded these traditional diets, contributing to rising rates of chronic disease and shorter lifespans.",
+  title: {
+    en: "Blue Zones and plant-based diets",
+    es: "Zonas Azules y dietas basadas en plantas",
+    hu: "Kék zónák és növényi étrend"
+  },
+  lesson: {
+    en: "Blue Zones — regions where people live exceptionally long lives — primarily eat plant-based diets rich in vegetables, legumes, and whole grains. The arrival of fast, meat-heavy foods has eroded these traditional diets, contributing to rising rates of chronic disease and shorter lifespans.",
+    es: "Las Zonas Azules — regiones donde las personas viven vidas excepcionalmente largas — consumen principalmente dietas basadas en plantas, ricas en verduras, legumbres y cereales integrales. La llegada de alimentos rápidos y ricos en carne ha erosionado estas dietas tradicionales, contribuyendo al aumento de enfermedades crónicas y a una vida más corta.",
+    hu: "A Kék zónák — régiók, ahol az emberek rendkívül hosszú életet élnek — főként növényi étrendet fogyasztanak, gazdag zöldségekben, hüvelyesekben és teljes kiőrlésű gabonákban. A gyors, húsban gazdag ételek megjelenése meggyengítette ezeket a hagyományos étrendeket, hozzájárulva a krónikus betegségek növekedéséhez és a rövidebb élettartamhoz."
+  },
   quiz: {
-    question: "What type of diet is common in Blue Zones?",
-    options: ["Plant-based with vegetables and legumes", "Fast-food and meat-heavy", "High sugar and processed snacks"],
-    answer: "Plant-based with vegetables and legumes"
+    question: {
+      en: "What type of diet is common in Blue Zones?",
+      es: "¿Qué tipo de dieta es común en las Zonas Azules?",
+      hu: "Milyen étrend jellemző a Kék zónákban?"
+    },
+    options: {
+      en: ["Plant-based with vegetables and legumes", "Fast-food and meat-heavy", "High sugar and processed snacks"],
+      es: ["Basada en plantas con verduras y legumbres", "Comida rápida y rica en carne", "Alta en azúcar y snacks procesados"],
+      hu: ["Növényi alapú, zöldségekkel és hüvelyesekkel", "Gyorsétel és húsban gazdag", "Magas cukor- és feldolgozott snack-tartalmú"]
+    },
+    answer: 0
   }
 },
+
 2054: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "Plant proteins, such as beans, lentils, tofu, and quinoa, provide all the essential amino acids when eaten in variety. Unlike meat, they contain no cholesterol and much less saturated fat. Diets rich in plant protein are linked to lower risk of heart disease and longer lifespan, while high meat protein intake is associated with inflammation and chronic illness.",
+  title: {
+    en: "Plant proteins are heart-healthy",
+    es: "Las proteínas vegetales son saludables para el corazón",
+    hu: "A növényi fehérjék szívbarátok"
+  },
+  lesson: {
+    en: "Plant proteins, such as beans, lentils, tofu, and quinoa, provide all the essential amino acids when eaten in variety. Unlike meat, they contain no cholesterol and much less saturated fat. Diets rich in plant protein are linked to lower risk of heart disease and longer lifespan, while high meat protein intake is associated with inflammation and chronic illness.",
+    es: "Las proteínas vegetales, como frijoles, lentejas, tofu y quinoa, proporcionan todos los aminoácidos esenciales cuando se consumen en variedad. A diferencia de la carne, no contienen colesterol y mucho menos grasa saturada. Las dietas ricas en proteínas vegetales se relacionan con menor riesgo de enfermedades cardíacas y mayor longevidad, mientras que un alto consumo de proteínas de carne se asocia con inflamación y enfermedades crónicas.",
+    hu: "A növényi fehérjék, mint a bab, lencse, tofu és quinoa, minden esszenciális aminosavat biztosítanak, ha változatosan fogyasztjuk őket. A húsokkal ellentétben nem tartalmaznak koleszterint és sokkal kevesebb telített zsírt. A növényi fehérjében gazdag étrend alacsonyabb szívbetegség-kockázattal és hosszabb élettartammal jár, míg a magas húsfehérje-fogyasztás gyulladással és krónikus betegségekkel kapcsolatos."
+  },
   quiz: {
-    question: "What is one key difference between plant and meat protein?",
-    options: ["Meat proteins are cholesterol-free", "Plant proteins contain no cholesterol", "Plant proteins lack amino acids"],
-    answer: "Plant proteins contain no cholesterol"
+    question: {
+      en: "What is one key difference between plant and meat protein?",
+      es: "¿Cuál es una diferencia clave entre la proteína vegetal y la de la carne?",
+      hu: "Mi az egyik fő különbség a növényi és a húsfehérje között?"
+    },
+    options: {
+      en: ["Meat proteins are cholesterol-free", "Plant proteins contain no cholesterol", "Plant proteins lack amino acids"],
+      es: ["Las proteínas de la carne no contienen colesterol", "Las proteínas vegetales no contienen colesterol", "Las proteínas vegetales carecen de aminoácidos"],
+      hu: ["A húsfehérje koleszterinmentes", "A növényi fehérje nem tartalmaz koleszterint", "A növényi fehérje aminosavakban hiányos"]
+    },
+    answer: 1
   }
 },
+
 2055: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "Heart disease, stroke, diabetes, and certain cancers are among the top causes of death globally. Research shows that diets high in meat and dairy significantly increase the risk of these diseases by raising LDL cholesterol, promoting inflammation, and affecting insulin sensitivity.",
+  title: {
+    en: "High meat and dairy intake raises disease risk",
+    es: "El alto consumo de carne y lácteos aumenta el riesgo de enfermedades",
+    hu: "A magas hús- és tejfogyasztás növeli a betegségek kockázatát"
+  },
+  lesson: {
+    en: "Heart disease, stroke, diabetes, and certain cancers are among the top causes of death globally. Research shows that diets high in meat and dairy significantly increase the risk of these diseases by raising LDL cholesterol, promoting inflammation, and affecting insulin sensitivity.",
+    es: "Las enfermedades cardíacas, accidentes cerebrovasculares, diabetes y ciertos tipos de cáncer están entre las principales causas de muerte a nivel mundial. La investigación muestra que las dietas ricas en carne y lácteos aumentan significativamente el riesgo de estas enfermedades al elevar el colesterol LDL, promover la inflamación y afectar la sensibilidad a la insulina.",
+    hu: "A szívbetegségek, stroke, cukorbetegség és bizonyos rákok a leggyakoribb halálozási okok világszerte. A kutatások kimutatják, hogy a hús- és tejben gazdag étrend jelentősen növeli ezen betegségek kockázatát az LDL-koleszterin emelésével, a gyulladás elősegítésével és az inzulinérzékenység befolyásolásával."
+  },
   quiz: {
-    question: "Which dietary factor contributes to major global diseases?",
-    options: ["Eating more vegetables", "Exercising regularly", "High meat and dairy consumption"],
-    answer: "High meat and dairy consumption"
+    question: {
+      en: "Which dietary factor contributes to major global diseases?",
+      es: "¿Qué factor dietético contribuye a las principales enfermedades globales?",
+      hu: "Mely étrendi tényező járul hozzá a főbb globális betegségekhez?"
+    },
+    options: {
+      en: ["Eating more vegetables", "Exercising regularly", "High meat and dairy consumption"],
+      es: ["Comer más verduras", "Hacer ejercicio regularmente", "Alto consumo de carne y lácteos"],
+      hu: ["Több zöldség fogyasztása", "Rendszeres testmozgás", "Magas hús- és tejfogyasztás"]
+    },
+    answer: 2
   }
 },
+
 2056: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "The human body can handle only small amounts of saturated fat and LDL cholesterol. Excess consumption from meat and dairy — like in cheese, which can contain 6–8g of saturated fat per 30g slice — raises blood cholesterol and increases heart disease risk.",
+  title: {
+    en: "High cheese intake raises heart risk",
+    es: "El alto consumo de queso aumenta el riesgo cardíaco",
+    hu: "A magas sajtfogyasztás növeli a szívbetegség kockázatát"
+  },
+  lesson: {
+    en: "The human body can handle only small amounts of saturated fat and LDL cholesterol. Excess consumption from meat and dairy — like in cheese, which can contain 6–8g of saturated fat per 30g slice — raises blood cholesterol and increases heart disease risk.",
+    es: "El cuerpo humano solo puede manejar pequeñas cantidades de grasa saturada y colesterol LDL. El consumo excesivo de carne y lácteos — como el queso, que puede contener 6–8 g de grasa saturada por rebanada de 30 g — aumenta el colesterol en sangre y el riesgo de enfermedades cardíacas.",
+    hu: "Az emberi szervezet csak kis mennyiségű telített zsírt és LDL-koleszterint képes feldolgozni. A húsból és tejtermékekből származó túlzott fogyasztás — például a sajt, amely 30 g szeletben 6–8 g telített zsírt tartalmazhat — emeli a vér koleszterinszintjét és növeli a szívbetegség kockázatát."
+  },
   quiz: {
-    question: "Why is high intake of cheese a concern?",
-    options: ["It contains high saturated fat, raising LDL cholesterol", "It provides too much fiber", "It reduces energy levels"],
-    answer: "It contains high saturated fat, raising LDL cholesterol"
+    question: {
+      en: "Why is high intake of cheese a concern?",
+      es: "¿Por qué es preocupante el alto consumo de queso?",
+      hu: "Miért aggályos a magas sajtfogyasztás?"
+    },
+    options: {
+      en: ["It contains high saturated fat, raising LDL cholesterol", "It provides too much fiber", "It reduces energy levels"],
+      es: ["Contiene mucha grasa saturada, elevando el colesterol LDL", "Proporciona demasiada fibra", "Reduce los niveles de energía"],
+      hu: ["Magas telített zsírt tartalmaz, növeli az LDL-koleszterint", "Túl sok rostot biztosít", "Csökkenti az energiaszintet"]
+    },
+    answer: 0
   }
 },
+
 2057: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "A standard 250ml glass of whole milk contains roughly 8g of fat, of which about 5g is saturated. This can provide a significant percentage of your daily recommended saturated fat intake, often over 20% of calories for an average adult, contributing to heart disease risk if consumed daily.",
+  title: {
+    en: "Milk contributes significant saturated fat",
+    es: "La leche aporta grasa saturada significativa",
+    hu: "A tej jelentős telített zsírt tartalmaz"
+  },
+  lesson: {
+    en: "A standard 250ml glass of whole milk contains roughly 8g of fat, of which about 5g is saturated. This can provide a significant percentage of your daily recommended saturated fat intake, often over 20% of calories for an average adult, contributing to heart disease risk if consumed daily.",
+    es: "Un vaso estándar de 250 ml de leche entera contiene aproximadamente 8 g de grasa, de los cuales alrededor de 5 g son saturados. Esto puede representar un porcentaje significativo de la ingesta diaria recomendada de grasas saturadas, a menudo más del 20 % de las calorías para un adulto promedio, aumentando el riesgo de enfermedades cardíacas si se consume a diario.",
+    hu: "Egy standard 250 ml-es pohár teljes tej körülbelül 8 g zsírt tartalmaz, amelyből kb. 5 g telített. Ez az ajánlott napi telített zsírbevitel jelentős részét adhatja, gyakran az átlagos felnőtt kalóriabevitelének több mint 20%-át, növelve a szívbetegség kockázatát, ha naponta fogyasztják."
+  },
   quiz: {
-    question: "What percentage of your daily saturated fat can a glass of milk provide?",
-    options: ["Less than 5%", "Over 20%", "0%"],
-    answer: "Over 20%"
+    question: {
+      en: "What percentage of your daily saturated fat can a glass of milk provide?",
+      es: "¿Qué porcentaje de tu grasa saturada diaria puede aportar un vaso de leche?",
+      hu: "A napi telített zsírbevitel hány százalékát fedezheti egy pohár tej?"
+    },
+    options: {
+      en: ["Less than 5%", "Over 20%", "0%"],
+      es: ["Menos del 5%", "Más del 20%", "0%"],
+      hu: ["Kevesebb mint 5%", "Több mint 20%", "0%"]
+    },
+    answer: 1
   }
 },
+
 2058: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "Milk contains hormones like estrogen, progesterone, and IGF-1. These hormones can influence human hormone levels, potentially affecting growth, development, and reproductive health, which is particularly concerning for children consuming large quantities.",
+  title: {
+    en: "Hormones naturally present in milk",
+    es: "Hormonas presentes naturalmente en la leche",
+    hu: "A tejben természetesen jelen lévő hormonok"
+  },
+  lesson: {
+    en: "Milk contains hormones like estrogen, progesterone, and IGF-1. These hormones can influence human hormone levels, potentially affecting growth, development, and reproductive health, which is particularly concerning for children consuming large quantities.",
+    es: "La leche contiene hormonas como estrógeno, progesterona e IGF-1. Estas hormonas pueden influir en los niveles hormonales humanos, afectando potencialmente el crecimiento, el desarrollo y la salud reproductiva, lo que es particularmente preocupante para los niños que consumen grandes cantidades.",
+    hu: "A tej tartalmaz hormonokat, például ösztrogént, progeszteront és IGF-1-et. Ezek a hormonok befolyásolhatják az emberi hormon szinteket, potenciálisan hatva a növekedésre, fejlődésre és a reproduktív egészségre, ami különösen aggályos a nagy mennyiségben fogyasztó gyermekek esetében."
+  },
   quiz: {
-    question: "What hormones are naturally present in cow's milk?",
-    options: ["Adrenaline, testosterone", "Insulin only","Estrogen, progesterone, IGF-1"],
-    answer: "Estrogen, progesterone, IGF-1"
+    question: {
+      en: "What hormones are naturally present in cow's milk?",
+      es: "¿Qué hormonas están presentes naturalmente en la leche de vaca?",
+      hu: "Mely hormonok vannak természetesen jelen a tehéntejben?"
+    },
+    options: {
+      en: ["Adrenaline, testosterone", "Insulin only","Estrogen, progesterone, IGF-1"],
+      es: ["Adrenalina, testosterona", "Solo insulina", "Estrógeno, progesterona, IGF-1"],
+      hu: ["Adrenalin, tesztoszteron", "Csak inzulin", "Ösztrogén, progeszteron, IGF-1"]
+    },
+    answer: 2
   }
 },
+
 2059: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "Soy contains phytoestrogens, plant compounds that mimic estrogen. However, research shows they do not feminize men when consumed in normal dietary amounts. Instead, they may offer health benefits like lowering cholesterol and supporting heart health.",
+  title: {
+    en: "Soy does not feminize men",
+    es: "La soja no feminiza a los hombres",
+    hu: "A szója nem teszi nőiesebbé a férfiakat"
+  },
+  lesson: {
+    en: "Soy contains phytoestrogens, plant compounds that mimic estrogen. However, research shows they do not feminize men when consumed in normal dietary amounts. Instead, they may offer health benefits like lowering cholesterol and supporting heart health.",
+    es: "La soja contiene fitoestrógenos, compuestos vegetales que imitan el estrógeno. Sin embargo, la investigación muestra que no feminiza a los hombres cuando se consume en cantidades normales. En cambio, puede ofrecer beneficios para la salud, como reducir el colesterol y apoyar la salud cardíaca.",
+    hu: "A szója fitoösztrogéneket tartalmaz, növényi vegyületeket, amelyek az ösztrogénhez hasonló hatásúak. A kutatások szerint a normál mennyiségű fogyasztás nem feminizálja a férfiakat. Ehelyett egészségügyi előnyökkel járhat, például csökkentheti a koleszterint és támogathatja a szív egészségét."
+  },
   quiz: {
-    question: "Does consuming soy make men feminine?",
-    options: ["No, normal dietary amounts are safe", "Yes, immediately", "Only if combined with dairy"],
-    answer: "No, normal dietary amounts are safe"
+    question: {
+      en: "Does consuming soy make men feminine?",
+      es: "¿El consumo de soja hace que los hombres se vuelvan femeninos?",
+      hu: "A szója fogyasztása nőiesebbé teszi a férfiakat?"
+    },
+    options: {
+      en: ["No, normal dietary amounts are safe", "Yes, immediately", "Only if combined with dairy"],
+      es: ["No, las cantidades normales son seguras", "Sí, inmediatamente", "Solo si se combina con lácteos"],
+      hu: ["Nem, a normál mennyiség biztonságos", "Igen, azonnal", "Csak ha tejtermékkel kombinálva"]
+    },
+    answer: 0
   }
 },
+
 2060: {
   goal: "Healthy living & wellness",
   diet: "vegan",
-  lesson: "Plant-based diets are naturally high in fiber, which helps regulate digestion, stabilize blood sugar, and lower cholesterol levels. Over time, this can reduce the risk of cardiovascular disease and improve gut microbiome diversity.",
+  title: {
+    en: "Fiber benefits in plant-based diets",
+    es: "Beneficios de la fibra en dietas basadas en plantas",
+    hu: "A rost előnyei a növényi étrendben"
+  },
+  lesson: {
+    en: "Plant-based diets are naturally high in fiber, which helps regulate digestion, stabilize blood sugar, and lower cholesterol levels. Over time, this can reduce the risk of cardiovascular disease and improve gut microbiome diversity.",
+    es: "Las dietas basadas en plantas son naturalmente ricas en fibra, lo que ayuda a regular la digestión, estabilizar el azúcar en sangre y reducir los niveles de colesterol. Con el tiempo, esto puede reducir el riesgo de enfermedades cardiovasculares y mejorar la diversidad del microbioma intestinal.",
+    hu: "A növényi étrendek természetesen magas rosttartalmúak, ami segít szabályozni az emésztést, stabilizálni a vércukorszintet és csökkenteni a koleszterinszintet. Idővel ez csökkentheti a szív- és érrendszeri betegségek kockázatát és javíthatja a bélmikrobiom sokszínűségét."
+  },
   quiz: {
-    question: "Why is fiber in plant-based diets beneficial?",
-    options: ["Causes constipation", "Regulates digestion, lowers cholesterol, stabilizes blood sugar", "No effect"],
-    answer: "Regulates digestion, lowers cholesterol, stabilizes blood sugar"
+    question: {
+      en: "Why is fiber in plant-based diets beneficial?",
+      es: "¿Por qué es beneficiosa la fibra en dietas basadas en plantas?",
+      hu: "Miért előnyös a rost a növényi étrendben?"
+    },
+    options: {
+      en: ["Causes constipation", "Regulates digestion, lowers cholesterol, stabilizes blood sugar", "No effect"],
+      es: ["Causa estreñimiento", "Regula la digestión, reduce el colesterol, estabiliza el azúcar en sangre", "Sin efecto"],
+      hu: ["Székrekedést okoz", "Szabályozza az emésztést, csökkenti a koleszterint, stabilizálja a vércukrot", "Nincs hatása"]
+    },
+    answer: 1
   }
 },
 
 // continue
 
- */
 
 // --------------------------
 // Boosting my performance as an athlete – Omnivore
@@ -3599,59 +6556,146 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
   }
 },
 
-
-/*  
 3006: { 
   goal: "Boosting my performance as an athlete", 
   diet: "omnivore",
-  lesson: "Professional athletes who went vegan often share very specific experiences. For example: \n\n- Venus Williams switched to a plant-based diet to manage an autoimmune disease. She noticed reduced inflammation, faster recovery after matches, and more consistent energy levels.\n\n- Nimai Delgado, a professional bodybuilder, reports that a vegan diet allowed him to maintain and even build muscle while feeling lighter and more energetic. He emphasizes planning meals with high-protein plant foods like lentils, beans, tofu, and seitan.\n\n- Scott Jurek, ultramarathoner, credits his vegan diet for improved endurance, faster recovery between runs, and fewer digestive issues on long races.\n\n- Lewis Hamilton, Formula 1 driver, says going vegan helped him feel more focused, recover quicker, and maintain a leaner physique.\n\nThese athletes highlight that the benefits are not just theoretical: increased stamina, faster recovery, less inflammation, and mental clarity are commonly reported.",
+  title: {
+    en: "Vegan athletes report performance benefits",
+    es: "Los atletas veganos informan beneficios en el rendimiento",
+    hu: "A vegán sportolók teljesítményjavulást tapasztalnak"
+  },
+  lesson: {
+    en: "Professional athletes who went vegan often share very specific experiences. For example: \n\n- Venus Williams switched to a plant-based diet to manage an autoimmune disease. She noticed reduced inflammation, faster recovery after matches, and more consistent energy levels.\n- Nimai Delgado, a professional bodybuilder, reports that a vegan diet allowed him to maintain and even build muscle while feeling lighter and more energetic. He emphasizes planning meals with high-protein plant foods like lentils, beans, tofu, and seitan.\n- Scott Jurek, ultramarathoner, credits his vegan diet for improved endurance, faster recovery between runs, and fewer digestive issues on long races.\n- Lewis Hamilton, Formula 1 driver, says going vegan helped him feel more focused, recover quicker, and maintain a leaner physique.\n\nThese athletes highlight that the benefits are not just theoretical: increased stamina, faster recovery, less inflammation, and mental clarity are commonly reported.",
+    es: "Los atletas profesionales que se volvieron veganos a menudo comparten experiencias específicas. Por ejemplo: \n\n- Venus Williams cambió a una dieta basada en plantas para manejar una enfermedad autoinmune. Notó menos inflamación, recuperación más rápida tras los partidos y niveles de energía más consistentes.\n- Nimai Delgado, culturista profesional, informa que una dieta vegana le permitió mantener e incluso aumentar músculo mientras se sentía más ligero y enérgico. Destaca la planificación de comidas con alimentos vegetales ricos en proteínas como lentejas, frijoles, tofu y seitán.\n- Scott Jurek, ultramaratonista, atribuye a su dieta vegana una mejor resistencia, recuperación más rápida entre carreras y menos problemas digestivos en carreras largas.\n- Lewis Hamilton, piloto de Fórmula 1, dice que volverse vegano le ayudó a sentirse más concentrado, recuperarse más rápido y mantener una complexión más delgada.\n\nEstos atletas muestran que los beneficios no son solo teóricos: mayor resistencia, recuperación más rápida, menos inflamación y claridad mental se reportan comúnmente.",
+    hu: "A profi sportolók, akik vegán étrendre váltottak, gyakran nagyon konkrét tapasztalatokat osztanak meg. Például: \n\n- Venus Williams növényi alapú étrendre váltott autoimmun betegsége kezelése érdekében. Kevesebb gyulladást, gyorsabb regenerálódást a meccsek után és kiegyensúlyozottabb energiaszintet tapasztalt.\n- Nimai Delgado, profi testépítő, beszámol róla, hogy a vegán étrend lehetővé tette számára az izomtömeg megtartását és növelését, miközben könnyebbnek és energikusabbnak érezte magát. Kiemeli a magas fehérjetartalmú növényi ételek (lencse, bab, tofu, szejtán) tervezett fogyasztását.\n- Scott Jurek, ultramaratonista, a vegán étrendjét dicséri a jobb állóképességért, gyorsabb regenerálódásért a futások között és kevesebb emésztési problémaért hosszú versenyeken.\n- Lewis Hamilton, Forma-1-es pilóta, szerint a vegán étrend segített neki fókuszáltabbnak érezni magát, gyorsabban regenerálódni és karcsúbb testalkatot fenntartani.\n\nEzek az sportolók azt mutatják, hogy a hatások nem csak elméletiek: megnövekedett állóképesség, gyorsabb regenerálódás, kevesebb gyulladás és mentális tisztaság gyakori tapasztalat."
+  },
   quiz: { 
-    question: "What is a common benefit professional athletes notice after going vegan?", 
-    options: ["Faster recovery", "Reduced focus", "Decreased endurance"], 
-    answer: "Faster recovery" 
+    question: {
+      en: "What is a common benefit professional athletes notice after going vegan?", 
+      es: "¿Cuál es un beneficio común que notan los atletas profesionales después de volverse veganos?", 
+      hu: "Mi a gyakori előny, amit a profi sportolók tapasztalnak a vegán étrendre váltás után?" 
+    },
+    options: {
+      en: ["Faster recovery", "Reduced focus", "Decreased endurance"], 
+      es: ["Recuperación más rápida", "Menor concentración", "Menor resistencia"], 
+      hu: ["Gyorsabb regenerálódás", "Csökkent fókusz", "Csökkent állóképesség"]
+    },
+    answer: 0 
   } 
 },
+
 3007: { 
   goal: "Boosting my performance as an athlete", 
   diet: "omnivore",
-  lesson: "Many athletes notice changes in performance within a few days to weeks of switching to a plant-based diet, depending on what they were eating before and how well they plan their meals. \n\n- Immediate (3–7 days): Some report feeling lighter, less bloated, and more energetic during training sessions.\n- Short-term (2–4 weeks): Improved recovery, less muscle soreness, and better digestion are often noticed.\n- Medium-term (1–3 months): Enhanced stamina, faster endurance, and sometimes better sleep quality appear. \n\nAthletes who plan their plant-based diet carefully with sufficient protein, complex carbs, and healthy fats tend to see positive changes faster. Tracking workouts and recovery helps identify improvements objectively.",
+  title: {
+    en: "Timing of performance improvements",
+    es: "Momento de las mejoras en el rendimiento",
+    hu: "Teljesítményjavulás időzítése"
+  },
+  lesson: {
+    en: "Many athletes notice changes in performance within a few days to weeks of switching to a plant-based diet, depending on what they were eating before and how well they plan their meals. \n\n- Immediate (3–7 days): Some report feeling lighter, less bloated, and more energetic during training sessions.\n- Short-term (2–4 weeks): Improved recovery, less muscle soreness, and better digestion are often noticed.\n- Medium-term (1–3 months): Enhanced stamina, faster endurance, and sometimes better sleep quality appear.\n\nAthletes who plan their plant-based diet carefully with sufficient protein, complex carbs, and healthy fats tend to see positive changes faster. Tracking workouts and recovery helps identify improvements objectively.",
+    es: "Muchos atletas notan cambios en el rendimiento dentro de unos días o semanas de cambiar a una dieta basada en plantas, dependiendo de lo que comían antes y de cómo planifican sus comidas. \n\n- Inmediato (3–7 días): Algunos sienten más ligereza, menos hinchazón y más energía durante los entrenamientos.\n- Corto plazo (2–4 semanas): Recuperación mejorada, menos dolor muscular y mejor digestión.\n- Medio plazo (1–3 meses): Mayor resistencia, mejor capacidad de esfuerzo y a veces mejor calidad del sueño.\n\nLos atletas que planifican cuidadosamente su dieta basada en plantas con suficiente proteína, carbohidratos complejos y grasas saludables tienden a ver cambios positivos más rápido. Seguir entrenamientos y recuperación ayuda a identificar mejoras objetivamente.",
+    hu: "Sok sportoló már néhány nap–hét alatt észleli a teljesítmény változását, ha növényi alapú étrendre vált, attól függően, mit ettek korábban és mennyire tervezik meg az étkezéseket.\n\n- Azonnali (3–7 nap): Néhányan könnyebbnek, kevésbé puffadtnak és energikusabbnak érzik magukat az edzések során.\n- Rövid távú (2–4 hét): Javul a regeneráció, kevesebb az izomláz, jobb az emésztés.\n- Középtávú (1–3 hónap): Növekvő állóképesség, gyorsabb kitartás, néha jobb alvásminőség.\n\nAzok a sportolók, akik gondosan tervezik növényi étrendjüket elegendő fehérjével, összetett szénhidrátokkal és egészséges zsírokkal, gyorsabban tapasztalják a pozitív változásokat. Az edzések és regeneráció követése objektíven mutatja a fejlődést."
+  },
   quiz: { 
-    question: "When do many athletes notice initial changes after switching to a plant-based diet?", 
-    options: ["6 months", "3–7 days", "1 year"], 
-    answer: "3–7 days" 
+    question: {
+      en: "When do many athletes notice initial changes after switching to a plant-based diet?", 
+      es: "¿Cuándo notan muchos atletas los cambios iniciales después de cambiar a una dieta basada en plantas?", 
+      hu: "Mikor észlelik sok sportoló az első változásokat a növényi étrendre váltás után?" 
+    },
+    options: {
+      en: ["6 months", "3–7 days", "1 year"], 
+      es: ["6 meses", "3–7 días", "1 año"], 
+      hu: ["6 hónap", "3–7 nap", "1 év"]
+    },
+    answer: 1 
   } 
 },
+
 3008: { 
   goal: "Boosting my performance as an athlete", 
   diet: "omnivore",
-  lesson: "At age 37, Novak Djokovic, a committed vegan, became the oldest Olympic men's singles tennis champion at the Paris 2024 Games. Just weeks before the Olympics, he underwent knee surgery to repair a torn meniscus. Despite this challenge, Djokovic returned to the court and won gold by defeating Carlos Alcaraz. His plant-based diet, rich in fruits, vegetables, nuts, and legumes, helped support faster recovery and peak performance, showing that strength and endurance can be maintained even after surgery and at an older age.",
+  title: {
+    en: "Novak Djokovic's Olympic comeback",
+    es: "El regreso olímpico de Novak Djokovic",
+    hu: "Novak Djokovic olimpiai visszatérése"
+  },
+  lesson: {
+    en: "At age 37, Novak Djokovic, a committed vegan, became the oldest Olympic men's singles tennis champion at the Paris 2024 Games. Just weeks before the Olympics, he underwent knee surgery to repair a torn meniscus. Despite this challenge, Djokovic returned to the court and won gold by defeating Carlos Alcaraz. His plant-based diet, rich in fruits, vegetables, nuts, and legumes, helped support faster recovery and peak performance, showing that strength and endurance can be maintained even after surgery and at an older age.",
+    es: "A los 37 años, Novak Djokovic, vegano comprometido, se convirtió en el campeón olímpico más viejo en individuales masculinos de tenis en los Juegos de París 2024. Solo semanas antes de los Juegos, se sometió a una cirugía de rodilla para reparar un menisco desgarrado. A pesar de este desafío, Djokovic regresó a la cancha y ganó el oro derrotando a Carlos Alcaraz. Su dieta basada en plantas, rica en frutas, verduras, nueces y legumbres, ayudó a una recuperación más rápida y al rendimiento máximo, demostrando que la fuerza y la resistencia se pueden mantener incluso después de la cirugía y a mayor edad.",
+    hu: "37 évesen Novak Djokovic, elkötelezett vegán, lett a legidősebb olimpiai férfi egyes teniszbajnok a párizsi 2024-es játékokon. Csak hetekkel az olimpia előtt térdműtétje volt a szakad meniscus javítására. Ennek ellenére visszatért a pályára és legyőzte Carlos Alcaraz-t az aranyéremért. Növényi alapú étrendje, gazdag gyümölcsökben, zöldségekben, diófélékben és hüvelyesekben, segítette a gyorsabb regenerációt és a csúcsteljesítményt, bizonyítva, hogy az erő és állóképesség fenntartható még műtét után és idősebb korban is."
+  },
   quiz: { 
-    question: "What makes Novak Djokovic's Olympic gold in Paris 2024 remarkable?", 
-    options: ["Youngest singles champion", "First Grand Slam win", "Oldest singles champion, knee surgery, vegan diet"], 
-    answer: "Oldest singles champion, knee surgery, vegan diet" 
+    question: {
+      en: "What makes Novak Djokovic's Olympic gold in Paris 2024 remarkable?", 
+      es: "¿Qué hace que el oro olímpico de Novak Djokovic en París 2024 sea notable?", 
+      hu: "Miért figyelemre méltó Novak Djokovic párizsi olimpiai aranya 2024-ben?" 
+    },
+    options: {
+      en: ["Youngest singles champion", "First Grand Slam win", "Oldest singles champion, knee surgery, vegan diet"], 
+      es: ["El campeón más joven", "Primer Grand Slam", "El campeón más viejo, cirugía de rodilla, dieta vegana"], 
+      hu: ["A legfiatalabb egyes bajnok", "Első Grand Slam győzelem", "Legidősebb egyes bajnok, térdműtét, vegán étrend"]
+    },
+    answer: 2 
   } 
 },
+
 3009: { 
   goal: "Boosting my performance as an athlete", 
   diet: "omnivore",
-  lesson: "Patrick Baboumian, a professional strongman and world record holder, proves that a plant-based diet can support extreme strength. He holds multiple records, including lifting over 500 kg in the yoke walk. He says: 'The world's strongest animals are plant eaters. Gorillas, buffaloes, elephants and me.'",
+  title: {
+    en: "Plant-based strength with Patrick Baboumian",
+    es: "Fuerza basada en plantas con Patrick Baboumian",
+    hu: "Növényi alapú erő Patrick Baboumiannal"
+  },
+  lesson: {
+    en: "Patrick Baboumian, a professional strongman and world record holder, proves that a plant-based diet can support extreme strength. He holds multiple records, including lifting over 500 kg in the yoke walk. He says: 'The world's strongest animals are plant eaters. Gorillas, buffaloes, elephants and me.'",
+    es: "Patrick Baboumian, hombre más fuerte profesional y poseedor de récords mundiales, demuestra que una dieta basada en plantas puede apoyar la fuerza extrema. Tiene múltiples récords, incluyendo levantar más de 500 kg en el yoke walk. Él dice: 'Los animales más fuertes del mundo son herbívoros. Gorilas, búfalos, elefantes y yo.'",
+    hu: "Patrick Baboumian, profi erősember és világrekorder bizonyítja, hogy a növényi alapú étrend extrém erőt támogathat. Több rekordot tart, köztük a 500 kg feletti emelést yoke walk-on. Azt mondja: 'A világ legerősebb állatai növényevők. Gorillák, bivalyok, elefántok és én.'"
+  },
   quiz: { 
-    question: "What key idea does Patrick Baboumian emphasize about strength?", 
-    options: ["The strongest animals on earth are plant eaters", "Meat is essential for strength", "Only supplements build strength"], 
-    answer: "The strongest animals on earth are plant eaters" 
+    question: {
+      en: "What key idea does Patrick Baboumian emphasize about strength?", 
+      es: "¿Qué idea clave enfatiza Patrick Baboumian sobre la fuerza?", 
+      hu: "Melyik kulcsfontosságú gondolatot hangsúlyozza Patrick Baboumian az erőről?" 
+    },
+    options: {
+      en: ["The strongest animals on earth are plant eaters", "Meat is essential for strength", "Only supplements build strength"], 
+      es: ["Los animales más fuertes del mundo son herbívoros", "La carne es esencial para la fuerza", "Solo los suplementos construyen fuerza"], 
+      hu: ["A világ legerősebb állatai növényevők", "A hús elengedhetetlen az erőhöz", "Csak a kiegészítők építik az erőt"]
+    },
+    answer: 0 
   } 
 },
+
 3010: { 
   goal: "Boosting my performance as an athlete", 
   diet: "omnivore",
-  lesson: "If you’re curious about plant-based eating, you can try an immediate test by eating mostly plant-based foods for just a few days. Many athletes report feeling lighter, more energetic, and less bloated within 3–7 days. Recovery after workouts can feel faster, and digestion often improves. Tracking how your body responds helps you see the benefits of plant-based choices firsthand.",
+  title: {
+    en: "Testing plant-based benefits firsthand",
+    es: "Probar los beneficios de plantas de primera mano",
+    hu: "A növényi előnyök első kézből történő kipróbálása"
+  },
+  lesson: {
+    en: "If you’re curious about plant-based eating, you can try an immediate test by eating mostly plant-based foods for just a few days. Many athletes report feeling lighter, more energetic, and less bloated within 3–7 days. Recovery after workouts can feel faster, and digestion often improves. Tracking how your body responds helps you see the benefits of plant-based choices firsthand.",
+    es: "Si tienes curiosidad por la alimentación basada en plantas, puedes probar un test inmediato comiendo principalmente alimentos vegetales durante solo unos días. Muchos atletas informan sentirse más ligeros, con más energía y menos hinchados en 3–7 días. La recuperación después de entrenamientos puede ser más rápida, y la digestión a menudo mejora. Seguir cómo responde tu cuerpo te ayuda a ver los beneficios de las elecciones basadas en plantas de primera mano.",
+    hu: "Ha kíváncsi vagy a növényi étrendre, próbálhatsz egy azonnali tesztet, ha néhány napig főként növényi ételeket fogyasztasz. Sok sportoló 3–7 napon belül könnyebbnek, energikusabbnak és kevésbé puffadtnak érzi magát. Az edzések utáni regeneráció gyorsabbnak tűnhet, az emésztés pedig gyakran javul. A test reakcióinak követése segít első kézből látni a növényi étrend előnyeit."
+  },
   quiz: { 
-    question: "How soon do many people notice benefits when trying a mostly plant-based diet?", 
-    options: ["1 month", "3–7 days", "6 months"], 
-    answer: "3–7 days" 
+    question: {
+      en: "How soon do many people notice benefits when trying a mostly plant-based diet?", 
+      es: "¿Qué tan pronto muchas personas notan beneficios al probar una dieta mayormente basada en plantas?", 
+      hu: "Milyen gyorsan tapasztalják sokan az előnyöket, amikor főként növényi étrendet próbálnak ki?" 
+    },
+    options: {
+      en: ["1 month", "3–7 days", "6 months"], 
+      es: ["1 mes", "3–7 días", "6 meses"], 
+      hu: ["1 hónap", "3–7 nap", "6 hónap"]
+    },
+    answer: 1 
   } 
 },
-*/
+
 // --------------------------
 // Boosting my performance as an athlete – Vegetarian
 // --------------------------
@@ -4052,172 +7096,426 @@ answer: "Choosing between profit and respecting animals’ natural behaviors"
   }
 },
 
-/*  
 3021: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "Calcium and vitamin D support bone strength and injury prevention. Fortified plant milks, tofu, almonds, sesame seeds, and leafy greens provide calcium. Vitamin D comes from sunlight or supplements. Many plant-based athletes aim for 600–1000mg calcium and 800–2000 IU vitamin D per day, especially during intense training phases.",
+  title: {
+    en: "Calcium and vitamin D for strong bones",
+    es: "Calcio y vitamina D para huesos fuertes",
+    hu: "Kalcium és D-vitamin az erős csontokért"
+  },
+  lesson: {
+    en: "Calcium and vitamin D support bone strength and injury prevention. Fortified plant milks, tofu, almonds, sesame seeds, and leafy greens provide calcium. Vitamin D comes from sunlight or supplements. Many plant-based athletes aim for 600–1000mg calcium and 800–2000 IU vitamin D per day, especially during intense training phases.",
+    es: "El calcio y la vitamina D apoyan la fuerza ósea y previenen lesiones. Leches vegetales fortificadas, tofu, almendras, semillas de sésamo y verduras de hoja proporcionan calcio. La vitamina D proviene del sol o suplementos. Muchos atletas veganos buscan 600–1000 mg de calcio y 800–2000 UI de vitamina D al día, especialmente durante fases de entrenamiento intenso.",
+    hu: "A kalcium és a D-vitamin támogatja a csontok erősségét és a sérülések megelőzését. Kalciummal dúsított növényi tejek, tofu, mandula, szezámmag és leveles zöldségek biztosítják a kalciumot. A D-vitamin napfényből vagy kiegészítőkből származik. Sok növényi alapú sportoló naponta 600–1000 mg kalciumot és 800–2000 NE D-vitamint céloz meg, különösen intenzív edzésszakaszokban."
+  },
   quiz: {
-    question: "What do calcium and vitamin D help prevent?",
-    options: ["Muscle cramps only", "Bone injuries and stress fractures", "Dehydration"],
-    answer: "Bone injuries and stress fractures"
+    question: {
+      en: "What do calcium and vitamin D help prevent?",
+      es: "¿Qué ayudan a prevenir el calcio y la vitamina D?",
+      hu: "Mit segít megelőzni a kalcium és a D-vitamin?"
+    },
+    options: {
+      en: ["Muscle cramps only", "Bone injuries and stress fractures", "Dehydration"],
+      es: ["Solo calambres musculares", "Lesiones óseas y fracturas por estrés", "Deshidratación"],
+      hu: ["Csak izomgörcsöket", "Csontsérüléseket és stressztöréseket", "Kiszáradást"]
+    },
+    answer: 1
   }
 },
 
 3022: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "Beetroot is naturally high in nitrates, which increase nitric oxide production. This widens blood vessels, improving oxygen delivery to muscles. Studies show beet juice can boost endurance by 15–20%. A glass of beet juice 2–3 hours before training can improve stamina.",
+  title: {
+    en: "Beetroot for endurance",
+    es: "Remolacha para la resistencia",
+    hu: "Cékla az állóképességért"
+  },
+  lesson: {
+    en: "Beetroot is naturally high in nitrates, which increase nitric oxide production. This widens blood vessels, improving oxygen delivery to muscles. Studies show beet juice can boost endurance by 15–20%. A glass of beet juice 2–3 hours before training can improve stamina.",
+    es: "La remolacha es naturalmente alta en nitratos, lo que aumenta la producción de óxido nítrico. Esto dilata los vasos sanguíneos, mejorando la entrega de oxígeno a los músculos. Los estudios muestran que el jugo de remolacha puede aumentar la resistencia en un 15–20%. Un vaso de jugo de remolacha 2–3 horas antes del entrenamiento puede mejorar la resistencia.",
+    hu: "A cékla természetesen gazdag nitrátokban, amelyek növelik a nitrogén-monoxid termelést. Ez tágítja az ereket, javítva az oxigénellátást az izmokhoz. Tanulmányok szerint a céklalé 15–20%-kal növelheti az állóképességet. Egy pohár céklalé edzés előtt 2–3 órával javíthatja a kitartást."
+  },
   quiz: {
-    question: "How does beetroot improve athletic performance?",
-    options: ["Enhances oxygen delivery to muscles", "Reduces blood flow", "Has no effect"],
-    answer: "Enhances oxygen delivery to muscles"
+    question: {
+      en: "How does beetroot improve athletic performance?",
+      es: "¿Cómo mejora la remolacha el rendimiento atlético?",
+      hu: "Hogyan javítja a cékla a sportteljesítményt?"
+    },
+    options: {
+      en: ["Enhances oxygen delivery to muscles", "Reduces blood flow", "Has no effect"],
+      es: ["Mejora la entrega de oxígeno a los músculos", "Reduce el flujo sanguíneo", "No tiene efecto"],
+      hu: ["Javítja az oxigénszállítást az izmokhoz", "Csökkenti a véráramlást", "Nincs hatása"]
+    },
+    answer: 0
   }
 },
 
 3023: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "Hydration affects strength, speed, and focus. Fruits and vegetables like oranges, cucumbers, watermelon, and leafy greens provide water and natural electrolytes. Coconut water can also help replace electrolytes after sweating. For long sessions, combine water + carbs + salt to keep energy stable.",
+  title: {
+    en: "Plant foods for hydration",
+    es: "Alimentos vegetales para la hidratación",
+    hu: "Növényi ételek a hidratációhoz"
+  },
+  lesson: {
+    en: "Hydration affects strength, speed, and focus. Fruits and vegetables like oranges, cucumbers, watermelon, and leafy greens provide water and natural electrolytes. Coconut water can also help replace electrolytes after sweating. For long sessions, combine water + carbs + salt to keep energy stable.",
+    es: "La hidratación afecta la fuerza, velocidad y concentración. Frutas y verduras como naranjas, pepinos, sandía y verduras de hoja proporcionan agua y electrolitos naturales. El agua de coco también ayuda a reemplazar electrolitos después de sudar. Para sesiones largas, combina agua + carbohidratos + sal para mantener la energía estable.",
+    hu: "A hidratáció befolyásolja az erőt, sebességet és fókuszt. Gyümölcsök és zöldségek, mint a narancs, uborka, görögdinnye és leveles zöldek vízet és természetes elektrolitokat biztosítanak. A kókuszvíz szintén segíthet az elektrolitok pótlásában izzadás után. Hosszú edzésekhez kombináld a vizet + szénhidrátot + sót az energiaszint stabilizálására."
+  },
   quiz: {
-    question: "Why are plant foods useful for hydration?",
-    options: ["They remove minerals", "They cause dehydration", "They contain water and electrolytes",],
-    answer: "They contain water and electrolytes"
+    question: {
+      en: "Why are plant foods useful for hydration?",
+      es: "¿Por qué los alimentos vegetales son útiles para la hidratación?",
+      hu: "Miért hasznosak a növényi ételek a hidratációhoz?"
+    },
+    options: {
+      en: ["They remove minerals", "They cause dehydration", "They contain water and electrolytes"],
+      es: ["Eliminan minerales", "Causan deshidratación", "Contienen agua y electrolitos"],
+      hu: ["Kimutatják az ásványi anyagokat", "Kiszáradást okoznak", "Vizet és elektrolitokat tartalmaznak"]
+    },
+    answer: 2
   }
 },
 
 3024: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "A healthy gut improves digestion, nutrient absorption, mood, immune strength, and energy levels. Plant-based diets are naturally rich in prebiotic fibers that support a diverse gut microbiome. This helps athletes recover better, feel lighter, and perform with more consistency.",
+  title: {
+    en: "Gut health for athletes",
+    es: "Salud intestinal para atletas",
+    hu: "Bélrendszer egészsége sportolóknak"
+  },
+  lesson: {
+    en: "A healthy gut improves digestion, nutrient absorption, mood, immune strength, and energy levels. Plant-based diets are naturally rich in prebiotic fibers that support a diverse gut microbiome. This helps athletes recover better, feel lighter, and perform with more consistency.",
+    es: "Un intestino sano mejora la digestión, absorción de nutrientes, estado de ánimo, fuerza inmunológica y niveles de energía. Las dietas basadas en plantas son naturalmente ricas en fibras prebióticas que apoyan un microbioma intestinal diverso. Esto ayuda a los atletas a recuperarse mejor, sentirse más ligeros y rendir con más consistencia.",
+    hu: "Az egészséges bélrendszer javítja az emésztést, a tápanyagfelszívódást, a hangulatot, az immunerőt és az energiaszintet. A növényi alapú étrend természetesen gazdag prebiotikus rostokban, amelyek támogatják a változatos bélmikrobiomot. Ez segít a sportolóknak a jobb regenerációban, könnyebb közérzetben és következetesebb teljesítményben."
+  },
   quiz: {
-    question: "What does prebiotic fiber help support?",
-    options: ["Muscle dehydration", "A healthy gut microbiome", "Increased inflammation"],
-    answer: "A healthy gut microbiome"
+    question: {
+      en: "What does prebiotic fiber help support?",
+      es: "¿Qué ayuda a mantener la fibra prebiótica?",
+      hu: "Mit támogat a prebiotikus rost?"
+    },
+    options: {
+      en: ["Muscle dehydration", "A healthy gut microbiome", "Increased inflammation"],
+      es: ["Deshidratación muscular", "Un microbioma intestinal saludable", "Inflamación aumentada"],
+      hu: ["Izomszáradás", "Egészséges bélmikrobiom", "Fokozott gyulladás"]
+    },
+    answer: 1
   }
 },
 
 3025: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "Many elite athletes thrive on plant-based diets: ultramarathoner Scott Jurek, bodybuilder Nimai Delgado, tennis champion Novak Djokovic, and sprinter Carl Lewis. They report faster recovery, improved endurance, and clearer mental focus. Their success proves performance does not depend on animal products.",
+  title: {
+    en: "Elite plant-based athletes",
+    es: "Atletas veganos de élite",
+    hu: "Elit növényi alapú sportolók"
+  },
+  lesson: {
+    en: "Many elite athletes thrive on plant-based diets: ultramarathoner Scott Jurek, bodybuilder Nimai Delgado, tennis champion Novak Djokovic, and sprinter Carl Lewis. They report faster recovery, improved endurance, and clearer mental focus. Their success proves performance does not depend on animal products.",
+    es: "Muchos atletas de élite prosperan con dietas basadas en plantas: el ultramaratonista Scott Jurek, el culturista Nimai Delgado, el campeón de tenis Novak Djokovic y el velocista Carl Lewis. Informan recuperación más rápida, mayor resistencia y enfoque mental más claro. Su éxito demuestra que el rendimiento no depende de productos animales.",
+    hu: "Sok elit sportoló virágzik növényi alapú étrenden: Scott Jurek ultramaratonista, Nimai Delgado testépítő, Novak Djokovic teniszbajnok és Carl Lewis sprinter. Gyorsabb regenerációról, jobb állóképességről és tisztább mentális fókuszról számolnak be. Sikereik bizonyítják, hogy a teljesítmény nem függ az állati termékektől."
+  },
   quiz: {
-    question: "What benefit do many plant-based athletes report?",
-    options: ["Faster recovery and improved endurance", "Lower performance", "No advantage"],
-    answer: "Faster recovery and improved endurance"
+    question: {
+      en: "What benefit do many plant-based athletes report?",
+      es: "¿Qué beneficio reportan muchos atletas veganos?",
+      hu: "Milyen előnyt tapasztal sok növényi alapú sportoló?"
+    },
+    options: {
+      en: ["Faster recovery and improved endurance", "Lower performance", "No advantage"],
+      es: ["Recuperación más rápida y mayor resistencia", "Rendimiento inferior", "Sin ventaja"],
+      hu: ["Gyorsabb regeneráció és jobb állóképesség", "Alacsonyabb teljesítmény", "Nincs előny"]
+    },
+    answer: 0
   }
 },
 
 3026: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "Because plant-based diets are naturally lower in saturated fat and higher in fiber, many athletes find it easier to maintain a lean body mass. Less excess weight means less stress on joints, faster speed, and improved agility.",
+  title: {
+    en: "Vegan diets for lean body composition",
+    es: "Dietas veganas para una composición corporal magra",
+    hu: "Vegán étrend a sovány testösszetételért"
+  },
+  lesson: {
+    en: "Because plant-based diets are naturally lower in saturated fat and higher in fiber, many athletes find it easier to maintain a lean body mass. Less excess weight means less stress on joints, faster speed, and improved agility.",
+    es: "Debido a que las dietas basadas en plantas son naturalmente bajas en grasa saturada y altas en fibra, muchos atletas encuentran más fácil mantener una masa corporal magra. Menos peso extra significa menos estrés en las articulaciones, mayor velocidad y mejor agilidad.",
+    hu: "Mivel a növényi alapú étrend természeténél fogva alacsonyabb telített zsírtartalmú és magasabb rosttartalmú, sok sportolónak könnyebb megtartani a sovány testtömeget. Kevesebb felesleges súly kevesebb ízületi terhelést, gyorsabb sebességet és jobb mozgékonyságot jelent."
+  },
   quiz: {
-    question: "How can a vegan diet benefit body composition?",
-    options: ["Causes rapid weight gain", "Helps maintain lean mass and reduce joint stress", "Leads to muscle loss"],
-    answer: "Helps maintain lean mass and reduce joint stress"
+    question: {
+      en: "How can a vegan diet benefit body composition?",
+      es: "¿Cómo puede beneficiar la dieta vegana la composición corporal?",
+      hu: "Hogyan javíthatja a vegán étrend a testösszetételt?"
+    },
+    options: {
+      en: ["Causes rapid weight gain", "Helps maintain lean mass and reduce joint stress", "Leads to muscle loss"],
+      es: ["Causa aumento de peso rápido", "Ayuda a mantener masa magra y reducir el estrés articular", "Provoca pérdida de músculo"],
+      hu: ["Gyors súlygyarapodást okoz", "Segít megőrizni a sovány tömeget és csökkenti az ízületi terhelést", "Izomvesztéshez vezet"]
+    },
+    answer: 1
   }
 },
 
 3027: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "During long workouts, fiber-rich foods release energy slowly and steadily. This prevents blood sugar crashes and keeps endurance stable. Examples of good pre-training slow-release carbs include oats, whole grain pasta, sweet potatoes, bananas, and dates.",
+  title: {
+    en: "Fiber for steady endurance",
+    es: "Fibra para resistencia constante",
+    hu: "Rost a stabil állóképességért"
+  },
+  lesson: {
+    en: "During long workouts, fiber-rich foods release energy slowly and steadily. This prevents blood sugar crashes and keeps endurance stable. Examples of good pre-training slow-release carbs include oats, whole grain pasta, sweet potatoes, bananas, and dates.",
+    es: "Durante entrenamientos largos, los alimentos ricos en fibra liberan energía de forma lenta y constante. Esto previene caídas de azúcar en la sangre y mantiene la resistencia estable. Ejemplos de buenos carbohidratos de liberación lenta antes del entrenamiento incluyen avena, pasta integral, batatas, plátanos y dátiles.",
+    hu: "Hosszú edzések során a rostban gazdag ételek lassan és egyenletesen bocsátják ki az energiát. Ez megelőzi a vércukorszint-ingadozásokat és stabilizálja az állóképességet. Jó előedzés lassú felszabadulású szénhidrátok például a zab, teljes kiőrlésű tészta, édesburgonya, banán és datolya."
+  },
   quiz: {
-    question: "How does fiber support endurance?",
-    options: ["Causes quick exhaustion", "Blocks energy", "Stabilizes blood sugar and provides steady energy",],
-    answer: "Stabilizes blood sugar and provides steady energy"
+    question: {
+      en: "How does fiber support endurance?",
+      es: "¿Cómo apoya la fibra la resistencia?",
+      hu: "Hogyan támogatja a rost az állóképességet?"
+    },
+    options: {
+      en: ["Causes quick exhaustion", "Blocks energy", "Stabilizes blood sugar and provides steady energy"],
+      es: ["Causa agotamiento rápido", "Bloquea energía", "Estabiliza la glucosa y proporciona energía constante"],
+      hu: ["Gyors kimerülést okoz", "Energiát blokkol", "Stabilizálja a vércukrot és biztosít egyenletes energiát"]
+    },
+    answer: 2
   }
 },
 
 3028: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "Chronic inflammation slows recovery and increases injury risk. A plant-based diet lowers inflammation markers like CRP (C-reactive protein). Studies show plant-eaters often have 20–30% lower CRP levels than meat-eaters. This means quicker recovery and more training days per week.",
+  title: {
+    en: "Reducing inflammation for faster recovery",
+    es: "Reducir la inflamación para una recuperación más rápida",
+    hu: "Gyulladás csökkentése a gyorsabb regenerációért"
+  },
+  lesson: {
+    en: "Chronic inflammation slows recovery and increases injury risk. A plant-based diet lowers inflammation markers like CRP (C-reactive protein). Studies show plant-eaters often have 20–30% lower CRP levels than meat-eaters. This means quicker recovery and more training days per week.",
+    es: "La inflamación crónica ralentiza la recuperación y aumenta el riesgo de lesiones. Una dieta basada en plantas reduce los marcadores de inflamación como la PCR (proteína C reactiva). Los estudios muestran que quienes comen plantas suelen tener niveles de PCR 20–30% más bajos que los carnívoros. Esto significa recuperación más rápida y más días de entrenamiento por semana.",
+    hu: "A krónikus gyulladás lassítja a regenerációt és növeli a sérülés kockázatát. A növényi alapú étrend csökkenti a gyulladás markerét, például a CRP-t (C-reaktív protein). Tanulmányok szerint a növényi étrenden élők 20–30%-kal alacsonyabb CRP-szinttel rendelkeznek, mint a húsfogyasztók. Ez gyorsabb regenerációt és több edzésnapot jelent hetente."
+  },
   quiz: {
-    question: "What does lower inflammation help athletes do?",
-    options: ["Recover faster and train more consistently", "Recover slower", "Stop training"],
-    answer: "Recover faster and train more consistently"
+    question: {
+      en: "What does lower inflammation help athletes do?",
+      es: "¿Qué ayuda a hacer a los atletas una menor inflamación?",
+      hu: "Mit segít a sportolóknak az alacsonyabb gyulladás?"
+    },
+    options: {
+      en: ["Recover faster and train more consistently", "Recover slower", "Stop training"],
+      es: ["Recuperarse más rápido y entrenar más consistentemente", "Recuperarse más lento", "Dejar de entrenar"],
+      hu: ["Gyorsabban regenerálódni és következetesebben edzeni", "Lassabban regenerálódni", "Abbahagyni az edzést"]
+    },
+    answer: 0
   }
 },
 
 3029: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "Cardiovascular endurance depends heavily on blood vessel health. Diets high in saturated fat can stiffen arteries and reduce blood flow. Plant-based diets help keep arteries flexible and clear, improving oxygen delivery to muscles.",
+  title: {
+    en: "Plant-based diets for heart and endurance",
+    es: "Dietas basadas en plantas para el corazón y la resistencia",
+    hu: "Növényi étrend a szív és állóképesség támogatására"
+  },
+  lesson: {
+    en: "Cardiovascular endurance depends heavily on blood vessel health. Diets high in saturated fat can stiffen arteries and reduce blood flow. Plant-based diets help keep arteries flexible and clear, improving oxygen delivery to muscles.",
+    es: "La resistencia cardiovascular depende en gran medida de la salud de los vasos sanguíneos. Las dietas altas en grasa saturada pueden endurecer las arterias y reducir el flujo sanguíneo. Las dietas basadas en plantas ayudan a mantener las arterias flexibles y despejadas, mejorando la entrega de oxígeno a los músculos.",
+    hu: "A szív- és érrendszeri állóképesség nagymértékben függ az erek egészségétől. A telített zsírban gazdag étrend merevítheti az artériákat és csökkentheti a véráramlást. A növényi alapú étrend segít az erek rugalmasságának és tisztaságának megőrzésében, javítva az oxigénellátást az izmokhoz."
+  },
   quiz: {
-    question: "How does a plant-based diet support cardiovascular endurance?",
-    options: ["Keeps arteries flexible and improves blood flow", "Reduces oxygen delivery", "Increases stiffness in arteries"],
-    answer: "Keeps arteries flexible and improves blood flow"
+    question: {
+      en: "How does a plant-based diet support cardiovascular endurance?",
+      es: "¿Cómo apoya una dieta basada en plantas la resistencia cardiovascular?",
+      hu: "Hogyan támogatja a növényi étrend a szív- és érrendszeri állóképességet?"
+    },
+    options: {
+      en: ["Keeps arteries flexible and improves blood flow", "Reduces oxygen delivery", "Increases stiffness in arteries"],
+      es: ["Mantiene las arterias flexibles y mejora el flujo sanguíneo", "Reduce la entrega de oxígeno", "Aumenta la rigidez arterial"],
+      hu: ["Megőrzi az erek rugalmasságát és javítja a véráramlást", "Csökkenti az oxigénszállítást", "Növeli az erek merevségét"]
+    },
+    answer: 0
   }
 },
 
 3030: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "Some athletes think they need meat for strength. But muscle growth depends on training intensity, total protein, and calorie intake — not protein source. Vegan bodybuilders like Patrik Baboumian and Torre Washington have built elite-level strength fully powered by plants.",
+  title: {
+    en: "Muscle growth depends on training, protein, and calories",
+    es: "El crecimiento muscular depende del entrenamiento, proteína y calorías",
+    hu: "Az izomnövekedés az edzésen, fehérjén és kalórián múlik"
+  },
+  lesson: {
+    en: "Some athletes think they need meat for strength. But muscle growth depends on training intensity, total protein, and calorie intake — not protein source. Vegan bodybuilders like Patrik Baboumian and Torre Washington have built elite-level strength fully powered by plants.",
+    es: "Algunos atletas creen que necesitan carne para tener fuerza. Pero el crecimiento muscular depende de la intensidad del entrenamiento, la proteína total y la ingesta de calorías, no de la fuente de proteína. Culturistas veganos como Patrik Baboumian y Torre Washington han alcanzado fuerza de élite completamente alimentados por plantas.",
+    hu: "Néhány sportoló azt hiszi, hogy az erőhöz húsra van szükség. Az izomnövekedés azonban az edzés intenzitásától, az összfehérje- és kalóriabeviteltől függ — nem a fehérjeforrástól. Növényi testépítők, mint Patrik Baboumian és Torre Washington, teljesen növényi étrenddel építettek elit szintű erőt."
+  },
   quiz: {
-    question: "What truly determines muscle growth?",
-    options: ["Eating meat specifically", "Training + protein + calories", "Low carb intake"],
-    answer: "Training + protein + calories"
+    question: {
+      en: "What truly determines muscle growth?",
+      es: "¿Qué determina realmente el crecimiento muscular?",
+      hu: "Mi határozza meg ténylegesen az izomnövekedést?"
+    },
+    options: {
+      en: ["Eating meat specifically", "Training + protein + calories", "Low carb intake"],
+      es: ["Comer carne específicamente", "Entrenamiento + proteína + calorías", "Bajo consumo de carbohidratos"],
+      hu: ["Kifejezetten hús fogyasztása", "Edzés + fehérje + kalória", "Alacsony szénhidrátbevitel"]
+    },
+    answer: 1
   }
 },
 
 3031: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "Post-workout meals should include protein (20–30g) plus carbohydrates to refill glycogen. Great options: tofu stir-fry with rice, lentil pasta with veggies, or a smoothie with soy milk + oats + berries + chia seeds. This combo accelerates recovery and muscle repair.",
+  title: {
+    en: "Post-workout meals for recovery",
+    es: "Comidas post-entrenamiento para la recuperación",
+    hu: "Edzés utáni étkezés a regenerációért"
+  },
+  lesson: {
+    en: "Post-workout meals should include protein (20–30g) plus carbohydrates to refill glycogen. Great options: tofu stir-fry with rice, lentil pasta with veggies, or a smoothie with soy milk + oats + berries + chia seeds. This combo accelerates recovery and muscle repair.",
+    es: "Las comidas post-entrenamiento deben incluir proteína (20–30 g) más carbohidratos para reponer el glucógeno. Buenas opciones: salteado de tofu con arroz, pasta de lentejas con verduras, o un batido con leche de soja + avena + bayas + semillas de chía. Esta combinación acelera la recuperación y la reparación muscular.",
+    hu: "Az edzés utáni étkezésnek fehérjét (20–30 g) és szénhidrátot kell tartalmaznia a glikogén visszatöltéséhez. Remek lehetőségek: tofu ragu rizzsel, lencse tészta zöldségekkel, vagy turmix szójatejjel + zabpehely + bogyós gyümölcs + chia mag. Ez a kombináció gyorsítja a regenerációt és az izomjavítást."
+  },
   quiz: {
-    question: "What should a good post-workout meal include?",
-    options: ["Protein only", "Carbohydrates + protein", "Only fats"],
-    answer: "Carbohydrates + protein"
+    question: {
+      en: "What should a good post-workout meal include?",
+      es: "¿Qué debe incluir una buena comida post-entrenamiento?",
+      hu: "Mit tartalmazzon egy jó edzés utáni étkezés?"
+    },
+    options: {
+      en: ["Protein only", "Carbohydrates + protein", "Only fats"],
+      es: ["Solo proteína", "Carbohidratos + proteína", "Solo grasas"],
+      hu: ["Csak fehérje", "Szénhidrát + fehérje", "Csak zsír"]
+    },
+    answer: 1
   }
 },
 
 3032: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "Sleep is one of the biggest performance boosters. Plant-based diets can improve sleep quality because they're rich in magnesium and tryptophan, nutrients that calm the nervous system. Better sleep = stronger training days.",
+  title: {
+    en: "Sleep for recovery and performance",
+    es: "Sueño para recuperación y rendimiento",
+    hu: "Alvás a regenerációért és teljesítményért"
+  },
+  lesson: {
+    en: "Sleep is one of the biggest performance boosters. Plant-based diets can improve sleep quality because they're rich in magnesium and tryptophan, nutrients that calm the nervous system. Better sleep = stronger training days.",
+    es: "El sueño es uno de los mayores potenciadores del rendimiento. Las dietas basadas en plantas pueden mejorar la calidad del sueño porque son ricas en magnesio y triptófano, nutrientes que calman el sistema nervioso. Mejor sueño = días de entrenamiento más fuertes.",
+    hu: "Az alvás az egyik legnagyobb teljesítményfokozó. A növényi alapú étrend javíthatja az alvás minőségét, mivel gazdag magnéziumban és triptofánban, amelyek nyugtatják az idegrendszert. Jobb alvás = erősebb edzésnapok."
+  },
   quiz: {
-    question: "How can plant foods support sleep and recovery?",
-    options: ["They prevent sleep", "They are rich in calming minerals", "They increase stress hormones"],
-    answer: "They are rich in calming minerals"
+    question: {
+      en: "How can plant foods support sleep and recovery?",
+      es: "¿Cómo pueden los alimentos vegetales apoyar el sueño y la recuperación?",
+      hu: "Hogyan segíthetik a növényi ételek az alvást és a regenerációt?"
+    },
+    options: {
+      en: ["They prevent sleep", "They are rich in calming minerals", "They increase stress hormones"],
+      es: ["Previenen el sueño", "Son ricos en minerales calmantes", "Aumentan las hormonas del estrés"],
+      hu: ["Megakadályozzák az alvást", "Gazdagok nyugtató ásványi anyagokban", "Növelik a stresszhormonokat"]
+    },
+    answer: 1
   }
 },
 
 3033: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "Plant proteins are often easier to digest than heavy animal proteins, meaning less bloating during training. Smooth digestion leads to better comfort and better athletic performance — especially for runners, cyclists, and fighters.",
+  title: {
+    en: "Digestibility of plant proteins",
+    es: "Digestibilidad de proteínas vegetales",
+    hu: "A növényi fehérjék emészthetősége"
+  },
+  lesson: {
+    en: "Plant proteins are often easier to digest than heavy animal proteins, meaning less bloating during training. Smooth digestion leads to better comfort and better athletic performance — especially for runners, cyclists, and fighters.",
+    es: "Las proteínas vegetales son a menudo más fáciles de digerir que las proteínas animales pesadas, lo que significa menos hinchazón durante el entrenamiento. Una digestión suave conduce a mayor comodidad y mejor rendimiento atlético, especialmente para corredores, ciclistas y luchadores.",
+    hu: "A növényi fehérjék gyakran könnyebben emészthetők, mint a nehéz állati fehérjék, ami kevesebb puffadást jelent az edzés alatt. A sima emésztés jobb komfortot és jobb sportteljesítményt eredményez — különösen futóknak, kerékpárosoknak és harcosoknak."
+  },
   quiz: {
-    question: "Why might plant proteins support better training comfort?",
-    options: ["They are easier to digest", "They cause bloating", "They slow metabolism"],
-    answer: "They are easier to digest"
+    question: {
+      en: "Why might plant proteins support better training comfort?",
+      es: "¿Por qué las proteínas vegetales pueden mejorar la comodidad durante el entrenamiento?",
+      hu: "Miért segíthetik a növényi fehérjék a jobb edzéskomfortot?"
+    },
+    options: {
+      en: ["They are easier to digest", "They cause bloating", "They slow metabolism"],
+      es: ["Son más fáciles de digerir", "Causan hinchazón", "Ralentizan el metabolismo"],
+      hu: ["Könnyebben emészthetők", "Puffadást okoznak", "Lassítják az anyagcserét"]
+    },
+    answer: 0
   }
 },
 
 3034: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "Training consistency is one of the biggest predictors of performance. Because plant-based diets support faster recovery, lower inflammation, and better energy stability, athletes can train more days per week — leading to steady, long-term improvement.",
+  title: {
+    en: "Consistency through faster recovery",
+    es: "Consistencia gracias a una recuperación más rápida",
+    hu: "Következetesség a gyorsabb regeneráció révén"
+  },
+  lesson: {
+    en: "Training consistency is one of the biggest predictors of performance. Because plant-based diets support faster recovery, lower inflammation, and better energy stability, athletes can train more days per week — leading to steady, long-term improvement.",
+    es: "La consistencia del entrenamiento es uno de los mayores predictores del rendimiento. Debido a que las dietas basadas en plantas apoyan una recuperación más rápida, menor inflamación y mejor estabilidad energética, los atletas pueden entrenar más días por semana, llevando a mejoras constantes a largo plazo.",
+    hu: "Az edzések következetessége az egyik legnagyobb teljesítménymutató. Mivel a növényi alapú étrend gyorsabb regenerációt, alacsonyabb gyulladást és jobb energia-stabilitást biztosít, a sportolók több napot tudnak edzeni hetente — ami stabil, hosszú távú fejlődéshez vezet."
+  },
   quiz: {
-    question: "What is one major advantage of faster recovery?",
-    options: ["More injuries", "Less training", "More consistent training"],
-    answer: "More consistent training"
+    question: {
+      en: "What is one major advantage of faster recovery?",
+      es: "¿Cuál es una ventaja principal de una recuperación más rápida?",
+      hu: "Mi az egyik fő előnye a gyorsabb regenerációnak?"
+    },
+    options: {
+      en: ["More injuries", "Less training", "More consistent training"],
+      es: ["Más lesiones", "Menos entrenamiento", "Entrenamiento más consistente"],
+      hu: ["Több sérülés", "Kevesebb edzés", "Következetesebb edzés"]
+    },
+    answer: 2
   }
 },
 
 3035: {
   goal: "Boosting my performance as an athlete",
   diet: "vegan",
-  lesson: "Athletic success is not built in one day — it’s built across thousands of small choices. Eating plants supports your body every single day: better recovery, cleaner fuel, steadier energy, and clearer focus. Over time, these benefits add up into real performance gains.",
+  title: {
+    en: "Long-term success from daily choices",
+    es: "Éxito a largo plazo a partir de hábitos diarios",
+    hu: "Hosszú távú siker a napi döntésekből"
+  },
+  lesson: {
+    en: "Athletic success is not built in one day — it’s built across thousands of small choices. Eating plants supports your body every single day: better recovery, cleaner fuel, steadier energy, and clearer focus. Over time, these benefits add up into real performance gains.",
+    es: "El éxito atlético no se construye en un día, se construye a través de miles de pequeñas elecciones. Comer plantas apoya tu cuerpo todos los días: mejor recuperación, combustible más limpio, energía más estable y enfoque más claro. Con el tiempo, estos beneficios se suman en mejoras reales del rendimiento.",
+    hu: "A sport sikere nem egy nap alatt épül fel — ezrenyi apró döntésen keresztül történik. A növényi ételek minden nap támogatják a tested: jobb regeneráció, tisztább energiaforrás, stabilabb energia és világosabb fókusz. Idővel ezek a hatások összeadódnak, valódi teljesítményjavulást eredményezve."
+  },
   quiz: {
-    question: "What drives long-term athletic improvement?",
-    options: ["Healthy daily habits over time", "Occasional intense workouts", "One special supplement"],
-    answer: "Healthy daily habits over time"
+    question: {
+      en: "What drives long-term athletic improvement?",
+      es: "¿Qué impulsa la mejora atlética a largo plazo?",
+      hu: "Mi biztosítja a hosszú távú sportteljesítmény javulását?"
+    },
+    options: {
+      en: ["Healthy daily habits over time", "Occasional intense workouts", "One special supplement"],
+      es: ["Hábitos diarios saludables con el tiempo", "Entrenamientos intensos ocasionales", "Un suplemento especial"],
+      hu: ["Egészséges napi szokások idővel", "Alkalmi intenzív edzések", "Egy különleges kiegészítő"]
+    },
+    answer: 0
   }
-}
-*/
+},
+
 // continue
 
 };
