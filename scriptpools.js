@@ -10003,9 +10003,9 @@ export const extralessonsData = {
   },
   {
     title: {
-      en: "Global Temperature Rise",
-      es: "Aumento de la temperatura global",
-      hu: "A globális hőmérséklet emelkedése"
+      en: "Global Temperature Rise 2",
+      es: "Aumento de la temperatura global 2",
+      hu: "A globális hőmérséklet emelkedése 2"
     },
     content: {
       en: "Global temperatures have already risen by about 1.2°C since pre-industrial times. If warming reaches 2°C, up to 99% of coral reefs could disappear, destroying ecosystems that support a quarter of all marine life.",

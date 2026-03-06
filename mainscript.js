@@ -278,7 +278,7 @@ aboutText:
   "My name is Gábor — and this app is a small, heart-driven project created by me, guided by the belief that together we can make a difference for animals, people, and the planet. I started this journey to inspire conscious living, compassion, and connection — because I truly believe that even the smallest positive actions can ripple out and create real change. Thank you for being here ✨",
 aboutFollowText: "Follow our journey on ",
 aboutInstagram: "@app.elunify",
-aboutEnding: " 🌱 — together, we’re building something beautiful.",
+aboutEnding: "",
 
     //ContactUs
 contactTitle: "Contact Us",
@@ -349,6 +349,7 @@ deleteProfileBtn: "🗑️ Delete profile",
   goalsprofilecard: "Goals:",
   levelprofilecard: "🌍 Level:",
   streakprofilecard: "🔥 Streak:",
+  achievementsHeading: "Achievements",
   ReqProKitchen: "Request Pro Kitchen Access",
   InfoReqProKitchen: "This category is recommended for professional chefs and restaurants. Tell us a little about yourself!",
   proKitchenMessage: "Who are you? What do you cook? Where are you based?",
@@ -655,7 +656,7 @@ aboutText:
   "Me llamo Gábor — y esta app es un pequeño proyecto creado desde el corazón, guiado por la creencia de que juntos podemos marcar una diferencia real para los animales, las personas y el planeta. Empecé este camino para inspirar una vida más consciente, compasiva y conectada — porque creo de verdad que incluso las acciones positivas más pequeñas pueden generar un cambio real. Gracias por estar aquí ✨",
 aboutFollowText: "Sigue nuestro camino en ",
 aboutInstagram: "@app.elunify",
-aboutEnding: " 🌱 — juntos estamos construyendo algo hermoso.",
+aboutEnding: "",
 
     //ContactUs
 contactTitle: "Contacto",
@@ -726,6 +727,7 @@ animalsSentence: "¡Has salvado 0 animales hasta ahora!",
   goalsprofilecard: "Objetivos:",
   levelprofilecard: "🌍 Nivel:",
   streakprofilecard: "🔥 Racha:",
+  achievementsHeading: "Logros",
   ReqProKitchen: "Solicitar acceso a cocina profesional",
   InfoReqProKitchen: "Esta categoría está recomendada para chefs profesionales y restaurantes. ¡Cuéntanos un poco sobre ti!",
   proKitchenMessage: "¿Quién eres? ¿Qué cocinas? ¿Dónde estás?",
@@ -1031,7 +1033,7 @@ aboutText:
   "A nevem Gábor — és ez az alkalmazás egy kis, szívből jövő projekt, amit az a hit vezérel, hogy együtt valódi változást érhetünk el az állatokért, az emberekért és a bolygóért. Azért indultam el ezen az úton, hogy tudatosabb életmódra, együttérzésre és kapcsolódásra inspiráljak — mert őszintén hiszem, hogy még a legkisebb pozitív lépések is valódi hatást teremthetnek. Köszönöm, hogy itt vagy ✨",
 aboutFollowText: "Kövesd az utunkat itt: ",
 aboutInstagram: "@app.elunify",
-aboutEnding: " 🌱 — együtt valami igazán szépet építünk.",
+aboutEnding: "",
 
     //ContactUs
 contactTitle: "Kapcsolat",
@@ -1102,6 +1104,7 @@ deleteProfileBtn: "🗑️ Profil törlése",
   goalsprofilecard: "Célok:",
   levelprofilecard: "🌍 Szint:",
   streakprofilecard: "🔥 Sorozat:",
+  achievementsHeading: "Eredmények",
   ReqProKitchen: "Pro konyha hozzáférés kérése",
   InfoReqProKitchen: "Ez a kategória profi szakácsoknak és éttermeknek ajánlott. Mesélj kicsit magadról!",
   proKitchenMessage: "Ki vagy? Mit főzöl? Hol vagy?",
@@ -1535,6 +1538,7 @@ document.getElementById("deleteProfileBtn").innerText = t.deleteProfileBtn;
   document.querySelector(".goalsprofilecard").innerText = t.goalsprofilecard;
   document.querySelector(".levelprofilecard").innerText = t.levelprofilecard;
   document.querySelector(".streakprofilecard").innerText = t.streakprofilecard;
+  document.getElementById("achievements-heading").innerText =t.achievementsHeading;
 
   // Pro Kitchen
   document.getElementById("ReqProKitchen").innerText = t.ReqProKitchen;
@@ -9009,7 +9013,6 @@ document.getElementById("sendEncourageBtn").addEventListener("click", async () =
 
 async function loadEncourageChallenge() {
   const sendBtn = document.getElementById("sendEncourageBtn");
-  const startMindfulBtn = document.getElementById("mindfulStartBtn");
 
   const claimed = await isClaimed(currentUser.id, "encourage");
 
@@ -9017,11 +9020,9 @@ async function loadEncourageChallenge() {
     sendBtn.disabled = true;
     sendBtn.textContent = tChallenges("rewardClaimedFlower");
     sendBtn.disabled = true;
-    startMindfulBtn.disabled = true;
   } else {
     sendBtn.textContent = tChallenges("sendMessage");
     sendBtn.disabled = false;
-    startMindfulBtn.disabled = false;
   }
 }
 
